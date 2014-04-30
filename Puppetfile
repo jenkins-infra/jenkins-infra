@@ -4,7 +4,7 @@ forge "http://forge.puppetlabs.com"
 mod "zack/r10k", '1.0.2'
 
 # Deps for zack/r10k
-mod "puppetlabs/stdlib", '3.2.1'
+mod "puppetlabs/stdlib", '4.1.0'
 mod "puppetlabs/ruby", '0.1.0'
 mod "puppetlabs/gcc", '0.1.0'
 mod "puppetlabs/pe_gem", '0.0.1'
@@ -20,3 +20,9 @@ mod "puppetlabs/ntp", '3.0.3'
 mod 'reidmv/yamlfile'
 # Needed by `yamlfile`
 mod 'adrien/filemapper'
+
+mod 'garethr/docker', '0.13.0'
+
+# Deps for docker
+mod 'puppetlabs/apt', '1.1.0'
+mod 'stahnma/epel', '0.0.6'
