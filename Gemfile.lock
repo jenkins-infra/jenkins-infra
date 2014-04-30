@@ -66,8 +66,11 @@ GEM
       rb-fsevent (>= 0.9.3)
       rb-inotify (>= 0.9)
     log4r (1.1.10)
+    metaclass (0.0.4)
     mime-types (2.2)
     mini_portile (0.5.3)
+    mocha (1.0.0)
+      metaclass (~> 0.0.1)
     multi_json (1.9.3)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
@@ -80,6 +83,11 @@ GEM
       hiera (~> 1.0)
       rgen (~> 0.6.5)
     puppet-lint (0.3.2)
+    puppetlabs_spec_helper (0.4.1)
+      mocha (>= 0.10.5)
+      rake
+      rspec (>= 2.9.0)
+      rspec-puppet (>= 0.1.1)
     rake (10.3.1)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.4)
@@ -106,6 +114,7 @@ PLATFORMS
 DEPENDENCIES
   puppet (~> 3.4.0)
   puppet-lint
+  puppetlabs_spec_helper
   rake
   rspec-puppet
   vagrant!
