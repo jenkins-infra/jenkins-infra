@@ -28,7 +28,7 @@ class profile::r10k {
         group   => root,
         mode    => '0755',
         content => template("${module_name}/r10k_deployhook.init.erb"),
-        alias   => 'deployhook',
+        notify  => Service['r10k_deployhook'],
       }
     }
 
@@ -64,11 +64,11 @@ class profile::r10k {
     mode    => '0755',
     content => template("${module_name}/r10k_deployhook.erb"),
     require => [ Package['sinatra'], Package['webrick'] ],
+    notify  => Service['r10k_deployhook'],
   }
 
   service { 'r10k_deployhook':
     ensure    => running,
     enable    => true,
-    subscribe => [File['deployhook'], File['deployhook_init']],
   }
 }
