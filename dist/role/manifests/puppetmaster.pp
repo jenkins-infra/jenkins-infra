@@ -3,4 +3,5 @@
 class role::puppetmaster {
   include profile::account
   include profile::puppetmaster
+  include profile::r10k
 }

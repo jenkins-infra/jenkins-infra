@@ -1,16 +1,21 @@
 ---
 :backends:
-  - yaml
+  - eyaml
 
 :hierarchy:
   - "clients/%{clientcert}"
   - "env/%{environment}"
   - common
 
-:yaml:
+#:yaml:
 # datadir is empty here, so hiera uses its defaults:
 # - /var/lib/hiera on *nix
 # - %CommonAppData%\PuppetLabs\hiera\var on Windows
 # When specifying a datadir, make sure the directory exists.
-  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
+#  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
 
+:eyaml:
+  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
+  :extension: 'yaml'
+  :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+  :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem

@@ -1,0 +1,80 @@
+#!/opt/puppet/bin/ruby
+# This mini-webserver is meant to be run as the peadmin user
+# so that it can call mcollective from a puppetmaster
+
+require 'rubygems'
+
+require 'sinatra/base'
+require 'webrick'
+require 'webrick/https'
+require 'openssl'
+
+require 'resolv'
+require 'json'
+
+DEPLOYCMD = '/opt/puppet/bin/mco r10k deploy_all --np >> <%= @r10k_options['deployhooks_logdir'] %>/mco 2>&1'
+LOGFILE   = '<%= @r10k_options['deployhooks_logdir'] %>/deployhooks'
+USER      = '<%= @r10k_options['deployhooks_user'] %>'
+PASS      = '<%= @r10k_options['deployhooks_pass'] %>'
+PORT      = '<%= @r10k_options['deployhooks_port'] %>'
+CERT_PATH = '/var/lib/peadmin/.mcollective.d'
+CERT_NAME = 'peadmin'
+
+ENV['HOME'] = '/var/lib/peadmin'
+ENV['PATH'] = '/sbin:/usr/sbin:/bin:/usr/bin:/opt/puppet/bin'
+
+opts = {
+        :Port               => PORT,
+        :Logger             => WEBrick::Log::new(LOGFILE, WEBrick::Log::DEBUG),
+        :ServerType         => WEBrick::Daemon,
+        :SSLEnable          => true,
+        :SSLVerifyClient    => OpenSSL::SSL::VERIFY_NONE,
+        :SSLCertificate     => OpenSSL::X509::Certificate.new(  File.open(File.join(CERT_PATH, "#{CERT_NAME}-cert.pem")).read),
+        :SSLPrivateKey      => OpenSSL::PKey::RSA.new(          File.open(File.join(CERT_PATH, "#{CERT_NAME}-private.pem")).read),
+        :SSLCertName        => [ [ "CN",WEBrick::Utils::getservername ] ]
+}
+
+class Server  < Sinatra::Base
+  set :static, false
+
+  get '/' do
+    raise Sinatra::NotFound
+  end
+
+  post '/deploy' do
+    protected!
+    deploy()
+  end
+
+  not_found do
+    halt 404, 'You shall not pass! (page not found)'
+  end
+
+  helpers do
+    def deploy()
+      begin
+        Process.detach(fork{ exec "#{DEPLOYCMD} &"})
+        {:status => :success, :message => "Deploying environments."}.to_json
+      rescue
+        {:status => :fail, :message => "Deploy failed.", :trace => e.message}.to_json
+      end
+    end  #end deploy()
+
+    def protected!
+      unless authorized?
+        response['WWW-Authenticate'] = %(Basic realm="Restricted Area")
+        throw(:halt, [401, "Not authorized\n"])
+      end
+    end  #end protected!
+
+    def authorized?
+      @auth ||=  Rack::Auth::Basic::Request.new(request.env)
+      @auth.provided? && @auth.basic? && @auth.credentials && 
+      @auth.credentials == [USER, PASS]
+    end  #end authorized?
+  end  #end helpers
+end
+
+Rack::Handler::WEBrick.run(Server, opts) do |server|
+  [:INT, :TERM].each { |sig| trap(sig) { server.stop } }
+end
