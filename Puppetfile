@@ -26,3 +26,9 @@ mod 'garethr/docker', '0.13.0'
 # Deps for docker
 mod 'puppetlabs/apt', '1.1.0'
 mod 'stahnma/epel', '0.0.6'
+
+# Needed for managing our accounts in hiera, this fork contains the pull
+# request which adds support for multiple SSH keys:
+# <https://github.com/torrancew/puppet-account/pull/18>
+mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
+               :ref => '03280b8'
