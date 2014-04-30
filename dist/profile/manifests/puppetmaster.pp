@@ -1,3 +1,6 @@
+#
+# profile::puppetmaster is a governing what a Jenkins puppetmaster should look
+# like
 class profile::puppetmaster {
   # Mange hiera.yaml
   file { '/etc/puppetlabs/puppet/hiera.yaml':
