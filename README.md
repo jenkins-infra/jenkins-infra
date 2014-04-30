@@ -10,4 +10,3 @@ infrastructure.
 ## Contributing
 
 Please see the [INFRA project](https://issues.jenkins-ci.org/browse/INFRA) in JIRA.
-
