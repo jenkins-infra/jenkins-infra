@@ -24,7 +24,7 @@ mod 'adrien/filemapper'
 mod 'garethr/docker', '0.13.0'
 
 # Deps for docker
-mod 'puppetlabs/apt', '1.1.0'
+mod 'puppetlabs/apt', '1.4.2'
 mod 'stahnma/epel', '0.0.6'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
@@ -33,6 +33,5 @@ mod 'stahnma/epel', '0.0.6'
 mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
                :ref => '03280b8'
 
-mod 'jenkins_keys', 
+mod 'jenkins_keys',
   :git => 'git@github.com:rtyler/jenkins-keys.git'
-
