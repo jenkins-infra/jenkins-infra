@@ -37,13 +37,27 @@ class profile::r10k {
         ensure  => file,
         owner   => root,
         group   => root,
-        mode    => '0755',
+        mode    => '0644',
         content => template("${module_name}/r10k_deployhook.upstart.erb"),
         alias   => 'deployhook_init',
       }
     }
 
     default: { fail("${module_name} is not supported on ${::osfamily}") }
+  }
+
+  file { "${r10k_options['deployhooks_logdir']}/delpoyhooks":
+    ensure => file,
+    owner  => peadmin,
+    group  => peadmin,
+    mode   => '0660',
+  }
+
+  file { "${r10k_options['deployhooks_logdir']}/mco":
+    ensure => file,
+    owner  => peadmin,
+    group  => peadmin,
+    mode   => '0660',
   }
 
   package { 'sinatra':
