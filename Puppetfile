@@ -16,3 +16,7 @@ mod "gentoo/portage", '2.2.0-rc1'
 
 mod "puppetlabs/ntp", '3.0.3'
 
+# Needed for managing .yaml files from within Puppet
+mod 'reidmv/yamlfile'
+# Needed by `yamlfile`
+mod 'adrien/filemapper'

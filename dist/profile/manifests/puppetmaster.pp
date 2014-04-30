@@ -24,4 +24,13 @@ class profile::puppetmaster {
     setting => 'manifest',
     value   => '/etc/puppetlabs/puppet/environments/$environment/manifests/site.pp',
   }
+
+
+  ## Ensure we're setting the right SMTP server
+  yaml_setting { 'console smtp server':
+    target => '/etc/puppetlabs/console-auth/config.yml',
+    key    => 'smtp/address',
+    value  => 'smtp.osuosl.org',
+    notify => Service['pe-httpd'],
+  }
 }
