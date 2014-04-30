@@ -17,8 +17,8 @@ LOGFILE   = '<%= @r10k_options['deployhooks_logdir'] %>/deployhooks'
 USER      = '<%= @r10k_options['deployhooks_user'] %>'
 PASS      = '<%= @r10k_options['deployhooks_pass'] %>'
 PORT      = '<%= @r10k_options['deployhooks_port'] %>'
-CERT_PATH = '/opt/puppet/share/puppet-dashboard/certs'
-CERT_NAME = 'pe-internal-dashboard'
+CERT_PATH = '/var/lib/peadmin/.mcollective.d'
+CERT_NAME = 'peadmin'
 
 ENV['HOME'] = '/var/lib/peadmin'
 ENV['PATH'] = '/sbin:/usr/sbin:/bin:/usr/bin:/opt/puppet/bin'
@@ -29,8 +29,8 @@ opts = {
         :ServerType         => WEBrick::Daemon,
         :SSLEnable          => true,
         :SSLVerifyClient    => OpenSSL::SSL::VERIFY_NONE,
-        :SSLCertificate     => OpenSSL::X509::Certificate.new(  File.open(File.join(CERT_PATH, "#{CERT_NAME}.crt")).read),
-        :SSLPrivateKey      => OpenSSL::PKey::RSA.new(          File.open(File.join(CERT_PATH, "#{CERT_NAME}.key")).read),
+        :SSLCertificate     => OpenSSL::X509::Certificate.new(  File.open(File.join(CERT_PATH, "#{CERT_NAME}-cert.pem")).read),
+        :SSLPrivateKey      => OpenSSL::PKey::RSA.new(          File.open(File.join(CERT_PATH, "#{CERT_NAME}-private.pem")).read),
         :SSLCertName        => [ [ "CN",WEBrick::Utils::getservername ] ]
 }
 

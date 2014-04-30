@@ -56,7 +56,6 @@ class profile::r10k {
     provider => pe_gem,
   }
 
-
   file { '/usr/local/bin/r10k_deployhook':
     ensure  => file,
     owner   => root,
