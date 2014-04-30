@@ -32,3 +32,7 @@ mod 'stahnma/epel', '0.0.6'
 # <https://github.com/torrancew/puppet-account/pull/18>
 mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
                :ref => '03280b8'
+
+mod 'jenkins_keys', 
+  :git => 'git@github.com:rtyler/jenkins-keys.git'
+

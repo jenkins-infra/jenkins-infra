@@ -1,6 +1,7 @@
 ---
 :backends:
   - yaml
+  - eyaml
 
 :hierarchy:
   - "clients/%{clientcert}"
@@ -14,3 +15,6 @@
 # When specifying a datadir, make sure the directory exists.
   :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
 
+:eyaml:
+  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
+  :extension: 'yaml'
