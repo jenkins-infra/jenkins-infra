@@ -1,0 +1,31 @@
+# Fixtures needed for puppetlabs_spec_helper
+fixtures:
+  repositories:
+    stdlib:
+      repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+      ref: '3.2.1'
+    r10k:
+      repo: 'git://github.com/acidprime/r10k.git'
+      ref: 'v1.0.2'
+    git:
+      repo: 'git://github.com/puppetlabs/puppetlabs-git.git'
+      ref: '0.0.3'
+    ruby:
+      repo: 'git://github.com/puppetlabs/puppetlabs-ruby.git'
+      ref: '0.1.1'
+    inifile:
+      repo: 'git://github.com/puppetlabs/puppetlabs-inifile.git'
+      ref: '1.0.3'
+    yamlfile:
+      repo: 'git://github.com/reidmv/puppet-module-yamlfile.git'
+    filemapper:
+      repo: 'git://github.com/adrienthebo/puppet-filemapper.git'
+      ref: '1.1.2'
+    account:
+      repo: 'git://github.com/jenkins-infra/puppet-account.git'
+      ref: '03280b8'
+# Setting up a couple of symlinks to make it easier to treat profiles and roles
+# just as another set of "modules" in our environment
+  symlinks:
+    profile: "#{source_dir}/dist/profile"
+    role: "#{source_dir}/dist/role"
