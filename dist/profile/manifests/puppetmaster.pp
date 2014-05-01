@@ -31,6 +31,5 @@ class profile::puppetmaster {
   # Set up our IRC reporter
   class { 'irc':
     irc_server     => 'irc://irc.freenode.net:6667#jenkins-infra',
-    puppet_confdir => '/etc/puppetlabs/puppet',
   }
 }
