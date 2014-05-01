@@ -31,7 +31,7 @@ class profile::puppetmaster {
   # Set up our IRC reporter
   include ::irc
 
-  ini_setting { 'Update manifest in puppet.conf':
+  ini_setting { 'Update report handlers':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'master',
