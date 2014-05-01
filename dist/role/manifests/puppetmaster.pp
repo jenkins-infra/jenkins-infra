@@ -4,4 +4,5 @@ class role::puppetmaster {
   include profile::accounts
   include profile::puppetmaster
   include profile::r10k
+  include profile::sudo::osu
 }

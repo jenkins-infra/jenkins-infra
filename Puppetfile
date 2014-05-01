@@ -19,7 +19,11 @@ mod "puppetlabs/vcsrepo", '0.2.0'
 mod "puppetlabs/git", '0.0.3'
 mod "gentoo/portage", '2.2.0-rc1'
 
+# Used for setting up ntp daemons on all machines to have a correct time
 mod "puppetlabs/ntp", '3.0.3'
+
+# Module for managing sudoers across all machines
+mod 'saz/sudo', '3.0.6'
 
 # Needed for managing .yaml files from within Puppet
 mod 'reidmv/yamlfile'
