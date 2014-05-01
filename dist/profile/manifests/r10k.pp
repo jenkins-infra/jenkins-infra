@@ -46,7 +46,7 @@ class profile::r10k {
     default: { fail("${module_name} is not supported on ${::osfamily}") }
   }
 
-  file { "${r10k_options['deployhooks_logdir']}/delpoyhooks":
+  file { "${r10k_options['deployhooks_logdir']}/deployhooks":
     ensure => file,
     owner  => peadmin,
     group  => peadmin,

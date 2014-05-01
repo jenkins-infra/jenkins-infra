@@ -10,5 +10,7 @@ umask 022
 setuid 'peadmin'
 setgid 'peadmin'
 
+expect fork
+
 console log
 exec /usr/local/bin/r10k_deployhook
