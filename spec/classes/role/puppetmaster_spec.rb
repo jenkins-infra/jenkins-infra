@@ -7,4 +7,5 @@ describe 'role::puppetmaster' do
 
   it { should contain_class 'profile::puppetmaster' }
   it { should contain_class 'profile::accounts' }
+  it { should contain_class 'profile::sudo::osu' }
 end

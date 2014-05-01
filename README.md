@@ -59,4 +59,5 @@ to production, it will be automatically deployed to production hosts.
 
 * `#jenkins-infra` on the [Freenode](http://freenode.net) IRC network
 *  [INFRA project](https://issues.jenkins-ci.org/browse/INFRA) in JIRA.
+* [infra@lists.jenkins-ci.org](http://lists.jenkins-ci.org/mailman/listinfo/jenkins-infra)
 
