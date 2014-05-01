@@ -36,8 +36,22 @@ fixtures:
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
       ref: 'ca69ffa'
+    docker:
+      repo: 'git://github.com/garethr/garethr-docker.git'
+      ref: '9c5be9b'
+    apt:
+      repo: 'git://github.com/puppetlabs/puppetlabs-apt.git'
+      ref: '1.4.2'
+    apache:
+      repo: 'git://github.com/puppetlabs/puppetlabs-apache.git'
+      ref: '1.0.1'
+    concat:
+      repo: 'git://github.com/puppetlabs/puppetlabs-concat.git'
+      ref: '1.0.2'
+
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
 # just as another set of "modules" in our environment
   symlinks:
     profile: "#{source_dir}/dist/profile"
     role: "#{source_dir}/dist/role"
+    jenkins_apache: "#{source_dir}/dist/jenkins_apache"

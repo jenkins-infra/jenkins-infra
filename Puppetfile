@@ -33,7 +33,8 @@ mod 'reidmv/yamlfile'
 # Needed by `yamlfile`
 mod 'adrien/filemapper'
 
-mod 'garethr/docker', '0.13.0'
+mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
+              :ref => '82fd950'
 
 # Deps for docker
 mod 'puppetlabs/apt', '1.4.2'
@@ -52,3 +53,7 @@ mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
 
 mod 'jenkins_keys',
   :git => 'git@github.com:rtyler/jenkins-keys.git'
+
+# Apache and its dependencies
+mod "puppetlabs/apache", '1.0.1'
+mod "puppetlabs/concat", '1.0.2'

@@ -1,3 +1,4 @@
+# see https://github.com/rtyler/jenkins-keys for how to handle secrets in this file
 ---
 accounts:
   tyler:
@@ -35,4 +36,8 @@ irc::irc_join: true
 ntp::autoupdate: true
 ntp::servers:
   - pool.ntp.org iburst
+
+profile::robobutler::nick: robobutler
+profile::robobutler::password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABVdkhSaLYP67aKwr9xtAmgJodLoRa07Mt2sErWwXlICuI3M45r+OUsAjHg+7A1ou/uZZTvT00Y53OuCGp03kvuaTgJy/odOVxj9BR0XI8yw94q+/VR5TqNfub76JcHQ5nRKMpvNHc+a31VFVP+gtZ38SMHUF/OUBu8c3qTcBdKPG0KJtnI3JVAiOUiYcDCSAf55AwaqqUZYETj2b5428UAWcw5fWr5+yWyS8jCpvvxRZg1M6FcaL23pJh1fnU5IDPoKo3S03aPsRv+1O1ztliaw3pBcXnid6m5RJYshx+cF2PjoXlao/7zs0PN+DYz6V4jKkqLMsIrEtq8vy2rcBmTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCRYFvchg57uCM+JWkUSoHTgDBWkeBzwDPHBOe31gkH43kNrO8OnqrlP5rA5agte04g08TPL/4nwAV10uuMWJGxmwU=]
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
