@@ -29,7 +29,7 @@ fixtures:
       ref: 'v3.0.6'
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
-      ref: '7103b7e'
+      ref: 'ca69ffa'
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
 # just as another set of "modules" in our environment
   symlinks:
