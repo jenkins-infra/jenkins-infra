@@ -1,5 +1,10 @@
+#
+# The r10k profile manages the deploy hooks and r10k environment settings on
+# the puppet master.
+#
+# Deploying r10k is a bit of a chicken-and-egg problem, so this code exists to
+# ensure that the configuration that was manually set up is codified.
 class profile::r10k {
-
   # Here we get our config for r10k from hiera.
   # currently this hash is only used by the templates below
   $r10k_options = hiera('r10k_options')
