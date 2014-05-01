@@ -9,6 +9,22 @@ infrastructure.
 
 **NOTE:** This repository and workflow are still a **work in progress**
 
+## Local development
+
+The amount of testing that can be done locally is still a **work in progress**
+but thus far it's advisable that you do the following:
+
+ * `bundle install` - To get the necessary gems to run tests locally, if you're
+   unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
+   to create an isolated Ruby environment
+ * `bundle exec rake spec lint` - Will run the
+   [rspec-puppet](http://rspec-puppet) unit tests and the
+   [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
+   the rspec-puppet over and over, use `rake spec_standalone` to avoid
+   re-initializing the Puppet module fixtures every time.
+ * Vagrant-based testing - **coming soon**
+
+
 ## Branching model
 
 The default branch of this repository is `staging` which is where pull requests
