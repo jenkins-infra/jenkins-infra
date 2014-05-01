@@ -55,6 +55,10 @@ When a infra project team member is happy with the code in `staging` they can
 create a merge from `staging` to `production`. Once something has been merged
 to production, it will be automatically deployed to production hosts.
 
+## Installing agents
+
+For installing agents refer to the [installing agents](http://docs.puppetlabs.com/pe/latest/install_basic.html#installing-agents) section of the PuppetLabs documentation.
+
 ## Contributing
 
 * `#jenkins-infra` on the [Freenode](http://freenode.net) IRC network
