@@ -29,7 +29,14 @@ class profile::puppetmaster {
   }
 
   # Set up our IRC reporter
-  class { 'irc':
-    irc_server     => 'irc://irc.freenode.net:6667#jenkins-infra',
+  include ::irc
+
+  ini_setting { 'Update report handlers':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'master',
+    setting => 'reports',
+    value   => 'console,puppetdb,irc',
+    notify  => Service['pe-httpd'],
   }
 }
