@@ -32,4 +32,7 @@ r10k_options:
 irc::irc_server: 'irc://infra-butler@irc.freenode.net/#jenkins-infra'
 irc::irc_join: true
 
+ntp::autoupdate: true
+ntp::servers:
+  - pool.ntp.org iburst
 # vim: ft=yaml ts=2 sw=2 nowrap et
