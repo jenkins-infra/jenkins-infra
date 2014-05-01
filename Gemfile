@@ -4,7 +4,7 @@ gem 'rake'
 gem 'rspec-puppet'
 gem 'puppet-lint'
 gem 'puppet', '~> 3.4.0'
-gem 'puppetlabs_spec_helper'
+gem 'puppetlabs_spec_helper', :github => 'jenkins-infra/puppetlabs_spec_helper'
 
 group :development do
   # XXX: Shouldn't be needed anywhere by rtyler's machine, since Vagrant does'nt
