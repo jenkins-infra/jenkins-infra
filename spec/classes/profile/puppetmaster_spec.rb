@@ -9,4 +9,5 @@ describe 'profile::puppetmaster' do
 
   it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
   it { should contain_class 'jenkins_keys' }
+  it { should contain_class 'irc' }
 end

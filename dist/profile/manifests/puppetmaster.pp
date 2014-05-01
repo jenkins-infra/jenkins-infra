@@ -2,6 +2,9 @@
 # profile::puppetmaster is a governing what a Jenkins puppetmaster should look
 # like
 class profile::puppetmaster {
+  # pull in all our secret stuff, and install eyaml
+  include ::jenkins_keys
+
   # Manage hiera.yaml
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => file,
@@ -25,6 +28,9 @@ class profile::puppetmaster {
     notify => Service['pe-httpd'],
   }
 
-  # pull in all our secret stuff, and install eyaml
-  include ::jenkins_keys
+  # Set up our IRC reporter
+  class { 'irc':
+    irc_server     => 'irc://irc.freenode.net:6667#jenkins-infra',
+    puppet_confdir => '/etc/puppetlabs/puppet',
+  }
 }
