@@ -44,7 +44,10 @@ GEM
     childprocess (0.5.3)
       ffi (~> 1.0, >= 1.0.11)
     coderay (1.1.0)
+    colored (1.2)
     columnize (0.8.9)
+    cri (2.4.1)
+      colored (>= 1.2)
     debugger (1.6.6)
       columnize (>= 0.3.1)
       debugger-linecache (~> 1.2.0)
@@ -109,6 +112,12 @@ GEM
       hiera (~> 1.0)
       rgen (~> 0.6.5)
     puppet-lint (0.3.2)
+    r10k (1.1.4)
+      colored (>= 1.2)
+      cri (~> 2.4.0)
+      json_pure
+      log4r (>= 1.1.10)
+      systemu (~> 2.5.2)
     rake (10.3.1)
     rb-fsevent (0.9.4)
     rb-inotify (0.9.4)
@@ -127,6 +136,7 @@ GEM
     rspec-puppet (1.0.1)
       rspec
     slop (3.5.0)
+    systemu (2.5.2)
     timers (1.1.0)
     wdm (0.1.0)
 
@@ -140,6 +150,7 @@ DEPENDENCIES
   puppet (~> 3.4.0)
   puppet-lint
   puppetlabs_spec_helper!
+  r10k
   rake
   rspec-puppet
   vagrant!

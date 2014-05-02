@@ -4,6 +4,9 @@ gem 'rake'
 gem 'rspec-puppet'
 gem 'puppet-lint'
 gem 'puppet', '~> 3.4.0'
+# Needed to make sure we can install modules and then run a `puppet apply` in
+# vagrant
+gem 'r10k'
 gem 'puppetlabs_spec_helper', :github => 'jenkins-infra/puppetlabs_spec_helper'
 gem 'pry'
 

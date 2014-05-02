@@ -1,0 +1,32 @@
+#!/bin/sh -e
+
+
+echo "> Installing gems.."
+bundle install
+echo "> Installing Puppet modules into modules/"
+r10k puppetfile install
+
+
+if [ -f ".vagrant_key_id" ]; then
+    echo ">> Looks like you have AWS already configured, great!"
+    exit 0
+fi;
+
+echo ">> Great! Now we need to set up your AWS credentials"
+echo "    If you don't want to provision Vagrant machines on AWS, Ctrl-C now"
+
+
+echo -n "> What is your AWS access key: "
+read ACCESS_KEY
+echo -n "> What SSH keypair name should we use: "
+read KEYPAIR
+echo -n "> What is your AWS secret key: "
+read SECRET_KEY
+
+echo $ACCESS_KEY > .vagrant_key_id
+echo $SECRET_KEY > .vagrant_secret_access_key
+echo $KEYPAIR > .vagrant_keypair_name
+
+
+echo
+echo ">> Great! You're all set, edit the .vagrant_* files if you need to change these values later"
