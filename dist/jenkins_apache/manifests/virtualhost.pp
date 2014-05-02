@@ -15,15 +15,17 @@ define jenkins_apache::virtualhost($source=undef, $content=undef) {
   }
 
   # directory to house log files
-  file {
-    "/var/log/apache2/${name}":
-      ensure  => directory,
-      owner   => root,
-      mode    => '0700';
-    "/var/www/${name}" :
+  file { "/var/log/apache2/${name}":
+    ensure  => directory,
+    owner   => root,
+    mode    => '0700';
+  }
+  if ! defined(File["/var/www/${name}"]) {
+    file { "/var/www/${name}" :
       ensure  => directory,
       owner   => 'www-data',
       group   => 'www-data',
       mode    => '0755';
+    }
   }
 }
