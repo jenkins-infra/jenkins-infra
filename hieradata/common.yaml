@@ -30,6 +30,9 @@ r10k_options:
   deployhooks_pass: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAy3DB+0f5EW1aY5ZeesQN/t/dUqKGgvI4JczSKXHIgRwm6NUL4+PAdYKtIeZR+leBhMFA0a0/7RdOwfxM0Y76LOcxbLGaaQD7s8H5CYIozXukE73g8nsnKKamGM54LUWKnmzhcq/zgoaLRa1fqQ1ibG/5TNFYn77n2AsHJu0lsuExeM62nja6Vg0b6GDrQLqKOEXEXy9jeN9e0zBMbenrGTy8nnbO0SVg8V9xDDzWHNUlmhJ0cXl8MTbLVtREGLzF/5RMAutnb6esM+7l8OonEp09vunJPgRM0jgsr77zBKb73ptSGPVnsE204+uTKv2oTUxn0pHbmjo2VcaOVRnnSDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCz+AkCvq0Wu+yjDdos5TvYgDCRaM7GhWQ+mtk+x+Z9uHSkRUSa4ELu689pwkYnd2gl5Mv7U/o+pEpuUhe71sG4Lu0=]
   deployhooks_port: 9013
 
+# BIND container to deploy. Build number from https://ci.jenkins-ci.org/view/Infrastructure/job/infra_bind
+profile::bind::image_tag: build4
+
 irc::irc_server: 'irc://infra-butler@irc.freenode.net/#jenkins-infra'
 irc::irc_join: true
 

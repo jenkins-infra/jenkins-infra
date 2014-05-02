@@ -1,0 +1,119 @@
+; Domain: jenkins-ci.org
+
+; SOA Record
+JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org. (
+                2011122901
+                28800
+                7200
+                604800
+                3600
+                )
+
+; A Records
+@           3600    IN    A    199.193.196.24
+
+; VM at OSUOSL
+eggplant    3600    IN    A    140.211.15.101
+
+; Primary at Contegix
+cucumber     3600    IN    A    199.193.196.24
+; Primary at Contegix' new datacenter
+gherkin     3600    IN    A    199.193.196.24
+
+; VM at Rackspace
+spinach     3600    IN    A    173.203.60.151
+
+; Hosts at OSUOSL
+lettuce     3600    IN    A    140.211.15.121
+cabbage     3600    IN    A    140.211.15.130
+artichoke   3600    IN    A    140.211.9.22      ; otherwise known as jenkins-puppet.osuosl.org
+edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-confluence.osuosl.org
+
+lists       3600    IN    A    140.211.166.34
+ns1         3600    IN    A    140.211.15.121
+ns2         3600    IN    A    140.211.15.121
+
+
+;-----------------------------------
+
+; CNAME Records
+www         3600    IN    CNAME    @
+issues      3600    IN    CNAME    eggplant
+newissues   3600    IN    CNAME    cabbage
+wiki        3600    IN    CNAME    eggplant
+wiki2       3600    IN    CNAME    cabbage
+updates     3600    IN    CNAME    gherkin
+downloads   3600    IN    CNAME    gherkin
+fisheye     3600    IN    CNAME    gherkin
+l10n        3600    IN    CNAME    gherkin
+javadoc     3600    IN    CNAME    gherkin
+mirrors     3600    IN    CNAME    gherkin
+pkg         3600    IN    CNAME    gherkin
+usage       3600    IN    CNAME    gherkin
+stacktrace  3600    IN    CNAME    gherkin
+sorcerer    3600    IN    CNAME    gherkin
+stats       3600    IN    CNAME    gherkin
+maven       3600    IN    CNAME    gherkin
+maven2      3600    IN    CNAME    gherkin
+ci          3600    IN    CNAME    gherkin
+svn         3600    IN    CNAME    gherkin
+meetings    3600    IN    CNAME    gherkin
+javanet2    3600    IN    CNAME    gherkin
+ldap        3600    IN    CNAME    gherkin
+jekyll      3600    IN    CNAME    jenkinsci.github.io
+git         3600    IN    CNAME    spinach
+boxes       3600    IN    CNAME    spinach
+mirrors2    3600    IN    CNAME    lettuce
+ips         3600    IN    CNAME    lettuce
+nagios      3600    IN    CNAME    lettuce
+kale        3600    IN    CNAME    ec2-184-73-58-254.compute-1.amazonaws.com.   ; contributed by Red Hat
+repo        3600    IN    CNAME    jenkinsci.jfrog.org.      ; Artifactory hosted by JFrog
+links       3600    IN    CNAME    rhs.reddit.com.           ; /r/jenkinsci
+fallback    3600    IN    CNAME    spinach
+plugin-generator    3600 IN  CNAME jpi-create.jenkins.cloudbees.net.    ; hosted app on CloudBees RUN@cloud
+goto        3600    IN    CNAME    goto.jenkins.cloudbees.net.          ; hosted app on CloudBees RUN@cloud
+recipe      3600    IN    CNAME    recipe.jenkins.cloudbees.net.        ; hosted app on CloudBees RUN@cloud
+puppet      3600    IN    CNAME    artichoke
+
+; MX Records
+@          3600    IN    MX    0    gherkin
+lists      3600    IN    MX    0    smtp1.osuosl.org.
+lists      3600    IN    MX    0    smtp2.osuosl.org.
+lists      3600    IN    MX    0    smtp3.osuosl.org.
+lists      3600    IN    MX    0    smtp4.osuosl.org.
+
+; NS Records
+@           3600    IN    NS    ns1
+@           3600    IN    NS    ns2
+
+; SPF
+;   this policy enables the e-mail originating from these hosts to be whitelisted.
+;    199.193.196.24     (cucumber)
+;    140.211.15.*       (eggplant and its subnet)
+;    173.203.60.151     (spinach)
+;    140.211.166.128/25 (OSUOSL mail relays)
+;    "~all" in the end makes the rest soft failures (as opposed to -all for hard failure)
+;
+;   when modifying, use http://www.kitterman.com/spf/validate.html to test
+@ 3600 IN  TXT "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
+@ 3600 IN  SPF "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
+
+; DKIM
+cucumber._domainkey     1W IN TXT ("v=DKIM1;p="
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzGI3F6ZZemke1oeZLfdl"
+    "WT6bNz71CHIF74XFPkzJvPrKfCIa50KVV1FLdAbvBFFhtZB9soQphMg1g8JVvCCc"
+    "Jykf8QAnr0/zGy2CZoHGfqYem1SUgMd//jOQ4PIgypfBXHYPeFOFcKg2seIyd75Y"
+    "cR0DOWXCF1UO5K/nezfPT9RB5vBW4mXV5dn8TUwdvsu1ApQKWQj3dLYpMNlVqAgw"
+    "dc7dCifqAWvhfxrRaPzG/4aSgpwxqYt4d6NV3Jl0MB9nnBeWK3JzmPxkXwaO1D8e"
+    "3KxxIkvGTBs4BK9SIC3lY90xV5eqOlehLL9ZUYndtiQfABp2tfQkitG59N4FEfUB"
+    "vwIDAQAB"
+    )
+eggplant._domainkey     1W IN TXT ("v=DKIM1;p="
+    "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsBwtlRrZE7oYs5y3FKjt"
+    "/gXl4QR7LqdBmmQXX+l5pYE0VbTaweUlnNfSkV72sZchTikQ7X15hNgQ+hW/99tU"
+    "WGnXlAC2r444Ggl9xoFVxKhSIbkRVRszzIe5axo4BQENZ/cj7Mw8BwsB8mESG29K"
+    "YtKeMkXfLuBkWuUZ/56pu1eOOfZl4iMLiQnP7UNpAlX4L1/Le3bIaTWZUrsk/MwE"
+    "pwULsW0VB3sghu4K+Kdos1AyGP2NwkQL3CCzpwm1TaBaC0rb0sQ0m62JgPe3NzOt"
+    "U3NGXKNnpLRuhYNFU46bW/6ZVF0NskessArYAsbY54cMHTzhpvkC6b2hs5x+ps0J"
+    "3QIDAQAB"
+    )

@@ -4,4 +4,5 @@ class role::edamame {
   include profile::base
   include profile::robobutler
   include profile::sudo::osu
+  include profile::bind
 }
