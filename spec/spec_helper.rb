@@ -13,4 +13,8 @@ RSpec.configure do |c|
     :osfamily => 'Debian',
   }
   c.mock_with :rspec
+  c.before(:each) do
+    require 'puppet/confine/exists'
+    Puppet::Confine::Exists.any_instance.stubs(:which => '')
+  end
 end
