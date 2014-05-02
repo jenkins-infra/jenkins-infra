@@ -37,7 +37,7 @@ Vagrant.configure("2") do |config|
           :vagrant => '1',
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
-        puppet.options = "--verbose --execute 'include role::#{veggie}'"
+        puppet.options = "--verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
       end
     end
   end
