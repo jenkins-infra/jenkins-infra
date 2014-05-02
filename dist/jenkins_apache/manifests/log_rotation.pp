@@ -12,6 +12,6 @@ class jenkins_apache::log_rotation {
     command => 'cd /var/log/apache2; ./compress-log.rb',
     user    => root,
     minute  => 7,
-    require => Package['apache2'],
+    require => File['/var/log/apache2/compress-log.rb'],
   }
 }
