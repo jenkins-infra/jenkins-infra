@@ -1,5 +1,6 @@
 require 'spec_helper'
 
 describe 'role::edamame' do
-  it { should compile }
+  it { should contain_class 'profile::base' }
+  it { should contain_class 'profile::sudo::osu' }
 end

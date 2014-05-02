@@ -10,6 +10,9 @@ fixtures:
     git:
       repo: 'git://github.com/puppetlabs/puppetlabs-git.git'
       ref: '0.0.3'
+    ntp:
+      repo: 'git://github.com/puppetlabs/puppetlabs-ntp.git'
+      ref: '3.0.3'
     ruby:
       repo: 'git://github.com/puppetlabs/puppetlabs-ruby.git'
       ref: '0.1.1'
