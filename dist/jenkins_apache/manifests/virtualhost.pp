@@ -1,3 +1,4 @@
+# define virtual host for Apache
 define jenkins_apache::virtualhost($source=undef, $content=undef) {
   file { "/etc/apache2/sites-available/${name}":
     owner   => root,
