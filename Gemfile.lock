@@ -9,6 +9,13 @@ GIT
       rspec-puppet (>= 0.1.1)
 
 GIT
+  remote: git://github.com/jvoorhis/vagrant-serverspec.git
+  revision: 253ec6e787e8fc6698f1fccc7426aad7cd1da6eb
+  specs:
+    vagrant-serverspec (0.0.1)
+      serverspec (~> 0.12.0)
+
+GIT
   remote: git://github.com/mitchellh/vagrant-aws.git
   revision: d125a2f8ca5422f55f555ab921aaac968d1e6e72
   specs:
@@ -82,6 +89,7 @@ GEM
     formatador (0.2.4)
     hiera (1.3.2)
       json_pure
+    highline (1.6.21)
     i18n (0.6.9)
     json_pure (1.8.1)
     listen (2.7.3)
@@ -135,7 +143,13 @@ GEM
     rspec-mocks (2.14.6)
     rspec-puppet (1.0.1)
       rspec
+    serverspec (0.12.0)
+      highline
+      net-ssh
+      rspec (>= 2.13.0)
+      specinfra (>= 0.0.2)
     slop (3.5.0)
+    specinfra (1.8.0)
     systemu (2.5.2)
     timers (1.1.0)
     wdm (0.1.0)
@@ -153,5 +167,7 @@ DEPENDENCIES
   r10k
   rake
   rspec-puppet
+  serverspec
   vagrant!
   vagrant-aws!
+  vagrant-serverspec!

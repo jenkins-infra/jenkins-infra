@@ -26,6 +26,12 @@ Vagrant.configure("2") do |config|
     veggie = File.basename(role).gsub('.pp', '')
 
     config.vm.define(veggie) do |node|
+      node.vm.provider(:aws) do |aws, override|
+        aws.tags = {
+          :Name => veggie
+        }
+      end
+
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)
         puppet.manifests_path = File.dirname(role)
@@ -38,6 +44,10 @@ Vagrant.configure("2") do |config|
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
         puppet.options = "--verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
+      end
+
+      node.vm.provision :serverspec do |spec|
+        spec.pattern = "spec/server/#{veggie}/*.rb"
       end
     end
   end

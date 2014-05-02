@@ -9,6 +9,7 @@ gem 'puppet', '~> 3.4.0'
 gem 'r10k'
 gem 'puppetlabs_spec_helper', :github => 'jenkins-infra/puppetlabs_spec_helper'
 gem 'pry'
+gem 'serverspec'
 
 group :development do
   # XXX: Shouldn't be needed anywhere by rtyler's machine, since Vagrant does'nt
@@ -21,4 +22,5 @@ end
 # Vagrant plugins
 group :plugins do
   gem 'vagrant-aws', :github => 'mitchellh/vagrant-aws'
+  gem 'vagrant-serverspec', :github => 'jvoorhis/vagrant-serverspec'
 end
