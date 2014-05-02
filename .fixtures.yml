@@ -4,6 +4,9 @@ fixtures:
     stdlib:
       repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
       ref: '3.2.1'
+    firewall:
+      repo: 'git://github.com/puppetlabs/puppetlabs-firewall.git'
+      ref: '1.0.2'
     r10k:
       repo: 'git://github.com/acidprime/r10k.git'
       ref: 'v1.0.2'
