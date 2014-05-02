@@ -35,3 +35,4 @@ fixtures:
   symlinks:
     profile: "#{source_dir}/dist/profile"
     role: "#{source_dir}/dist/role"
+    jenkins_apache: "#{source_dir}/dist/jenkins_apache"
