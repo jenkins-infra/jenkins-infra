@@ -1,0 +1,31 @@
+# MANAGED BY PUPPET. DO NOT MODIFY.
+# (generated from apache2/templates/standard_virtualhost.erb)
+#
+# This is the plain-vanilla virtual host configuration for HTTP only environment.
+<%
+    name = @name.gsub('_','.')
+%>
+<VirtualHost *:8888 *:80>
+    # port 8888 is used on cucumber, port 80 on other normal places
+	ServerName <%= name %>
+
+	DocumentRoot /var/www/<%= name %>
+	<Directory />
+		Options FollowSymLinks
+		AllowOverride None
+	</Directory>
+	<Directory /var/www/<%= name %>>
+		Options Indexes FollowSymLinks MultiViews
+		AllowOverride All
+		Order allow,deny
+		allow from all
+	</Directory>
+
+	ErrorLog /var/log/apache2/error.log
+
+	# Possible values include: debug, info, notice, warn, error, crit,
+	# alert, emerg.
+	LogLevel warn
+
+	CustomLog "|/usr/sbin/rotatelogs /var/log/apache2/<%= name %>/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined
+</VirtualHost>
