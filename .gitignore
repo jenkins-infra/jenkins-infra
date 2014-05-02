@@ -3,3 +3,5 @@
 .ruby-*
 spec/fixtures/
 .bundle
+vagrant2014*
+d2014*
