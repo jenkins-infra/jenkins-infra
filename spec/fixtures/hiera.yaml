@@ -5,6 +5,7 @@
 :hierarchy:
   - "clients/%{clientcert}"
   - "env/%{environment}"
+  - vagrant
   - common
 
 :yaml:
