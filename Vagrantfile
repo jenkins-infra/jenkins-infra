@@ -6,6 +6,7 @@ Vagrant.configure("2") do |config|
   keypair = File.read('.vagrant_keypair_name').chomp
 
   config.vm.box = 'dummy'
+  config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
 
   config.vm.provider(:aws) do |aws, override|
     aws.access_key_id = access_key_id
