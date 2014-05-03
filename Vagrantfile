@@ -1,3 +1,6 @@
+# Required plugins:
+#    vagrant-aws
+#    vagrant-serverspec
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'aws'
 
 Vagrant.configure("2") do |config|
