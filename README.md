@@ -41,7 +41,7 @@ but thus far it's advisable that you do the following:
 
 We're using [serverspec](http://serverspec.org) for on-machine acceptance
 testing. Combined with Vagrant, this allows us to create an acceptance test
-[per-role](/jenkins-infra/jenkins-infra/tree/staging/dist/role/manifests) which
+[per-role](tree/staging/dist/role/manifests) which
 provisions and tests an entire Puppet catalog on a VM.
 
 
