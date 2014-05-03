@@ -22,7 +22,28 @@ but thus far it's advisable that you do the following:
    [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
    the rspec-puppet over and over, use `rake spec_standalone` to avoid
    re-initializing the Puppet module fixtures every time.
- * Vagrant-based testing - **coming soon**
+
+### Vagrant-based testing
+
+#### Pre-requisites
+
+ * Import your SSH public key into a [key
+   pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
+   into the `us-west-2` region. We have an AMI in us-west-2 that has Ubuntu 12.04,
+   Puppet and a Docker-capable kernel installed for testing
+ * Make sure your `default` [security
+   group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html)
+   allows SSH (port 22) from the outside world.
+ * Run the `./vagrant-bootstrap` script locally to make usre your local
+   environment is prepared for Vagranting
+
+#### Running server spec tests
+
+We're using [serverspec](http://serverspec.org) for on-machine acceptance
+testing. Combined with Vagrant, this allows us to create an acceptance test
+[per-role](/jenkins-infra/jenkins-infra/tree/staging/dist/role/manifests) which
+provisions and tests an entire Puppet catalog on a VM.
+
 
 
 ## Branching model
