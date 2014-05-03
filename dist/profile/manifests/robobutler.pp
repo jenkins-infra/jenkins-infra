@@ -8,32 +8,36 @@ class profile::robobutler (
   $password,
   $logdir = '/var/www/meetings.jenkins-ci.org'
 ) {
+  include profile::docker
+
+  # Tag is the docker container image tag from our build process
   $tag = 'build10'
+  $user = 'butlerbot'
 
-  include 'docker'
 
-  # butlerbot user id. hard-coded into butlerbot image
-  $uid = 500
-  user { 'butlerbot':
-    uid   => $uid,
-    shell => '/bin/false'
+  user { $user:
+    # butlerbot user id. hard-coded into butlerbot image
+    uid   => '500',
+    shell => '/bin/false',
   }
 
   file { $logdir:
     ensure => directory,
-    owner  => 'butlerbot',
-    mode   => '0755'
+    owner  => $user,
+    mode   => '0755',
   }
 
   file { '/etc/butlerbot':
     ensure => directory,
-    owner  => 'butlerbot',
+    owner  => $user,
   }
 
   file { '/etc/butlerbot/main.conf':
-    owner   => 'butlerbot',
+    owner   => $user,
     mode    => '0600',
-    content => "export NICK=${nick}\nexport PASSWORD=${password}\nexport HTML_DIR=${logdir}"
+    content => "export NICK=${nick}\nexport PASSWORD=${password}\nexport HTML_DIR=${logdir}",
+    require => File['/etc/butlerbot'],
+    notify  => Service['docker-butlerbot'],
   }
 
   docker::image { 'jenkinsciinfra/butlerbot':
@@ -44,6 +48,7 @@ class profile::robobutler (
     command  => undef,
     image    => "jenkinsciinfra/butlerbot:${tag}",
     volumes  => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
+    require  => File['/etc/butlerbot/main.conf'],
   }
 
   # 'restart docker-butlerbot' won't do because it will not reload the configuration
@@ -54,7 +59,7 @@ class profile::robobutler (
 
   File['/etc/init/docker-butlerbot.conf'] ~> Exec['restart-butlerbot']
 
-  include 'apache'
+  include apache
   jenkins_apache::virtualhost { 'meetings.jenkins-ci.org':
     content => template('jenkins_apache/standard_virtualhost.erb'),
   }
