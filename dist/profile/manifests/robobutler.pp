@@ -8,12 +8,12 @@ class profile::robobutler (
   $password,
   $logdir = '/var/www/meetings.jenkins-ci.org'
 ) {
+  include apache
   include profile::docker
 
   # Tag is the docker container image tag from our build process
   $tag = 'build10'
   $user = 'butlerbot'
-
 
   user { $user:
     # butlerbot user id. hard-coded into butlerbot image
@@ -57,10 +57,24 @@ class profile::robobutler (
     command     => '/sbin/stop docker-butlerbot; /sbin/start docker-butlerbot',
   }
 
-  File['/etc/init/docker-butlerbot.conf'] ~> Exec['restart-butlerbot']
+  # The File[/etc/init/docker-butlerbot.conf] resource is declared by the
+  # module, but we still need to punt the container if the config changes
+  File <| title == '/etc/init/docker-butlerbot.conf' |> {
+    notify  => Exec['restart-butlerbot'],
+  }
 
-  include apache
-  jenkins_apache::virtualhost { 'meetings.jenkins-ci.org':
-    content => template('jenkins_apache/standard_virtualhost.erb'),
+
+  file { '/var/log/apache2/meetings.jenkins-ci.org':
+      ensure => directory,
+  }
+
+  apache::vhost { 'meetings.jenkins-ci.org':
+      docroot         => '/var/www/meetings',
+      access_log      => false,
+      error_log_file  => 'meetings.jenkins-ci.org/error.log',
+      log_level       => 'warn',
+      custom_fragment => 'CustomLog "|/usr/sbin/rotatelogs /var/log/apache2/meetings.jenkins.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
+      notify          => Service['apache2'],
+      require         => File['/var/log/apache2/meetings.jenkins-ci.org'],
   }
 }

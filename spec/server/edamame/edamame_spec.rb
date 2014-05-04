@@ -11,5 +11,16 @@ describe 'edamame' do
     describe file('/var/log/upstart/docker-butlerbot.log') do
       it { should be_file }
     end
+
+    context 'apache configuration' do
+      describe file('/var/www/meetings') do
+        it { should be_directory }
+      end
+
+      describe file('/etc/apache2/sites-enabled/25-meetings.jenkins-ci.org.conf') do
+        it { should be_file }
+        its(:content) { should match /CustomLog/ }
+      end
+    end
   end
 end
