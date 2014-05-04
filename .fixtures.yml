@@ -1,27 +1,12 @@
 # Fixtures needed for puppetlabs_spec_helper
 fixtures:
   repositories:
-    stdlib:
-      repo: 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
-      ref: '3.2.1'
-    firewall:
-      repo: 'git://github.com/puppetlabs/puppetlabs-firewall.git'
-      ref: '1.0.2'
     r10k:
       repo: 'git://github.com/acidprime/r10k.git'
       ref: 'v1.0.2'
-    git:
-      repo: 'git://github.com/puppetlabs/puppetlabs-git.git'
-      ref: '0.0.3'
-    ntp:
-      repo: 'git://github.com/puppetlabs/puppetlabs-ntp.git'
-      ref: '3.0.3'
     ruby:
       repo: 'git://github.com/puppetlabs/puppetlabs-ruby.git'
       ref: '0.1.1'
-    inifile:
-      repo: 'git://github.com/puppetlabs/puppetlabs-inifile.git'
-      ref: '1.0.3'
     yamlfile:
       repo: 'git://github.com/reidmv/puppet-module-yamlfile.git'
     filemapper:
@@ -36,6 +21,39 @@ fixtures:
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
       ref: 'ca69ffa'
+    docker:
+      repo: 'git://github.com/garethr/garethr-docker.git'
+      ref: '9c5be9b'
+    apache-logcompressor:
+      repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
+
+  forge_modules:
+    stdlib:
+      repo: 'puppetlabs/stdlib'
+      ref: '4.1.0'
+    firewall:
+      repo: 'puppetlabs/firewall'
+      ref: '1.0.2'
+    apache:
+      repo: 'puppetlabs/apache'
+      ref: '1.0.1'
+    git:
+      repo: 'puppetlabs/git'
+      ref: '0.0.3'
+    ntp:
+      repo: 'puppetlabs/ntp'
+      ref: '3.0.3'
+    inifile:
+      repo: 'puppetlabs/inifile'
+      ref: '1.0.3'
+    apt:
+      repo: 'puppetlabs/apt'
+      ref: '1.4.2'
+    concat:
+      repo: 'puppetlabs/concat'
+      ref: '1.0.2'
+
+
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
 # just as another set of "modules" in our environment
   symlinks:

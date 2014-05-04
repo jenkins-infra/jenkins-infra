@@ -10,7 +10,8 @@ mod "zack/r10k", '1.0.2'
 mod "stdlib", :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
   :ref => '4.1.0'
 
-mod "puppetlabs/ruby", '0.1.0'
+mod "puppetlabs/ruby", :git => 'git://github.com/puppetlabs/puppetlabs-ruby',
+                       :ref => '0.1.1'
 mod "puppetlabs/gcc", '0.1.0'
 mod "puppetlabs/pe_gem", '0.0.1'
 mod "mhuffnagle/make", '0.0.2'
@@ -33,7 +34,8 @@ mod 'reidmv/yamlfile'
 # Needed by `yamlfile`
 mod 'adrien/filemapper'
 
-mod 'garethr/docker', '0.13.0'
+mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
+              :ref => '82fd950'
 
 # Deps for docker
 mod 'puppetlabs/apt', '1.4.2'
@@ -52,3 +54,10 @@ mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
 
 mod 'jenkins_keys',
   :git => 'git@github.com:rtyler/jenkins-keys.git'
+
+# Apache and its dependencies
+mod "puppetlabs/apache", '1.0.1'
+# Used internally to gzip compress rotated logs
+mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
+mod 'puppetlabs/ruby', '0.1.0'
+mod "puppetlabs/concat", '1.0.2'
