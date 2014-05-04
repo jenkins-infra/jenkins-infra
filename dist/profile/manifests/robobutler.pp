@@ -9,6 +9,7 @@ class profile::robobutler (
   $logdir = '/var/www/meetings.jenkins-ci.org'
 ) {
   include apache
+  include apache-logcompressor
   include profile::docker
 
   # Tag is the docker container image tag from our build process

@@ -21,6 +21,10 @@ describe 'edamame' do
         it { should be_file }
         its(:content) { should match /CustomLog/ }
       end
+
+      describe file('/usr/local/bin/apache-compress-log') do
+        it { should be_file }
+      end
     end
   end
 end
