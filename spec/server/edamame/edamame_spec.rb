@@ -13,7 +13,7 @@ describe 'edamame' do
     end
 
     context 'apache configuration' do
-      describe file('/var/www/meetings') do
+      describe file('/var/www/meetings.jenkins-ci.org') do
         it { should be_directory }
       end
 
