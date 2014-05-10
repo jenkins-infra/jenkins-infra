@@ -2,6 +2,7 @@
 # Vagrant profile for capturing some of the spceifics we need for Vagrant boxes
 # to pvoision cleanly
 class profile::vagrant {
+  include sudo
 
   # AWS Ubuntu images have an `ubuntu` default user which Vagrant will use for
   # provisioning
