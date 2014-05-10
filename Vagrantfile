@@ -36,6 +36,11 @@ Vagrant.configure("2") do |config|
         }
       end
 
+      # This is a Vagrant-local hack to make sure we have properly udpated apt
+      # caches since AWS machines are definitely going to have stale ones
+      node.vm.provision 'shell',
+        :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && touch /apt-cached; fi'
+
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)
         puppet.manifests_path = File.dirname(role)

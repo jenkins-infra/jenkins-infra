@@ -3,4 +3,5 @@
 # Disk is small and at 40GB system + 80GB data
 class role::celery {
   include profile::base
+  include profile::buildslave
 }
