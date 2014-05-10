@@ -45,3 +45,9 @@ node 'jenkins-confluence.osuosl.org' {
 node 'spinach.jenkins-ci.org' {
   include role::spinach
 }
+
+# celery
+node 'celery' {
+  include role::celery
+}
+
