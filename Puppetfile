@@ -4,8 +4,8 @@ forge "http://forge.puppetlabs.com"
 mod "zack/r10k", '1.0.2'
 
 # Deps for zack/r10k
-# We are tracking stdlib from git because the puppet module tool 
-# is getting in the way when we want to upgrade newer than the 
+# We are tracking stdlib from git because the puppet module tool
+# is getting in the way when we want to upgrade newer than the
 # supported module version
 mod "stdlib", :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
   :ref => '4.1.0'
@@ -44,7 +44,7 @@ mod 'stahnma/epel', '0.0.6'
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which properly compiles and runs on PE
 mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
-           :ref => 'ca69ffa'
+           :ref => '4e3cee3'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
