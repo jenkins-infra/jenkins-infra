@@ -27,7 +27,7 @@ class profile::buildslave {
       'libxml2-dev',          # for Ruby apps that require nokogiri
       'libxslt1-dev',         # for Ruby apps that require nokogiri
       'libcurl4-openssl-dev', # for curb gem
-      'libopenssl-ruby',      # for net/https
+      'libruby',              # for net/https
       'subversion',
     ]:
       ensure   => installed,
