@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'rspec-puppet'
+gem 'parallel_tests'
 gem 'puppet-lint'
 gem 'puppet', '~> 3.4.0'
 # Needed to make sure we can install modules and then run a `puppet apply` in
