@@ -16,6 +16,11 @@ shared_examples "a standard Linux machine" do
   describe file('/etc/sudoers.d') do
     it { should be_directory }
   end
+
+  describe cron do
+    # apt auto updating malarky
+    it { should have_entry('20 2 * * * apt-get update') }
+  end
 end
 
 shared_examples "an OSU hosted machine" do
