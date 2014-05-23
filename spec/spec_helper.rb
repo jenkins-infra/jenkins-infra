@@ -16,11 +16,13 @@ RSpec.configure do |c|
   c.formatter = :documentation
 
   c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
+
   c.default_facts = {
     :osfamily => 'Debian',
+    :kernel => 'Linux',
     :lsbdistid => 'Ubuntu',
     :operatingsystemrelease => '12.04',
-    :concat_basedir => '/tmp'
+    :concat_basedir => '/tmp',
   }
 
   c.before(:each) do

@@ -3,16 +3,19 @@ class profile::bind (
   # all injected from hiera
   $image_tag
 ) {
-  file {'/etc/bind/local/jenkins-ci.org.zone':
+
+  include firewall
+
+  file { '/etc/bind/local/jenkins-ci.org.zone':
     ensure  => present,
     notify  => Service['docker-bind'],
-    source  => 'puppet:///modules/profile/bind/jenkins-ci.org.zone';
+    source  => "puppet:///modules/${module_name}/jenkins-ci.org.zone",
   }
 
-  file {'/etc/bind/local/named.conf.local':
+  file { '/etc/bind/local/named.conf.local':
     ensure  => present,
     notify  => Service['docker-bind'],
-    source  => 'puppet:///modules/profile/bind/named.conf.local';
+    source  => "puppet:///modules/${module_name}/named.conf.local",
   }
 
   docker::image { 'jenkinsciinfra/bind':
@@ -26,14 +29,15 @@ class profile::bind (
     volumes  => ['/etc/bind/local'],
   }
 
-  firewall {
-  '900 accept tcp DNS queries' :
+  firewall { '900 accept tcp DNS queries':
     proto  => 'tcp',
     port   => 53,
-    action => 'accept';
-  '901 accept udp DNS queries' :
+    action => 'accept',
+  }
+
+  firewall { '901 accept udp DNS queries':
     proto  => 'udp',
     port   => 53,
-    action => 'accept';
+    action => 'accept',
   }
 }
