@@ -1,21 +1,32 @@
 # Run containerized BIND9 to serve jenkins-ci.org zone
 class profile::bind (
   # all injected from hiera
-  $image_tag
+  $image_tag,
 ) {
 
   include firewall
 
-  file { '/etc/bind/local/jenkins-ci.org.zone':
-    ensure  => present,
-    notify  => Service['docker-bind'],
-    source  => "puppet:///modules/${module_name}/jenkins-ci.org.zone",
+  # /etc/bind/local is hard-coded into the Dockerfile here:
+  # <https://github.com/jenkins-infra/bind/blob/master/Dockerfile>
+  $conf_dir = '/etc/bind/local'
+
+  file { ['/etc/bind', $conf_dir]:
+    ensure  => directory,
+    purge   => true,
   }
 
-  file { '/etc/bind/local/named.conf.local':
+  file { "${conf_dir}/jenkins-ci.org.zone":
     ensure  => present,
     notify  => Service['docker-bind'],
-    source  => "puppet:///modules/${module_name}/named.conf.local",
+    source  => "puppet:///modules/${module_name}/bind/jenkins-ci.org.zone",
+    require => File[$conf_dir],
+  }
+
+  file { "${conf_dir}/named.conf.local":
+    ensure  => present,
+    notify  => Service['docker-bind'],
+    source  => "puppet:///modules/${module_name}/bind/named.conf.local",
+    require => File[$conf_dir],
   }
 
   docker::image { 'jenkinsciinfra/bind':
