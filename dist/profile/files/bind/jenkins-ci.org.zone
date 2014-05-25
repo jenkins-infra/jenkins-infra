@@ -85,7 +85,7 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 
 ; NS Records
 @           3600    IN    NS    ns1
-@           3600    IN    NS    ns2
+edamame     3600    IN    NS    ns2
 
 ; SPF
 ;   this policy enables the e-mail originating from these hosts to be whitelisted.
