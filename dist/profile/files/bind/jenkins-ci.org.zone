@@ -58,7 +58,7 @@ maven       3600    IN    CNAME    gherkin
 maven2      3600    IN    CNAME    gherkin
 ci          3600    IN    CNAME    gherkin
 svn         3600    IN    CNAME    gherkin
-meetings    3600    IN    CNAME    gherkin
+meetings    3600    IN    CNAME    edamame
 javanet2    3600    IN    CNAME    gherkin
 ldap        3600    IN    CNAME    gherkin
 jekyll      3600    IN    CNAME    jenkinsci.github.io
