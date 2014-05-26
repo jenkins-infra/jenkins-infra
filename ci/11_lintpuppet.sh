@@ -1,3 +1,3 @@
 #!/bin/sh -xe
 
-bundle exec rake lint
+exec bundle exec rake lint
