@@ -4,6 +4,8 @@
 class profile::puppetmaster {
   # pull in all our secret stuff, and install eyaml
   include ::jenkins_keys
+  # Set up our IRC reporter
+  include ::irc
 
   # Manage hiera.yaml
   file { '/etc/puppetlabs/puppet/hiera.yaml':
@@ -28,8 +30,6 @@ class profile::puppetmaster {
     notify => Service['pe-httpd'],
   }
 
-  # Set up our IRC reporter
-  include ::irc
 
   ini_setting { 'Update report handlers':
     ensure  => present,

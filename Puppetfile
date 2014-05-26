@@ -7,11 +7,12 @@ mod "zack/r10k", '1.0.2'
 # We are tracking stdlib from git because the puppet module tool
 # is getting in the way when we want to upgrade newer than the
 # supported module version
-mod "stdlib", :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
-  :ref => '4.1.0'
+mod "stdlib",
+        :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
+        :ref => '4.1.0'
 
-mod "puppetlabs/ruby", :git => 'git://github.com/puppetlabs/puppetlabs-ruby',
-                       :ref => '0.1.1'
+mod "ruby", :git => 'git://github.com/puppetlabs/puppetlabs-ruby',
+            :ref => '0.1.1'
 mod "puppetlabs/gcc", '0.1.0'
 mod "puppetlabs/pe_gem", '0.0.1'
 mod "mhuffnagle/make", '0.0.2'
@@ -59,5 +60,11 @@ mod 'jenkins_keys',
 mod "puppetlabs/apache", '1.0.1'
 # Used internally to gzip compress rotated logs
 mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
-mod 'puppetlabs/ruby', '0.1.0'
 mod "puppetlabs/concat", '1.0.2'
+
+
+mod 'groovy',
+        :git => 'git://github.com/jenkins-infra/puppet-groovy.git',
+        :ref => '400ea3e'
+# Dependency of `groovy
+mod 'nanliu/staging', '0.4.0'

@@ -26,6 +26,8 @@ fixtures:
       ref: '9c5be9b'
     apache-logcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
+    groovy:
+      repo: 'git://github.com/jenkins-infra/puppet-groovy.git'
 
   forge_modules:
     stdlib:
@@ -52,6 +54,9 @@ fixtures:
     concat:
       repo: 'puppetlabs/concat'
       ref: '1.0.2'
+    staging:
+      repo: 'nanliu/staging'
+      ref: '0.4.0'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
