@@ -2,6 +2,7 @@ require_relative './../spec_helper'
 
 describe 'edamame' do
   it_behaves_like "an OSU hosted machine"
+  it_behaves_like "a DNS server"
 
   context 'butlerbot configuration' do
     describe command('docker ps') do
@@ -28,17 +29,4 @@ describe 'edamame' do
     end
   end
 
-  context 'bind configuration' do
-    describe command('docker ps') do
-      its(:stdout) { should match /bind/ }
-    end
-
-    describe file('/etc/bind/local/named.conf.local') do
-      it { should be_file }
-    end
-
-    describe file('/etc/bind/local/jenkins-ci.org.zone') do
-      it { should be_file }
-    end
-  end
 end

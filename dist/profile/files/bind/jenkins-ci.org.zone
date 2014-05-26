@@ -31,8 +31,8 @@ artichoke   3600    IN    A    140.211.9.22      ; otherwise known as jenkins-pu
 edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-confluence.osuosl.org
 
 lists       3600    IN    A    140.211.166.34
-ns1         3600    IN    A    140.211.15.121
-ns2         3600    IN    A    140.211.9.2 ; edamame
+ns1         3600    IN    A    140.211.9.2 ; edamame
+ns2         3600    IN    A    173.203.60.151 ; spinach (Rackspace)
 
 
 ;-----------------------------------

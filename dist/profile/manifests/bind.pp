@@ -5,6 +5,7 @@ class profile::bind (
 ) {
 
   include firewall
+  include profile::docker
 
   # /etc/bind/local is hard-coded into the Dockerfile here:
   # <https://github.com/jenkins-infra/bind/blob/master/Dockerfile>

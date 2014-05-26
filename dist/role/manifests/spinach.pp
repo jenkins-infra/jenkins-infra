@@ -3,4 +3,5 @@
 class role::spinach {
   include profile::base
   include profile::groovy
+  include profile::bind
 }

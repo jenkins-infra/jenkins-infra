@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'profile::bind' do
   it { should contain_class 'firewall' }
+  it { should contain_class 'profile::docker' }
   it { should contain_service 'docker-bind' }
 
   it { should contain_docker__image 'jenkinsciinfra/bind' }
