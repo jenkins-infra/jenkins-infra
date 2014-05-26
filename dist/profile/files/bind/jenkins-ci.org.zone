@@ -32,7 +32,7 @@ edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-co
 
 lists       3600    IN    A    140.211.166.34
 ns1         3600    IN    A    140.211.15.121
-ns2         3600    IN    A    140.211.15.121
+ns2         3600    IN    A    140.211.9.2 ; edamame
 
 
 ;-----------------------------------
