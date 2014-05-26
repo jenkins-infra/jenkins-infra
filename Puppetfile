@@ -63,8 +63,6 @@ mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apach
 mod "puppetlabs/concat", '1.0.2'
 
 
-mod 'groovy',
-        :git => 'git://github.com/jenkins-infra/puppet-groovy.git',
-        :ref => '400ea3e'
+mod 'rtyler/groovy', '1.0.2'
 # Dependency of `groovy
 mod 'nanliu/staging', '0.4.0'
