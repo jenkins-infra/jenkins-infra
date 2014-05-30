@@ -8,6 +8,10 @@ FIXTURES_PATH = File.expand_path(File.dirname(__FILE__) + '/fixtures')
 # in spec/fixtures
 $LOAD_PATH.unshift(*Dir["#{FIXTURES_PATH}/modules/*/lib"])
 
+Dir[File.absolute_path(File.dirname(__FILE__) + '/support/*.rb')].each do |f|
+  require f
+end
+
 
 RSpec.configure do |c|
   c.mock_with :rspec

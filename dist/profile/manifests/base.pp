@@ -3,6 +3,7 @@
 class profile::base {
   include profile::accounts
   include profile::apt
+  include profile::firewall
   include profile::ntp
   include profile::sudo
 

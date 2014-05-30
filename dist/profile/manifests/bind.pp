@@ -4,7 +4,7 @@ class profile::bind (
   $image_tag,
 ) {
 
-  include firewall
+  include ::firewall
   include profile::docker
 
   # /etc/bind/local is hard-coded into the Dockerfile here:
