@@ -58,6 +58,9 @@ fixtures:
     groovy:
       repo: 'rtyler/groovy'
       ref: '1.0.2'
+    ssh:
+      repo: 'saz/ssh'
+      ref: '2.3.6'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles

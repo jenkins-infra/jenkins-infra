@@ -5,6 +5,11 @@ describe 'profile::base' do
   it { should contain_class 'profile::ntp' }
   it { should contain_class 'profile::sudo' }
   it { should contain_class 'profile::apt' }
+  it { should contain_class 'profile::firewall' }
+
+  context 'basic ssh configuration' do
+    it { should contain_class 'ssh::server' }
+  end
 
   context 'in order to clean up after infra-puppet' do
     it { should contain_cron('pull puppet updates').with_ensure('absent') }

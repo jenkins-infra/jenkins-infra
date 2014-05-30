@@ -7,7 +7,16 @@ class profile::base {
   include profile::ntp
   include profile::sudo
 
+  class { 'ssh::server':
+    storeconfigs_enabled => false,
+    options              => {
+      'PasswordAuthentication' => 'no',
+      'PubkeyAuthentication'   => 'yes',
+    },
+  }
+
   # Cleaning up after infra-puppet
+  ##############################################################################
   cron { 'pull puppet updates':
     ensure => absent,
   }
@@ -26,4 +35,5 @@ class profile::base {
     recurse => true,
     force   => true,
   }
+  ##############################################################################
 }
