@@ -21,6 +21,11 @@ shared_examples "a standard Linux machine" do
     # apt auto updating malarky
     it { should have_entry('20 2 * * * apt-get update') }
   end
+
+
+  describe file('/etc/ssh/sshd_config') do
+    it { should contain 'PasswordAuthentication no' }
+  end
 end
 
 shared_examples "an OSU hosted machine" do
