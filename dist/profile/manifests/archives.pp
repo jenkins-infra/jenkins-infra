@@ -62,6 +62,8 @@ class profile::archives {
   }
 
   # allow Jenkins to login as www-data to populate the releases
+  # TODO: move this to apache-misc when that branch is merged, since we tend to use Jenkins to stage
+  # various stuff everywhere
   file { '/var/www/.ssh':
     ensure => directory,
   }
