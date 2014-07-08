@@ -1,7 +1,8 @@
 #
 # Defines an archive server for serving all the archived historical releases
 #
-class profile::archives{
+class profile::archives {
+  include apache
 
   package { 'lvm2':
     ensure => present,
@@ -48,6 +49,9 @@ class profile::archives{
 
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
+  }
+
+  apache::mod { 'ratelimit':
   }
 
   apache::vhost { 'archives.jenkins-ci.org':
