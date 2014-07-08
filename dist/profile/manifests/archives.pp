@@ -69,6 +69,6 @@ class profile::archives {
     log_level       => 'warn',
     custom_fragment => file("puppet:///modules/${module_name}/archives/vhost.conf"),
     notify          => Service['apache2'],
-    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases'],Apache::mod['bw']],
+    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases'],Apache_mod['bw']],
   }
 }
