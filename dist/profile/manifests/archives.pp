@@ -1,27 +1,42 @@
 #
 # Defines an archive server for serving all the archived historical releases
 #
-class profile::archives {
+class profile::archives (
+  # all injected from hiera
+  $device,
+  $size
+) {
+
   package { 'lvm2':
     ensure => present,
   }
 
+  if str2bool("$vagrant") {
+    # during serverspec test, fake /dev/xvdb by a loopback device
+    exec { 'create /tmp/xvdb':
+      command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
+      unless  => 'test -f /tmp/xvdb',
+      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+      before  => Physical_volume[$device],
+    }
+  }
+
   # create volume for storage
-  physical_volume { '/dev/xvdb':
+  physical_volume { $device:
     ensure  => present,
     require => Package['lvm2'],
   }
 
   volume_group { 'archives':
     ensure           => present,
-    physical_volumes => '/dev/xvdb',
-    require          => Physical_volume['/dev/xvdb']
+    physical_volumes => $device,
+    require          => Physical_volume[$device]
   }
 
   logical_volume { 'releases':
     ensure       => present,
     volume_group => 'archives',
-    size         => '100G',
+    size         => $size,
     require      => Volume_group['archives']
   }
 
