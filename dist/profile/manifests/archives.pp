@@ -37,6 +37,8 @@ class profile::archives {
 
   file { '/srv/releases':
     ensure  => directory,
+    owner   => 'www-data',
+    require => Package['apache2'],
   }
 
   mount { '/srv/releases':
