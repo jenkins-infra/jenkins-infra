@@ -1,0 +1,9 @@
+---
+lvm::volume_groups:
+  archives:
+    physical_volumes:
+      - /dev/xvdb
+    logical_volumes:
+      releases:
+        size: 100G
+        mountpath: /srv/releases

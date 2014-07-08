@@ -21,47 +21,13 @@ class profile::archives (
     }
   }
 
-  # create volume for storage
-  physical_volume { $device:
-    ensure  => present,
-    require => Package['lvm2'],
-  }
-
-  volume_group { 'archives':
-    ensure           => present,
-    physical_volumes => $device,
-    require          => Physical_volume[$device]
-  }
-
-  logical_volume { 'releases':
-    ensure       => present,
-    volume_group => 'archives',
-    size         => $size,
-    require      => Volume_group['archives']
-  }
-
-  filesystem { '/dev/archives/releases':
-    ensure  => present,
-    fs_type => 'ext3',
-    require => Logical_volume['releases'],
-  }
-
-  file { '/srv':
-    ensure  => directory,
-  }
+  # volume configuration is in hiera
+  include ::lvm
 
   file { '/srv/releases':
     ensure  => directory,
     owner   => 'www-data',
-    require => Package['apache2'],
-  }
-
-  mount { '/srv/releases':
-    ensure   => mounted,
-    device   => '/dev/archives/releases',
-    fstype   => 'ext3',
-    options  => 'defaults',
-    require  => [File['/srv/releases'],Filesystem['/dev/archives/releases']],
+    require => [Package['apache2'],Mount['/srv/releases']],
   }
 
 
