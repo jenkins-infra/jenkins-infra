@@ -44,6 +44,9 @@ testing. Combined with Vagrant, this allows us to create an acceptance test
 [per-role](dist/role/manifests) which
 provisions and tests an entire Puppet catalog on a VM.
 
+To launch a test instance, `./vagrant-aws up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
+You can rerun tests with `./vagrant-aws provision ROLE` repeatedly while the VM is up and running. When it's all done,
+deprovision the instance via `./vagrant-aws destroy ROLE`.
 
 
 ## Branching model
