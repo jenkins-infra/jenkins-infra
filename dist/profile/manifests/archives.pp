@@ -15,7 +15,7 @@ class profile::archives {
   volume_group { 'archives':
     ensure           => present,
     physical_volumes => '/dev/xvdb',
-    require      => Physical_volume['/dev/xvdb']
+    require          => Physical_volume['/dev/xvdb']
   }
 
   logical_volume { 'releases':
