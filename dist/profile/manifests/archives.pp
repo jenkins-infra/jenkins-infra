@@ -2,8 +2,6 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives {
-  include apache
-
   package { 'lvm2':
     ensure => present,
   }
@@ -47,11 +45,21 @@ class profile::archives {
     require  => [File['/srv/releases'],Filesystem['/dev/archives/releases']],
   }
 
+
+
+
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
   }
 
-  apache::mod { 'ratelimit':
+  include apache
+
+  package { 'libapache2-mod-bw':
+    ensure => present,
+  }
+
+  apache::mod { 'bw':
+    require => Package['libapache2-mod-bw'],
   }
 
   apache::vhost { 'archives.jenkins-ci.org':
@@ -59,8 +67,8 @@ class profile::archives {
     access_log      => false,
     error_log_file  => 'archives.jenkins-ci.org/error.log',
     log_level       => 'warn',
-    custom_fragment => 'CustomLog "|/usr/sbin/rotatelogs /var/log/apache2/archives.jenkins.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
+    custom_fragment => file("puppet:///modules/${module_name}/archives/vhost.conf"),
     notify          => Service['apache2'],
-    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases']],
+    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases'],Apache::mod['bw']],
   }
 }
