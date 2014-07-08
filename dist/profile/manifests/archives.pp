@@ -65,6 +65,9 @@ class profile::archives {
   }
 
   apache::vhost { 'archives.jenkins-ci.org':
+    servername      => 'archives.jenkins-ci.org',
+    vhost_name      => '*',
+    port            => '80',
     docroot         => '/srv/releases',
     access_log      => false,
     error_log_file  => 'archives.jenkins-ci.org/error.log',
