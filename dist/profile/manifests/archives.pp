@@ -1,11 +1,7 @@
 #
 # Defines an archive server for serving all the archived historical releases
 #
-class profile::archives (
-  # all injected from hiera
-  $device,
-  $size
-) {
+class profile::archives {
 
   package { 'lvm2':
     ensure => present,
@@ -17,7 +13,7 @@ class profile::archives (
       command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
       unless  => 'test -f /tmp/xvdb',
       path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      before  => Physical_volume[$device],
+      before  => Physical_volume['/dev/loop0'],
     }
   }
 

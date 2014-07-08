@@ -2,9 +2,6 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
-profile::archives::device: /dev/loop0
-profile::archives::size: 10M
-
 # for okra
 lvm::volume_groups:
   archives:
