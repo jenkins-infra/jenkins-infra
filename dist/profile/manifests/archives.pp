@@ -41,6 +41,7 @@ class profile::archives{
   }
 
   mount { '/srv/releases':
+    ensure   => mounted,
     device   => '/dev/archives/releases',
     require  => [File['/srv/releases'],Filesystem['/dev/archives/releases']],
   }
