@@ -44,4 +44,18 @@ class profile::archives{
     device   => '/dev/archives/releases',
     require  => [File['/srv/releases'],Filesystem['/dev/archives/releases']],
   }
+
+  file { '/var/log/apache2/archives.jenkins-ci.org':
+    ensure => directory,
+  }
+
+  apache::vhost { 'archives.jenkins-ci.org':
+    docroot         => '/srv/releases',
+    access_log      => false,
+    error_log_file  => 'archives.jenkins-ci.org/error.log',
+    log_level       => 'warn',
+    custom_fragment => 'CustomLog "|/usr/sbin/rotatelogs /var/log/apache2/archives.jenkins.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
+    notify          => Service['apache2'],
+    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases']],
+  }
 }
