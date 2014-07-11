@@ -7,7 +7,7 @@ class profile::archives {
     ensure => present,
   }
 
-  if str2bool("$vagrant") {
+  if str2bool("${vagrant}") {
     # during serverspec test, fake /dev/xvdb by a loopback device
     exec { 'create /tmp/xvdb':
       command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
