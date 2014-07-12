@@ -51,3 +51,8 @@ node 'celery' {
   include role::celery
 }
 
+# okra
+node 'okra' {
+include role::okra
+}
+

@@ -2,4 +2,14 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
+# for okra
+lvm::volume_groups:
+  archives:
+    physical_volumes:
+      - /dev/loop0
+    logical_volumes:
+      releases:
+        size: 12M
+        mountpath: /srv/releases
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
