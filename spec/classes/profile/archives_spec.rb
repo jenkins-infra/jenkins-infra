@@ -6,6 +6,10 @@ describe 'profile::archives' do
     {:operatingsystem => 'Ubuntu', :osfamily => 'Debian' }
   }
 
+  it { should contain_class 'profile::apache-misc' }
+  it { should contain_class 'lvm' }
+  it { should contain_class 'apache' }
+
   it { should contain_filesystem '/dev/archives/releases' }
   it { should contain_package('httpd').with(:name => 'apache2') }
 

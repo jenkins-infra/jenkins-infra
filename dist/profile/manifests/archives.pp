@@ -2,10 +2,10 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives {
+  include stdlib
   # volume configuration is in hiera
   include ::lvm
-  include apache
-  include stdlib
+  include profile::apache-misc
 
   $archives_dir = '/srv/releases'
 
@@ -62,17 +62,5 @@ class profile::archives {
     require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
                         Mount[$archives_dir],
                         Apache::Mod['bw']],
-  }
-
-
-  # allow Jenkins to login as www-data to populate the releases
-  # TODO: move this to apache-misc when that branch is merged, since we tend to use Jenkins to stage
-  # various stuff everywhere
-  file { '/var/www/.ssh':
-    ensure => directory,
-  }
-  file { '/var/www/.ssh/authorized_keys':
-    ensure  => present,
-    content => 'ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA1l3oZpCJlFspsf6cfa7hovv6NqMB5eAn/+z4SSiaKt9Nsm22dg9xw3Et5MczH0JxHDw4Sdcre7JItecltq0sLbxK6wMEhrp67y0lMujAbcMu7qnp5ZLv9lKSxncOow42jBlzfdYoNSthoKhBtVZ/N30Q8upQQsEXNr+a5fFdj3oLGr8LSj9aRxh0o+nLLL3LPJdY/NeeOYJopj9qNxyP/8VdF2Uh9GaOglWBx1sX3wmJDmJFYvrApE4omxmIHI2nQ0gxKqMVf6M10ImgW7Rr4GJj7i1WIKFpHiRZ6B8C/Ds1PJ2otNLnQGjlp//bCflAmC3Vs7InWcB3CTYLiGnjrw== hudson@cucumber',
   }
 }
