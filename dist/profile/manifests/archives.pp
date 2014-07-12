@@ -2,12 +2,14 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives {
+  # volume configuration is in hiera
+  include ::lvm
+  include apache
+  include stdlib
 
-  package { 'lvm2':
-    ensure => present,
-  }
+  $archives_dir = '/srv/releases'
 
-  if str2bool("${vagrant}") {
+  if str2bool($::vagrant) {
     # during serverspec test, fake /dev/xvdb by a loopback device
     exec { 'create /tmp/xvdb':
       command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
@@ -17,26 +19,26 @@ class profile::archives {
     }
   }
 
-  # volume configuration is in hiera
-  include ::lvm
 
-  file { '/srv/releases':
-    ensure  => directory,
-    owner   => 'www-data',
-    require => [Package['apache2'],Mount['/srv/releases']],
+  package { 'lvm2':
+    ensure => present,
+  }
+
+  package { 'libapache2-mod-bw':
+    ensure => present,
   }
 
 
+  file { $archives_dir:
+    ensure  => directory,
+    owner   => 'www-data',
+    require => [Package['apache2'],
+                Mount[$archives_dir]],
+  }
 
 
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
-  }
-
-  include apache
-
-  package { 'libapache2-mod-bw':
-    ensure => present,
   }
 
   apache::mod { 'bw':
@@ -47,7 +49,7 @@ class profile::archives {
     servername      => 'archives.jenkins-ci.org',
     vhost_name      => '*',
     port            => '80',
-    docroot         => '/srv/releases',
+    docroot         => $archives_dir,
     access_log      => false,
     error_log_file  => 'archives.jenkins-ci.org/error.log',
     log_level       => 'warn',
@@ -57,9 +59,11 @@ class profile::archives {
     options         => ['FollowSymLinks','MultiViews'],
 
     notify          => Service['apache2'],
-    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],Mount['/srv/releases']],
-    # can't figure out how to depend on ,Apache_mod['bw']
+    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
+                        Mount[$archives_dir],
+                        Apache::Mod['bw']],
   }
+
 
   # allow Jenkins to login as www-data to populate the releases
   # TODO: move this to apache-misc when that branch is merged, since we tend to use Jenkins to stage
