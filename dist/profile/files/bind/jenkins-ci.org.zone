@@ -23,6 +23,7 @@ gherkin     3600    IN    A    199.193.196.24
 ; VM at Rackspace
 spinach     3600    IN    A    173.203.60.151
 celery      3600    IN    A    162.242.234.101
+okra        3600    IN    A    162.209.106.32
 
 ; Hosts at OSUOSL
 lettuce     3600    IN    A    140.211.15.121
