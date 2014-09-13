@@ -1,4 +1,4 @@
-*.swp
+*.sw*
 .vagrant*
 .ruby-*
 spec/fixtures/
