@@ -39,7 +39,7 @@ mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
               :ref => '82fd950'
 
 # Deps for docker
-mod 'puppetlabs/apt', '1.4.2'
+mod 'puppetlabs/apt', '1.6.0'
 mod 'stahnma/epel', '0.0.6'
 
 # Dependencies for the Puppet IRC report processor, using our forked version

@@ -48,7 +48,7 @@ fixtures:
       ref: '1.0.3'
     apt:
       repo: 'puppetlabs/apt'
-      ref: '1.4.2'
+      ref: '1.6.0'
     concat:
       repo: 'puppetlabs/concat'
       ref: '1.0.2'
