@@ -11,24 +11,23 @@ mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
         :ref => '4.1.0'
 
-mod "ruby", :git => 'git://github.com/puppetlabs/puppetlabs-ruby',
-            :ref => '0.1.1'
-mod "puppetlabs/gcc", '0.1.0'
+mod 'puppetlabs/ruby', '0.2.1'
+mod "puppetlabs/gcc", '0.2.0'
 mod "puppetlabs/pe_gem", '0.0.1'
 mod "mhuffnagle/make", '0.0.2'
-mod "puppetlabs/inifile", '1.0.3'
-mod "puppetlabs/vcsrepo", '0.2.0'
-mod "puppetlabs/git", '0.0.3'
+mod "puppetlabs/inifile", '1.1.3'
+mod "puppetlabs/vcsrepo", '1.1.0'
+mod "puppetlabs/git", '0.2.0'
 mod "gentoo/portage", '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
-mod "puppetlabs/ntp", '3.0.3'
+mod "puppetlabs/ntp", '3.1.2'
 
 # Module for managing sudoers across all machines
 mod 'saz/sudo', '3.0.6'
 
 # Needed for managing firewall rules
-mod 'puppetlabs/firewall', '1.0.2'
+mod 'puppetlabs/firewall', '1.1.3'
 
 # Needed for managing .yaml files from within Puppet
 mod 'reidmv/yamlfile'
@@ -39,7 +38,7 @@ mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
               :ref => '82fd950'
 
 # Deps for docker
-mod 'puppetlabs/apt', '1.4.2'
+mod 'puppetlabs/apt', '1.6.0'
 mod 'stahnma/epel', '0.0.6'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
@@ -54,13 +53,14 @@ mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
                :ref => '03280b8'
 
 mod 'jenkins_keys',
-  :git => 'git@github.com:rtyler/jenkins-keys.git'
+  :git => 'git@github.com:rtyler/jenkins-keys.git',
+  :ref => '4a65ae2'
 
 # Apache and its dependencies
-mod "puppetlabs/apache", '1.0.1'
+mod "puppetlabs/apache", '1.1.1'
 # Used internally to gzip compress rotated logs
 mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
-mod "puppetlabs/concat", '1.0.2'
+mod "puppetlabs/concat", '1.0.4'
 
 
 mod 'rtyler/groovy', '1.0.2'
