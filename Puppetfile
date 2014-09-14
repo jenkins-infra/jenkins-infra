@@ -54,7 +54,8 @@ mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
                :ref => '03280b8'
 
 mod 'jenkins_keys',
-  :git => 'git@github.com:rtyler/jenkins-keys.git'
+  :git => 'git@github.com:rtyler/jenkins-keys.git',
+  :ref => '4a65ae2'
 
 # Apache and its dependencies
 mod "puppetlabs/apache", '1.0.1'
