@@ -11,7 +11,7 @@ class profile::r10k {
 
   class { '::r10k':
     remote            => 'https://github.com/jenkins-infra/jenkins-infra.git',
-    version           => '1.2.1',
+    version           => '1.2.4',
     modulepath        => '/etc/puppetlabs/puppet/environments/$environment/dist:/etc/puppetlabs/puppet/environments/$environment/modules:/opt/puppet/share/puppet/modules',
     manage_modulepath => true,
     mcollective       => true,
