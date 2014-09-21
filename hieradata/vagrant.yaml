@@ -12,4 +12,17 @@ lvm::volume_groups:
         size: 12M
         mountpath: /srv/releases
 
+### Stuff for IRC jenkins-admin bot
+# access to GitHub (for creating repos, etc)
+profile::jenkinsadmin::github_login: 'jenkinsadmin'
+profile::jenkinsadmin::github_token: 'githubtoken'
+# access to JIRA (for creating new components)
+profile::jenkinsadmin::jira_login: 'ircbot'
+profile::jenkinsadmin::jira_password: 'jiratoken'
+# access to freenode (for authenticating as 'jenkinsadmin')
+# TODO: nickname is hard-coded to the bot right now
+profile::jenkinsadmin::nick_password: 'ircpassword'
+
+
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
