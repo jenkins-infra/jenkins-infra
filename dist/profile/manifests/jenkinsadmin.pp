@@ -13,7 +13,7 @@ class profile::jenkinsadmin (
 
   # Tag is the docker container image tag from our build process, this job:
   # <https://ci.jenkins-ci.org/view/Infrastructure/job/infra_ircbot>
-  $tag = 'build14'
+  $tag = 'build16'
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':
@@ -29,6 +29,7 @@ class profile::jenkinsadmin (
     volumes  => ['/home/ircbot/.github:/home/ircbot/.github',
                 '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
     ],
+    username => 'ircbot',
     image    => "jenkinsciinfra/ircbot:${tag}",
     require  => [Docker::Image['jenkinsciinfra/ircbot'],
                 File['/home/ircbot/.github'],
@@ -50,6 +51,8 @@ class profile::jenkinsadmin (
 
   user { $user:
     shell      => '/bin/false',
+    # hard-coding because this is what we already have on spinach
+    uid        => '1013',
     managehome => true,
   }
 
