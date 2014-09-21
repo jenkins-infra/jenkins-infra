@@ -45,11 +45,13 @@ class profile::jenkinsadmin (
     owner   => $user,
     require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-github.erb"),
+    mode    => '0600',
   }
 
   file { '/home/ircbot/.jenkins-ci.org':
     owner   => $user,
     require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-jenkins.erb"),
+    mode    => '0600',
   }
 }
