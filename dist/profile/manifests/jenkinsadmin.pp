@@ -4,7 +4,7 @@
 class profile::jenkinsadmin (
   # Parameters supplied by Hiera
   $github_login,
-  $github_token,
+  $github_password,
   $jira_login,
   $jira_password,
   $nick_password,
