@@ -26,8 +26,9 @@ class profile::jenkinsadmin (
     # requires:
     #    java -jar /home/ircbot/*.jar $NICKPASSWORD
     command  => $nick_password,
-    volumes  => ["/home/ircbot/.github:/home/ircbot/.github",
-                 "/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org"],
+    volumes  => ['/home/ircbot/.github:/home/ircbot/.github',
+                '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
+    ],
     image    => "jenkinsciinfra/ircbot:${tag}",
     require  => [Docker::Image['jenkinsciinfra/ircbot'],
                 File['/home/ircbot/.github'],
