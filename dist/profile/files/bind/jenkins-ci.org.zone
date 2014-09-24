@@ -12,9 +12,6 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
 ; A Records
 @           3600    IN    A    199.193.196.24
 
-; VM at OSUOSL
-eggplant    3600    IN    A    140.211.15.101
-
 ; Primary at Contegix
 cucumber     3600    IN    A    199.193.196.24
 ; Primary at Contegix' new datacenter
@@ -26,9 +23,9 @@ celery      3600    IN    A    162.242.234.101
 okra        3600    IN    A    162.209.106.32
 
 ; Hosts at OSUOSL
-lettuce     3600    IN    A    140.211.15.121
-cabbage     3600    IN    A    140.211.15.130
+lettuce     3600    IN    A    140.211.9.32      ; otherwise known as jenkins-lettuce.osuosl.org
 artichoke   3600    IN    A    140.211.9.22      ; otherwise known as jenkins-puppet.osuosl.org
+eggplant    3600    IN    A    140.211.15.101    ; otherwise known as hudson-java.osuosl.org
 edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-confluence.osuosl.org
 
 lists       3600    IN    A    140.211.166.34
