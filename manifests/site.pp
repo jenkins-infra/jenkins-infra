@@ -41,6 +41,11 @@ node 'jenkins-confluence.osuosl.org' {
   include role::edamame
 }
 
+# lettuce
+node 'jenkins-lettuce.osuosl.org' {
+  include role::lettuce
+}
+
 # spinach
 node 'spinach.jenkins-ci.org' {
   include role::spinach
