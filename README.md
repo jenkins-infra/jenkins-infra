@@ -7,8 +7,6 @@ This repository is the [r10k](https://github.com/adrienthebo/r10k) control
 repository for the [Jenkins](https://jenkins-ci.org) project's own
 infrastructure.
 
-**NOTE:** This repository and workflow are still a **work in progress**
-
 ## Local development
 
 The amount of testing that can be done locally is still a **work in progress**
