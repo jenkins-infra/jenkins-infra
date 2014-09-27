@@ -37,16 +37,10 @@ class profile::jenkinsadmin (
     ],
   }
 
-  # 'restart ircbot' won't do because it will not reload the configuration
-  exec { 'restart-ircbot':
-    refreshonly => true,
-    command     => '/sbin/stop docker-ircbot; /sbin/start docker-ircbot',
-  }
-
   # The File[/etc/init/docker-ircbot.conf] resource is declared by the
   # module, but we still need to punt the container if the config changes
   File <| title == '/etc/init/docker-ircbot.conf' |> {
-    notify  => Exec['restart-ircbot'],
+    notify  => Service['docker-ircbot'],
   }
 
   user { $user:
@@ -61,7 +55,7 @@ class profile::jenkinsadmin (
     require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-github.erb"),
     mode    => '0600',
-    notify  => Exec['restart-ircbot'],
+    notify  => Service['docker-ircbot'],
   }
 
   file { '/home/ircbot/.jenkins-ci.org':
@@ -69,6 +63,6 @@ class profile::jenkinsadmin (
     require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-jenkins.erb"),
     mode    => '0600',
-    notify  => Exec['restart-ircbot'],
+    notify  => Service['docker-ircbot'],
   }
 }
