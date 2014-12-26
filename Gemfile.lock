@@ -47,6 +47,9 @@ GEM
       gyoku (>= 0.4.0)
       nokogiri
     builder (3.2.2)
+    byebug (3.2.0)
+      columnize (~> 0.8)
+      debugger-linecache (~> 1.2)
     celluloid (0.15.2)
       timers (~> 1.1.0)
     childprocess (0.5.3)
@@ -193,6 +196,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  byebug
   debugger
   debugger-pry
   parallel_tests

@@ -16,8 +16,9 @@ group :development do
   # XXX: Shouldn't be needed anywhere by rtyler's machine, since Vagrant does'nt
   # have proper installers for FreeBSD :(
   gem 'vagrant', :github => 'mitchellh/vagrant', :ref => 'v1.6.2'
-  gem 'debugger', :platform => :mri
-  gem 'debugger-pry', :platform => :mri
+  gem 'debugger', :platform => :mri_19
+  gem 'debugger-pry', :platform => :mri_19
+  gem 'byebug', :platform => :mri_20
 end
 
 # Vagrant plugins
