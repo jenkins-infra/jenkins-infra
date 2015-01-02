@@ -23,6 +23,8 @@ profile::jenkinsadmin::jira_password: 'jiratoken'
 # TODO: nickname is hard-coded to the bot right now
 profile::jenkinsadmin::nick_password: 'ircpassword'
 
-
+### for jira server
+profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
+profile::jiraveg::jira_version: '6.3.11'
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
