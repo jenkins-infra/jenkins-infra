@@ -23,6 +23,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
     groups:
       - sudo
+  danielbeck:
+    ssh_keys:
+      danielbeck:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAQEA6PQWKSk/5hsgq5vndqpMHisGLZXiw+pIiNF1CnOEqlgMnq/nDiHFdDX2E+SYT/LNMBEJKIhDKM8T1mOsu7voMiR5vInGGt36jPFT4qM0pLrk+RYjc5f55jk6U5qXSBoM+GqVKSw6gKWI2njMmuxwtFumGGaJuq5jFySyi6aS7Dau1+6I77YRiEnPGd3DiUCrEjKmS1NcJ4t5mrkz/n7uufMd4O8JsPtQwl8gkQT7/b2+Qx3WB42yAO06YEmsTi56X5JCRWG9lue4CIImrSmig0ILmwa4vK/hUopBqEwlpv3ar9eVcyUalo4WQac+HJ2ythWKHKvipWVvJS3ydNc0Fw==
+    groups:
+      - sudo
 
 r10k_options:
   deployhooks_logdir: /var/log
