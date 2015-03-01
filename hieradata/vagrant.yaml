@@ -24,7 +24,7 @@ profile::jenkinsadmin::jira_password: 'jiratoken'
 profile::jenkinsadmin::nick_password: 'ircpassword'
 
 ### for jira server
-profile::jiraveg::jira_version: '6.3.11'
+profile::jiraveg::jira_version: '6.3.15'
 profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
 profile::jiraveg::jira_installdir: '/opt/jira'
 profile::jiraveg::jira_homedir: '/srv/jira_home'

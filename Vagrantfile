@@ -3,6 +3,17 @@
 #    vagrant-serverspec
 ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
 
+$vagrant_script = <<SCRIPT
+#!/bin/bash
+sudo aptitude install -y postgresql postgresql-client
+
+sudo -u postgres -i  createdb jira
+sudo -u postgres -i  psql -S jira -c "create user jiraadm password 'mypassword';"
+sudo -u postgres -i  psql -S jira -c "GRANT ALL PRIVILEGES ON DATABASE jira TO jiraadm;"
+
+sudo /etc/init.d/postgresql start
+SCRIPT
+
 Vagrant.configure("2") do |config|
 
   config.vm.box = 'dummy'
@@ -51,10 +62,14 @@ Vagrant.configure("2") do |config|
         }
       end
 
+
+
       # This is a Vagrant-local hack to make sure we have properly udpated apt
       # caches since AWS machines are definitely going to have stale ones
       node.vm.provision 'shell',
         :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && touch /apt-cached; fi'
+      node.vm.provision 'shell',
+        :inline => $vagrant_script
 
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)
