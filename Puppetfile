@@ -72,4 +72,4 @@ mod 'puppetlabs/lvm', '0.3.3'
 mod 'mkrakowitzer/jira', '1.1.3'
 # and deps for it
 mod 'mkrakowitzer/deploy', '0.0.3'
-mod 'nanliu/staging', '1.0.2'
+mod 'puppetlabs/java', '1.3.0'

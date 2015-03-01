@@ -24,7 +24,20 @@ profile::jenkinsadmin::jira_password: 'jiratoken'
 profile::jenkinsadmin::nick_password: 'ircpassword'
 
 ### for jira server
-profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
 profile::jiraveg::jira_version: '6.3.11'
+profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
+profile::jiraveg::jira_installdir: '/opt/jira'
+profile::jiraveg::jira_homedir: '/srv/jira_home'
+profile::jiraveg::jira_user: 'jira_user'
+profile::jiraveg::jira_group: 'jira'
+profile::jiraveg::jira_db:  'postgresql'
+profile::jiraveg::jira_dbuser: 'jiraadm'
+profile::jiraveg::jira_dbpassword: 'mypassword'
+profile::jiraveg::jira_dbname: 'jira'
+profile::jiraveg::jira_dbserver: 'localhost'
+profile::jiraveg::jira_dbport: '5432'
+profile::jiraveg::jira_dbdriver: 'org.postgresql.Driver'
+profile::jiraveg::jira_dbtype: 'postgres72'
+profile::jiraveg::jira_dbpoolsize: '20'
 
 # vim: ft=yaml ts=2 sw=2 nowrap et

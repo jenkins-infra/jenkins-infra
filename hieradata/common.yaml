@@ -56,7 +56,20 @@ profile::robobutler::nick: robobutler
 profile::robobutler::password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABVdkhSaLYP67aKwr9xtAmgJodLoRa07Mt2sErWwXlICuI3M45r+OUsAjHg+7A1ou/uZZTvT00Y53OuCGp03kvuaTgJy/odOVxj9BR0XI8yw94q+/VR5TqNfub76JcHQ5nRKMpvNHc+a31VFVP+gtZ38SMHUF/OUBu8c3qTcBdKPG0KJtnI3JVAiOUiYcDCSAf55AwaqqUZYETj2b5428UAWcw5fWr5+yWyS8jCpvvxRZg1M6FcaL23pJh1fnU5IDPoKo3S03aPsRv+1O1ztliaw3pBcXnid6m5RJYshx+cF2PjoXlao/7zs0PN+DYz6V4jKkqLMsIrEtq8vy2rcBmTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCRYFvchg57uCM+JWkUSoHTgDBWkeBzwDPHBOe31gkH43kNrO8OnqrlP5rA5agte04g08TPL/4nwAV10uuMWJGxmwU=]
 
 ### for jira server
-profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
 profile::jiraveg::jira_version: '6.3.11'
+profile::jiraveg::jira_javahome: '/usr/lib/jvm/java-7-openjdk-amd64/'
+profile::jiraveg::jira_installdir: '/opt/jira'
+profile::jiraveg::jira_homedir: '/srv/jira_home'
+profile::jiraveg::jira_user: 'jira'
+profile::jiraveg::jira_group: 'jira'
+profile::jiraveg::jira_db:  'postgresql'
+profile::jiraveg::jira_dbuser: 'jiraadm'
+profile::jiraveg::jira_dbpassword: 'mypassword'
+profile::jiraveg::jira_dbname: 'jira'
+profile::jiraveg::jira_dbserver: 'localhost'
+profile::jiraveg::jira_dbport: '5432'
+profile::jiraveg::jira_dbdriver: 'org.postgresql.Driver'
+profile::jiraveg::jira_dbtype: 'postgres72'
+profile::jiraveg::jira_dbpoolsize: '20'
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
