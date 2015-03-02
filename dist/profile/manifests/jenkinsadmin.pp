@@ -13,7 +13,7 @@ class profile::jenkinsadmin (
 
   # Tag is the docker container image tag from our build process, this job:
   # <https://ci.jenkins-ci.org/view/Infrastructure/job/infra_ircbot>
-  $tag = 'build40'
+  $tag = 'build41'
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':
