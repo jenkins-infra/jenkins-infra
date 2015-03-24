@@ -36,18 +36,18 @@ node 'jenkins-puppet.osuosl.org' {
   include role::puppetmaster
 }
 
-# edamame
-node 'jenkins-confluence.osuosl.org' {
+# edamame (aka jenkins-confluence.osuosl.org)
+node 'edamame' {
   include role::edamame
 }
 
 # lettuce
-node 'jenkins-lettuce.osuosl.org' {
+node 'lettuce' {
   include role::lettuce
 }
 
 # spinach
-node 'spinach.jenkins-ci.org' {
+node 'spinach' {
   include role::spinach
 }
 
