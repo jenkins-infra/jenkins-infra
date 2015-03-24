@@ -1,6 +1,6 @@
 #
 # Vagrant profile for capturing some of the spceifics we need for Vagrant boxes
-# to pvoision cleanly
+# to provision cleanly
 class profile::vagrant {
   include sudo
 

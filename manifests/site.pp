@@ -61,3 +61,6 @@ node 'okra' {
   include role::okra
 }
 
+node 'jiraveg' {
+  include role::jiraveg
+}

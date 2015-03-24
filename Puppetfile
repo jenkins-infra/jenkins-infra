@@ -4,12 +4,7 @@ forge "http://forge.puppetlabs.com"
 mod "zack/r10k", '1.0.2'
 
 # Deps for zack/r10k
-# We are tracking stdlib from git because the puppet module tool
-# is getting in the way when we want to upgrade newer than the
-# supported module version
-mod "stdlib",
-        :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
-        :ref => '4.1.0'
+mod "puppetlabs/stdlib", '4.4.0'
 
 mod 'puppetlabs/ruby', '0.2.1'
 mod "puppetlabs/gcc", '0.2.0'
@@ -63,12 +58,18 @@ mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apach
 mod "puppetlabs/concat", '1.0.4'
 
 
-mod 'rtyler/groovy', '1.0.2'
+mod 'rtyler/groovy', '1.0.3'
 # Dependency of `groovy
-mod 'nanliu/staging', '0.4.0'
 
+mod 'nanliu/staging', '1.0.2'
 
 # For managing server-side ssh configuration options
 mod 'saz/ssh', '2.3.6'
 
-mod 'puppetlabs/lvm', '0.3.2'
+mod 'puppetlabs/lvm', '0.3.3'
+
+# for jira
+mod 'mkrakowitzer/jira', '1.1.3'
+# and deps for it
+mod 'mkrakowitzer/deploy', '0.0.3'
+mod 'puppetlabs/java', '1.3.0'
