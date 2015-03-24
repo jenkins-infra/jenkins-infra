@@ -79,7 +79,7 @@ to production, it will be automatically deployed to production hosts.
 
 ## Installing agents
 
-For installing agents refer to the [installing agents](http://docs.puppetlabs.com/pe/latest/install_basic.html#installing-agents) section of the PuppetLabs documentation.
+For installing agents refer to the [installing agents](http://docs.puppetlabs.com/pe/latest/install_agents.html) section of the PuppetLabs documentation.
 
 ## Contributing
 
