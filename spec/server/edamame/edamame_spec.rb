@@ -42,5 +42,8 @@ describe 'edamame' do
     describe command("curl --insecure -L https://issues.jenkins-ci.org/") do
       its(:stdout) { should match /Jenkins JIRA/ }
     end
+    describe command("ls -la /var/log/apache2/issues.jenkins-ci.org") do
+      its(:stdout) { should match 'access.log.[0-9]{14}' }
+    end
   end
 end
