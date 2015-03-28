@@ -2,4 +2,4 @@
 
 export VAGRANT_DEFAULT_PROVIDER=aws
 
-exec vagrant $@
+exec bundle exec vagrant $@
