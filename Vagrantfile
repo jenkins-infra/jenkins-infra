@@ -11,6 +11,8 @@ Vagrant.configure("2") do |config|
   config.vm.box = 'dummy'
   config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'
 
+  `find -L . -type l -delete`
+
   config.vm.provider(:aws) do |aws, override|
     aws.access_key_id = access_key_id
     aws.secret_access_key = secret_access_key
