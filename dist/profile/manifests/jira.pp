@@ -29,6 +29,7 @@ class profile::jira (
     ports    => ['8080:8080'],
     image    => "jenkinsciinfra/mock-webapp:${image_tag}",
     volumes  => ['/srv/jira/home:/srv/jira/home'],
+    env      => ['APP="Jenkins JIRA"'],
   }
 
   apache::mod { 'proxy':
@@ -58,5 +59,9 @@ class profile::jira (
     docroot         => '/srv/jira/docroot',
     redirect_status => 'temp',
     redirect_dest   => 'https://issues.jenkins-ci.org/'
+  }
+
+  host { 'issues.jenkins-ci.org':
+    ip => '127.0.0.1',
   }
 }
