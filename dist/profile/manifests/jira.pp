@@ -12,10 +12,12 @@ class profile::jira (
     ensure => directory,
   }
   file { '/srv/jira/home':
-    ensure => directory,
+    ensure  => directory,
+    recurse => true,
   }
   file { '/srv/jira/docroot':
-    ensure => directory,
+    ensure  => directory,
+    recurse => true,
   }
 
   docker::image { 'jenkinsciinfra/mock-webapp':
@@ -27,6 +29,12 @@ class profile::jira (
     ports    => ['8080:8080'],
     image    => "jenkinsciinfra/mock-webapp:${image_tag}",
     volumes  => ['/srv/jira/home:/srv/jira/home'],
+  }
+
+  apache::mod { 'proxy':
+  }
+
+  apache::mod { 'proxy_http':
   }
 
   apache::vhost { 'issues.jenkins-ci.org':

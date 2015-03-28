@@ -29,4 +29,9 @@ describe 'edamame' do
     end
   end
 
+  context 'JIRA' do
+    describe port(8080) do
+      it { should be_listening }
+    end
+  end
 end
