@@ -25,11 +25,12 @@ class profile::jira (
   }
 
   docker::run { 'jira':
-    command  => undef,
-    ports    => ['8080:8080'],
-    image    => "jenkinsciinfra/mock-webapp:${image_tag}",
-    volumes  => ['/srv/jira/home:/srv/jira/home'],
-    env      => ['APP="Jenkins JIRA"'],
+    command         => undef,
+    ports           => ['8080:8080'],
+    image           => "jenkinsciinfra/mock-webapp:${image_tag}",
+    volumes         => ['/srv/jira/home:/srv/jira/home'],
+    env             => ['APP="Jenkins JIRA"'],
+    restart_service => true,
   }
 
   apache::mod { 'proxy':
