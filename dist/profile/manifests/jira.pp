@@ -11,6 +11,12 @@ class profile::jira (
   file { '/var/log/apache2/issues.jenkins-ci.org':
     ensure => directory,
   }
+  file { '/srv/jira/home':
+    ensure => directory,
+  }
+  file { '/srv/jira/docroot':
+    ensure => directory,
+  }
 
   docker::image { 'jenkinsciinfra/mock-webapp':
     image_tag => $image_tag,
@@ -27,6 +33,8 @@ class profile::jira (
     servername      => 'issues.jenkins-ci.org',
     vhost_name      => '*',
     port            => '443',
+    ssl             => true,
+    docroot         => '/srv/jira/docroot',
     access_log      => false,
     error_log_file  => 'issues.jenkins-ci.org/error.log',
     log_level       => 'warn',
@@ -34,5 +42,13 @@ class profile::jira (
 
     notify          => Service['apache2'],
     require         => File['/var/log/apache2/issues.jenkins-ci.org'],
+  }
+  apache::vhost { 'issues.jenkins-ci.org non-ssl':
+    # redirect non-SSL to SSL
+    servername      => 'issues.jenkins-ci.org',
+    port            => '80',
+    docroot         => '/srv/jira/docroot',
+    redirect_status => 'temp',
+    redirect_dest   => 'https://issues.jenkins-ci.org/'
   }
 }
