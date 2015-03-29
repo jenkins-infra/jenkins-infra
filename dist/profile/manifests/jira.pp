@@ -1,4 +1,5 @@
 # Run containerized JIRA to serve issues.jenkins-ci.org
+# see https://github.com/jenkins-infra/jira for how the container is put together
 class profile::jira (
   # all injected from hiera
   $image_tag,
