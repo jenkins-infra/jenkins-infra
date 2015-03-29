@@ -1,2 +1,2 @@
 ---
-profile::ssl-cert::id: wiki-jira
+profile::apache-cert::id: wiki-jira

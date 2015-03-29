@@ -5,5 +5,5 @@ class role::edamame {
   include profile::robobutler
   include profile::sudo::osu
   include profile::bind
-  include profile::ssl-cert
+  include profile::apache-cert
 }
