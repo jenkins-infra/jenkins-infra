@@ -10,21 +10,25 @@ class profile::apache-cert (
 
   # certificates and apache config to let Apache recognize this file
   file { '/etc/apache2/certificate.crt':
-    source => "puppet:///modules/${module_name}/apache-cert/${id}.crt",
-    notify => Service['httpd'],
+    source  => "puppet:///modules/${module_name}/apache-cert/${id}.crt",
+    require => Package['httpd'],
+    notify  => Service['httpd'],
   }
   file { '/etc/apache2/bundle.crt':
-    source => "puppet:///modules/${module_name}/apache-cert/${id}-bundle.crt",
-    notify => Service['httpd'],
+    source  => "puppet:///modules/${module_name}/apache-cert/${id}-bundle.crt",
+    require => Package['httpd'],
+    notify  => Service['httpd'],
   }
   file { '/etc/apache2/conf.d/ssl.conf':
-    source => "puppet:///modules/${module_name}/apache-cert/ssl.conf",
-    notify => Service['httpd'],
+    source  => "puppet:///modules/${module_name}/apache-cert/ssl.conf",
+    require => Package['httpd'],
+    notify  => Service['httpd'],
   }
 
   file { '/etc/apache2/server.key':
     content => hiera("profile::apache-cert::secret-key-${id}"),
     mode    => '0600',
+    require => Package['httpd'],
     notify  => Service['httpd'],
   }
 }
