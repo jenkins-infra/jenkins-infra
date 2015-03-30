@@ -15,6 +15,8 @@ class profile::base {
     },
   }
 
+  include datadog_agent
+
   # Cleaning up after infra-puppet
   ##############################################################################
   cron { 'pull puppet updates':

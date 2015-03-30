@@ -70,6 +70,9 @@ fixtures:
     vcsrepo:
       repo: 'puppetlabs/vcsrepo'
       ref: '1.1.0'
+    datadog_agent:
+      repo: 'datadog/datadog_agent'
+      ref: '1.2.0'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
