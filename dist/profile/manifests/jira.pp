@@ -32,6 +32,7 @@ class profile::jira (
     volumes         => ['/srv/jira/home:/srv/jira/home'],
     env             => ['APP="Jenkins JIRA"'],
     restart_service => true,
+    use_name        => true,
   }
 
   apache::mod { 'proxy':
