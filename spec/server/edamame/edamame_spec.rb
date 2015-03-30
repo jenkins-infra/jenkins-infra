@@ -27,6 +27,13 @@ describe 'edamame' do
     describe file('/usr/local/bin/apache-compress-log') do
       it { should be_file }
     end
+
+    describe file('/etc/apache2/server.key') do
+      it {
+        should be_file
+        should be_mode 600
+      }
+    end
   end
 
 end
