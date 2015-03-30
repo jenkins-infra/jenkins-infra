@@ -6,4 +6,5 @@ class role::edamame {
   include profile::sudo::osu
   include profile::bind
   include profile::apache-cert
+  include profile::jira
 }
