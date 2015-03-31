@@ -13,11 +13,10 @@ describe 'lettuce' do
     describe command("curl --insecure -L http://wiki.jenkins-ci.org/") do
       its(:stdout) { should match /Jenkins Wiki/ }
     end
-    describe command("curl --insecure -L https://wiki.jenkins-ci.org/") do
-      its(:stdout) { should match /Jenkins Wiki/ }
-    end
-    describe command("ls -la /var/log/apache2/wiki.jenkins-ci.org") do
-      its(:stdout) { should match 'access.log.[0-9]{14}' }
+    it "should service inbound request to https://wiki.jenkins-ci.org/ and leave access log" do
+      expect(command("curl --insecure -L https://wiki.jenkins-ci.org/").stdout).to match /Jenkins Wiki/
+      # this should leave access log
+      expect(command("ls -la /var/log/apache2/wiki.jenkins-ci.org").stdout).to match /access.log.[0-9]{14}/
     end
   end
 end
