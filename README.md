@@ -46,6 +46,11 @@ To launch a test instance, `./vagrant-aws up ROLE` where `ROLE` is [one of the d
 You can rerun tests with `./vagrant-aws provision ROLE` repeatedly while the VM is up and running. When it's all done,
 deprovision the instance via `./vagrant-aws destroy ROLE`.
 
+### Updating dependencies
+For reasons that Tyler will hopefully clarify at some point, this module maintains
+the list of Puppet module dependencies in `Puppetfile` and `.fixtures.yml`. They
+need to be kept in sync. When you modify them, you can have the local environment
+reflect changes by running `bundle exec rake resolve`.
 
 ## Branching model
 
