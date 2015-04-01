@@ -43,9 +43,15 @@ testing. Combined with Vagrant, this allows us to create an acceptance test
 provisions and tests an entire Puppet catalog on a VM.
 
 To launch a test instance, `./vagrant-aws up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
-You can rerun tests with `./vagrant-aws provision ROLE` repeatedly while the VM is up and running. When it's all done,
-deprovision the instance via `./vagrant-aws destroy ROLE`.
+You can rerun puppet and execute tests with `./vagrant-aws provision ROLE` repeatedly while the VM is up and running.
+To just rerun serverspect without puppet, `./vagrant-aws provision --provision-with serverspec ROLE`.
+When it's all done, deprovision the instance via `./vagrant-aws destroy ROLE`.
 
+### Updating dependencies
+For reasons that Tyler will hopefully clarify at some point, this module maintains
+the list of Puppet module dependencies in `Puppetfile` and `.fixtures.yml`. They
+need to be kept in sync. When you modify them, you can have the local environment
+reflect changes by running `bundle exec rake resolve`.
 
 ## Branching model
 

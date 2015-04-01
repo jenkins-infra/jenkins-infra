@@ -20,3 +20,18 @@ task :lint do
   PuppetLint.configuration.ignore_paths = ['modules/**/*.pp', 'spec/fixtures/**/*.pp', 'vendor/**/*.pp']
   PuppetLint.configuration.fail_on_warnings = true
 end
+
+desc 'Resolve all the dependencies'
+task :resolve do
+  # for reasons beyond me, we list dependencies in Puppetfile and .fixtures.yml
+  # we need to keep them in sync, and when we change them we need to run two commands
+  # to reflect those changes
+
+  # this fills ./modules
+  `rm -rf ./modules/*`
+  `r10k puppetfile install`
+
+  # this fills ./spec/fixtures/modules
+  Rake::Task['spec_clean'].invoke
+  Rake::Task['spec_prep'].invoke
+end

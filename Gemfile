@@ -11,6 +11,7 @@ gem 'r10k'
 gem 'puppetlabs_spec_helper', :github => 'jenkins-infra/puppetlabs_spec_helper'
 gem 'pry'
 gem 'serverspec'
+gem 'hiera-eyaml'
 
 group :development do
   # XXX: Shouldn't be needed anywhere by rtyler's machine, since Vagrant does'nt

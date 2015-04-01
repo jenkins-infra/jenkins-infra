@@ -35,7 +35,7 @@ mod 'reidmv/yamlfile'
 mod 'adrien/filemapper'
 
 mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
-              :ref => '82fd950'
+              :ref => '2e87e66'
 
 # Deps for docker
 mod 'puppetlabs/apt', '1.6.0'
@@ -63,7 +63,7 @@ mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apach
 mod "puppetlabs/concat", '1.0.4'
 
 
-mod 'rtyler/groovy', '1.0.2'
+mod 'rtyler/groovy', '1.0.3'
 # Dependency of `groovy
 mod 'nanliu/staging', '0.4.0'
 
@@ -72,3 +72,5 @@ mod 'nanliu/staging', '0.4.0'
 mod 'saz/ssh', '2.3.6'
 
 mod 'puppetlabs/lvm', '0.3.2'
+
+mod 'datadog/datadog_agent', '1.2.0'

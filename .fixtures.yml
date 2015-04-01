@@ -19,8 +19,8 @@ fixtures:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
       ref: '4e3cee3'
     docker:
-      repo: 'git://github.com/garethr/garethr-docker.git'
-      ref: '9c5be9b'
+      repo: 'git://github.com/jenkins-infra/garethr-docker.git'
+      ref: '2e87e66e'
     apache-logcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
 
@@ -70,6 +70,9 @@ fixtures:
     vcsrepo:
       repo: 'puppetlabs/vcsrepo'
       ref: '1.1.0'
+    datadog_agent:
+      repo: 'datadog/datadog_agent'
+      ref: '1.2.0'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
