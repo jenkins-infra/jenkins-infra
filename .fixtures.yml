@@ -19,8 +19,8 @@ fixtures:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
       ref: '4e3cee3'
     docker:
-      repo: 'git://github.com/garethr/garethr-docker.git'
-      ref: '9c5be9b'
+      repo: 'git://github.com/jenkins-infra/garethr-docker.git'
+      ref: '2e87e66e'
     apache-logcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
 
