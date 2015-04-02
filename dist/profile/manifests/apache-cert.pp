@@ -8,6 +8,9 @@ class profile::apache-cert (
 ) {
   include apache
 
+  apache::mod { 'ssl':
+  }
+
   # certificates and apache config to let Apache recognize this file
   file { '/etc/apache2/certificate.crt':
     source  => "puppet:///modules/${module_name}/apache-cert/${id}.crt",
