@@ -20,7 +20,7 @@ fixtures:
       ref: '4e3cee3'
     docker:
       repo: 'git://github.com/jenkins-infra/garethr-docker.git'
-      ref: '2e87e66e'
+      ref: 'e7081ff'
     apache-logcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
 
