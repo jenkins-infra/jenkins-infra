@@ -11,7 +11,7 @@ mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
         :ref => '4.1.0'
 
-mod 'puppetlabs/ruby', '0.2.1'
+mod 'puppetlabs/ruby', '0.2.0'
 mod "puppetlabs/gcc", '0.2.0'
 mod "puppetlabs/pe_gem", '0.0.1'
 mod "mhuffnagle/make", '0.0.2'
