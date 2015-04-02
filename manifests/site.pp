@@ -10,7 +10,7 @@
 
 # Define filebucket 'main':
 filebucket { 'main':
-  server => $servername,
+  server => 'puppet.jenkins-ci.org',
   path   => false,
 }
 
