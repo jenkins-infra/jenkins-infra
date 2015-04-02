@@ -70,6 +70,7 @@ class profile::robobutler (
 
   apache::vhost { 'meetings.jenkins-ci.org':
       docroot         => $logdir,
+      port            => '80',
       access_log      => false,
       error_log_file  => 'meetings.jenkins-ci.org/error.log',
       log_level       => 'warn',
