@@ -40,6 +40,7 @@ class profile::confluence (
 
   # only for testing
   docker::run { 'wikidb':
+    command         => undef,
     image           => 'mariadb',
     env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=wiki','MYSQL_PASSWORD=kiwi','MYSQL_DATABASE=wikidb'],
     restart_service => true,
