@@ -30,7 +30,7 @@ fixtures:
       ref: '4.1.0'
     ruby:
       repo: 'puppetlabs/ruby'
-      ref: '0.2.1'
+      ref: '0.2.0'
     firewall:
       repo: 'puppetlabs/firewall'
       ref: '1.1.3'

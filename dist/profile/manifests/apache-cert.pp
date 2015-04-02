@@ -7,6 +7,7 @@ class profile::apache-cert (
         # see dist/profile/files/apache-cert/$id{,-bundle}.crt and profile::apache-cert::secret-key-$id
 ) {
   include apache
+  include apache::mod::ssl
 
   # certificates and apache config to let Apache recognize this file
   file { '/etc/apache2/certificate.crt':
