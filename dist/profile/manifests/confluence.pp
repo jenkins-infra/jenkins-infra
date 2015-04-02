@@ -6,6 +6,7 @@
 class profile::confluence (
   $image_tag,         # tag of confluence container
   $cache_image_tag,   # tag of confluence cache container
+  $database_url,      # JDBC URL that represents the database backend
 ) {
   # as a preparation, deploying mock-webapp and not the real confluence
 
@@ -30,24 +31,36 @@ class profile::confluence (
 
   $ldap_password = hiera('profile::ldap::admin_password')
   file { '/srv/wiki/container.env':
-    content => "LDAP_PASSWORD=${ldap_password}",
+    content => join([
+        "LDAP_PASSWORD=${ldap_password}",
+        "DATABASE_URL=${database_url}"
+      ], '\n'),
     mode    => '0600',
   }
 
-  docker::image { 'jenkinsciinfra/mock-webapp':
+  # only for testing
+  docker::run { 'wikidb':
+    image           => 'mariadb',
+    env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=wiki','MYSQL_PASSWORD=kiwi','MYSQL_DATABASE=wikidb'],
+    restart_service => true,
+    use_name        => true,
+  }
+
+  docker::image { 'jenkinsciinfra/confluence':
     image_tag => $image_tag,
   }
 
   docker::run { 'confluence':
     command         => undef,
     ports           => ['127.0.0.1:8081:8080'],
-    image           => "jenkinsciinfra/mock-webapp:${image_tag}",
+    image           => "jenkinsciinfra/confluence:${image_tag}",
     volumes         => ['/srv/wiki/home:/srv/wiki/home', '/srv/wiki/cache:/srv/wiki/cache'],
     env             => ['APP="Jenkins Wiki"'],
     env_file        => '/srv/wiki/container.env',
     restart_service => true,
     use_name        => true,
     require         => File['/srv/wiki/container.env'],
+    links           => ['wikidb:db'],    # only for testing
   }
 
   docker::image { 'jenkinsciinfra/confluence-cache':
