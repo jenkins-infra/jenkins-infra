@@ -42,9 +42,7 @@ class profile::jira (
   }
 
   apache::vhost { 'issues.jenkins-ci.org':
-    vhost_name      => 'issues.jenkins-ci.org',
     port            => '443',
-    ssl             => true,
     docroot         => '/srv/jira/docroot',
     access_log      => false,
     error_log_file  => 'issues.jenkins-ci.org/error.log',
@@ -57,7 +55,6 @@ class profile::jira (
   apache::vhost { 'issues.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
     servername      => 'issues.jenkins-ci.org',
-    vhost_name      => 'issues.jenkins-ci.org',
     port            => '80',
     docroot         => '/srv/jira/docroot',
     redirect_status => 'temp',
