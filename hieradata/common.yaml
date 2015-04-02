@@ -65,6 +65,9 @@ profile::robobutler::password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggE
 # this value to select the appropriate bundle
 profile::apache-cert::id: bogus
 
+# password for cn=admin,dc=jenkins-ci,dc=org
+profile::ldap::admin_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEADp9QJlgsz98d+7OGMrURys4LVu9MlZNcUeNWz4+q79jMcilPx2gSTtjiIhHYNmvu7hI/+Xv0IC9gPkwsNBEHfL679Vc8vzpxBlfzNolPc75nk2f19ms0Mtcg+e+jdNBRZJz6LfXgAzEWYALH/bZwPhH/aK+eY8Yk9r1w2XuZ4PLBi7VaR7Insa+j5oIfBAyq0KqlSh+1YI8dOj+AH2CMTEZs7BsXEHBg7+9iKOtIUlmpRgAutAkKKKKpgxUAwlQnHjehibaQc6sizLFlodXxThUgdRjvOLu7aa2n7R2PktfPx7holIPRKJZsrJSox/g+J521HJE6keOt27lFHno8wjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBD+ECZvt4FLZL7bvvQN8Tf5gBAujFFDReFwCvzLAiVADOHs]
+
 profile::apache-cert::secret-key-bogus: |
   -----BEGIN RSA PRIVATE KEY-----
   MIIEowIBAAKCAQEArXdbKhYqL/md+wPqFx+s7k78pFGShS3Tf5F+Zomp7J+SiXSa

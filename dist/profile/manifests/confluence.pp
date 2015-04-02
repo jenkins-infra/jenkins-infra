@@ -28,6 +28,12 @@ class profile::confluence (
     recurse => true,
   }
 
+  $ldap_password = hiera('profile::ldap::admin_password')
+  file { '/srv/wiki/container.env':
+    content => "LDAP_PASSWORD=${ldap_password}",
+    mode    => '0600',
+  }
+
   docker::image { 'jenkinsciinfra/mock-webapp':
     image_tag => $image_tag,
   }
@@ -38,8 +44,10 @@ class profile::confluence (
     image           => "jenkinsciinfra/mock-webapp:${image_tag}",
     volumes         => ['/srv/wiki/home:/srv/wiki/home', '/srv/wiki/cache:/srv/wiki/cache'],
     env             => ['APP="Jenkins Wiki"'],
+    env_file        => '/srv/wiki/container.env',
     restart_service => true,
     use_name        => true,
+    require         => File['/srv/wiki/container.env'],
   }
 
   docker::image { 'jenkinsciinfra/confluence-cache':
