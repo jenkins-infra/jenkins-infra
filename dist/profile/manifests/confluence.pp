@@ -34,7 +34,7 @@ class profile::confluence (
     content => join([
         "LDAP_PASSWORD=${ldap_password}",
         "DATABASE_URL=${database_url}"
-      ], '\n'),
+      ], "\n"),
     mode    => '0600',
   }
 
