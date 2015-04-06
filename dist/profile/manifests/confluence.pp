@@ -22,7 +22,9 @@ class profile::confluence (
   }
   file { '/srv/wiki/home':
     ensure  => directory,
-    recurse => true,
+    # confluence container is baked with UID=1000 & GID=1001
+    owner   => 1000,
+    group   => 1001,
   }
   file { '/srv/wiki/docroot':
     ensure  => directory,
