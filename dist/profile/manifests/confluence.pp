@@ -22,7 +22,9 @@ class profile::confluence (
   }
   file { '/srv/wiki/home':
     ensure  => directory,
-    recurse => true,
+    # confluence container is baked with UID=1000 & GID=1001
+    owner   => 1000,
+    group   => 1001,
   }
   file { '/srv/wiki/docroot':
     ensure  => directory,
@@ -34,7 +36,7 @@ class profile::confluence (
     content => join([
         "LDAP_PASSWORD=${ldap_password}",
         "DATABASE_URL=${database_url}"
-      ], '\n'),
+      ], "\n"),
     mode    => '0600',
   }
 
@@ -107,4 +109,9 @@ class profile::confluence (
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
   }
+
+  # if confluence changes, reverse proxy needs to be restarted too or else links between two
+  # containers seem to break down
+  File['/etc/init/docker-confluence.conf'] ~> Service['docker-confluence-cache']
+  Service['docker-confluence'] ~> Service['docker-confluence-cache']
 }
