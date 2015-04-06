@@ -107,4 +107,9 @@ class profile::confluence (
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
   }
+
+  # if confluence changes, reverse proxy needs to be restarted too or else links between two
+  # containers seem to break down
+  File['/etc/init/docker-confluence.conf'] ~> Service['docker-confluence-cache']
+  Service['docker-confluence'] ~> Service['docker-confluence-cache']
 }
