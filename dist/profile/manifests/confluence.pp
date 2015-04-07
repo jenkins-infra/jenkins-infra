@@ -13,18 +13,23 @@ class profile::confluence (
   include profile::docker
   include profile::apache-misc
 
+  account {
+  'wiki':
+    home_dir => '/srv/wiki',
+    groups   => [ 'sudo', 'users' ],
+    uid      => 2000,   # this value must match what's in the 'confluence' docker container
+    gid      => 2000,
+    comment  => 'Runs confluence',
+  }
+
   file { '/var/log/apache2/wiki.jenkins-ci.org':
     ensure => directory,
-  }
-  file { '/srv/wiki':
-    ensure  => directory,
-    recurse => true,
   }
   file { '/srv/wiki/home':
     ensure  => directory,
     # confluence container is baked with UID=1000 & GID=1001
-    owner   => 1000,
-    group   => 1001,
+    owner   => 'wiki',
+    group   => 'wiki',
   }
   file { '/srv/wiki/docroot':
     ensure  => directory,
