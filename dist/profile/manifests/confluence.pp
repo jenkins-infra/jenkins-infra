@@ -92,6 +92,7 @@ class profile::confluence (
     notify          => Service['apache2'],
     require         => File['/var/log/apache2/wiki.jenkins-ci.org'],
   }
+
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
     servername      => 'wiki.jenkins-ci.org',
@@ -99,6 +100,20 @@ class profile::confluence (
     docroot         => '/srv/wiki/docroot',
     redirect_status => 'temp',
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
+  }
+
+  firewall {
+    '400 allow http':
+      proto  => 'tcp',
+      port   => 80,
+      action => 'accept',
+  }
+
+  firewall {
+    '401 allow https':
+      proto  => 'tcp',
+      port   => 443,
+      action => 'accept',
   }
 
   host { 'wiki.jenkins-ci.org':
