@@ -6,4 +6,10 @@ class profile::docker {
     # kernel modules on Ubuntu 12.04 LTS and restart the host machine anyways
     manage_kernel => false,
   }
+
+  firewall { '010 allow inter-docker traffic':
+    # traffic within docker is OK
+    iniface => 'docker0',
+    action  => 'accept',
+  }
 }
