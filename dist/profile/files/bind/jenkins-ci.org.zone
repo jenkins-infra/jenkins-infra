@@ -39,7 +39,8 @@ ns2         3600    IN    A    173.203.60.151 ; spinach (Rackspace)
 www         3600    IN    CNAME    @
 issues      3600    IN    CNAME    eggplant
 newissues   3600    IN    CNAME    cabbage
-wiki        3600    IN    CNAME    lettuce
+wiki        3600    IN    CNAME    eggplant
+wiki2       3600    IN    CNAME    cabbage
 updates     3600    IN    CNAME    gherkin
 downloads   3600    IN    CNAME    gherkin
 fisheye     3600    IN    CNAME    gherkin
