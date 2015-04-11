@@ -51,7 +51,7 @@ class profile::confluence (
 
   docker::run { 'confluence':
     command         => undef,
-    ports           => ['127.0.0.1:8081:8080'],
+    ports           => ['8081:8080'],
     image           => "jenkinsciinfra/confluence:${image_tag}",
     volumes         => ['/srv/wiki/home:/srv/wiki/home', '/srv/wiki/cache:/srv/wiki/cache'],
     env_file        => '/srv/wiki/container.env',
@@ -69,8 +69,7 @@ class profile::confluence (
     ports           => ['127.0.0.1:8009:8080'],
     image           => "jenkinsciinfra/confluence-cache:${cache_image_tag}",
     volumes         => ['/srv/wiki/cache:/cache'],
-    links           => ['confluence:backend'],
-    env             => ['TARGET=http://backend:8080'],
+    env             => ['TARGET=http://lettuce.jenkins-ci.org:8081'],
     restart_service => true,
     use_name        => true,
   }
@@ -104,9 +103,4 @@ class profile::confluence (
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
   }
-
-  # if confluence changes, reverse proxy needs to be restarted too or else links between two
-  # containers seem to break down
-  File['/etc/init/docker-confluence.conf'] ~> Service['docker-confluence-cache']
-  Service['docker-confluence'] ~> Service['docker-confluence-cache']
 }

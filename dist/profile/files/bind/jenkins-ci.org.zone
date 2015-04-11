@@ -90,13 +90,14 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 ;   this policy enables the e-mail originating from these hosts to be whitelisted.
 ;    199.193.196.24     (cucumber)
 ;    140.211.15.*       (eggplant and its subnet)
+;    140.211.8.*        (lettuceand its subnet)
 ;    173.203.60.151     (spinach)
 ;    140.211.166.128/25 (OSUOSL mail relays)
 ;    "~all" in the end makes the rest soft failures (as opposed to -all for hard failure)
 ;
 ;   when modifying, use http://www.kitterman.com/spf/validate.html to test
-@ 3600 IN  TXT "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
-@ 3600 IN  SPF "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
+@ 3600 IN  TXT "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:140.211.9.0/25 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
+@ 3600 IN  SPF "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:140.211.9.0/25 ip4:173.203.60.151 ip4:140.211.166.128/25 ~all"
 
 ; DKIM
 cucumber._domainkey     1W IN TXT ("v=DKIM1;p="
