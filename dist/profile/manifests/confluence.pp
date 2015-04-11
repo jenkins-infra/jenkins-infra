@@ -45,15 +45,6 @@ class profile::confluence (
     mode    => '0600',
   }
 
-  # only for testing
-  docker::run { 'wikidb':
-    command         => undef,
-    image           => 'mariadb',
-    env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=wiki','MYSQL_PASSWORD=kiwi','MYSQL_DATABASE=wikidb'],
-    restart_service => true,
-    use_name        => true,
-  }
-
   docker::image { 'jenkinsciinfra/confluence':
     image_tag => $image_tag,
   }
@@ -67,7 +58,6 @@ class profile::confluence (
     restart_service => true,
     use_name        => true,
     require         => File['/srv/wiki/container.env'],
-    links           => ['wikidb:db'],    # only for testing
   }
 
   docker::image { 'jenkinsciinfra/confluence-cache':
