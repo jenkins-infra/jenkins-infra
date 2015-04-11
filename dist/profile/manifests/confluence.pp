@@ -69,7 +69,7 @@ class profile::confluence (
     ports           => ['127.0.0.1:8009:8080'],
     image           => "jenkinsciinfra/confluence-cache:${cache_image_tag}",
     volumes         => ['/srv/wiki/cache:/cache'],
-    env             => ['TARGET=http://lettuce.jenkins-ci.org:8081'],
+    env             => ['TARGET=http://172.17.42.1:8081'],
     restart_service => true,
     use_name        => true,
   }
