@@ -12,5 +12,7 @@ describe 'profile::firewall' do
     ].each do |rule|
       it { should contain_firewall(rule).with_action('accept') }
     end
+
+    it { should contain_firewall('999 drop all other requests').with_action('drop') }
   end
 end

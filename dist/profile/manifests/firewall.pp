@@ -26,4 +26,9 @@ class profile::firewall {
     state  => ['RELATED','ESTABLISHED'],
     action => 'accept',
   }
+
+  firewall {
+    '999 drop all other requests':
+      action => 'drop',
+  }
 }
