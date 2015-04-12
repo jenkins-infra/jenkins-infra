@@ -45,4 +45,10 @@ class profile::puppetmaster {
     port   => 443,
     action => 'accept',
   }
+
+  firewall { '011 allow r10k webhooks':
+    proto  => 'tcp',
+    port   => 9013,
+    action => 'accept',
+  }
 }
