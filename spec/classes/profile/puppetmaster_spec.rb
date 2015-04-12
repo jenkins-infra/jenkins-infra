@@ -10,4 +10,5 @@ describe 'profile::puppetmaster' do
   it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
   it { should contain_class 'jenkins_keys' }
   it { should contain_class 'irc' }
+  it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_port(443) }
 end

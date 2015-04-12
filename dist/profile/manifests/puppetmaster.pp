@@ -39,4 +39,10 @@ class profile::puppetmaster {
     value   => 'console,puppetdb,irc',
     notify  => Service['pe-httpd'],
   }
+
+  firewall { '010 allow dashboard traffic':
+    proto  => 'tcp',
+    port   => 443,
+    action => 'accept',
+  }
 }
