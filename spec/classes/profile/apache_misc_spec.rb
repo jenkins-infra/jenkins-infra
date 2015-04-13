@@ -26,5 +26,8 @@ describe 'profile::apache-misc' do
 
     it { should contain_file '/var/www/.ssh' }
     it { should contain_file '/var/www/.ssh/authorized_keys' }
+
+    it { should contain_firewall('200 allow http requests').with_action('accept').with_port(80) }
+    it { should contain_firewall('201 allow https requests').with_action('accept').with_port(443) }
   end
 end

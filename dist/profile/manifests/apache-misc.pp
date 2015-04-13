@@ -8,6 +8,10 @@ class profile::apache-misc(
   # log rotation setting lives in another module
   include apache-logcompressor
 
+  # enable mod_status for local interface and allow datadog to monitor this
+  include apache::mod::status
+  include datadog_agent::integrations::apache
+
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
     ensure => present,
     source => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
@@ -32,7 +36,15 @@ class profile::apache-misc(
     }
   }
 
-  # enable mod_status for local interface and allow datadog to monitor this
-  include apache::mod::status
-  include datadog_agent::integrations::apache
+  firewall { '200 allow http requests':
+    proto  => 'tcp',
+    port   => 80,
+    action => 'accept',
+  }
+
+  firewall { '201 allow https requests':
+    proto  => 'tcp',
+    port   => 443,
+    action => 'accept',
+  }
 }
