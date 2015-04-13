@@ -51,4 +51,10 @@ class profile::puppetmaster {
     port   => 9013,
     action => 'accept',
   }
+
+  firewall { '012 allow puppet agents':
+    proto  => 'tcp',
+    port   => 8140,
+    action => 'accept',
+  }
 }
