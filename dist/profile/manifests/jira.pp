@@ -24,6 +24,8 @@ class profile::jira (
   }
   file { '/srv/jira/home':
     ensure  => directory,
+    owner   => 'jira',
+    group   => 'jira',
     recurse => true,
   }
   file { '/srv/jira/docroot':
@@ -41,6 +43,7 @@ class profile::jira (
   }
 
   # only for testing
+  # if $vagrant {
   docker::run { 'jiradb':
     image           => 'mariadb',
     env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=jira','MYSQL_PASSWORD=raji','MYSQL_DATABASE=jiradb'],
@@ -48,6 +51,7 @@ class profile::jira (
     use_name        => true,
     command         => undef,
   }
+  # } # endif
 
   docker::image { 'jenkinsciinfra/jira':
     image_tag => $image_tag,

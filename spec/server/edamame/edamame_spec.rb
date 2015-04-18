@@ -44,10 +44,10 @@ describe 'edamame' do
     # test out reverse proxy to JIRA
     # use '--insecure' flag to skip SSL certificate check, as test boxes won't have the real private key nor the certificate
     describe command("curl --insecure -L http://issues.jenkins-ci.org/") do
-      its(:stdout) { should match /Jenkins JIRA/ }
+      its(:stdout) { should match /JIRA/ }
     end
     describe command("curl --insecure -L https://issues.jenkins-ci.org/") do
-      its(:stdout) { should match /Jenkins JIRA/ }
+      its(:stdout) { should match /JIRA/ }
     end
     describe command("ls -la /var/log/apache2/issues.jenkins-ci.org") do
       its(:stdout) { should match 'access.log.[0-9]{14}' }
