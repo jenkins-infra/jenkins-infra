@@ -3,11 +3,21 @@
 class profile::jira (
   # all injected from hiera
   $image_tag,
+  $database_url,  # JDBC URL that represents that database backend
 ) {
   # as a preparation, deploying mock-webapp and not the real jira
 
   include profile::docker
   include profile::apache-misc
+
+  account {
+  'jira':
+    home_dir => '/srv/jira',
+    groups   => [ 'sudo', 'users' ],
+    uid      => 2001,   # this value must match what's in the 'jira' docker container
+    gid      => 2001,
+    comment  => 'Runs JIRA',
+  }
 
   file { '/var/log/apache2/issues.jenkins-ci.org':
     ensure => directory,
@@ -21,18 +31,38 @@ class profile::jira (
     recurse => true,
   }
 
-  docker::image { 'jenkinsciinfra/mock-webapp':
+  # JIRA stores LDAP access information in database, not in file
+
+  file { '/srv/jira/container.env':
+    content => join([
+        "DATABASE_URL=${database_url}"
+      ], '\n'),
+    mode    => '0600',
+  }
+
+  # only for testing
+  docker::run { 'jiradb':
+    image           => 'mariadb',
+    env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=jira','MYSQL_PASSWORD=raji','MYSQL_DATABASE=jiradb'],
+    restart_service => true,
+    use_name        => true,
+    command         => undef,
+  }
+
+  docker::image { 'jenkinsciinfra/jira':
     image_tag => $image_tag,
   }
 
   docker::run { 'jira':
     command         => undef,
     ports           => ['8080:8080'],
-    image           => "jenkinsciinfra/mock-webapp:${image_tag}",
+    image           => "jenkinsciinfra/jira:${image_tag}",
     volumes         => ['/srv/jira/home:/srv/jira/home'],
-    env             => ['APP="Jenkins JIRA"'],
+    env_file        => '/srv/jira/container.env',
     restart_service => true,
     use_name        => true,
+    require         => File['/srv/jira/container.env'],
+    links           => ['jiradb:db'],   # only for teting
   }
 
   apache::mod { 'proxy':
