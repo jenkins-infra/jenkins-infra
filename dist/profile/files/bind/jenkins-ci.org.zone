@@ -37,8 +37,7 @@ ns2         3600    IN    A    173.203.60.151 ; spinach (Rackspace)
 
 ; CNAME Records
 www         3600    IN    CNAME    @
-issues      300     IN    CNAME    eggplant         # in preparation of migration to edamame, reduce TTL
-newissues   3600    IN    CNAME    cabbage
+issues      3600    IN    CNAME    edamame
 wiki        3600    IN    CNAME    lettuce
 updates     3600    IN    CNAME    gherkin
 downloads   3600    IN    CNAME    gherkin
