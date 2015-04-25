@@ -90,7 +90,7 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 ;    140.211.15.*       (eggplant and its subnet)
 ;    140.211.8.*        (lettuce and its subnet)
 ;    140.211.9.*        (edamame and its subnet)
-        -> combined into 140.211.8.*/23
+;        -> combined into 140.211.8.*/23
 ;    173.203.60.151     (spinach)
 ;    140.211.166.128/25 (OSUOSL mail relays)
 ;    "~all" in the end makes the rest soft failures (as opposed to -all for hard failure)
