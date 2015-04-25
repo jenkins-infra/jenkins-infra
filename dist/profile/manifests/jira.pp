@@ -42,16 +42,18 @@ class profile::jira (
     mode    => '0600',
   }
 
-  # only for testing
-  # if $vagrant {
-  docker::run { 'jiradb':
-    image           => 'mariadb',
-    env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=jira','MYSQL_PASSWORD=raji','MYSQL_DATABASE=jiradb'],
-    restart_service => true,
-    use_name        => true,
-    command         => undef,
+  if $::vagrant { # only for testing
+    docker::run { 'jiradb':
+      image           => 'mariadb',
+      env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=jira','MYSQL_PASSWORD=raji','MYSQL_DATABASE=jiradb'],
+      restart_service => true,
+      use_name        => true,
+      command         => undef,
+    }
+    $jira_links = ['jiradb:db']
+  } else {
+    $jira_links = undef
   }
-  # } # endif
 
   docker::image { 'jenkinsciinfra/jira':
     image_tag => $image_tag,
@@ -66,7 +68,7 @@ class profile::jira (
     restart_service => true,
     use_name        => true,
     require         => File['/srv/jira/container.env'],
-    links           => ['jiradb:db'],   # only for teting
+    links           => $jira_links,
   }
 
   apache::mod { 'proxy':
