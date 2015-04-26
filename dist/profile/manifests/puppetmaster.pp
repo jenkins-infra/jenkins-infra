@@ -17,7 +17,7 @@ class profile::puppetmaster {
     # The `pe-httpd` service resource is defined in the Puppet master catalog
     # itself (due to classification in PE Console), therefore you won't find
     # any declaration of that resource in this codebase
-    notify => Service['pe-httpd'],
+    notify => Service['pe-puppetserver'],
   }
 
   ## Ensure we're setting the right SMTP server. The Puppetmaster is located in
@@ -27,7 +27,7 @@ class profile::puppetmaster {
     target => '/etc/puppetlabs/console-auth/config.yml',
     key    => 'smtp/address',
     value  => 'smtp.osuosl.org',
-    notify => Service['pe-httpd'],
+    notify => Service['pe-puppetserver'],
   }
 
 
@@ -37,7 +37,7 @@ class profile::puppetmaster {
     section => 'master',
     setting => 'reports',
     value   => 'console,puppetdb,irc',
-    notify  => Service['pe-httpd'],
+    notify  => Service['pe-puppetserver'],
   }
 
   firewall { '010 allow dashboard traffic':
