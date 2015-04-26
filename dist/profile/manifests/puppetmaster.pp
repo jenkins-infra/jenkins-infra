@@ -14,9 +14,6 @@ class profile::puppetmaster {
     group  => 'root',
     mode   => '0644',
     source => "puppet:///modules/${module_name}/hiera.yaml",
-    # The `pe-httpd` service resource is defined in the Puppet master catalog
-    # itself (due to classification in PE Console), therefore you won't find
-    # any declaration of that resource in this codebase
     notify => Service['pe-puppetserver'],
   }
 
