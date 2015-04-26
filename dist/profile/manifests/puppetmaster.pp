@@ -57,4 +57,10 @@ class profile::puppetmaster {
     port   => 8140,
     action => 'accept',
   }
+
+  service { 'pe-puppetserver':
+    ensure     => running,
+    hasrestart => true,
+    hasstatus  => true,
+  }
 }
