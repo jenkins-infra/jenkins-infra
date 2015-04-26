@@ -1,9 +1,6 @@
 # Fixtures needed for puppetlabs_spec_helper
 fixtures:
   repositories:
-    r10k:
-      repo: 'git://github.com/acidprime/r10k.git'
-      ref: 'v1.0.2'
     yamlfile:
       repo: 'git://github.com/reidmv/puppet-module-yamlfile.git'
     filemapper:
@@ -28,6 +25,9 @@ fixtures:
     stdlib:
       repo: 'puppetlabs/stdlib'
       ref: '4.1.0'
+    r10k:
+      repo: 'zack/r10k'
+      ref: '2.7.3'
     ruby:
       repo: 'puppetlabs/ruby'
       ref: '0.2.0'
