@@ -41,6 +41,7 @@ profile::bind::image_tag: build4
 
 irc::irc_server: 'irc://infra-butler@irc.freenode.net/#jenkins-infra'
 irc::irc_join: true
+irc::timeout: 20
 
 ntp::autoupdate: true
 ntp::servers:
