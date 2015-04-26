@@ -55,6 +55,12 @@ class profile::puppetmaster {
     action => 'accept',
   }
 
+  firewall { '013 allow mcollective':
+    proto  => 'tcp',
+    port   => 61613,
+    action => 'accept',
+  }
+
   service { 'pe-puppetserver':
     ensure     => running,
     hasrestart => true,
