@@ -63,4 +63,10 @@ class profile::puppetmaster {
     hasrestart => true,
     hasstatus  => true,
   }
+
+  service { 'pe-mcollective':
+    ensure     => running,
+    hasrestart => true,
+    hasstatus  => true,
+  }
 }
