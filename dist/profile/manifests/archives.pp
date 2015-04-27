@@ -54,10 +54,7 @@ class profile::archives {
     error_log_file  => 'archives.jenkins-ci.org/error.log',
     log_level       => 'warn',
     custom_fragment => template("${module_name}/archives/vhost.conf"),
-
-    # to prevent crawling, do not serve index. Steer people to mirrors.jenkins-ci.org as the starting point
-    options         => ['FollowSymLinks','MultiViews'],
-
+    options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
                         Mount[$archives_dir],
