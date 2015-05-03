@@ -14,7 +14,6 @@ mod "stdlib",
 mod 'puppetlabs/ruby', '0.2.0'
 mod "puppetlabs/gcc", '0.2.0'
 mod "puppetlabs/pe_gem", '0.0.1'
-mod "mhuffnagle/make", '0.0.2'
 mod "puppetlabs/inifile", '1.0.3'
 mod "puppetlabs/vcsrepo", '1.1.0'
 mod "puppetlabs/git", '0.2.0'
