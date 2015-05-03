@@ -15,7 +15,7 @@ define profile::apache-maintenance {
     source  => "puppet:///modules/${module_name}/apache-maintenance/maintenance.html",
   }
 
-  file { "/etc/apache2/sites-available/${name}.maintenance":
+  file { "/etc/apache2/sites-available/${name}.maintenance.conf":
     ensure  => present,
     content => template("${module_name}/apache-maintenance/maintenance.conf.erb"),
   }
