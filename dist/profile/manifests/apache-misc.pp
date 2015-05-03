@@ -47,4 +47,7 @@ class profile::apache-misc(
     port   => 443,
     action => 'accept',
   }
+
+  # Prepare maintenance screen
+
 }
