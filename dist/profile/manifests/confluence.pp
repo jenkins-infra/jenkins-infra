@@ -115,6 +115,9 @@ class profile::confluence (
       action => 'accept',
   }
 
+  profile::apache-maintenance { 'wiki.jenkins-ci.org':
+  }
+
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
   }

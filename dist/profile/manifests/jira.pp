@@ -97,6 +97,9 @@ class profile::jira (
     redirect_dest   => 'https://issues.jenkins-ci.org/'
   }
 
+  profile::apache-maintenance { 'issues.jenkins-ci.org':
+  }
+
   host { 'issues.jenkins-ci.org':
     ip => '127.0.0.1',
   }
