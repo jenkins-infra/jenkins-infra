@@ -33,7 +33,6 @@ class profile::confluence (
   }
   file { '/srv/wiki/docroot':
     ensure  => directory,
-    recurse => true,
   }
 
   $ldap_password = hiera('profile::ldap::admin_password')
