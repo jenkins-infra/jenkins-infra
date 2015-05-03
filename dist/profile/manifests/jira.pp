@@ -26,11 +26,9 @@ class profile::jira (
     ensure  => directory,
     owner   => 'jira',
     group   => 'jira',
-    recurse => true,
   }
   file { '/srv/jira/docroot':
     ensure  => directory,
-    recurse => true,
   }
 
   # JIRA stores LDAP access information in database, not in file
