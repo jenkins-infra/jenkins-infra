@@ -7,6 +7,8 @@ define profile::datadog_check(
 ) {
   $target ="${datadog_agent::params::conf_dir}/${checker}.yaml"
 
+  include datadog_agent
+
   # define the header section
   if !defined(Concat[$target]) {
     concat { $target:
