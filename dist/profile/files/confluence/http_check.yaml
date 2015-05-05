@@ -10,7 +10,7 @@
   # URL that's not served by the static cache. This URL also requires database access,
   # so it's a good test to watch out for starved database connections
   - name: Confluence Backend
-    url https://wiki.jenkins-ci.org/s/2015/1/1/_/download/superbatch/css/batch.css
+    url: https://wiki.jenkins-ci.org/s/2015/1/1/_/download/superbatch/css/batch.css
     timeout: 1
     threshold: 3
     window: 5
