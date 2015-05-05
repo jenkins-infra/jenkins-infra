@@ -47,6 +47,9 @@ ntp::autoupdate: true
 ntp::servers:
   - pool.ntp.org iburst
 
+apache::keepalive: On
+apache::keepalive_timeout: 3
+
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
 profile::jenkinsadmin::github_login: 'jenkinsadmin'
