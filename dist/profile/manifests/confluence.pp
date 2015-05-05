@@ -117,6 +117,16 @@ class profile::confluence (
   profile::apache-maintenance { 'wiki.jenkins-ci.org':
   }
 
+  profile::datadog_check { 'confluence-http-check':
+    checker   => 'http_check',
+    source    => 'puppet:///modules/profile/confluence/http_check.yaml',
+  }
+
+  profile::datadog_check { 'confluence-process-check':
+    checker   => 'process',
+    source    => 'puppet:///modules/profile/confluence/process_check.yaml',
+  }
+
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
   }
