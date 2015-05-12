@@ -29,6 +29,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA6PQWKSk/5hsgq5vndqpMHisGLZXiw+pIiNF1CnOEqlgMnq/nDiHFdDX2E+SYT/LNMBEJKIhDKM8T1mOsu7voMiR5vInGGt36jPFT4qM0pLrk+RYjc5f55jk6U5qXSBoM+GqVKSw6gKWI2njMmuxwtFumGGaJuq5jFySyi6aS7Dau1+6I77YRiEnPGd3DiUCrEjKmS1NcJ4t5mrkz/n7uufMd4O8JsPtQwl8gkQT7/b2+Qx3WB42yAO06YEmsTi56X5JCRWG9lue4CIImrSmig0ILmwa4vK/hUopBqEwlpv3ar9eVcyUalo4WQac+HJ2ythWKHKvipWVvJS3ydNc0Fw==
     groups:
       - sudo
+  aheritier:
+    ssh_keys:
+      aheritier:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
+    groups:
+      - sudo
 
 r10k_options:
   deployhooks_logdir: /var/log
