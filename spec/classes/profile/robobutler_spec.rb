@@ -14,4 +14,6 @@ describe 'profile::robobutler' do
   end
 
   it { should contain_apache__vhost('meetings.jenkins-ci.org') }
+
+  it_behaves_like 'it has webserver firewall rules'
 end

@@ -3,6 +3,7 @@ require_relative './../spec_helper'
 describe 'edamame' do
   it_behaves_like "an OSU hosted machine"
   it_behaves_like "a DNS server"
+  it_behaves_like 'an Apache webserver'
 
   context 'butlerbot configuration' do
     describe command('docker ps') do

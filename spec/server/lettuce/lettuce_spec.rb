@@ -2,6 +2,7 @@ require_relative './../spec_helper'
 
 describe 'lettuce' do
   it_behaves_like "an OSU hosted machine"
+  it_behaves_like 'an Apache webserver'
 
   context 'Confluence' do
     describe port(8009) do
@@ -13,6 +14,7 @@ describe 'lettuce' do
     describe command("curl --insecure -L http://wiki.jenkins-ci.org/") do
       its(:stdout) { should match /Jenkins Wiki/ }
     end
+
     it "should service inbound request to https://wiki.jenkins-ci.org/ and leave access log" do
       expect(command("curl --insecure -L https://wiki.jenkins-ci.org/").stdout).to match /Jenkins Wiki/
       # this should leave access log

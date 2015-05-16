@@ -99,21 +99,6 @@ class profile::confluence (
     redirect_status => 'temp',
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
   }
-
-  firewall {
-    '400 allow http':
-      proto  => 'tcp',
-      port   => 80,
-      action => 'accept',
-  }
-
-  firewall {
-    '401 allow https':
-      proto  => 'tcp',
-      port   => 443,
-      action => 'accept',
-  }
-
   profile::apache-maintenance { 'wiki.jenkins-ci.org':
   }
 
