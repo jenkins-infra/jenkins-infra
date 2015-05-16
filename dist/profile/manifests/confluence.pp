@@ -10,7 +10,7 @@ class profile::confluence (
 ) {
   # as a preparation, deploying mock-webapp and not the real confluence
 
-  include profile::docker
+  include profile::atlassian
   include profile::apache-misc
 
   account {
@@ -71,12 +71,6 @@ class profile::confluence (
     env             => ['TARGET=http://172.17.42.1:8081'],
     restart_service => true,
     use_name        => true,
-  }
-
-  apache::mod { 'proxy':
-  }
-
-  apache::mod { 'proxy_http':
   }
 
   apache::vhost { 'wiki.jenkins-ci.org':

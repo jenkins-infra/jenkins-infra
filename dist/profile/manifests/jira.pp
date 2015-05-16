@@ -7,7 +7,7 @@ class profile::jira (
 ) {
   # as a preparation, deploying mock-webapp and not the real jira
 
-  include profile::docker
+  include profile::atlassian
   include profile::apache-misc
 
   account {
@@ -67,12 +67,6 @@ class profile::jira (
     use_name        => true,
     require         => File['/srv/jira/container.env'],
     links           => $jira_links,
-  }
-
-  apache::mod { 'proxy':
-  }
-
-  apache::mod { 'proxy_http':
   }
 
   apache::vhost { 'issues.jenkins-ci.org':

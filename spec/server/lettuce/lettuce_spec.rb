@@ -20,5 +20,9 @@ describe 'lettuce' do
       # this should leave access log
       expect(command("ls -la /var/log/apache2/wiki.jenkins-ci.org").stdout).to match /access.log.[0-9]{14}/
     end
+
+    describe group('atlassian-admins') do
+      it { should exist }
+    end
   end
 end
