@@ -40,6 +40,12 @@ accounts:
     groups:
       - sudo
       - atlassian-admins
+  orrc:
+    ssh_keys:
+      rebigulator:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCY9lv6Wt78pcKz+t048dIYvafeXtVok1vse4E3fTDueFNQY/JtP2kBNOEeP+lvLLQcetfVUeHZhStz7mbAQyyXN9c3m0F85CReJaQVppxOTzbXCWOInYuI4q8MvIK0NfTHEkC8HxRjaUI0uspdAG2Hh6R9N9DlS23oS9TVWtmvrv6QtbbOSBAZ4JwcZG7ybRFPD9m115BYcR17iliHxGcd/npTgDlbeaYXFrYcfg8n8GFWxpKyMgciaFbcB2YUmtOZJbPfVUqvamyLh7kzmukrfwsK7pkROFoiAyt87w/gzI7vzb2TGBpmJ5i5g67tS8TdvIxkBIpGRXlixziAVktL
+    groups:
+      - atlassian-admins
 
 r10k_options:
   deployhooks_logdir: /var/log
