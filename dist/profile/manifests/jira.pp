@@ -10,10 +10,9 @@ class profile::jira (
   include profile::atlassian
   include profile::apache-misc
 
-  account {
-  'jira':
+  account { 'jira':
     home_dir => '/srv/jira',
-    groups   => [ 'sudo', 'users' ],
+    groups   => ['sudo', 'users'],
     uid      => 2001,   # this value must match what's in the 'jira' docker container
     gid      => 2001,
     comment  => 'Runs JIRA',
@@ -21,18 +20,23 @@ class profile::jira (
 
   file { '/var/log/apache2/issues.jenkins-ci.org':
     ensure => directory,
+    group  => $profile::atlassian::group_name,
   }
+
   file { '/srv/jira/home':
     ensure  => directory,
+    require => File['/srv/jira'],
     owner   => 'jira',
-    group   => 'jira',
+    group   => $profile::atlassian::group_name,
   }
+
   file { '/srv/jira/docroot':
     ensure  => directory,
+    require => File['/srv/jira'],
+    group   => $profile::atlassian::group_name,
   }
 
   # JIRA stores LDAP access information in database, not in file
-
   file { '/srv/jira/container.env':
     content => join([
         "DATABASE_URL=${database_url}"

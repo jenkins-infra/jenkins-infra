@@ -22,8 +22,13 @@ profile::jenkinsadmin::jira_password: 'jiratoken'
 # access to freenode (for authenticating as 'jenkinsadmin')
 # TODO: nickname is hard-coded to the bot right now
 profile::jenkinsadmin::nick_password: 'ircpassword'
-
 profile::jira::database_url: mysql://jira:raji@db/jiradb
+
+
+accounts:
+  atlassian:
+    groups:
+      - atlassian-admins
 
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
