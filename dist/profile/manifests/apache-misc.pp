@@ -36,18 +36,17 @@ class profile::apache-misc(
     }
   }
 
-  firewall { '200 allow http requests':
-    proto  => 'tcp',
-    port   => 80,
-    action => 'accept',
+  firewall {
+    '200 allow http':
+      proto  => 'tcp',
+      port   => 80,
+      action => 'accept',
   }
 
-  firewall { '201 allow https requests':
-    proto  => 'tcp',
-    port   => 443,
-    action => 'accept',
+  firewall {
+    '201 allow https':
+      proto  => 'tcp',
+      port   => 443,
+      action => 'accept',
   }
-
-  # Prepare maintenance screen
-
 }

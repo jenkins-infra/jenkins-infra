@@ -10,11 +10,10 @@ class profile::confluence (
 ) {
   # as a preparation, deploying mock-webapp and not the real confluence
 
-  include profile::docker
+  include profile::atlassian
   include profile::apache-misc
 
-  account {
-  'wiki':
+  account { 'wiki':
     home_dir => '/srv/wiki',
     groups   => [ 'sudo', 'users' ],
     uid      => 2000,   # this value must match what's in the 'confluence' docker container
@@ -24,15 +23,19 @@ class profile::confluence (
 
   file { '/var/log/apache2/wiki.jenkins-ci.org':
     ensure => directory,
+    group  => $profile::atlassian::group_name,
   }
+
   file { '/srv/wiki/home':
     ensure  => directory,
     # confluence container is baked with UID=1000 & GID=1001
     owner   => 'wiki',
-    group   => 'wiki',
+    group   => $profile::atlassian::group_name,
   }
+
   file { '/srv/wiki/docroot':
     ensure  => directory,
+    group   => $profile::atlassian::group_name,
   }
 
   $ldap_password = hiera('profile::ldap::admin_password')
@@ -73,12 +76,6 @@ class profile::confluence (
     use_name        => true,
   }
 
-  apache::mod { 'proxy':
-  }
-
-  apache::mod { 'proxy_http':
-  }
-
   apache::vhost { 'wiki.jenkins-ci.org':
     port            => '443',
     docroot         => '/srv/wiki/docroot',
@@ -98,20 +95,6 @@ class profile::confluence (
     docroot         => '/srv/wiki/docroot',
     redirect_status => 'temp',
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
-  }
-
-  firewall {
-    '400 allow http':
-      proto  => 'tcp',
-      port   => 80,
-      action => 'accept',
-  }
-
-  firewall {
-    '401 allow https':
-      proto  => 'tcp',
-      port   => 443,
-      action => 'accept',
   }
 
   profile::apache-maintenance { 'wiki.jenkins-ci.org':
