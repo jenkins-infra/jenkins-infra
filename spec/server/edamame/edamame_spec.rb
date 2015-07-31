@@ -3,6 +3,7 @@ require_relative './../spec_helper'
 describe 'edamame' do
   it_behaves_like "an OSU hosted machine"
   it_behaves_like "a DNS server"
+  it_behaves_like 'an Apache webserver'
 
   context 'butlerbot configuration' do
     describe command('docker ps') do
@@ -51,6 +52,10 @@ describe 'edamame' do
     end
     describe command("ls -la /var/log/apache2/issues.jenkins-ci.org") do
       its(:stdout) { should match 'access.log.[0-9]{14}' }
+    end
+
+    describe group('atlassian-admins') do
+      it { should exist }
     end
   end
 end

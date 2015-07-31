@@ -7,13 +7,12 @@ class profile::jira (
 ) {
   # as a preparation, deploying mock-webapp and not the real jira
 
-  include profile::docker
+  include profile::atlassian
   include profile::apache-misc
 
-  account {
-  'jira':
+  account { 'jira':
     home_dir => '/srv/jira',
-    groups   => [ 'sudo', 'users' ],
+    groups   => ['sudo', 'users'],
     uid      => 2001,   # this value must match what's in the 'jira' docker container
     gid      => 2001,
     comment  => 'Runs JIRA',
@@ -21,18 +20,23 @@ class profile::jira (
 
   file { '/var/log/apache2/issues.jenkins-ci.org':
     ensure => directory,
+    group  => $profile::atlassian::group_name,
   }
+
   file { '/srv/jira/home':
     ensure  => directory,
+    require => File['/srv/jira'],
     owner   => 'jira',
-    group   => 'jira',
+    group   => $profile::atlassian::group_name,
   }
+
   file { '/srv/jira/docroot':
     ensure  => directory,
+    require => File['/srv/jira'],
+    group   => $profile::atlassian::group_name,
   }
 
   # JIRA stores LDAP access information in database, not in file
-
   file { '/srv/jira/container.env':
     content => join([
         "DATABASE_URL=${database_url}"
@@ -69,23 +73,25 @@ class profile::jira (
     links           => $jira_links,
   }
 
-  apache::mod { 'proxy':
+  ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
+  ### #if
+  file { '/etc/apache2/sites-enabled/25-issues.jenkins-ci.org.conf':
+    ensure => 'link',
+    target => '/etc/apache2/sites-available/issues.jenkins-ci.org.maintenance.conf',
   }
-
-  apache::mod { 'proxy_http':
-  }
-
-  apache::vhost { 'issues.jenkins-ci.org':
-    port            => '443',
-    docroot         => '/srv/jira/docroot',
-    access_log      => false,
-    error_log_file  => 'issues.jenkins-ci.org/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/jira/vhost.conf"),
-
-    notify          => Service['apache2'],
-    require         => File['/var/log/apache2/issues.jenkins-ci.org'],
-  }
+  ### #else
+  #apache::vhost { 'issues.jenkins-ci.org':
+  #  port            => '443',
+  #  docroot         => '/srv/jira/docroot',
+  #  access_log      => false,
+  #  error_log_file  => 'issues.jenkins-ci.org/error.log',
+  #  log_level       => 'warn',
+  #  custom_fragment => template("${module_name}/jira/vhost.conf"),
+  #
+  #  notify          => Service['apache2'],
+  #  require         => File['/var/log/apache2/issues.jenkins-ci.org'],
+  #}
+  ### #endif
   apache::vhost { 'issues.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
     servername      => 'issues.jenkins-ci.org',

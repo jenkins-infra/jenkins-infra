@@ -7,6 +7,7 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEAueiy12T5bvFhsc9YjfLc3aVIxgySd3gDxQWy/bletIoZL8omKmzocBYJ7F58U1asoyfWsy2ToTOY8jJp1eToXmbD6L5+xvHba0A7djYh9aQRrFam7doKQ0zp0ZSUF6+R1v0OM4nnWqK4n2ECIYd+Bdzrp+xA5+XlW3ZSNzlnW2BeWznzmgRMcp6wI+zQ9GMHWviR1cxpml5Z6wrxTZ0aX91btvnNPqoOGva976B6e6403FOEkkIFTk6CC1TFKwc/VjbqxYBg4kU0JhiTP+iEZibcQrYjWdYUgAotYbFVe5/DneHMLNsMPdeihba4PUwt62rXyNegenuCRmCntLcaFQ==
     groups:
       - sudo
+      - atlassian-admins
   kohsuke:
     ssh_keys:
       giffon:
@@ -17,24 +18,34 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5tp6PrxFN9ecF2si/d+Vk5fqlXdXCCynNMObJwXMXAcqtqIKdVtRE2D4WR+q+IgkZAePaQGI2zojHjqUTRGgv3Jk8MUg8Vi/AgZaE4pWljrayYyw7qiEnx3sjmm3/CMOD4okCkQ32P1adoPVLrBSwDQTRomS40BnYlSjPqrU2khqyx/UzrPB6KB+PN6KEyDaKBQwwyJh8gceFN5TkMi+h6ZL2K7m1CPTBv/VaxiEBZ7PLJscOJJB/hIxPnvjnfKBxaszT6l8SObT3wyrHiN57BCKULAYnGge+GLtVqcjd0BoDl/FpEMbynGve5b3CQtqaw2yGYGBEeOe8eV4MSgL+Q==
     groups:
       - sudo
+      - atlassian-admins
   abayer:
     ssh_keys:
       abayer_laptop:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
     groups:
       - sudo
+      - atlassian-admins
   danielbeck:
     ssh_keys:
       danielbeck:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA6PQWKSk/5hsgq5vndqpMHisGLZXiw+pIiNF1CnOEqlgMnq/nDiHFdDX2E+SYT/LNMBEJKIhDKM8T1mOsu7voMiR5vInGGt36jPFT4qM0pLrk+RYjc5f55jk6U5qXSBoM+GqVKSw6gKWI2njMmuxwtFumGGaJuq5jFySyi6aS7Dau1+6I77YRiEnPGd3DiUCrEjKmS1NcJ4t5mrkz/n7uufMd4O8JsPtQwl8gkQT7/b2+Qx3WB42yAO06YEmsTi56X5JCRWG9lue4CIImrSmig0ILmwa4vK/hUopBqEwlpv3ar9eVcyUalo4WQac+HJ2ythWKHKvipWVvJS3ydNc0Fw==
     groups:
       - sudo
+      - atlassian-admins
   aheritier:
     ssh_keys:
       aheritier:
         key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
     groups:
       - sudo
+      - atlassian-admins
+  orrc:
+    ssh_keys:
+      rebigulator:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCY9lv6Wt78pcKz+t048dIYvafeXtVok1vse4E3fTDueFNQY/JtP2kBNOEeP+lvLLQcetfVUeHZhStz7mbAQyyXN9c3m0F85CReJaQVppxOTzbXCWOInYuI4q8MvIK0NfTHEkC8HxRjaUI0uspdAG2Hh6R9N9DlS23oS9TVWtmvrv6QtbbOSBAZ4JwcZG7ybRFPD9m115BYcR17iliHxGcd/npTgDlbeaYXFrYcfg8n8GFWxpKyMgciaFbcB2YUmtOZJbPfVUqvamyLh7kzmukrfwsK7pkROFoiAyt87w/gzI7vzb2TGBpmJ5i5g67tS8TdvIxkBIpGRXlixziAVktL
+    groups:
+      - atlassian-admins
 
 r10k_options:
   deployhooks_logdir: /var/log
