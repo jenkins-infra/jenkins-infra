@@ -76,17 +76,25 @@ class profile::confluence (
     use_name        => true,
   }
 
-  apache::vhost { 'wiki.jenkins-ci.org':
-    port            => '443',
-    docroot         => '/srv/wiki/docroot',
-    access_log      => false,
-    error_log_file  => 'wiki.jenkins-ci.org/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/confluence/vhost.conf"),
-
-    notify          => Service['apache2'],
-    require         => File['/var/log/apache2/wiki.jenkins-ci.org'],
+  ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
+  ### #if
+  file { '/etc/apache2/sites-enabled/25-wiki.jenkins-ci.org.conf':
+    ensure => 'link',
+    target => '/etc/apache2/sites-available/wiki.jenkins-ci.org.maintenance.conf',
   }
+  ### #else
+  #apache::vhost { 'wiki.jenkins-ci.org':
+  #  port            => '443',
+  #  docroot         => '/srv/wiki/docroot',
+  #  access_log      => false,
+  #  error_log_file  => 'wiki.jenkins-ci.org/error.log',
+  #  log_level       => 'warn',
+  #  custom_fragment => template("${module_name}/confluence/vhost.conf"),
+  #
+  #  notify          => Service['apache2'],
+  #  require         => File['/var/log/apache2/wiki.jenkins-ci.org'],
+  #}
+  ### #endif
 
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
