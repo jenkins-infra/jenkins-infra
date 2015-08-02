@@ -90,7 +90,7 @@ class profile::confluence (
     error_log_file  => 'wiki.jenkins-ci.org/error.log',
     log_level       => 'warn',
     custom_fragment => template("${module_name}/confluence/vhost.conf"),
-  
+
     notify          => Service['apache2'],
     require         => File['/var/log/apache2/wiki.jenkins-ci.org'],
   }

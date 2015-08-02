@@ -87,7 +87,7 @@ class profile::jira (
     error_log_file  => 'issues.jenkins-ci.org/error.log',
     log_level       => 'warn',
     custom_fragment => template("${module_name}/jira/vhost.conf"),
-  
+
     notify          => Service['apache2'],
     require         => File['/var/log/apache2/issues.jenkins-ci.org'],
   }
