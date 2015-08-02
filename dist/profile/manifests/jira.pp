@@ -75,22 +75,22 @@ class profile::jira (
 
   ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
   ### #if
-  file { '/etc/apache2/sites-enabled/25-issues.jenkins-ci.org.conf':
-    ensure => 'link',
-    target => '/etc/apache2/sites-available/issues.jenkins-ci.org.maintenance.conf',
-  }
-  ### #else
-  #apache::vhost { 'issues.jenkins-ci.org':
-  #  port            => '443',
-  #  docroot         => '/srv/jira/docroot',
-  #  access_log      => false,
-  #  error_log_file  => 'issues.jenkins-ci.org/error.log',
-  #  log_level       => 'warn',
-  #  custom_fragment => template("${module_name}/jira/vhost.conf"),
-  #
-  #  notify          => Service['apache2'],
-  #  require         => File['/var/log/apache2/issues.jenkins-ci.org'],
+  #file { '/etc/apache2/sites-enabled/25-issues.jenkins-ci.org.conf':
+  #  ensure => 'link',
+  #  target => '/etc/apache2/sites-available/issues.jenkins-ci.org.maintenance.conf',
   #}
+  ### #else
+  apache::vhost { 'issues.jenkins-ci.org':
+    port            => '443',
+    docroot         => '/srv/jira/docroot',
+    access_log      => false,
+    error_log_file  => 'issues.jenkins-ci.org/error.log',
+    log_level       => 'warn',
+    custom_fragment => template("${module_name}/jira/vhost.conf"),
+  
+    notify          => Service['apache2'],
+    require         => File['/var/log/apache2/issues.jenkins-ci.org'],
+  }
   ### #endif
   apache::vhost { 'issues.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
