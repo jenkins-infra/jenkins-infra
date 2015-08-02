@@ -9,15 +9,17 @@ class profile::atlassian {
   include profile::docker
   include sudo
 
+  $group_name = 'atlassian-admins'
+
   apache::mod { 'proxy':
   }
 
   apache::mod { 'proxy_http':
   }
 
-  sudo::conf { 'atlassian-admins':
+  sudo::conf { $group_name:
     priority => 10,
-    content  => "%atlassian-admins ALL=(ALL) NOPASSWD: /usr/sbin/service",
+    content  => "%${group_name} ALL=(ALL) NOPASSWD: /usr/sbin/service",
     require  => Group[$group_name],
   }
 }
