@@ -4,4 +4,6 @@ describe 'profile::accounts' do
   it { should contain_account 'tyler' }
   it { should contain_account 'kohsuke' }
   it { should contain_account 'abayer' }
+
+  it { should contain_group('atlassian-admins') }
 end

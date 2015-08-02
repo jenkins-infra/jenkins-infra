@@ -17,10 +17,6 @@ class profile::atlassian {
   apache::mod { 'proxy_http':
   }
 
-  group { $group_name:
-    ensure => present,
-  }
-
   sudo::conf { $group_name:
     priority => 10,
     content  => "%${group_name} ALL=(ALL) NOPASSWD: /usr/sbin/service",

@@ -10,8 +10,6 @@ describe 'profile::atlassian' do
   end
 
   context 'atlassian sudo specifics' do
-    it { should contain_group('atlassian-admins') }
-
     it { should contain_sudo__conf 'atlassian-admins' }
   end
 
