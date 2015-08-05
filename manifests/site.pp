@@ -61,3 +61,7 @@ node 'okra' {
   include role::okra
 }
 
+# cabbage
+node 'cabbage' {
+  include role::cabbage
+}
