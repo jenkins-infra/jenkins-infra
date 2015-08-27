@@ -12,7 +12,7 @@ class profile::robobutler (
   include profile::docker
 
   # Tag is the docker container image tag from our build process
-  $tag = 'build10'
+  $tag = 'build12'
   $user = 'butlerbot'
 
   user { $user:
