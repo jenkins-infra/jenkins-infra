@@ -9,7 +9,7 @@ mod "zack/r10k", '2.7.3'
 # supported module version
 mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
-        :ref => '4.1.0'
+        :ref => '4.9.0'
 
 mod 'puppetlabs/ruby', '0.2.0'
 mod "puppetlabs/gcc", '0.2.0'

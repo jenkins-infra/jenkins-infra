@@ -24,7 +24,7 @@ fixtures:
   forge_modules:
     stdlib:
       repo: 'puppetlabs/stdlib'
-      ref: '4.1.0'
+      ref: '4.9.0'
     r10k:
       repo: 'zack/r10k'
       ref: '2.7.3'
