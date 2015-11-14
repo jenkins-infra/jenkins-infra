@@ -1,14 +1,4 @@
 GIT
-  remote: git://github.com/jenkins-infra/puppetlabs_spec_helper.git
-  revision: 772ce0ed04edb5b58f99de6ebebe8ccc233b46be
-  specs:
-    puppetlabs_spec_helper (0.4.1.40)
-      mocha (>= 0.10.5)
-      rake
-      rspec (>= 2.9.0)
-      rspec-puppet (>= 0.1.1)
-
-GIT
   remote: git://github.com/rodjek/puppet-lint.git
   revision: 2546fed6be894bbcff15c3f48d4b6f6bc15d94d1
   ref: 2546fed6be894bbcff15c3f48d4b6f6bc15d94d1
@@ -260,11 +250,19 @@ GEM
       facter (~> 1.6)
       hiera (~> 1.0)
       rgen (~> 0.6.5)
+    puppet-syntax (2.0.0)
+      rake
     puppet_forge (2.1.1)
       faraday (~> 0.9.0)
       faraday_middleware (~> 0.9.0)
       minitar
       semantic_puppet (~> 0.1.0)
+    puppetlabs_spec_helper (1.0.1)
+      mocha
+      puppet-lint
+      puppet-syntax
+      rake
+      rspec-puppet
     r10k (2.1.1)
       colored (= 1.2)
       cri (~> 2.6.1)
@@ -344,7 +342,7 @@ DEPENDENCIES
   pry
   puppet (~> 3.4.0)
   puppet-lint!
-  puppetlabs_spec_helper!
+  puppetlabs_spec_helper
   r10k
   rake
   rspec-puppet
