@@ -11,8 +11,8 @@ define profile::apache-maintenance {
   }
 
   file { '/var/www/maintenance/maintenance.html':
-    ensure  => present,
-    source  => "puppet:///modules/${module_name}/apache-maintenance/maintenance.html",
+    ensure => present,
+    source => "puppet:///modules/${module_name}/apache-maintenance/maintenance.html",
   }
 
   file { "/etc/apache2/sites-available/${name}.maintenance.conf":

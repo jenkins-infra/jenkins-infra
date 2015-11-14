@@ -105,13 +105,13 @@ class profile::jira (
   }
 
   profile::datadog_check { 'jira-http-check':
-    checker   => 'http_check',
-    source    => 'puppet:///modules/profile/jira/http_check.yaml',
+    checker => 'http_check',
+    source  => 'puppet:///modules/profile/jira/http_check.yaml',
   }
 
   profile::datadog_check { 'jira-process-check':
-    checker   => 'process',
-    source    => 'puppet:///modules/profile/jira/process_check.yaml',
+    checker => 'process',
+    source  => 'puppet:///modules/profile/jira/process_check.yaml',
   }
 
   host { 'issues.jenkins-ci.org':
