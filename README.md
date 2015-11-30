@@ -32,7 +32,7 @@ but thus far it's advisable that you do the following:
  * Make sure your `default` [security
    group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html)
    allows SSH (port 22) from the outside world.
- * Run the `./vagrant-bootstrap` script locally to make usre your local
+ * Run the `./vagrant-bootstrap` script locally to make sure your local
    environment is prepared for Vagranting
 
 #### Running server spec tests

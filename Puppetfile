@@ -9,7 +9,7 @@ mod "zack/r10k", '2.7.3'
 # supported module version
 mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
-        :ref => '4.1.0'
+        :ref => '4.9.0'
 
 mod 'puppetlabs/ruby', '0.2.0'
 mod "puppetlabs/gcc", '0.2.0'
@@ -43,7 +43,7 @@ mod 'stahnma/epel', '0.0.6'
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which properly compiles and runs on PE
 mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
-           :ref => 'a154d34'
+           :ref => '6e2885a'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
@@ -72,4 +72,4 @@ mod 'saz/ssh', '2.3.6'
 
 mod 'puppetlabs/lvm', '0.3.2'
 
-mod 'datadog/datadog_agent', '1.2.0'
+mod 'datadog/datadog_agent', '1.4.0'

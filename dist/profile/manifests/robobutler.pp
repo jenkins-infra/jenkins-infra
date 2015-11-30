@@ -45,10 +45,10 @@ class profile::robobutler (
   }
 
   docker::run { 'butlerbot':
-    command  => undef,
-    image    => "jenkinsciinfra/butlerbot:${tag}",
-    volumes  => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
-    require  => File['/etc/butlerbot/main.conf'],
+    command => undef,
+    image   => "jenkinsciinfra/butlerbot:${tag}",
+    volumes => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
+    require => File['/etc/butlerbot/main.conf'],
   }
 
   # 'restart docker-butlerbot' won't do because it will not reload the configuration
@@ -65,7 +65,7 @@ class profile::robobutler (
 
 
   file { '/var/log/apache2/meetings.jenkins-ci.org':
-      ensure => directory,
+    ensure => directory,
   }
 
   apache::vhost { 'meetings.jenkins-ci.org':
