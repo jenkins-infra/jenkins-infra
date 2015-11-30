@@ -12,8 +12,8 @@ class profile::bind (
   $conf_dir = '/etc/bind/local'
 
   file { ['/etc/bind', $conf_dir]:
-    ensure  => directory,
-    purge   => true,
+    ensure => directory,
+    purge  => true,
   }
 
   file { "${conf_dir}/jenkins-ci.org.zone":
@@ -35,11 +35,11 @@ class profile::bind (
   }
 
   docker::run { 'bind':
-    command  => undef,
-    ports    => ['53:53', '53:53/udp'],
-    image    => "jenkinsciinfra/bind:${image_tag}",
-    volumes  => ['/etc/bind/local:/etc/bind/local'],
-    require  => [File["${conf_dir}/named.conf.local"],
+    command => undef,
+    ports   => ['53:53', '53:53/udp'],
+    image   => "jenkinsciinfra/bind:${image_tag}",
+    volumes => ['/etc/bind/local:/etc/bind/local'],
+    require => [File["${conf_dir}/named.conf.local"],
       File["${conf_dir}/jenkins-ci.org.zone"],
     ],
   }

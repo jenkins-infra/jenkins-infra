@@ -86,7 +86,7 @@ class profile::r10k {
   }
 
   service { 'r10k_deployhook':
-    ensure    => running,
-    enable    => true,
+    ensure => running,
+    enable => true,
   }
 }

@@ -27,15 +27,15 @@ class profile::confluence (
   }
 
   file { '/srv/wiki/home':
-    ensure  => directory,
+    ensure => directory,
     # confluence container is baked with UID=1000 & GID=1001
-    owner   => 'wiki',
-    group   => $profile::atlassian::group_name,
+    owner  => 'wiki',
+    group  => $profile::atlassian::group_name,
   }
 
   file { '/srv/wiki/docroot':
-    ensure  => directory,
-    group   => $profile::atlassian::group_name,
+    ensure => directory,
+    group  => $profile::atlassian::group_name,
   }
 
   $ldap_password = hiera('profile::ldap::admin_password')
@@ -109,13 +109,13 @@ class profile::confluence (
   }
 
   profile::datadog_check { 'confluence-http-check':
-    checker   => 'http_check',
-    source    => 'puppet:///modules/profile/confluence/http_check.yaml',
+    checker => 'http_check',
+    source  => 'puppet:///modules/profile/confluence/http_check.yaml',
   }
 
   profile::datadog_check { 'confluence-process-check':
-    checker   => 'process',
-    source    => 'puppet:///modules/profile/confluence/process_check.yaml',
+    checker => 'process',
+    source  => 'puppet:///modules/profile/confluence/process_check.yaml',
   }
 
   host { 'wiki.jenkins-ci.org':
