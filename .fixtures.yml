@@ -73,6 +73,9 @@ fixtures:
     datadog_agent:
       repo: 'datadog/datadog_agent'
       ref: '1.4.0'
+    pe_puppetserver_gem:
+      repo: 'puppetlabs/pe_puppetserver_gem'
+      ref: '0.0.1'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles
