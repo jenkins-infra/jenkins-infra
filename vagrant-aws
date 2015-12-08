@@ -1,5 +1,0 @@
-#!/bin/sh
-
-export VAGRANT_DEFAULT_PROVIDER=aws
-
-exec bundle exec vagrant $@
