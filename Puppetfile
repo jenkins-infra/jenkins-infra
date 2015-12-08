@@ -59,7 +59,10 @@ mod 'jenkins_keys',
 # Apache and its dependencies
 mod "puppetlabs/apache", '1.1.1'
 # Used internally to gzip compress rotated logs
-mod 'apache-logcompressor', :git => 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
+mod 'apachelogcompressor',
+        :git => 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git',
+        :ref => '0113d7b'
+
 mod "puppetlabs/concat", '1.0.4'
 
 

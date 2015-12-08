@@ -6,7 +6,7 @@ class profile::apache-misc(
 ) {
   include apache
   # log rotation setting lives in another module
-  include apache-logcompressor
+  include apachelogcompressor
 
   # enable mod_status for local interface and allow datadog to monitor this
   include apache::mod::status

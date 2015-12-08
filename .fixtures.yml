@@ -18,8 +18,8 @@ fixtures:
     docker:
       repo: 'git://github.com/jenkins-infra/garethr-docker.git'
       ref: '864450c'
-    apache-logcompressor:
-      repo: 'git://github.com/jenkins-infra/puppet-apache-logcompressor.git'
+    apachelogcompressor:
+      repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
 
   forge_modules:
     stdlib:
