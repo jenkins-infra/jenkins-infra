@@ -14,7 +14,7 @@ fixtures:
       ref: 'v3.0.6'
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
-      ref: '6e2885a'
+      ref: 'b837df8'
     docker:
       repo: 'git://github.com/jenkins-infra/garethr-docker.git'
       ref: '864450c'

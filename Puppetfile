@@ -42,9 +42,9 @@ mod 'puppetlabs/apt', '1.6.0'
 mod 'stahnma/epel', '0.0.6'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
-# which properly compiles and runs on PE
+# which updates on any changed status
 mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
-           :ref => '6e2885a'
+           :ref => 'b837df8'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
