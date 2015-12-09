@@ -30,33 +30,45 @@ node(nodeLabel) {
      * we might as well just give up
      */
     timeout(15) {
-        sh 'gem install bundler -N --verbose'
+        // let's assume bundler exists on the system
+        //sh 'gem install bundler --no-ri --no-rdoc --verbose'
         sh 'mkdir -p vendor/gems'
+        /*
+         * For this to succeed we basically need:
+         *  ruby
+         *  git
+         *  build-essential
+         *  zlibc
+         */
         sh 'bundle install --verbose --without development --path=vendor/gems'
     }
     /* stashing our install gems directory so we can re-use it for
      * parallelization of tasks later
      */
-    stash includes: 'vendor/gems', name: 'gems'
+    stash includes: 'vendor/**', name: 'gems'
 
 
-    /* Executing some sub-workflows in parallel */
+    /* Since we have multiple discrete tasks that can be executed in parallel
+     * to qualify the "current build" of jenkins-infra, we can use the
+     * `parallel` workflow step and span out to multiple build nodes
+     * independently
+     */
     parallel(
         linting: {
             node(nodeLabel) {
-                unstash 'gems'
-                sh 'ls'
+                sh 'ls ; pwd'
+                // this seems to cause https://issues.jenkins-ci.org/browse/JENKINS-23271
+                // unstash 'gems'
             }
         },
         rspec: {
             node(nodeLabel) {
-                unstash 'gems'
-                sh 'ls'
+                sh 'ls ; pwd'
+                //unstash 'gems'
 
             }
         },
         failFast: true)
 }
-
 
 // vim: ft=groovy
