@@ -33,7 +33,7 @@ shared_examples "an OSU hosted machine" do
 
   # Ensure that we have the sudoers file for `osuadmin`
   describe command('ls /etc/sudoers.d') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
     its(:stdout) { should match /osuadmin/ }
   end
 end
