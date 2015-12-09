@@ -9,8 +9,7 @@ infrastructure.
 
 ## Local development
 
-The amount of testing that can be done locally is still a **work in progress**
-but thus far it's advisable that you do the following:
+The amount of testing that can be done locally is as follows:
 
  * `bundle install` - To get the necessary gems to run tests locally, if you're
    unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
@@ -39,13 +38,18 @@ but thus far it's advisable that you do the following:
 
 We're using [serverspec](http://serverspec.org) for on-machine acceptance
 testing. Combined with Vagrant, this allows us to create an acceptance test
-[per-role](dist/role/manifests) which
-provisions and tests an entire Puppet catalog on a VM.
+[per-role](dist/role/manifests) which provisions and tests an entire Puppet
+catalog on a VM.
 
-To launch a test instance, `./vagrant-aws up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
-You can rerun puppet and execute tests with `./vagrant-aws provision ROLE` repeatedly while the VM is up and running.
-To just rerun serverspect without puppet, `./vagrant-aws provision --provision-with serverspec ROLE`.
-When it's all done, deprovision the instance via `./vagrant-aws destroy ROLE`.
+##### Pre-requisites
+
+* Install [Vagrant](https://www.vagrantup.com)
+* Install Vagrant plugins: `vagrant plugin install vagrant-aws  vagrant-serverspec`
+
+To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
+You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
+To just rerun serverspect without puppet, `vagrant provision --provision-with serverspec ROLE`.
+When it's all done, deprovision the instance via `vagrant destroy ROLE`.
 
 ### Updating dependencies
 For reasons that Tyler will hopefully clarify at some point, this module maintains
@@ -85,7 +89,9 @@ to production, it will be automatically deployed to production hosts.
 
 ## Installing agents
 
-For installing agents refer to the [installing agents](http://docs.puppetlabs.com/pe/latest/install_agents.html) section of the PuppetLabs documentation.
+For installing agents refer to the [installing
+agents](http://docs.puppetlabs.com/pe/latest/install_agents.html) section of
+the PuppetLabs documentation.
 
 ## Contributing
 

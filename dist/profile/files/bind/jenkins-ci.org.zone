@@ -13,9 +13,7 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
 @           3600    IN    A    199.193.196.24
 
 ; Primary at Contegix
-cucumber     3600    IN    A    199.193.196.24
-; Primary at Contegix' new datacenter
-gherkin     3600    IN    A    199.193.196.24
+cucumber    3600    IN    A    199.193.196.24
 
 ; VM at Rackspace
 spinach     3600    IN    A    173.203.60.151
@@ -32,6 +30,7 @@ edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-co
 lists       3600    IN    A    140.211.166.34
 ns1         3600    IN    A    140.211.9.2 ; edamame
 ns2         3600    IN    A    173.203.60.151 ; spinach (Rackspace)
+ns3         3600    IN    A    162.209.106.32 ; okra (Rackspace)
 
 
 ;-----------------------------------
@@ -39,25 +38,26 @@ ns2         3600    IN    A    173.203.60.151 ; spinach (Rackspace)
 ; CNAME Records
 www         3600    IN    CNAME    @
 issues      3600    IN    CNAME    edamame
+gherkin     3600    IN    CNAME    cucumber
 wiki        3600    IN    CNAME    lettuce
-updates     3600    IN    CNAME    gherkin
-downloads   3600    IN    CNAME    gherkin
-fisheye     3600    IN    CNAME    gherkin
-l10n        3600    IN    CNAME    gherkin
-javadoc     3600    IN    CNAME    gherkin
-mirrors     3600    IN    CNAME    gherkin
-pkg         3600    IN    CNAME    gherkin
-usage       3600    IN    CNAME    gherkin
-stacktrace  3600    IN    CNAME    gherkin
-sorcerer    3600    IN    CNAME    gherkin
-stats       3600    IN    CNAME    gherkin
-maven       3600    IN    CNAME    gherkin
-maven2      3600    IN    CNAME    gherkin
-ci          3600    IN    CNAME    gherkin
-svn         3600    IN    CNAME    gherkin
+updates     3600    IN    CNAME    cucumber
+downloads   3600    IN    CNAME    cucumber
+fisheye     3600    IN    CNAME    cucumber
+l10n        3600    IN    CNAME    cucumber
+javadoc     3600    IN    CNAME    cucumber
+mirrors     3600    IN    CNAME    cucumber
+pkg         3600    IN    CNAME    cucumber
+usage       3600    IN    CNAME    cucumber
+stacktrace  3600    IN    CNAME    cucumber
+sorcerer    3600    IN    CNAME    cucumber
+stats       3600    IN    CNAME    cucumber
+maven       3600    IN    CNAME    cucumber
+maven2      3600    IN    CNAME    cucumber
+ci          3600    IN    CNAME    cucumber
+svn         3600    IN    CNAME    cucumber
 meetings    3600    IN    CNAME    edamame
-javanet2    3600    IN    CNAME    gherkin
-ldap        3600    IN    CNAME    gherkin
+javanet2    3600    IN    CNAME    cucumber
+ldap        3600    IN    CNAME    cucumber
 jekyll      3600    IN    CNAME    jenkinsci.github.io
 git         3600    IN    CNAME    spinach
 boxes       3600    IN    CNAME    spinach
@@ -84,6 +84,7 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 ; NS Records
 @           3600    IN    NS    ns1
 @           3600    IN    NS    ns2
+@           3600    IN    NS    ns3
 
 ; SPF
 ;   this policy enables the e-mail originating from these hosts to be whitelisted.

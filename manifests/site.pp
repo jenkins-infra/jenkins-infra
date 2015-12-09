@@ -66,3 +66,8 @@ node 'okra' {
 node 'cabbage' {
   include role::cabbage
 }
+
+# eggplant
+node 'eggplant.jenkins-ci.org' {
+  include role::eggplant
+}
