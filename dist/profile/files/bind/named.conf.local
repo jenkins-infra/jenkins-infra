@@ -1,4 +1,5 @@
 zone "jenkins-ci.org" {
   type master;
   file "/etc/bind/local/jenkins-ci.org.zone";
+  allow-transfer { 140.211.166.126; };
 };
