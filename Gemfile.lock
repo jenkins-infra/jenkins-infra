@@ -15,7 +15,7 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
+    addressable (2.4.0)
     autoparse (0.3.3)
       addressable (>= 2.3.1)
       extlib (>= 0.9.15)
@@ -25,7 +25,7 @@ GEM
     aws-sdk-v1 (1.66.0)
       json (~> 1.4)
       nokogiri (>= 1.4.4)
-    beaker (2.28.0)
+    beaker (2.30.1)
       aws-sdk (~> 1.57)
       beaker-answers (~> 0.0)
       beaker-hiera (~> 0.0)
@@ -37,6 +37,7 @@ GEM
       hocon (~> 0.1)
       inifile (~> 2.0)
       json (~> 1.8)
+      mime-types (~> 2.99)
       minitest (~> 5.4)
       net-scp (~> 1.2)
       net-ssh (~> 2.9)
@@ -51,7 +52,7 @@ GEM
     beaker-hiera (0.1.1)
       stringify-hash (~> 0.0.0)
     builder (3.2.2)
-    byebug (8.2.0)
+    byebug (8.2.1)
     coderay (1.1.0)
     colored (1.2)
     columnize (0.9.0)
@@ -67,7 +68,7 @@ GEM
       pry (>= 0.9.9)
     debugger-ruby_core_source (1.3.8)
     diff-lcs (1.2.5)
-    docker-api (1.23.0)
+    docker-api (1.24.1)
       excon (>= 0.38.0)
       json
     excon (0.45.4)
@@ -114,17 +115,14 @@ GEM
       fog-json (~> 1.0)
       fog-xml (~> 0.1)
       ipaddress (~> 0.8)
-    fog-brightbox (0.9.0)
+    fog-brightbox (0.10.1)
       fog-core (~> 1.22)
       fog-json
       inflecto (~> 0.0.2)
-    fog-core (1.32.1)
+    fog-core (1.35.0)
       builder
       excon (~> 0.45)
       formatador (~> 0.2)
-      mime-types
-      net-scp (~> 1.1)
-      net-ssh (>= 2.1.3)
     fog-dynect (0.0.2)
       fog-core
       fog-json
@@ -157,7 +155,7 @@ GEM
       fog-core
       fog-json
       fog-xml
-    fog-sakuracloud (1.3.3)
+    fog-sakuracloud (1.5.0)
       fog-core
       fog-json
     fog-serverlove (0.1.2)
@@ -221,13 +219,13 @@ GEM
     logging (2.0.0)
       little-plugger (~> 1.1)
       multi_json (~> 1.10)
-    memoist (0.12.0)
+    memoist (0.13.0)
     metaclass (0.0.4)
     method_source (0.8.2)
-    mime-types (2.6.2)
-    mini_portile (0.6.2)
+    mime-types (2.99)
+    mini_portile2 (2.0.0)
     minitar (0.5.4)
-    minitest (5.8.2)
+    minitest (5.8.3)
     mocha (1.1.0)
       metaclass (~> 0.0.1)
     multi_json (1.11.2)
@@ -236,11 +234,11 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.2)
     net-telnet (0.1.1)
-    nokogiri (1.6.6.2)
-      mini_portile (~> 0.6.0)
+    nokogiri (1.6.7)
+      mini_portile2 (~> 2.0.0.rc2)
     open_uri_redirections (0.2.1)
     parallel (1.6.1)
-    parallel_tests (1.9.0)
+    parallel_tests (2.2.1)
       parallel
     pry (0.10.3)
       coderay (~> 1.1.0)
@@ -286,7 +284,7 @@ GEM
       rspec-core (~> 3.4.0)
       rspec-expectations (~> 3.4.0)
       rspec-mocks (~> 3.4.0)
-    rspec-core (3.4.0)
+    rspec-core (3.4.1)
       rspec-support (~> 3.4.0)
     rspec-expectations (3.4.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -299,7 +297,7 @@ GEM
       rspec-support (~> 3.4.0)
     rspec-puppet (2.2.0)
       rspec
-    rspec-support (3.4.0)
+    rspec-support (3.4.1)
     rsync (1.0.9)
     semantic_puppet (0.1.1)
     serverspec (2.24.3)
@@ -308,14 +306,13 @@ GEM
       rspec-its
       specinfra (~> 2.43)
     sfl (2.2)
-    signet (0.6.1)
+    signet (0.7.0)
       addressable (~> 2.3)
-      extlib (~> 0.9)
       faraday (~> 0.9)
       jwt (~> 1.5)
       multi_json (~> 1.10)
     slop (3.6.0)
-    specinfra (2.44.1)
+    specinfra (2.44.7)
       net-scp
       net-ssh (~> 2.7)
       net-telnet
@@ -347,3 +344,6 @@ DEPENDENCIES
   rake
   rspec-puppet
   serverspec
+
+BUNDLED WITH
+   1.10.6
