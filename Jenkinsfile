@@ -40,13 +40,12 @@ node(nodeLabel) {
          *  build-essential
          *  zlibc
          */
-        sh 'bundle install --verbose --without development --path=vendor/gems'
+        sh 'bundle install --without development --path=vendor/gems'
     }
     /* stashing our install gems directory so we can re-use it for
      * parallelization of tasks later
      */
     stash includes: 'vendor/**', name: 'gems'
-
 
     /* Since we have multiple discrete tasks that can be executed in parallel
      * to qualify the "current build" of jenkins-infra, we can use the
@@ -58,14 +57,15 @@ node(nodeLabel) {
             node(nodeLabel) {
                 sh 'ls ; pwd'
                 // this seems to cause https://issues.jenkins-ci.org/browse/JENKINS-23271
-                // unstash 'gems'
+                //unstash 'gems'
+                //sh 'ls ; pwd'
             }
         },
         rspec: {
             node(nodeLabel) {
                 sh 'ls ; pwd'
                 //unstash 'gems'
-
+                //sh 'ls ; pwd'
             }
         },
         failFast: true)
