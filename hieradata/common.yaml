@@ -64,7 +64,7 @@ ntp::autoupdate: true
 ntp::servers:
   - pool.ntp.org iburst
 
-apache::keepalive: On
+apache::keepalive: 'On'
 apache::keepalive_timeout: 3
 
 ### Stuff for IRC jenkins-admin bot
