@@ -7,6 +7,15 @@ class profile::docker {
     manage_kernel => false,
   }
 
+  include datadog_agent::integrations::docker
+
+  # Ensure that the datadog user has the right group to access docker
+  user { $datadog_agent::params::dd_user:
+    ensure  => present,
+    groups  => ['docker'],
+    require => Class['::docker'],
+  }
+
   firewall { '010 allow inter-docker traffic':
     # traffic within docker is OK
     iniface => 'docker0',
