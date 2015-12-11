@@ -1,0 +1,2 @@
+---
+datadog_agent::puppet_run_reports: true
