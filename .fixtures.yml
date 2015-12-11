@@ -20,6 +20,9 @@ fixtures:
       ref: '1c63ac4'
     apachelogcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
+    datadog_agent:
+      repo: 'git://github.com/jenkins-infra/puppet-datadog-agent.git'
+      ref: 'c8ce536'
 
   forge_modules:
     stdlib:
@@ -70,9 +73,6 @@ fixtures:
     vcsrepo:
       repo: 'puppetlabs/vcsrepo'
       ref: '1.1.0'
-    datadog_agent:
-      repo: 'datadog/datadog_agent'
-      ref: '1.4.0'
     pe_puppetserver_gem:
       repo: 'puppetlabs/pe_puppetserver_gem'
       ref: '0.0.1'
