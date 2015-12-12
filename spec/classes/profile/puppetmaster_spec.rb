@@ -7,8 +7,9 @@ describe 'profile::puppetmaster' do
     ['class jenkins_keys { }']
   end
 
-  it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
   it { should contain_class 'jenkins_keys' }
+
+  it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
   it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_port(443) }
   it { should contain_firewall('011 allow r10k webhooks').with_action('accept').with_port(9013) }
   it { should contain_firewall('012 allow puppet agents').with_action('accept').with_port(8140) }
@@ -32,4 +33,6 @@ describe 'profile::puppetmaster' do
       end
     end
   end
+
+  it { should contain_class 'datadog_agent' }
 end

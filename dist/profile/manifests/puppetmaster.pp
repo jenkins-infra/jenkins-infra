@@ -6,6 +6,7 @@ class profile::puppetmaster {
   include ::jenkins_keys
   # Set up our IRC reporter
   include ::irc
+  include datadog_agent
 
   # Manage hiera.yaml
   file { '/etc/puppetlabs/puppet/hiera.yaml':
