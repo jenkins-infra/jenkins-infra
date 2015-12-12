@@ -1,2 +1,3 @@
 ---
 datadog_agent::puppet_run_reports: true
+datadog_agent::puppetmaster_user: 'pe-puppet'
