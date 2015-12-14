@@ -35,4 +35,7 @@ describe 'profile::puppetmaster' do
   end
 
   it { should contain_class 'datadog_agent' }
+
+  # Needed for reporting Puppet run reports to datadog
+  it { should contain_package 'dogapi' }
 end

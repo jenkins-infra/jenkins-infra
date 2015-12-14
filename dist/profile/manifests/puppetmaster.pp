@@ -67,4 +67,27 @@ class profile::puppetmaster {
     hasrestart => true,
     hasstatus  => true,
   }
+
+
+  # This puppet enterprise special casing logic cribbed directly from the
+  # puppet-irc module which also needs to install gems
+  if $::pe_server_version {
+    $gem_provider = 'puppetserver_gem'
+  }
+  elsif str2bool($::is_pe) {
+    if versioncmp($::pe_version, '3.7.0') > 0 {
+        $gem_provider = 'pe_puppetserver_gem'
+      }
+      else {
+        $gem_provider = 'pe_gem'
+    }
+  }
+  else {
+    $gem_provider = 'gem'
+  }
+
+  package { 'dogapi':
+    ensure   => present,
+    provider => $gem_provider,
+  }
 }
