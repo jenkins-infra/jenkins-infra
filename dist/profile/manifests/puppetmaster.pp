@@ -28,14 +28,16 @@ class profile::puppetmaster {
     notify => Service['pe-puppetserver'],
   }
 
-
   ini_setting { 'Update report handlers':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'master',
     setting => 'reports',
-    value   => 'console,puppetdb,irc',
+    value   => 'console,puppetdb,irc,datadog_reports',
     notify  => Service['pe-puppetserver'],
+    # We really can't use datadog_reports until we have our datadog.yaml in
+    # place
+    require => File['/etc/dd-agent/datadog.yaml'],
   }
 
   firewall { '010 allow dashboard traffic':
