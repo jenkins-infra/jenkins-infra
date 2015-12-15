@@ -86,8 +86,21 @@ class profile::puppetmaster {
     $gem_provider = 'gem'
   }
 
+  # The "datadog_agent::reports" module doesn't really handle puppet enterprise
+  # very well at all, in order to make things easier on myself I've decided to
+  # just bring in the *two* resources it defines myself
   package { 'dogapi':
     ensure   => present,
     provider => $gem_provider,
+  }
+
+  $api_key = $::datadog_agent::api_key
+  file { '/etc/dd-agent/datadog.yaml':
+    ensure  => file,
+    content => template('datadog_agent/datadog.yaml.erb'),
+    owner   => 'pe-puppetmaster',
+    group   => 'root',
+    mode    => '0640',
+    require => File['/etc/dd-agent'],
   }
 }

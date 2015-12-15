@@ -34,8 +34,14 @@ describe 'profile::puppetmaster' do
     end
   end
 
-  it { should contain_class 'datadog_agent' }
+  context 'the datadog_agent module' do
+    it { should contain_class 'datadog_agent' }
 
-  # Needed for reporting Puppet run reports to datadog
-  it { should contain_package 'dogapi' }
+    context 'puppet reporting' do
+      # Needed for reporting Puppet run reports to datadog
+      it { should contain_package 'dogapi' }
+
+      it { should contain_file('/etc/dd-agent/datadog.yaml') }
+    end
+  end
 end
