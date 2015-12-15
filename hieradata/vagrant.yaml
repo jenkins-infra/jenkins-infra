@@ -30,5 +30,4 @@ accounts:
     groups:
       - atlassian-admins
 
-
 # vim: ft=yaml ts=2 sw=2 nowrap et
