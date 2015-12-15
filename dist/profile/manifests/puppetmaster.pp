@@ -98,7 +98,7 @@ class profile::puppetmaster {
   file { '/etc/dd-agent/datadog.yaml':
     ensure  => file,
     content => template('datadog_agent/datadog.yaml.erb'),
-    owner   => 'pe-puppetmaster',
+    owner   => 'pe-puppet',
     group   => 'root',
     mode    => '0640',
     require => File['/etc/dd-agent'],
