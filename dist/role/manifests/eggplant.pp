@@ -3,5 +3,5 @@
 class role::eggplant {
   include profile::base
   include profile::sudo::osu
-  include profile::apache-misc
+  include profile::staticsite
 }
