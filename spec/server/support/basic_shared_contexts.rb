@@ -26,6 +26,12 @@ shared_examples "a standard Linux machine" do
   describe file('/etc/ssh/sshd_config') do
     it { should contain 'PasswordAuthentication no' }
   end
+
+  # We should always have the agent running
+  describe service('datadog-agent') do
+    it { should be_enabled }
+    it { should be_running }
+  end
 end
 
 shared_examples "an OSU hosted machine" do
