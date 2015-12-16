@@ -73,6 +73,7 @@ goto        3600    IN    CNAME    goto.jenkins.cloudbees.net.          ; hosted
 recipe      3600    IN    CNAME    recipe.jenkins.cloudbees.net.        ; hosted app on CloudBees RUN@cloud
 puppet      3600    IN    CNAME    artichoke
 archives    3600    IN    CNAME    okra
+beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
 
 ; MX Records
 @          3600    IN    MX    0    gherkin
