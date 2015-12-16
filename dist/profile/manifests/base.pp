@@ -17,6 +17,10 @@ class profile::base {
 
   include datadog_agent
 
+  package { 'htop':
+    ensure => present,
+  }
+
   # Cleaning up after infra-puppet
   ##############################################################################
   cron { 'pull puppet updates':
