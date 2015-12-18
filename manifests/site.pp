@@ -71,3 +71,8 @@ node 'cabbage' {
 node 'eggplant.jenkins-ci.org' {
   include role::eggplant
 }
+
+# cucumber (legacy host)
+node 'cucumber' {
+  include role::cucumber
+}
