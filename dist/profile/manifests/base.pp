@@ -6,6 +6,7 @@ class profile::base {
   include profile::firewall
   include profile::ntp
   include profile::sudo
+  include profile::diagnostics
 
   class { 'ssh::server':
     storeconfigs_enabled => false,
@@ -13,12 +14,6 @@ class profile::base {
       'PasswordAuthentication' => 'no',
       'PubkeyAuthentication'   => 'yes',
     },
-  }
-
-  include datadog_agent
-
-  package { 'htop':
-    ensure => present,
   }
 
   # Cleaning up after infra-puppet
