@@ -44,6 +44,7 @@ class profile::staticsite(
     ensure  => directory,
     mode    => '0644',
     owner   => $deployer_user,
+    group   => $deployer_group,
     require => Account[$deployer_user],
     notify  => Exec['chown staticsite'],
   }
@@ -54,6 +55,7 @@ class profile::staticsite(
   file { "${site_root}/deploy-site":
     ensure  => present,
     owner   => $deployer_user,
+    group   => $deployer_group,
     mode    => '0700',
     source  => "puppet:///modules/${module_name}/staticsite/deploy-site",
     require => Account[$deployer_user],
@@ -66,7 +68,7 @@ class profile::staticsite(
     ensure  => present,
     user    => $deployer_user,
     command => "${site_root}/deploy-site",
-    minute  => '*/5',
+    minute  => '*',
     require => File["${site_root}/deploy-site"],
   }
 
@@ -78,6 +80,7 @@ class profile::staticsite(
     ensure  => link,
     replace => false,
     owner   => $deployer_user,
+    group   => $deployer_group,
     target  => "${site_root}/archives",
     require => File["${site_root}/archives"],
   }
