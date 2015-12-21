@@ -7,7 +7,7 @@ provided_file = nil
 # If we don't have an argument, let's look in the CWD/archives directory for
 # the last file available
 if ARGV.size != 1
-  archives_dir = File.join(Dir.pwd, 'archives')
+  archives_dir = File.join(File.dirname($0), 'archives')
   if File.exists? archives_dir
     provided_file = Dir.glob("#{archives_dir}/*.zip").sort.last
   else
@@ -18,21 +18,45 @@ else
   provided_file = ARGV.first
 end
 
-dir_name = File.basename(provided_file, File.extname(provided_file))
 
-unless File.exists? dir_name
-  puts "Processing #{provided_file} into #{dir_name}"
-  # Unzip it!
-  `unzip -qo #{provided_file}`
+# Simple method to ensure that two invocations of this don't overlap
+def use_lock(&block)
+  lock_file = '/tmp/deploy-site.lockfile'
 
-  if $? != 0
-    puts "Something went wrong unzipping #{provided_file}"
-    exit 1
+  if File.exists? lock_file
+    puts '> The lock exists, exiting'
+    exit 0
+  end
+
+  File.open(lock_file, 'w+') do |f|
+    f.write "#{Process.pid}\n"
+  end
+
+  begin
+    block.call
+  ensure
+    File.unlink(lock_file)
   end
 end
 
-unless File.readlink('current') == dir_name
-  FileUtils.rm_f('current')
-  FileUtils.ln_sf(dir_name, 'current')
-  puts "Updated the current symbolic link"
+
+use_lock do
+  dir_name = File.basename(provided_file, File.extname(provided_file))
+
+  unless File.exists? dir_name
+    puts "Processing #{provided_file} into #{dir_name}"
+    # Unzip it!
+    `unzip -qo #{provided_file}`
+
+    if $? != 0
+      puts "Something went wrong unzipping #{provided_file}"
+      exit 1
+    end
+  end
+
+  unless File.readlink('current') == dir_name
+    FileUtils.rm_f('current')
+    FileUtils.ln_sf(dir_name, 'current')
+    puts "Updated the current symbolic link"
+  end
 end
