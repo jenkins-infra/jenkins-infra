@@ -45,7 +45,7 @@ fixtures:
       ref: '0.2.0'
     ntp:
       repo: 'puppetlabs/ntp'
-      ref: '3.1.2'
+      ref: '4.1.2'
     inifile:
       repo: 'puppetlabs/inifile'
       ref: '1.0.3'

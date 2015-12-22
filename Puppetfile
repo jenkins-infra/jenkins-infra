@@ -21,7 +21,7 @@ mod "puppetlabs/git", '0.2.0'
 mod "gentoo/portage", '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
-mod "puppetlabs/ntp", '3.1.2'
+mod "puppetlabs/ntp", '4.1.2'
 
 # Module for managing sudoers across all machines
 mod 'saz/sudo', '3.0.6'
