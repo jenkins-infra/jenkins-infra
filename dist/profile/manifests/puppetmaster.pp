@@ -28,7 +28,7 @@ class profile::puppetmaster {
     notify => Service['pe-puppetserver'],
   }
 
-  ini_setting { 'Update report handlers':
+  ini_setting { 'update report handlers':
     ensure  => present,
     path    => '/etc/puppetlabs/puppet/puppet.conf',
     section => 'master',
@@ -38,6 +38,15 @@ class profile::puppetmaster {
     # We really can't use datadog_reports until we have our datadog.yaml in
     # place
     require => File['/etc/dd-agent/datadog.yaml'],
+  }
+
+  ini_setting { 'enable master pluginsync':
+    ensure  => present,
+    path    => '/etc/puppetlabs/puppet/puppet.conf',
+    section => 'master',
+    setting => 'pluginsync',
+    value   => true,
+    notify  => Service['pe-puppetserver'],
   }
 
   firewall { '010 allow dashboard traffic':

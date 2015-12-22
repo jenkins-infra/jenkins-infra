@@ -9,6 +9,30 @@ describe 'profile::puppetmaster' do
 
   it { should contain_class 'jenkins_keys' }
 
+  context 'puppet.conf' do
+    let(:path) { '/etc/puppetlabs/puppet/puppet.conf' }
+
+    it 'should enable report handlers' do
+      expect(subject).to contain_ini_setting('update report handlers').with({
+        :ensure => 'present',
+        :path => path,
+        :section => 'master',
+        :setting => 'reports',
+        :value => 'console,puppetdb,irc,datadog_reports',
+      })
+    end
+
+    it 'should enable pluginsync on the master' do
+      expect(subject).to contain_ini_setting('enable master pluginsync').with({
+        :ensure => 'present',
+        :path => path,
+        :section => 'master',
+        :setting => 'pluginsync',
+        :value => true,
+      })
+    end
+  end
+
   it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
   it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_port(443) }
   it { should contain_firewall('011 allow r10k webhooks').with_action('accept').with_port(9013) }
