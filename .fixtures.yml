@@ -48,7 +48,7 @@ fixtures:
       ref: '4.1.2'
     inifile:
       repo: 'puppetlabs/inifile'
-      ref: '1.0.3'
+      ref: '1.4.3'
     apt:
       repo: 'puppetlabs/apt'
       ref: '1.6.0'
