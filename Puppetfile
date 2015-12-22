@@ -17,7 +17,7 @@ mod "puppetlabs/pe_puppetserver_gem", '0.0.1'
 mod "puppetlabs/pe_gem", '0.0.1'
 mod "puppetlabs/inifile", '1.4.3'
 mod "puppetlabs/vcsrepo", '1.1.0'
-mod "puppetlabs/git", '0.2.0'
+mod "puppetlabs/git", '0.4.0'
 mod "gentoo/portage", '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time

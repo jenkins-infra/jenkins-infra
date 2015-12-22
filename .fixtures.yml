@@ -42,7 +42,7 @@ fixtures:
       ref: '1.1.1'
     git:
       repo: 'puppetlabs/git'
-      ref: '0.2.0'
+      ref: '0.4.0'
     ntp:
       repo: 'puppetlabs/ntp'
       ref: '4.1.2'
