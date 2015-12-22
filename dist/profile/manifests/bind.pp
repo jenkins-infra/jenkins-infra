@@ -1,4 +1,4 @@
-# Run containerized BIND9 to serve jenkins-ci.org zone
+# Run containerized BIND9 to serve both jenkins-ci.org and the jenkins.io zone
 class profile::bind (
   # all injected from hiera
   $image_tag,
@@ -20,6 +20,13 @@ class profile::bind (
     ensure  => present,
     notify  => Service['docker-bind'],
     source  => "puppet:///modules/${module_name}/bind/jenkins-ci.org.zone",
+    require => File[$conf_dir],
+  }
+
+  file { "${conf_dir}/jenkins.io.zone":
+    ensure  => present,
+    notify  => Service['docker-bind'],
+    source  => "puppet:///modules/${module_name}/bind/jenkins.io.zone",
     require => File[$conf_dir],
   }
 

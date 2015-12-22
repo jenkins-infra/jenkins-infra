@@ -1,0 +1,23 @@
+; Domain: jenkins.io
+
+; SOA Record
+@  1D  IN  SOA    ns1.jenkins-ci.org. tyler.monkeypox.org. (
+                2015122201 ; serial, todays date + todays serial #
+                28800      ; refresh, seconds
+                7200       ; retry, seconds
+                604800     ; expire, seconds
+                3600       ; minimum, seconds
+                )
+
+; A Records
+@           3600    IN    A    140.211.15.101 ; eggplant
+
+; CNAME Records
+www         3600    IN    CNAME    @
+
+; NS Records
+@           3600    IN    NS    ns1.jenkins-ci.org.
+@           3600    IN    NS    ns2.jenkins-ci.org.
+@           3600    IN    NS    ns3.jenkins-ci.org.
+;  IN    NS    ns2.jenkins-ci.org.
+;  IN    NS    ns3.jenkins-ci.org.
