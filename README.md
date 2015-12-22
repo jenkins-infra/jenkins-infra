@@ -93,6 +93,22 @@ For installing agents refer to the [installing
 agents](http://docs.puppetlabs.com/pe/latest/install_agents.html) section of
 the PuppetLabs documentation.
 
+## Adding a new branch/environment
+
+"Dynamic environments" are in a bit of flux for the current version (3.7) of
+Puppet Enterprise that we're using. An unfortunate side-effect of this is that
+creating a branch in this repository is *not* sufficient to create a dynamic
+environment that can be used via the Puppet master.
+
+The enable an environment, add a file on the Puppet master:
+`/etc/puppetlabs/puppet/environments/my-environment-here/environment.conf` with
+the following:
+
+```conf
+modulepath = ./dist:./modules:/opt/puppet/share/puppet/modules
+manifest = ./manifests/site.pp
+```
+
 ## Contributing
 
 * `#jenkins-infra` on the [Freenode](http://freenode.net) IRC network

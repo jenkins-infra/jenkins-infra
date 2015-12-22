@@ -1,5 +1,6 @@
 # Jenkins build slave connectable via SSH
 class profile::buildslave {
+  include ::stdlib
   include git
   # Make sure our Ruby class is properly contained so we can require it in a
   # Package resource
@@ -22,16 +23,13 @@ class profile::buildslave {
     require  => Class['ruby'],
   }
 
-  package {
-    [
+  ensure_packages([
       'libxml2-dev',          # for Ruby apps that require nokogiri
       'libxslt1-dev',         # for Ruby apps that require nokogiri
       'libcurl4-openssl-dev', # for curb gem
       'libruby',              # for net/https
       'subversion',
-    ]:
-      ensure   => installed,
-  }
+  ])
 }
 
 # vim: nowrap
