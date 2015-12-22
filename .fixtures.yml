@@ -22,7 +22,7 @@ fixtures:
       repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
     datadog_agent:
       repo: 'git://github.com/jenkins-infra/puppet-datadog-agent.git'
-      ref: 'c8ce536'
+      ref: 'fd72624'
 
   forge_modules:
     stdlib:

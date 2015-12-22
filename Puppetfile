@@ -78,4 +78,4 @@ mod 'puppetlabs/lvm', '0.3.2'
 
 mod 'datadog_agent',
   :git => 'git://github.com/jenkins-infra/puppet-datadog-agent.git',
-  :ref => 'c8ce536'
+  :ref => 'fd72624'
