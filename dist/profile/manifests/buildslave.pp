@@ -1,6 +1,7 @@
 # Jenkins build slave connectable via SSH
 class profile::buildslave {
   include ::stdlib
+  include profile::docker
   include git
   # Make sure our Ruby class is properly contained so we can require it in a
   # Package resource
