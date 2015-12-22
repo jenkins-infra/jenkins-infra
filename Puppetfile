@@ -11,13 +11,13 @@ mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
         :ref => '4.9.0'
 
-mod 'puppetlabs/ruby', '0.2.0'
-mod "puppetlabs/gcc", '0.2.0'
+mod 'puppetlabs/ruby', '0.4.0'
+mod "puppetlabs/gcc", '0.3.0'
 mod "puppetlabs/pe_puppetserver_gem", '0.0.1'
 mod "puppetlabs/pe_gem", '0.0.1'
-mod "puppetlabs/inifile", '1.0.3'
+mod "puppetlabs/inifile", '1.4.3'
 mod "puppetlabs/vcsrepo", '1.1.0'
-mod "puppetlabs/git", '0.2.0'
+mod "puppetlabs/git", '0.4.0'
 mod "gentoo/portage", '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
@@ -38,8 +38,8 @@ mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
               :ref => '1c63ac4'
 
 # Deps for docker
-mod 'puppetlabs/apt', '1.6.0'
-mod 'stahnma/epel', '0.0.6'
+mod 'puppetlabs/apt', '2.2.1'
+mod 'stahnma/epel', '1.1.2'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
