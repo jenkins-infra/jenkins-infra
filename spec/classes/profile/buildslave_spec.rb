@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'profile::buildslave' do
   it { should contain_class 'ruby' }
+  it { should contain_class 'docker' }
 
   context 'build slave tooling' do
     it { should contain_package 'bundler' }
