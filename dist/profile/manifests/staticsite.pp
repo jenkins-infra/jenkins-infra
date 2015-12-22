@@ -26,13 +26,15 @@ class profile::staticsite(
   $site_docroot = "${site_root}/current"
 
   account { $deployer_user:
-    home_dir => $site_root,
-    ssh_key  => $deployer_ssh_key,
-    groups   => [$deployer_group],
-    shell    => $deployer_shell,
-    comment  => 'Static Site Deployer role account',
-    notify   => Exec['chown staticsite'],
+    home_dir     => $site_root,
+    ssh_key      => $deployer_ssh_key,
+    gid          => $deployer_group,
+    create_group => false,
+    shell        => $deployer_shell,
+    comment      => 'Static Site Deployer role account',
+    notify       => Exec['chown staticsite'],
   }
+
 
   # Make sure our deployer's shell is listed as a valid shell
   file_line { 'sftp-server shell':
