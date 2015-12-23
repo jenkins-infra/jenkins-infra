@@ -12,12 +12,29 @@
 ; A Records
 @           3600    IN    A    140.211.15.101 ; eggplant
 
+; Physical machine at Contegix
+cucumber    3600    IN    A    199.193.196.24
+; VM at Rackspace
+spinach     3600    IN    A    173.203.60.151
+celery      3600    IN    A    162.242.234.101
+okra        3600    IN    A    162.209.106.32
+cabbage     3600    IN    A    104.130.167.56
+
+; Hosts at OSUOSL
+lettuce     3600    IN    A    140.211.9.32      ; otherwise known as jenkins-lettuce.osuosl.org
+artichoke   3600    IN    A    140.211.9.22      ; otherwise known as jenkins-puppet.osuosl.org
+eggplant    3600    IN    A    140.211.15.101    ; otherwise known as hudson-java.osuosl.org
+edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-confluence.osuosl.org
+
+
 ; CNAME Records
 www         3600    IN    CNAME    @
+beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
+puppet      3600    IN    CNAME    artichoke
+ci          3600    IN    CNAME    celery
+
 
 ; NS Records
 @           3600    IN    NS    ns1.jenkins-ci.org.
 @           3600    IN    NS    ns2.jenkins-ci.org.
 @           3600    IN    NS    ns3.jenkins-ci.org.
-;  IN    NS    ns2.jenkins-ci.org.
-;  IN    NS    ns3.jenkins-ci.org.
