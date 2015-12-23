@@ -92,7 +92,7 @@ class profile::staticsite(
     refreshonly => true,
   }
 
-  apache::vhost { 'beta.jenkins-ci.org':
+  apache::vhost { ['beta.jenkins-ci.org', 'beta.jenkins.io']:
     port    => '80',
     docroot => $site_docroot,
     require => File[$site_docroot],
