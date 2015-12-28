@@ -17,5 +17,13 @@ describe 'profile::buildslave' do
     # Keeping these two examples here to make sure a user and group are created
     it { should contain_user 'jenkins' }
     it { should contain_group 'jenkins' }
+
+    context 'ssh keys' do
+      it 'should provision the private node sync private key' do
+        expect(subject).to contain_file('/home/jenkins/.ssh/id_rsa').with({
+          :ensure => 'file',
+        })
+      end
+    end
   end
 end
