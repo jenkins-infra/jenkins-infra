@@ -24,6 +24,7 @@ class profile::staticsite(
   $deployer_shell = '/usr/lib/sftp-server'
   $deployer_group = 'www-data'
   $site_docroot = "${site_root}/current"
+  $beta_docroot = "${site_root}/beta"
 
   account { $deployer_user:
     home_dir     => $site_root,
@@ -87,14 +88,29 @@ class profile::staticsite(
     require => File["${site_root}/archives"],
   }
 
+  file { $beta_docroot:
+    ensure  => link,
+    replace => false,
+    owner   => $deployer_user,
+    group   => $deployer_group,
+    target  => "${site_root}/archives",
+    require => File["${site_root}/archives"],
+  }
+
   exec { 'chown staticsite':
     command     => "/bin/chown -R ${deployer_user}:${deployer_group} ${site_root}",
     refreshonly => true,
   }
 
-  apache::vhost { ['beta.jenkins-ci.org', 'beta.jenkins.io']:
+  apache::vhost { 'beta.jenkins-ci.org':
     port    => '80',
     docroot => $site_docroot,
     require => File[$site_docroot],
+  }
+
+  apache::vhost { 'beta.jenkins.io':
+    port    => '80',
+    docroot => $beta_docroot,
+    require => File[$beta_docroot],
   }
 }
