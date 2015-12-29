@@ -37,6 +37,9 @@ describe 'profile::staticsite' do
   it { should contain_apache__vhost('beta.jenkins-ci.org')
               .with(:docroot => '/srv/jenkins.io/current') }
 
+  it { should contain_apache__vhost('beta.jenkins.io')
+              .with(:docroot => '/srv/jenkins.io/beta') }
+
   it 'should invoke deploy-site in a cron' do
     expect(subject).to contain_cron('deploy-site').with({
       :ensure => 'present',
