@@ -2,61 +2,74 @@
 
 require 'fileutils'
 
-provided_file = nil
+provided_file = ARGV.first
+
+module Deployer
+  # Simple method to ensure that two invocations of this don't overlap
+  def self.use_lock(&block)
+    lock_file = '/tmp/deploy-site.lockfile'
+
+    if File.exists? lock_file
+      puts '> The lock exists, exiting'
+      exit 0
+    end
+
+    File.open(lock_file, 'w+') do |f|
+      f.write "#{Process.pid}\n"
+    end
+
+    begin
+      block.call
+    ensure
+      File.unlink(lock_file)
+    end
+  end
+
+  def self.update_deployment(deploy_dir, dir_name)
+    unless File.readlink(deploy_dir) == dir_name
+      FileUtils.rm_f deploy_dir
+      FileUtils.ln_sf(dir_name, deploy_dir)
+      puts "Updated the #{deploy_dir} symbolic link"
+    end
+  end
+
+  def self.deploy!(provided_file, into)
+    use_lock do
+      dir_name = File.basename(provided_file, File.extname(provided_file))
+
+      unless File.exists? dir_name
+        puts "Processing #{provided_file} into #{dir_name}"
+        # Unzip it!
+        `unzip -qo #{provided_file}`
+
+        if $? != 0
+          puts "Something went wrong unzipping #{provided_file}"
+          exit 1
+        end
+      end
+
+      update_deployment(into, dir_name)
+    end
+  end
+end
 
 # If we don't have an argument, let's look in the CWD/archives directory for
 # the last file available
 if ARGV.size != 1
   archives_dir = File.join(File.dirname($0), 'archives')
-  if File.exists? archives_dir
-    provided_file = Dir.glob("#{archives_dir}/*.zip").sort.last
-  else
+  unless File.exists? archives_dir
     puts "> Please provide a zip file generated from the jenkins.io build process"
     exit 1
   end
-else
-  provided_file = ARGV.first
-end
 
+  archives = Dir.glob("#{archives_dir}/*.zip").sort
 
-# Simple method to ensure that two invocations of this don't overlap
-def use_lock(&block)
-  lock_file = '/tmp/deploy-site.lockfile'
-
-  if File.exists? lock_file
-    puts '> The lock exists, exiting'
-    exit 0
+  [
+    ['current', archives.reject { |f| f =~ /beta/ }.last],
+    ['beta', archives.select { |f| f =~ /beta/ }.last],
+  ].each do |deploy_dir, archive|
+    next if archive.nil?
+    Deployer.deploy! archive, deploy_dir
   end
 
-  File.open(lock_file, 'w+') do |f|
-    f.write "#{Process.pid}\n"
-  end
-
-  begin
-    block.call
-  ensure
-    File.unlink(lock_file)
-  end
-end
-
-
-use_lock do
-  dir_name = File.basename(provided_file, File.extname(provided_file))
-
-  unless File.exists? dir_name
-    puts "Processing #{provided_file} into #{dir_name}"
-    # Unzip it!
-    `unzip -qo #{provided_file}`
-
-    if $? != 0
-      puts "Something went wrong unzipping #{provided_file}"
-      exit 1
-    end
-  end
-
-  unless File.readlink('current') == dir_name
-    FileUtils.rm_f('current')
-    FileUtils.ln_sf(dir_name, 'current')
-    puts "Updated the current symbolic link"
-  end
 end
