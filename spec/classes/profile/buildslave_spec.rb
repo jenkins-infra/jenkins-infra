@@ -10,8 +10,8 @@ describe 'profile::buildslave' do
         :host_aliases => ['github.com'],
         :ensure => :present,
       }
-      expect(subject).to contain_sshkey('github rsa key').with(properties)
-      expect(subject).to contain_sshkey('github dsa key').with(properties)
+      expect(subject).to contain_sshkey('github-rsa').with(properties)
+      expect(subject).to contain_sshkey('github-dsa').with(properties)
     end
   end
 
