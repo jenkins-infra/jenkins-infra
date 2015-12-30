@@ -42,6 +42,22 @@ class profile::buildslave(
       'libruby',              # for net/https
       'subversion',
   ])
+
+
+  # https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/
+  sshkey { 'github-rsa':
+    ensure       => present,
+    host_aliases => ['github.com'],
+    type         => 'ssh-rsa',
+    key          => '16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48',
+  }
+
+  sshkey { 'github-dsa':
+    ensure       => present,
+    host_aliases => ['github.com'],
+    type         => 'ssh-dss',
+    key          => 'ad:1c:08:a4:40:e3:6f:9c:f5:66:26:5d:4b:33:5d:8c',
+  }
 }
 
 # vim: nowrap

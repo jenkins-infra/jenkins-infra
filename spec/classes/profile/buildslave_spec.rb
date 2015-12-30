@@ -4,6 +4,17 @@ describe 'profile::buildslave' do
   it { should contain_class 'ruby' }
   it { should contain_class 'docker' }
 
+  context 'SSH host keys' do
+    it "should include GitHub's host keys" do
+      properties = {
+        :host_aliases => ['github.com'],
+        :ensure => :present,
+      }
+      expect(subject).to contain_sshkey('github-rsa').with(properties)
+      expect(subject).to contain_sshkey('github-dsa').with(properties)
+    end
+  end
+
   context 'build slave tooling' do
     it { should contain_package 'bundler' }
     # Provided by the `git` module
