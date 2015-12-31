@@ -39,6 +39,7 @@ ns3         3600    IN    A    162.209.106.32 ; okra (Rackspace)
 www         3600    IN    CNAME    @
 issues      3600    IN    CNAME    edamame
 gherkin     3600    IN    CNAME    cucumber
+drupal      3600    IN    CNAME    cucumber
 wiki        3600    IN    CNAME    lettuce
 updates     3600    IN    CNAME    cucumber
 downloads   3600    IN    CNAME    cucumber
