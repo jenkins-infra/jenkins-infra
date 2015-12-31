@@ -49,14 +49,11 @@ class profile::buildslave(
     ensure       => present,
     host_aliases => ['github.com'],
     type         => 'ssh-rsa',
-    key          => '16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48',
+    key          => 'AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==',
   }
 
   sshkey { 'github-dsa':
-    ensure       => present,
-    host_aliases => ['github.com'],
-    type         => 'ssh-dss',
-    key          => 'ad:1c:08:a4:40:e3:6f:9c:f5:66:26:5d:4b:33:5d:8c',
+    ensure => absent,
   }
 }
 
