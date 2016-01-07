@@ -8,12 +8,11 @@ class profile::jenkinsadmin (
   $jira_login,
   $jira_password,
   $nick_password,
+  $tag = undef,
 ) {
   include profile::docker
 
-  # Tag is the docker container image tag from our build process, this job:
-  # <https://ci.jenkins-ci.org/view/Infrastructure/job/infra_ircbot>
-  $tag = 'build41'
+  validate_string($tag)
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':
