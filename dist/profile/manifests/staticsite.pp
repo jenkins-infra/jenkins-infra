@@ -108,7 +108,7 @@ class profile::staticsite(
     require => File[$site_docroot],
   }
 
-  apache::vhost { 'beta.jenkins.io':
+  apache::vhost { ['beta.jenkins.io', 'jenkins.io']:
     port    => '80',
     docroot => $beta_docroot,
     require => File[$beta_docroot],
