@@ -41,6 +41,8 @@ class profile::buildslave(
       'libcurl4-openssl-dev', # for curb gem
       'libruby',              # for net/https
       'subversion',
+      'make',
+      'build-essential',
   ])
 
 

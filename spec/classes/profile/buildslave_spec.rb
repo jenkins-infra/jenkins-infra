@@ -19,6 +19,9 @@ describe 'profile::buildslave' do
     # Provided by the `git` module
     it { should contain_package 'git' }
     it { should contain_package 'subversion' }
+
+    it { should contain_package 'make' }
+    it { should contain_package 'build-essential' }
   end
 
   context 'managing a `jenkins` user' do
