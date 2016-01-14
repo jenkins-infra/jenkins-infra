@@ -2,7 +2,6 @@ require 'spec_helper'
 
 describe 'profile::buildslave' do
   it { should contain_class 'ruby' }
-  it { should contain_class 'docker' }
 
   context 'SSH host keys' do
     it "should include GitHub's host keys" do
@@ -37,6 +36,17 @@ describe 'profile::buildslave' do
           :ensure => 'file',
         })
       end
+    end
+  end
+
+  context 'docker support' do
+    it { should contain_class 'docker' }
+    it { should contain_package 'docker' }
+
+    it 'should contain dockerhub credentials' do
+      expect(subject).to contain_file('/home/jenkins/.docker').with_ensure('directory')
+
+      expect(subject).to contain_file('/home/jenkins/.docker/config.json').with_ensure('file')
     end
   end
 end
