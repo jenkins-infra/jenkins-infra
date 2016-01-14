@@ -48,15 +48,3 @@ shared_examples "an OSU hosted machine" do
     its(:stdout) { should match /osuadmin/ }
   end
 end
-
-
-shared_examples "a Jenkins build slave" do
-  describe user('jenkins') do
-    it { should exist }
-    it { should have_home_directory '/home/jenkins' }
-  end
-
-  describe file('/home/jenkins/.ssh/authorized_keys') do
-    it { should be_file }
-  end
-end

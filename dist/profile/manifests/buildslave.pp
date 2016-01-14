@@ -10,7 +10,9 @@ class profile::buildslave(
   # Package resource
   contain('ruby')
 
-  account { 'jenkins':
+  $user = 'jenkins'
+
+  account { $user:
     home_dir => $home_dir,
     groups   => ['jenkins', 'docker'],
     ssh_keys => {
@@ -27,6 +29,20 @@ class profile::buildslave(
   file { "${home_dir}/.ssh/id_rsa":
     ensure  => file,
     content => $ssh_private_key,
+    require => Account[$user],
+  }
+
+  file { "${home_dir}/.docker":
+    ensure  => directory,
+    owner   => $user,
+    require => Account[$user],
+  }
+
+  file { "${home_dir}/.docker/config.json":
+    ensure  => file,
+    content => hiera('docker_hub_key'),
+    owner   => $user,
+    require => File["${home_dir}/.docker"],
   }
 
   package { 'bundler':
