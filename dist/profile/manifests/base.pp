@@ -15,4 +15,10 @@ class profile::base {
       'PubkeyAuthentication'   => 'yes',
     },
   }
+
+  class { 'ssh::client':
+    options => {
+      'UseRoaming' => 'no',
+    },
+  }
 }
