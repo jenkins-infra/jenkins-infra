@@ -27,6 +27,11 @@ shared_examples "a standard Linux machine" do
     it { should contain 'PasswordAuthentication no' }
   end
 
+  describe file('/etc/ssh/ssh_config') do
+    # https://issues.jenkins-ci.org/browse/INFRA-546
+    it { should contain 'UseRoaming no' }
+  end
+
   # We should always have the agent running
   describe service('datadog-agent') do
     it { should be_enabled }
