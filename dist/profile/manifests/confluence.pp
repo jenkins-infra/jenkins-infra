@@ -11,6 +11,7 @@ class profile::confluence (
   # as a preparation, deploying mock-webapp and not the real confluence
 
   include profile::atlassian
+  include apache::mod::rewrite
   include profile::apache-misc
 
   account { 'wiki':
@@ -36,6 +37,13 @@ class profile::confluence (
   file { '/srv/wiki/docroot':
     ensure => directory,
     group  => $profile::atlassian::group_name,
+  }
+
+  file { '/srv/wiki/docroot/robots.txt':
+    ensure => directory,
+    owner  => 'wiki',
+    group  => $profile::atlassian::group_name,
+    source => 'puppet:///modules/profile/confluence/robots.txt',
   }
 
   $ldap_password = hiera('profile::ldap::admin_password')
