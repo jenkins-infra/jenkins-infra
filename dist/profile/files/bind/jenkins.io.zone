@@ -40,6 +40,6 @@ ci          3600    IN    CNAME    celery
 @           3600    IN    NS    ns3.jenkins-ci.org.
 
 ; spam trap
-spamtrap    3600    IN    MX    10 mxa.mailgun.org
-spamtrap    3600    IN    MX    10 mxb.mailgun.org
+spamtrap    3600    IN    MX    10 mxa.mailgun.org.
+spamtrap    3600    IN    MX    10 mxb.mailgun.org.
 
