@@ -75,7 +75,4 @@ mod 'nanliu/staging', '0.4.0'
 mod 'saz/ssh', '2.3.6'
 
 mod 'puppetlabs/lvm', '0.3.2'
-
-mod 'datadog_agent',
-  :git => 'git://github.com/jenkins-infra/puppet-datadog-agent.git',
-  :ref => 'fd72624'
+mod 'datadog/datadog_agent', '1.6.0'
