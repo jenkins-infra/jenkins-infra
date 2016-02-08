@@ -77,7 +77,7 @@ archives    3600    IN    CNAME    okra
 beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
 
 ; MX Records
-@          3600    IN    MX    0    gherkin
+@          3600    IN    MX    0    cucumber
 lists      3600    IN    MX    0    smtp1.osuosl.org.
 lists      3600    IN    MX    0    smtp2.osuosl.org.
 lists      3600    IN    MX    0    smtp3.osuosl.org.
