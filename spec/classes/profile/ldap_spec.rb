@@ -11,4 +11,8 @@ describe 'profile::ldap' do
       })
     end
   end
+
+  context 'monitoring' do
+    it { should contain_profile__datadog_check 'ldap-process-check' }
+  end
 end

@@ -1,6 +1,8 @@
 #
 # Manage an OpenLDAP authentication service
 class profile::ldap {
+  include ::datadog_agent
+
   package { 'slapd':
     ensure => present,
   }
@@ -12,7 +14,12 @@ class profile::ldap {
   }
 
   file { '/etc/default/slapd':
-    source => "puppet:///modules/${module_name}/slapd.defaults",
+    source => 'puppet:///modules/profile/ldap/slapd.defaults',
     notify => Service[slapd],
+  }
+
+  profile::datadog_check { 'ldap-process-check':
+    checker => 'process',
+    source  => 'puppet:///modules/profile/ldap/process_check.yaml',
   }
 }
