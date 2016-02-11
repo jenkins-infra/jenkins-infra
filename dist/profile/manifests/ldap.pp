@@ -2,7 +2,13 @@
 # Manage an OpenLDAP authentication service
 #
 class profile::ldap {
-  include firewall
+  # Not including profile::firewall intentionally here to avoid introducing
+  # redundant iptables rules for the same patterns but with different names
+  # between jenkins-infra and infra-puppet.
+  #
+  # If this is to be applied on any role other than cucumber, the caller should
+  # expect to include profile::firewall themselves
+  include ::firewall
   include ::datadog_agent
 
   package { 'slapd':
