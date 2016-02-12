@@ -62,7 +62,12 @@ if ARGV.size != 1
     exit 1
   end
 
-  archives = Dir.glob("#{archives_dir}/*.zip").sort
+  version_regex = /.*jenkins.io-(\d+).(\d+).(\d+).*/
+  archives = Dir.glob("#{archives_dir}/*.zip").sort do |a, b|
+    # Make sure that we're always sorting on the patch number for now, that's
+    # the only thing we really care about right now (BUILD_NUMBER)
+    a.match(version_regex)[3].to_i <=> b.match(version_regex)[3].to_i
+  end
 
   [
     ['current', archives.reject { |f| f =~ /beta/ }.last],
