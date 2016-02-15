@@ -19,7 +19,7 @@ class profile::atlassian {
 
   sudo::conf { $group_name:
     priority => 10,
-    content  => "%${group_name} ALL=(ALL) NOPASSWD: /usr/sbin/service",
+    content  => "%${group_name} ALL=(ALL) NOPASSWD: /usr/sbin/service,/usr/bin/docker",
     require  => Group[$group_name],
   }
 }
