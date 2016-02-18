@@ -19,6 +19,8 @@ spinach     3600    IN    A    173.203.60.151
 celery      3600    IN    A    162.242.234.101
 okra        3600    IN    A    162.209.106.32
 cabbage     3600    IN    A    104.130.167.56
+kelp        3600    IN    A    162.209.124.149
+kelp        3600    IN    AAAA 2001:4802:7801:101:be76:4eff:fe20:b252 ; when cloud gives you ipv6...
 
 ; Hosts at OSUOSL
 lettuce     3600    IN    A    140.211.9.32      ; otherwise known as jenkins-lettuce.osuosl.org
