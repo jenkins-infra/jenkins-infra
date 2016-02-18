@@ -24,6 +24,7 @@ class profile::buildslave(
                   },
                 },
     comment  => 'Jenkins build slave user',
+    require  => Package['docker'],
   }
 
   file { "${home_dir}/.ssh/id_rsa":
