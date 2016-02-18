@@ -67,6 +67,11 @@ node 'cabbage' {
   include role::cabbage
 }
 
+# kelp
+node 'kelp' {
+  include role::kelp
+}
+
 # eggplant
 node 'eggplant.jenkins-ci.org' {
   include role::eggplant
