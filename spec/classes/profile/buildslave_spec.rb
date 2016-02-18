@@ -24,7 +24,12 @@ describe 'profile::buildslave' do
   end
 
   context 'managing a `jenkins` user' do
-    it { should contain_account 'jenkins' }
+    it 'should provision the "jenkins" account properly' do
+      expect(subject).to contain_account('jenkins').with({
+        # We need our docker group to exist first
+        :require => 'Group[docker]',
+      })
+    end
 
     # Keeping these two examples here to make sure a user and group are created
     it { should contain_user 'jenkins' }
