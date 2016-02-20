@@ -21,11 +21,10 @@ Vagrant.configure("2") do |config|
     aws.secret_access_key = secret_access_key
     aws.keypair_name = keypair
 
-    # Ubuntu LTS 12.04 in us-west-2 with Puppet installed from the Puppet
-    # Labs apt repository, with a Docker capable (3.8) Linux kernel
-    aws.ami = 'ami-69db9b59'
+    # Ubuntu LTS 14.04 in us-west-2 stock
+    aws.ami = 'ami-9abea4fb'
     aws.region = 'us-west-2'
-    aws.instance_type = 'm3.medium'
+    aws.instance_type = 'm4.large'
 
     override.ssh.username = "ubuntu"
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
@@ -45,7 +44,7 @@ Vagrant.configure("2") do |config|
       # This is a Vagrant-local hack to make sure we have properly udpated apt
       # caches since AWS machines are definitely going to have stale ones
       node.vm.provision 'shell',
-        :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && touch /apt-cached; fi'
+        :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && apt-get install -yq puppet && touch /apt-cached; fi'
 
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)
