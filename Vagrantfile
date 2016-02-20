@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     # Ubuntu LTS 14.04 in us-west-2 stock
     aws.ami = 'ami-9abea4fb'
     aws.region = 'us-west-2'
-    aws.instance_type = 'm4.large'
+    aws.instance_type = 'm3.medium'
 
     override.ssh.username = "ubuntu"
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
