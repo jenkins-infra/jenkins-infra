@@ -6,6 +6,13 @@ shared_examples 'an Apache webserver' do
     it { should be_running }
   end
 
+  context 'ssl.conf' do
+    describe file('/etc/apache2/conf.d/ssl.conf') do
+      it { should be_file }
+      its(:content) { should match /-SSLv2 -SSLv3/ }
+    end
+  end
+
   describe iptables do
     it 'should have port 80 open' do
       should have_rule

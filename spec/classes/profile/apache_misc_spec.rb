@@ -5,6 +5,7 @@ describe 'profile::apache-misc' do
   shared_examples 'apache-misc' do
     it { should contain_class 'apache' }
     it { should contain_class 'apachelogcompressor' }
+    it { should contain_package 'apache2-utils' }
 
     it { should contain_file '/etc/apache2/conf.d/00-reverseproxy_combined' }
     it { should contain_file '/etc/apache2/conf.d/other-vhosts-access-log' }
