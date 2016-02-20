@@ -74,7 +74,7 @@ class profile::robobutler (
       access_log      => false,
       error_log_file  => 'meetings.jenkins-ci.org/error.log',
       log_level       => 'warn',
-      custom_fragment => 'CustomLog "|/usr/sbin/rotatelogs /var/log/apache2/meetings.jenkins.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
+      custom_fragment => 'CustomLog "|/usr/bin/rotatelogs /var/log/apache2/meetings.jenkins-ci.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
       notify          => Service['apache2'],
       require         => File['/var/log/apache2/meetings.jenkins-ci.org'],
   }
