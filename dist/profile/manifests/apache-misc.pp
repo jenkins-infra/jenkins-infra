@@ -24,6 +24,11 @@ class profile::apache-misc(
     mode   => '0444',
   }
 
+  # /usr/bin/rotatelogs is (as of 14.04) located in apache2-utils
+  package { 'apache2-utils' :
+    ensure => present,
+  }
+
   # allow Jenkins to login as www-data to populate some web content
   if $ssh_enabled {
     file { '/var/www/.ssh':
