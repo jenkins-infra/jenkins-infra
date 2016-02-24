@@ -46,6 +46,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCY9lv6Wt78pcKz+t048dIYvafeXtVok1vse4E3fTDueFNQY/JtP2kBNOEeP+lvLLQcetfVUeHZhStz7mbAQyyXN9c3m0F85CReJaQVppxOTzbXCWOInYuI4q8MvIK0NfTHEkC8HxRjaUI0uspdAG2Hh6R9N9DlS23oS9TVWtmvrv6QtbbOSBAZ4JwcZG7ybRFPD9m115BYcR17iliHxGcd/npTgDlbeaYXFrYcfg8n8GFWxpKyMgciaFbcB2YUmtOZJbPfVUqvamyLh7kzmukrfwsK7pkROFoiAyt87w/gzI7vzb2TGBpmJ5i5g67tS8TdvIxkBIpGRXlixziAVktL
     groups:
       - atlassian-admins
+  lshatzer:
+    ssh_keys:
+      lshatzer:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCt3ib6HIrn+sTERJW4/OI7VocQYDKSelZH76y7CKQjcOGK/Lsoo/31Gie0bRSJqgXMLXJxTfLmp1Bkx2QRiDVBixAZjUrVfzaIdCy2qnVPHjUaf4xkXXqoLsM0Av1xei8eSBq1zHLIN+AJH7VlJOt3XqNapG6iYSm1cH9yWcwgu5dX0urlhYybIIEfCwPth89v3+EqgMgEaV9Q7eTtpFwqv8omKO1vDuiH6/ez9npL60soLlj8hqVS9RoLZGtf1DYTxUka8tNLThnCH6DRToWCk9t3cghL+vyygc02fgve9oiVsLk9+QmdtuLCJMcm2Ah/VJqjOLFQdBn8xPscpzS1
+    groups:
+      - atlassian-admins
 
 r10k_options:
   deployhooks_logdir: /var/log
@@ -80,7 +86,7 @@ profile::jenkinsadmin::jira_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYC
 profile::jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApcoIRvdK5ucSrPibeyrhAQactyxQGTJLdVaopQdEu8MUVQIPcsi052ib60se8E51JUSiQhus3dV9b7KTnLqPGV2eYz08jAgUJTnYcxOlSp7nRY8HXRXIAJ8uhjrYxXpw8B0pisxb4joEEMhYdlBMrFthXUxD8g3LoybOLsRVjQViFJeRfvg9cVUQ2fgqHnXKyyTCadqQCYyNXlSB9yc8J4W1/xfjpIfE3EcQ6GcHYe225tPy0aPMetUnt7v5qRzuuO5xPYO86ByBDd4rSxn6El1cokOxIIg1IAr4q55h6QwFLHoXX4GtvV05CHB9pgfxuxc0JHV7Mv9L/+cDpwyq8jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvd92Vb6hSA9rBlA48KfaogBDLJlf7Q+XwAU4fMZbOO7go]
 # Tag is the docker container image tag from our build process, this job:
 # <https://ci.jenkins-ci.org/view/Infrastructure/job/infra_ircbot>
-profile::jenkinsadmin::tag: 'build44'
+profile::jenkinsadmin::tag: 'build46'
 
 profile::robobutler::nick: robobutler
 profile::robobutler::password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABVdkhSaLYP67aKwr9xtAmgJodLoRa07Mt2sErWwXlICuI3M45r+OUsAjHg+7A1ou/uZZTvT00Y53OuCGp03kvuaTgJy/odOVxj9BR0XI8yw94q+/VR5TqNfub76JcHQ5nRKMpvNHc+a31VFVP+gtZ38SMHUF/OUBu8c3qTcBdKPG0KJtnI3JVAiOUiYcDCSAf55AwaqqUZYETj2b5428UAWcw5fWr5+yWyS8jCpvvxRZg1M6FcaL23pJh1fnU5IDPoKo3S03aPsRv+1O1ztliaw3pBcXnid6m5RJYshx+cF2PjoXlao/7zs0PN+DYz6V4jKkqLMsIrEtq8vy2rcBmTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCRYFvchg57uCM+JWkUSoHTgDBWkeBzwDPHBOe31gkH43kNrO8OnqrlP5rA5agte04g08TPL/4nwAV10uuMWJGxmwU=]
