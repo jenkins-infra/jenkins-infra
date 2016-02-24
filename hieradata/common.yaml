@@ -49,7 +49,7 @@ accounts:
   lshatzer:
     ssh_keys:
       lshatzer:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDT4ETSfOR+ySn20wk+kqKzeM+xhpWq5hJSSxXQ7vjBlib4XyHVjnNyZNM62B2+VJucEzKJVrkmlLcNzCfSUFPOphROWwHEVtvmlbKUqqYS1ICJLYwMWtkwlqMVI+qJGS8DUb4kyWG/L2jWq1aEnAFCkMzhI97jy3EuRsEweVT+kTOh4zpvUyOQKU6EB8UbbdVZXcwcyFsre9W9fBQhKRMiQOhD5+zAWP9HRkt83t915+RvwYWftL0jjggI2XmwNfPfe9EeRtT0U7iGrrrI/KEIT1nSWiHdN2bnrz658MyWntvsobnMNPvc5S5NnKH1fSz/SsTDPcCa9XyW18qG83iF
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCt3ib6HIrn+sTERJW4/OI7VocQYDKSelZH76y7CKQjcOGK/Lsoo/31Gie0bRSJqgXMLXJxTfLmp1Bkx2QRiDVBixAZjUrVfzaIdCy2qnVPHjUaf4xkXXqoLsM0Av1xei8eSBq1zHLIN+AJH7VlJOt3XqNapG6iYSm1cH9yWcwgu5dX0urlhYybIIEfCwPth89v3+EqgMgEaV9Q7eTtpFwqv8omKO1vDuiH6/ez9npL60soLlj8hqVS9RoLZGtf1DYTxUka8tNLThnCH6DRToWCk9t3cghL+vyygc02fgve9oiVsLk9+QmdtuLCJMcm2Ah/VJqjOLFQdBn8xPscpzS1
     groups:
       - atlassian-admins
 
