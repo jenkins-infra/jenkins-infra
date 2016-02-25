@@ -1,12 +1,12 @@
 #
-# Run jenkins 2.0 preview in a Docker container to demo its functionality
-class profile::jenkins2demo {
+# Run a demo instance of Jenkins in a Docker container
+class profile::demo {
   include profile::docker
   include profile::apache-misc
 
   $image = 'jenkinsci/jenkins:2.0-alpha-1'
   $user  = 'jenkins2'
-  $site  = 'jenkins2demo'
+  $site  = 'demo'
   $uid   = 2002
 
   docker::image { $image:
@@ -14,7 +14,7 @@ class profile::jenkins2demo {
 
   docker::run { $site:
     username        => $uid,
-    volumes         => ['/srv/jenkins2demo:/var/jenkins_home'],
+    volumes         => ['/srv/demo:/var/jenkins_home'],
     image           => $image,
     ports           => ['8080:8080'],
     restart_service => true,
@@ -22,15 +22,15 @@ class profile::jenkins2demo {
     require         => [
       Class['::docker'],
       Docker::Image[$image],
-      File['/srv/jenkins2demo'],
+      File['/srv/demo'],
       User[$user],
     ],
   }
 
   account { $user:
-    home_dir => '/srv/jenkins2demo',
+    home_dir => '/srv/demo',
     uid      => $uid,
-    comment  => 'Runs Jenkins 2 demo',
+    comment  => 'Runs demo',
   }
 
   file { "/var/log/apache2/${site}.jenkins-ci.org":
@@ -40,11 +40,11 @@ class profile::jenkins2demo {
   apache::vhost { "${site}.jenkins-ci.org":
     servername      => "${site}.jenkins-ci.org",
     port            => '80',
-    docroot         => '/srv/jenkins2demo/userContent',  # bous
+    docroot         => '/srv/demo/userContent',  # bous
     access_log      => false,
     error_log_file  => "${site}.jenkins-ci.org/error.log",
     log_level       => 'warn',
-    custom_fragment => template("${module_name}/jenkins2demo/vhost.conf"),
+    custom_fragment => template("${module_name}/demo/vhost.conf"),
 
     notify          => Service['apache2'],
     require         => [File["/var/log/apache2/${site}.jenkins-ci.org"],
