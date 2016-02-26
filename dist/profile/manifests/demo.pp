@@ -27,6 +27,12 @@ class profile::demo {
     ],
   }
 
+  # The File[/etc/init/docker-demo.conf] resource is declared by the
+  # module, but we still need to punt the container if the config changes
+  File <| title == '/etc/init/docker-demo.conf' |> {
+    notify  => Service['docker-demo'],
+  }
+
   account { $user:
     home_dir => '/srv/demo',
     uid      => $uid,
