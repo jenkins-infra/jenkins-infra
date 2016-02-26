@@ -30,4 +30,9 @@ describe 'profile::apache-misc' do
     it { should contain_file '/var/www/.ssh/authorized_keys' }
 
   end
+
+  context 'provide Apache/mod_proxy support' do
+    it { should contain_apache__mod 'proxy' }
+    it { should contain_apache__mod 'proxy_http' }
+  end
 end

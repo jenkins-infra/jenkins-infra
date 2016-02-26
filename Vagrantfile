@@ -1,12 +1,15 @@
 # Required plugins:
 #    vagrant-aws
 #    vagrant-serverspec
-ENV['VAGRANT_DEFAULT_PROVIDER'] = 'aws'
 
 Vagrant.configure("2") do |config|
   access_key_id = ENV['AWS_ACCESS_KEY_ID'] || File.read('.vagrant_key_id').chomp
   secret_access_key = ENV['AWS_SECRET_ACCESS_KEY'] || File.read('.vagrant_secret_access_key').chomp
   keypair = ENV['AWS_KEYPAIR_NAME'] || File.read('.vagrant_keypair_name').chomp
+
+  # prefer aws provider over virtualbox to make it the default
+  config.vm.provider 'aws'
+  config.vm.provider 'virtualbox'
 
   config.vm.box = 'dummy'
   config.vm.box_url = 'https://github.com/mitchellh/vagrant-aws/raw/master/dummy.box'

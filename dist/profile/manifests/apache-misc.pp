@@ -54,4 +54,10 @@ class profile::apache-misc(
       port   => 443,
       action => 'accept',
   }
+
+  apache::mod { 'proxy':
+  }
+
+  apache::mod { 'proxy_http':
+  }
 }
