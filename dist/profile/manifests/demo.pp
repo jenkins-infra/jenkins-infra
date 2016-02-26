@@ -5,7 +5,7 @@ class profile::demo {
   include profile::apache-misc
 
   $image = 'jenkinsci/jenkins:2.0-alpha-2'
-  $user  = 'jenkins2'
+  $user  = 'demo'
   $site  = 'demo'
   $uid   = 2002
 
