@@ -4,8 +4,8 @@ class profile::demo {
   include profile::docker
   include profile::apache-misc
 
-  $image = 'jenkinsci/jenkins:2.0-alpha-1'
-  $user  = 'jenkins2'
+  $image = 'jenkinsci/jenkins:2.0-alpha-2'
+  $user  = 'demo'
   $site  = 'demo'
   $uid   = 2002
 
