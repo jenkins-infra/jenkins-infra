@@ -1,21 +1,24 @@
 #
 # Run a demo instance of Jenkins in a Docker container
-class profile::demo {
+class profile::demo(
+$image_tag = '2.0-alpha-2',
+) {
   include profile::docker
   include profile::apache-misc
 
-  $image = 'jenkinsci/jenkins:2.0-alpha-2'
+  $image = 'jenkinsci/jenkins'
   $user  = 'demo'
   $site  = 'demo'
   $uid   = 2002
 
   docker::image { $image:
+    image_tag => $image_tag,
   }
 
   docker::run { $site:
     username        => $uid,
     volumes         => ['/srv/demo:/var/jenkins_home'],
-    image           => $image,
+    image           => "${image}:${image_tag}",
     ports           => ['8080:8080'],
     restart_service => true,
     use_name        => true,
