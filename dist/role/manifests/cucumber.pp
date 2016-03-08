@@ -3,4 +3,5 @@
 class role::cucumber {
   include profile::diagnostics
   include profile::ldap
+  include profile::jenkins
 }

@@ -4,4 +4,6 @@ describe 'role::cucumber' do
   it { should_not contain_class 'profile::base' }
   it { should contain_class 'profile::ldap' }
   it { should contain_class 'profile::diagnostics' }
+
+  it { should contain_class 'profile::jenkins' }
 end
