@@ -56,7 +56,8 @@ end
 # If we don't have an argument, let's look in the CWD/archives directory for
 # the last file available
 if ARGV.size != 1
-  archives_dir = File.join(File.dirname($0), 'archives')
+  base_dir = File.dirname($0)
+  archives_dir = File.join(base_dir, 'archives')
   unless File.exists? archives_dir
     puts "> Please provide a zip file generated from the jenkins.io build process"
     exit 1
@@ -77,4 +78,27 @@ if ARGV.size != 1
     Deployer.deploy! archive, deploy_dir
   end
 
+  # Once we've deployed successfully, we can clean up some legacy stuff
+  current = File.readlink(File.join(base_dir, 'current'))
+  beta = File.readlink(File.join(base_dir, 'beta'))
+
+  if archives.size > 5
+    # Let's walk through each archive except the 5 and delete them
+    archives[0 ... -5].each do |archive|
+      FileUtils.rm_f archive
+    end
+  end
+
+  Dir.glob(File.join(base_dir, '*')).each do |path|
+    # Don't bother looking at non-directories
+    next unless File.directory? path
+    # Don't both with anything that isn't a jenkins.io type directory
+    next unless path.match version_regex
+
+    # Skip our currently deployed sites
+    next if path.end_with? current
+    next if path.end_with? beta
+
+    FileUtils.rm_rf(path)
+  end
 end
