@@ -4,4 +4,5 @@ class role::eggplant {
   include profile::base
   include profile::sudo::osu
   include profile::staticsite
+  include profile::accountapp
 }
