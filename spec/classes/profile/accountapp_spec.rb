@@ -2,9 +2,8 @@ require 'spec_helper'
 
 describe 'profile::accountapp' do
   it { should contain_class 'firewall' }
-  it { should contain_class 'profile::docker' }
 
-  describe 'accountapp configuration' do
+  context 'accountapp configuration' do
     it do
       should contain_file('/etc/accountapp').with({
         :ensure => :directory,
@@ -14,7 +13,9 @@ describe 'profile::accountapp' do
     it { should contain_file('/etc/accountapp/config.properties').with_ensure(:file) }
   end
 
-  describe 'accountapp docker image' do
+  context 'accountapp docker image' do
+    it { should contain_class 'profile::docker' }
+
     let(:tag) { 'buildRspec' }
     let(:params) do
       {
@@ -32,6 +33,26 @@ describe 'profile::accountapp' do
       expect(subject).to contain_docker__run('account-app').with({
         :command => nil,
         :image => "jenkinsciinfra/account-app:#{tag}",
+      })
+    end
+  end
+
+  context 'apache setup' do
+    it { should contain_class 'apache' }
+    it { should contain_class 'profile::apache-misc' }
+
+    it 'should have a vhost' do
+      expect(subject).to contain_apache__vhost('accounts.jenkins.io').with({
+        :port => 443,
+        :ssl  => true,
+      })
+    end
+
+    it 'should have a non-TLS vhost that redirects' do
+      expect(subject).to contain_apache__vhost('accounts.jenkins.io unsecured').with({
+        :port => 80,
+        :redirect_status => 'permanent',
+        :redirect_dest => 'https://accounts.jenkins.io/'
       })
     end
   end

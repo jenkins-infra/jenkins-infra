@@ -11,7 +11,8 @@ class profile::accountapp(
   $app_url = 'https://accounts.jenkins.io/',
 ) {
   include ::firewall
-  include ::profile::docker
+  include profile::docker
+  include profile::apache-misc
 
   validate_string($image_tag)
   validate_string($ldap_url)
@@ -41,5 +42,36 @@ class profile::accountapp(
     volumes          => ['/etc/accountapp:/etc/accountapp'],
     require          => File['/etc/accountapp/config.properties'],
     extra_parameters => ['--net=host'],
+  }
+
+  # docroot is required for apache::vhost but should never be used because
+  # we're proxying everything here
+  $docroot = '/var/www/html'
+
+  apache::vhost { 'accounts.jenkins.io':
+    serveraliases => [
+      'accounts.jenkins-ci.org',
+    ],
+    port          => '443',
+    ssl           => true,
+    docroot       => $docroot,
+    proxy_pass    => [
+      {
+        path         => '/',
+        url          => 'http://localhost:8080/',
+        reverse_urls => 'http://localhost:8080/',
+      },
+    ],
+  }
+
+  apache::vhost { 'accounts.jenkins.io unsecured':
+    servername      => 'accounts.jenkins.io',
+    serveraliases   => [
+      'accounts.jenkins-ci.org',
+    ],
+    port            => '80',
+    docroot         => $docroot,
+    redirect_status => 'permanent',
+    redirect_dest   => $app_url,
   }
 }
