@@ -12,14 +12,8 @@ class profile::accountapp(
 ) {
   include ::firewall
   include profile::docker
+  include profile::letsencrypt
   include profile::apache-misc
-
-  class { 'letsencrypt':
-    config => {
-        email  => hiera('letsencrypt::config::email'),
-        server => hiera('letsencrypt::config::server'),
-    }
-  }
 
   validate_string($image_tag)
   validate_string($ldap_url)
