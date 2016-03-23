@@ -76,6 +76,9 @@ fixtures:
     pe_puppetserver_gem:
       repo: 'puppetlabs/pe_puppetserver_gem'
       ref: '0.0.1'
+    letsencrypt:
+      repo: 'danzilio/letsencrypt'
+      ref: '1.0.0'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles

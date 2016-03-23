@@ -34,11 +34,41 @@ describe 'profile::staticsite' do
     end
   end
 
-  it { should contain_apache__vhost('beta.jenkins-ci.org')
-              .with(:docroot => '/srv/jenkins.io/current') }
+  context 'apache setup' do
+    it { should contain_class 'letsencrypt' }
+    it { should contain_apache__vhost('beta.jenkins-ci.org')
+                .with(:docroot => '/srv/jenkins.io/current') }
 
-  it { should contain_apache__vhost('beta.jenkins.io')
-              .with(:docroot => '/srv/jenkins.io/beta') }
+    it { should contain_apache__vhost('jenkins.io')
+                .with(:docroot => '/srv/jenkins.io/beta') }
+
+    it 'should upgrade non-TLS to TLS' do
+      expect(subject).to contain_apache__vhost('jenkins.io unsecured').with({
+        :port => 80,
+        :redirect_status => 'permanent',
+        :redirect_dest => 'https://jenkins.io/'
+      })
+    end
+
+    context 'in production' do
+      let(:facts) do
+        {
+          :environment => 'production'
+        }
+      end
+
+      it 'should obtain certificates' do
+        expect(subject).to contain_letsencrypt__certonly('jenkins.io').with({
+          :plugin => 'apache',
+          :domains => ['jenkins.io', 'www.jenkins.io'],
+        })
+      end
+    end
+
+    context 'in development' do
+      it { should_not contain_letsencrypt__certonly('jenkins.io') }
+    end
+  end
 
   it 'should invoke deploy-site in a cron' do
     expect(subject).to contain_cron('deploy-site').with({

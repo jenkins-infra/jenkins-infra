@@ -12,6 +12,9 @@ class profile::apache-misc(
   include apache::mod::status
   include datadog_agent::integrations::apache
 
+  include apache::mod::proxy
+  include apache::mod::proxy_http
+
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
     ensure => present,
     source => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
@@ -53,11 +56,5 @@ class profile::apache-misc(
       proto  => 'tcp',
       port   => 443,
       action => 'accept',
-  }
-
-  apache::mod { 'proxy':
-  }
-
-  apache::mod { 'proxy_http':
   }
 }

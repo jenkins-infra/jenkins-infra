@@ -3,9 +3,9 @@
   - yaml
 
 :hierarchy:
+  - vagrant
   - "clients/%{clientcert}"
   - "env/%{environment}"
-  - vagrant
   - common
 
 :yaml:
