@@ -2,6 +2,8 @@ require 'rspec'
 
 
 shared_examples "a DNS server" do
+  it_behaves_like 'a Docker host'
+
   context 'bind configuration' do
     describe command('docker ps') do
       its(:stdout) { should match /bind/ }
