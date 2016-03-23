@@ -11,9 +11,15 @@ class profile::accountapp(
   $app_url = 'https://accounts.jenkins.io/',
 ) {
   include ::firewall
-  include ::letsencrypt
   include profile::docker
   include profile::apache-misc
+
+  class { 'letsencrypt':
+    config => {
+        email  => hiera('letsencrypt::config::email'),
+        server => hiera('letsencrypt::config::server'),
+    }
+  }
 
   validate_string($image_tag)
   validate_string($ldap_url)
