@@ -11,6 +11,7 @@ class profile::accountapp(
   $app_url = 'https://accounts.jenkins.io/',
 ) {
   include ::firewall
+  include ::letsencrypt
   include profile::docker
   include profile::apache-misc
 
@@ -73,5 +74,11 @@ class profile::accountapp(
     docroot         => $docroot,
     redirect_status => 'permanent',
     redirect_dest   => $app_url,
+  }
+
+  letsencrypt::certonly { 'accounts.jenkins.io':
+    domains     => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
+    plugin      => 'apache',
+    manage_cron => true,
   }
 }

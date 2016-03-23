@@ -39,6 +39,7 @@ describe 'profile::accountapp' do
 
   context 'apache setup' do
     it { should contain_class 'apache' }
+    it { should contain_class 'letsencrypt' }
     it { should contain_class 'profile::apache-misc' }
 
     it 'should have a vhost' do
@@ -53,6 +54,14 @@ describe 'profile::accountapp' do
         :port => 80,
         :redirect_status => 'permanent',
         :redirect_dest => 'https://accounts.jenkins.io/'
+      })
+    end
+
+
+    it 'should obtain certificates' do
+      expect(subject).to contain_letsencrypt__certonly('accounts.jenkins.io').with({
+        :plugin => 'apache',
+        :domains => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
       })
     end
   end

@@ -30,4 +30,6 @@ accounts:
     groups:
       - atlassian-admins
 
+letsencrypt::config::server: "https://acme-staging.api.letsencrypt.org/directory"
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
