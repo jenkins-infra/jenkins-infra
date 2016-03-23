@@ -76,9 +76,13 @@ class profile::accountapp(
     redirect_dest   => $app_url,
   }
 
-  letsencrypt::certonly { 'accounts.jenkins.io':
-    domains     => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
-    plugin      => 'apache',
-    manage_cron => true,
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'accounts.jenkins.io':
+        domains     => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
   }
 }

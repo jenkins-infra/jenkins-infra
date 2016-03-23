@@ -131,4 +131,14 @@ class profile::staticsite(
     redirect_status => 'permanent',
     redirect_dest   => 'https://jenkins.io/',
   }
+
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'jenkins.io':
+        domains     => ['jenkins.io', 'www.jenkins.io'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
+  }
 }

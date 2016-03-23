@@ -57,12 +57,22 @@ describe 'profile::accountapp' do
       })
     end
 
+    context 'in production' do
+      let(:facts) do
+        {
+          :environment => 'production'
+        }
+      end
 
-    it 'should obtain certificates' do
-      expect(subject).to contain_letsencrypt__certonly('accounts.jenkins.io').with({
-        :plugin => 'apache',
-        :domains => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
-      })
+      it 'should obtain certificates' do
+        expect(subject).to contain_letsencrypt__certonly('accounts.jenkins.io').with({
+          :plugin => 'apache',
+          :domains => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
+        })
+      end
+    end
+    context 'in development' do
+      it { should_not contain_letsencrypt__certonly('accounts.jenkins.io') }
     end
   end
 end

@@ -49,6 +49,25 @@ describe 'profile::staticsite' do
         :redirect_dest => 'https://jenkins.io/'
       })
     end
+
+    context 'in production' do
+      let(:facts) do
+        {
+          :environment => 'production'
+        }
+      end
+
+      it 'should obtain certificates' do
+        expect(subject).to contain_letsencrypt__certonly('jenkins.io').with({
+          :plugin => 'apache',
+          :domains => ['jenkins.io', 'www.jenkins.io'],
+        })
+      end
+    end
+
+    context 'in development' do
+      it { should_not contain_letsencrypt__certonly('jenkins.io') }
+    end
   end
 
   it 'should invoke deploy-site in a cron' do
