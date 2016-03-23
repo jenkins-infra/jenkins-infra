@@ -9,6 +9,7 @@ class profile::staticsite(
   $deployer_ssh_key = undef,
 ) {
   include apache
+  include profile::letsencrypt
   # The apache-misc profile includes a number of other important monitoring and
   # apache configuration settings
   include profile::apache-misc
@@ -108,9 +109,26 @@ class profile::staticsite(
     require => File[$site_docroot],
   }
 
-  apache::vhost { ['beta.jenkins.io', 'jenkins.io']:
-    port    => '80',
-    docroot => $beta_docroot,
-    require => File[$beta_docroot],
+  apache::vhost { 'jenkins.io':
+    serveraliases => [
+      'beta.jenkins.io',
+      'www.jenkins.io',
+    ],
+    port          => '443',
+    ssl           => true,
+    docroot       => $beta_docroot,
+    require       => File[$beta_docroot],
+  }
+
+  apache::vhost { 'jenkins.io unsecured':
+    servername      => 'jenkins.io',
+    serveraliases   => [
+      'beta.jenkins.io',
+      'www.jenkins.io',
+    ],
+    port            => '80',
+    docroot         => $beta_docroot,
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://jenkins.io/',
   }
 }
