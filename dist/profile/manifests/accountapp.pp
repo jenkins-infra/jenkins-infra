@@ -59,6 +59,7 @@ class profile::accountapp(
     # When Apache is upgraded to >= 2.4.8 this should be changed to
     # fullchain.pem
     ssl_cert      => '/etc/letsencrypt/live/accounts.jenkins.io/cert.pem',
+    ssl_chain     => '/etc/letsencrypt/live/accounts.jenkins.io/chain.pem',
     docroot       => $docroot,
     proxy_pass    => [
       {
