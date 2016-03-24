@@ -39,7 +39,7 @@ fixtures:
       ref: '1.1.3'
     apache:
       repo: 'puppetlabs/apache'
-      ref: '1.1.1'
+      ref: '1.8.1'
     git:
       repo: 'puppetlabs/git'
       ref: '0.4.0'
@@ -54,7 +54,7 @@ fixtures:
       ref: '1.6.0'
     concat:
       repo: 'puppetlabs/concat'
-      ref: '1.0.4'
+      ref: '1.2.5'
     staging:
       repo: 'nanliu/staging'
       ref: '0.4.0'

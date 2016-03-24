@@ -35,4 +35,10 @@ describe 'profile::apache-misc' do
     it { should contain_apache__mod 'proxy' }
     it { should contain_apache__mod 'proxy_http' }
   end
+
+  it 'restrict SSL versions by default' do
+    expect(subject).to contain_class('apache::mod::ssl').with({
+      :ssl_protocol => ['all', '-SSLv2', '-SSLv3'],
+    })
+  end
 end
