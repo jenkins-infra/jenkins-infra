@@ -6,6 +6,17 @@ shared_examples 'an Apache webserver' do
     it { should be_running }
   end
 
+  describe iptables do
+    it 'should have port 80 open' do
+      should have_rule
+          '-A INPUT -p tcp -m multiport --ports 80 -m comment --comment "200 allow http" -j ACCEPT'
+    end
+  end
+end
+
+shared_examples 'an Apache webserver with SSL' do
+  it_behaves_like 'an Apache webserver'
+
   context 'ssl.conf' do
     describe file('/etc/apache2/conf.d/ssl.conf') do
       it { should be_file }
@@ -14,11 +25,6 @@ shared_examples 'an Apache webserver' do
   end
 
   describe iptables do
-    it 'should have port 80 open' do
-      should have_rule
-          '-A INPUT -p tcp -m multiport --ports 80 -m comment --comment "200 allow http" -j ACCEPT'
-    end
-
     it 'should have port 443 open' do
       should have_rule
         '-A INPUT -p tcp -m multiport --ports 443 -m comment --comment "201 allow https" -j ACCEPT'

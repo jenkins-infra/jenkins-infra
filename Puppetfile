@@ -76,3 +76,6 @@ mod 'saz/ssh', '2.3.6'
 
 mod 'puppetlabs/lvm', '0.3.2'
 mod 'datadog/datadog_agent', '1.6.0'
+
+# Used for grabbing certificates for jenkins.io
+mod 'danzilio/letsencrypt', '1.0.0'
