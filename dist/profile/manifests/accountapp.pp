@@ -9,6 +9,9 @@ class profile::accountapp(
   $smtp_server = 'localhost',
   $recaptcha_key = '',
   $app_url = 'https://accounts.jenkins.io/',
+  $jira_url = 'http://issues.jenkins-ci.org/rpc/soap/jirasoapservice-v2',
+  $jira_username = accountapp,
+  $jira_password = '',
 ) {
   include ::firewall
   include profile::docker
@@ -42,6 +45,11 @@ class profile::accountapp(
     image            => "jenkinsciinfra/account-app:${image_tag}",
     volumes          => ['/etc/accountapp:/etc/accountapp'],
     require          => File['/etc/accountapp/config.properties'],
+    env              => [
+      "JIRA_URL=${jira_url}",
+      "JIRA_USERNAME=${jira_username}",
+      "JIRA_PASSWORD=${jira_password}",
+    ],
     extra_parameters => ['--net=host'],
   }
 
