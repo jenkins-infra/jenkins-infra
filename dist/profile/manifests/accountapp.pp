@@ -46,6 +46,8 @@ class profile::accountapp(
     volumes          => ['/etc/accountapp:/etc/accountapp'],
     require          => File['/etc/accountapp/config.properties'],
     env              => [
+      "LDAP_URL=${ldap_url}",
+      "LDAP_PASSWORD=${ldap_password}",
       "JIRA_URL=${jira_url}",
       "JIRA_USERNAME=${jira_username}",
       "JIRA_PASSWORD=${jira_password}",
