@@ -14,6 +14,7 @@ class profile::apache-misc(
 
   include apache::mod::proxy
   include apache::mod::proxy_http
+  include apache::mod::ssl
 
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
     ensure => present,
