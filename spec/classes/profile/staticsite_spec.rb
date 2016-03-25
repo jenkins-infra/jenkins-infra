@@ -50,6 +50,10 @@ describe 'profile::staticsite' do
       })
     end
 
+    context 'use a scalable apache worker model' do
+      it { should contain_class('apache::mod::event') }
+    end
+
     context 'in production' do
       let(:facts) do
         {

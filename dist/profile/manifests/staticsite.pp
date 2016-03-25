@@ -8,7 +8,14 @@ class profile::staticsite(
   $deployer_user = 'site-deployer',
   $deployer_ssh_key = undef,
 ) {
-  include apache
+
+  # Debian defaults to the 'worker' module which doesn't handle HackerNews hugs
+  # of death as well as I would like. the mpm_event module is much less
+  # resource intensive
+  class { 'apache':
+    mpm_module => 'event',
+  }
+
   include profile::letsencrypt
   # The apache-misc profile includes a number of other important monitoring and
   # apache configuration settings
