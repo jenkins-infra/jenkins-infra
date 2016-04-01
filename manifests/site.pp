@@ -33,7 +33,7 @@ node default {
 
 
 # radish
-node 'jenkins-radish.osuosl.org' {
+node 'puppet.jenkins.io' {
   include role::puppetmaster
 }
 
