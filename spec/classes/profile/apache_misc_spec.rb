@@ -41,4 +41,16 @@ describe 'profile::apache-misc' do
       :ssl_protocol => ['all', '-SSLv2', '-SSLv3'],
     })
   end
+
+
+  context 'mod_status support' do
+    it 'should enable mod_status for datadog' do
+      expect(subject).to contain_class('apache::mod::status').with({
+        :allow_from => ['127.0.0.1', '::1'],
+        :extended_status => 'On',
+      })
+    end
+
+    it { should contain_class 'datadog_agent::integrations::apache' }
+  end
 end
