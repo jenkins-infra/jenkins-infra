@@ -73,13 +73,6 @@ class profile::puppetmaster {
     action => 'accept',
   }
 
-  service { 'pe-puppetserver':
-    ensure     => running,
-    hasrestart => true,
-    hasstatus  => true,
-  }
-
-
   # This puppet enterprise special casing logic cribbed directly from the
   # puppet-irc module which also needs to install gems
   if $::pe_server_version {
