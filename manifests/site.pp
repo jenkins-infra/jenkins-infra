@@ -10,7 +10,7 @@
 
 # Define filebucket 'main':
 filebucket { 'main':
-  server => 'puppet.jenkins-ci.org',
+  server => 'puppet.jenkins.io',
   path   => false,
 }
 
@@ -32,8 +32,8 @@ node default {
 }
 
 
-# artichoke
-node 'jenkins-puppet.osuosl.org' {
+# radish
+node 'jenkins-radish.osuosl.org' {
   include role::puppetmaster
 }
 
