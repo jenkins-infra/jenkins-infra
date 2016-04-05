@@ -73,7 +73,7 @@ node 'kelp' {
 }
 
 # eggplant
-node 'eggplant.jenkins-ci.org' {
+node 'eggplant' {
   include role::eggplant
 }
 

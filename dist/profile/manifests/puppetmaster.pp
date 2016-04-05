@@ -21,12 +21,12 @@ class profile::puppetmaster {
   ## Ensure we're setting the right SMTP server. The Puppetmaster is located in
   # the OSUOSL datacenter which operates an internal SMTP server for projects'
   # uses
-  yaml_setting { 'console smtp server':
-    target => '/etc/puppetlabs/console-auth/config.yml',
-    key    => 'smtp/address',
-    value  => 'smtp.osuosl.org',
-    notify => Service['pe-puppetserver'],
-  }
+  #yaml_setting { 'console smtp server':
+  #  target => '/etc/puppetlabs/console-auth/config.yml',
+  #  key    => 'smtp/address',
+  #  value  => 'smtp.osuosl.org',
+  #  notify => Service['pe-puppetserver'],
+  #}
 
   ini_setting { 'update report handlers':
     ensure  => present,
