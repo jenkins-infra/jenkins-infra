@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 
-describe 'profile::apache-misc' do
-  shared_examples 'apache-misc' do
+describe 'profile::apachemisc' do
+  shared_examples 'apachemisc' do
     it { should contain_class 'apache' }
     it { should contain_class 'apachelogcompressor' }
     it { should contain_package 'apache2-utils' }
@@ -12,7 +12,7 @@ describe 'profile::apache-misc' do
   end
 
   context 'with no class parameters' do
-    it_behaves_like 'apache-misc'
+    it_behaves_like 'apachemisc'
 
     it { should_not contain_file '/var/www/.ssh' }
   end
@@ -24,7 +24,7 @@ describe 'profile::apache-misc' do
       }
     end
 
-    it_behaves_like 'apache-misc'
+    it_behaves_like 'apachemisc'
 
     it { should contain_file '/var/www/.ssh' }
     it { should contain_file '/var/www/.ssh/authorized_keys' }

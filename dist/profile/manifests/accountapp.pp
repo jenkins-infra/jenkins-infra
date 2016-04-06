@@ -16,7 +16,7 @@ class profile::accountapp(
   include ::firewall
   include profile::docker
   include profile::letsencrypt
-  include profile::apache-misc
+  include profile::apachemisc
 
   validate_string($image_tag)
   validate_string($ldap_url)
