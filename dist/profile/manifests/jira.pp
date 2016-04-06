@@ -9,7 +9,7 @@ class profile::jira (
 
   include profile::atlassian
   include apache::mod::rewrite
-  include profile::apache-misc
+  include profile::apachemisc
 
   account { 'jira':
     home_dir => '/srv/jira',
@@ -102,7 +102,7 @@ class profile::jira (
     redirect_dest   => 'https://issues.jenkins-ci.org/'
   }
 
-  profile::apache-maintenance { 'issues.jenkins-ci.org':
+  profile::apachemaintenance { 'issues.jenkins-ci.org':
   }
 
   profile::datadog_check { 'jira-http-check':

@@ -4,12 +4,12 @@ class profile::demo(
 $image_tag = '2.0-alpha-2',
 ) {
   include profile::docker
-  include profile::apache-misc
+  include profile::apachemisc
 
   $image = 'jenkinsci/jenkins'
   $user  = 'demo'
   $site  = 'demo'
-  $uid   = 2002
+  $uid   = '2002'
 
   docker::image { $image:
     image_tag => $image_tag,

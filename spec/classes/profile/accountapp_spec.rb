@@ -40,7 +40,7 @@ describe 'profile::accountapp' do
   context 'apache setup' do
     it { should contain_class 'apache' }
     it { should contain_class 'letsencrypt' }
-    it { should contain_class 'profile::apache-misc' }
+    it { should contain_class 'profile::apachemisc' }
 
     it 'should have a vhost' do
       expect(subject).to contain_apache__vhost('accounts.jenkins.io').with({

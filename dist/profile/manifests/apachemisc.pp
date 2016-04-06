@@ -1,7 +1,7 @@
 #
 # Misc. apache settings
 #
-class profile::apache-misc(
+class profile::apachemisc(
   $ssh_enabled = false,
 ) {
   include apache
