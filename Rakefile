@@ -4,7 +4,7 @@ require 'puppetlabs_spec_helper/rake_tasks'
 desc "Validate the Puppet syntax of all manifests"
 task :validate do
   Dir['./{dist,manifests}/**/*.pp'].each do |filename|
-    sh "puppet parser validate '#{filename}'"
+    sh "puppet parser validate --parser future '#{filename}'"
   end
 end
 
