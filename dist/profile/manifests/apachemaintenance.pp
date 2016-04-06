@@ -2,7 +2,7 @@
 #
 # This puts a file under /etc/apache2/sites-available/SITENAME.maintenance
 # and you can manually symlink this from sites-enabled to put the maintenance mode UI
-define profile::apache-maintenance {
+define profile::apachemaintenance {
   # $name refers to the site name
 
   # Template uses: $addr_port
@@ -12,11 +12,11 @@ define profile::apache-maintenance {
 
   file { '/var/www/maintenance/maintenance.html':
     ensure => present,
-    source => "puppet:///modules/${module_name}/apache-maintenance/maintenance.html",
+    source => "puppet:///modules/${module_name}/apachemaintenance/maintenance.html",
   }
 
   file { "/etc/apache2/sites-available/${name}.maintenance.conf":
     ensure  => present,
-    content => template("${module_name}/apache-maintenance/maintenance.conf.erb"),
+    content => template("${module_name}/apachemaintenance/maintenance.conf.erb"),
   }
 }

@@ -12,7 +12,7 @@ class profile::confluence (
 
   include profile::atlassian
   include apache::mod::rewrite
-  include profile::apache-misc
+  include profile::apachemisc
 
   account { 'wiki':
     home_dir => '/srv/wiki',
@@ -116,7 +116,7 @@ class profile::confluence (
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
   }
 
-  profile::apache-maintenance { 'wiki.jenkins-ci.org':
+  profile::apachemaintenance { 'wiki.jenkins-ci.org':
   }
 
   profile::datadog_check { 'confluence-http-check':
