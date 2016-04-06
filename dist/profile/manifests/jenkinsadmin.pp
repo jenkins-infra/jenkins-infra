@@ -8,15 +8,15 @@ class profile::jenkinsadmin (
   $jira_login,
   $jira_password,
   $nick_password,
-  $tag = undef,
+  $image_tag = undef,
 ) {
   include profile::docker
 
-  validate_string($tag)
+  validate_string($image_tag)
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':
-    image_tag => $tag,
+    image_tag => $image_tag,
   }
 
   docker::run { 'ircbot':
@@ -29,7 +29,7 @@ class profile::jenkinsadmin (
                 '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
     ],
     username => 'ircbot',
-    image    => "jenkinsciinfra/ircbot:${tag}",
+    image    => "jenkinsciinfra/ircbot:${image_tag}",
     require  => [Docker::Image['jenkinsciinfra/ircbot'],
                 File['/home/ircbot/.github'],
                 File['/home/ircbot/.jenkins-ci.org'],
