@@ -19,7 +19,7 @@ class profile::staticsite(
   include profile::letsencrypt
   # The apache-misc profile includes a number of other important monitoring and
   # apache configuration settings
-  include profile::apache-misc
+  include profile::apachemisc
 
   validate_string($deployer_user)
   validate_string($deployer_ssh_key)

@@ -4,7 +4,7 @@ class profile::demo(
 $image_tag = '2.0-alpha-2',
 ) {
   include profile::docker
-  include profile::apache-misc
+  include profile::apachemisc
 
   $image = 'jenkinsci/jenkins'
   $user  = 'demo'

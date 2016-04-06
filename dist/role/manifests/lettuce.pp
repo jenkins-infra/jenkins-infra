@@ -3,6 +3,6 @@
 class role::lettuce {
   include profile::base
   include profile::sudo::osu
-  include profile::apache-cert
+  include profile::apachecert
   include profile::confluence
 }

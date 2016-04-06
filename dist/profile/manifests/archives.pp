@@ -5,7 +5,7 @@ class profile::archives {
   include stdlib
   # volume configuration is in hiera
   include ::lvm
-  include profile::apache-misc
+  include profile::apachemisc
 
   $archives_dir = '/srv/releases'
 
