@@ -8,6 +8,7 @@ describe 'profile::puppetmaster' do
   end
 
   it { should contain_class 'jenkins_keys' }
+  it { should contain_class 'profile::r10k' }
 
   context 'puppet.conf' do
     let(:path) { '/etc/puppetlabs/puppet/puppet.conf' }

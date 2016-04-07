@@ -1,0 +1,12 @@
+---
+#
+# THIS FILE IS MANAGED BY PUPPET
+
+sources:
+  infra:
+    remote: 'https://github.com/jenkins-infra/jenkins-infra.git'
+    basedir: '/etc/puppetlabs/code/environments'
+
+git:
+  provider: 'rugged'
+  private_key: '/var/lib/puppet/keys/r10k'
