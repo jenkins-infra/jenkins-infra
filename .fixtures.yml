@@ -14,7 +14,7 @@ fixtures:
       ref: 'v3.0.6'
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
-      ref: 'b837df8'
+      ref: '4e5e437'
     docker:
       repo: 'git://github.com/jenkins-infra/garethr-docker.git'
       ref: '951781fbeb06fa8142e851c5746c35b302a6f427'
@@ -73,9 +73,9 @@ fixtures:
     vcsrepo:
       repo: 'puppetlabs/vcsrepo'
       ref: '1.1.0'
-    pe_puppetserver_gem:
-      repo: 'puppetlabs/pe_puppetserver_gem'
-      ref: '0.0.1'
+    puppetserver_gem:
+      repo: 'puppetlabs/puppetserver_gem'
+      ref: '0.2.0'
     letsencrypt:
       repo: 'danzilio/letsencrypt'
       ref: '1.0.0'

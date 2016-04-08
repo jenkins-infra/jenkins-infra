@@ -13,8 +13,8 @@ mod "stdlib",
 
 mod 'puppetlabs/ruby', '0.4.0'
 mod "puppetlabs/gcc", '0.3.0'
-mod "puppetlabs/pe_puppetserver_gem", '0.0.1'
-mod "puppetlabs/pe_gem", '0.0.1'
+# Used for installing gems for the puppetserver, like with hiera-eyaml
+mod "puppetlabs/puppetserver_gem", '0.2.0'
 mod "puppetlabs/inifile", '1.4.3'
 mod "puppetlabs/vcsrepo", '1.1.0'
 mod "puppetlabs/git", '0.4.0'
@@ -44,7 +44,7 @@ mod 'stahnma/epel', '1.2.2'
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
 mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
-           :ref => 'b837df8'
+           :ref => '4e5e437'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
@@ -54,7 +54,7 @@ mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
 
 mod 'jenkins_keys',
   :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
-  :ref => '0598614'
+  :ref => 'eeb7db7'
 
 # Apache and its dependencies
 mod "puppetlabs/apache", '1.8.1'

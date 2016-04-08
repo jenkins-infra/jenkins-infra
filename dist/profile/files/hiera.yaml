@@ -1,6 +1,7 @@
 ---
 :backends:
   - eyaml
+  - yaml
 
 :hierarchy:
   - "clients/%{clientcert}"
@@ -15,7 +16,7 @@
 #  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
 
 :eyaml:
-  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
+  :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
   :extension: 'yaml'
   :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
   :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
