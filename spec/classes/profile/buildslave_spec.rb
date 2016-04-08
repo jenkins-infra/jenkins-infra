@@ -50,10 +50,44 @@ describe 'profile::buildslave' do
     it { should contain_class 'docker' }
     it { should contain_package 'docker' }
 
+    it 'the `jenkins` user should be in the `docker` group' do
+      expect(subject).to contain_user('jenkins').with({
+        :groups => ['jenkins', 'docker'],
+      })
+    end
+
     it 'should contain dockerhub credentials' do
       expect(subject).to contain_file('/home/jenkins/.docker').with_ensure('directory')
 
       expect(subject).to contain_file('/home/jenkins/.docker/config.json').with_ensure('file')
+    end
+  end
+
+  context 'with docker => false' do
+    let(:params) do
+      {
+        :docker => false,
+      }
+    end
+
+    it { should_not contain_class 'profile::docker' }
+
+    it 'should not provision ~/.docker' do
+      expect(subject).to_not contain_file('/home/jenkins/.docker')
+    end
+
+    it 'should not include `docker` in the `jenkins` user groups' do
+      expect(subject).to contain_user('jenkins').with({
+        :groups => ['jenkins'],
+      })
+    end
+
+    it 'should not require Package[docker] for the `jenkins` account' do
+      # We cannot use the #without_require matcher here because it doesn't play
+      # nicely with undefs:
+      #   expected that the catalogue would contain Account[jenkins] with require
+      #   not set to "Package[docker]" but it is set to nil
+      expect(subject).to contain_account('jenkins').with_require(nil)
     end
   end
 end
