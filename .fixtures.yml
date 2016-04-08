@@ -73,9 +73,9 @@ fixtures:
     vcsrepo:
       repo: 'puppetlabs/vcsrepo'
       ref: '1.1.0'
-    pe_puppetserver_gem:
-      repo: 'puppetlabs/pe_puppetserver_gem'
-      ref: '0.0.1'
+    puppetserver_gem:
+      repo: 'puppetlabs/puppetserver_gem'
+      ref: '0.2.0'
     letsencrypt:
       repo: 'danzilio/letsencrypt'
       ref: '1.0.0'
