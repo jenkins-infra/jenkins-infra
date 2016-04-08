@@ -5,5 +5,6 @@ class role::buildnode::mac {
 
   class { 'profile::buildslave':
     docker => false,
+    ruby   => false,
   }
 }

@@ -3,14 +3,18 @@ class profile::buildslave(
   $home_dir        = '/home/jenkins',
   $ssh_private_key = undef,
   $docker          = true,
+  $ruby            = true,
 ) {
   include ::stdlib
   include git
-  # Make sure our Ruby class is properly contained so we can require it in a
-  # Package resource
-  contain('ruby')
 
   $user = 'jenkins'
+
+  if $ruby {
+    # Make sure our Ruby class is properly contained so we can require it in a
+    # Package resource
+    contain('ruby')
+  }
 
   if $docker {
     include profile::docker
@@ -58,21 +62,28 @@ class profile::buildslave(
     }
   }
 
-  package { 'bundler':
-    ensure   => installed,
-    provider => 'gem',
-    require  => Class['ruby'],
-  }
+  if $ruby {
+    package { 'bundler':
+      ensure   => installed,
+      provider => 'gem',
+      require  => Class['ruby'],
+    }
 
-  ensure_packages([
+    ensure_packages([
       'libxml2-dev',          # for Ruby apps that require nokogiri
       'libxslt1-dev',         # for Ruby apps that require nokogiri
       'libcurl4-openssl-dev', # for curb gem
       'libruby',              # for net/https
+    ])
+  }
+
+  if $::kernel == 'Linux' {
+    ensure_packages([
       'subversion',
       'make',
       'build-essential',
-  ])
+    ])
+  }
 
 
   # https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/

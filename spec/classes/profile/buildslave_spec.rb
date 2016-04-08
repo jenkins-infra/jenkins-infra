@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'profile::buildslave' do
-  it { should contain_class 'ruby' }
-
   context 'SSH host keys' do
     it "should include GitHub's host keys" do
       properties = {
@@ -13,15 +11,8 @@ describe 'profile::buildslave' do
     end
   end
 
-  context 'build slave tooling' do
-    it { should contain_package 'bundler' }
-    # Provided by the `git` module
-    it { should contain_package 'git' }
-    it { should contain_package 'subversion' }
-
-    it { should contain_package 'make' }
-    it { should contain_package 'build-essential' }
-  end
+  # Provided by the `git` module
+  it { should contain_package 'git' }
 
   context 'managing a `jenkins` user' do
     it 'should provision the "jenkins" account properly' do
@@ -46,7 +37,7 @@ describe 'profile::buildslave' do
     end
   end
 
-  context 'docker support' do
+  context 'with docker => true' do
     it { should contain_class 'docker' }
     it { should contain_package 'docker' }
 
@@ -89,5 +80,40 @@ describe 'profile::buildslave' do
       #   not set to "Package[docker]" but it is set to nil
       expect(subject).to contain_account('jenkins').with_require(nil)
     end
+  end
+
+  context 'with ruby => true' do
+    it { should contain_class 'ruby' }
+    it { should contain_package 'bundler' }
+    it { should contain_package 'libruby' }
+  end
+
+  context 'with ruby => false' do
+    let(:params) do
+      {
+        :ruby => false,
+      }
+    end
+
+    it { should_not contain_class 'ruby' }
+    it { should_not contain_package 'bundler' }
+    it { should_not contain_package 'libruby' }
+  end
+
+
+  context 'on Linux' do
+    it { should contain_package 'subversion' }
+    it { should contain_package 'make' }
+    it { should contain_package 'build-essential' }
+  end
+
+  context 'on Darwin' do
+    let(:facts) do
+      {
+        :kernel => 'Darwin',
+      }
+    end
+
+    it { should_not contain_package 'build-essential' }
   end
 end
