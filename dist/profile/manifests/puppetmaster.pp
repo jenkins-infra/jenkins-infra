@@ -4,6 +4,8 @@
 class profile::puppetmaster {
   # pull in all our secret stuff, and install eyaml
   include ::jenkins_keys
+
+  include profile::r10k
   # Set up our IRC reporter
   include ::irc
   include datadog_agent
@@ -17,16 +19,6 @@ class profile::puppetmaster {
     source => "puppet:///modules/${module_name}/hiera.yaml",
     notify => Service['pe-puppetserver'],
   }
-
-  ## Ensure we're setting the right SMTP server. The Puppetmaster is located in
-  # the OSUOSL datacenter which operates an internal SMTP server for projects'
-  # uses
-  #yaml_setting { 'console smtp server':
-  #  target => '/etc/puppetlabs/console-auth/config.yml',
-  #  key    => 'smtp/address',
-  #  value  => 'smtp.osuosl.org',
-  #  notify => Service['pe-puppetserver'],
-  #}
 
   ini_setting { 'update report handlers':
     ensure  => present,
@@ -77,14 +69,6 @@ class profile::puppetmaster {
   # puppet-irc module which also needs to install gems
   if $::pe_server_version {
     $gem_provider = 'puppetserver_gem'
-  }
-  elsif str2bool($::is_pe) {
-    if versioncmp($::pe_version, '3.7.0') > 0 {
-        $gem_provider = 'pe_puppetserver_gem'
-      }
-      else {
-        $gem_provider = 'pe_gem'
-    }
   }
   else {
     $gem_provider = 'gem'
