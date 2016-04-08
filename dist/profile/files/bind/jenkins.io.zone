@@ -27,15 +27,18 @@ kelp        3600    IN    AAAA 2001:4802:7801:101:be76:4eff:fe20:b252
 
 ; Hosts at OSUOSL
 lettuce     3600    IN    A    140.211.9.32      ; otherwise known as jenkins-lettuce.osuosl.org
+; artichoke has died of dysentery
 artichoke   3600    IN    A    140.211.9.22      ; otherwise known as jenkins-puppet.osuosl.org
 eggplant    3600    IN    A    140.211.15.101    ; otherwise known as hudson-java.osuosl.org
 edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-confluence.osuosl.org
+radish      3600    IN    A    140.211.9.94      ; otherwise known as jenkins-radish.osuosl.org
+
 
 
 ; CNAME Records
 www         3600    IN    CNAME    @
 beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
-puppet      3600    IN    CNAME    artichoke
+puppet      3600    IN    CNAME    radish
 ci          3600    IN    CNAME    celery
 accounts    3600    IN    CNAME    eggplant
 
