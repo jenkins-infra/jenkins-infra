@@ -28,8 +28,8 @@ accounts:
       - atlassian-admins
   danielbeck:
     ssh_keys:
-      danielbeck:
-        key: AAAAB3NzaC1yc2EAAAABIwAAAQEA6PQWKSk/5hsgq5vndqpMHisGLZXiw+pIiNF1CnOEqlgMnq/nDiHFdDX2E+SYT/LNMBEJKIhDKM8T1mOsu7voMiR5vInGGt36jPFT4qM0pLrk+RYjc5f55jk6U5qXSBoM+GqVKSw6gKWI2njMmuxwtFumGGaJuq5jFySyi6aS7Dau1+6I77YRiEnPGd3DiUCrEjKmS1NcJ4t5mrkz/n7uufMd4O8JsPtQwl8gkQT7/b2+Qx3WB42yAO06YEmsTi56X5JCRWG9lue4CIImrSmig0ILmwa4vK/hUopBqEwlpv3ar9eVcyUalo4WQac+HJ2ythWKHKvipWVvJS3ydNc0Fw==
+      servus14:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDb/Y8wjTRSo58wKuhqI54zpWan/tOX9auQGAMyTpjVG7OKyncSRRZkEtI7YVc3RCUdso+APuYN3W362nPm1dlocA46FYvRpDibSqP1XuknTvSLkA7smrM76fEFXonmnGcrfSZDCZfBsazK2xd8aFDpi1eYlDfJ/SNZOHIALAvzeBfalsrjs768w80XFzz9hZN+PYWgmH3t/tZZOz5dlrTJDQjo19egGwMu4HqgdZgYEglNYIVoJbbuGr+xvZ2TZosHQ0/CJtQcW9DCCSFaz1YNJwriJCv0gUbIX7V1+0rb8RXfZbhPXdh/AFn35HQlP1z4AmAsu9GW0/7kHWaNChxT
     groups:
       - sudo
       - atlassian-admins
