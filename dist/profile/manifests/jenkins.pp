@@ -1,7 +1,7 @@
 #
 # Profile for managing a Jenkins master installation
 class profile::jenkins {
-  include firewall
+  include profile::firewall
 
   # This is a legacy role imported from infra-puppet, thus the goofy numbering
   firewall { '108 Jenkins CLI port' :
