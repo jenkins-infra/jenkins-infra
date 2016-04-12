@@ -8,7 +8,7 @@ fixtures:
       ref: '1.1.2'
     account:
       repo: 'git://github.com/jenkins-infra/puppet-account.git'
-      ref: '0351ca3'
+      ref: '0d949ae'
     sudo:
       repo: 'git://github.com/saz/puppet-sudo.git'
       ref: 'v3.0.6'
