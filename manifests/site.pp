@@ -81,3 +81,8 @@ node 'eggplant' {
 node 'cucumber' {
   include role::cucumber
 }
+
+# kale
+node 'kale' {
+  include role::openldap
+}

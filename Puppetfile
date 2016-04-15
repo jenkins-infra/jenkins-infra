@@ -79,3 +79,8 @@ mod 'datadog/datadog_agent', '1.6.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'danzilio/letsencrypt', '1.0.0'
+
+# For managing ldap, and dependencies
+mod 'camptocamp/openldap', '1.14.0'
+mod 'herculesteam/augeasproviders_shellvar', '2.x'
+mod 'herculesteam/augeasproviders_core', '2.x'
