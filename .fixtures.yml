@@ -79,6 +79,9 @@ fixtures:
     letsencrypt:
       repo: 'danzilio/letsencrypt'
       ref: '1.0.0'
+    openldap:
+      repo: 'camptocamp/openldaap'
+      ref: '1.14.0'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles

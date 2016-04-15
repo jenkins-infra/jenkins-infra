@@ -85,4 +85,8 @@ node 'cucumber' {
 # tomato (Mac OS X 10.10 build node)
 node 'tomato' {
   include role::buildnode::mac
+
+# kale
+node 'kale' {
+  include role::openldap
 }
