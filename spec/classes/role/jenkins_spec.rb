@@ -6,4 +6,5 @@ end
 
 describe 'role::jenkins::agent' do
   it { should contain_class 'profile::base' }
+  it { should contain_class 'profile::buildslave' }
 end
