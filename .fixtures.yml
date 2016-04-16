@@ -80,7 +80,7 @@ fixtures:
       repo: 'danzilio/letsencrypt'
       ref: '1.0.0'
     openldap:
-      repo: 'camptocamp/openldaap'
+      repo: 'camptocamp/openldap'
       ref: '1.14.0'
 
 
