@@ -33,9 +33,16 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
   end
 
-  Dir['./dist/role/manifests/*.pp'].each do |role|
+  Dir['./dist/role/manifests/**/*.pp'].each do |role|
+    next if File.directory? role
     # Turn `dist/role/manifests/spinach.pp` into `spinach`
     veggie = File.basename(role).gsub('.pp', '')
+
+    # If there are no serverspec files, we needn't provision a machine!
+    if Dir["./spec/server/#{veggie}/*.rb"].empty?
+      puts ">> no serverspec defined for #{veggie}"
+      next
+    end
 
     config.vm.define(veggie) do |node|
       node.vm.provider(:aws) do |aws, override|
