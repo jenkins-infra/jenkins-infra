@@ -51,10 +51,17 @@ Vagrant.configure("2") do |config|
         }
       end
 
+      bootstrap_script = <<-EOF
+if [ ! -f "/apt-cached" ]; then
+  wget -q http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+  dpkg -i puppetlabs-release-trusty.deb
+  apt-get update && apt-get install -yq puppet && touch /apt-cached;
+fi
+EOF
+
       # This is a Vagrant-local hack to make sure we have properly udpated apt
       # caches since AWS machines are definitely going to have stale ones
-      node.vm.provision 'shell',
-        :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && apt-get install -yq puppet && touch /apt-cached; fi'
+      node.vm.provision 'shell', :inline => bootstrap_script
 
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)
