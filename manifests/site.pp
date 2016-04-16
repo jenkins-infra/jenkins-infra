@@ -86,3 +86,7 @@ node 'cucumber' {
 node 'tomato' {
   include role::buildnode::mac
 }
+
+node 'ldap' {
+  include role::ldapserver
+}
