@@ -22,6 +22,12 @@ describe 'profile::ldap' do
         })
       end
 
+      it 'should enable LDAP on a local unix socket' do
+        expect(subject).to contain_class('openldap::server').with({
+          :ldapi_ifs => ['/'],
+        })
+      end
+
       it 'should no longer manage a defaults file' do
         # This is handled by camptocamp/openldap now
         expect(subject).not_to contain_file('/etc/default/slapd')
