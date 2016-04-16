@@ -23,6 +23,9 @@ fixtures:
     mirrorbrain:
       repo: 'git://github.com/jenkins-infra/puppet-mirrorbrain.git'
       ref: '78ec0b0'
+    jenkins:
+      repo: 'git://github.com/jenkinsci/puppet-jenkins.git'
+      ref: 'd70fd6f'
 
   forge_modules:
     stdlib:

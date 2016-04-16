@@ -88,3 +88,8 @@ mod 'herculesteam/augeasproviders_core', '2.1.2'
 mod 'mirrorbrain',
     :git => 'git://github.com/jenkins-infra/puppet-mirrorbrain.git',
     :ref => '78ec0b0'
+
+# For managing Jenkins itself
+mod 'rtyler/jenkins',
+  :git => 'git://github.com/jenkinsci/puppet-jenkins.git',
+  :ref => 'd70fd6f'
