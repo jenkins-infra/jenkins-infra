@@ -93,3 +93,5 @@ mod 'mirrorbrain',
 mod 'rtyler/jenkins',
   :git => 'git://github.com/jenkinsci/puppet-jenkins.git',
   :ref => 'd70fd6f'
+# Needed for the Jenkins module
+mod 'puppetlabs/java', '1.5.0'
