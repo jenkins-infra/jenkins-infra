@@ -82,6 +82,12 @@ fixtures:
     openldap:
       repo: 'camptocamp/openldap'
       ref: '1.14.0'
+    augeasproviders_shellvar:
+      repo: 'herculesteam/augeasproviders_shellvar'
+      ref: '2.2.1'
+    augeasproviders_core:
+      repo: 'herculesteam/augeasproviders_core'
+      ref: '2.1.2'
 
 
 # Setting up a couple of symlinks to make it easier to treat profiles and roles

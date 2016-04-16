@@ -1,7 +1,11 @@
 #
 # Manage an OpenLDAP authentication service
 #
-class profile::ldap {
+class profile::ldap(
+  $database       = 'dc=jenkins-ci,dc=org',
+  $admin_dn       = 'cn=admin,dc=jenkins-ci,dc=org',
+  $admin_password = undef,
+) {
   # Not including profile::firewall intentionally here to avoid introducing
   # redundant iptables rules for the same patterns but with different names
   # between jenkins-infra and infra-puppet.
@@ -11,15 +15,42 @@ class profile::ldap {
   include ::firewall
   include ::datadog_agent
 
-  package { 'slapd':
-    ensure => present,
+  ensure_packages([
+      'libaugeas-ruby',          # for augeas based puppet providers
+  ])
+
+  include openldap::server
+
+  openldap::server::database { $database:
+    directory => '/var/lib/ldap',
+    rootdn    => $admin_dn,
+    rootpw    => $admin_password,
   }
 
-  service { 'slapd':
-    ensure     => running,
-    hasrestart => true,
-    enable     => true,
+
+  # Access grants
+  ###############
+  openldap::server::access {
+    "to attrs=userPassword,shadowLastChange by dn=\"${admin_dn}\" on ${database}":
+      access => 'write',
   }
+
+  openldap::server::access {
+    "to attrs=userPassword,shadowLastChange by anonymous on ${database}":
+      access => 'auth',
+  }
+
+  openldap::server::access {
+    "to attrs=userPassword,shadowLastChange by self on ${database}":
+      access => 'write',
+  }
+
+  openldap::server::access {
+    "to attrs=userPassword,shadowLastChange by * on ${database}":
+      access => 'none',
+  }
+  ###############
+
 
   file { '/etc/default/slapd':
     source => 'puppet:///modules/profile/ldap/slapd.defaults',
