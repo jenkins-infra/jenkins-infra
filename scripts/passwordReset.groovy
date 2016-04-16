@@ -23,47 +23,47 @@ System.exit(0)
 
 // main loop
 def main() {
-	mail = null;
-	username = null;
+  mail = null;
+  username = null;
 
-	// Our LDAP server has some additional special user accounts that shouldn't be reset
-	normalUser = false;
+  // Our LDAP server has some additional special user accounts that shouldn't be reset
+  normalUser = false;
 
-	side = new PrintWriter(new FileWriter(args[0]));
+  side = new PrintWriter(new FileWriter(args[0]));
 
-	System.in.eachLine { l ->
-		l = l.trim()
-		
-		// replace password
-		if (l.startsWith("userPassword:: ") && normalUser) {
-		  l = "userPassword:: "+base64(ssha(randomString(32),randomString(4)).bytes)
-		}
-		
-		System.out.println(l)
-		
-		
-		if (l=="") {
-		  if (mail!=null && username!=null) {
-		    side.println(mail+"\t"+username);
-		  }
-		  mail = null;
-		  username = null;
-		  normalUser = false;
-		  return;
-		}
-		if (l.startsWith("dn: ") && l.contains(",ou=people,dc=jenkins-ci,dc=org")) {
-		  normalUser = true;
-		  return;
-		}
-		if (l.startsWith("cn: ")) {
-		  username = value(l);
-		  return;
-		}
-		if (l.startsWith("mail: ")) {
-		  mail = value(l);
-		  return;
-		}
-	}
+  System.in.eachLine { l ->
+    l = l.trim()
+    
+    // replace password
+    if (l.startsWith("userPassword:: ") && normalUser) {
+      l = "userPassword:: "+base64(ssha(randomString(32),randomString(4)).bytes)
+    }
+    
+    System.out.println(l)
+    
+    
+    if (l=="") {
+      if (mail!=null && username!=null) {
+        side.println(mail+"\t"+username);
+      }
+      mail = null;
+      username = null;
+      normalUser = false;
+      return;
+    }
+    if (l.startsWith("dn: ") && l.contains(",ou=people,dc=jenkins-ci,dc=org")) {
+      normalUser = true;
+      return;
+    }
+    if (l.startsWith("cn: ")) {
+      username = value(l);
+      return;
+    }
+    if (l.startsWith("mail: ")) {
+      mail = value(l);
+      return;
+    }
+  }
 }
 
 
@@ -78,11 +78,11 @@ def ssha(pw,salt) {
 }
 
 def base64(data) {
-	return new String(Base64.encodeBase64(data))
+  return new String(Base64.encodeBase64(data))
 }
 
 def sha1(data) {
-	return MD.digest(data)
+  return MD.digest(data)
 }
 
 // join two byte array
