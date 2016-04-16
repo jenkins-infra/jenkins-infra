@@ -19,7 +19,10 @@ class profile::ldap(
       'libaugeas-ruby',          # for augeas based puppet providers
   ])
 
-  include openldap::server
+  class { 'openldap::server':
+    ldap_ifs  => ['127.0.0.1'],
+    ldaps_ifs => ['/'],
+  }
 
   openldap::server::database { $database:
     directory => '/var/lib/ldap',
@@ -51,11 +54,6 @@ class profile::ldap(
   }
   ###############
 
-
-  file { '/etc/default/slapd':
-    source => 'puppet:///modules/profile/ldap/slapd.defaults',
-    notify => Service[slapd],
-  }
 
   profile::datadog_check { 'ldap-process-check':
     checker => 'process',

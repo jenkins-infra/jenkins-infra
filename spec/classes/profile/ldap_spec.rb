@@ -10,10 +10,21 @@ describe 'profile::ldap' do
     it { should contain_service('slapd').with_ensure(:running) }
 
     context "slapd's configuration" do
-      it 'should add a defaults file' do
-        expect(subject).to contain_file('/etc/default/slapd').with({
-          :notify => 'Service[slapd]',
+      it 'should enable non-SSL LDAP on localhost only' do
+        expect(subject).to contain_class('openldap::server').with({
+          :ldap_ifs => ['127.0.0.1'],
         })
+      end
+
+      it 'should enable SSL LDAP' do
+        expect(subject).to contain_class('openldap::server').with({
+          :ldaps_ifs => ['/'],
+        })
+      end
+
+      it 'should no longer manage a defaults file' do
+        # This is handled by camptocamp/openldap now
+        expect(subject).not_to contain_file('/etc/default/slapd')
       end
     end
 
