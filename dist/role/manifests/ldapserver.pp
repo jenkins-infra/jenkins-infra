@@ -1,5 +1,5 @@
 # A server to host openldap
-class role::kale(){
+class role::ldapserver {
   include profile::base
-  include profile::openldap
+  include profile::ldap
 }
