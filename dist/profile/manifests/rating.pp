@@ -35,4 +35,9 @@ class profile::rating (
     mode    => '0600',
     notify  => Service['docker-rating'],
   }
+
+  # convenient to interact with database
+  package { 'postgresql-client':
+    ensure => present,
+  }
 }
