@@ -16,11 +16,11 @@ class profile::rating (
   }
 
   docker::run { 'rating':
-    image    => "${image}:${image_tag}",
-    volumes  => ["${config}:/config/dbconfig.php"
+    image   => "${image}:${image_tag}",
+    volumes => ["${config}:/config/dbconfig.php"
     ],
-    require  => [Docker::Image[$image],
-                 File[$config],
+    require => [Docker::Image[$image],
+                File[$config],
     ],
   }
 
