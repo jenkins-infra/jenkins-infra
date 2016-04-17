@@ -10,7 +10,7 @@ class profile::l10n_server (
   validate_string($image_tag)
   $user = 'l10n'
   $dir = "/srv/${user}"
-  $uid = 1007
+  $uid = '1007'
   $image = 'jenkinsciinfra/l10n-server'
 
   docker::image { $image:
