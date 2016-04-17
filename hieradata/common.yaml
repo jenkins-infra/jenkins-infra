@@ -94,7 +94,7 @@ profile::jenkins::mirroring_privkey: |
 profile::jenkins::mirroring_pubkey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKfSNpGdxkoCsQBzoiw7Gjq6J/DtjbVCgpD166YKFkWh4ae8YT2sA1ozdAreXHviIJrK8WbHfcz6zG+UtyjscTMCewC6NAQpdQGsFr53/eebD7s/5IY14ZXAtJrF2raWR5cknodCPO3pfxBusK51dw5vFerp53l57ExFcrfIIOfLGf0GCt/VrexWY8OlIk2fep724IAHRMRIwUV+QIDE5Jh5MzY5cgAoVwJWfPzGZtPsiIHJZ6NVYkqOVFAfddaj6H5CUolaQsYkM63XCwefSrsLP3pJDhCAvLnPeQkkHDaybYEIaBRt6tc5jxCxdDHlG+CT8v8aPjBV0C2hG4TB3T jenkins@jenkins-on-jenkins.2016'
 
 
-profile::l10n_server::image_tag: 'b0fe142'
+profile::l10n_server::image_tag: '3a5429b'
 
 
 # corresponds to Git tag in https://github.com/jenkins-infra/infra-rating
