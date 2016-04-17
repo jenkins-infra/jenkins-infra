@@ -5,6 +5,9 @@ class profile::ldap(
   $database       = 'dc=jenkins-ci,dc=org',
   $admin_dn       = 'cn=admin,dc=jenkins-ci,dc=org',
   $admin_password = undef,
+  $ssl_key        = undef,
+  $ssl_cert       = undef,
+  $ssl_chain      = undef,
 ) {
   # Not including profile::firewall intentionally here to avoid introducing
   # redundant iptables rules for the same patterns but with different names
