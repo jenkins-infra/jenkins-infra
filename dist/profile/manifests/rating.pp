@@ -21,7 +21,7 @@ class profile::rating (
     image   => "${image}:${image_tag}",
     volumes => ["${config}:/config/dbconfig.php"
     ],
-    ports   => ['8083:8080'],
+    ports   => ['8083:80'],
     require => [Docker::Image[$image],
                 File[$config],
     ],
