@@ -18,13 +18,14 @@ class profile::rating (
   }
 
   docker::run { 'rating':
-    image   => "${image}:${image_tag}",
-    volumes => ["${config}:/config/dbconfig.php"
+    image    => "${image}:${image_tag}",
+    volumes  => ["${config}:/config/dbconfig.php"
     ],
-    ports   => ['8083:80'],
-    require => [Docker::Image[$image],
+    ports    => ['8083:80'],
+    require  => [Docker::Image[$image],
                 File[$config],
     ],
+    use_name => true,
   }
 
   # The File[/etc/init/docker-ircbot.conf] resource is declared by the

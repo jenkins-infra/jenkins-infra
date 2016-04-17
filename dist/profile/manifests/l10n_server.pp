@@ -26,6 +26,7 @@ class profile::l10n_server (
     image    => "${image}:${image_tag}",
     require  => [Docker::Image[$image],
     ],
+    use_name => true,
   }
 
   # The File[/etc/init/docker-ircbot.conf] resource is declared by the
