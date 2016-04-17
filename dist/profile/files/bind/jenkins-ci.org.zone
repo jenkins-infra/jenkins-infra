@@ -49,7 +49,7 @@ wiki        3600    IN    CNAME    lettuce
 updates     3600    IN    CNAME    cucumber
 downloads   3600    IN    CNAME    cucumber
 fisheye     3600    IN    CNAME    cucumber
-l10n        3600    IN    CNAME    cucumber
+l10n        3600    IN    CNAME    l10n.jenkins.io.
 javadoc     3600    IN    CNAME    cucumber
 mirrors     3600    IN    CNAME    cucumber
 pkg         3600    IN    CNAME    cucumber
@@ -64,7 +64,7 @@ svn         3600    IN    CNAME    cucumber
 meetings    3600    IN    CNAME    edamame
 javanet2    3600    IN    CNAME    cucumber
 ldap        3600    IN    CNAME    cucumber
-jekyll      3600    IN    CNAME    jenkinsci.github.io
+jekyll      3600    IN    CNAME    jenkinsci.github.io.
 git         3600    IN    CNAME    spinach
 boxes       3600    IN    CNAME    spinach
 mirrors2    3600    IN    CNAME    lettuce
