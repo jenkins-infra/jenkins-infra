@@ -34,6 +34,10 @@ edamame     3600    IN    A    140.211.9.2       ; otherwise known as jenkins-co
 radish      3600    IN    A    140.211.9.94      ; otherwise known as jenkins-radish.osuosl.org
 
 
+; EC2
+ldap        3600    IN    A    52.23.244.165 ; jenkins-ldap
+
+
 
 ; CNAME Records
 www         3600    IN    CNAME    @
