@@ -17,15 +17,19 @@ class profile::apachemisc(
   include apache::mod::ssl
 
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
-    ensure => present,
-    source => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
-    mode   => '0444',
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
+    mode    => '0444',
+    require => Package['apache2-utils'],
+    notify  => Service['apache2'],
   }
 
   file { '/etc/apache2/conf.d/other-vhosts-access-log':
-    ensure => present,
-    source => "puppet:///modules/${module_name}/apache/other-vhosts-access-log.conf",
-    mode   => '0444',
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/apache/other-vhosts-access-log.conf",
+    mode    => '0444',
+    require => Package['apache2-utils'],
+    notify  => Service['apache2'],
   }
 
   # /usr/bin/rotatelogs is (as of 14.04) located in apache2-utils
