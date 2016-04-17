@@ -47,6 +47,10 @@ ci          3600    IN    CNAME    celery
 accounts    3600    IN    CNAME    eggplant
 
 
+; Magical CNAME for certificate validation
+D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.
+
+
 ; NS Records
 @           3600    IN    NS    ns1.jenkins-ci.org.
 @           3600    IN    NS    ns2.jenkins-ci.org.
