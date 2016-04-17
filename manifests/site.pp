@@ -94,3 +94,7 @@ node 'ldap' {
 node 'ratings' {
   include role::rating
 }
+
+node 'l10n' {
+  include role::l10n
+}
