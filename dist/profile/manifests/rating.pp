@@ -7,6 +7,7 @@ class profile::rating (
 ) {
   include profile::docker
   include profile::apachemisc
+  include profile::letsencrypt
 
   validate_string($image_tag)
   $image = 'jenkinsciinfra/rating'
