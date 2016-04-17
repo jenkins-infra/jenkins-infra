@@ -43,12 +43,19 @@ class profile::rating (
     ensure => present,
   }
 
+
   # docroot is required for apache::vhost but should never be used because
   # we're proxying everything here
   $docroot = '/var/www/html'
 
   apache::vhost { 'rating.jenkins.io':
-    port       => '80',
+    port       => '443',
+    ssl        => true,
+    ssl_key    => '/etc/letsencrypt/live/rating.jenkins.io/privkey.pem',
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+    ssl_cert   => '/etc/letsencrypt/live/rating.jenkins.io/cert.pem',
+    ssl_chain  => '/etc/letsencrypt/live/rating.jenkins.io/chain.pem',
     docroot    => $docroot,
     proxy_pass => [
       {
@@ -57,5 +64,23 @@ class profile::rating (
         reverse_urls => 'http://localhost:8083/',
       },
     ],
+  }
+
+  apache::vhost { 'rating.jenkins.io unsecured':
+    servername      => 'rating.jenkins.io',
+    port            => '80',
+    docroot         => $docroot,
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://rating.jenkins.io/',
+  }
+
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'rating.jenkins.io':
+        domains     => ['rating.jenkins.io'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
   }
 }
