@@ -70,27 +70,31 @@ class profile::ldap(
 
   # SSL Certificates
   file { $ssl_dir:
-    ensure => directory,
-    mode   => '0700',
-    owner  => $openldap::params::server_owner,
+    ensure  => directory,
+    mode    => '0700',
+    owner   => $openldap::params::server_owner,
+    require => Class['::openldap::server::install'],
   }
   file { $ssl_key_path:
     content => $ssl_key,
     mode    => '0600',
     owner   => $openldap::params::server_owner,
     notify  => Service['slapd'],
+    before  => Class['::openldap::server::service'],
   }
   file { $ssl_cert_path:
     content => $ssl_cert,
     mode    => '0644',
     owner   => $openldap::params::server_owner,
     notify  => Service['slapd'],
+    before  => Class['::openldap::server::service'],
   }
   file { $ssl_chain_path:
     content => $ssl_chain,
     mode    => '0644',
     owner   => $openldap::params::server_owner,
     notify  => Service['slapd'],
+    before  => Class['::openldap::server::service'],
   }
 
   profile::datadog_check { 'ldap-process-check':
