@@ -10,6 +10,7 @@ class profile::l10n_server (
   validate_string($image_tag)
   $user = 'l10n'
   $dir = "/srv/${user}"
+  $uid = 1007
   $image = 'jenkinsciinfra/l10n-server'
 
   docker::image { $image:
@@ -19,7 +20,7 @@ class profile::l10n_server (
   docker::run { 'l10n':
     volumes  => ["${dir}:/var/l10n"
     ],
-    username => 'l10n',
+    username => $uid,
     image    => "${image}:${image_tag}",
     require  => [Docker::Image[$image],
     ],
@@ -34,6 +35,7 @@ class profile::l10n_server (
   user { $user:
     shell      => '/bin/false',
     home       => $dir,
+    uid        => $uid,
     managehome => true,
   }
 }
