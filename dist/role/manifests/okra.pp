@@ -4,5 +4,5 @@ class role::okra {
   include profile::base
   include profile::archives
   include profile::bind
-  include profile::l10n_server
+  include profile::l10n_server_tombstone
 }
