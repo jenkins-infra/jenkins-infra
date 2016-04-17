@@ -2,7 +2,7 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives {
-  include stdlib
+  include ::stdlib
   # volume configuration is in hiera
   include ::lvm
   include profile::apachemisc
@@ -32,7 +32,7 @@ class profile::archives {
   file { $archives_dir:
     ensure  => directory,
     owner   => 'www-data',
-    require => [Package['apache2'],
+    require => [Package['httpd'],
                 Mount[$archives_dir]],
   }
 

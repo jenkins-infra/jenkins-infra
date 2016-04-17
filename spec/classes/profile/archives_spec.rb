@@ -9,6 +9,7 @@ describe 'profile::archives' do
   it { should contain_class 'profile::apachemisc' }
   it { should contain_class 'lvm' }
   it { should contain_class 'apache' }
+
   it_behaves_like 'it has webserver firewall rules'
 
   it { should contain_filesystem '/dev/archives/releases' }
