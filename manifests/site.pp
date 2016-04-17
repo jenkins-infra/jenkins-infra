@@ -90,3 +90,7 @@ node 'tomato' {
 node 'ldap' {
   include role::ldapserver
 }
+
+node 'rating' {
+  include role::rating
+}
