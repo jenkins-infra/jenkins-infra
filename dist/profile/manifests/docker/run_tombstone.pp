@@ -10,7 +10,7 @@ define profile::docker::run_tombstone {
   }
 
   service { "docker-${title}":
-    ensure     => absent,
+    ensure     => stopped,
   }
 }
 
