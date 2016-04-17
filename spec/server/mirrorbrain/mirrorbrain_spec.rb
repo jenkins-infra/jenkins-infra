@@ -15,4 +15,12 @@ describe 'mirrorbrain' do
   describe package('mirrorbrain') do
     it { should be_installed }
   end
+
+  describe file('/etc/apache2/mods-enabled/dbd.conf') do
+    it { should be_symlink }
+  end
+
+  describe file('/etc/apache2/mods-enabled/geoip.conf') do
+    it { should be_symlink }
+  end
 end
