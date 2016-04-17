@@ -91,6 +91,6 @@ node 'ldap' {
   include role::ldapserver
 }
 
-node 'rating' {
+node 'ratings' {
   include role::rating
 }
