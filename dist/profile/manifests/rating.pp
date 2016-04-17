@@ -6,6 +6,7 @@ class profile::rating (
   $image_tag = 'latest',
 ) {
   include profile::docker
+  include profile::apachemisc
 
   validate_string($image_tag)
   $image = 'jenkinsciinfra/rating'
@@ -19,6 +20,7 @@ class profile::rating (
     image   => "${image}:${image_tag}",
     volumes => ["${config}:/config/dbconfig.php"
     ],
+    ports   => ['8083:8080'],
     require => [Docker::Image[$image],
                 File[$config],
     ],
@@ -39,5 +41,21 @@ class profile::rating (
   # convenient to interact with database
   package { 'postgresql-client':
     ensure => present,
+  }
+
+  # docroot is required for apache::vhost but should never be used because
+  # we're proxying everything here
+  $docroot = '/var/www/html'
+
+  apache::vhost { 'rating.jenkins.io':
+    port       => '80',
+    docroot    => $docroot,
+    proxy_pass => [
+      {
+        path         => '/',
+        url          => 'http://localhost:8083/',
+        reverse_urls => 'http://localhost:8083/',
+      },
+    ],
   }
 }
