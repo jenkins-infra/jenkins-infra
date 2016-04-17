@@ -14,7 +14,7 @@ The amount of testing that can be done locally is as follows:
  * `bundle install` - To get the necessary gems to run tests locally, if you're
    unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
    to create an isolated Ruby environment
- * `bundle exec rake spec lint` - Will run the
+ * `./check` - Will run the
    [rspec-puppet](http://rspec-puppet) unit tests and the
    [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
    the rspec-puppet over and over, use `rake spec_standalone` to avoid
