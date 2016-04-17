@@ -33,9 +33,16 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
   end
 
-  Dir['./dist/role/manifests/*.pp'].each do |role|
+  Dir['./dist/role/manifests/**/*.pp'].each do |role|
+    next if File.directory? role
     # Turn `dist/role/manifests/spinach.pp` into `spinach`
     veggie = File.basename(role).gsub('.pp', '')
+
+    # If there are no serverspec files, we needn't provision a machine!
+    if Dir["./spec/server/#{veggie}/*.rb"].empty?
+      puts ">> no serverspec defined for #{veggie}"
+      next
+    end
 
     config.vm.define(veggie) do |node|
       node.vm.provider(:aws) do |aws, override|
@@ -44,10 +51,17 @@ Vagrant.configure("2") do |config|
         }
       end
 
+      bootstrap_script = <<-EOF
+if [ ! -f "/apt-cached" ]; then
+  wget -q http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
+  dpkg -i puppetlabs-release-trusty.deb
+  apt-get update && apt-get install -yq puppet && touch /apt-cached;
+fi
+EOF
+
       # This is a Vagrant-local hack to make sure we have properly udpated apt
       # caches since AWS machines are definitely going to have stale ones
-      node.vm.provision 'shell',
-        :inline => 'if [ ! -f "/apt-cached" ]; then apt-get update && apt-get install -yq puppet && touch /apt-cached; fi'
+      node.vm.provision 'shell', :inline => bootstrap_script
 
       node.vm.provision 'puppet' do |puppet|
         puppet.manifest_file = File.basename(role)

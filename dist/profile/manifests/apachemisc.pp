@@ -4,7 +4,7 @@
 class profile::apachemisc(
   $ssh_enabled = false,
 ) {
-  include apache
+  include ::apache
   # log rotation setting lives in another module
   include apachelogcompressor
 

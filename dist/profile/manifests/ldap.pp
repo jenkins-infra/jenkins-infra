@@ -21,6 +21,7 @@ class profile::ldap(
 
   class { 'openldap::server':
     ldap_ifs  => ['127.0.0.1'],
+    ldapi_ifs => ['/'],
     ldaps_ifs => ['/'],
   }
 
