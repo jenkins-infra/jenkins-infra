@@ -11,4 +11,8 @@ describe 'mirrorbrain' do
   describe port(80) do
     it { should be_listening }
   end
+
+  describe package('mirrorbrain') do
+    it { should be_installed }
+  end
 end
