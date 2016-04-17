@@ -5,6 +5,9 @@ class profile::ldap(
   $database       = 'dc=jenkins-ci,dc=org',
   $admin_dn       = 'cn=admin,dc=jenkins-ci,dc=org',
   $admin_password = undef,
+  $ssl_key        = undef,
+  $ssl_cert       = undef,
+  $ssl_chain      = undef,
 ) {
   # Not including profile::firewall intentionally here to avoid introducing
   # redundant iptables rules for the same patterns but with different names
@@ -15,6 +18,11 @@ class profile::ldap(
   include ::firewall
   include ::datadog_agent
 
+  $ssl_dir = '/etc/ldap/ssl'
+  $ssl_key_path =   "${ssl_dir}/slap.key"
+  $ssl_cert_path =  "${ssl_dir}/slap.crt"
+  $ssl_chain_path = "${ssl_dir}/bundle.crt"
+
   ensure_packages([
       'libaugeas-ruby',          # for augeas based puppet providers
   ])
@@ -23,6 +31,10 @@ class profile::ldap(
     ldap_ifs  => ['127.0.0.1'],
     ldapi_ifs => ['/'],
     ldaps_ifs => ['/'],
+    ssl_cert  => $ssl_cert_path,
+    ssl_key   => $ssl_key_path,
+    ssl_ca    => $ssl_chain_path,
+    require   => [File[$ssl_key_path],File[$ssl_cert_path],File[$ssl_chain_path]]
   }
 
   openldap::server::database { $database:
@@ -55,6 +67,31 @@ class profile::ldap(
   }
   ###############
 
+
+  # SSL Certificates
+  file { $ssl_dir:
+    ensure => directory,
+    mode   => '0700',
+    owner  => $openldap::params::server_owner,
+  }
+  file { $ssl_key_path:
+    content => $ssl_key,
+    mode    => '0600',
+    owner   => $openldap::params::server_owner,
+    notify  => Service['slapd'],
+  }
+  file { $ssl_cert_path:
+    content => $ssl_cert,
+    mode    => '0644',
+    owner   => $openldap::params::server_owner,
+    notify  => Service['slapd'],
+  }
+  file { $ssl_chain_path:
+    content => $ssl_chain,
+    mode    => '0644',
+    owner   => $openldap::params::server_owner,
+    notify  => Service['slapd'],
+  }
 
   profile::datadog_check { 'ldap-process-check':
     checker => 'process',
