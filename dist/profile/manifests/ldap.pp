@@ -144,6 +144,28 @@ class profile::ldap(
     action => 'accept',
   }
 
+  firewall { '107 accept inbound LDAPS request from puppet.jenkins.io':
+    proto  => 'tcp',
+    source => 'puppet.jenkins.io',
+    port   => 636,
+    action => 'accept',
+  }
+
+  firewall { '107 accept inbound LDAPS request from Confluence':
+    proto  => 'tcp',
+    source => 'wiki.jenkins-ci.org',
+    port   => 636,
+    action => 'accept',
+  }
+
+  firewall { '107 accept inbound LDAPS request from JIRA':
+    proto  => 'tcp',
+    source => 'issues.jenkins-ci.org',
+    port   => 636,
+    action => 'accept',
+  }
+
+
   # normally nobody listens on this port, but when we need to find the
   # source IP address JFrog is using to connect us, run 'stone -d -d
   # localhost:636 9636' and watch the log
