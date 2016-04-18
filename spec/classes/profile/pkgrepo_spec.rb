@@ -48,6 +48,12 @@ describe 'profile::pkgrepo' do
             :ensure => :present,
           })
         end
+
+        it "should define a repodata/ for #{variant}" do
+          expect(subject).to contain_file("#{variant_dir}/repodata").with({
+            :ensure => :directory,
+          })
+        end
       end
     end
 

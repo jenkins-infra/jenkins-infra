@@ -61,6 +61,13 @@ class profile::pkgrepo (
     require     => File["${docroot}/${title}"],
   }
 
+  profile::opensuse_repo { ['opensuse', 'opensuse-stable', 'opensuse-rc', 'opensuse-stable-rc']:
+    ensure      => present,
+    docroot     => $docroot,
+    mirror_fqdn => $mirror_fqdn,
+    require     => File["${docroot}/${title}"],
+  }
+
   apache::vhost { 'pkg.jenkins.io':
     serveraliases => [
       'pkg.jenkins-ci.org',
