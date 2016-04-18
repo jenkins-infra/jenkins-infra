@@ -77,7 +77,7 @@ EOF
           :vagrant => '1',
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
-        puppet.options = "--verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
+        puppet.options = "--parser future --verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
       end
 
       node.vm.provision :serverspec do |spec|
