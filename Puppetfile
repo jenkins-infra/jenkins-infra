@@ -38,7 +38,7 @@ mod 'docker', :git => 'git://github.com/jenkins-infra/garethr-docker.git',
               :ref => '951781fbeb06fa8142e851c5746c35b302a6f427'
 
 # Deps for docker
-mod 'puppetlabs/apt', '1.6.0'
+mod 'puppetlabs/apt', '2.2.2'
 mod 'stahnma/epel', '1.2.2'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
@@ -84,3 +84,7 @@ mod 'danzilio/letsencrypt', '1.0.0'
 mod 'camptocamp/openldap', '1.14.0'
 mod 'herculesteam/augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam/augeasproviders_core', '2.1.2'
+
+mod 'mirrorbrain',
+    :git => 'git://github.com/jenkins-infra/puppet-mirrorbrain.git',
+    :ref => 'b33d875'

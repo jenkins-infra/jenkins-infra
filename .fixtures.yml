@@ -20,6 +20,9 @@ fixtures:
       ref: '951781fbeb06fa8142e851c5746c35b302a6f427'
     apachelogcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
+    mirrorbrain:
+      repo: 'git://github.com/jenkins-infra/puppet-mirrorbrain.git'
+      ref: 'b33d875'
 
   forge_modules:
     stdlib:
@@ -51,7 +54,7 @@ fixtures:
       ref: '1.4.3'
     apt:
       repo: 'puppetlabs/apt'
-      ref: '1.6.0'
+      ref: '2.2.2'
     concat:
       repo: 'puppetlabs/concat'
       ref: '1.2.5'
