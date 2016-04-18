@@ -37,10 +37,12 @@ Vagrant.configure("2") do |config|
   Dir["#{role_dir}**/*.pp"].each do |role|
     next if File.directory? role
     # Turn `dist/role/manifests/spinach.pp` into `spinach`
-    veggie = role.gsub(role_dir, '').gsub('/', '_').gsub('.pp', '')
+    veggie = role.gsub(role_dir, '').gsub('/', '::').gsub('.pp', '')
+    specfile = veggie.gsub('::', '_')
+
 
     # If there are no serverspec files, we needn't provision a machine!
-    if Dir["./spec/server/#{veggie}/*.rb"].empty?
+    if Dir["./spec/server/#{specfile}/*.rb"].empty?
       puts ">> no serverspec defined for #{veggie}"
       next
     end
@@ -79,7 +81,7 @@ EOF
       end
 
       node.vm.provision :serverspec do |spec|
-        spec.pattern = "spec/server/#{veggie}/*.rb"
+        spec.pattern = "spec/server/#{specfile}/*.rb"
       end
     end
   end
