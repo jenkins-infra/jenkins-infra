@@ -3,7 +3,8 @@
 class profile::pkgrepo (
   $docroot      = '/var/www/pkg.jenkins.io',
   $release_root = '/srv/releases/jenkins',
-  $mirror_fqdn  = 'mirrors.jenkins.io'
+  $repo_fqdn    = 'pkg.jenkins.io',
+  $mirror_fqdn  = 'mirrors.jenkins.io',
 ) {
   include ::stdlib
   include ::apache
@@ -47,10 +48,10 @@ class profile::pkgrepo (
   }
 
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
-    ensure      => present,
-    docroot     => $docroot,
-    mirror_fqdn => $mirror_fqdn,
-    require     => File[$repos],
+    ensure    => present,
+    docroot   => $docroot,
+    repo_fqdn => $repo_fqdn,
+    require   => File[$repos],
   }
 
   profile::debian_repo { ['debian', 'debian-stable', 'debian-rc', 'debian-stable-rc']:
