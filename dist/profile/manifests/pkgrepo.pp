@@ -8,6 +8,7 @@ class profile::pkgrepo (
 ) {
   include ::stdlib
   include ::apache
+  include ::apache::mod::rewrite
 
   validate_string($docroot)
   validate_string($release_root)

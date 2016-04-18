@@ -81,6 +81,8 @@ describe 'profile::pkgrepo' do
   end
 
   context 'apache setup' do
+    it { should contain_class 'apache::mod::rewrite' }
+
     it 'should contain an SSL vhost' do
       expect(subject).to contain_apache__vhost('pkg.jenkins.io').with({
         :serveraliases => ['pkg.jenkins-ci.org'],
