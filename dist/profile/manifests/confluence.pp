@@ -49,6 +49,7 @@ class profile::confluence (
   $ldap_password = hiera('profile::ldap::admin_password')
   file { '/srv/wiki/container.env':
     content => join([
+        'LDAP_HOST=ldap.jenkins.io',
         "LDAP_PASSWORD=${ldap_password}",
         "DATABASE_URL=${database_url}"
       ], "\n"),
@@ -85,6 +86,15 @@ class profile::confluence (
     env             => ['TARGET=http://confluence:8080'],
     restart_service => true,
     use_name        => true,
+  }
+
+  # If the configuration changes, containers have to be kicked & restarted
+  # due to the dependency between those two, change in confluence forces restart of both
+  File <| title == '/etc/init/docker-confluence.conf' |> {
+    notify  => [Service['docker-confluence'],Service['docker-confluence-cache']]
+  }
+  File <| title == '/etc/init/docker-confluence-cache.conf' |> {
+    notify  => Service['docker-confluence-cache'],
   }
 
   ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
