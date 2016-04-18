@@ -20,6 +20,8 @@ class profile::buildmaster(
 ) {
   include ::stdlib
   include ::apache
+  include apache::mod::proxy
+  include apache::mod::headers
 
   validate_string($ci_fqdn)
   validate_bool($letsencrypt)
@@ -57,6 +59,10 @@ class profile::buildmaster(
     access_log_pipe       => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
+    custom_fragment       => '
+RequestHeader set X-Forwarded-Proto "https"
+RequestHeader set X-Forwarded-Port "443"
+',
     proxy_pass            => [
       {
         path         => '/',

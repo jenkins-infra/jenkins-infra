@@ -29,6 +29,7 @@ describe 'profile::buildmaster' do
     it { should contain_class 'profile::apachemisc' }
     it { should contain_class 'profile::letsencrypt' }
     it { should contain_class 'apache::mod::proxy' }
+    it { should contain_class 'apache::mod::headers' }
 
     context 'vhosts' do
       it 'should contain a vhost with ssl' do
