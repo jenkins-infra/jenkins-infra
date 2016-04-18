@@ -102,3 +102,12 @@ node 'l10n' {
 node 'mirrorbrain' {
   include role::mirrorbrain
 }
+
+
+node 'trusted-ci' {
+  include role::jenkins::master
+}
+
+node /trusted-agent-(\d+)/ {
+  include role::jenkins::agent
+}
