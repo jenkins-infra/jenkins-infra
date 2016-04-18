@@ -42,7 +42,7 @@ class profile::pkgrepo (
 
   file { suffix($repos, '/jenkins-ci.org.key'):
     ensure  => present,
-    content => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
+    source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
     require => File[$docroot],
   }
 
