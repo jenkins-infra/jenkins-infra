@@ -50,7 +50,7 @@ class profile::pkgrepo (
     ensure      => present,
     docroot     => $docroot,
     mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    require     => File[$repos],
   }
 
   profile::debian_repo { ['debian', 'debian-stable', 'debian-rc', 'debian-stable-rc']:
@@ -58,14 +58,14 @@ class profile::pkgrepo (
     docroot     => $docroot,
     direct_root => $release_root,
     mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    require     => File[$repos],
   }
 
   profile::opensuse_repo { ['opensuse', 'opensuse-stable', 'opensuse-rc', 'opensuse-stable-rc']:
     ensure      => present,
     docroot     => $docroot,
     mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    require     => File[$repos],
   }
 
   apache::vhost { 'pkg.jenkins.io':
