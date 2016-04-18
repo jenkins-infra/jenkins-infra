@@ -47,10 +47,17 @@ describe 'profile::buildslave' do
       })
     end
 
-    it 'should contain dockerhub credentials' do
-      expect(subject).to contain_file('/home/jenkins/.docker').with_ensure('directory')
+    context 'with trusted_agent => true' do
+      let(:params) { { :trusted_agent => true } }
+      it 'should contain dockerhub credentials' do
+        expect(subject).to contain_file('/home/jenkins/.docker').with_ensure('directory')
+        expect(subject).to contain_file('/home/jenkins/.docker/config.json').with_ensure('file')
+      end
+    end
 
-      expect(subject).to contain_file('/home/jenkins/.docker/config.json').with_ensure('file')
+    context 'with trusted_agent => false' do
+      let(:params) { { :trusted_agent => false } }
+      it { should contain_file('/home/jenkins/.docker/config.json').with_ensure('absent') }
     end
   end
 
