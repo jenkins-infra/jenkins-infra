@@ -49,7 +49,7 @@ class profile::confluence (
   $ldap_password = hiera('profile::ldap::admin_password')
   file { '/srv/wiki/container.env':
     content => join([
-        "LDAP_HOST=ldap.jenkins.io",
+        'LDAP_HOST=ldap.jenkins.io',
         "LDAP_PASSWORD=${ldap_password}",
         "DATABASE_URL=${database_url}"
       ], "\n"),
