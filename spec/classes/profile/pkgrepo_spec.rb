@@ -87,6 +87,7 @@ describe 'profile::pkgrepo' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
+        :options => 'Indexes FollowSymLinks MultiViews',
       })
     end
 
@@ -103,6 +104,7 @@ describe 'profile::pkgrepo' do
     it "should contain a non-ssl pkg.jenkins-ci.org vhost which doesn't upgrade" do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
         :port => 80,
+        :options => 'Indexes FollowSymLinks MultiViews',
         :docroot => params[:docroot],
       })
     end
