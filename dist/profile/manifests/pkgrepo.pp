@@ -84,6 +84,7 @@ class profile::pkgrepo (
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
     options         => 'Indexes FollowSymLinks MultiViews',
+    override        => 'All',
     ssl             => true,
     ssl_key         => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
     # When Apache is upgraded to >= 2.4.8 this should be changed to
@@ -110,6 +111,7 @@ class profile::pkgrepo (
   apache::vhost { 'pkg.jenkins-ci.org':
     port            => 80,
     docroot         => $docroot,
+    override        => 'All',
     options         => 'Indexes FollowSymLinks MultiViews',
     error_log_file  => "${repo_fqdn}/legacy_nonssl.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",

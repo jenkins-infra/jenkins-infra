@@ -88,6 +88,7 @@ describe 'profile::pkgrepo' do
         :ssl => true,
         :docroot => params[:docroot],
         :options => 'Indexes FollowSymLinks MultiViews',
+        :override => 'All',
       })
     end
 
@@ -105,6 +106,7 @@ describe 'profile::pkgrepo' do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
         :port => 80,
         :options => 'Indexes FollowSymLinks MultiViews',
+        :override => 'All',
         :docroot => params[:docroot],
       })
     end
