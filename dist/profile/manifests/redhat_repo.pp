@@ -4,7 +4,7 @@
 define profile::redhat_repo (
   $ensure,
   $docroot,
-  $mirror_fqdn) {
+  $repo_fqdn) {
 
   file { "${docroot}/${name}/jenkins.repo":
     ensure  => $ensure,

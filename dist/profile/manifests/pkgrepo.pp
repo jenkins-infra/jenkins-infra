@@ -3,7 +3,8 @@
 class profile::pkgrepo (
   $docroot      = '/var/www/pkg.jenkins.io',
   $release_root = '/srv/releases/jenkins',
-  $mirror_fqdn  = 'mirrors.jenkins.io'
+  $repo_fqdn    = 'pkg.jenkins.io',
+  $mirror_fqdn  = 'mirrors.jenkins.io',
 ) {
   include ::stdlib
   include ::apache
@@ -42,15 +43,15 @@ class profile::pkgrepo (
 
   file { suffix($repos, '/jenkins-ci.org.key'):
     ensure  => present,
-    content => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
+    source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
     require => File[$docroot],
   }
 
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
-    ensure      => present,
-    docroot     => $docroot,
-    mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    ensure    => present,
+    docroot   => $docroot,
+    repo_fqdn => $repo_fqdn,
+    require   => File[$repos],
   }
 
   profile::debian_repo { ['debian', 'debian-stable', 'debian-rc', 'debian-stable-rc']:
@@ -58,14 +59,14 @@ class profile::pkgrepo (
     docroot     => $docroot,
     direct_root => $release_root,
     mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    require     => File[$repos],
   }
 
   profile::opensuse_repo { ['opensuse', 'opensuse-stable', 'opensuse-rc', 'opensuse-stable-rc']:
     ensure      => present,
     docroot     => $docroot,
     mirror_fqdn => $mirror_fqdn,
-    require     => File["${docroot}/${title}"],
+    require     => File[$repos],
   }
 
   apache::vhost { 'pkg.jenkins.io':
