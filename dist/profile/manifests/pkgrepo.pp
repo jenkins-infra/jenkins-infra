@@ -75,6 +75,11 @@ class profile::pkgrepo (
     ],
     port          => 443,
     ssl           => true,
+    ssl_key       => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+    ssl_cert      => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
+    ssl_chain     => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
     docroot       => $docroot,
     require       => File[$docroot],
   }
