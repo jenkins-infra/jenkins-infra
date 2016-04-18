@@ -16,6 +16,5 @@ profile::buildmaster::plugins:
   - github
   - jobConfigHistory
   - mailer
-  - secret
   - throttle-concurrents
   - timestamper
