@@ -34,6 +34,7 @@ class profile::jenkinsadmin (
                 File['/home/ircbot/.github'],
                 File['/home/ircbot/.jenkins-ci.org'],
     ],
+    use_name => true,
   }
 
   # The File[/etc/init/docker-ircbot.conf] resource is declared by the

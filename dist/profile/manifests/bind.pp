@@ -42,13 +42,14 @@ class profile::bind (
   }
 
   docker::run { 'bind':
-    command => undef,
-    ports   => ['53:53', '53:53/udp'],
-    image   => "jenkinsciinfra/bind:${image_tag}",
-    volumes => ['/etc/bind/local:/etc/bind/local'],
-    require => [File["${conf_dir}/named.conf.local"],
+    command  => undef,
+    ports    => ['53:53', '53:53/udp'],
+    image    => "jenkinsciinfra/bind:${image_tag}",
+    volumes  => ['/etc/bind/local:/etc/bind/local'],
+    require  => [File["${conf_dir}/named.conf.local"],
       File["${conf_dir}/jenkins-ci.org.zone"],
     ],
+    use_name => true,
   }
 
   firewall { '900 accept tcp DNS queries':
