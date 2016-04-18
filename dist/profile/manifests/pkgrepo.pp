@@ -16,9 +16,16 @@ class profile::pkgrepo (
   include profile::firewall
   include profile::letsencrypt
 
-  file { $docroot:
+  $apache_log_dir = "/var/log/apache2/${repo_fqdn}"
+
+  file { $apache_log_dir:
     ensure => directory,
-    owner  => 'root',
+  }
+
+  file { $docroot:
+    ensure  => directory,
+    owner   => 'root',
+    require => File[$apache_log_dir],
   }
 
   $repos = [
@@ -69,42 +76,48 @@ class profile::pkgrepo (
     require     => File[$repos],
   }
 
-  apache::vhost { 'pkg.jenkins.io':
-    serveraliases => [
+  apache::vhost { $repo_fqdn:
+    serveraliases   => [
       'pkg.jenkins-ci.org',
     ],
-    port          => 443,
-    ssl           => true,
-    ssl_key       => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
+    port            => 443,
+    ssl             => true,
+    ssl_key         => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
     # When Apache is upgraded to >= 2.4.8 this should be changed to
     # fullchain.pem
-    ssl_cert      => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
-    ssl_chain     => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
-    docroot       => $docroot,
-    require       => File[$docroot],
+    ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
+    ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
+    docroot         => $docroot,
+    error_log_file  => "${repo_fqdn}/error.log",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    require         => File[$docroot],
   }
 
-  apache::vhost { 'pkg.jenkins.io unsecured':
-    servername      => 'pkg.jenkins.io',
+  apache::vhost { "${repo_fqdn} unsecured":
+    servername      => $repo_fqdn,
     port            => 80,
     docroot         => $docroot,
     redirect_status => 'permanent',
-    redirect_dest   => 'https://pkg.jenkins.io/',
-    require         => Apache::Vhost['pkg.jenkins.io'],
+    redirect_dest   => "https://${repo_fqdn}/",
+    error_log_file  => "${repo_fqdn}/error_nonssl.log",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => Apache::Vhost[$repo_fqdn],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
-    port    => 80,
-    docroot => $docroot,
-    require => Apache::Vhost['pkg.jenkins.io'],
+    port            => 80,
+    docroot         => $docroot,
+    error_log_file  => "${repo_fqdn}/legacy_nonssl.log",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => Apache::Vhost[$repo_fqdn],
   }
 
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
-    letsencrypt::certonly { 'pkg.jenkins.io':
-      domains     => ['pkg.jenkins.io'],
+    letsencrypt::certonly { $repo_fqdn:
+      domains     => [$repo_fqdn],
       plugin      => 'apache',
       manage_cron => true,
     }
