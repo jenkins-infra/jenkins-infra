@@ -16,12 +16,14 @@
 class profile::buildmaster(
   $ci_fqdn     = 'ci.jenkins.io',
   $letsencrypt = true,
+  $plugins     = undef,
 ) {
   include ::stdlib
   include ::apache
 
   validate_string($ci_fqdn)
   validate_bool($letsencrypt)
+  validate_array($plugins)
 
   include profile::apachemisc
   include profile::firewall
@@ -33,6 +35,9 @@ class profile::buildmaster(
   class { '::jenkins':
     lts       => true,
     executors => 0,
+  }
+
+  profile::jenkinsplugin { $plugins:
   }
 
   $docroot = "/var/www/${ci_fqdn}"

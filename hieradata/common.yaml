@@ -189,5 +189,9 @@ profile::accountapp::jira_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQ
 
 
 
+profile::buildmaster::plugins:
+  - workflow-aggregator
+  - pipeline-stage-view
+
 
 # vim: ft=yaml ts=2 sw=2 nowrap et

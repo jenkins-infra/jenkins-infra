@@ -1,0 +1,18 @@
+---
+# These are plugins we need only in our trusted-ci environment
+profile::buildmaster::plugins:
+  - workflow-aggregator
+  - workflow-multibranch
+  - pipeline-stage-view
+  - build-timeout
+  - buildtriggerbadge
+  - cloudbees-folder
+  - credentials
+  - git-client
+  - git
+  - github
+  - jobConfigHistory
+  - mailer
+  - secret
+  - throttle-concurrents
+  - timestamper

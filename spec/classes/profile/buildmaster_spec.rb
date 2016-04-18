@@ -83,6 +83,17 @@ describe 'profile::buildmaster' do
     end
   end
 
+  context 'with plugins' do
+    let(:params) do
+      {
+        :plugins => ['workflow-aggregator',]
+      }
+    end
+
+    it { should contain_profile__jenkinsplugin('workflow-aggregator') }
+    it { should contain_exec('install-plugin-workflow-aggregator') }
+  end
+
   context 'firewall rules' do
     it { should contain_class 'profile::firewall' }
 
