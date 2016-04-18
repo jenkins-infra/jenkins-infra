@@ -98,3 +98,7 @@ node 'ratings' {
 node 'l10n' {
   include role::l10n
 }
+
+node 'mirrorbrain' {
+  include role::mirrorbrain
+}
