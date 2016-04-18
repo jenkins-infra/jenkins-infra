@@ -98,5 +98,13 @@ class profile::buildmaster(
       plugin      => 'apache',
       manage_cron => true,
     }
+
+    Apache::Vhost <| title == $ci_fqdn |> {
+      ssl_key       => "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
+      ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/cert.pem",
+      ssl_chain     => "/etc/letsencrypt/live/${ci_fqdn}/chain.pem",
+    }
   }
 }

@@ -56,6 +56,16 @@ describe 'profile::buildmaster' do
       end
 
       it { should contain_letsencrypt__certonly(fqdn) }
+
+      it 'should configure the letsencrypt ssl keys on the vhost' do
+        expect(subject).to contain_apache__vhost(fqdn).with({
+          :servername => fqdn,
+          :port => 443,
+          :ssl_key => "/etc/letsencrypt/live/#{fqdn}/privkey.pem",
+          :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/cert.pem",
+          :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
+        })
+      end
     end
   end
 
