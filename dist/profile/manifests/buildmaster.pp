@@ -60,9 +60,9 @@ class profile::buildmaster(
     proxy_pass            => [
       {
         path         => '/',
-        url          => 'http://localhost:8080',
+        url          => 'http://localhost:8080/',
         keywords     => ['nocanon'],
-        reverse_urls => ['http://localhost:8080'],
+        reverse_urls => ['http://localhost:8080/'],
       },
     ],
   }
