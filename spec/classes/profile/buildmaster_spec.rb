@@ -28,13 +28,22 @@ describe 'profile::buildmaster' do
     it { should contain_class 'apache' }
     it { should contain_class 'profile::apachemisc' }
     it { should contain_class 'profile::letsencrypt' }
-
+    it { should contain_class 'apache::mod::proxy' }
 
     context 'vhosts' do
       it 'should contain a vhost with ssl' do
         expect(subject).to contain_apache__vhost(fqdn).with({
           :servername => fqdn,
           :port => 443,
+          :proxy_preserve_host => true,
+          :proxy_pass => [
+            {
+              'path' => '/',
+              'url' => 'http://localhost:8080',
+              'keywords' => ['nocanon'],
+              'reverse_urls' => ['http://localhost:8080'],
+            },
+          ],
         })
       end
 

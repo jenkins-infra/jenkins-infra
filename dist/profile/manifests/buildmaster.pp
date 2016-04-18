@@ -48,13 +48,23 @@ class profile::buildmaster(
   }
 
   apache::vhost { $ci_fqdn:
-    port            => 443,
-    override        => 'All',
-    ssl             => true,
-    docroot         => $docroot,
-    error_log_file  => "${ci_fqdn}/error.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
+    require               => File[$docroot],
+    port                  => 443,
+    override              => 'All',
+    ssl                   => true,
+    docroot               => $docroot,
+    error_log_file        => "${ci_fqdn}/error.log",
+    access_log_pipe       => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    proxy_preserve_host   => true,
+    allow_encoded_slashes => 'on',
+    proxy_pass            => [
+      {
+        path         => '/',
+        url          => 'http://localhost:8080',
+        keywords     => ['nocanon'],
+        reverse_urls => ['http://localhost:8080'],
+      },
+    ],
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
