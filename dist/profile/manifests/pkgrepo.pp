@@ -86,14 +86,17 @@ class profile::pkgrepo (
 
   apache::vhost { 'pkg.jenkins.io unsecured':
     servername      => 'pkg.jenkins.io',
-    serveraliases   => [
-      'pkg.jenkins-ci.org',
-    ],
     port            => 80,
     docroot         => $docroot,
     redirect_status => 'permanent',
     redirect_dest   => 'https://pkg.jenkins.io/',
     require         => Apache::Vhost['pkg.jenkins.io'],
+  }
+
+  apache::vhost { 'pkg.jenkins-ci.org':
+    port    => 80,
+    docroot => $docroot,
+    require => Apache::Vhost['pkg.jenkins.io'],
   }
 
 

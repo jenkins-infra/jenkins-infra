@@ -93,11 +93,17 @@ describe 'profile::pkgrepo' do
     it 'should contain a non-ssl vhost for redirecting' do
       expect(subject).to contain_apache__vhost('pkg.jenkins.io unsecured').with({
         :servername => 'pkg.jenkins.io',
-        :serveraliases => ['pkg.jenkins-ci.org'],
         :port => 80,
         :docroot => params[:docroot],
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
+      })
+    end
+
+    it "should contain a non-ssl pkg.jenkins-ci.org vhost which doesn't upgrade" do
+      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
+        :port => 80,
+        :docroot => params[:docroot],
       })
     end
   end
