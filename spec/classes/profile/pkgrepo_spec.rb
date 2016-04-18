@@ -81,12 +81,16 @@ describe 'profile::pkgrepo' do
   end
 
   context 'apache setup' do
+    it { should contain_class 'apache::mod::rewrite' }
+
     it 'should contain an SSL vhost' do
       expect(subject).to contain_apache__vhost('pkg.jenkins.io').with({
         :serveraliases => ['pkg.jenkins-ci.org'],
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
+        :options => 'Indexes FollowSymLinks MultiViews',
+        :override => 'All',
       })
     end
 
@@ -103,6 +107,8 @@ describe 'profile::pkgrepo' do
     it "should contain a non-ssl pkg.jenkins-ci.org vhost which doesn't upgrade" do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
         :port => 80,
+        :options => 'Indexes FollowSymLinks MultiViews',
+        :override => 'All',
         :docroot => params[:docroot],
       })
     end
