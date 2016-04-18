@@ -53,6 +53,7 @@ class profile::accountapp(
       "JIRA_PASSWORD=${jira_password}",
     ],
     extra_parameters => ['--net=host'],
+    use_name         => true,
   }
 
   # docroot is required for apache::vhost but should never be used because
