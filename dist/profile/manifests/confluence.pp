@@ -88,6 +88,15 @@ class profile::confluence (
     use_name        => true,
   }
 
+  # If the configuration changes, containers have to be kicked & restarted
+  # due to the dependency between those two, change in confluence forces restart of both
+  File <| title == '/etc/init/docker-confluence.conf' |> {
+    notify  => [Service['docker-confluence'],Service['docker-confluence-cache']]
+  }
+  File <| title == '/etc/init/docker-confluence-cache.conf' |> {
+    notify  => Service['docker-confluence-cache'],
+  }
+
   ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
   ### #if
   #file { '/etc/apache2/sites-enabled/25-wiki.jenkins-ci.org.conf':
