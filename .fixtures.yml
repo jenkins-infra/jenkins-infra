@@ -69,7 +69,7 @@ fixtures:
       ref: '1.0.1'
     ssh:
       repo: 'saz/ssh'
-      ref: '2.3.6'
+      ref: '2.8.1'
     lvm:
       repo: 'puppetlabs/lvm'
       ref: '0.3.2'
@@ -104,3 +104,4 @@ fixtures:
   symlinks:
     profile: "#{source_dir}/dist/profile"
     role: "#{source_dir}/dist/role"
+    sshkeyman: "#{source_dir}/dist/sshkeyman"

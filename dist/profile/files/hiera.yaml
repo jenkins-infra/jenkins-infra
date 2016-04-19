@@ -6,6 +6,7 @@
 :hierarchy:
   - "clients/%{clientcert}"
   - "env/%{environment}"
+  - "roles/%{hiera_role}"
   - common
 
 #:yaml:

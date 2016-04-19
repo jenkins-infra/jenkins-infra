@@ -28,14 +28,6 @@ describe 'profile::buildslave' do
     # Keeping these two examples here to make sure a user and group are created
     it { should contain_user 'jenkins' }
     it { should contain_group 'jenkins' }
-
-    context 'ssh keys' do
-      it 'should provision the private node sync private key' do
-        expect(subject).to contain_file('/home/jenkins/.ssh/id_rsa').with({
-          :ensure => 'file',
-        })
-      end
-    end
   end
 
   context 'with docker => true' do
@@ -123,5 +115,57 @@ describe 'profile::buildslave' do
     end
 
     it { should_not contain_package 'build-essential' }
+  end
+
+
+  context 'with ssh_private_keys' do
+    let(:home) { '/tmp/rspec' }
+    let(:private_keys) do
+      {
+         "#{home}/.ssh/id_rsa" => {
+          'type' => 'ssh-rsa',
+          'key'  => 'publickey',
+          'privkey' => 'privatekey',
+          },
+          "#{home}/.ssh/special" => {
+            'privkey'  => 'specialprivatekey',
+            'for_host' => 'updates.jenkins.io',
+          },
+      }
+    end
+    let(:params) do
+      {
+        :home_dir => home,
+        :ssh_private_keys => private_keys,
+      }
+    end
+
+    it 'should install the public key' do
+      expect(subject).to contain_file("#{home}/.ssh/id_rsa.pub").with({
+        :ensure => :present,
+        :owner => 'jenkins',
+      })
+    end
+
+    it 'should install the private key' do
+      expect(subject).to contain_file("#{home}/.ssh/id_rsa").with({
+        :ensure => :present,
+        :owner  => 'jenkins',
+        :content => 'privatekey',
+      })
+    end
+
+    it 'should install the special private key' do
+      expect(subject).to contain_file("#{home}/.ssh/special").with({
+        :ensure => :present,
+        :content => 'specialprivatekey',
+      })
+    end
+
+    it 'should update ~/.ssh/config for the special private key' do
+      expect(subject).to contain_ssh__client__config__user('jenkins').with({
+        :ensure => :present,
+      })
+    end
   end
 end

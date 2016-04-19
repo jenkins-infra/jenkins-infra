@@ -16,6 +16,7 @@ profile::buildmaster::plugins:
   - ldap
   - mailer
   - pipeline-stage-view
+  - ssh-agent
   - throttle-concurrents
   - timestamper
   - toolenv
