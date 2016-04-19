@@ -19,4 +19,4 @@ EOF
     AUTH_ARGS="-i ${SSH_KEY}"
 fi;
 
-exec /usr/bin/java /usr/share/jenkins/jenkins-cli.jar -s http://localhost:8080 ${AUTH_ARGS} $@
+exec /usr/bin/java -jar /usr/share/jenkins/jenkins-cli.jar -s http://localhost:8080 ${AUTH_ARGS} $@
