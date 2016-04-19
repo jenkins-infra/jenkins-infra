@@ -177,6 +177,14 @@ RequestHeader set X-Forwarded-Port \"${proxy_port}\"
       manage_cron => true,
     }
 
+    file { [
+      "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
+      "/etc/letsencrypt/live/${ci_fqdn}/cert.pem",
+      "/etc/letsencrypt/live/${ci_fqdn}/chain.pem",
+    ]:
+      ensure => file,
+    }
+
     Apache::Vhost <| title == $ci_fqdn |> {
       ssl_key       => "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
       # When Apache is upgraded to >= 2.4.8 this should be changed to
