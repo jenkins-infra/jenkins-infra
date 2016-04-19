@@ -104,3 +104,4 @@ fixtures:
   symlinks:
     profile: "#{source_dir}/dist/profile"
     role: "#{source_dir}/dist/role"
+    sshkeyman: "#{source_dir}/dist/sshkeyman"

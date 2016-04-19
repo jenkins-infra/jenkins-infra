@@ -116,5 +116,6 @@ node 'trusted-ci' {
 }
 
 node /trusted-agent-(\d+)/ {
+  $hiera_role = 'trustedagent'
   include role::jenkins::agent
 }
