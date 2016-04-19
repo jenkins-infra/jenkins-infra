@@ -84,7 +84,7 @@ node 'cucumber' {
 
 # tomato (Mac OS X 10.10 build node)
 node 'tomato' {
-  include role::buildnode::mac
+  include role::jenkins::agent
 }
 
 node 'ldap' {
@@ -101,4 +101,20 @@ node 'l10n' {
 
 node 'mirrorbrain' {
   include role::mirrorbrain
+}
+
+node 'ci' {
+  include role::jenkins::master
+}
+
+node /agent-(\d+)/ {
+  include role::jenkins::agent
+}
+
+node 'trusted-ci' {
+  include role::jenkins::master
+}
+
+node /trusted-agent-(\d+)/ {
+  include role::jenkins::agent
 }
