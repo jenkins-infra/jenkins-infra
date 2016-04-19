@@ -7,6 +7,17 @@ describe 'profile::updatesite' do
   it { should contain_class 'profile::updatesite' }
   it { should contain_class 'profile::firewall' }
 
+  context 'with ssh_pubkey provided' do
+    let(:params) do
+      {
+        :ssh_pubkey => 'rspeckey',
+      }
+    end
+
+    it { should contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
+    it { should contain_user('www-data').with_purge_ssh_keys(true) }
+  end
+
   context 'apache setup' do
     it { should contain_class 'apache' }
     it { should contain_class 'profile::apachemisc' }

@@ -6,6 +6,7 @@
 #
 class profile::updatesite (
   $docroot = '/var/www/updates.jenkins.io',
+  $ssh_pubkey = undef,
 ) {
   include ::stdlib
   include ::apache
@@ -42,6 +43,23 @@ class profile::updatesite (
     error_log_file  => "${update_fqdn}/error_nonssl.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$update_fqdn],
+  }
+
+  if $ssh_pubkey {
+    validate_string($ssh_pubkey)
+
+    ssh_authorized_key { 'updatesite-key':
+        ensure => present,
+        user   => 'www-data',
+        type   => 'ssh-rsa',
+        key    => $ssh_pubkey,
+    }
+
+    # If we're managing an ssh_authorized_key, then we should purge anything
+    # else for safety's sake
+    User <| title == 'www-data' |> {
+        purge_ssh_keys => true,
+    }
   }
 
   # We can only acquire certs in production due to the way the letsencrypt
