@@ -184,6 +184,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
       {
         path            => $docroot,
         options         => 'FollowSymLinks Indexes',
+        override        => 'All',
         custom_fragment => '
             MirrorBrainEngine On
             MirrorBrainDebug Off
