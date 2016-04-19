@@ -117,7 +117,7 @@ class profile::buildmaster(
     allow_encoded_slashes => 'on',
     custom_fragment       => '
 RequestHeader set X-Forwarded-Proto "https"
-RequestHeader set X-Forwarded-Port "443"
+RequestHeader set X-Forwarded-Port "1443"
 ',
     proxy_pass            => [
       {
