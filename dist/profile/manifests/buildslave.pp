@@ -1,10 +1,10 @@
 # Jenkins build slave connectable via SSH
 class profile::buildslave(
-  $home_dir        = '/home/jenkins',
-  $ssh_private_key = undef,
-  $docker          = true,
-  $ruby            = true,
-  $trusted_agent   = false,
+  $home_dir         = '/home/jenkins',
+  $docker           = true,
+  $ruby             = true,
+  $trusted_agent    = false,
+  $ssh_private_keys = undef,
 ) {
   include ::stdlib
   include git
@@ -40,13 +40,6 @@ class profile::buildslave(
     comment  => 'Jenkins build node user',
     require  => $account_requires,
   }
-
-  file { "${home_dir}/.ssh/id_rsa":
-    ensure  => file,
-    content => $ssh_private_key,
-    require => Account[$user],
-  }
-
 
   if $docker {
     file { "${home_dir}/.docker":
@@ -105,6 +98,16 @@ class profile::buildslave(
 
   sshkey { 'github-dsa':
     ensure => absent,
+  }
+
+  if $ssh_private_keys {
+    validate_hash($ssh_private_keys)
+    $private_keys_defaults = {
+      'type'  => 'ssh-rsa',
+      'owner' => $user,
+    }
+
+    create_resources('sshkeyman::key', $ssh_private_keys, $private_keys_defaults)
   }
 }
 
