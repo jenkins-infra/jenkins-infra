@@ -17,6 +17,7 @@ class profile::buildmaster(
   $ci_fqdn     = 'ci.jenkins.io',
   $letsencrypt = true,
   $plugins     = undef,
+  $proxy_port  = 443,
 ) {
   include ::stdlib
   include ::apache
@@ -115,10 +116,10 @@ class profile::buildmaster(
     access_log_pipe       => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
-    custom_fragment       => '
-RequestHeader set X-Forwarded-Proto "https"
-RequestHeader set X-Forwarded-Port "1443"
-',
+    custom_fragment       => "
+RequestHeader set X-Forwarded-Proto \"https\"
+RequestHeader set X-Forwarded-Port \"${proxy_port}\"
+",
     proxy_pass            => [
       {
         path         => '/',
