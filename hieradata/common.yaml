@@ -200,4 +200,5 @@ ldap_dn: 'dc=example,dc=com'
 ldap_admin_dn: 'cn=admin,dc=example,dc=com'
 ldap_admin_password: 'hunter2'
 
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
