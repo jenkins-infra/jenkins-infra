@@ -122,7 +122,7 @@ node 'ci' {
   include role::jenkins::master
 }
 
-node /agent-(\d+)/ {
+node /^agent-\d+$/ {
   include role::jenkins::agent
 }
 
@@ -131,7 +131,8 @@ node 'trusted-ci' {
   include role::jenkins::master
 }
 
-node /trusted-agent-(\d+)/ {
+node /^trusted-agent-\d+$/ {
+  notice('This agent is trusted!')
   $hiera_role = 'trustedagent'
   include role::jenkins::agent
 }
