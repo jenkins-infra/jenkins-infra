@@ -98,27 +98,27 @@ node 'tomato' {
 }
 
 node 'ldap' {
-  sshkeyman::hostkey { ['ldap.jenkins.io',]: }
+  sshkeyman::hostkey { ['ldap.jenkins.io']: }
   include role::ldapserver
 }
 
 node 'ratings' {
-  sshkeyman::hostkey { ['ratings.jenkins.io',]: }
+  sshkeyman::hostkey { ['ratings.jenkins.io']: }
   include role::rating
 }
 
 node 'l10n' {
-  sshkeyman::hostkey { ['l10n.jenkins.io',]: }
+  sshkeyman::hostkey { ['l10n.jenkins.io']: }
   include role::l10n
 }
 
 node 'mirrorbrain' {
-  sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io',]: }
+  sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io']: }
   include role::mirrorbrain
 }
 
 node 'ci' {
-  sshkeyman::hostkey { ['ci.jenkins.io',]: }
+  sshkeyman::hostkey { ['ci.jenkins.io']: }
   include role::jenkins::master
 }
 
