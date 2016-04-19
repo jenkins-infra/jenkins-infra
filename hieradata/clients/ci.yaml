@@ -16,5 +16,6 @@ profile::buildmaster::plugins:
   - pipeline-stage-view
   - throttle-concurrents
   - timestamper
+  - toolenv
   - workflow-aggregator
   - workflow-multibranch
