@@ -23,7 +23,15 @@ define sshkeyman::hostkey(
     @@sshkey { "${title}_ecdsa":
         ensure => present,
         key    => $::sshecdsakey,
-        type   => ecdsa,
+        type   => 'ecdsa-sha2-nistp256',
+    }
+  }
+
+  if $::sshed25519key {
+    @@sshkey { "${title}_ed25519":
+        ensure => present,
+        key    => $::sshed25519key,
+        type   => ed25519,
     }
   }
 }
