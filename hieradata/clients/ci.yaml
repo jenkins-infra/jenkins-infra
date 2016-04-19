@@ -1,0 +1,20 @@
+---
+profile::buildmaster::ci_fqdn: 'ci.jenkins.io'
+profile::buildmaster::letsencrypt: true
+# These are plugins we need in our ci environment
+profile::buildmaster::plugins:
+  - build-timeout
+  - buildtriggerbadge
+  - cloudbees-folder
+  - credentials
+  - git-client
+  - git
+  - github
+  - jobConfigHistory
+  - ldap
+  - mailer
+  - pipeline-stage-view
+  - throttle-concurrents
+  - timestamper
+  - workflow-aggregator
+  - workflow-multibranch

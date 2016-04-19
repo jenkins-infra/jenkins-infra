@@ -33,13 +33,16 @@ Vagrant.configure("2") do |config|
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
   end
 
-  Dir['./dist/role/manifests/**/*.pp'].each do |role|
+  role_dir = './dist/role/manifests/'
+  Dir["#{role_dir}**/*.pp"].each do |role|
     next if File.directory? role
     # Turn `dist/role/manifests/spinach.pp` into `spinach`
-    veggie = File.basename(role).gsub('.pp', '')
+    veggie = role.gsub(role_dir, '').gsub('/', '::').gsub('.pp', '')
+    specfile = veggie.gsub('::', '_')
+
 
     # If there are no serverspec files, we needn't provision a machine!
-    if Dir["./spec/server/#{veggie}/*.rb"].empty?
+    if Dir["./spec/server/#{specfile}/*.rb"].empty?
       puts ">> no serverspec defined for #{veggie}"
       next
     end
@@ -74,11 +77,11 @@ EOF
           :vagrant => '1',
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
-        puppet.options = "--verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
+        puppet.options = "--parser future --verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
       end
 
       node.vm.provision :serverspec do |spec|
-        spec.pattern = "spec/server/#{veggie}/*.rb"
+        spec.pattern = "spec/server/#{specfile}/*.rb"
       end
     end
   end

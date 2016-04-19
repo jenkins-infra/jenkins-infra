@@ -23,6 +23,8 @@ RSpec.configure do |c|
     :osfamily => 'Debian',
     :kernel => 'Linux',
     :lsbdistid => 'Ubuntu',
+    :lsbdistrelease => '14.04',
+    :lsbdistcodename => 'trusty',
     :operatingsystem => 'Ubuntu',
     :operatingsystemrelease => '12.04',
     :concat_basedir => '/tmp',

@@ -4,6 +4,7 @@ class profile::buildslave(
   $ssh_private_key = undef,
   $docker          = true,
   $ruby            = true,
+  $trusted_agent   = false,
 ) {
   include ::stdlib
   include git
@@ -54,8 +55,15 @@ class profile::buildslave(
       require => Account[$user],
     }
 
+    if $trusted_agent {
+      $docker_config_presence = 'file'
+    }
+    else {
+      $docker_config_presence = 'absent'
+    }
+
     file { "${home_dir}/.docker/config.json":
-      ensure  => file,
+      ensure  => $docker_config_presence,
       content => hiera('docker_hub_key'),
       owner   => $user,
       require => File["${home_dir}/.docker"],
