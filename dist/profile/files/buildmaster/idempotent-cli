@@ -4,6 +4,7 @@ AUTH_ARGS=""
 SSH_KEY="/var/lib/jenkins/.ssh/jenkins-cli-ssh-key"
 
 if [ -f $SSH_KEY ]; then
+    mkdir -p /var/lib/jenkins/users/jenkins
     cat > /var/lib/jenkins/users/jenkins/config.xml <<EOF
 <?xml version='1.0' encoding='UTF-8'?>
 <user>
