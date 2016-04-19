@@ -45,7 +45,7 @@ if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
 }
 
 println "Checking authorization strategy"
-if (instance.authorizationStrategy == AuthorizationStrategy.Unsecured) {
+if (instance.authorizationStrategy == AuthorizationStrategy.UNSECURED) {
   AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
   strategy.add(Jenkins.READ, 'anonymous')
   strategy.add(Jenkins.ADMINISTER, 'admins')
