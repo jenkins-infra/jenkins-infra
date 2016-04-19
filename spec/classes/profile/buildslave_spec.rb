@@ -126,7 +126,11 @@ describe 'profile::buildslave' do
           'type' => 'ssh-rsa',
           'key'  => 'publickey',
           'privkey' => 'privatekey',
-        },
+          },
+          "#{home}/.ssh/special" => {
+            'privkey'  => 'specialprivatekey',
+            'for_host' => 'updates.jenkins.io',
+          },
       }
     end
     let(:params) do
@@ -148,6 +152,19 @@ describe 'profile::buildslave' do
         :ensure => :present,
         :owner  => 'jenkins',
         :content => 'privatekey',
+      })
+    end
+
+    it 'should install the special private key' do
+      expect(subject).to contain_file("#{home}/.ssh/special").with({
+        :ensure => :present,
+        :content => 'specialprivatekey',
+      })
+    end
+
+    it 'should update ~/.ssh/config for the special private key' do
+      expect(subject).to contain_ssh__client__config__user('jenkins').with({
+        :ensure => :present,
       })
     end
   end
