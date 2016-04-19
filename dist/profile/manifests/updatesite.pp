@@ -58,6 +58,8 @@ class profile::updatesite (
     # If we're managing an ssh_authorized_key, then we should purge anything
     # else for safety's sake
     User <| title == 'www-data' |> {
+        managehome     => true,
+        home           => '/var/www',
         purge_ssh_keys => true,
     }
   }
