@@ -30,39 +30,18 @@ class profile::buildmaster(
   include profile::apachemisc
   include profile::firewall
 
-  if $letsencrypt {
-    include profile::letsencrypt
-  }
-
   $ldap_url    = hiera('ldap_url')
   $ldap_dn     = hiera('ldap_dn')
   $ldap_admin_dn = hiera('ldap_admin_dn')
   $ldap_admin_password = hiera('ldap_admin_password')
 
-  $ssh_dir = '/var/lib/jenkins/.ssh'
-  $ssh_cli_key = 'jenkins-cli-key'
-  exec { 'jenkins-ssh-mkdirp':
-    command => "/bin/mkdir -p ${ssh_dir}",
-    creates => $ssh_dir,
-  }
-  exec { 'generate-cli-ssh-key':
-    require => Exec['jenkins-ssh-mkdirp'],
-    creates => "${ssh_dir}/${ssh_cli_key}",
-    command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
-  }
-
-  jenkins::credentials { 'puppet-cli':
-    ensure              => present,
-    password            => '',
-    private_key_or_path => "${ssh_dir}/${ssh_cli_key}",
-    require             => Exec['generate-cli-ssh-key'],
+  if $letsencrypt {
+    include profile::letsencrypt
   }
 
   class { '::jenkins':
-    require         => Exec['generate-cli-ssh-key'],
-    lts             => true,
-    executors       => 0,
-    cli_ssh_keyfile => "${ssh_dir}/${ssh_cli_key}",
+    lts       => true,
+    executors => 0,
   }
 
   #jenkins::cli::exec { 'set-fqdn':
