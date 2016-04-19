@@ -13,6 +13,7 @@ describe 'profile::buildslave' do
 
   # Provided by the `git` module
   it { should contain_package 'git' }
+  it { should contain_package 'unzip' }
 
   context 'managing a `jenkins` user' do
     it 'should provision the "jenkins" account properly' do
