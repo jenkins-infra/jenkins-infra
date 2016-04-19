@@ -41,7 +41,6 @@ class profile::buildmaster(
 
   class { '::jenkins':
     lts       => true,
-    executors => 0,
   }
 
 
@@ -83,8 +82,6 @@ class profile::buildmaster(
     require => [
       File[$lockbox_script],
       File[$cli_script],
-      # I want this to complete before I lock everything down
-      Jenkins::Cli::Exec[set_num_executors],
     ],
   }
 

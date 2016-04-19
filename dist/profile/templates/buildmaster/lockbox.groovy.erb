@@ -8,6 +8,8 @@ import hudson.security.csrf.*
 
 def instance = Jenkins.instance
 
+instance.numExecutors = 0
+
 println "Checking CSRF protection..."
 if (instance.crumbIssuer == null) {
   println "Enabling CSRF protection"
