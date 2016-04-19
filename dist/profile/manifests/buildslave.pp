@@ -90,6 +90,7 @@ class profile::buildslave(
       'subversion',
       'make',
       'build-essential',
+      'unzip',
     ])
   }
 
