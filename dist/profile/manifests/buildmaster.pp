@@ -30,40 +30,70 @@ class profile::buildmaster(
   include profile::apachemisc
   include profile::firewall
 
+  if $letsencrypt {
+    include profile::letsencrypt
+  }
+
   $ldap_url    = hiera('ldap_url')
   $ldap_dn     = hiera('ldap_dn')
   $ldap_admin_dn = hiera('ldap_admin_dn')
   $ldap_admin_password = hiera('ldap_admin_password')
-
-  if $letsencrypt {
-    include profile::letsencrypt
-  }
 
   class { '::jenkins':
     lts       => true,
     executors => 0,
   }
 
-  #jenkins::cli::exec { 'set-fqdn':
-  #  command => "jenkins.model.JenkinsLocationConfiguration.get().setUrl('https://${ci_fqdn}')",
-  #}
 
-
-
-  profile::jenkinsplugin { $plugins:
+  $script_dir = '/usr/share/jenkins'
+  exec { 'jenkins-script-mkdirp':
+    command => "/bin/mkdir -p ${script_dir}",
+    creates => $script_dir,
   }
 
+  $ssh_dir = '/var/lib/jenkins/.ssh'
+  $ssh_cli_key = 'jenkins-cli-key'
+  exec { 'jenkins-ssh-mkdirp':
+    command => "/bin/mkdir -p ${ssh_dir}",
+    creates => $ssh_dir,
+  }
+  exec { 'generate-cli-ssh-key':
+    require => Exec['jenkins-ssh-mkdirp'],
+    creates => "${ssh_dir}/${ssh_cli_key}",
+    command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
+  }
 
-  $lockbox_script = '/usr/share/jenkins/lockbox.groovy'
+  $cli_script = "${script_dir}/idempotent-cli"
+  file { $cli_script:
+    ensure  => present,
+    require => Exec['jenkins-script-mkdirp'],
+    source  => "puppet:///modules/${module_name}/buildmaster/idempotent-cli",
+    mode    => '0755',
+  }
+
+  $lockbox_script = "${script_dir}/lockbox.groovy"
 
   file { $lockbox_script :
     ensure  => present,
+    require => Exec['jenkins-script-mkdirp'],
     content =>template("${module_name}/buildmaster/lockbox.groovy.erb"),
   }
   profile::jenkinsgroovy { 'lock-down-jenkins':
     path    => $lockbox_script,
-    require => File[$lockbox_script],
+    require => [
+      File[$lockbox_script],
+      File[$cli_script],
+    ],
   }
+
+  profile::jenkinsplugin { $plugins:
+    # Only install plugins after we've secured Jenkins, that seems reasonable
+    require => [
+      File[$cli_script],
+      Profile::Jenkinsgroovy['lock-down-jenkins'],
+    ],
+  }
+
 
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"

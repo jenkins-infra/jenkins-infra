@@ -1,0 +1,22 @@
+#!/bin/sh -x
+
+AUTH_ARGS=""
+SSH_KEY="/var/lib/jenkins/.ssh/jenkins-cli-ssh-key"
+
+if [ -f $SSH_KEY ]; then
+    cat > /var/lib/jenkins/users/jenkins/config.xml <<EOF
+<?xml version='1.0' encoding='UTF-8'?>
+<user>
+  <fullName>jenkins</fullName>
+  <properties>
+    <org.jenkinsci.main.modules.cli.auth.ssh.UserPropertyImpl>
+      <authorizedKeys>`cat ${SSH_KEY}.pub`</authorizedKeys>
+    </org.jenkinsci.main.modules.cli.auth.ssh.UserPropertyImpl>
+  </properties>
+</user>
+EOF
+
+    AUTH_ARGS="-i ${SSH_KEY}"
+fi;
+
+exec /usr/bin/java /usr/share/jenkins/jenkins-cli.jar -s http://localhost:8080 ${AUTH_ARGS} $@
