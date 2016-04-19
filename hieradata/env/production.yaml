@@ -1,2 +1,6 @@
 ---
 letsencrypt::config::server: "https://acme-v01.api.letsencrypt.org/directory"
+ldap_url: 'ldaps://ldap.jenkins.io:636'
+ldap_dn: 'dc=jenkins-ci,dc=org'
+ldap_admin_dn: 'cn=jenkins-ci,dc=org'
+ldap_admin_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAftH/hk9sLDvMfsrJDooQqMFpmzNjuepMbdjcH6Y6mgw9DXKyH9KMurxv0z+j9+SiL44TBqN2cWo/LYwui/ZqAJ6KjEFooD0s43G74OY0ykFEVr/sZZf/EAemB4zc/pJEmFw6Q20iVHSRR+NjONtpFPJ+4z8TDWhtQc8GgKdasQjRtXJRp1PUo5iCGQKkpRPf8Fy6/DEt1SbJITLQ5mcOIosPsERaIru/d/gyfkYBB4vB4wdoFqKwXo+z2cG3D+HcU2usry9KRpqJ4/bhG+JTxs8Nf7nT/1V8B3xpEvnl+mwfrB7x0XOwoM/+JIRUU0R+pS/jBzzIHqO2JEjCyyqkBTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC58JpDnUl61s6a9cCQTjDlgBCuCc+faktnQQHqULgVWdyY]

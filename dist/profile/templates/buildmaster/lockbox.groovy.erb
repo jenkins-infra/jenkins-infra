@@ -1,0 +1,55 @@
+#!/usr/bin/env groovy
+
+import jenkins.model.*
+import hudson.security.*
+import hudson.security.csrf.*
+
+//JenkinsLocationConfiguration.get().setUrl('http://lolcat')
+
+def instance = Jenkins.instance
+
+println "Checking CSRF protection..."
+if (instance.crumbIssuer == null) {
+  println "Enabling CSRF protection"
+  instance.crumbIssuer = new DefaultCrumbIssuer(true)
+}
+
+
+println 'Checking authentication status'
+if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
+  println "Enabling LDAP-based authentication"
+
+  // public LDAPSecurityRealm(String server, String rootDN, String userSearchBase, String userSearch, String groupSearchBase, String groupSearchFilter, LDAPGroupMembershipStrategy groupMembershipStrategy, String managerDN, Secret managerPasswordSecret, boolean inhibitInferRootDN, boolean disableMailAddressResolver, CacheConfiguration cache, EnvironmentProperty[] environmentProperties, String displayNameAttributeName, String mailAddressAttributeName, IdStrategy userIdStrategy, IdStrategy groupIdStrategy) {
+
+  LDAPSecurityRealm realm  = new LDAPSecurityRealm(
+    "<%= @ldap_url %>",
+    "<%= @ldap_dn %>",
+    "ou=people", /* hard-coding this to our schema */
+    "cn={0}",    /* -- */
+    "ou=groups", /* -- */
+    "",          /* -- */
+    new jenkins.security.plugins.ldap.FromGroupSearchLDAPGroupMembershipStrategy(''),
+    "<%= @ldap_admin_dn %>",
+    new hudson.util.Secret("<%= @ldap_admin_password %>"),
+    false,
+    false,
+    new LDAPSecurityRealm.CacheConfiguration(100, 300), /* cache 100 items for 5 minutes */
+    null, /* no environmentProperties */
+    "displayname", /* hard-coding this to our schema */
+    "email",       /* -- */
+    IdStrategy.CASE_INSENSITIVE,
+    IdStrategy.CASE_INSENSITIVE,
+  )
+
+  instance.securityRealm = realm
+}
+
+println "Checking authorization strategy"
+if (instance.authorizationStrategy == AuthorizationStrategy.Unsecured) {
+  AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
+  strategy.add(Jenkins.READ, 'anonymous')
+  strategy.add(Jenkins.ADMINISTER, 'admins')
+  instance.authorizationStrategy = strategy
+}
+
+instance.save()

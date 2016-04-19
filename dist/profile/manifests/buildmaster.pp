@@ -30,6 +30,11 @@ class profile::buildmaster(
   include profile::apachemisc
   include profile::firewall
 
+  $ldap_url    = hiera('ldap_url')
+  $ldap_dn     = hiera('ldap_dn')
+  $ldap_admin_dn = hiera('ldap_admin_dn')
+  $ldap_admin_password = hiera('ldap_admin_password')
+
   if $letsencrypt {
     include profile::letsencrypt
   }
@@ -39,7 +44,25 @@ class profile::buildmaster(
     executors => 0,
   }
 
+  #jenkins::cli::exec { 'set-fqdn':
+  #  command => "jenkins.model.JenkinsLocationConfiguration.get().setUrl('https://${ci_fqdn}')",
+  #}
+
+
+
   profile::jenkinsplugin { $plugins:
+  }
+
+
+  $lockbox_script = '/usr/share/jenkins/lockbox.groovy'
+
+  file { $lockbox_script :
+    ensure  => present,
+    content =>template("${module_name}/buildmaster/lockbox.groovy.erb"),
+  }
+  profile::jenkinsgroovy { 'lock-down-jenkins':
+    path    => $lockbox_script,
+    require => File[$lockbox_script],
   }
 
   $docroot = "/var/www/${ci_fqdn}"
@@ -50,7 +73,11 @@ class profile::buildmaster(
   }
 
   apache::vhost { $ci_fqdn:
-    require               => File[$docroot],
+    require               => [
+      File[$docroot],
+      # We need our installation to be secure before we allow access
+      Profile::Jenkinsgroovy['lock-down-jenkins'],
+    ],
     port                  => 443,
     override              => 'All',
     ssl                   => true,
