@@ -34,51 +34,61 @@ node default {
 
 # radish
 node 'puppet.jenkins.io' {
+  sshkeyman::hostkey { 'puppet.jenkins.io': }
   include role::puppetmaster
 }
 
 # edamame (aka jenkins-confluence.osuosl.org)
 node 'edamame' {
+  sshkeyman::hostkey { ['edamame.jenkins.io', 'edamame.jenkins-ci.org']: }
   include role::edamame
 }
 
 # lettuce
 node 'lettuce' {
+  sshkeyman::hostkey { ['lettuce.jenkins.io', 'lettuce.jenkins-ci.org']: }
   include role::lettuce
 }
 
 # spinach
 node 'spinach' {
+  sshkeyman::hostkey { ['spinach.jenkins.io', 'spinach.jenkins-ci.org']: }
   include role::spinach
 }
 
 # celery
 node 'celery' {
+  sshkeyman::hostkey { ['celery.jenkins.io', 'celery.jenkins-ci.org']: }
   include role::celery
 }
 
 # okra
 node 'okra' {
+  sshkeyman::hostkey { ['okra.jenkins.io', 'okra.jenkins-ci.org']: }
   include role::okra
 }
 
 # cabbage
 node 'cabbage' {
+  sshkeyman::hostkey { ['cabbage.jenkins.io', 'cabbage.jenkins-ci.org']: }
   include role::cabbage
 }
 
 # kelp
 node 'kelp' {
+  sshkeyman::hostkey { ['kelp.jenkins.io', 'kelp.jenkins-ci.org']: }
   include role::kelp
 }
 
 # eggplant
 node 'eggplant' {
+  sshkeyman::hostkey { ['eggplant.jenkins.io', 'eggplant.jenkins-ci.org']: }
   include role::eggplant
 }
 
 # cucumber (legacy host)
 node 'cucumber' {
+  sshkeyman::hostkey { ['cucumber.jenkins.io', 'cucumber.jenkins-ci.org']: }
   include role::cucumber
 }
 
@@ -88,22 +98,27 @@ node 'tomato' {
 }
 
 node 'ldap' {
+  sshkeyman::hostkey { ['ldap.jenkins.io',]: }
   include role::ldapserver
 }
 
 node 'ratings' {
+  sshkeyman::hostkey { ['ratings.jenkins.io',]: }
   include role::rating
 }
 
 node 'l10n' {
+  sshkeyman::hostkey { ['l10n.jenkins.io',]: }
   include role::l10n
 }
 
 node 'mirrorbrain' {
+  sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io',]: }
   include role::mirrorbrain
 }
 
 node 'ci' {
+  sshkeyman::hostkey { ['ci.jenkins.io',]: }
   include role::jenkins::master
 }
 
@@ -112,6 +127,7 @@ node /agent-(\d+)/ {
 }
 
 node 'trusted-ci' {
+  sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
   include role::jenkins::master
 }
 
