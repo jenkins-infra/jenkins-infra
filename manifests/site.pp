@@ -103,6 +103,9 @@ node 'mirrorbrain' {
   include role::mirrorbrain
 }
 
+node 'ci' {
+  include role::jenkins::master
+}
 
 node 'trusted-ci' {
   include role::jenkins::master
