@@ -33,9 +33,11 @@ define profile::jenkinsplugin (
   )
 
   exec { "install-plugin-${name}":
-    command => "${cmd} install-plugin ${name}",
-    path    => ['/bin', '/usr/bin'],
-    unless  => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi",
-    notify  => Exec['safe-restart-jenkins'],
+    command   => "${cmd} install-plugin ${name}",
+    tries     => $::jenkins::cli_tries,
+    try_sleep => $::jenkins::cli_try_sleep,
+    path      => ['/bin', '/usr/bin'],
+    unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi",
+    notify    => Exec['safe-restart-jenkins'],
   }
 }

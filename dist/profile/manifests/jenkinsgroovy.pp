@@ -34,8 +34,10 @@ define profile::jenkinsgroovy (
 
   # (ab)using unless to make this exec seem a like it's idempotentn. blech
   exec { "jenkins-groovy-exec ${name}":
-    command => 'echo "Something is wrong"',
-    unless  => "${cmd} groovy ${path}",
-    path    => ['/bin', '/usr/bin'],
+    command   => 'echo "Something is wrong"',
+    tries     => $::jenkins::cli_tries,
+    try_sleep => $::jenkins::cli_try_sleep,
+    unless    => "${cmd} groovy ${path}",
+    path      => ['/bin', '/usr/bin'],
   }
 }
