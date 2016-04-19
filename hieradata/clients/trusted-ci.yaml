@@ -11,7 +11,6 @@ profile::buildmaster::plugins:
   - git-client
   - git
   - github
-  - groovy
   - jobConfigHistory
   - ldap
   - mailer
