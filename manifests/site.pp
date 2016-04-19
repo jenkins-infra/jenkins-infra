@@ -107,6 +107,10 @@ node 'ci' {
   include role::jenkins::master
 }
 
+node /agent-(\d+)/ {
+  include role::jenkins::agent
+}
+
 node 'trusted-ci' {
   include role::jenkins::master
 }
