@@ -34,6 +34,7 @@ define profile::jenkinsgroovy (
 
   # (ab)using unless to make this exec seem a like it's idempotentn. blech
   exec { "jenkins-groovy-exec ${name}":
+    require   => Jenkins::Credentials['puppet-cli'],
     command   => 'echo "Something is wrong"',
     tries     => $::jenkins::cli_tries,
     try_sleep => $::jenkins::cli_try_sleep,
