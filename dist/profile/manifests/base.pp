@@ -12,19 +12,8 @@ class profile::base {
     include profile::sudo
     include profile::diagnostics
 
-    class { 'ssh::server':
-      storeconfigs_enabled => false,
-      options              => {
-        'PasswordAuthentication' => 'no',
-        'PubkeyAuthentication'   => 'yes',
-      },
-    }
-
-    class { 'ssh::client':
-      options => {
-        'UseRoaming' => 'no',
-      },
-    }
+    include ssh::server
+    include ssh::client
   }
 
   # Collect all our exported host keys, this way we know about every machine
