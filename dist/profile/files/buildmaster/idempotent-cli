@@ -1,7 +1,7 @@
 #!/bin/sh -x
 
 AUTH_ARGS=""
-SSH_KEY="/var/lib/jenkins/.ssh/jenkins-cli-ssh-key"
+SSH_KEY="/var/lib/jenkins/.ssh/jenkins-cli-key"
 
 if [ -f $SSH_KEY ]; then
     mkdir -p /var/lib/jenkins/users/jenkins

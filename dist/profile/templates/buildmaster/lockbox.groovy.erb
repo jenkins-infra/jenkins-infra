@@ -51,6 +51,8 @@ if (instance.authorizationStrategy == AuthorizationStrategy.UNSECURED) {
   AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
   strategy.add(Jenkins.READ, 'anonymous')
   strategy.add(Jenkins.ADMINISTER, 'admins')
+  /* give our role account superpowers */
+  strategy.add(Jenkins.ADMINISTER, 'jenkins')
   instance.authorizationStrategy = strategy
 }
 
