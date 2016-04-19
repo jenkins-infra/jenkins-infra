@@ -54,16 +54,26 @@ class profile::buildmaster(
   }
 
 
-  $lockbox_script = '/usr/share/jenkins/lockbox.groovy'
-
-  file { $lockbox_script :
+  ## PAINFUL HACKS
+  ################
+  ## These painful hacks exist to try to enforce some form of security
+  ## configuration complicance on an on-going basis in a Jenkins installation
+  ################
+  $init_dir = '/var/lib/jenkins/init.groovy.d'
+  file { $init_dir:
+    ensure => directory
+  }
+  file { "${init_dir}/lockbox.groovy":
     ensure  => present,
-    content =>template("${module_name}/buildmaster/lockbox.groovy.erb"),
+    require => File[$init_dir],
+    content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
+    notify  => Exec['safe-restart-jenkins'],
   }
-  profile::jenkinsgroovy { 'lock-down-jenkins':
-    path    => $lockbox_script,
-    require => File[$lockbox_script],
+  jenkins::job { 'infra_policy_compliance':
+    config  => template("${module_name}/buildmaster/policy_compliance_joo.xml.erb"),
+    require => File["${init_dir}/lockbox.groovy"],
   }
+  ################
 
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
@@ -76,7 +86,7 @@ class profile::buildmaster(
     require               => [
       File[$docroot],
       # We need our installation to be secure before we allow access
-      Profile::Jenkinsgroovy['lock-down-jenkins'],
+      File["${init_dir}/lockbox.groovy"],
     ],
     port                  => 443,
     override              => 'All',

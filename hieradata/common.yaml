@@ -190,9 +190,10 @@ profile::accountapp::jira_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQ
 
 
 profile::buildmaster::plugins:
-  - workflow-aggregator
-  - pipeline-stage-view
+  - groovy
   - ldap
+  - pipeline-stage-view
+  - workflow-aggregator
 
 
 ldap_url: 'ldap://localhost:389'
