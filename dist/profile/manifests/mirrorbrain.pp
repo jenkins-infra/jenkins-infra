@@ -173,7 +173,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
         Package['apache2-utils'], # For log rotation
         Exec['mirrorbrain-mkdirp'],
     ],
-    override          => 'All',
+    override          => ['All'],
     aliases           => [
       {
         alias => '/mirmon/icons',
@@ -184,7 +184,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
       {
         path            => $docroot,
         options         => 'FollowSymLinks Indexes',
-        override        => 'All',
+        allow_override        => ['All'],
         custom_fragment => '
             MirrorBrainEngine On
             MirrorBrainDebug Off
@@ -208,7 +208,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
       {
         path     => '/usr/share/mirmon/icons',
         options  => 'None',
-        override => 'None',
+        allow_override => ['None'],
       },
     ],
   }

@@ -4,7 +4,7 @@ define sshkeyman::hostkey(
 ) {
 
   if $::sshrsakey {
-    @@sshkey { "${title}_rsa":
+    @@sshkey { $title:
         ensure => present,
         key    => $::sshrsakey,
         type   => rsa,
@@ -12,7 +12,7 @@ define sshkeyman::hostkey(
   }
 
   if $::sshdsakey {
-    @@sshkey { "${title}_dsa":
+    @@sshkey { $title:
         ensure => present,
         key    => $::sshdsakey,
         type   => dsa,
@@ -20,7 +20,7 @@ define sshkeyman::hostkey(
   }
 
   if $::sshecdsakey {
-    @@sshkey { "${title}_ecdsa":
+    @@sshkey { $title:
         ensure => present,
         key    => $::sshecdsakey,
         type   => 'ecdsa-sha2-nistp256',
@@ -28,7 +28,7 @@ define sshkeyman::hostkey(
   }
 
   if $::sshed25519key {
-    @@sshkey { "${title}_ed25519":
+    @@sshkey { $title:
         ensure => present,
         key    => $::sshed25519key,
         type   => ed25519,
