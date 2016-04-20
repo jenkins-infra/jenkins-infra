@@ -7,6 +7,8 @@ profile::buildmaster::plugins:
   - buildtriggerbadge
   - cloudbees-folder
   - credentials
+  - credentials-binding
+  - docker-workflow
   - git-client
   - git
   - github
@@ -14,6 +16,7 @@ profile::buildmaster::plugins:
   - ldap
   - mailer
   - pipeline-stage-view
+  - pipeline-utility-steps
   - ssh-agent
   - throttle-concurrents
   - timestamper
