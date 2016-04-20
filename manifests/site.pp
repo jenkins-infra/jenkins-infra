@@ -52,7 +52,7 @@ node 'lettuce' {
 
 # spinach
 node 'spinach' {
-  sshkeyman::hostkey { ['spinach.jenkins.io', 'spinach.jenkins-ci.org']: }
+  sshkeyman::hostkey { ['spinach.jenkins.io', 'spinach.jenkins-ci.org', 'fallback.jenkins-ci.org', 'fallback.jenkins.io']: }
   include role::spinach
 }
 
@@ -64,7 +64,7 @@ node 'celery' {
 
 # okra
 node 'okra' {
-  sshkeyman::hostkey { ['okra.jenkins.io', 'okra.jenkins-ci.org']: }
+  sshkeyman::hostkey { ['okra.jenkins.io', 'okra.jenkins-ci.org', 'archives.jenkins-ci.org', 'archives.jenkins.io']: }
   include role::okra
 }
 
