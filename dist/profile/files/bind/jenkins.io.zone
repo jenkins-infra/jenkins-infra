@@ -49,6 +49,8 @@ beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/j
 puppet      3600    IN    CNAME    radish
 accounts    3600    IN    CNAME    eggplant
 updates     3600    IN    CNAME    mirrors ; updates.jenkins.io for delivering update center, etc
+archives    3600    IN    CNAME    okra ; archives.jenkins.io for delivering old releases
+fallback    3600    IN    CNAME    spinach ; fallback.jenkins.io for acting as a fallback mirror
 
 ; Magical CNAME for certificate validation
 D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.

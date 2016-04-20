@@ -31,6 +31,7 @@ define sshkeyman::key(
     path    => $path,
     owner   => $owner,
     group   => $group,
+    mode    => '0600',
     content => $privkey,
   }
 
