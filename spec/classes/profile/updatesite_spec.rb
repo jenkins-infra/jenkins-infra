@@ -22,6 +22,13 @@ describe 'profile::updatesite' do
 
     it { should contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
     it { should contain_user('www-data').with_purge_ssh_keys(true) }
+
+    it 'should ensure the /var/www permissions are correct for SSH auth' do
+      expect(subject).to contain_file('/var/www').with({
+        :ensure => :directory,
+        :mode   => '0755',
+      })
+    end
   end
 
   context 'apache setup' do

@@ -23,6 +23,10 @@ class profile::updatesite (
   User <| title == 'www-data' |> {
     shell => '/bin/bash',
   }
+  file { '/var/www':
+    ensure => directory,
+    mode   => '0755',
+  }
 
   file { [$apache_log_dir, $docroot,]:
     ensure => directory,
