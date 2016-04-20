@@ -29,6 +29,7 @@ describe 'profile::updatesite' do
           :servername => fqdn,
           :port => 443,
           :docroot => "/var/www/#{fqdn}",
+          :override  => ['All'],
         })
       end
 
@@ -36,8 +37,9 @@ describe 'profile::updatesite' do
         expect(subject).to contain_apache__vhost("#{fqdn} unsecured").with({
           :servername => fqdn,
           :port => 80,
-          :redirect_status => 'permanent',
-          :redirect_dest => "https://#{fqdn}/",
+          :redirect_status => nil,
+          :redirect_dest => nil,
+          :override  => ['All'],
         })
       end
     end
