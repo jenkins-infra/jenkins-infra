@@ -11,6 +11,12 @@ describe 'profile::pkgrepo' do
   it { should contain_class 'profile::pkgrepo' }
   it { should contain_class 'apache' }
 
+  it 'needs createrepo(8) so we can generate repodata' do
+    expect(subject).to contain_package('createrepo').with({
+      :ensure => :present,
+    })
+  end
+
   context 'repository directories' do
     platforms = ['debian', 'opensuse', 'redhat']
     variants = [nil, 'stable', 'rc', 'stable-rc']
