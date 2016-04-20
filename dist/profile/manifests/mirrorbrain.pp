@@ -22,6 +22,8 @@ class profile::mirrorbrain (
 
   $server_name = 'mirrors.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${server_name}"
+  $mirrorbrain_conf = '/etc/mirrorbrain.conf'
+  $mirmon_conf = '/etc/mirmon.conf'
 
   group { $group:
     ensure => present,
@@ -38,14 +40,14 @@ class profile::mirrorbrain (
     require      => Group[$group],
   }
 
-  file { '/etc/mirrorbrain.conf':
+  file { $mirrorbrain_conf:
     ensure  => present,
     owner   => $user,
     group   => $group,
     content => template("${module_name}/mirrorbrain/mirrorbrain.conf.erb"),
   }
 
-  file { '/etc/mirmon.conf':
+  file { $mirmon_conf:
     ensure  => present,
     owner   => $user,
     group   => $group,
@@ -75,17 +77,17 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   }
 
   cron { 'mirmon-status-page':
-    command => '/usr/bin/mirmon -q -get update -c /etc/mirmon.conf',
+    command => "/usr/bin/mirmon -q -get update -c ${mirmon_conf}",
     user    => 'root',
     minute  => '*/15',
-    require => File['/etc/mirmon.conf'],
+    require => File[$mirmon_conf],
   }
 
   cron { 'mirrorbrain-ping-mirrors':
     command => '/usr/bin/mirrorprobe',
     user    => 'root',
     minute  => '*/30',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   # Scan our mirrors, will run as many concurrent jobs as their are processors
@@ -94,7 +96,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
     command => "/usr/bin/mb scan --quiet --jobs ${::processorcount} --all",
     user    => 'root',
     minute  => '*/30',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   # perform regular clean up of our postgresql database
@@ -103,14 +105,14 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
     user    => 'root',
     hour    => 2,
     minute  => 42,
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   cron { 'mirmon-update-mirror-list':
     command => '/usr/bin/mb export --format=mirmon > /srv/releases/mirror_list',
     user    => 'root',
     minute  => '*/10',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
   #############
 
