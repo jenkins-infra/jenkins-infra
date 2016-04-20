@@ -7,6 +7,7 @@ class profile::mirrorbrain (
   $pg_password  = 'mirrorbrain',
   $manage_pgsql = false, # Install and manager PostgreSQL for development
   $docroot      = '/srv/releases/jenkins',
+  $ssh_keys     = undef,
 ) {
   include ::mirrorbrain
   include ::mirrorbrain::apache
