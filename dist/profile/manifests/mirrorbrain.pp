@@ -184,7 +184,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
       {
         path            => $docroot,
         options         => 'FollowSymLinks Indexes',
-        allow_override        => ['All'],
+        allow_override  => ['All'],
         custom_fragment => '
             MirrorBrainEngine On
             MirrorBrainDebug Off
@@ -206,8 +206,8 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
         ',
       },
       {
-        path     => '/usr/share/mirmon/icons',
-        options  => 'None',
+        path           => '/usr/share/mirmon/icons',
+        options        => 'None',
         allow_override => ['None'],
       },
     ],
