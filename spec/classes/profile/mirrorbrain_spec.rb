@@ -17,10 +17,10 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'mirrorbrain' }
   it { should contain_class 'mirrorbrain::apache' }
 
-  it 'should ensure the mirrorbrain user has a false shell' do
+  it 'should ensure the mirrorbrain user has a valid shell' do
     expect(subject).to contain_user('mirrorbrain').with({
         :ensure => :present,
-        :shell  => '/bin/false',
+        :shell  => '/bin/bash',
     })
   end
 

@@ -21,12 +21,11 @@ class profile::mirrorbrain (
   $mb_group = 'mirrorbrain'
 
 
-  # The mirrorbrain package, as of right now, creates a mirrorbrain user (okay)
-  # but then gives it a shell of /bin/bash. That's no bueno so we're going to
-  # un-do that until upstream is fixed
+  # We use the mirrorbrain user for interactive things like rsyncing for
+  # completing releases and updating the updates site
   user { $mb_user:
     ensure => present,
-    shell  => '/bin/false',
+    shell  => '/bin/bash',
   }
 
   file { '/etc/mirrorbrain.conf':
