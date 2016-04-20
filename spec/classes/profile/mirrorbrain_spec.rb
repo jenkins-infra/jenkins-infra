@@ -20,6 +20,29 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'mirrorbrain' }
   it { should contain_class 'mirrorbrain::apache' }
 
+  context 'release files' do
+    let(:file_properties) do
+      {
+        :ensure => :present,
+        :owner  => params[:user],
+        :group  => params[:group],
+      }
+    end
+
+
+    [
+      'rsync.filter',
+      'sync.sh',
+      'populate-archives.sh',
+      'populate-fallback.sh',
+      'update-latest-symlink.sh',
+    ].each do |filename|
+      it "should manage #{filename}" do
+        expect(subject).to contain_file("#{params[:home_dir]}/#{filename}").with(file_properties)
+      end
+    end
+  end
+
 
   context 'the mirrorbrain user' do
     it 'should have a valid shell' do

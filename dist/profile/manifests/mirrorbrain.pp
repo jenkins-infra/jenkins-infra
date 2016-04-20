@@ -40,23 +40,48 @@ class profile::mirrorbrain (
     require      => Group[$group],
   }
 
+  # Default all our files to our $user/$group
+  File {
+    ensure => present,
+    owner  => $user,
+    group  => $group,
+  }
+
+  ## Files needed to release
+  ##########################
+  ## These files are necessary to create and sync releases to and from this host
+  ##########################
+  file { "${home_dir}/rsync.filter":
+    source => "puppet:///modules/${module_name}/mirrorbrain/rsync.filter",
+  }
+
+  file { "${home_dir}/sync.sh":
+    source => "puppet:///modules/${module_name}/mirrorbrain/sync.sh",
+  }
+
+  file { "${home_dir}/populate-archives.sh":
+    source => "puppet:///modules/${module_name}/mirrorbrain/populate-archives.sh",
+  }
+
+  file { "${home_dir}/populate-fallback.sh":
+    source => "puppet:///modules/${module_name}/mirrorbrain/populate-fallback.sh",
+  }
+
+  file { "${home_dir}/update-latest-symlink.sh":
+    source => "puppet:///modules/${module_name}/mirrorbrain/update-latest-symlink.sh",
+  }
+  ##########################
+
   file { $mirrorbrain_conf:
-    ensure  => present,
-    owner   => $user,
-    group   => $group,
     content => template("${module_name}/mirrorbrain/mirrorbrain.conf.erb"),
   }
 
   file { $mirmon_conf:
-    ensure  => present,
-    owner   => $user,
-    group   => $group,
     content => template("${module_name}/mirrorbrain/mirmon.conf.erb"),
   }
 
   # Updating our TIME file allows us to easily tell how far mirrors have drived
   file { '/usr/local/bin/mirmon-time-update':
-    ensure  => present,
     owner   => 'root',
     mode    => '0755',
     content => "
@@ -126,7 +151,6 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   $geoip_conf = '/etc/apache2/mods-available/geoip.conf'
 
   file { $dbd_conf:
-    ensure  => present,
     owner   => 'root',
     group   => 'root',
     content => template("${module_name}/mirrorbrain/dbd.conf.erb"),
@@ -143,7 +167,6 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   }
 
   file { $geoip_conf:
-    ensure  => present,
     owner   => 'root',
     group   => 'root',
     require => Apache::Mod['geoip'],
