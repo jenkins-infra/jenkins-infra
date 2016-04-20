@@ -9,6 +9,7 @@ profile::buildmaster::plugins:
   - credentials
   - credentials-binding
   - docker-workflow
+  - embeddable-build-status
   - git-client
   - git
   - github
