@@ -13,6 +13,8 @@ profile::buildmaster::plugins:
   - git-client
   - git
   - github
+  - github-branch-source
+  - github-organization-folder
   - jobConfigHistory
   - ldap
   - mailer
