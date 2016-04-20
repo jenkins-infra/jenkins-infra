@@ -7,6 +7,12 @@ describe 'profile::updatesite' do
   it { should contain_class 'profile::updatesite' }
   it { should contain_class 'profile::firewall' }
 
+  it 'should give www-data a shell' do
+    expect(subject).to contain_user('www-data').with({
+      :shell => '/bin/bash',
+    })
+  end
+
   context 'with ssh_pubkey provided' do
     let(:params) do
       {

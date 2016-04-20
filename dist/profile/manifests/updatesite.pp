@@ -18,6 +18,12 @@ class profile::updatesite (
   $update_fqdn = 'updates.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
 
+  # We need a shell for now
+  # https://issues.jenkins-ci.org/browse/INFRA-657
+  User <| title == 'www-data' |> {
+    shell => '/bin/bash',
+  }
+
   file { [$apache_log_dir, $docroot,]:
     ensure => directory,
   }
@@ -49,6 +55,7 @@ class profile::updatesite (
 
     file { '/var/www/.ssh':
       ensure => directory,
+      mode   => '0700',
       owner  => 'www-data',
       group  => 'www-data',
     }
