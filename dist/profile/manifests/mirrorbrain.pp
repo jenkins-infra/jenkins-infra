@@ -8,6 +8,7 @@ class profile::mirrorbrain (
   $manage_pgsql = false, # Install and manager PostgreSQL for development
   $user         = 'mirrorbrain',
   $group        = 'mirrorbrain',
+  $groups       = ['www-data'],
   $home_dir     = '/srv/releases',
   $docroot      = '/srv/releases/jenkins',
   $ssh_keys     = undef,
@@ -33,6 +34,7 @@ class profile::mirrorbrain (
     create_group => false,
     home_dir     => $home_dir,
     gid          => $group,
+    groups       => $groups,
     require      => Group[$group],
   }
 
