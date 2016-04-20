@@ -48,11 +48,18 @@ class profile::updatesite (
   if $ssh_pubkey {
     validate_string($ssh_pubkey)
 
+    file { '/var/www/.ssh':
+      ensure => directory,
+      owner  => 'www-data',
+      group  => 'www-data',
+    }
+
     ssh_authorized_key { 'updatesite-key':
-        ensure => present,
-        user   => 'www-data',
-        type   => 'ssh-rsa',
-        key    => $ssh_pubkey,
+        ensure  => present,
+        user    => 'www-data',
+        type    => 'ssh-rsa',
+        key     => $ssh_pubkey,
+        require => File['/var/www/.ssh'],
     }
 
     # If we're managing an ssh_authorized_key, then we should purge anything
