@@ -6,6 +6,9 @@ class profile::mirrorbrain (
   $pg_username  = 'mirrorbrain',
   $pg_password  = 'mirrorbrain',
   $manage_pgsql = false, # Install and manager PostgreSQL for development
+  $user         = 'mirrorbrain',
+  $group        = 'mirrorbrain',
+  $home_dir     = '/srv/releases',
   $docroot      = '/srv/releases/jenkins',
   $ssh_keys     = undef,
 ) {
@@ -18,28 +21,32 @@ class profile::mirrorbrain (
 
   $server_name = 'mirrors.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${server_name}"
-  $mb_user = 'mirrorbrain'
-  $mb_group = 'mirrorbrain'
 
+  group { $group:
+    ensure => present,
+  }
 
   # We use the mirrorbrain user for interactive things like rsyncing for
   # completing releases and updating the updates site
-  user { $mb_user:
-    ensure => present,
-    shell  => '/bin/bash',
+  account { $user:
+    manage_home  => true,
+    create_group => false,
+    home_dir     => $home_dir,
+    gid          => $group,
+    require      => Group[$group],
   }
 
   file { '/etc/mirrorbrain.conf':
     ensure  => present,
-    owner   => $mb_user,
-    group   => $mb_group,
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirrorbrain.conf.erb"),
   }
 
   file { '/etc/mirmon.conf':
     ensure  => present,
-    owner   => $mb_user,
-    group   => $mb_group,
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirmon.conf.erb"),
   }
 
