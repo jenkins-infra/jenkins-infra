@@ -30,7 +30,9 @@ class profile::pkgrepo (
 
   file { $docroot:
     ensure  => directory,
-    owner   => 'root',
+    owner   => 'www-data',
+    # We need group writes on this directory for pushing a release
+    mode    => '0775',
     require => File[$apache_log_dir],
   }
 
@@ -107,11 +109,8 @@ class profile::pkgrepo (
     servername      => $repo_fqdn,
     port            => 80,
     docroot         => $docroot,
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${repo_fqdn}/",
     error_log_file  => "${repo_fqdn}/error_nonssl.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
-    require         => Apache::Vhost[$repo_fqdn],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':

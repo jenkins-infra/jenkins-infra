@@ -64,7 +64,7 @@ echo ">> Sleeping to allow the OSUOSL to propogate some bits"
 sleep 120
 
 echo ">> attempting to update indexes with released archive"
-for f in debian debian-stable redhat redhat-stable war war-stable opensuse opensuse-stable osx osx-stable windows windows-stable; do
+for f in debian debian-stable redhat redhat-stable war war-stable opensuse opensuse-stable osx osx-stable windows windows-stable updates; do
   echo ">>>> updating index for ${f}/"
   mb scan -j 2 -v -d $f -e ftp-chi.osuosl.org;
 done
