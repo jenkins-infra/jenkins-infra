@@ -46,12 +46,48 @@ describe 'profile::updatesite' do
         })
       end
 
-      it 'should contain a vhost that promotes non-SSL to SSL' do
+      it 'should contain a vhost on port 80/HTTP' do
         expect(subject).to contain_apache__vhost("#{fqdn} unsecured").with({
           :servername => fqdn,
           :port => 80,
+          :docroot => "/var/www/#{fqdn}",
           :redirect_status => nil,
           :redirect_dest => nil,
+          :override  => ['All'],
+        })
+      end
+
+
+      it { should contain_file('/var/log/apache2/updates.jenkins-ci.org').with_ensure(:directory) }
+
+      context 'legacy certificate' do
+        it 'should install the key into /etc/apache2' do
+          expect(subject).to contain_file('/etc/apache2/legacy_cert.key').with({
+            :ensure => :present,
+          })
+        end
+      end
+
+      it 'should contain a vhost on port 80/HTTP for updates.jenkins-ci.org' do
+        expect(subject).to contain_apache__vhost('updates.jenkins-ci.org unsecured').with({
+          :servername => 'updates.jenkins-ci.org',
+          :port => 80,
+          :docroot => "/var/www/#{fqdn}",
+          :redirect_status => nil,
+          :redirect_dest => nil,
+          :override  => ['All'],
+        })
+      end
+
+      it 'should contain a vhost on port 443/HTTPs for updates.jenkins-ci.org' do
+        expect(subject).to contain_apache__vhost('updates.jenkins-ci.org').with({
+          :servername => 'updates.jenkins-ci.org',
+          :port => 443,
+          :ssl_key => '/etc/apache2/legacy_cert.key',
+          :ssl_chain => '/etc/apache2/legacy_chain.crt',
+          :ssl_cert => '/etc/apache2/legacy_cert.crt',
+          :ssl => true,
+          :docroot => "/var/www/#{fqdn}",
           :override  => ['All'],
         })
       end
