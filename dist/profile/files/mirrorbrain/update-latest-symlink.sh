@@ -2,7 +2,7 @@
 cd $(dirname $0)
 releaseLine=$1
 pushd jenkins/war${releaseLine}
-  v=$(ls -d 1* | sort -V | tail -1)
+  v=$(ls -d ?.* | sort -V | tail -1)
   rm -f latest
   ln -sf $v latest
 popd
