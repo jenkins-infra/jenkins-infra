@@ -32,13 +32,16 @@ class profile::mirrorbrain (
   # We use the mirrorbrain user for interactive things like rsyncing for
   # completing releases and updating the updates site
   account { $user:
-    manage_home  => true,
-    create_group => false,
-    home_dir     => $home_dir,
-    gid          => $group,
-    groups       => $groups,
-    ssh_keys     => $ssh_keys,
-    require      => Group[$group],
+    manage_home    => true,
+    # Ensure that our homedir is world-readable, since it's full of public
+    # files :)
+    home_dir_perms => '0755',
+    create_group   => false,
+    home_dir       => $home_dir,
+    gid            => $group,
+    groups         => $groups,
+    ssh_keys       => $ssh_keys,
+    require        => Group[$group],
   }
 
   # Default all our files to our $user/$group
