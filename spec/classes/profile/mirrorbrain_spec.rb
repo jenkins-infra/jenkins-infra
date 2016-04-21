@@ -69,6 +69,7 @@ describe 'profile::mirrorbrain' do
       expect(subject).to contain_account(params[:user]).with({
         :home_dir => params[:home_dir],
         :manage_home => true,
+        :home_dir_perms => '0755',
       })
     end
 
