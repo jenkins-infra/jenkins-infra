@@ -113,8 +113,6 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.jenkins.io',
         :port => 80,
         :docroot => params[:docroot],
-        :redirect_status => 'permanent',
-        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
 
