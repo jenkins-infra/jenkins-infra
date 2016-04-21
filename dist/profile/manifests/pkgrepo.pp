@@ -17,6 +17,11 @@ class profile::pkgrepo (
   include profile::firewall
   include profile::letsencrypt
 
+  # Needed so we can generate repodata on the machine
+  package { 'createrepo':
+    ensure => present,
+  }
+
   $apache_log_dir = "/var/log/apache2/${repo_fqdn}"
 
   file { $apache_log_dir:

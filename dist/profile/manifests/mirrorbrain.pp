@@ -6,7 +6,12 @@ class profile::mirrorbrain (
   $pg_username  = 'mirrorbrain',
   $pg_password  = 'mirrorbrain',
   $manage_pgsql = false, # Install and manager PostgreSQL for development
+  $user         = 'mirrorbrain',
+  $group        = 'mirrorbrain',
+  $groups       = ['www-data'],
+  $home_dir     = '/srv/releases',
   $docroot      = '/srv/releases/jenkins',
+  $ssh_keys     = undef,
 ) {
   include ::mirrorbrain
   include ::mirrorbrain::apache
@@ -17,35 +22,79 @@ class profile::mirrorbrain (
 
   $server_name = 'mirrors.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${server_name}"
-  $mb_user = 'mirrorbrain'
-  $mb_group = 'mirrorbrain'
+  $mirrorbrain_conf = '/etc/mirrorbrain.conf'
+  $mirmon_conf = '/etc/mirmon.conf'
 
-
-  # The mirrorbrain package, as of right now, creates a mirrorbrain user (okay)
-  # but then gives it a shell of /bin/bash. That's no bueno so we're going to
-  # un-do that until upstream is fixed
-  user { $mb_user:
+  group { $group:
     ensure => present,
-    shell  => '/bin/false',
   }
 
-  file { '/etc/mirrorbrain.conf':
-    ensure  => present,
-    owner   => $mb_user,
-    group   => $mb_group,
+  # We use the mirrorbrain user for interactive things like rsyncing for
+  # completing releases and updating the updates site
+  account { $user:
+    manage_home  => true,
+    create_group => false,
+    home_dir     => $home_dir,
+    gid          => $group,
+    groups       => $groups,
+    ssh_keys     => $ssh_keys,
+    require      => Group[$group],
+  }
+
+  # Default all our files to our $user/$group
+  File {
+    ensure => present,
+  }
+
+  ## Files needed to release
+  ##########################
+  ## These files are necessary to create and sync releases to and from this host
+  ##########################
+  file { "${home_dir}/rsync.filter":
+    owner  => $user,
+    group  => $group,
+    source => "puppet:///modules/${module_name}/mirrorbrain/rsync.filter",
+  }
+
+  file { "${home_dir}/sync.sh":
+    owner  => $user,
+    group  => $group,
+    source => "puppet:///modules/${module_name}/mirrorbrain/sync.sh",
+  }
+
+  file { "${home_dir}/populate-archives.sh":
+    owner  => $user,
+    group  => $group,
+    source => "puppet:///modules/${module_name}/mirrorbrain/populate-archives.sh",
+  }
+
+  file { "${home_dir}/populate-fallback.sh":
+    owner  => $user,
+    group  => $group,
+    source => "puppet:///modules/${module_name}/mirrorbrain/populate-fallback.sh",
+  }
+
+  file { "${home_dir}/update-latest-symlink.sh":
+    owner  => $user,
+    group  => $group,
+    source => "puppet:///modules/${module_name}/mirrorbrain/update-latest-symlink.sh",
+  }
+  ##########################
+
+  file { $mirrorbrain_conf:
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirrorbrain.conf.erb"),
   }
 
-  file { '/etc/mirmon.conf':
-    ensure  => present,
-    owner   => $mb_user,
-    group   => $mb_group,
+  file { $mirmon_conf:
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirmon.conf.erb"),
   }
 
   # Updating our TIME file allows us to easily tell how far mirrors have drived
   file { '/usr/local/bin/mirmon-time-update':
-    ensure  => present,
     owner   => 'root',
     mode    => '0755',
     content => "
@@ -66,17 +115,17 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   }
 
   cron { 'mirmon-status-page':
-    command => '/usr/bin/mirmon -q -get update -c /etc/mirmon.conf',
+    command => "/usr/bin/mirmon -q -get update -c ${mirmon_conf}",
     user    => 'root',
     minute  => '*/15',
-    require => File['/etc/mirmon.conf'],
+    require => File[$mirmon_conf],
   }
 
   cron { 'mirrorbrain-ping-mirrors':
     command => '/usr/bin/mirrorprobe',
     user    => 'root',
     minute  => '*/30',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   # Scan our mirrors, will run as many concurrent jobs as their are processors
@@ -85,7 +134,7 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
     command => "/usr/bin/mb scan --quiet --jobs ${::processorcount} --all",
     user    => 'root',
     minute  => '*/30',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   # perform regular clean up of our postgresql database
@@ -94,14 +143,14 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
     user    => 'root',
     hour    => 2,
     minute  => 42,
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
 
   cron { 'mirmon-update-mirror-list':
     command => '/usr/bin/mb export --format=mirmon > /srv/releases/mirror_list',
     user    => 'root',
     minute  => '*/10',
-    require => File['/etc/mirrorbrain.conf'],
+    require => File[$mirrorbrain_conf],
   }
   #############
 
@@ -115,7 +164,6 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   $geoip_conf = '/etc/apache2/mods-available/geoip.conf'
 
   file { $dbd_conf:
-    ensure  => present,
     owner   => 'root',
     group   => 'root',
     content => template("${module_name}/mirrorbrain/dbd.conf.erb"),
@@ -132,7 +180,6 @@ perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
   }
 
   file { $geoip_conf:
-    ensure  => present,
     owner   => 'root',
     group   => 'root',
     require => Apache::Mod['geoip'],

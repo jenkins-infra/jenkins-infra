@@ -7,6 +7,9 @@ describe 'profile::mirrorbrain' do
       :pg_database => 'rspecdb',
       :pg_username => 'rspecuser',
       :pg_password => 'rspecpassword',
+      :home_dir    => '/tmp/rspec-home',
+      :user        => 'rspec',
+      :group       => 'rspec',
     }
   end
 
@@ -17,18 +20,71 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'mirrorbrain' }
   it { should contain_class 'mirrorbrain::apache' }
 
-  it 'should ensure the mirrorbrain user has a false shell' do
-    expect(subject).to contain_user('mirrorbrain').with({
+  context 'release files' do
+    let(:file_properties) do
+      {
         :ensure => :present,
-        :shell  => '/bin/false',
-    })
+        :owner  => params[:user],
+        :group  => params[:group],
+      }
+    end
+
+
+    [
+      'rsync.filter',
+      'sync.sh',
+      'populate-archives.sh',
+      'populate-fallback.sh',
+      'update-latest-symlink.sh',
+    ].each do |filename|
+      it "should manage #{filename}" do
+        expect(subject).to contain_file("#{params[:home_dir]}/#{filename}").with(file_properties)
+      end
+    end
+  end
+
+
+  context 'the mirrorbrain user' do
+    it 'should have a valid shell' do
+      expect(subject).to contain_user(params[:user]).with({
+          :ensure => :present,
+          :shell  => '/bin/bash',
+      })
+    end
+
+    it 'should have a group' do
+      expect(subject).to contain_group(params[:group]).with_ensure(:present)
+    end
+
+    it 'should have a home_dir' do
+      expect(subject).to contain_account(params[:user]).with({
+        :home_dir => params[:home_dir],
+        :manage_home => true,
+      })
+    end
+
+    context 'with ssh_keys => []' do
+      let(:params) do
+        {
+          :ssh_keys => {
+            'kohsuke-griffon' => {
+              'type' => 'ssh-rsa',
+              'key' => 'kohsukeskey',
+            }
+          },
+        }
+      end
+
+      it { should contain_ssh_authorized_key('mirrorbrain-kohsuke-griffon').with_key('kohsukeskey') }
+    end
+
   end
 
   it 'should install mirrorbrain.conf' do
     expect(subject).to contain_file('/etc/mirrorbrain.conf').with({
       :ensure => :present,
-      :owner   => 'mirrorbrain',
-      :group  => 'mirrorbrain',
+      :owner   => params[:user],
+      :group  => params[:group],
       :content => "[general]
 instances = main
 
@@ -49,8 +105,8 @@ dbname = rspecdb
   it 'should install mirmon.conf' do
     expect(subject).to contain_file('/etc/mirmon.conf').with({
       :ensure => :present,
-      :owner => 'mirrorbrain',
-      :group  => 'mirrorbrain',
+      :owner => params[:user],
+      :group  => params[:group],
     })
   end
 

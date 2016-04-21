@@ -7,6 +7,12 @@ describe 'profile::updatesite' do
   it { should contain_class 'profile::updatesite' }
   it { should contain_class 'profile::firewall' }
 
+  it 'should give www-data a shell' do
+    expect(subject).to contain_user('www-data').with({
+      :shell => '/bin/bash',
+    })
+  end
+
   context 'with ssh_pubkey provided' do
     let(:params) do
       {
@@ -16,6 +22,13 @@ describe 'profile::updatesite' do
 
     it { should contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
     it { should contain_user('www-data').with_purge_ssh_keys(true) }
+
+    it 'should ensure the /var/www permissions are correct for SSH auth' do
+      expect(subject).to contain_file('/var/www').with({
+        :ensure => :directory,
+        :mode   => '0755',
+      })
+    end
   end
 
   context 'apache setup' do
@@ -29,6 +42,7 @@ describe 'profile::updatesite' do
           :servername => fqdn,
           :port => 443,
           :docroot => "/var/www/#{fqdn}",
+          :override  => ['All'],
         })
       end
 
@@ -36,8 +50,9 @@ describe 'profile::updatesite' do
         expect(subject).to contain_apache__vhost("#{fqdn} unsecured").with({
           :servername => fqdn,
           :port => 80,
-          :redirect_status => 'permanent',
-          :redirect_dest => "https://#{fqdn}/",
+          :redirect_status => nil,
+          :redirect_dest => nil,
+          :override  => ['All'],
         })
       end
     end
