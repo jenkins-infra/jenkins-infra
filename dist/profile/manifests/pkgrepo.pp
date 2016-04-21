@@ -30,7 +30,9 @@ class profile::pkgrepo (
 
   file { $docroot:
     ensure  => directory,
-    owner   => 'root',
+    owner   => 'www-data',
+    # We need group writes on this directory for pushing a release
+    mode    => '0775',
     require => File[$apache_log_dir],
   }
 
