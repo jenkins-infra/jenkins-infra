@@ -8,8 +8,22 @@ describe 'profile::pkgrepo' do
     }
   end
 
+  it 'should ensure the docroot exists' do
+    expect(subject).to contain_file(params[:docroot]).with({
+      :ensure => :directory,
+      :owner => 'www-data',
+      :mode => '0775',
+    })
+  end
+
   it { should contain_class 'profile::pkgrepo' }
   it { should contain_class 'apache' }
+
+  it 'needs createrepo(8) so we can generate repodata' do
+    expect(subject).to contain_package('createrepo').with({
+      :ensure => :present,
+    })
+  end
 
   context 'repository directories' do
     platforms = ['debian', 'opensuse', 'redhat']
@@ -99,8 +113,6 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.jenkins.io',
         :port => 80,
         :docroot => params[:docroot],
-        :redirect_status => 'permanent',
-        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
 

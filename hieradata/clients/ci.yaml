@@ -9,9 +9,12 @@ profile::buildmaster::plugins:
   - credentials
   - credentials-binding
   - docker-workflow
+  - embeddable-build-status
   - git-client
   - git
   - github
+  - github-branch-source
+  - github-organization-folder
   - jobConfigHistory
   - ldap
   - mailer

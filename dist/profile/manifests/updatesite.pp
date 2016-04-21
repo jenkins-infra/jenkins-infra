@@ -18,6 +18,16 @@ class profile::updatesite (
   $update_fqdn = 'updates.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
 
+  # We need a shell for now
+  # https://issues.jenkins-ci.org/browse/INFRA-657
+  User <| title == 'www-data' |> {
+    shell => '/bin/bash',
+  }
+  file { '/var/www':
+    ensure => directory,
+    mode   => '0755',
+  }
+
   file { [$apache_log_dir, $docroot,]:
     ensure => directory,
   }
@@ -27,7 +37,7 @@ class profile::updatesite (
       File[$docroot],
     ],
     port            => 443,
-    override        => 'All',
+    override        => ['All'],
     ssl             => true,
     docroot         => $docroot,
     error_log_file  => "${update_fqdn}/error.log",
@@ -38,8 +48,7 @@ class profile::updatesite (
     servername      => $update_fqdn,
     port            => 80,
     docroot         => $docroot,
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${update_fqdn}/",
+    override        => ['All'],
     error_log_file  => "${update_fqdn}/error_nonssl.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$update_fqdn],
@@ -50,6 +59,7 @@ class profile::updatesite (
 
     file { '/var/www/.ssh':
       ensure => directory,
+      mode   => '0700',
       owner  => 'www-data',
       group  => 'www-data',
     }

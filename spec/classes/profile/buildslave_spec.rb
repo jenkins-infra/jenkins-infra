@@ -136,7 +136,7 @@ describe 'profile::buildslave' do
     let(:params) do
       {
         :home_dir => home,
-        :ssh_private_keys => private_keys,
+        :ssh_keys => private_keys,
       }
     end
 

@@ -4,7 +4,7 @@ class profile::buildslave(
   $docker           = true,
   $ruby             = true,
   $trusted_agent    = false,
-  $ssh_private_keys = undef,
+  $ssh_keys         = undef,
 ) {
   include ::stdlib
   include git
@@ -100,14 +100,14 @@ class profile::buildslave(
     ensure => absent,
   }
 
-  if $ssh_private_keys {
-    validate_hash($ssh_private_keys)
+  if $ssh_keys {
+    validate_hash($ssh_keys)
     $private_keys_defaults = {
       'type'  => 'ssh-rsa',
       'owner' => $user,
     }
 
-    create_resources('sshkeyman::key', $ssh_private_keys, $private_keys_defaults)
+    create_resources('sshkeyman::key', $ssh_keys, $private_keys_defaults)
   }
 }
 

@@ -18,5 +18,5 @@ class profile::base {
 
   # Collect all our exported host keys, this way we know about every machine
   # properly
-  Sshkey <<| |>>
+  Sshkey <<| 'type' == 'ecdsa-sha2-nistp256' |>>
 }
