@@ -43,8 +43,6 @@ class profile::mirrorbrain (
   # Default all our files to our $user/$group
   File {
     ensure => present,
-    owner  => $user,
-    group  => $group,
   }
 
   ## Files needed to release
@@ -52,31 +50,45 @@ class profile::mirrorbrain (
   ## These files are necessary to create and sync releases to and from this host
   ##########################
   file { "${home_dir}/rsync.filter":
+    owner  => $user,
+    group  => $group,
     source => "puppet:///modules/${module_name}/mirrorbrain/rsync.filter",
   }
 
   file { "${home_dir}/sync.sh":
+    owner  => $user,
+    group  => $group,
     source => "puppet:///modules/${module_name}/mirrorbrain/sync.sh",
   }
 
   file { "${home_dir}/populate-archives.sh":
+    owner  => $user,
+    group  => $group,
     source => "puppet:///modules/${module_name}/mirrorbrain/populate-archives.sh",
   }
 
   file { "${home_dir}/populate-fallback.sh":
+    owner  => $user,
+    group  => $group,
     source => "puppet:///modules/${module_name}/mirrorbrain/populate-fallback.sh",
   }
 
   file { "${home_dir}/update-latest-symlink.sh":
+    owner  => $user,
+    group  => $group,
     source => "puppet:///modules/${module_name}/mirrorbrain/update-latest-symlink.sh",
   }
   ##########################
 
   file { $mirrorbrain_conf:
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirrorbrain.conf.erb"),
   }
 
   file { $mirmon_conf:
+    owner   => $user,
+    group   => $group,
     content => template("${module_name}/mirrorbrain/mirmon.conf.erb"),
   }
 
