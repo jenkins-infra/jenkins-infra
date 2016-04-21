@@ -1,12 +1,13 @@
 #!/bin/bash -xe
 HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
+UPDATES_DIR=/var/www/updates.jenkins.io
 REMOTE_BASE_DIR=data/
-
+RSYNC_ARGS="-avz"
 SCRIPT_DIR=$PWD
 
 pushd $BASE_DIR
-  rsync -avz --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
+  rsync ${RSYNC_ARGS} --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
     echo '+ plugins/**'
     echo '+ updates/**'
@@ -23,6 +24,22 @@ pushd $BASE_DIR
   ) . $HOST:jenkins/
 popd
 
+echo ">> Syncing the update center to our local mirror"
+
+pushd ${UPDATES_DIR}
+    # Note: this used to exist in the old script, but we have these
+    # symbolic links in the destination tree, no need to copy them again
+    #
+    #rsync ${RSYNC_ARGS}  *.json* ${BASE_DIR}/updates
+    for uc_version in */update-center.json; do
+      echo ">> Syncing UC version ${uc_version}"
+      uc_version=$(dirname $uc_version)
+      rsync ${RSYNC_ARGS} $uc_version/*.json* ${BASE_DIR}/updates/${uc_version}
+    done;
+
+    echo ">> Syncing UC to primarily OSUOSL mirror"
+    rsync ${RSYNC_ARGS} --delete ${BASE_DIR}/updates/ ${HOST}:jenkins/updates
+popd
 
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh
@@ -51,3 +68,5 @@ for f in debian debian-stable redhat redhat-stable war war-stable opensuse opens
   echo ">>>> updating index for ${f}/"
   mb scan -j 2 -v -d $f -e ftp-chi.osuosl.org;
 done
+
+
