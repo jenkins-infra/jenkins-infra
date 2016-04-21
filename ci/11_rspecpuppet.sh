@@ -1,3 +1,3 @@
 #!/bin/sh -xe
 
-exec bundle exec rake spec --trace
+exec bundle exec parallel_rspec spec/classes
