@@ -44,6 +44,15 @@ describe 'profile::mirrorbrain' do
   end
 
 
+  it 'should ensure the $docroot is owned by $user' do
+    expect(subject).to contain_file('/srv/releases/jenkins').with({
+      :ensure => :directory,
+      :owner  => params[:user],
+      :group  => params[:group],
+    })
+  end
+
+
   context 'the mirrorbrain user' do
     it 'should have a valid shell' do
       expect(subject).to contain_user(params[:user]).with({

@@ -46,6 +46,12 @@ class profile::mirrorbrain (
     ensure => present,
   }
 
+  file { $docroot:
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+  }
+
   ## Files needed to release
   ##########################
   ## These files are necessary to create and sync releases to and from this host
