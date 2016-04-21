@@ -63,6 +63,21 @@ describe 'profile::mirrorbrain' do
       })
     end
 
+    context 'with ssh_keys => []' do
+      let(:params) do
+        {
+          :ssh_keys => {
+            'kohsuke-griffon' => {
+              'type' => 'ssh-rsa',
+              'key' => 'kohsukeskey',
+            }
+          },
+        }
+      end
+
+      it { should contain_ssh_authorized_key('mirrorbrain-kohsuke-griffon').with_key('kohsukeskey') }
+    end
+
   end
 
   it 'should install mirrorbrain.conf' do

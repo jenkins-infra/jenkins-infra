@@ -37,6 +37,7 @@ class profile::mirrorbrain (
     home_dir     => $home_dir,
     gid          => $group,
     groups       => $groups,
+    ssh_keys     => $ssh_keys,
     require      => Group[$group],
   }
 

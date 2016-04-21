@@ -210,4 +210,8 @@ ssh::server::options:
 ssh::client::options:
   UseRoaming: no
 
+
+
+profile::mirrorbrain::ssh_keys:
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
