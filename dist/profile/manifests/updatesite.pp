@@ -17,6 +17,7 @@ class profile::updatesite (
 
   $update_fqdn = 'updates.jenkins.io'
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
+  $apache_legacy_log_dir = '/var/log/apache2/updates.jenkins-ci.org'
 
   # We need a shell for now
   # https://issues.jenkins-ci.org/browse/INFRA-657
@@ -28,7 +29,7 @@ class profile::updatesite (
     mode   => '0755',
   }
 
-  file { [$apache_log_dir, $docroot,]:
+  file { [$apache_log_dir, $docroot, $apache_legacy_log_dir, ]:
     ensure => directory,
   }
 
@@ -53,6 +54,57 @@ class profile::updatesite (
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$update_fqdn],
   }
+
+  # Legacy update site compatibility
+  ##################################
+  # Some versions of the JDK do not support letsencrypt ccertificates, so
+  # instead of using the new updates.jenkins.io as a redirect target, we're
+  # going to continue to service updates.jenkins-ci.org with the legacy
+  # (GoDaddy) certificate
+  ##################################
+  file { '/etc/apache2/legacy_cert.key':
+    ensure  => present,
+    content => hiera('ssl_legacy_key'),
+  }
+  file { '/etc/apache2/legacy_chain.crt':
+    ensure  => present,
+    content => hiera('ssl_legacy_chain'),
+  }
+  file { '/etc/apache2/legacy_cert.crt':
+    ensure  => present,
+    content => hiera('ssl_legacy_cert'),
+  }
+
+  apache::vhost { 'updates.jenkins-ci.org':
+    docroot         => $docroot,
+    port            => 443,
+    ssl             => true,
+    ssl_key         => '/etc/apache2/legacy_cert.key',
+    ssl_chain       => '/etc/apache2/legacy_chain.crt',
+    ssl_cert        => '/etc/apache2/legacy_cert.crt',
+    override        => ['All'],
+    error_log_file  => 'updates.jenkins-ci.org/error.log',
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    require         => [
+      File['/etc/apache2/legacy_cert.crt'],
+      File['/etc/apache2/legacy_cert.key'],
+      File['/etc/apache2/legacy_chain.crt'],
+      File[$apache_legacy_log_dir],
+    ],
+  }
+
+  apache::vhost { 'updates.jenkins-ci.org unsecured':
+    servername      => 'updates.jenkins-ci.org',
+    docroot         => $docroot,
+    port            => 80,
+    override        => ['All'],
+    error_log_file  => 'updates.jenkins-ci.org/error_nonssl.log',
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_legacy_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => Apache::Vhost['updates.jenkins-ci.org'],
+  }
+
+  ##################################
+  ##################################
 
   if $ssh_pubkey {
     validate_string($ssh_pubkey)
