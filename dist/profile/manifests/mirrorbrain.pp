@@ -97,10 +97,8 @@ class profile::mirrorbrain (
   file { '/usr/local/bin/mirmon-time-update':
     owner   => 'root',
     mode    => '0755',
-    content => "
-#!/bin/sh
-
-perl -e 'printf \"%s\n\", time' > ${docroot}/TIME'
+    content => "#!/bin/sh
+date \"+%s\" > /srv/releases/jenkins/TIME
 ",
     require => File[$docroot],
   }
