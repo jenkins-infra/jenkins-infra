@@ -204,6 +204,12 @@ ldap_admin_dn: 'cn=admin,dc=example,dc=com'
 ldap_admin_password: 'hunter2'
 
 
+# These variables should be filled in, in production.yaml, with the legacy
+# jenkins-ci.org cert details
+ssl_legacy_cert: ''
+ssl_legacy_chain: ''
+ssl_legacy_key: ''
+
 ssh::server::options:
   PasswordAuthentication: no
   PubkeyAuthentication: yes
