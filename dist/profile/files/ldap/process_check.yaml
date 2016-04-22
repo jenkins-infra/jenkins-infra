@@ -1,5 +1,5 @@
   - name: LDAP
-    search_string: ['/usr/bin/slapd']
+    search_string: ['/usr/sbin/slapd']
     exact_match: false
     thresholds:
       # expect exactly 1 instance
