@@ -56,6 +56,12 @@ class profile::accountapp(
     use_name         => true,
   }
 
+  profile::datadog_check { 'accountapp-http-check':
+    checker => 'http_check',
+    source  => 'puppet:///modules/profile/accountapp/http_check.yaml',
+  }
+
+
   # docroot is required for apache::vhost but should never be used because
   # we're proxying everything here
   $docroot = '/var/www/html'
