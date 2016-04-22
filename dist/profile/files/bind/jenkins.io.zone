@@ -55,8 +55,11 @@ fallback    3600    IN    CNAME    spinach ; fallback.jenkins.io for acting as a
 ; Magical CNAME for certificate validation
 D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.
 
-; verification for Amazon SES to send out email from noreply@jenkins.io
+; Amazon SES configuration to send out email from noreply@jenkins.io
 _amazonses  3600    IN    TXT   "kYNeW+b+9GnKO/LzqP/t0TzLyN86jQ9didoBAJSjezE="
+pbssnl2yyudgfdl3flznotnarnamz5su._domainkey 3600    IN  CNAME   pbssnl2yyudgfdl3flznotnarnamz5su.dkim.amazonses.com.
+6ch6fw67efpfgoqyhdhs2cy2fpkwrvsk._domainkey 3600    IN  CNAME   6ch6fw67efpfgoqyhdhs2cy2fpkwrvsk.dkim.amazonses.com.
+37qo4cqmkxeocwr2iicjop77fq52m6yh._domainkey 3600    IN  CNAME   37qo4cqmkxeocwr2iicjop77fq52m6yh.dkim.amazonses.com.
 
 ; NS Records
 @           3600    IN    NS    ns1.jenkins-ci.org.
