@@ -33,8 +33,6 @@ def main() {
   side = new PrintWriter(new FileWriter(args[0]));
 
   System.in.eachLine { l ->
-    l = l.trim()
-    
     // replace password
     if (l.startsWith("userPassword:: ") && normalUser) {
       l = "userPassword:: "+base64(ssha(password=randomString(32),randomString(4)).bytes)
