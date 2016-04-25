@@ -1,5 +1,6 @@
 ---
 
+profile::buildslave::trusted_agent: true
 profile::buildslave::ssh_keys:
   '/home/jenkins/.ssh/updates-rsync-key':
     for_host: 'updates.jenkins.io'
