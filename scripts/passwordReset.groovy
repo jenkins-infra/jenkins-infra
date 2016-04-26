@@ -25,6 +25,7 @@ System.exit(0)
 def main() {
   mail = null;
   username = null;
+  password = null;
 
   // Our LDAP server has some additional special user accounts that shouldn't be reset
   normalUser = false;
@@ -32,11 +33,9 @@ def main() {
   side = new PrintWriter(new FileWriter(args[0]));
 
   System.in.eachLine { l ->
-    l = l.trim()
-    
     // replace password
     if (l.startsWith("userPassword:: ") && normalUser) {
-      l = "userPassword:: "+base64(ssha(randomString(32),randomString(4)).bytes)
+      l = "userPassword:: "+base64(ssha(password=randomString(32),randomString(4)).bytes)
     }
     
     System.out.println(l)
@@ -44,7 +43,7 @@ def main() {
     
     if (l=="") {
       if (mail!=null && username!=null) {
-        side.println(mail+"\t"+username);
+        side.println(mail+"\t"+username+"\t"+password);
       }
       mail = null;
       username = null;
