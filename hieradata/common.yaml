@@ -196,6 +196,7 @@ profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
   - ldap
+  - beer
 
 
 ldap_url: 'ldap://localhost:389'
