@@ -94,11 +94,6 @@ class profile::pkgrepo (
     options         => 'Indexes FollowSymLinks MultiViews',
     override        => ['All'],
     ssl             => true,
-    ssl_key         => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
-    # When Apache is upgraded to >= 2.4.8 this should be changed to
-    # fullchain.pem
-    ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
-    ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
     docroot         => $docroot,
     error_log_file  => "${repo_fqdn}/error.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
@@ -132,6 +127,14 @@ class profile::pkgrepo (
       domains     => [$repo_fqdn],
       plugin      => 'apache',
       manage_cron => true,
+    }
+
+    Apache::Vhost <| title == $repo_fqdn |> {
+      ssl_key         => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
+      ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
+      ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
     }
   }
 }
