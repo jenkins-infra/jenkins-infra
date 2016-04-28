@@ -35,10 +35,11 @@ describe 'profile::mirrorbrain' do
       it { should contain_postgresql__server__role('datadog') }
 
       it 'should grant the `datadog` user read privileges on our db' do
-        expect(subject).to contain_postgresql__server__database_grant("datadog_#{params[:pg_database]}").with({
+        expect(subject).to contain_postgresql__server__grant("datadog_#{params[:pg_database]}").with({
           :role => 'datadog',
           :db => params[:pg_database],
           :privilege => 'SELECT',
+          :object_type => 'ALL TABLES IN SCHEMA',
         })
       end
 

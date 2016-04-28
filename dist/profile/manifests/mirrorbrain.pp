@@ -109,10 +109,11 @@ class profile::mirrorbrain (
       password_hash => postgresql_password('datadog', $pg_password),
     }
 
-    postgresql::server::database_grant { "datadog_${pg_database}":
-      privilege => 'SELECT',
-      db        => $pg_database,
-      role      => 'datadog',
+    postgresql::server::grant { "datadog_${pg_database}":
+      privilege   => 'SELECT',
+      object_type => 'ALL TABLES IN SCHEMA',
+      db          => $pg_database,
+      role        => 'datadog',
     }
 
     class { 'datadog_agent::integrations::postgres':
@@ -122,7 +123,7 @@ class profile::mirrorbrain (
       password => $pg_password,
       require  => [
         Class['postgresql::server'],
-        Postgresql::Server::Database_grant["datadog_${pg_database}"],
+        Postgresql::Server::Grant["datadog_${pg_database}"],
       ],
     }
   }
