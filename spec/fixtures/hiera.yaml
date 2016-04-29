@@ -4,6 +4,7 @@
 
 :hierarchy:
   - vagrant
+  - "clients/%{clientcert}-vagrant"
   - "clients/%{clientcert}"
   - "env/%{environment}"
   - "roles/%{hiera_role}"
