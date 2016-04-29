@@ -20,6 +20,45 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'mirrorbrain' }
   it { should contain_class 'mirrorbrain::apache' }
 
+
+  context 'postgresql configuration' do
+    it { should contain_package('postgresql-server').with_ensure 'present' }
+
+    it 'should create the mirrorbrain database' do
+      expect(subject).to contain_postgresql__server__db(params[:pg_database]).with({
+        :user => params[:pg_username],
+        :password => params[:pg_password],
+      })
+    end
+
+    context 'postgresql monitoring' do
+      it { should contain_postgresql__server__role('datadog') }
+
+      it 'should grant the `datadog` user read privileges on our db' do
+        expect(subject).to contain_postgresql__server__grant("datadog_#{params[:pg_database]}").with({
+          :role => 'datadog',
+          :db => params[:pg_database],
+          :privilege => 'SELECT',
+          :object_type => 'ALL TABLES IN SCHEMA',
+        })
+      end
+
+      it 'should monitor postgresql' do
+        expect(subject).to contain_class('datadog_agent::integrations::postgres').with({
+          :host => 'localhost',
+          :dbname => params[:pg_database],
+          :username => 'datadog',
+        })
+      end
+    end
+
+
+    context 'when the params include manage_pgsql => false' do
+      let(:params) { {:manage_pgsql => false } }
+      it { should_not contain_package('postgresql-server') }
+    end
+  end
+
   context 'release files' do
     let(:file_properties) do
       {

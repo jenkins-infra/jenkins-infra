@@ -95,3 +95,7 @@ mod 'rtyler/jenkins',
   :ref => 'd70fd6f'
 # Needed for the Jenkins module
 mod 'puppetlabs/java', '1.5.0'
+
+
+# Needed for managing pgsql behind Mirrorbrain
+mod 'puppetlabs/postgresql', '4.7.1'

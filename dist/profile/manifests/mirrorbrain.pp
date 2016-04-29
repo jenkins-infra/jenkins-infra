@@ -5,7 +5,7 @@ class profile::mirrorbrain (
   $pg_database  = 'mirrorbrain',
   $pg_username  = 'mirrorbrain',
   $pg_password  = 'mirrorbrain',
-  $manage_pgsql = false, # Install and manager PostgreSQL for development
+  $manage_pgsql = true, # Install and manage PostgreSQL on this node
   $user         = 'mirrorbrain',
   $group        = 'mirrorbrain',
   $groups       = ['www-data'],
@@ -89,6 +89,46 @@ class profile::mirrorbrain (
     source => "puppet:///modules/${module_name}/mirrorbrain/update-latest-symlink.sh",
   }
   ##########################
+
+
+
+  ## Managing PostgreSQL
+  ##########################
+  ## 
+  ##########################
+  if $manage_pgsql {
+    class { 'postgresql::server':
+    }
+
+    postgresql::server::db { $pg_database:
+      user     => $pg_username,
+      password => $pg_password,
+    }
+
+    postgresql::server::role { 'datadog':
+      password_hash => postgresql_password('datadog', $pg_password),
+    }
+
+    postgresql::server::grant { "datadog_${pg_database}":
+      privilege   => 'SELECT',
+      object_type => 'ALL TABLES IN SCHEMA',
+      db          => $pg_database,
+      role        => 'datadog',
+    }
+
+    class { 'datadog_agent::integrations::postgres':
+      host     => 'localhost',
+      dbname   => $pg_database,
+      username => 'datadog',
+      password => $pg_password,
+      require  => [
+        Class['postgresql::server'],
+        Postgresql::Server::Grant["datadog_${pg_database}"],
+      ],
+    }
+  }
+  ##########################
+
 
   file { $mirrorbrain_conf:
     owner   => $user,
