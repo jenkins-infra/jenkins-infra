@@ -11,7 +11,6 @@ describe 'profile::census' do
 
   it_behaves_like 'it has webserver firewall rules'
 
-  it { should contain_filesystem '/dev/data/census' }
   it { should contain_package('httpd').with(:name => 'apache2') }
   it { should contain_apache__vhost 'census.jenkins.io' }
 end
