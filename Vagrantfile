@@ -31,6 +31,7 @@ Vagrant.configure("2") do |config|
 
     override.ssh.username = "ubuntu"
     override.ssh.private_key_path = File.expand_path('~/.ssh/id_rsa')
+    override.nfs.functional = false   # https://github.com/mitchellh/vagrant/issues/1437
   end
 
   role_dir = './dist/role/manifests/'
@@ -75,6 +76,7 @@ EOF
         puppet.working_directory = '/vagrant'
         puppet.facter = {
           :vagrant => '1',
+          :veggie => veggie,
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
         puppet.options = "--parser future --verbose --execute 'include role::#{veggie}\n include profile::vagrant'"

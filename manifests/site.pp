@@ -102,6 +102,11 @@ node 'ldap' {
   include role::ldapserver
 }
 
+node 'census' {
+  sshkeyman::hostkey { ['census.jenkins.io']: }
+  include role::census
+}
+
 node 'ratings' {
   sshkeyman::hostkey { ['ratings.jenkins.io']: }
   include role::rating
