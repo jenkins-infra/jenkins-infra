@@ -56,12 +56,6 @@ class profile::puppetmaster {
     action => 'accept',
   }
 
-  firewall { '011 allow r10k webhooks':
-    proto  => 'tcp',
-    port   => 9013,
-    action => 'accept',
-  }
-
   firewall { '012 allow puppet agents':
     proto  => 'tcp',
     port   => 8140,

@@ -25,4 +25,9 @@ class profile::r10k {
     require         => Class['r10k::webhook::config'],
   }
 
+  firewall { '011 allow r10k webhooks':
+    proto  => 'tcp',
+    port   => 8088,
+    action => 'accept',
+  }
 }
