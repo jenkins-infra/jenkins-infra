@@ -3,10 +3,12 @@
   - yaml
 
 :hierarchy:
-  - vagrant
+  - "vagrant/clients/%{::veggie}"
   - "clients/%{clientcert}"
   - "env/%{environment}"
+  - "vagrant/roles/%{hiera_role}"
   - "roles/%{hiera_role}"
+  - vagrant/common
   - common
 
 :yaml:

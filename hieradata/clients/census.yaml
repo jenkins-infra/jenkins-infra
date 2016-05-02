@@ -1,0 +1,9 @@
+---
+lvm::volume_groups:
+  data:
+    physical_volumes:
+      - /dev/xvdb
+    logical_volumes:
+      census:
+        size: 30G
+        mountpath: /srv/census
