@@ -180,7 +180,8 @@ date \"+%s\" > /srv/releases/jenkins/TIME
   cron { 'mirrorbrain-scan':
     command => "/usr/bin/mb scan --quiet --jobs ${::processorcount} --all",
     user    => 'root',
-    minute  => '*/30',
+    # See < https://issues.jenkins-ci.org/browse/INFRA-671>
+    minute  => '0',
     require => File[$mirrorbrain_conf],
   }
 
