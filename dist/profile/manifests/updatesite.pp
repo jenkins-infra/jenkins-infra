@@ -65,14 +65,18 @@ class profile::updatesite (
   file { '/etc/apache2/legacy_cert.key':
     ensure  => present,
     content => hiera('ssl_legacy_key'),
+    require => Package['httpd'],
   }
+
   file { '/etc/apache2/legacy_chain.crt':
     ensure  => present,
     content => hiera('ssl_legacy_chain'),
+    require => Package['httpd'],
   }
   file { '/etc/apache2/legacy_cert.crt':
     ensure  => present,
     content => hiera('ssl_legacy_cert'),
+    require => Package['httpd'],
   }
 
   apache::vhost { 'updates.jenkins-ci.org':
