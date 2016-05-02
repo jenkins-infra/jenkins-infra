@@ -11,4 +11,23 @@ class profile::r10k {
     mode   => '0744',
     source => "puppet:///modules/${module_name}/r10k/r10k.yaml",
   }
+
+
+  class { '::r10k::webhook::config':
+    protected       => true,
+    enable_ssl      => false,
+    use_mcollective => false,
+  }
+
+  class { 'r10k::webhook':
+    use_mcollective => false,
+    user            => 'root',
+    require         => Class['r10k::webhook::config'],
+  }
+
+  firewall { '011 allow r10k webhooks':
+    proto  => 'tcp',
+    port   => 8088,
+    action => 'accept',
+  }
 }

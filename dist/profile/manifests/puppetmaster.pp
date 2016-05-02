@@ -10,6 +10,15 @@ class profile::puppetmaster {
   include ::irc
   include datadog_agent
 
+
+  # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
+  # resource defined since that comes with Puppet Enterprise. We'll define a
+  # simple one just to make things 'work'
+  if str2bool($::vagrant) {
+    service { 'pe-puppetserver':
+    }
+  }
+
   # Manage hiera.yaml
   file { '/etc/puppetlabs/puppet/hiera.yaml':
     ensure => file,
@@ -44,12 +53,6 @@ class profile::puppetmaster {
   firewall { '010 allow dashboard traffic':
     proto  => 'tcp',
     port   => 443,
-    action => 'accept',
-  }
-
-  firewall { '011 allow r10k webhooks':
-    proto  => 'tcp',
-    port   => 9013,
     action => 'accept',
   }
 

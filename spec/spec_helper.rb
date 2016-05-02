@@ -28,6 +28,7 @@ RSpec.configure do |c|
     :operatingsystem => 'Ubuntu',
     :operatingsystemrelease => '12.04',
     :concat_basedir => '/tmp',
+    :is_pe => true,
   }
 
   c.before(:each) do
