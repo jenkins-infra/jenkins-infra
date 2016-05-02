@@ -1,10 +1,6 @@
 require 'spec_helper'
 
 describe 'profile::census' do
-  let(:facts) {
-    {:operatingsystem => 'Ubuntu', :osfamily => 'Debian' }
-  }
-
   it { should contain_class 'profile::apachemisc' }
   it { should contain_class 'lvm' }
   it { should contain_class 'apache' }
