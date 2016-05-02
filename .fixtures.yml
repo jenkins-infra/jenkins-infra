@@ -36,7 +36,7 @@ fixtures:
       ref: '1.6.0'
     r10k:
       repo: 'zack/r10k'
-      ref: '3.1.1'
+      ref: '3.2.0'
     ruby:
       repo: 'puppetlabs/ruby'
       ref: '0.4.0'
