@@ -218,7 +218,10 @@ ssh::client::options:
   UseRoaming: no
 
 
-
+# Hash of SSH keys to be used for pushing releases into the mirrorbrain host
 profile::mirrorbrain::ssh_keys:
+
+# Pre-shared key for configuring the r10k webhook server
+r10k::webhook::config::pass: 'justapassword'
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
