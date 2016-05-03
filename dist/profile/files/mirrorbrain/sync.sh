@@ -37,6 +37,9 @@ pushd ${UPDATES_DIR}
       rsync ${RSYNC_ARGS} $uc_version/*.json* ${BASE_DIR}/updates/${uc_version}
     done;
 
+    # Ensure that our tool installers get synced
+    rsync ${RSYNC_ARGS}  updates ${BASE_DIR}/updates/
+
     echo ">> Syncing UC to primarily OSUOSL mirror"
     rsync ${RSYNC_ARGS} --delete ${BASE_DIR}/updates/ ${HOST}:jenkins/updates
 popd
