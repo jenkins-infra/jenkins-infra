@@ -3,6 +3,7 @@
 class profile::base {
 
   include profile::accounts
+  include profile::compliance
 
   if $::kernel == 'Linux' {
     include profile::apt
