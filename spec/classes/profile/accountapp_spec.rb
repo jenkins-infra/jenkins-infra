@@ -70,7 +70,17 @@ describe 'profile::accountapp' do
           :domains => ['accounts.jenkins.io', 'accounts.jenkins-ci.org'],
         })
       end
+
+      it 'should put letsencrypt certs in the vhost' do
+        expect(subject).to contain_apache__vhost('accounts.jenkins.io').with({
+          :ssl => true,
+          :ssl_key => '/etc/letsencrypt/live/accounts.jenkins.io/privkey.pem',
+          :ssl_cert => '/etc/letsencrypt/live/accounts.jenkins.io/cert.pem',
+          :ssl_chain => '/etc/letsencrypt/live/accounts.jenkins.io/chain.pem',
+        })
+      end
     end
+
     context 'in development' do
       it { should_not contain_letsencrypt__certonly('accounts.jenkins.io') }
     end
