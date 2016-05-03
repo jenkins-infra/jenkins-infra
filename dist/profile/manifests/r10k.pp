@@ -12,12 +12,7 @@ class profile::r10k {
     source => "puppet:///modules/${module_name}/r10k/r10k.yaml",
   }
 
-
-  class { '::r10k::webhook::config':
-    protected       => false,
-    enable_ssl      => false,
-    use_mcollective => false,
-  }
+  include ::r10k::webhook::config
 
   class { 'r10k::webhook':
     use_mcollective => false,

@@ -11,6 +11,7 @@ describe 'profile::r10k' do
         :enable_ssl => false,
         :protected => false,
         :use_mcollective => false,
+        :github_secret => 'justapassword',
       })
     end
 
