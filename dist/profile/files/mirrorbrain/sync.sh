@@ -3,7 +3,7 @@ HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
 UPDATES_DIR=/var/www/updates.jenkins.io
 REMOTE_BASE_DIR=data/
-RSYNC_ARGS="-avz"
+RSYNC_ARGS="-rlpgoDvz"
 SCRIPT_DIR=$PWD
 
 pushd $BASE_DIR
