@@ -197,7 +197,8 @@ date \"+%s\" > /srv/releases/jenkins/TIME
   cron { 'mirmon-update-mirror-list':
     command => '/usr/bin/mb export --format=mirmon > /srv/releases/mirror_list',
     user    => 'root',
-    minute  => '*/10',
+    minute  => '30',
+    hour    => '4',
     require => File[$mirrorbrain_conf],
   }
   #############
