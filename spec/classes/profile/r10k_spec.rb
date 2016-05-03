@@ -9,7 +9,7 @@ describe 'profile::r10k' do
     it 'should configure r10k::webhook::config' do
       expect(subject).to contain_class('r10k::webhook::config').with({
         :enable_ssl => false,
-        :protected => true,
+        :protected => false,
         :use_mcollective => false,
       })
     end
