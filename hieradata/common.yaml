@@ -223,5 +223,8 @@ profile::mirrorbrain::ssh_keys:
 
 # Pre-shared key for configuring the r10k webhook server
 r10k::webhook::config::github_secret: 'justapassword'
+r10k::webhook::config::protected: false
+r10k::webhook::config::use_mcollective: false
+r10k::webhook::config::enable_ssl: false
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
