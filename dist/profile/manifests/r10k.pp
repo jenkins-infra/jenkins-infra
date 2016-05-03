@@ -14,7 +14,7 @@ class profile::r10k {
 
 
   class { '::r10k::webhook::config':
-    protected       => true,
+    protected       => false,
     enable_ssl      => false,
     use_mcollective => false,
   }
