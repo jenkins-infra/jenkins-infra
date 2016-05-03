@@ -164,7 +164,7 @@ date \"+%s\" > /srv/releases/jenkins/TIME
   cron { 'mirmon-status-page':
     command => "/usr/bin/mirmon -q -get update -c ${mirmon_conf}",
     user    => 'root',
-    minute  => '*/15',
+    minute  => '15',
     require => File[$mirmon_conf],
   }
 
