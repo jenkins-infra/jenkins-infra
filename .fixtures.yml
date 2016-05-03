@@ -26,6 +26,9 @@ fixtures:
     jenkins:
       repo: 'git://github.com/jenkinsci/puppet-jenkins.git'
       ref: 'd70fd6f'
+    r10k:
+      repo: 'git://github.com/acidprime/r10k.git'
+      ref: 'f270781'
 
   forge_modules:
     stdlib:
@@ -34,9 +37,6 @@ fixtures:
     datadog_agent:
       repo: 'datadog/datadog_agent'
       ref: '1.6.0'
-    r10k:
-      repo: 'zack/r10k'
-      ref: '3.2.0'
     ruby:
       repo: 'puppetlabs/ruby'
       ref: '0.4.0'
