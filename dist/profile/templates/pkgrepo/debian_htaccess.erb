@@ -6,4 +6,4 @@ RewriteCond %{HTTP_USER_AGENT}  APT.*\(0\.7\.1[0-9]
 RewriteRule ^binary/(.*)\.deb$  /<%= @name %>/direct/$1.deb [L]
 
 # otherwise redirect to mirror
-RewriteRule ^binary/(.*)\.deb$ http://<%= @mirror_fqdn %>/<%= @name %>/$1.deb [R=302,L]
+RewriteRule ^binary/(.*)\.deb$ http://mirrors.jenkins-ci.org/<%= @name %>/$1.deb [R=302,L]
