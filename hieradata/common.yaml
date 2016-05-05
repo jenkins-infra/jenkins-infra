@@ -211,6 +211,7 @@ ssl_legacy_cert: ''
 ssl_legacy_chain: ''
 ssl_legacy_key: ''
 
+ssh::server::storeconfigs_enabled: false
 ssh::server::options:
   PasswordAuthentication: no
   PubkeyAuthentication: yes
