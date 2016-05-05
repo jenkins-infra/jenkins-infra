@@ -82,6 +82,24 @@ describe 'profile::ldap' do
         })
       end
     end
+
+    context 'ldap indices' do
+      ['cn', 'mail', 'surname', 'givenname', 'ou'].each do |attr|
+        it "should index `#{attr}`" do
+          expect(subject).to contain_openldap__server__dbindex("#{attr} index").with({
+            :attribute => attr,
+            :indices => 'eq,pres,sub',
+          })
+        end
+      end
+
+      it 'should index `uniqueMember`' do
+        expect(subject).to contain_openldap__server__dbindex('uniqueMember index').with({
+          :attribute => 'uniqueMember',
+          :indices => 'eq',
+        })
+      end
+    end
   end
 
   context 'monitoring' do
