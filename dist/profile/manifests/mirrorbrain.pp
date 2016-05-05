@@ -201,6 +201,15 @@ date \"+%s\" > /srv/releases/jenkins/TIME
     hour    => '4',
     require => File[$mirrorbrain_conf],
   }
+
+  # Sync all our Jenkins releases to our dependent mirrors
+  # See <https://issues.jenkins-ci.org/browse/INFRA-694>
+  cron { 'mirrorbrain-sync-releases':
+    command => "cd ${home_dir} && ./sync.sh",
+    minute  => '0',
+    user    => $user,
+    require => File["${home_dir}/sync.sh"],
+  }
   #############
 
   # dbd-pgsql is required to allow mod_dbd to communicate with PostgreSQL

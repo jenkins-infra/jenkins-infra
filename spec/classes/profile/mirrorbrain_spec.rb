@@ -208,4 +208,20 @@ EOF
       it { should contain_apache__vhost 'mirrors.jenkins.io' }
     end
   end
+
+  context 'crontabs' do
+    it { should contain_cron 'mirrorbrain-time-update' }
+    it { should contain_cron 'mirmon-status-page' }
+    it { should contain_cron 'mirrorbrain-ping-mirrors' }
+    it { should contain_cron 'mirrorbrain-scan' }
+    it { should contain_cron 'mirrorbrain-db-cleanup' }
+    it { should contain_cron 'mirmon-update-mirror-list' }
+
+    it 'should install a `./sync.sh` crontab entry for `mirrorbrain`' do
+      expect(subject).to contain_cron('mirrorbrain-sync-releases').with({
+        :user => params[:user],
+        :minute => '0',
+      })
+    end
+  end
 end
