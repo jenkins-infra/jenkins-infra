@@ -67,6 +67,53 @@ class profile::ldap(
   }
   ###############
 
+  # Indices
+  ###############
+  $ldap_attr_indices = 'eq,pres,sub'
+
+  openldap::server::dbindex { 'cn index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'cn',
+    indices   => $ldap_attr_indices,
+  }
+
+  openldap::server::dbindex { 'mail index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'mail',
+    indices   => $ldap_attr_indices,
+  }
+
+  openldap::server::dbindex { 'surname index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'surname',
+    indices   => $ldap_attr_indices,
+  }
+
+  openldap::server::dbindex { 'givenname index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'givenname',
+    indices   => $ldap_attr_indices,
+  }
+
+  openldap::server::dbindex { 'ou index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'ou',
+    indices   => $ldap_attr_indices,
+  }
+
+  openldap::server::dbindex { 'uniqueMember index':
+    ensure    => present,
+    suffix    => $database,
+    attribute => 'uniqueMember',
+    indices   => 'eq',
+  }
+  ###############
+  ###############
 
   # SSL Certificates
   file { $ssl_dir:
