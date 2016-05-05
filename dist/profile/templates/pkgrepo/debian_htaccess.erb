@@ -1,6 +1,7 @@
 # prior to 0.7.21, APT doesn't support redirect,
 # so we need to serve files by ourselves
 RewriteEngine On
+
 RewriteCond %{HTTP_USER_AGENT}  APT.*\(0\.7\.20     [OR]
 RewriteCond %{HTTP_USER_AGENT}  APT.*\(0\.7\.1[0-9]
 RewriteRule ^binary/(.*)\.deb$  /<%= @name %>/direct/$1.deb [L]
