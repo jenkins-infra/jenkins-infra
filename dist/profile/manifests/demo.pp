@@ -1,7 +1,7 @@
 #
 # Run a demo instance of Jenkins in a Docker container
 class profile::demo(
-$image_tag = '2.0-alpha-2',
+$image_tag = '2.1'
 ) {
   include profile::docker
   include profile::apachemisc
