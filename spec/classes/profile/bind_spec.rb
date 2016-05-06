@@ -24,4 +24,13 @@ describe 'profile::bind' do
       it { should contain_file('/etc/bind/local/jenkins.io.zone') }
     end
   end
+
+  context 'DNS monitoring' do
+    it 'should contain a datadog_check for DNS' do
+      expect(subject).to contain_file('datadog-dns-check-config').with({
+        :path => '/etc/dd-agent/conf.d/dns_check.yaml',
+        :ensure => :present,
+      })
+    end
+  end
 end

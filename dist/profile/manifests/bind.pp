@@ -37,6 +37,12 @@ class profile::bind (
     require => File[$conf_dir],
   }
 
+  file { 'datadog-dns-check-config':
+    ensure => present,
+    path   => "${::datadog_agent::params::conf_dir}/dns_check.yaml",
+    source => "puppet:///modules/${module_name}/bind/dns_check.yaml",
+  }
+
   docker::image { 'jenkinsciinfra/bind':
     image_tag => $image_tag,
   }
