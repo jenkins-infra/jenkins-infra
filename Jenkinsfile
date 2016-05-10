@@ -3,6 +3,10 @@
 def nodeLabel = 'docker'
 def dockerImage = 'rtyler/jenkins-infra-builder'
 
+/* Only keep the 10 most recent builds. */
+properties([[$class: 'BuildDiscarderProperty',
+                strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
+
 parallel(lint: {
             node(nodeLabel) {
                 runInside(dockerImage) {
