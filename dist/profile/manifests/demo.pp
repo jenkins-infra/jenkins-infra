@@ -17,7 +17,7 @@ $image_tag = '2.1'
 
   docker::run { $site:
     username        => $uid,
-    volumes         => ['/srv/demo:/var/jenkins_home'],
+    volumes         => ['/srv/demo:/var/jenkins_home','/srv/demo/passwd:/etc/passwd'],
     image           => "${image}:${image_tag}",
     ports           => ['8080:8080'],
     restart_service => true,
@@ -25,7 +25,7 @@ $image_tag = '2.1'
     require         => [
       Class['::docker'],
       Docker::Image[$image],
-      File['/srv/demo'],
+      File['/srv/demo/passwd'],
       User[$user],
     ],
   }
@@ -44,6 +44,11 @@ $image_tag = '2.1'
 
   file { "/var/log/apache2/${site}.jenkins-ci.org":
     ensure => directory,
+  }
+
+  file { '/srv/demo/passwd':
+    ensure  => present,
+    content => template("${module_name}/demo/passwd.erb"),
   }
 
   apache::vhost { "${site}.jenkins-ci.org":
