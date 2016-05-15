@@ -21,4 +21,4 @@ systemd-network:x:101:104:systemd Network Management,,,:/run/systemd/netif:/bin/
 systemd-resolve:x:102:105:systemd Resolver,,,:/run/systemd/resolve:/bin/false
 systemd-bus-proxy:x:103:106:systemd Bus Proxy,,,:/run/systemd:/bin/false
 messagebus:x:104:108::/var/run/dbus:/bin/false
-jenkins:x:1000:1000::/var/jenkins_home:/bin/bash
+jenkins:x:<%= @uid %>:<%= @uid %>::/var/jenkins_home:/bin/bash
