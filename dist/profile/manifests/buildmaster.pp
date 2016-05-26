@@ -99,7 +99,8 @@ class profile::buildmaster(
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
 
   file { [$apache_log_dir, $docroot,]:
-    ensure => directory,
+    ensure  => directory,
+    require => Package['httpd'],
   }
 
   apache::vhost { $ci_fqdn:
