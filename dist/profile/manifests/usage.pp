@@ -9,14 +9,70 @@
 class profile::usage(
   $docroot    = '/var/www/usage.jenkins.io',
   $usage_fqdn = 'usage.jenkins.io',
+  $home_dir   = '/var/log/usage-stats',
+  $user       = 'usagestats',
+  $group      = 'usagestats',
+  $ssh_keys   = undef,
 ) {
   include ::stdlib
   include ::apache
+  include profile::accounts
   include profile::apachemisc
   include profile::firewall
 
   validate_string($docroot)
   validate_string($usage_fqdn)
+  validate_string($user)
+  validate_string($group)
+  validate_string($home_dir)
+
+
+  if $ssh_keys != undef {
+    validate_hash($ssh_keys)
+  }
+
+  ## Download/Upload usage data permissions
+  ############################
+  ## The usage stats are (currently) downloaded by a machine at Kohsuke's house
+  ## where they are decrypted and then re-uploaded to this host for processing
+  ############################
+
+  # This wrapper script will not be necessary after Kohsuke's scripts migrate
+  # away from using his own user
+  file { '/home/kohsuke/sudo-rsync':
+    ensure  => file,
+    mode    => '0755',
+    content => '#!/bin/sh
+exec rsync "$@"',
+    require => User['kohsuke'],
+  }
+
+  group { $group :
+    ensure => present,
+  }
+
+  account { $user:
+    manage_home    => true,
+    create_group   => false,
+    # Ensure that our homedir is group-readable/writable so that legacy users
+    # (e.g. the `kohsuke` user) can write into it properly
+    home_dir_perms => '0775',
+    home_dir       => $home_dir,
+    gid            => $group,
+    ssh_keys       => $ssh_keys,
+    require        => Group[$group],
+  }
+
+  exec { 'add-kohsuke-to-usage-group':
+    unless  => 'grep -q "usagestats\\S*kohsuke" /etc/group',
+    command => "usermod -aG ${group} kohsuke",
+    path    => ['/sbin', '/bin', '/usr/sbin'],
+    require => [
+      Group[$group],
+      User['kohsuke'],
+    ],
+  }
+  ##
 
   $apache_log_dir = "/var/log/apache2/${usage_fqdn}"
 

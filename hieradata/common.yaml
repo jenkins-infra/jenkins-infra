@@ -222,6 +222,12 @@ ssh::client::options:
 # Hash of SSH keys to be used for pushing releases into the mirrorbrain host
 profile::mirrorbrain::ssh_keys:
 
+# Hash of SSH keys to be used for downloading encrypted usage-stats and
+# uploading decrypted/anonymized ones
+profile::usage::ssh_keys:
+  sol:
+    key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
+
 # Pre-shared key for configuring the r10k webhook server
 r10k::webhook::config::protected: false
 r10k::webhook::config::use_mcollective: false

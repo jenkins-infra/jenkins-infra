@@ -11,6 +11,7 @@ describe 'profile::usage' do
     end
 
     it { should contain_class 'apache' }
+    it { should contain_class 'profile::accounts' }
     it { should contain_class 'profile::apachemisc' }
     it { should contain_class 'profile::firewall' }
 
@@ -53,6 +54,53 @@ describe 'profile::usage' do
         :docroot => params[:docroot],
         :options => 'Indexes FollowSymLinks MultiViews',
         :override => ['All'],
+      })
+    end
+  end
+
+  context 'usagestats account support' do
+    let(:params) do
+      {
+        :user => 'rspecuser',
+        :group => 'rspecuser',
+      }
+    end
+
+    it 'should set up the home dir' do
+      # This path is legacy :/
+      expect(subject).to contain_file("#{params[:user]}_home").with({
+        :ensure => :directory,
+        :owner => params[:user],
+        :path => '/var/log/usage-stats',
+      })
+    end
+
+    it { should contain_user(params[:user]) }
+    it { should contain_group(params[:user]) }
+  end
+
+  context 'legacy support' do
+    let(:params) do
+      {
+        :group => 'rspeclegacygroup',
+      }
+    end
+
+    it { should contain_user('kohsuke') }
+
+    it 'should add the `kohsuke` user to the usage group' do
+      expect(subject).to contain_exec('add-kohsuke-to-usage-group').with({
+        :command => "usermod -aG #{params[:group]} kohsuke",
+      })
+    end
+
+    it "should have /home/kohsuke/sudo-rsync for kohsuke's old scripts" do
+      expect(subject).to contain_file('/home/kohsuke/sudo-rsync').with({
+        :ensure => :file,
+        :content => '#!/bin/sh
+exec rsync "$@"',
+        :mode => '0755',
+        :require => 'User[kohsuke]',
       })
     end
   end
