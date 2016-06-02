@@ -38,7 +38,7 @@ radish      3600    IN    A    140.211.9.94      ; otherwise known as jenkins-ra
 ldap        3600    IN    A    52.23.244.165  ; jenkins-ldap
 rating      3600    IN    A    52.23.130.110  ; jenkins-ratings
 mirrors     3600    IN    A    52.202.51.185  ; jenkins-mirrorbrain
-ci          3600    IN    A    54.173.158.235 ; jenkins-ci
+ci          3600    IN    A    52.71.231.250  ; jenkins-ci
 l10n        3600    IN    A    54.88.79.38    ; jenkins-l10n
 census      3600    IN    A    52.202.38.86   ; jenkins-census
 usage       3600    IN    A    52.204.62.78   ; jenkins-usage
