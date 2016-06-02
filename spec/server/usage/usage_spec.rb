@@ -18,13 +18,22 @@ describe 'usage' do
     end
   end
 
+  context '/var/log/usage-stats' do
+    describe file('/var/log/usage-stats') do
+      it { should be_directory }
+      it { should be_owned_by 'usagestats' }
+    end
+  end
+
   context '/var/www/usage.jenkins.io' do
     describe file('/var/www/usage.jenkins.io') do
       it { should be_directory }
+      it { should be_owned_by 'www-data' }
     end
 
     describe file('/var/www/usage.jenkins.io/usage-stats.js') do
       it { should be_file }
+      it { should be_owned_by 'www-data' }
     end
   end
 end
