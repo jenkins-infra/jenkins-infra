@@ -107,6 +107,11 @@ node 'census' {
   include role::census
 }
 
+node 'usage' {
+  sshkeyman::hostkey { ['usage.jenkins.io', 'usage.jenkins-ci.org']: }
+  include role::usage
+}
+
 node 'ratings' {
   sshkeyman::hostkey { ['ratings.jenkins.io']: }
   include role::rating
