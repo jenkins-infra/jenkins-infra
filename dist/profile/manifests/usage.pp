@@ -78,6 +78,9 @@ exec rsync "$@"',
 
   file { $docroot:
     ensure  => directory,
+    owner   => 'www-data',
+    group   => $group,
+    mode    => '0775',
     require => Package['httpd'],
   }
 
@@ -85,11 +88,16 @@ exec rsync "$@"',
     ensure  => file,
     path    => "${docroot}/usage-stats.js",
     content => '// usage statistics submission comes to this URL',
+    owner   => 'www-data',
+    group   => $group,
+    mode    => '0775',
     require => File[$docroot],
   }
 
   file { $apache_log_dir:
     ensure => directory,
+    group  => $group,
+    mode   => '0775',
   }
 
   apache::vhost { $usage_fqdn:
