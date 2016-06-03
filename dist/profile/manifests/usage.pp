@@ -9,13 +9,14 @@
 class profile::usage(
   $docroot    = '/var/www/usage.jenkins.io',
   $usage_fqdn = 'usage.jenkins.io',
-  $home_dir   = '/var/log/usage-stats',
   $user       = 'usagestats',
   $group      = 'usagestats',
   $ssh_keys   = undef,
 ) {
   include ::stdlib
   include ::apache
+  # volume configuration is in hiera
+  include ::lvm
   include profile::accounts
   include profile::apachemisc
   include profile::firewall
@@ -24,12 +25,42 @@ class profile::usage(
   validate_string($usage_fqdn)
   validate_string($user)
   validate_string($group)
-  validate_string($home_dir)
-
 
   if $ssh_keys != undef {
     validate_hash($ssh_keys)
   }
+
+  # This path hard-coded in hiera
+  $home_dir = '/srv/usage'
+
+  ## Volume setup
+  ############################
+  if str2bool($::vagrant) {
+    # during serverspec test, fake /dev/xvdb by a loopback device
+    exec { 'create /tmp/xvdb':
+      command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
+      unless  => 'test -f /tmp/xvdb',
+      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+      before  => Physical_volume['/dev/loop0'],
+    }
+  }
+
+  package { 'lvm2':
+    ensure => present,
+  }
+
+  $mounted_logs_dir = "${home_dir}/apache-logs"
+  $mounted_stats_dir = "${home_dir}/usage-stats"
+
+  file { [$mounted_logs_dir, $mounted_stats_dir]:
+    ensure  => directory,
+    owner   => $user,
+    group   => $group,
+    mode    => '0775',
+    require => Mount[$home_dir],
+  }
+  ############################
+
 
   ## Download/Upload usage data permissions
   ############################
@@ -95,10 +126,31 @@ exec rsync "$@"',
   }
 
   file { $apache_log_dir:
-    ensure => directory,
-    group  => $group,
-    mode   => '0775',
+    ensure  => link,
+    group   => $group,
+    target  => $mounted_logs_dir,
+    require => [
+      Package['httpd'],
+      File[$mounted_logs_dir],
+    ],
   }
+
+  ## Legacy mappings
+  ############################
+  file { '/var/log/apache2/usage.jenkins-ci.org':
+    ensure  => link,
+    group   => $group,
+    target  => $apache_log_dir,
+    require => File[$apache_log_dir],
+  }
+
+  file { '/var/log/usage-stats':
+    ensure  => link,
+    target  => $mounted_stats_dir,
+    require => File[$mounted_stats_dir],
+  }
+  ############################
+
 
   apache::vhost { $usage_fqdn:
     port            => 443,
@@ -110,7 +162,10 @@ exec rsync "$@"',
     docroot         => $docroot,
     error_log_file  => "${usage_fqdn}/error.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
+    require         => [
+        File[$docroot],
+        File[$apache_log_dir],
+    ],
   }
 
   apache::vhost { "${usage_fqdn} unsecured":
@@ -123,6 +178,9 @@ exec rsync "$@"',
     docroot         => $docroot,
     error_log_file  => "${usage_fqdn}/error_nonssl.log",
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
+    require         => [
+        File[$docroot],
+        File[$apache_log_dir],
+    ],
   }
 }
