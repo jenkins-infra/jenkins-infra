@@ -3,7 +3,6 @@ require 'spec_helper'
 describe 'profile::usage' do
   it { should contain_class 'profile::usage' }
 
-
   context 'mounted volume setup' do
     let(:volume) { '/srv/usage' }
     it { should contain_class 'lvm' }
@@ -36,6 +35,7 @@ describe 'profile::usage' do
     it { should contain_class 'profile::accounts' }
     it { should contain_class 'profile::apachemisc' }
     it { should contain_class 'profile::firewall' }
+    it { should contain_class 'profile::letsencrypt' }
 
     it 'should contain File[$docroot]' do
       expect(subject).to contain_file(params[:docroot]).with({
@@ -78,6 +78,39 @@ describe 'profile::usage' do
         :options => 'Indexes FollowSymLinks MultiViews',
         :override => ['All'],
       })
+    end
+
+    it 'usage.jenkins-ci.org' do
+      expect(subject).to contain_apache__vhost('usage.jenkins-ci.org').with({
+        :port => 443,
+        :ssl => true,
+        :docroot => params[:docroot],
+        :ssl_key   => '/etc/apache2/legacy_cert.key',
+        :ssl_chain => '/etc/apache2/legacy_chain.crt',
+        :ssl_cert  => '/etc/apache2/legacy_cert.crt',
+        :redirect_dest => 'https://usage.jenkins.io/',
+      })
+    end
+
+    context 'in a production environment' do
+      let(:fqdn) { 'usage.jenkins.io' }
+      let(:facts) do
+        {
+          :environment => 'production',
+        }
+      end
+
+      it { should contain_letsencrypt__certonly(fqdn) }
+
+      it 'should configure the letsencrypt ssl keys on the vhost' do
+        expect(subject).to contain_apache__vhost(fqdn).with({
+          :servername => fqdn,
+          :port => 443,
+          :ssl_key => "/etc/letsencrypt/live/#{fqdn}/privkey.pem",
+          :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/cert.pem",
+          :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
+        })
+      end
     end
   end
 

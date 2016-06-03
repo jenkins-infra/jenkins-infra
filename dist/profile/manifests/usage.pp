@@ -20,6 +20,7 @@ class profile::usage(
   include profile::accounts
   include profile::apachemisc
   include profile::firewall
+  include profile::letsencrypt
 
   validate_string($docroot)
   validate_string($usage_fqdn)
@@ -153,9 +154,6 @@ exec rsync "$@"',
 
 
   apache::vhost { $usage_fqdn:
-    serveraliases   => [
-      'usage.jenkins-ci.org',
-    ],
     port            => 443,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
@@ -188,5 +186,64 @@ exec rsync "$@"',
         File[$docroot],
         File[$apache_log_dir],
     ],
+  }
+
+  # Legacy (usage.jenkins-ci.org) SSL host with the legacy SSL key
+  file { '/etc/apache2/legacy_cert.key':
+    ensure  => present,
+    content => hiera('ssl_legacy_key'),
+    require => Package['httpd'],
+  }
+
+  file { '/etc/apache2/legacy_chain.crt':
+    ensure  => present,
+    content => hiera('ssl_legacy_chain'),
+    require => Package['httpd'],
+  }
+  file { '/etc/apache2/legacy_cert.crt':
+    ensure  => present,
+    content => hiera('ssl_legacy_cert'),
+    require => Package['httpd'],
+  }
+
+  # Since usage stats are reported via the browser instead of the Jenkins
+  # master itself, we can just redirect from usage.jenkins-ci.org to
+  # usage.jenkins.io and let usage.jenkins.io log the access
+  # https://github.com/jenkinsci/jenkins/blob/5416411/core/src/main/resources/hudson/model/UsageStatistics/footer.jelly
+  apache::vhost { 'usage.jenkins-ci.org':
+    docroot         => $docroot,
+    port            => 443,
+    ssl             => true,
+    ssl_key         => '/etc/apache2/legacy_cert.key',
+    ssl_chain       => '/etc/apache2/legacy_chain.crt',
+    ssl_cert        => '/etc/apache2/legacy_cert.crt',
+    override        => ['All'],
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://usage.jenkins.io/',
+    require         => [
+      File['/etc/apache2/legacy_cert.crt'],
+      File['/etc/apache2/legacy_cert.key'],
+      File['/etc/apache2/legacy_chain.crt'],
+      Apache::Vhost[$usage_fqdn],
+    ],
+  }
+
+
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { $usage_fqdn:
+      domains     => [$usage_fqdn],
+      plugin      => 'apache',
+      manage_cron => true,
+    }
+
+    Apache::Vhost <| title == $usage_fqdn |> {
+      ssl_key   => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
+      ssl_cert  => "/etc/letsencrypt/live/${usage_fqdn}/cert.pem",
+      ssl_chain => "/etc/letsencrypt/live/${usage_fqdn}/chain.pem",
+    }
   }
 }
