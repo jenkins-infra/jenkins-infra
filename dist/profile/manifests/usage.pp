@@ -153,6 +153,9 @@ exec rsync "$@"',
 
 
   apache::vhost { $usage_fqdn:
+    serveraliases   => [
+      'usage.jenkins-ci.org',
+    ],
     port            => 443,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
@@ -170,6 +173,9 @@ exec rsync "$@"',
 
   apache::vhost { "${usage_fqdn} unsecured":
     servername      => $usage_fqdn,
+    serveraliases   => [
+      'usage.jenkins-ci.org',
+    ],
     port            => 80,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more

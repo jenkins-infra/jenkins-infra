@@ -54,7 +54,7 @@ l10n        3600    IN    CNAME    l10n.jenkins.io.
 javadoc     3600    IN    CNAME    cucumber
 mirrors     3600    IN    CNAME    mirrors.jenkins.io.
 pkg         3600    IN    CNAME    pkg.jenkins.io.
-usage       3600    IN    CNAME    cucumber
+usage       3600    IN    CNAME    usage.jenkins.io.
 stacktrace  3600    IN    CNAME    cucumber
 sorcerer    3600    IN    CNAME    cucumber
 stats       3600    IN    CNAME    cucumber
