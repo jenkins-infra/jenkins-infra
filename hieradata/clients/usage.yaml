@@ -1,0 +1,9 @@
+---
+lvm::volume_groups:
+  data:
+    physical_volumes:
+      - /dev/xvdb
+    logical_volumes:
+      usage:
+        size: 100G
+        mountpath: /srv/usage
