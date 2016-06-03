@@ -2,7 +2,7 @@
 lvm::volume_groups:
   data:
     physical_volumes:
-      - /dev/xvdb
+      - /dev/xvdf
     logical_volumes:
       usage:
         size: 100G
