@@ -18,11 +18,27 @@ describe 'usage' do
     end
   end
 
-  context '/var/log/usage-stats' do
-    describe file('/var/log/usage-stats') do
+  context '/srv/usage' do
+    describe file('/srv/usage/usage-stats') do
       it { should be_directory }
       it { should be_owned_by 'usagestats' }
     end
+
+    describe file('/srv/usage/apache-logs') do
+      it { should be_directory }
+    end
+  end
+
+  describe file('/var/log/usage-stats') do
+    it { should be_symlink }
+  end
+
+  describe file('/var/log/apache2/usage.jenkins.io') do
+    it { should be_symlink }
+  end
+
+  describe file('/var/log/apache2/usage.jenkins-ci.org') do
+    it { should be_symlink }
   end
 
   context '/var/www/usage.jenkins.io' do

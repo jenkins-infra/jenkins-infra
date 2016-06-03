@@ -3,6 +3,28 @@ require 'spec_helper'
 describe 'profile::usage' do
   it { should contain_class 'profile::usage' }
 
+
+  context 'mounted volume setup' do
+    let(:volume) { '/srv/usage' }
+    it { should contain_class 'lvm' }
+    it { should contain_class 'stdlib' }
+    it { should contain_package 'lvm2' }
+
+    it 'should have an access log dir' do
+      expect(subject).to contain_file("#{volume}/apache-logs").with({
+        :ensure => :directory,
+        :require => "Mount[#{volume}]",
+      })
+    end
+
+    it 'should have a decrypted log dir' do
+      expect(subject).to contain_file("#{volume}/usage-stats").with({
+        :ensure => :directory,
+        :require => "Mount[#{volume}]",
+      })
+    end
+  end
+
   context 'apache setup' do
     let(:params) do
       {
@@ -33,7 +55,8 @@ describe 'profile::usage' do
 
     it 'should contain a logging directory' do
       expect(subject).to contain_file('/var/log/apache2/usage.jenkins.io').with({
-        :ensure => :directory,
+        :ensure => :link,
+        :target => '/srv/usage/apache-logs',
       })
     end
 
@@ -71,7 +94,7 @@ describe 'profile::usage' do
       expect(subject).to contain_file("#{params[:user]}_home").with({
         :ensure => :directory,
         :owner => params[:user],
-        :path => '/var/log/usage-stats',
+        :path => '/srv/usage',
       })
     end
 
@@ -84,6 +107,20 @@ describe 'profile::usage' do
       {
         :group => 'rspeclegacygroup',
       }
+    end
+
+    it 'should symlink /var/log/apache2/usage.jenkins-ci.org' do
+      expect(subject).to contain_file('/var/log/apache2/usage.jenkins-ci.org').with({
+        :ensure => :link,
+        :target => '/var/log/apache2/usage.jenkins.io',
+      })
+    end
+
+    it 'should symlink /var/log/usage-stats to /srv/usage' do
+      expect(subject).to contain_file('/var/log/usage-stats').with({
+        :ensure => :link,
+        :target => '/srv/usage/usage-stats',
+      })
     end
 
     it { should contain_user('kohsuke') }
