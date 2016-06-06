@@ -61,7 +61,7 @@ echo ">> Triggering remote mirroring script"
 ssh $HOST "sh trigger-jenkins"
 
 echo ">> move index from staging to production"
-(cd /var/www && rsync --omit-dir-times -av pkg.jenkins-ci.org.staging/ pkg.jenkins.io/)
+(cd /var/www && rsync --omit-dir-times -av pkg.jenkins.io.staging/ pkg.jenkins.io/)
 
 # This section of the script aims to ensure that at least one of our primary mirrors has the
 # "big" archives before we complete execution. This will help prevent users from unexpectedly
