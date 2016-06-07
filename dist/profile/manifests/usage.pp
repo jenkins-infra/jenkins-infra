@@ -220,6 +220,8 @@ exec rsync "$@"',
     override        => ['All'],
     redirect_status => 'permanent',
     redirect_dest   => 'https://usage.jenkins.io/',
+    # Blackhole all these redirect logs https://issues.jenkins-ci.org/browse/INFRA-739
+    access_log_file => '/dev/null',
     require         => [
       File['/etc/apache2/legacy_cert.crt'],
       File['/etc/apache2/legacy_cert.key'],
