@@ -9,10 +9,39 @@ describe 'profile::census' do
 
   it { should contain_package('httpd').with(:name => 'apache2') }
   it { should contain_apache__vhost 'census.jenkins.io' }
+
+  it 'should have the usage public key in authorized keys' do
+    expect(subject).to contain_ssh_authorized_key('usage').with({
+      :user => 'www-data',
+      :type => 'ssh-rsa',
+    })
+  end
 end
 
 
 describe 'profile::census::agent' do
+  let(:params) do
+    {
+      :user => 'jenkins',
+      :home_dir => '/var/lib/jenkins',
+    }
+  end
+
   it { should contain_class 'profile::census::agent' }
   it { should contain_class 'stdlib' }
+
+  it 'should have the usage private key' do
+    expect(subject).to contain_file("#{params[:home_dir]}/.ssh/usage").with({
+      :ensure => :file,
+      :owner => params[:user],
+      :mode => '0600',
+    })
+  end
+
+  it 'should have the usage public key' do
+    expect(subject).to contain_ssh_authorized_key('usage').with({
+      :user => params[:user],
+      :type => 'ssh-rsa',
+    })
+  end
 end

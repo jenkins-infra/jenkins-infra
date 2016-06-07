@@ -95,6 +95,12 @@ exec rsync "$@"',
     require        => Group[$group],
   }
 
+  ssh_authorized_key { 'usage':
+    type => 'ssh-rsa',
+    user => $user,
+    key  => hiera('usage_ssh_pubkey'),
+  }
+
   exec { 'add-kohsuke-to-usage-group':
     unless  => 'grep -q "usagestats\\S*kohsuke" /etc/group',
     command => "usermod -aG ${group} kohsuke",
@@ -221,6 +227,7 @@ exec rsync "$@"',
     redirect_status => 'permanent',
     redirect_dest   => 'https://usage.jenkins.io/',
     # Blackhole all these redirect logs https://issues.jenkins-ci.org/browse/INFRA-739
+
     access_log_file => '/dev/null',
     require         => [
       File['/etc/apache2/legacy_cert.crt'],

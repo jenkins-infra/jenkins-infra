@@ -133,6 +133,13 @@ describe 'profile::usage' do
 
     it { should contain_user(params[:user]) }
     it { should contain_group(params[:user]) }
+
+    it 'should have the usage public key in authorized keys' do
+      expect(subject).to contain_ssh_authorized_key('usage').with({
+        :user => params[:user],
+        :type => 'ssh-rsa',
+      })
+    end
   end
 
   context 'legacy support' do
