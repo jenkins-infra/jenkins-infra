@@ -78,6 +78,7 @@ node 'cabbage' {
 node 'kelp' {
   sshkeyman::hostkey { ['kelp.jenkins.io', 'kelp.jenkins-ci.org']: }
   include role::kelp
+  include role::census::agent
 }
 
 # eggplant
