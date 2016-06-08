@@ -94,9 +94,10 @@ exec rsync "$@"',
   }
 
   ssh_authorized_key { 'usage':
-    type => 'ssh-rsa',
-    user => $user,
-    key  => hiera('usage_ssh_pubkey'),
+    type    => 'ssh-rsa',
+    user    => $user,
+    key     => hiera('usage_ssh_pubkey'),
+    require => Account[$user],
   }
 
   exec { 'add-kohsuke-to-usage-group':
