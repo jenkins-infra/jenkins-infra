@@ -86,9 +86,7 @@ exec rsync "$@"',
   account { $user:
     manage_home    => true,
     create_group   => false,
-    # Ensure that our homedir is group-readable/writable so that legacy users
-    # (e.g. the `kohsuke` user) can write into it properly
-    home_dir_perms => '0775',
+    home_dir_perms => '0755',
     home_dir       => $home_dir,
     gid            => $group,
     ssh_keys       => $ssh_keys,
