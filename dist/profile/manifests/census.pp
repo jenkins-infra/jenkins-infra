@@ -38,6 +38,28 @@ class profile::census(
     mode   => '0750',
   }
 
+  # the www-data user's home dir is determined by the native package
+  $home_dir = '/var/www'
+
+  file { "${home_dir}/.ssh":
+    ensure  => directory,
+    owner   => $user,
+    mode    => '0700',
+    require => File[$home_dir],
+  }
+
+  ensure_resource('file', $home_dir, {
+    'ensure' => 'directory',
+    'owner'  => $user,
+  })
+
+  ssh_authorized_key { 'usage':
+    type    => 'ssh-rsa',
+    user    => $user,
+    key     => hiera('usage_ssh_pubkey'),
+    require => File["${home_dir}/.ssh"],
+  }
+
   file { "${conf_dir}/anonymized-passwords":
     ensure  => present,
     owner   => $user,
