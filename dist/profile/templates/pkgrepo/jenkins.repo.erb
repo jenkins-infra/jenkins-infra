@@ -1,4 +1,4 @@
 [jenkins]
-name=Jenkins
+name=Jenkins<%= @name.gsub(/redhat/, '') %>
 baseurl=http://pkg.jenkins-ci.org/<%= @name %>
 gpgcheck=1
