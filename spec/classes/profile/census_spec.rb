@@ -12,8 +12,16 @@ describe 'profile::census' do
 
   it 'should have the usage public key in authorized keys' do
     expect(subject).to contain_ssh_authorized_key('usage').with({
-      :user => 'www-data',
+      :user => 'census',
       :type => 'ssh-rsa',
+    })
+  end
+
+  it 'should manage the docroot under the user home_dir' do
+    expect(subject).to contain_file('/srv/census/census').with({
+      :ensure => :directory,
+      :owner => 'census',
+      :mode => '0755',
     })
   end
 end
