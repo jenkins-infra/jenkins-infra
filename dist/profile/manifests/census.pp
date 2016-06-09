@@ -90,6 +90,7 @@ class profile::census(
     log_level       => 'warn',
     custom_fragment => template("${module_name}/census/vhost.conf"),
     options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
+    override        => ['All'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/census.jenkins.io'],
                         File["${conf_dir}/monthly-passwords"],
