@@ -2,14 +2,16 @@
 # Defines an census server for serving census datasets
 #
 class profile::census(
-  $census_dir = '/srv/census',
-  $conf_dir   = '/etc/census',
-  $user       = 'www-data',
+  $home_dir = '/srv/census',
+  $user     = 'census',
+  $group    = 'census',
 ) {
   include ::stdlib
   # volume configuration is in hiera
   include ::lvm
   include profile::apachemisc
+
+  $docroot = "${home_dir}/census"
 
   if str2bool($::vagrant) {
     # during serverspec test, fake /dev/xvdb by a loopback device
@@ -25,33 +27,25 @@ class profile::census(
     ensure => present,
   }
 
-  file { $census_dir:
+  group { $group:
+    ensure => present,
+  }
+
+  account { $user:
+    manage_home    => true,
+    create_group   => false,
+    home_dir_perms => '0755',
+    home_dir       => $home_dir,
+    gid            => $group,
+    require        => Group[$group],
+  }
+
+  file { $docroot:
     ensure  => directory,
     owner   => $user,
-    require => [Package['httpd'],
-                Mount[$census_dir]],
+    mode    => '0755',
+    require => Account[$user],
   }
-
-  file { $conf_dir:
-    ensure => directory,
-    owner  => $user,
-    mode   => '0750',
-  }
-
-  # the www-data user's home dir is determined by the native package
-  $home_dir = '/var/www'
-
-  file { "${home_dir}/.ssh":
-    ensure  => directory,
-    owner   => $user,
-    mode    => '0700',
-    require => File[$home_dir],
-  }
-
-  ensure_resource('file', $home_dir, {
-    'ensure' => 'directory',
-    'owner'  => $user,
-  })
 
   ssh_authorized_key { 'usage':
     type    => 'ssh-rsa',
@@ -67,7 +61,7 @@ class profile::census(
   apache::vhost { 'census.jenkins.io':
     vhost_name      => '*',
     port            => '80',
-    docroot         => $census_dir,
+    docroot         => $docroot,
     access_log      => false,
     error_log_file  => 'census.jenkins.io/error.log',
     log_level       => 'warn',
@@ -76,8 +70,7 @@ class profile::census(
     override        => ['All'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/census.jenkins.io'],
-                        File["${conf_dir}/monthly-passwords"],
-                        File["${conf_dir}/anonymized-passwords"],
-                        Mount[$census_dir]],
+                        File[$docroot],
+                        Mount[$home_dir]],
   }
 }
