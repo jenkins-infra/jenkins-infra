@@ -60,23 +60,6 @@ class profile::census(
     require => File["${home_dir}/.ssh"],
   }
 
-  file { "${conf_dir}/anonymized-passwords":
-    ensure  => present,
-    owner   => $user,
-    mode    => '0600',
-    source  => "puppet:///modules/${module_name}/census/anonymized-passwords",
-    require => File[$conf_dir],
-  }
-
-  file { "${conf_dir}/monthly-passwords":
-    ensure  => present,
-    owner   => $user,
-    mode    => '0600',
-    source  => "puppet:///modules/${module_name}/census/monthly-passwords",
-    require => File[$conf_dir],
-  }
-
-
   file { '/var/log/apache2/census.jenkins.io':
     ensure => directory,
   }
