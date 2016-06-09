@@ -15,6 +15,7 @@ profile::buildmaster::plugins:
   - github
   - github-branch-source
   - github-organization-folder
+  - groovy
   - jobConfigHistory
   - ldap
   - mailer
