@@ -6,5 +6,6 @@ describe 'census_agent' do
   describe file('/home/jenkins/.ssh/config') do
     it { should be_file }
     it { should contain /Host usage.jenkins.io/ }
+    it { should contain /Host census.jenkins.io/ }
   end
 end

@@ -22,10 +22,14 @@ class profile::census::agent(
     user_home_dir       => $home_dir,
     manage_user_ssh_dir => false,
     options             => {
-      'Host usage.jenkins.io' => {
+      'Host usage.jenkins.io'  => {
         'User'         => 'usagestats',
         'IdentityFile' => "${home_dir}/.ssh/usage",
-      }
+      },
+      'Host census.jenkins.io' => {
+        'User'         => 'census',
+        'IdentityFile' => "${home_dir}/.ssh/usage",
+      },
     },
     require             => File["${home_dir}/.ssh"],
   }
