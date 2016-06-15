@@ -9,7 +9,7 @@ class profile::accountapp(
   $smtp_server = 'localhost',
   $recaptcha_key = '',
   $app_url = 'https://accounts.jenkins.io/',
-  $jira_url = 'http://issues.jenkins-ci.org/rpc/soap/jirasoapservice-v2',
+  $jira_url = 'http://issues.jenkins-ci.org/',
   $jira_username = accountapp,
   $jira_password = '',
 ) {
