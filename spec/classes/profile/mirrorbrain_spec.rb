@@ -112,6 +112,18 @@ describe 'profile::mirrorbrain' do
       })
     end
 
+    it 'should manage ssh client configuration' do
+      expect(subject).to contain_ssh__client__config__user(params[:user])
+    end
+
+    it 'should provision the OSUOSL mirroring private key' do
+      expect(subject).to contain_file('osuosl_mirror').with({
+          :ensure => :present,
+          :mode => '0600',
+          :owner => params[:user],
+      })
+    end
+
     context 'with ssh_keys => []' do
       let(:params) do
         {

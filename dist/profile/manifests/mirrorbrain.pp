@@ -25,6 +25,10 @@ class profile::mirrorbrain (
   $mirrorbrain_conf = '/etc/mirrorbrain.conf'
   $mirmon_conf = '/etc/mirmon.conf'
 
+  File {
+    ensure => present,
+  }
+
   group { $group:
     ensure => present,
   }
@@ -44,9 +48,30 @@ class profile::mirrorbrain (
     require        => Group[$group],
   }
 
-  # Default all our files to our $user/$group
-  File {
-    ensure => present,
+  ::ssh::client::config::user { $user :
+    ensure              => present,
+    user_home_dir       => $home_dir,
+    manage_user_ssh_dir => false,
+    options             => {
+        'Host ftp-osl.osuosl.org'      => {
+            'IdentityFile' => "${home_dir}/.ssh/osuosl_mirror",
+        },
+        'Host archives.jenkins-ci.org' => {
+            'IdentityFile' => "${home_dir}/.ssh/archives",
+        },
+        'Host fallback.jenkins-ci.org' => {
+            'IdentityFile' => "${home_dir}/.ssh/archives",
+        },
+    },
+  }
+
+  file { 'osuosl_mirror':
+    path    => "${home_dir}/.ssh/osuosl_mirror",
+    owner   => $user,
+    group   => $group,
+    mode    => '0600',
+    content => hiera('osuosl_mirroring_privkey'),
+    require => Account[$user],
   }
 
   file { $docroot:
