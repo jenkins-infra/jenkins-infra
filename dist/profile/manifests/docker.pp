@@ -7,6 +7,7 @@ class profile::docker {
     # kernel modules on Ubuntu 12.04 LTS and restart the host machine anyways
     manage_kernel    => false,
     extra_parameters => '--storage-driver=aufs',
+    require          => Package['linux-image-extra'],
   }
 
   include datadog_agent::integrations::docker
@@ -22,5 +23,10 @@ class profile::docker {
     # traffic within docker is OK
     iniface => 'docker0',
     action  => 'accept',
+  }
+
+  package { 'linux-image-extra':
+    ensure => present,
+    name   => "linux-image-extra-${::kernelrelease}",
   }
 }
