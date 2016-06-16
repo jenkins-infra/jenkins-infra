@@ -19,6 +19,7 @@ profile::buildmaster::plugins:
   - jobConfigHistory
   - ldap
   - mailer
+  - parallel-test-executor
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent
