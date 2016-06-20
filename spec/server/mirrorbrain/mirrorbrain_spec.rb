@@ -23,4 +23,18 @@ describe 'mirrorbrain' do
   describe file('/etc/apache2/mods-enabled/geoip.conf') do
     it { should be_symlink }
   end
+
+  context 'pkgrepo' do
+    describe file('/srv/releases/jenkins') do
+      it { should be_directory }
+    end
+
+    ['jenkins.io.key', 'jenkins-ci.org.key'].each do |key|
+      ['debian', 'debian-stable'].each do |repo|
+        describe file("/var/www/pkg.jenkins.io/#{repo}/#{key}") do
+          it { should be_file }
+        end
+      end
+    end
+  end
 end

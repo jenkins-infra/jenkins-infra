@@ -62,6 +62,12 @@ class profile::pkgrepo (
     require => File[$docroot],
   }
 
+  file { suffix($repos, '/jenkins.io.key'):
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
+    require => File[$docroot],
+  }
+
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
     ensure    => present,
     docroot   => $docroot,
