@@ -116,10 +116,27 @@ class profile::mirrorbrain (
   ##########################
 
 
+  $conntrack_max = '131072'
+  # Double conntrack to ensure we can handle lots of connections
+  file { '/etc/sysctl.d/30-conntrack.conf':
+    ensure  => present,
+    content => "net.nf_conntrack_max = ${conntrack_max}
+",
+    # Without invoking this procps service, the sysctl.d defaults aren't
+    # properly loaded on boot under 14.04 LTS
+    notify  => Exec['reprocess-sysctld'],
+  }
+
+  exec { 'reprocess-sysctld':
+    command => '/usr/sbin/service procps start',
+    unless  => "/sbin/sysctl net.nf_conntrack_max | grep '${conntrack_max}'",
+    path    => ['/bin', '/sbin'],
+  }
+
 
   ## Managing PostgreSQL
   ##########################
-  ## 
+  ##
   ##########################
   if $manage_pgsql {
     class { 'postgresql::server':
