@@ -11,4 +11,13 @@ describe 'profile::letsencrypt' do
         },
     })
   end
+
+  # https://issues.jenkins-ci.org/browse/INFRA-812
+  it 'should create a cron for updating domains and apache certs' do
+    expect(subject).to contain_cron('letsencrypt-renew-reload').with({
+      :user => 'root',
+      :command => '/opt/letsencrypt/letsencrypt-auto renew --renew-hook="service apache2 reload"',
+      :hour => 12,
+    })
+  end
 end
