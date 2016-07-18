@@ -69,16 +69,6 @@ class profile::usage(
   ## where they are decrypted and then re-uploaded to this host for processing
   ############################
 
-  # This wrapper script will not be necessary after Kohsuke's scripts migrate
-  # away from using his own user
-  file { '/home/kohsuke/sudo-rsync':
-    ensure  => file,
-    mode    => '0755',
-    content => '#!/bin/sh
-exec rsync "$@"',
-    require => User['kohsuke'],
-  }
-
   group { $group :
     ensure => present,
   }
@@ -98,16 +88,6 @@ exec rsync "$@"',
     user    => $user,
     key     => hiera('usage_ssh_pubkey'),
     require => Account[$user],
-  }
-
-  exec { 'add-kohsuke-to-usage-group':
-    unless  => 'grep -q "usagestats\\S*kohsuke" /etc/group',
-    command => "usermod -aG ${group} kohsuke",
-    path    => ['/sbin', '/bin', '/usr/sbin'],
-    require => [
-      Group[$group],
-      User['kohsuke'],
-    ],
   }
   ##
 
