@@ -164,22 +164,6 @@ describe 'profile::usage' do
     end
 
     it { should contain_user('kohsuke') }
-
-    it 'should add the `kohsuke` user to the usage group' do
-      expect(subject).to contain_exec('add-kohsuke-to-usage-group').with({
-        :command => "usermod -aG #{params[:group]} kohsuke",
-      })
-    end
-
-    it "should have /home/kohsuke/sudo-rsync for kohsuke's old scripts" do
-      expect(subject).to contain_file('/home/kohsuke/sudo-rsync').with({
-        :ensure => :file,
-        :content => '#!/bin/sh
-exec rsync "$@"',
-        :mode => '0755',
-        :require => 'User[kohsuke]',
-      })
-    end
   end
 end
 
