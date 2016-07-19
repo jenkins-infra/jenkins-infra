@@ -57,7 +57,7 @@ pkg         3600    IN    CNAME    pkg.jenkins.io.
 usage       3600    IN    CNAME    usage.jenkins.io.
 stacktrace  3600    IN    CNAME    cucumber
 sorcerer    3600    IN    CNAME    cucumber
-stats       3600    IN    CNAME    cucumber
+stats       3600    IN    CNAME    stats.jenkins.io.
 maven       3600    IN    CNAME    cucumber
 maven2      3600    IN    CNAME    cucumber
 ci          3600    IN    CNAME    cucumber
