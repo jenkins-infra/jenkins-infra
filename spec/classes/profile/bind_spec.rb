@@ -17,11 +17,23 @@ describe 'profile::bind' do
       })
     end
 
+    it { should contain_exec 'sighup-named' }
+
     it { should contain_file('/etc/bind/local/named.conf.local') }
 
     context 'zones' do
-      it { should contain_file('/etc/bind/local/jenkins-ci.org.zone') }
-      it { should contain_file('/etc/bind/local/jenkins.io.zone') }
+      [
+        'jenkins-ci.org',
+        'jenkins.io',
+      ].each do |zone|
+        it "should have a zonefile for #{zone}" do
+          expect(subject).to contain_file("/etc/bind/local/#{zone}.zone").with({
+            :ensure => :present,
+            :notify => ['Service[docker-bind]', 'Exec[sighup-named]'],
+            :require => 'File[/etc/bind/local]',
+          })
+        end
+      end
     end
   end
 

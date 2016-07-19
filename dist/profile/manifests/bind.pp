@@ -18,14 +18,14 @@ class profile::bind (
 
   file { "${conf_dir}/jenkins-ci.org.zone":
     ensure  => present,
-    notify  => Service['docker-bind'],
+    notify  => [ Service['docker-bind'], Exec['sighup-named']],
     source  => "puppet:///modules/${module_name}/bind/jenkins-ci.org.zone",
     require => File[$conf_dir],
   }
 
   file { "${conf_dir}/jenkins.io.zone":
     ensure  => present,
-    notify  => Service['docker-bind'],
+    notify  => [ Service['docker-bind'], Exec['sighup-named']],
     source  => "puppet:///modules/${module_name}/bind/jenkins.io.zone",
     require => File[$conf_dir],
   }
@@ -57,6 +57,11 @@ class profile::bind (
       File["${conf_dir}/jenkins-ci.org.zone"],
     ],
     use_name => true,
+  }
+
+  exec { 'sighup-named':
+    refreshonly => true,
+    command     => '/usr/bin/pkill -HUP named',
   }
 
   firewall { '900 accept tcp DNS queries':
