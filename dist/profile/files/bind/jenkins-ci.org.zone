@@ -10,7 +10,7 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
                 )
 
 ; A Records
-@           3600    IN    A    199.193.196.24
+@           3600    IN    A    140.211.15.101
 
 ; Primary at Contegix
 cucumber    3600    IN    A    199.193.196.24
@@ -44,27 +44,27 @@ ns3         3600    IN    A    162.209.106.32 ; okra (Rackspace)
 ; CNAME Records
 www         3600    IN    CNAME    @
 issues      3600    IN    CNAME    edamame
-gherkin     3600    IN    CNAME    cucumber
-drupal      3600    IN    CNAME    cucumber
 wiki        3600    IN    CNAME    lettuce
 updates     3600    IN    CNAME    updates.jenkins.io.
+javadoc     3600    IN    CNAME    cucumber
+gherkin     3600    IN    CNAME    cucumber
+drupal      3600    IN    CNAME    cucumber
 downloads   3600    IN    CNAME    cucumber
 fisheye     3600    IN    CNAME    cucumber
+stacktrace  3600    IN    CNAME    cucumber
+sorcerer    3600    IN    CNAME    cucumber
+maven       3600    IN    CNAME    cucumber
+maven2      3600    IN    CNAME    cucumber
+ci          3600    IN    CNAME    ci.jenkins.io.
+svn         3600    IN    CNAME    cucumber
+javanet2    3600    IN    CNAME    cucumber
+ldap        3600    IN    CNAME    cucumber
 l10n        3600    IN    CNAME    l10n.jenkins.io.
-javadoc     3600    IN    CNAME    cucumber
 mirrors     3600    IN    CNAME    mirrors.jenkins.io.
 pkg         3600    IN    CNAME    pkg.jenkins.io.
 usage       3600    IN    CNAME    usage.jenkins.io.
-stacktrace  3600    IN    CNAME    cucumber
-sorcerer    3600    IN    CNAME    cucumber
 stats       3600    IN    CNAME    stats.jenkins.io.
-maven       3600    IN    CNAME    cucumber
-maven2      3600    IN    CNAME    cucumber
-ci          3600    IN    CNAME    cucumber
-svn         3600    IN    CNAME    cucumber
 meetings    3600    IN    CNAME    edamame
-javanet2    3600    IN    CNAME    cucumber
-ldap        3600    IN    CNAME    cucumber
 jekyll      3600    IN    CNAME    jenkinsci.github.io.
 git         3600    IN    CNAME    spinach
 boxes       3600    IN    CNAME    spinach
