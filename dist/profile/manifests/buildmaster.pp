@@ -104,6 +104,11 @@ class profile::buildmaster(
   }
 
   apache::vhost { $ci_fqdn:
+    serveraliases         => [
+      # Give all our buildmaster profiles this server alias; it's easier than
+      # parameterizing it for compatibility's sake
+      'ci.jenkins-ci.org',
+    ],
     require               => [
       File[$docroot],
       # We need our installation to be secure before we allow access
