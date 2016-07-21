@@ -117,11 +117,6 @@ class profile::staticsite(
     ],
     port          => '443',
     ssl           => true,
-    ssl_key       => '/etc/letsencrypt/live/jenkins.io/privkey.pem',
-    # When Apache is upgraded to >= 2.4.8 this should be changed to
-    # fullchain.pem
-    ssl_cert      => '/etc/letsencrypt/live/jenkins.io/cert.pem',
-    ssl_chain     => '/etc/letsencrypt/live/jenkins.io/chain.pem',
     docroot       => $beta_docroot,
     require       => File[$beta_docroot],
   }
@@ -145,6 +140,14 @@ class profile::staticsite(
         domains     => ['jenkins.io', 'www.jenkins.io'],
         plugin      => 'apache',
         manage_cron => true,
+    }
+
+    Apache::Vhost <| title == 'jenkins.io' |> {
+      ssl_key       => '/etc/letsencrypt/live/jenkins.io/privkey.pem',
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
+      ssl_cert      => '/etc/letsencrypt/live/jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/jenkins.io/chain.pem',
     }
   }
 }
