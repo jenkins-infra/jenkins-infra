@@ -6,11 +6,12 @@ class profile::catchall(
   include ::apache
   include profile::apachemisc
 
-
   $apache_log_dir = '/var/log/apache2/jenkins-ci.org'
+  $apache_maven_log_dir = '/var/log/apache2/maven.jenkins-ci.org'
+  $apache_stats_log_dir = '/var/log/apache2/stats.jenkins-ci.org'
   $docroot_user = 'www-data'
 
-  file { $apache_log_dir :
+  file { [$apache_maven_log_dir, $apache_log_dir, $apache_stats_log_dir] :
     ensure => directory,
   }
 
@@ -97,7 +98,7 @@ class profile::catchall(
   Redirect /100k                  https://jenkins.io/content/jenkins-celebration-day-february-26
 
   RedirectMatch permanent ^/((?!patron|maven-site|jenkins.jnlp).+)$ https://jenkins.io/$1
-    ',
+',
     require         => [
       File['/etc/apache2/legacy_cert.key'],
       File[$apache_log_dir],
@@ -116,6 +117,36 @@ class profile::catchall(
     override        => ['All'],
     error_log_file  => 'jenkins-ci.org/error_nonssl.log',
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => File[$docroot],
+  }
+
+  apache::vhost { 'maven.jenkins-ci.org' :
+    port            => 80,
+    docroot         => $docroot,
+    custom_fragment => '
+  RedirectMatch ^/content/repositories/releases/(.*) http://repo.jenkins-ci.org/releases/$1
+  RedirectMatch ^/content/repositories/snapshots/(.*) http://repo.jenkins-ci.org/snapshots/$1
+',
+    error_log_file  => 'maven.jenkins-ci.org/error_nonssl.log',
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_maven_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    require         => [
+      File[$docroot],
+      File[$apache_maven_log_dir],
+    ],
+  }
+
+  apache::vhost { 'stats.jenkins-ci.org' :
+    docroot         => $docroot,
+    port            => 80,
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://stats.jenkins.io/',
+    override        => ['All'],
+    error_log_file  => 'stats.jenkins-ci.org/error_nonssl.log',
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_stats_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => [
+      File[$docroot],
+      File[$apache_stats_log_dir],
+    ],
   }
 
   # Legacy update site compatibility
@@ -131,6 +162,7 @@ class profile::catchall(
     content => hiera('ssl_legacy_chain'),
     require => Package['httpd'],
   }
+
   file { '/etc/apache2/legacy_cert.crt':
     ensure  => present,
     content => hiera('ssl_legacy_cert'),

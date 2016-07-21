@@ -55,6 +55,9 @@ describe 'profile::catchall' do
       end
     end
 
-    it { pending 'INFRA-868'; should contain_apache__vhost('stats.jenkins-ci.org') }
+    # Legacy vhosts which I hope can perish at some point
+    # See INFRA-639
+    it { should contain_apache__vhost('stats.jenkins-ci.org') }
+    it { should contain_apache__vhost('maven.jenkins-ci.org') }
   end
 end
