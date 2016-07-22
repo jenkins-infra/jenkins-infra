@@ -139,7 +139,7 @@ class profile::catchall(
     docroot         => $docroot,
     port            => 80,
     redirect_status => 'permanent',
-    redirect_dest   => 'https://stats.jenkins.io/',
+    redirect_dest   => 'http://stats.jenkins.io/',
     override        => ['All'],
     error_log_file  => 'stats.jenkins-ci.org/error_nonssl.log',
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_stats_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
