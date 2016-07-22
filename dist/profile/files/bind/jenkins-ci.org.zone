@@ -63,7 +63,7 @@ l10n        3600    IN    CNAME    l10n.jenkins.io.
 mirrors     3600    IN    CNAME    mirrors.jenkins.io.
 pkg         3600    IN    CNAME    pkg.jenkins.io.
 usage       3600    IN    CNAME    usage.jenkins.io.
-stats       3600    IN    CNAME    stats.jenkins.io.
+stats       3600    IN    CNAME    @
 meetings    3600    IN    CNAME    edamame
 jekyll      3600    IN    CNAME    jenkinsci.github.io.
 git         3600    IN    CNAME    spinach
