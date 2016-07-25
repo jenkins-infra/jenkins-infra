@@ -54,6 +54,7 @@ updates     3600    IN    CNAME    mirrors ; updates.jenkins.io for delivering u
 archives    3600    IN    CNAME    okra ; archives.jenkins.io for delivering old releases
 fallback    3600    IN    CNAME    spinach ; fallback.jenkins.io for acting as a fallback mirror
 stats       3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for stats.jenkins.io which is hosted on GH pages
+patron      3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for patron.jenkins.io which is hosted on GH pages
 
 ; Magical CNAME for certificate validation
 D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.
