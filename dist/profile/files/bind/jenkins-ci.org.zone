@@ -46,7 +46,7 @@ www         3600    IN    CNAME    @
 issues      3600    IN    CNAME    edamame
 wiki        3600    IN    CNAME    lettuce
 updates     3600    IN    CNAME    updates.jenkins.io.
-javadoc     3600    IN    CNAME    cucumber
+javadoc     3600    IN    CNAME    javadoc.jenkins.io.
 gherkin     3600    IN    CNAME    cucumber
 drupal      3600    IN    CNAME    cucumber
 downloads   3600    IN    CNAME    cucumber
