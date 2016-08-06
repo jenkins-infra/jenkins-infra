@@ -177,6 +177,21 @@ class profile::ldap(
     action => 'accept',
   }
 
+  # 4th & 5th added by Aug 6 2016 transition
+  firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (fourth IP)':
+    proto  => 'tcp',
+    source => '104.196.52.71',
+    port   => 636,
+    action => 'accept',
+  }
+
+  firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (fifth IP)':
+    proto  => 'tcp',
+    source => '104.196.31.82',
+    port   => 636,
+    action => 'accept',
+  }
+
   firewall { '106 accept inbound LDAPS request from spambot':
     proto  => 'tcp',
     source => 'home.kohsuke.org',
