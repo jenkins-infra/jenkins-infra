@@ -4,7 +4,7 @@
 # https://github.com/jenkins-infra/javadoc/
 class profile::javadoc(
   $site_root = '/srv/javadoc',
-  $remote_archive = 'https://ci.jenkins.io/job/Infrastructure/job/javadoc/lastSuccessfulBuild/artifact/build/javadoc-site.tar.bz2'
+  $remote_archive = 'https://ci.jenkins.io/job/Infra/job/javadoc/job/master/lastSuccessfulBuild/artifact/build/javadoc-site.tar.bz2',
 ) {
   include ::apache
   include profile::apachemisc
