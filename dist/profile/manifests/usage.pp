@@ -147,7 +147,7 @@ class profile::usage(
     ssl             => true,
     docroot         => $docroot,
     error_log_file  => "${usage_fqdn}/error.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
     require         => [
         File[$docroot],
         File[$apache_log_dir],
@@ -166,7 +166,7 @@ class profile::usage(
     override        => ['All'],
     docroot         => $docroot,
     error_log_file  => "${usage_fqdn}/error_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 86400",
     require         => [
         File[$docroot],
         File[$apache_log_dir],
