@@ -25,7 +25,12 @@ parallel(lint: {
             node(nodeLabel) {
                 runInside(dockerImage) {
                     sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
-                    sh 'bundle exec rake spec'
+                    /* Some gems seem to want to stuff things into hidden
+                     * directories under $HOME, e.g.
+                     *   Could not initialize global default settings:
+                     *   Permission denied - /.puppetlabs
+                     */
+                    sh 'HOME=$PWD bundle exec rake spec'
                 }
             }
         },
@@ -38,11 +43,23 @@ def validateZoneFor(dnsZone, dockerImage) {
 }
 
 def runInside(String dockerImage, Closure c) {
+    /* These environment variables make it feasible for Git to clone properly while
+    * inside the wacky confines of a Docker container
+    */
+    List gitEnv = [
+                    'GIT_COMMITTER_EMAIL=me@hatescake.com',
+                    'GIT_COMMITTER_NAME=Hates',
+                    'GIT_AUTHOR_NAME=Cake',
+                    'GIT_AUTHOR_EMAIL=hates@cake.com',
+    ]
+
     /* This requires the Timestamper plugin to be installed on the Jenkins */
-    wrap([$class: 'TimestamperBuildWrapper']) {
+    timestamps {
         docker.image(dockerImage).inside {
             checkout scm
-            c.call()
+            withEnv(gitEnv) {
+                c.call()
+            }
         }
     }
 }
