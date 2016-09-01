@@ -25,7 +25,12 @@ parallel(lint: {
             node(nodeLabel) {
                 runInside(dockerImage) {
                     sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
-                    sh 'bundle exec rake spec'
+                    /* Some gems seem to want to stuff things into hidden
+                     * directories under $HOME, e.g.
+                     *   Could not initialize global default settings:
+                     *   Permission denied - /.puppetlabs
+                     */
+                    sh 'HOME=$PWD bundle exec rake spec'
                 }
             }
         },
@@ -46,12 +51,6 @@ def runInside(String dockerImage, Closure c) {
                     'GIT_COMMITTER_NAME=Hates',
                     'GIT_AUTHOR_NAME=Cake',
                     'GIT_AUTHOR_EMAIL=hates@cake.com',
-                    /* Some gems seem to want to stuff things into hidden
-                     * directories under $HOME, e.g.
-                     *   Could not initialize global default settings:
-                     *   Permission denied - /.puppetlabs
-                     */
-                    'HOME=.',
     ]
 
     /* This requires the Timestamper plugin to be installed on the Jenkins */
