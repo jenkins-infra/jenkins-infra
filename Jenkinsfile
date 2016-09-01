@@ -38,11 +38,29 @@ def validateZoneFor(dnsZone, dockerImage) {
 }
 
 def runInside(String dockerImage, Closure c) {
+    /* These environment variables make it feasible for Git to clone properly while
+    * inside the wacky confines of a Docker container
+    */
+    List gitEnv = [
+                    'GIT_COMMITTER_EMAIL=me@hatescake.com',
+                    'GIT_COMMITTER_NAME=Hates',
+                    'GIT_AUTHOR_NAME=Cake',
+                    'GIT_AUTHOR_EMAIL=hates@cake.com',
+                    /* Some gems seem to want to stuff things into hidden
+                     * directories under $HOME, e.g.
+                     *   Could not initialize global default settings:
+                     *   Permission denied - /.puppetlabs
+                     */
+                    'HOME=.',
+    ]
+
     /* This requires the Timestamper plugin to be installed on the Jenkins */
-    wrap([$class: 'TimestamperBuildWrapper']) {
+    timestamps {
         docker.image(dockerImage).inside {
             checkout scm
-            c.call()
+            withEnv(gitEnv) {
+                c.call()
+            }
         }
     }
 }
