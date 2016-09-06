@@ -23,6 +23,7 @@ class profile::buildmaster(
   include ::apache
   include apache::mod::proxy
   include apache::mod::headers
+  include apache::mod::rewrite
 
   validate_string($ci_fqdn)
   validate_bool($letsencrypt)
@@ -125,6 +126,13 @@ class profile::buildmaster(
     custom_fragment       => "
 RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
+
+RewriteEngine on
+# Block abusive software which is default configured to hit our Jenkins
+# instance(s). These are typically Build Notifiers that use us as a default
+# since we're public, not anymore for you!
+RewriteCond %{HTTP_USER_AGENT} YisouSpider|Catlight*|CheckmanJenkins [NC]
+RewriteRule ^.* - [F,L]
 ",
     proxy_pass            => [
       {
