@@ -132,7 +132,7 @@ RewriteEngine on
 # instance(s). These are typically Build Notifiers that use us as a default
 # since we're public, not anymore for you!
 RewriteCond %{HTTP_USER_AGENT} YisouSpider|Catlight*|CheckmanJenkins [NC]
-RewriteRule ^.* - [F,L]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 ",
     proxy_pass            => [
       {
