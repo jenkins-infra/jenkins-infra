@@ -10,6 +10,16 @@ describe 'profile::buildmaster' do
 
   it { should contain_class 'jenkins' }
 
+  context 'JNLP' do
+    it 'should open the JNLP port in the firewall' do
+      expect(subject).to contain_firewall('803 Expose JNLP port').with({
+        :port => 50000,
+        :proto => 'tcp',
+        :action => 'accept',
+      })
+    end
+  end
+
 
   context 'with letsencrypt => false' do
     let(:facts) { {:environment => 'production' } }

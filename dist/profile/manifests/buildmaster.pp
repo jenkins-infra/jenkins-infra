@@ -176,6 +176,12 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
     action => 'drop',
   }
 
+  firewall { '803 Expose JNLP port':
+    proto  => 'tcp',
+    port   => 50000,
+    action => 'accept',
+  }
+
   firewall { '810 Jenkins CLI SSH':
     proto  => 'tcp',
     port   => 22222,
