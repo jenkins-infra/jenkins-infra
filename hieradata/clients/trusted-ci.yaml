@@ -5,6 +5,7 @@ profile::buildmaster::proxy_port: 1443
 profile::buildmaster::letsencrypt: false
 # These are plugins we need only in our trusted-ci environment
 profile::buildmaster::plugins:
+  - blueocean
   - build-timeout
   - buildtriggerbadge
   - cloudbees-folder
