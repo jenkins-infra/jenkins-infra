@@ -96,6 +96,14 @@ class profile::buildmaster(
   }
 
 
+  file { '/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/buildmaster/hudson.plugins.git.GitSCM.xml",
+    notify  => Service['jenkins'],
+    require => Class['jenkins'],
+  }
+
+
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
 
