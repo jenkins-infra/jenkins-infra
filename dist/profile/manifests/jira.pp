@@ -8,6 +8,7 @@ class profile::jira (
   # as a preparation, deploying mock-webapp and not the real jira
 
   include profile::atlassian
+  include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
 
