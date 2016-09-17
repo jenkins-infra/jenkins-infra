@@ -100,7 +100,7 @@ class profile::buildmaster(
     ensure  => present,
     source  => "puppet:///modules/${module_name}/buildmaster/hudson.plugins.git.GitSCM.xml",
     notify  => Service['jenkins'],
-    require => Class['jenkins'],
+    require => Package['jenkins'],
   }
 
 
