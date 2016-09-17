@@ -95,14 +95,18 @@ class profile::buildmaster(
     ],
   }
 
-
   file { '/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
     ensure  => present,
     source  => "puppet:///modules/${module_name}/buildmaster/hudson.plugins.git.GitSCM.xml",
-    notify  => Service['jenkins'],
+    notify  => Exec['jenkins-reload-config'],
     require => Package['jenkins'],
   }
 
+  exec { 'jenkins-reload-config':
+    command     => "${cli_script} reload-configuration",
+    refreshonly => true,
+    require     => File[$cli_script],
+  }
 
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
