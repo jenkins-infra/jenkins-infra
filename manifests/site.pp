@@ -147,3 +147,8 @@ node /^trusted-agent-\d+$/ {
   $hiera_role = 'trustedagent'
   include role::jenkins::agent
 }
+
+
+node 'bounce' {
+  include role::bounce
+}
