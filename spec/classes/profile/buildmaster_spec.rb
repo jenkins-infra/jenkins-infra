@@ -20,6 +20,10 @@ describe 'profile::buildmaster' do
     end
   end
 
+  context 'system configuration' do
+    it { should contain_file('/var/lib/jenkins/hudson.plugins.git.GitSCM.xml') }
+  end
+
 
   context 'with letsencrypt => false' do
     let(:facts) { {:environment => 'production' } }
