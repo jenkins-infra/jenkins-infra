@@ -157,6 +157,11 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
+    serveraliases   => [
+      # Give all our buildmaster profiles this server alias; it's easier than
+      # parameterizing it for compatibility's sake
+      'ci.jenkins-ci.org',
+    ],
     servername      => $ci_fqdn,
     port            => 80,
     docroot         => $docroot,

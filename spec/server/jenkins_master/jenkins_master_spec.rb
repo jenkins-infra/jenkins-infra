@@ -1,7 +1,8 @@
 require_relative './../spec_helper'
 
 describe 'jenkins_master' do
-  it_behaves_like "a standard Linux machine"
+  it_behaves_like 'a standard Linux machine'
+  it_behaves_like 'an Apache webserver'
 
   context 'the jenkins service' do
     describe service('jenkins') do
@@ -26,6 +27,13 @@ describe 'jenkins_master' do
 
     describe port(443) do
       it { should be_listening }
+    end
+
+    context 'HTTP redirects' do
+      describe command("curl -kvH 'Host: ci.jenkins-ci.org' http://127.0.0.1") do
+      its(:stderr) { should match 'Location: https://ci.jenkins.io/' }
+      its(:exit_status) { should eq 0 }
+      end
     end
 
     context 'Blocking bots' do
