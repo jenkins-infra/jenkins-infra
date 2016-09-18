@@ -77,6 +77,7 @@ EOF
         puppet.facter = {
           :vagrant => '1',
           :veggie => veggie,
+          :clientcert => veggie,
         }
         puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
         puppet.options = "--parser future --verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
