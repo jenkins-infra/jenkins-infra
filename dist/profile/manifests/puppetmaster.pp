@@ -85,6 +85,13 @@ class profile::puppetmaster {
     provider => $gem_provider,
   }
 
+  # https://docs.puppet.com/hiera/1/lookup_types.html#deep-merging-in-hiera--120
+  package { 'deep_merge':
+    ensure   => present,
+    provider => $gem_provider,
+    notify   => Service['pe-puppetserver'],
+  }
+
   $api_key = $::datadog_agent::api_key
   file { '/etc/dd-agent/datadog.yaml':
     ensure  => file,

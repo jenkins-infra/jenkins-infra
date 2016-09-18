@@ -68,4 +68,6 @@ describe 'profile::puppetmaster' do
       it { should contain_file('/etc/dd-agent/datadog.yaml') }
     end
   end
+
+  it { should contain_package 'deep_merge' }
 end
