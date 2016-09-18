@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'role::bounce' do
   let(:facts) do
     {
-      :hiera_role => 'bounce',
+      :clientcert => 'bounce',
     }
   end
 
