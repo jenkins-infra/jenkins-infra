@@ -148,7 +148,6 @@ node /^trusted-agent-\d+$/ {
   include role::jenkins::agent
 }
 
-
 node 'bounce' {
   include role::bounce
 }
