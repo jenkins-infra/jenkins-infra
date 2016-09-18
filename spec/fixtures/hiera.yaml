@@ -14,4 +14,4 @@
 :yaml:
   :datadir: "hieradata"
 
-
+:merge_behavior: deeper
