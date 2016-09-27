@@ -9,7 +9,7 @@ class profile::compliance {
   # http://www.ubuntu.com/usn/usn-2959-1/
   if $::lsbdistid == 'Ubuntu' and $::lsbdistrelease == '14.04' {
     package { 'libssl1.0.0':
-      ensure => '1.0.1f-1ubuntu2.19',
+      ensure => '1.0.1f-1ubuntu2.21',
     }
   }
 }
