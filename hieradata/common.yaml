@@ -66,7 +66,7 @@ letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging.api.letsencrypt.org/directory"
 
 # BIND container to deploy.
-profile::bind::image_tag: builddcfe94
+profile::bind::image_tag: build4347fc
 
 irc::irc_server: 'irc://infra-butler@irc.freenode.net/#jenkins-infra'
 irc::irc_join: true
