@@ -15,9 +15,6 @@ fixtures:
     irc:
       repo: 'git://github.com/jenkins-infra/puppet-irc.git'
       ref: '4e5e437'
-    docker:
-      repo: 'git://github.com/jenkins-infra/garethr-docker.git'
-      ref: '951781fbeb06fa8142e851c5746c35b302a6f427'
     apachelogcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
     mirrorbrain:
@@ -100,6 +97,9 @@ fixtures:
     postgresql:
       repo: 'puppetlabs/postgresql'
       ref: '4.7.1'
+    docker:
+      repo: 'garethr/docker'
+      ref: '5.3.0'
 
 
 
