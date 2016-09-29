@@ -2,10 +2,11 @@
 # Profile for managing basics of docker installation/configuration
 class profile::docker {
   class { '::docker':
-    version       => '1.9.1',
     # Disabling the management of the kernel, since we have to pre-install
-    # kernel modules on Ubuntu 12.04 LTS and restart the host machine anyways
-    manage_kernel => false,
+    # kernel modules on Ubuntu 14.04 LTS and restart the host machine anyways
+    manage_kernel    => false,
+    extra_parameters => '--storage-driver=aufs',
+    require          => Package['linux-image-extra'],
   }
 
   include datadog_agent::integrations::docker
@@ -21,5 +22,10 @@ class profile::docker {
     # traffic within docker is OK
     iniface => 'docker0',
     action  => 'accept',
+  }
+
+  package { 'linux-image-extra':
+    ensure => present,
+    name   => "linux-image-extra-${::kernelrelease}",
   }
 }

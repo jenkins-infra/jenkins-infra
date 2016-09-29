@@ -60,6 +60,7 @@ if [ ! -f "/apt-cached" ]; then
   wget -q http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
   dpkg -i puppetlabs-release-trusty.deb
   apt-get update && apt-get install -yq puppet && touch /apt-cached;
+  gem install --no-ri --no-rdoc deep_merge
 fi
 EOF
 

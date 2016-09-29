@@ -52,19 +52,6 @@ class profile::robobutler (
     use_name => true,
   }
 
-  # 'restart docker-butlerbot' won't do because it will not reload the configuration
-  exec { 'restart-butlerbot':
-    refreshonly => true,
-    command     => '/sbin/stop docker-butlerbot; /sbin/start docker-butlerbot',
-  }
-
-  # The File[/etc/init/docker-butlerbot.conf] resource is declared by the
-  # module, but we still need to punt the container if the config changes
-  File <| title == '/etc/init/docker-butlerbot.conf' |> {
-    notify  => Exec['restart-butlerbot'],
-  }
-
-
   file { '/var/log/apache2/meetings.jenkins-ci.org':
     ensure => directory,
   }
