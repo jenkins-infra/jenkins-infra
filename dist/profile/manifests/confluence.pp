@@ -67,7 +67,6 @@ class profile::confluence (
     volumes         => ['/srv/wiki/home:/srv/wiki/home', '/srv/wiki/cache:/srv/wiki/cache'],
     env_file        => '/srv/wiki/container.env',
     restart_service => true,
-    use_name        => true,
     require         => File['/srv/wiki/container.env'],
   }
 
@@ -85,16 +84,6 @@ class profile::confluence (
     # to the docker run command
     env             => ['TARGET=http://confluence:8080'],
     restart_service => true,
-    use_name        => true,
-  }
-
-  # If the configuration changes, containers have to be kicked & restarted
-  # due to the dependency between those two, change in confluence forces restart of both
-  File <| title == '/etc/init/docker-confluence.conf' |> {
-    notify  => [Service['docker-confluence'],Service['docker-confluence-cache']]
-  }
-  File <| title == '/etc/init/docker-confluence-cache.conf' |> {
-    notify  => Service['docker-confluence-cache'],
   }
 
   ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org

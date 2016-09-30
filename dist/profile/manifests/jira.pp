@@ -51,7 +51,6 @@ class profile::jira (
       image           => 'mariadb',
       env             => ['MYSQL_ROOT_PASSWORD=s3cr3t','MYSQL_USER=jira','MYSQL_PASSWORD=raji','MYSQL_DATABASE=jiradb'],
       restart_service => true,
-      use_name        => true,
       command         => undef,
     }
     $jira_links = ['jiradb:db']
@@ -70,7 +69,6 @@ class profile::jira (
     volumes         => ['/srv/jira/home:/srv/jira/home'],
     env_file        => '/srv/jira/container.env',
     restart_service => true,
-    use_name        => true,
     require         => File['/srv/jira/container.env'],
     links           => $jira_links,
   }

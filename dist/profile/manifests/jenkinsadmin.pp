@@ -34,13 +34,6 @@ class profile::jenkinsadmin (
                 File['/home/ircbot/.github'],
                 File['/home/ircbot/.jenkins-ci.org'],
     ],
-    use_name => true,
-  }
-
-  # The File[/etc/init/docker-ircbot.conf] resource is declared by the
-  # module, but we still need to punt the container if the config changes
-  File <| title == '/etc/init/docker-ircbot.conf' |> {
-    notify  => Service['docker-ircbot'],
   }
 
   user { $user:
