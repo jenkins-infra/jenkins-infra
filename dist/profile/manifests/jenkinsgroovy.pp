@@ -14,6 +14,7 @@ define profile::jenkinsgroovy (
     tries     => $::jenkins::cli_tries,
     try_sleep => $::jenkins::cli_try_sleep,
     unless    => "/usr/share/jenkins/idempotent-cli groovy ${path}",
+    require   => Docker::Run['jenkins'],
     path      => ['/bin', '/usr/bin'],
   }
 }

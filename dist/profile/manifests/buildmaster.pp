@@ -30,6 +30,7 @@ class profile::buildmaster(
   validate_array($plugins)
 
   include profile::apachemisc
+  include profile::docker
   include profile::firewall
 
   if $letsencrypt {
@@ -42,24 +43,44 @@ class profile::buildmaster(
   $ldap_admin_password = hiera('ldap_admin_password')
 
   class { '::jenkins':
-    lts       => true,
+    # Preventing the jenkins module from managing the package for us, since
+    # we're using the Docker container, see:
+    # https://issues.jenkins-ci.org/browse/INFRA-916·
+    version        => absent,
+    repo           => false,
+    service_enable => false,
+    service_ensure => stopped,
   }
 
+  docker::run { 'jenkins':
+    image         => 'jenkins',
+    username      => 'jenkins',
+    ports         => ['8080:8080', '50000:50000'],
+    volumes       => ['/var/lib/jenkins:/var/jenkins_home'],
+    pull_on_start => true,
+    require       => [
+        File['/var/lib/jenkins'],
+        User['jenkins'],
+    ],
+  }
+
+  # Make sure the old init script is gone, since the package removal won't
+  # handle it
+  # https://issues.jenkins-ci.org/browse/INFRA-916
+  file { '/etc/init.d/jenkins':
+    ensure => absent,
+  }
 
   $script_dir = '/usr/share/jenkins'
-  exec { 'jenkins-script-mkdirp':
-    command => "/bin/mkdir -p ${script_dir}",
-    creates => $script_dir,
+  file { $script_dir:
+    ensure => directory,
   }
 
   $ssh_dir = '/var/lib/jenkins/.ssh'
   $ssh_cli_key = 'jenkins-cli-key'
-  exec { 'jenkins-ssh-mkdirp':
-    command => "/bin/mkdir -p ${ssh_dir}",
-    creates => $ssh_dir,
-  }
+
   exec { 'generate-cli-ssh-key':
-    require => Exec['jenkins-ssh-mkdirp'],
+    require => File['/var/lib/jenkins'],
     creates => "${ssh_dir}/${ssh_cli_key}",
     command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
   }
@@ -67,7 +88,7 @@ class profile::buildmaster(
   $cli_script = "${script_dir}/idempotent-cli"
   file { $cli_script:
     ensure  => present,
-    require => Exec['jenkins-script-mkdirp'],
+    require => File[$script_dir],
     source  => "puppet:///modules/${module_name}/buildmaster/idempotent-cli",
     mode    => '0755',
   }
@@ -76,7 +97,7 @@ class profile::buildmaster(
 
   file { $lockbox_script :
     ensure  => present,
-    require => Exec['jenkins-script-mkdirp'],
+    require => File[$script_dir],
     content =>template("${module_name}/buildmaster/lockbox.groovy.erb"),
   }
   profile::jenkinsgroovy { 'lock-down-jenkins':
@@ -123,6 +144,7 @@ class profile::buildmaster(
       'ci.jenkins-ci.org',
     ],
     require               => [
+      Docker::Run['jenkins'],
       File[$docroot],
       # We need our installation to be secure before we allow access
       Profile::Jenkinsgroovy['lock-down-jenkins'],
