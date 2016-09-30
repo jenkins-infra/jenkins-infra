@@ -64,6 +64,13 @@ class profile::buildmaster(
     ],
   }
 
+  # Make sure the old init script is gone, since the package removal won't
+  # handle it
+  # https://issues.jenkins-ci.org/browse/INFRA-916
+  file { '/etc/init.d/jenkins':
+    ensure => absent,
+  }
+
   $script_dir = '/usr/share/jenkins'
   file { $script_dir:
     ensure => directory,
