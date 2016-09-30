@@ -14,6 +14,7 @@ define profile::jenkinsplugin (
     try_sleep => $::jenkins::cli_try_sleep,
     path      => ['/bin', '/usr/bin'],
     unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi",
+    require   => Docker::Run['jenkins'],
     notify    => Exec['safe-restart-jenkins'],
   }
 }

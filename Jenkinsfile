@@ -1,4 +1,4 @@
-#!groovy
+#!/usr/bin/env groovy
 
 def nodeLabel = 'docker'
 def dockerImage = 'rtyler/jenkins-infra-builder'
@@ -52,6 +52,9 @@ def runInside(String dockerImage, Closure c) {
                     'GIT_AUTHOR_NAME=Cake',
                     'GIT_AUTHOR_EMAIL=hates@cake.com',
     ]
+
+    /* clean out our workspace before we do anything */
+    deleteDir()
 
     /* This requires the Timestamper plugin to be installed on the Jenkins */
     timestamps {

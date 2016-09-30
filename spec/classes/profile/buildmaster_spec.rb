@@ -8,7 +8,27 @@ describe 'profile::buildmaster' do
     }
   end
 
-  it { should contain_class 'jenkins' }
+  context 'Jenkins configuration' do
+    it { should contain_class 'jenkins' }
+    it { should contain_file('/var/lib/jenkins/hudson.plugins.git.GitSCM.xml') }
+
+    # https://issues.jenkins-ci.org/browse/INFRA-916
+    context 'as a Docker container' do
+      it { should contain_package('jenkins').with_ensure('absent') }
+      it { should contain_file('/var/lib/jenkins').with_ensure('directory') }
+      it { should contain_class 'profile::docker' }
+
+      it 'should define a suitable docker::run' do
+        expect(subject).to contain_docker__run('jenkins').with({
+          :image => 'jenkins',
+          :username => 'jenkins',
+          :pull_on_start => true,
+          :volumes => ['/var/lib/jenkins:/var/jenkins_home'],
+        })
+      end
+    end
+  end
+
 
   context 'JNLP' do
     it 'should open the JNLP port in the firewall' do
@@ -18,10 +38,6 @@ describe 'profile::buildmaster' do
         :action => 'accept',
       })
     end
-  end
-
-  context 'system configuration' do
-    it { should contain_file('/var/lib/jenkins/hudson.plugins.git.GitSCM.xml') }
   end
 
 
@@ -90,14 +106,6 @@ describe 'profile::buildmaster' do
           :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
         })
       end
-    end
-  end
-
-  context 'jenkins master configuration' do
-    it 'should default to LTS' do
-      expect(subject).to contain_class('jenkins').with({
-        :lts => true,
-      })
     end
   end
 
