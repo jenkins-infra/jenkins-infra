@@ -21,19 +21,12 @@ $image_tag = '2.23'
     image           => "${image}:${image_tag}",
     ports           => ['8080:8080'],
     restart_service => true,
-    use_name        => true,
     require         => [
       Class['::docker'],
       Docker::Image[$image],
       File['/srv/demo/passwd'],
       User[$user],
     ],
-  }
-
-  # The File[/etc/init/docker-demo.conf] resource is declared by the
-  # module, but we still need to punt the container if the config changes
-  File <| title == '/etc/init/docker-demo.conf' |> {
-    notify  => Service['docker-demo'],
   }
 
   account { $user:

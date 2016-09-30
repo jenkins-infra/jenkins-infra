@@ -45,11 +45,10 @@ class profile::robobutler (
   }
 
   docker::run { 'butlerbot':
-    command  => undef,
-    image    => "jenkinsciinfra/butlerbot:${tag}",
-    volumes  => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
-    require  => File['/etc/butlerbot/main.conf'],
-    use_name => true,
+    command => undef,
+    image   => "jenkinsciinfra/butlerbot:${tag}",
+    volumes => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
+    require => File['/etc/butlerbot/main.conf'],
   }
 
   file { '/var/log/apache2/meetings.jenkins-ci.org':

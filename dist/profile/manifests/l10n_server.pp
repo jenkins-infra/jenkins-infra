@@ -26,13 +26,6 @@ class profile::l10n_server (
     image    => "${image}:${image_tag}",
     require  => [Docker::Image[$image],
     ],
-    use_name => true,
-  }
-
-  # The File[/etc/init/docker-ircbot.conf] resource is declared by the
-  # module, but we still need to punt the container if the config changes
-  File <| title == '/etc/init/docker-l10n.conf' |> {
-    notify  => Service['docker-l10n'],
   }
 
   user { $user:

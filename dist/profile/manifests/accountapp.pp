@@ -53,7 +53,6 @@ class profile::accountapp(
       "JIRA_PASSWORD=${jira_password}",
     ],
     extra_parameters => ['--net=host'],
-    use_name         => true,
   }
 
   profile::datadog_check { 'accountapp-http-check':
