@@ -56,7 +56,7 @@ class profile::buildmaster(
     image         => 'jenkins',
     username      => 'jenkins',
     ports         => ['8080:8080', '50000:50000'],
-    volumes       => ['/var/lib/jenkins', '/var/jenkins_home'],
+    volumes       => ['/var/lib/jenkins:/var/jenkins_home'],
     pull_on_start => true,
     require       => [
         File['/var/lib/jenkins'],

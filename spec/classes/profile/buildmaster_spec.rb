@@ -23,7 +23,7 @@ describe 'profile::buildmaster' do
           :image => 'jenkins',
           :username => 'jenkins',
           :pull_on_start => true,
-          :volumes => ['/var/lib/jenkins', '/var/jenkins_home'],
+          :volumes => ['/var/lib/jenkins:/var/jenkins_home'],
         })
       end
     end
