@@ -53,12 +53,17 @@ class profile::buildmaster(
   }
 
   docker::run { 'jenkins':
-    image         => 'jenkins',
-    username      => 'jenkins',
-    ports         => ['8080:8080', '50000:50000'],
-    volumes       => ['/var/lib/jenkins:/var/jenkins_home'],
-    pull_on_start => true,
-    require       => [
+    image            => 'jenkins',
+    # This is a "clever" hack to force the init script to pass the numeric UID
+    # through on `docker run`. Since passing the string 'jenkins' doesn't
+    # actually map the UIDs properly. Using the extra_parameters option because
+    # the `username` parameter will get shellescaped in the docker_run_flags()
+    # function provided by garethr/docker
+    extra_parameters => '-u `id -u jenkins`:`id -g jenkins`',
+    ports            => ['8080:8080', '50000:50000'],
+    volumes          => ['/var/lib/jenkins:/var/jenkins_home'],
+    pull_on_start    => true,
+    require          => [
         File['/var/lib/jenkins'],
         User['jenkins'],
     ],
