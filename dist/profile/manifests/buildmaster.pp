@@ -45,7 +45,7 @@ class profile::buildmaster(
   class { '::jenkins':
     # Preventing the jenkins module from managing the package for us, since
     # we're using the Docker container, see:
-    # https://issues.jenkins-ci.org/browse/INFRA-916·
+    # https://issues.jenkins-ci.org/browse/INFRA-916
     version        => absent,
     repo           => false,
     service_enable => false,
