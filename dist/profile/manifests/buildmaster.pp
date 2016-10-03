@@ -60,6 +60,12 @@ class profile::buildmaster(
     # the `username` parameter will get shellescaped in the docker_run_flags()
     # function provided by garethr/docker
     extra_parameters => '-u `id -u jenkins`:`id -g jenkins`',
+    # Hard-coding some environment variables because there is no "parent" shell
+    # environment to inherit some of these environment settings from.
+    # Additionally, Jenkins picks up `user.home` as "?" without the explicit
+    # JAVA_OPTS override, breaking the current azure plugin:
+    # https://github.com/jenkinsci/azure-slave-plugin/issues/56
+    env              => ['HOME=/var/jenkins_home', 'USER=jenkins', 'JAVA_OPTS="-Duser.home=/var/jenkins_home"'],
     ports            => ['8080:8080', '50000:50000'],
     volumes          => ['/var/lib/jenkins:/var/jenkins_home'],
     pull_on_start    => true,
