@@ -20,9 +20,6 @@ fixtures:
     mirrorbrain:
       repo: 'git://github.com/jenkins-infra/puppet-mirrorbrain.git'
       ref: '78ec0b0'
-    jenkins:
-      repo: 'git://github.com/jenkinsci/puppet-jenkins.git'
-      ref: 'd70fd6f'
     r10k:
       repo: 'git://github.com/acidprime/r10k.git'
       ref: 'f270781'
@@ -100,6 +97,12 @@ fixtures:
     docker:
       repo: 'garethr/docker'
       ref: '5.3.0'
+    jenkins:
+      repo: 'rtyler/jenkins'
+      ref: '1.7.0'
+    archive:
+      repo: 'puppet/archive'
+      ref: '1.1.2'
 
 
 

@@ -91,11 +91,10 @@ mod 'mirrorbrain',
     :ref => '78ec0b0'
 
 # For managing Jenkins itself
-mod 'rtyler/jenkins',
-  :git => 'git://github.com/jenkinsci/puppet-jenkins.git',
-  :ref => 'd70fd6f'
+mod 'rtyler/jenkins', '1.7.0'
 # Needed for the Jenkins module
 mod 'puppetlabs/java', '1.5.0'
+mod 'puppet/archive', '1.1.2'
 
 
 # Needed for managing pgsql behind Mirrorbrain
