@@ -65,7 +65,11 @@ class profile::buildmaster(
     # Additionally, Jenkins picks up `user.home` as "?" without the explicit
     # JAVA_OPTS override, breaking the current azure plugin:
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
-    env              => ['HOME=/var/jenkins_home', 'USER=jenkins', 'JAVA_OPTS="-Duser.home=/var/jenkins_home"'],
+    env              => [
+      'HOME=/var/jenkins_home',
+      'USER=jenkins',
+      'JAVA_OPTS="-Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000"',
+    ],
     ports            => ['8080:8080', '50000:50000'],
     volumes          => ['/var/lib/jenkins:/var/jenkins_home'],
     pull_on_start    => true,
