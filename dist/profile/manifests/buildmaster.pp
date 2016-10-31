@@ -68,7 +68,7 @@ class profile::buildmaster(
     env              => [
       'HOME=/var/jenkins_home',
       'USER=jenkins',
-      'JAVA_OPTS="-Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000"',
+      'JAVA_OPTS="-Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"',
     ],
     ports            => ['8080:8080', '50000:50000'],
     volumes          => ['/var/lib/jenkins:/var/jenkins_home'],
