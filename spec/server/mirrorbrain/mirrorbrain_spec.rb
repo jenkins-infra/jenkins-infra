@@ -37,4 +37,15 @@ describe 'mirrorbrain' do
       end
     end
   end
+
+  describe 'Redirects' do
+    cmd = "curl -kvIH 'Host: pkg.jenkins.io' https://127.0.0.1"
+
+    # We should redirect HTTPs requests to pkg.jenkins.io to Azure blob storage
+    # see also: https://issues.jenkins-ci.org/browse/INFRA-964
+    describe command("#{cmd}/debian/binary/jenkins_2.0_all.deb") do
+      its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/debian/jenkins_2.0_all.deb' }
+      its(:exit_status) { should eq 0 }
+    end
+  end
 end
