@@ -7,7 +7,6 @@ class profile::buildslave(
   $ssh_keys         = undef,
 ) {
   include ::stdlib
-  include git
 
   $user = 'jenkins'
 
@@ -71,6 +70,7 @@ class profile::buildslave(
     }
 
     ensure_packages([
+      'git',
       'libxml2-dev',          # for Ruby apps that require nokogiri
       'libxslt1-dev',         # for Ruby apps that require nokogiri
       'libcurl4-openssl-dev', # for curb gem

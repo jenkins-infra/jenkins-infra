@@ -5,6 +5,4 @@ describe 'role::okra' do
 
   it { should contain_class 'profile::archives' }
   it { should contain_class 'profile::bind' }
-
-  it { should contain_class 'profile::pluginsite' }
 end
