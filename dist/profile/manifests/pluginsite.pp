@@ -40,28 +40,24 @@ class profile::pluginsite(
   }
 
   apache::vhost { $pluginsite_fqdn:
-    port           => 443,
-    ssl            => true,
-    docroot        => $docroot,
-    access_log     => false,
-    error_log_file => "${pluginsite_fqdn}/error.log",
-    proxy_pass     => [
-      {
-        path         => '^/api/(.*)',
-        url          => 'http://localhost:8080/$1',
-        reverse_urls => 'http://localhost:8080/',
-      },
-      {
-        path         => '/',
-        url          => 'http://localhost:5000/',
-        reverse_urls => 'http://localhost:5000/',
-      },
-    ],
-    require        => [
+    port            => 443,
+    ssl             => true,
+    docroot         => $docroot,
+    access_log      => false,
+    error_log_file  => "${pluginsite_fqdn}/error.log",
+    custom_fragment => '
+  ProxyRequests Off
+  ProxyPreserveHost Off
+  ProxyPassMatch ^/api/(.*) http://localhost:8080/$1
+  ProxyPassReverse ^/api/(.*) http://localhost:8080/$1
+  ProxyPass / http://localhost:5000/
+  ProxyPassReverse / http://localhost:5000/
+',
+    require         => [
       File[$apache_log_dir],
       File[$docroot],
     ],
-    notify         => Service['apache2'],
+    notify          => Service['apache2'],
   }
 
   apache::vhost { "${pluginsite_fqdn} unsecured":
