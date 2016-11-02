@@ -22,7 +22,6 @@ describe 'profile::pluginsite' do
     context 'running the container' do
       it 'should create docker::run' do
         expect(subject).to contain_docker__run('pluginsite').with({
-          :image => 'jenkinsciinfra/plugin-site:latest',
           :ports => ['8080:8080', '5000:5000'],
         })
       end
