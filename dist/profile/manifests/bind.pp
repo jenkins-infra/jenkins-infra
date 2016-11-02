@@ -61,6 +61,7 @@ class profile::bind (
   exec { 'sighup-named':
     refreshonly => true,
     command     => '/usr/bin/pkill -HUP named',
+    onlyif      => '/usr/bin/pgrep named',
   }
 
   firewall { '900 accept tcp DNS queries':
