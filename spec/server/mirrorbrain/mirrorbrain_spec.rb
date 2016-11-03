@@ -47,5 +47,16 @@ describe 'mirrorbrain' do
       its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/debian/jenkins_2.0_all.deb' }
       its(:exit_status) { should eq 0 }
     end
+
+    # see also: https://issues.jenkins-ci.org/browse/INFRA-967
+    describe command("#{cmd}/redhat/jenkins-2.0-1.1.noarch.rpm") do
+      its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/redhat/jenkins-2.0-1.1.noarch.rpm' }
+      its(:exit_status) { should eq 0 }
+    end
+
+    describe command("#{cmd}/opensuse/jenkins-2.0-1.2.noarch.rpm") do
+      its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/opensuse/jenkins-2.0-1.2.noarch.rpm' }
+      its(:exit_status) { should eq 0 }
+    end
   end
 end
