@@ -243,6 +243,6 @@ archives_mirroring_privkey: ''
 
 docker::version: '1.12.1-0~trusty'
 
-profile::pluginsite::image_tag: '5-1d3433'
+profile::pluginsite::image_tag: '7-39fe34'
 
 # vim: ft=yaml ts=2 sw=2 nowrap et
