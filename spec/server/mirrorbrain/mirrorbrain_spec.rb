@@ -54,9 +54,22 @@ describe 'mirrorbrain' do
       its(:exit_status) { should eq 0 }
     end
 
+    describe command("#{cmd}/redhat/RPMS/noarch/jenkins-2.0-1.1.noarch.rpm") do
+      its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/redhat/jenkins-2.0-1.1.noarch.rpm' }
+      its(:exit_status) { should eq 0 }
+    end
+
     describe command("#{cmd}/opensuse/jenkins-2.0-1.2.noarch.rpm") do
       its(:stderr) { should match 'Location: https://jenkinsreleases.blob.core.windows.net/opensuse/jenkins-2.0-1.2.noarch.rpm' }
       its(:exit_status) { should eq 0 }
+    end
+
+    context 'over HTTP' do
+      cmd = "curl -kvIH 'Host: pkg.jenkins.io' http://127.0.0.1"
+      describe command("#{cmd}/opensuse/jenkins-2.0-1.2.noarch.rpm") do
+        its(:stderr) { should match 'Location: http://mirrors.jenkins.io/opensuse/jenkins-2.0-1.2.noarch.rpm' }
+        its(:exit_status) { should eq 0 }
+      end
     end
   end
 end
