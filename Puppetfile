@@ -13,7 +13,7 @@ mod "stdlib",
         :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
         :ref => '4.9.0'
 
-mod 'puppetlabs/ruby', '0.4.0'
+mod 'puppetlabs/ruby', '0.5.0'
 mod "puppetlabs/gcc", '0.3.0'
 # Used for installing gems for the puppetserver, like with hiera-eyaml
 mod "puppetlabs/puppetserver_gem", '0.2.0'
