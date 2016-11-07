@@ -20,6 +20,16 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'mirrorbrain' }
   it { should contain_class 'mirrorbrain::apache' }
 
+  context 'tooling for Azure sync' do
+    # Needed for running some scripts
+    it { should contain_package 'ruby' }
+    it { should contain_package 'python-pip' }
+    it { should contain_exec('install-azure-storage-gem') }
+    it { should contain_package('azure-cli').with_provider('pip') }
+
+    it { should contain_file("#{params[:home_dir]}/azure-sync.sh") }
+  end
+
 
   context 'postgresql configuration' do
     it { should contain_package('postgresql-server').with_ensure 'present' }

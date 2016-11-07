@@ -245,4 +245,9 @@ docker::version: '1.12.1-0~trusty'
 
 profile::pluginsite::image_tag: '7-39fe34'
 
+
+
+azure::releases::account_name: 'overridewithstorageaccountname'
+azure::releases::access_key: 'overridewithaccesskey'
+
 # vim: ft=yaml ts=2 sw=2 nowrap et
