@@ -16,7 +16,7 @@ describe 'profile::letsencrypt' do
   it 'should create a cron for updating domains and apache certs' do
     expect(subject).to contain_cron('letsencrypt-renew-reload').with({
       :user => 'root',
-      :command => '/opt/letsencrypt/letsencrypt-auto renew --renew-hook="service apache2 reload"',
+      :command => '/opt/letsencrypt/letsencrypt-auto renew --quiet --renew-hook="service apache2 reload"',
       :hour => 12,
     })
   end

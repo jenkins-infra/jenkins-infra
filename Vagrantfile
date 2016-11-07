@@ -55,34 +55,30 @@ Vagrant.configure("2") do |config|
         }
       end
 
-      bootstrap_script = <<-EOF
+      # This is a Vagrant-local hack to make sure we have properly updated apt
+      # caches since AWS machines are definitely going to have stale ones. It
+      # also makes sure we're pulling in the latest Puppet 4 from Puppet. This
+      # doesn't quite work with the built-in puppet apply provisioner anymore,
+      # so we're manually invoking Puppet too!
+      node.vm.provision 'shell', :inline => <<-EOF
 if [ ! -f "/apt-cached" ]; then
   wget -q http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
   dpkg -i puppetlabs-release-trusty.deb
-  apt-get update && apt-get install -yq puppet && touch /apt-cached;
+  apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
   gem install --no-ri --no-rdoc deep_merge
 fi
+
+cd /vagrant
+set -xe
+
+export FACTER_vagrant=1
+export FACTER_veggie=#{veggie}
+export FACTER_clientcert=#{veggie}
+exec /opt/puppetlabs/bin/puppet apply \
+      --modulepath=dist:modules \
+      --hiera_config=spec/fixtures/hiera.yaml \
+      --execute 'include profile::vagrant\n include role::#{veggie}'
 EOF
-
-      # This is a Vagrant-local hack to make sure we have properly udpated apt
-      # caches since AWS machines are definitely going to have stale ones
-      node.vm.provision 'shell', :inline => bootstrap_script
-
-      node.vm.provision 'puppet' do |puppet|
-        puppet.manifest_file = File.basename(role)
-        puppet.manifests_path = File.dirname(role)
-        puppet.module_path = ['modules', 'dist']
-        # Setting the work to /vagrant so our hiera configuration will resolve
-        # properly to our relative hieradata/
-        puppet.working_directory = '/vagrant'
-        puppet.facter = {
-          :vagrant => '1',
-          :veggie => veggie,
-          :clientcert => veggie,
-        }
-        puppet.hiera_config_path = 'spec/fixtures/hiera.yaml'
-        puppet.options = "--parser future --verbose --execute 'include role::#{veggie}\n include profile::vagrant'"
-      end
 
       node.vm.provision :serverspec do |spec|
         spec.pattern = "spec/server/#{specfile}/*.rb"

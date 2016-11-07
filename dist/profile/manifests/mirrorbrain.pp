@@ -16,6 +16,17 @@ class profile::mirrorbrain (
   include ::mirrorbrain
   include ::mirrorbrain::apache
 
+  # Need to declare the 'ruby' class ahead of profile::apachemisc which
+  # includes the apachelogcompressor module, which itself does a
+  # `contain 'ruby'`
+  class { '::ruby' :
+    ruby_package => 'ruby2.0',
+  }
+  # Required for installing the azure-storage gem
+  class { '::ruby::dev' :
+    ruby_dev_packages => ['ruby2.0-dev'],
+  }
+
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
@@ -79,6 +90,67 @@ class profile::mirrorbrain (
     owner  => $user,
     group  => $group,
   }
+
+
+  ## Files for Azure blob storage sync
+  ##########################
+  ensure_packages(['python-pip'])
+
+  # NOTE: The `ruby2.0` package is critically broken/stupid on Ubuntu 14.04, so
+  # until we upgrade we will need to manually install and manage the
+  # azure-storage gem. See this thread for more details:
+  # <https://bugs.launchpad.net/ubuntu/+source/ruby2.0/+bug/1310292>
+  #package { 'azure-storage' :
+  #  ensure          => present,
+  #  # As of 20161107, the gem is in 'beta' so we need --pre to install it from
+  #  # rubygems.org
+  #  install_options => ['--pre'],
+  #  provider        => gem,
+  #  require         => Package['ruby'],
+  #}
+  exec { 'install-azure-storage-gem':
+    command => '/usr/bin/gem2.0 install -N --pre azure-storage',
+    require => Package['ruby'],
+    unless  => '/usr/bin/gem2.0 list | /bin/grep "azure-storage"',
+  }
+
+  $azure_account_name = lookup('azure::releases::account_name')
+  $azure_access_key   = lookup('azure::releases::access_key')
+
+  file { "${home_dir}/.azure-storage-env":
+    ensure  => present,
+    content => "
+export AZURE_STORAGE_ACCOUNT=${azure_account_name}
+export AZURE_STORAGE_KEY=${azure_access_key}",
+    owner   => $user,
+  }
+
+  file { "${home_dir}/azure-sync.sh" :
+    ensure  => present,
+    content => "#!/bin/sh
+
+eval `cat ${home_dir}/.azure-storage-env`
+wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/master/scripts/release-blob-sync
+/usr/bin/ruby2.0 release-blob-sync | sh
+",
+    owner   => $user,
+    mode    => '0755',
+    require => [
+        Package['azure-cli'],
+        Exec['install-azure-storage-gem'],
+        File["${home_dir}/.azure-storage-env"],
+    ],
+  }
+
+  package { 'azure-cli' :
+    ensure          => present,
+    # As of 20161107, the azure-cli package is in 'beta' so we need --pre to
+    # install it from pypi.python.org
+    install_options => ['--pre'],
+    provider        => pip,
+    require         => Package['python-pip'],
+  }
+  ##########################
 
   ## Files needed to release
   ##########################
