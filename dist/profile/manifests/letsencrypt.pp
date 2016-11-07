@@ -10,7 +10,7 @@ class profile::letsencrypt {
 
   cron { 'letsencrypt-renew-reload':
     ensure  => present,
-    command => '/opt/letsencrypt/letsencrypt-auto renew --renew-hook="service apache2 reload"',
+    command => '/opt/letsencrypt/letsencrypt-auto renew --quiet --renew-hook="service apache2 reload"',
     hour    => 12,
     user    => 'root',
   }
