@@ -11,5 +11,4 @@ class role::spinach {
   include profile::bind
   include profile::jenkinsadmin
   include profile::buildslave
-  include profile::pluginsite
 }
