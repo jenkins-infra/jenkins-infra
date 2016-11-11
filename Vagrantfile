@@ -44,7 +44,7 @@ Vagrant.configure("2") do |config|
 
     # If there are no serverspec files, we needn't provision a machine!
     if Dir["./spec/server/#{specfile}/*.rb"].empty?
-      puts ">> no serverspec defined for #{veggie}"
+      STDERR.write(">> no serverspec defined for #{veggie}\n")
       next
     end
 
@@ -62,10 +62,10 @@ Vagrant.configure("2") do |config|
       # so we're manually invoking Puppet too!
       node.vm.provision 'shell', :inline => <<-EOF
 if [ ! -f "/apt-cached" ]; then
-  wget -q http://apt.puppetlabs.com/puppetlabs-release-trusty.deb
-  dpkg -i puppetlabs-release-trusty.deb
+  wget -q http://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
+  dpkg -i puppetlabs-release-pc1-trusty.deb
   apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
-  gem install --no-ri --no-rdoc deep_merge
+  /opt/puppetlabs/bin/gem install --no-ri --no-rdoc deep_merge
 fi
 
 cd /vagrant
