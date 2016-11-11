@@ -182,6 +182,9 @@ RewriteEngine on
 # since we're public, not anymore for you!
 RewriteCond %{HTTP_USER_AGENT} YisouSpider|Catlight*|CheckmanJenkins [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
+# Blackhole all the /cli requests over HTTP
+RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 ",
     proxy_pass            => [
       {
