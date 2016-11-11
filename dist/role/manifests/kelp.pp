@@ -5,6 +5,5 @@
 class role::kelp {
   include profile::base
   include profile::buildslave
-  include profile::demo
   include profile::pluginsite
 }
