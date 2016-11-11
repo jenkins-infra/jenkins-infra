@@ -8,7 +8,7 @@
 class role::spinach {
   include profile::base
   include profile::groovy
-  include profile::bind
-  include profile::jenkinsadmin
+  #include profile::bind
+  #include profile::jenkinsadmin
   include profile::buildslave
 }
