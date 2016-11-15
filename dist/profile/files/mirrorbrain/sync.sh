@@ -46,7 +46,6 @@ popd
 
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh
-/srv/releases/populate-fallback.sh
 /srv/releases/azure-sync.sh
 
 echo ">> Updating the latest symlink for weekly"
