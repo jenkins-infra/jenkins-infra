@@ -3,11 +3,11 @@ HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
 UPDATES_DIR=/var/www/updates.jenkins.io
 REMOTE_BASE_DIR=data/
-RSYNC_ARGS="-rlpgoDvz --times"
+RSYNC_ARGS="-rlpgoDvz"
 SCRIPT_DIR=$PWD
 
 pushd $BASE_DIR
-  rsync ${RSYNC_ARGS} --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
+  rsync ${RSYNC_ARGS} --times --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
     echo '+ plugins/**'
     echo '+ updates/**'
