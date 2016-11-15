@@ -3,7 +3,7 @@ HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
 UPDATES_DIR=/var/www/updates.jenkins.io
 REMOTE_BASE_DIR=data/
-RSYNC_ARGS="-rlpgoDvz"
+RSYNC_ARGS="-rlpgoDvz --times"
 SCRIPT_DIR=$PWD
 
 pushd $BASE_DIR
@@ -46,7 +46,6 @@ popd
 
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh
-/srv/releases/populate-fallback.sh
 /srv/releases/azure-sync.sh
 
 echo ">> Updating the latest symlink for weekly"
