@@ -1,0 +1,6 @@
+---
+limits:
+  'jenkins':
+    nofile:
+      soft: 'unlimited'
+      hard: 'unlimited'

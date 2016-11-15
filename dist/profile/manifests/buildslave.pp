@@ -7,6 +7,7 @@ class profile::buildslave(
   $ssh_keys         = undef,
 ) {
   include ::stdlib
+  include ::limits
 
   $user = 'jenkins'
 
