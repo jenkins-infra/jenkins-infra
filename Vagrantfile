@@ -74,6 +74,7 @@ set -xe
 export FACTER_vagrant=1
 export FACTER_veggie=#{veggie}
 export FACTER_clientcert=#{veggie}
+export FACTER_hiera_role=#{veggie}
 exec /opt/puppetlabs/bin/puppet apply \
       --modulepath=dist:modules \
       --hiera_config=spec/fixtures/hiera.yaml \
