@@ -243,7 +243,7 @@ archives_mirroring_privkey: ''
 
 docker::version: '1.12.1-0~trusty'
 
-profile::pluginsite::image_tag: '13-1a342b'
+profile::pluginsite::image_tag: '16-1a342b'
 
 azure::releases::account_name: 'overridewithstorageaccountname'
 azure::releases::access_key: 'overridewithaccesskey'
