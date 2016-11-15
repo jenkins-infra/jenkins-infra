@@ -125,6 +125,21 @@ export AZURE_STORAGE_KEY=${azure_access_key}",
     owner   => $user,
   }
 
+  apt::source { 'azure-cli':
+    location => 'https://apt-mo.trafficmanager.net/repos/azure-cli/',
+    release  => 'wheezy',
+    repos    => 'main',
+    key      => {
+      server => 'apt-mo.trafficmanager.net',
+      id     => '417A0893',
+    },
+  }
+
+  package { 'azure-cli':
+    ensure  => present,
+    require => Apt::Source['azure-cli'],
+  }
+
   file { "${home_dir}/azure-sync.sh" :
     ensure  => present,
     content => "#!/bin/sh
@@ -142,13 +157,11 @@ wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/
     ],
   }
 
-  package { 'azure-cli' :
-    ensure          => present,
-    # As of 20161107, the azure-cli package is in 'beta' so we need --pre to
-    # install it from pypi.python.org
-    install_options => ['--pre'],
-    provider        => pip,
-    require         => Package['python-pip'],
+  package { 'azure-cli-python' :
+    ensure   => absent,
+    name     => 'azure-cli',
+    provider => pip,
+    require  => Package['python-pip'],
   }
   ##########################
 
