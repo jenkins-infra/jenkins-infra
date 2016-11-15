@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'profile::buildslave' do
+
   context 'SSH host keys' do
     it "should include GitHub's host keys" do
       properties = {
@@ -28,6 +29,9 @@ describe 'profile::buildslave' do
     # Keeping these two examples here to make sure a user and group are created
     it { should contain_user 'jenkins' }
     it { should contain_group 'jenkins' }
+
+    # Needed for updating ulimits
+    it { should contain_class 'limits' }
   end
 
   context 'with docker => true' do

@@ -95,6 +95,8 @@ mod 'rtyler/jenkins', '1.7.0'
 mod 'puppetlabs/java', '1.5.0'
 mod 'puppet/archive', '1.1.2'
 
+# Helpful for managing ulimits for users systematically
+mod 'erwbgy/limits', '0.3.1'
 
 # Needed for managing pgsql behind Mirrorbrain
 mod 'puppetlabs/postgresql', '4.7.1'
