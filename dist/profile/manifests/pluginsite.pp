@@ -24,7 +24,7 @@ class profile::pluginsite(
     image   => "${image}:${image_tag}",
     ports   => ['8080:8080', '5000:5000'],
     env     => [
-      'DATA_FILE_URL=https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/master/lastSuccessfulBuild/artifact/target/plugins.json.gzip',
+      'DATA_FILE_URL=https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/target/plugins.json.gzip',
       "REST_API_URL=https://${pluginsite_fqdn}/api",
     ],
     require => Docker::Image[$image],
