@@ -4,6 +4,7 @@ profile::buildmaster::letsencrypt: true
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - azure-slave-plugin
+  - azure-vm-agents
   - blueocean
   - build-timeout
   - buildtriggerbadge
