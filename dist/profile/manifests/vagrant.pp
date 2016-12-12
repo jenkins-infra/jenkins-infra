@@ -10,4 +10,8 @@ class profile::vagrant {
     priority => '10',
     content  => 'ubuntu ALL=(ALL) NOPASSWD: ALL',
   }
+  sudo::conf { 'vagrant':
+    priority => '10',
+    content  => 'vagrant ALL=(ALL) NOPASSWD: ALL',
+  }
 }
