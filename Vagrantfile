@@ -37,8 +37,6 @@ Vagrant.configure("2") do |config|
             aws.access_key_id = ENV['AWS_ACCESS_KEY_ID'] 
             aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
             aws.keypair_name = ENV['AWS_KEYPAIR_NAME']
-        else
-            puts 'Missing AWS credentials'
         end
 
         # Ubuntu LTS 14.04 in us-west-2 stock
