@@ -57,7 +57,7 @@ class profile::usage(
     ensure  => directory,
     owner   => $user,
     group   => $group,
-    mode    => '0775',
+    mode    => '0755',
     require => Mount[$home_dir],
   }
   ############################

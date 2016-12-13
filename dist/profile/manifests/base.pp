@@ -12,6 +12,7 @@ class profile::base {
     include profile::ntp
     include profile::sudo
     include profile::diagnostics
+    include profile::puppetagent
 
     include ssh::server
     include ssh::client
