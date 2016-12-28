@@ -16,7 +16,6 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
 cucumber    3600    IN    A    199.193.196.24
 
 ; VM at Rackspace
-spinach     3600    IN    A    173.203.60.151
 celery      3600    IN    A    162.242.234.101
 celery      3600    IN    AAAA 2001:4802:7801:103:be76:4eff:fe20:357c
 okra        3600    IN    A    162.209.106.32
@@ -67,15 +66,13 @@ usage       3600    IN    CNAME    usage.jenkins.io.
 stats       3600    IN    CNAME    @
 meetings    3600    IN    CNAME    edamame
 jekyll      3600    IN    CNAME    jenkinsci.github.io.
-git         3600    IN    CNAME    spinach
-boxes       3600    IN    CNAME    spinach
 mirrors2    3600    IN    CNAME    lettuce
 ips         3600    IN    CNAME    lettuce
 nagios      3600    IN    CNAME    lettuce
 kale        3600    IN    CNAME    ec2-184-73-58-254.compute-1.amazonaws.com.   ; contributed by Red Hat
 repo        3600    IN    CNAME    jenkinsci.jfrog.org.      ; Artifactory hosted by JFrog
 links       3600    IN    CNAME    rhs.reddit.com.           ; /r/jenkinsci
-fallback    3600    IN    CNAME    spinach
+;fallback    3600    IN    CNAME    spinach
 plugin-generator    3600 IN  CNAME jpi-create.jenkins.cloudbees.net.    ; hosted app on CloudBees RUN@cloud
 goto        3600    IN    CNAME    goto.jenkins.cloudbees.net.          ; hosted app on CloudBees RUN@cloud
 recipe      3600    IN    CNAME    recipe.jenkins.cloudbees.net.        ; hosted app on CloudBees RUN@cloud
