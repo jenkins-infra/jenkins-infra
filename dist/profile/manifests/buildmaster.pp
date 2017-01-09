@@ -161,6 +161,16 @@ class profile::buildmaster(
     notify  => Service['docker-jenkins'],
   }
 
+  file { "${groovy_d}/terraform-credentials.groovy":
+    ensure  => present,
+    require => [
+        File[$groovy_d],
+        File["${ssh_dir}/azure_k8s.pub"],
+    ],
+    source  => "puppet:///modules/${module_name}/buildmaster/terraform-credentials.groovy",
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
   ##############################################################################
 
 
@@ -179,6 +189,24 @@ class profile::buildmaster(
     require => File[$jenkins_home],
     creates => "${ssh_dir}/${ssh_cli_key}",
     command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
+  }
+
+  file { "${ssh_dir}/azure_k8s":
+    ensure  => present,
+    mode    => '0600',
+    content => hiera('azure::k8s::management_ssh_privkey'),
+    require => [
+        File[$ssh_dir],
+    ],
+  }
+
+  file { "${ssh_dir}/azure_k8s.pub":
+    ensure  => present,
+    mode    => '0644',
+    content => hiera('azure::k8s::management_ssh_pubkey'),
+    require => [
+        File[$ssh_dir],
+    ],
   }
   ##############################################################################
 

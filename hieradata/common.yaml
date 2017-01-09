@@ -248,6 +248,38 @@ profile::pluginsite::image_tag: '24-0d1adf'
 azure::releases::account_name: 'overridewithstorageaccountname'
 azure::releases::access_key: 'overridewithaccesskey'
 
+# Overridden for production, non-production dummy keys sourced from:
+# https://github.com/jenkins-infra/azure/blob/master/ssh_key
+azure::k8s::management_ssh_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  MIIEpQIBAAKCAQEA75ct2RfZ7WF5b8P0kv7/vC8BrXp9Ah72HSI2NctTXEdkq19w
+  M7/8wz0rU2okU3DlhhAcp/OKulUch+Pojfh2N9bTKKVRqShFCbyJD+6qVvFBqTUu
+  TDzoYQnzrAcRh2egM4y8KTrB65RGoYJe7VNSVuFZ1+I0cvtpkCZKpx7T3qmGTLTW
+  cMpoafDY75csbcS8OaTbucHfLp13ri5B+98yb5PJDYI8OT9nIOFAVV10BHckSdK8
+  C8OJi1cx72NrCM+U/QDfqs9vVYDepptX2T3vrBy3wywRSuQFpb079I71/k8q368h
+  uF8J1P5METp+SiQ2tUp7gKu/CZaGTrINuDV2gQIDAQABAoIBACBTG0Jw71wRjJrB
+  q1uxv7sZ9HX9UqRYnQftN7cmSYbnsvNUGwVAX8/PjurgJSqEztK5lcQrHYpqNUE4
+  RIXzAbAi8bZIJ65U2ounvi5CGwVD44H6xNZQWWHOP+vzwC+ukXSjBjfhz4wDI0xj
+  FH+cgD1shfyUblMdDG8AW44UoK0nmzdlncmdjQ9Oqj+nmOSQ2/nNY+2MAQZHO2LM
+  POCjWl0l+uUlXhmCZRs+ioK6emRuv74cvBq9eURgl+8boweRHp1B5tevCK9/xRta
+  H225CoCHy1bXHSsEVWk1ULjpwmNb3aelJiTXbcJepjslXCKzFRkXDDLcnZ2qKjjd
+  QAK7aeECgYEA/ieQ51HrogzOZGZyi+PlWt/7Xv+j+Gg3OaOHorLGGpANrzJor0TM
+  ab/Qm282Zi71QANnhtS8mcp4yfrC/orfMAYpcrHt6zmCTUrGYTccxHMu1PI5BOBO
+  jzNBGCnzrOt3fg238snNjskSuRKBv/6jXPFiQgpKQGDrskAHw1aLrWUCgYEA8VSK
+  c0h3KZbCK9ro9/iYUInblU9IgNptX9uG122wBhTnF2QnhxS/AHVmaMGku/y79z49
+  g6JWjmssONRFGljgD0+nTahHtV8X+IOE+S+FZYuq5KabfsacKtYA3HH/TvKU8EtP
+  5ozk567atNFV62bMp5042XUy+5xW/ApHmCYnMO0CgYEAtpLntjSUJ+I5Ncieir2Y
+  2lJCenj8aos6+M3vtsHkK9rF6dA1gYrTqTfg/HfExV0AUw7fBO232manpLjd8QsD
+  z7Tte3Y0KqEyaKHJprZ3lOwFfXXP3h/gb2BrZ5djdBnmygfC18d+Qg9Rwt93k9ux
+  sSe55SUNN/gn+PGkYf++8T0CgYEA60PxnSWeFctFDB/jUirlwk5C5TJfik5mpjaL
+  I+Vo3uTtzJ308vlEoxvQdHujLyjZzdS9f2B5ZWoRuG0n2OGfvQ14GnrdPXGxGrKM
+  paiwMSiRt0q8+ECC6jeqqz3vGXXfwMqK4EWmuj56NCCH1G9pQFZDn6tjwmrNWfRj
+  i25WcpkCgYEAinfmt1EEI3mL0K8xIsaOlLd7drmTgvvdei3SoeNMiJ3MeUTJyO+I
+  s9K0xBYovtrhZKmH4+XcJaPURtn7FSfl1M9EJW41xzqEBl4bMPsQyYZuM1coQyTx
+  2AtD166eqqWAOZWcvVAax9yTR322MO+mV7yryMtIRoPUuVHw6uz/MJI=
+  -----END RSA PRIVATE KEY-----
+azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlvw/SS/v+8LwGten0CHvYdIjY1y1NcR2SrX3Azv/zDPStTaiRTcOWGEByn84q6VRyH4+iN+HY31tMopVGpKEUJvIkP7qpW8UGpNS5MPOhhCfOsBxGHZ6AzjLwpOsHrlEahgl7tU1JW4VnX4jRy+2mQJkqnHtPeqYZMtNZwymhp8NjvlyxtxLw5pNu5wd8unXeuLkH73zJvk8kNgjw5P2cg4UBVXXQEdyRJ0rwLw4mLVzHvY2sIz5T9AN+qz29VgN6mm1fZPe+sHLfDLBFK5AWlvTv0jvX+TyrfryG4XwnU/kwROn5KJDa1SnuAq78JloZOsg24NXaB'
+
 
 limits:
   '*':
