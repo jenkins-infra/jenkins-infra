@@ -10,7 +10,6 @@ describe 'profile::buildmaster' do
 
   context 'Jenkins configuration' do
     it { should contain_class 'jenkins' }
-    it { should contain_file('/var/lib/jenkins/hudson.plugins.git.GitSCM.xml') }
 
     # https://issues.jenkins-ci.org/browse/INFRA-916
     context 'as a Docker container' do
