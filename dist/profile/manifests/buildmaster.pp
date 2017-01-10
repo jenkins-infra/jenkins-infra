@@ -49,6 +49,7 @@ class profile::buildmaster(
   $script_dir = '/usr/share/jenkins'
   $cli_script = "${script_dir}/idempotent-cli"
   $lockbox_script = "${script_dir}/lockbox.groovy"
+  $groovy_d = "${jenkins_home}/init.groovy.d"
 
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
@@ -61,7 +62,6 @@ class profile::buildmaster(
     version        => absent,
     repo           => false,
     service_enable => false,
-    service_ensure => stopped,
     cli            => false,
   }
 
@@ -93,16 +93,19 @@ class profile::buildmaster(
     ],
   }
 
+  file { '/etc/default/jenkins':
+    ensure  => present,
+  }
   # Make sure the old init script is gone, since the package removal won't
   # handle it
   # https://issues.jenkins-ci.org/browse/INFRA-916
-  file { '/etc/init.d/jenkins':
-    ensure => absent,
-  }
-  file { '/etc/default/jenkins':
+  # No-op, just to make puppet-jenkins STFU
+  file { '/etc/init.d/jenkins' :
     ensure  => present,
-    content => 'This file is no longer used',
+    mode    => '0755',
+    content => '#!/bin/sh',
   }
+
 
   file { $script_dir:
     ensure => directory,
@@ -113,7 +116,7 @@ class profile::buildmaster(
   # These files should be laid down on the file system before Jenkins starts
   # such that they're loaded properly
   ##############################################################################
-  file { "${jenkins_home}/init.groovy.d":
+  file { $groovy_d:
     ensure  => directory,
     owner   => 'jenkins',
     require => [
@@ -122,29 +125,42 @@ class profile::buildmaster(
     ],
   }
 
-  file { "${jenkins_home}/init.groovy.d/enable-ssh-port.groovy":
+  file { "${groovy_d}/enable-ssh-port.groovy":
     ensure  => present,
     owner   => 'jenkins',
     source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
     require => [
         User['jenkins'],
-        File[$jenkins_home],
+        File[$groovy_d],
     ],
     before  => Docker::Run['jenkins'],
     notify  => Service['docker-jenkins'],
   }
 
-  file { "${jenkins_home}/init.groovy.d/set-up-git.groovy":
+  file { "${groovy_d}/set-up-git.groovy":
     ensure  => present,
     owner   => 'jenkins',
     source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
     require => [
         User['jenkins'],
-        File[$jenkins_home],
+        File[$groovy_d],
     ],
     before  => Docker::Run['jenkins'],
     notify  => Service['docker-jenkins'],
   }
+
+  file { "${groovy_d}/lock-down-jenkins.groovy":
+    ensure  => present,
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+        Exec['generate-cli-ssh-key'],
+    ],
+    content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
   ##############################################################################
 
 
@@ -206,25 +222,14 @@ class profile::buildmaster(
 
 
   file { $lockbox_script :
-    ensure  => present,
-    require => File[$script_dir],
-    content =>template("${module_name}/buildmaster/lockbox.groovy.erb"),
-  }
-  profile::jenkinsgroovy { 'lock-down-jenkins':
-    path    => $lockbox_script,
-    require => [
-      File[$lockbox_script],
-      File[$cli_script],
-      Exec['generate-cli-ssh-key'],
-    ],
+    ensure  => absent,
   }
 
   profile::jenkinsplugin { $plugins:
     # Only install plugins after we've secured Jenkins, that seems reasonable
     require => [
       File[$cli_script],
-      Exec['generate-cli-ssh-key'],
-      Profile::Jenkinsgroovy['lock-down-jenkins'],
+      File["${groovy_d}/lock-down-jenkins.groovy"],
     ],
   }
 
@@ -252,7 +257,7 @@ class profile::buildmaster(
       Docker::Run['jenkins'],
       File[$docroot],
       # We need our installation to be secure before we allow access
-      Profile::Jenkinsgroovy['lock-down-jenkins'],
+      File["${groovy_d}/lock-down-jenkins.groovy"],
     ],
     port                  => 443,
     override              => 'All',
