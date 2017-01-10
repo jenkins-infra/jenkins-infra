@@ -3,8 +3,6 @@
 define profile::jenkinsgroovy (
   $path = $name,
 ) {
-  include ::jenkins::cli
-
   validate_string($name)
   validate_string($path)
 

@@ -5,7 +5,7 @@ describe 'jenkins_master' do
   it_behaves_like 'an Apache webserver'
 
   context 'the jenkins service' do
-    describe service('jenkins') do
+    describe service('docker-jenkins') do
       it { should be_enabled }
       it { should be_running }
     end
