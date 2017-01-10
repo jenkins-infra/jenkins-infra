@@ -4,8 +4,6 @@
 #
 define profile::jenkinsplugin (
 ) {
-  include ::jenkins::cli
-
   validate_string($name)
 
   exec { "install-plugin-${name}":
@@ -15,6 +13,6 @@ define profile::jenkinsplugin (
     path      => ['/bin', '/usr/bin'],
     unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi",
     require   => Docker::Run['jenkins'],
-    notify    => Exec['safe-restart-jenkins'],
+    notify    => Exec['safe-restart-jenkins-via-ssh-cli'],
   }
 }

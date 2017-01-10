@@ -18,6 +18,7 @@ class profile::buildmaster(
   $letsencrypt = true,
   $plugins     = undef,
   $proxy_port  = 443,
+  $jenkins_home= '/var/lib/jenkins',
 ) {
   include ::stdlib
   include ::apache
@@ -42,6 +43,17 @@ class profile::buildmaster(
   $ldap_admin_dn = hiera('ldap_admin_dn')
   $ldap_admin_password = hiera('ldap_admin_password')
 
+  $ssh_dir = "${jenkins_home}/.ssh"
+  $ssh_cli_key = 'jenkins-cli-key'
+
+  $script_dir = '/usr/share/jenkins'
+  $cli_script = "${script_dir}/idempotent-cli"
+  $lockbox_script = "${script_dir}/lockbox.groovy"
+
+  $docroot = "/var/www/${ci_fqdn}"
+  $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
+
+
   class { '::jenkins':
     # Preventing the jenkins module from managing the package for us, since
     # we're using the Docker container, see:
@@ -50,6 +62,7 @@ class profile::buildmaster(
     repo           => false,
     service_enable => false,
     service_ensure => stopped,
+    cli            => false,
   }
 
   docker::run { 'jenkins':
@@ -66,16 +79,16 @@ class profile::buildmaster(
     # JAVA_OPTS override, breaking the current azure plugin:
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
     env              => [
-      'HOME=/var/jenkins_home',
+      "HOME=${jenkins_home}",
       'USER=jenkins',
-      'JAVA_OPTS="-Duser.home=/var/jenkins_home -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"',
+      'JAVA_OPTS="-Duser.home=/var/jenkins_home  -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"',
       'JENKINS_OPTS="--httpKeepAliveTimeout=60000"',
     ],
-    ports            => ['8080:8080', '50000:50000'],
-    volumes          => ['/var/lib/jenkins:/var/jenkins_home'],
+    ports            => ['8080:8080', '50000:50000', '22222:22222'],
+    volumes          => ["${jenkins_home}:/var/jenkins_home"],
     pull_on_start    => true,
     require          => [
-        File['/var/lib/jenkins'],
+        File[$jenkins_home],
         User['jenkins'],
     ],
   }
@@ -86,30 +99,111 @@ class profile::buildmaster(
   file { '/etc/init.d/jenkins':
     ensure => absent,
   }
+  file { '/etc/default/jenkins':
+    ensure  => present,
+    content => 'This file is no longer used',
+  }
 
-  $script_dir = '/usr/share/jenkins'
   file { $script_dir:
     ensure => directory,
   }
 
-  $ssh_dir = '/var/lib/jenkins/.ssh'
-  $ssh_cli_key = 'jenkins-cli-key'
+  # Jenkins custom-bootstrapping
+  #
+  # These files should be laid down on the file system before Jenkins starts
+  # such that they're loaded properly
+  ##############################################################################
+  file { "${jenkins_home}/init.groovy.d":
+    ensure  => directory,
+    owner   => 'jenkins',
+    require => [
+        User['jenkins'],
+        File[$jenkins_home],
+    ],
+  }
 
+  file { "${jenkins_home}/init.groovy.d/enable-ssh-port.groovy":
+    ensure  => present,
+    owner   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
+    require => [
+        User['jenkins'],
+        File[$jenkins_home],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${jenkins_home}/init.groovy.d/set-up-git.groovy":
+    ensure  => present,
+    owner   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
+    require => [
+        User['jenkins'],
+        File[$jenkins_home],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+  ##############################################################################
+
+
+  # Prepare Jenkins instance-only SSH keys for CLI usage
+  ##############################################################################
+  file { $ssh_dir :
+    ensure  => directory,
+    owner   => 'jenkins',
+    mode    => '0700',
+    require => [
+        User['jenkins'],
+        File[$jenkins_home],
+    ],
+  }
   exec { 'generate-cli-ssh-key':
-    require => File['/var/lib/jenkins'],
+    require => File[$jenkins_home],
     creates => "${ssh_dir}/${ssh_cli_key}",
     command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
   }
+  ##############################################################################
 
-  $cli_script = "${script_dir}/idempotent-cli"
+
+  # Bootstrap the Jenkins internal (to Jenkins) user entity for CLI work
+  ##############################################################################
+  file { "${script_dir}/create-jenkins-cli-user":
+    ensure  => present,
+    require => File[$script_dir],
+    source  => "puppet:///modules/${module_name}/buildmaster/create-jenkins-cli-user",
+    mode    => '0755',
+  }
+
+  exec { 'create-jenkins-cli-user':
+    creates => "${jenkins_home}/users/jenkins/config.xml",
+    command => "${script_dir}/create-jenkins-cli-user",
+    before  => Docker::Run['jenkins'],
+    require => [
+      File[$jenkins_home],
+      File["${script_dir}/create-jenkins-cli-user"],
+    ],
+  }
+  ##############################################################################
+
+  # CLI support
+  ##############################################################################
   file { $cli_script:
     ensure  => present,
     require => File[$script_dir],
     source  => "puppet:///modules/${module_name}/buildmaster/idempotent-cli",
     mode    => '0755',
   }
+  exec { 'safe-restart-jenkins-via-ssh-cli':
+    require     => [
+      File[$cli_script],
+    ],
+    command     => "${cli_script} safe-restart",
+    refreshonly => true,
+  }
+  ##############################################################################
 
-  $lockbox_script = "${script_dir}/lockbox.groovy"
 
   file { $lockbox_script :
     ensure  => present,
@@ -121,6 +215,7 @@ class profile::buildmaster(
     require => [
       File[$lockbox_script],
       File[$cli_script],
+      Exec['generate-cli-ssh-key'],
     ],
   }
 
@@ -128,6 +223,7 @@ class profile::buildmaster(
     # Only install plugins after we've secured Jenkins, that seems reasonable
     require => [
       File[$cli_script],
+      Exec['generate-cli-ssh-key'],
       Profile::Jenkinsgroovy['lock-down-jenkins'],
     ],
   }
@@ -135,11 +231,11 @@ class profile::buildmaster(
   exec { 'jenkins-reload-config':
     command     => "${cli_script} reload-configuration",
     refreshonly => true,
-    require     => File[$cli_script],
+    require     => [
+      File[$cli_script],
+      Exec['generate-cli-ssh-key'],
+    ],
   }
-
-  $docroot = "/var/www/${ci_fqdn}"
-  $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
 
   file { [$apache_log_dir, $docroot,]:
     ensure  => directory,
