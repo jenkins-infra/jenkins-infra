@@ -10,7 +10,6 @@ describe 'profile::buildmaster' do
 
   context 'Jenkins configuration' do
     it { should contain_class 'jenkins' }
-    it { should contain_file('/var/lib/jenkins/hudson.plugins.git.GitSCM.xml') }
 
     # https://issues.jenkins-ci.org/browse/INFRA-916
     context 'as a Docker container' do
@@ -24,6 +23,17 @@ describe 'profile::buildmaster' do
           :pull_on_start => true,
           :volumes => ['/var/lib/jenkins:/var/jenkins_home'],
         })
+      end
+    end
+
+    # Resources which ensure that we can run our local CLI scripting
+    context 'Local CLI access' do
+      it { should contain_file('/var/lib/jenkins/init.groovy.d').with_ensure(:directory) }
+      it { should contain_file('/var/lib/jenkins/.ssh').with_ensure(:directory) }
+
+      context 'init.groovy.d' do
+        it { should contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy') }
+        it { should contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy') }
       end
     end
   end
@@ -52,6 +62,7 @@ describe 'profile::buildmaster' do
     it { should_not contain_class 'profile::letsencrypt' }
     it { should_not contain_letsencrypt__certonly(fqdn) }
   end
+
 
   context 'apache configuration' do
     it { should contain_class 'apache' }
