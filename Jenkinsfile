@@ -7,34 +7,36 @@ def dockerImage = 'rtyler/jenkins-infra-builder'
 properties([[$class: 'BuildDiscarderProperty',
                 strategy: [$class: 'LogRotator', numToKeepStr: '10']]])
 
-parallel(lint: {
-            node(nodeLabel) {
-                runInside(dockerImage) {
-                    sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
-                    sh 'bundle exec rake lint'
+stage('Validate') {
+    parallel(lint: {
+                node(nodeLabel) {
+                    runInside(dockerImage) {
+                        sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
+                        sh 'bundle exec rake lint'
+                    }
                 }
-            }
-        },
-        verifyZoneFiles: {
-            node(nodeLabel) {
-                validateZoneFor('jenkins-ci.org', dockerImage)
-                validateZoneFor('jenkins.io', dockerImage)
-            }
-        },
-        rspec: {
-            node(nodeLabel) {
-                runInside(dockerImage) {
-                    sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
-                    /* Some gems seem to want to stuff things into hidden
-                     * directories under $HOME, e.g.
-                     *   Could not initialize global default settings:
-                     *   Permission denied - /.puppetlabs
-                     */
-                    sh 'HOME=$PWD bundle exec rake spec'
+            },
+            verifyZoneFiles: {
+                node(nodeLabel) {
+                    validateZoneFor('jenkins-ci.org', dockerImage)
+                    validateZoneFor('jenkins.io', dockerImage)
                 }
-            }
-        },
-    )
+            },
+            rspec: {
+                node(nodeLabel) {
+                    runInside(dockerImage) {
+                        sh 'mkdir -p vendor/gems && bundle install --without development plugins --path=vendor/gems'
+                        /* Some gems seem to want to stuff things into hidden
+                        * directories under $HOME, e.g.
+                        *   Could not initialize global default settings:
+                        *   Permission denied - /.puppetlabs
+                        */
+                        sh 'HOME=$PWD bundle exec rake spec'
+                    }
+                }
+            },
+        )
+}
 
 def validateZoneFor(dnsZone, dockerImage) {
     runInside(dockerImage) {

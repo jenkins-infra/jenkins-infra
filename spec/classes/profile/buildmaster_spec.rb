@@ -34,10 +34,14 @@ describe 'profile::buildmaster' do
       context 'init.groovy.d' do
         it { should contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy') }
         it { should contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy') }
+        it { should contain_file('/var/lib/jenkins/init.groovy.d/terraform-credentials.groovy') }
       end
     end
   end
 
+
+  # Key needed for k8s management
+  it { should contain_file('/var/lib/jenkins/.ssh/azure_k8s') }
 
   context 'JNLP' do
     it 'should open the JNLP port in the firewall' do
