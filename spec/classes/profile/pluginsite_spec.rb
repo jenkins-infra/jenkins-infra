@@ -32,8 +32,20 @@ describe 'profile::pluginsite' do
     it { should contain_file('/srv/pluginsite').with_ensure(:directory) }
 
     context 'plugins.jenkins.io virtual host' do
-      it { should contain_apache__vhost 'plugins.jenkins.io' }
-      it { should contain_apache__vhost 'plugins.jenkins.io unsecured' }
+      it 'should have a vhost' do
+        expect(subject).to contain_apache__vhost('plugins.jenkins.io').with({
+          :port => 443,
+          :ssl  => true,
+        })
+      end
+
+      it 'should have a non-TLS vhost that redirects' do
+        expect(subject).to contain_apache__vhost('plugins.jenkins.io unsecured').with({
+          :port => 80,
+          :redirect_status => 'permanent',
+          :redirect_dest => 'https://plugins.jenkins.io/'
+        })
+      end
     end
   end
 
