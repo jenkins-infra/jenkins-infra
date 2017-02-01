@@ -6,7 +6,7 @@ describe 'profile::compliance' do
   context 'libssl1.0.0.' do
     it 'should comply with USN-2959-1' do
       expect(subject).to contain_package('libssl1.0.0').with({
-        :ensure => '1.0.1f-1ubuntu2.21',
+        :ensure => '1.0.1f-1ubuntu2.22',
       })
     end
   end
