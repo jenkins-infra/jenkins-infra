@@ -65,7 +65,7 @@ class profile::pluginsite(
     port            => '80',
     docroot         => $docroot,
     redirect_status => 'permanent',
-    redirect_dest   => "https://${pluginsite_fqdn}",
+    redirect_dest   => "https://${pluginsite_fqdn}/",
   }
 
 
