@@ -19,7 +19,7 @@ describe 'profile::buildmaster' do
 
       it 'should define a suitable docker::run' do
         expect(subject).to contain_docker__run('jenkins').with({
-          :image => 'jenkins',
+          :image => 'jenkinsci/jenkins',
           :pull_on_start => true,
           :volumes => ['/var/lib/jenkins:/var/jenkins_home'],
         })
