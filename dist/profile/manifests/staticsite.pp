@@ -118,6 +118,7 @@ class profile::staticsite(
     port          => '443',
     ssl           => true,
     docroot       => $beta_docroot,
+    override      => 'FileInfo',
     require       => File[$beta_docroot],
   }
 
