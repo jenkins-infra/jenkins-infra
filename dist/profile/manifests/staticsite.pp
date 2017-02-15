@@ -119,6 +119,11 @@ class profile::staticsite(
     ssl           => true,
     docroot       => $beta_docroot,
     require       => File[$beta_docroot],
+    directories   => [
+      { 'path'            =>  $beta_docroot,
+        'custom_fragment' => 'AllowOverrideList ErrorDocument',
+      }
+    ]
   }
 
   apache::vhost { 'jenkins.io unsecured':
