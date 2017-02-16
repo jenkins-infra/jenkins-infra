@@ -201,7 +201,7 @@ wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/
   ##########################
 
 
-  $conntrack_max = '131072'
+  $conntrack_max = '262144'
   # Double conntrack to ensure we can handle lots of connections
   file { '/etc/sysctl.d/30-conntrack.conf':
     ensure  => present,
