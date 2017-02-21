@@ -59,6 +59,13 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCt3ib6HIrn+sTERJW4/OI7VocQYDKSelZH76y7CKQjcOGK/Lsoo/31Gie0bRSJqgXMLXJxTfLmp1Bkx2QRiDVBixAZjUrVfzaIdCy2qnVPHjUaf4xkXXqoLsM0Av1xei8eSBq1zHLIN+AJH7VlJOt3XqNapG6iYSm1cH9yWcwgu5dX0urlhYybIIEfCwPth89v3+EqgMgEaV9Q7eTtpFwqv8omKO1vDuiH6/ez9npL60soLlj8hqVS9RoLZGtf1DYTxUka8tNLThnCH6DRToWCk9t3cghL+vyygc02fgve9oiVsLk9+QmdtuLCJMcm2Ah/VJqjOLFQdBn8xPscpzS1
     groups:
       - atlassian-admins
+  olblak:
+    ssh_keys:
+      oros:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3fajdGhdouy07qdycSZ39z9vADHV1TI04p3E6So4+47xR5bsi4Xylw8Xbd5mmrcFaEFJWXrzF3ryE2ufq7XlRxQk163qn8F+aWO434ENq7Ra3UyV9J2YWYQlYFC0v/Z1/N7gNZLADUP7g4E8+1lAJlTia6Pd8Z1a59jFArnl03MRBbo3yPosDoAXb7N5+Ad19FkjFnfYX13AK86NRkoY34JNfkPaA6n2u1iVX0GUeh8IV86+6q3WTU5nSwPJlYTMl4lzdO11VPoC3EupPYkBV8Rn1O1N6VDwCUGp8d/Tk1/kJhs9gP40kh5JeggHd+cP1X4rCellSnl9qhq5u1q5
+    groups:
+      - atlassian-admins
+      - sudo
 
 
 # Lets Encrypt settings
