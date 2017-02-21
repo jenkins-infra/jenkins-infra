@@ -59,6 +59,13 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCt3ib6HIrn+sTERJW4/OI7VocQYDKSelZH76y7CKQjcOGK/Lsoo/31Gie0bRSJqgXMLXJxTfLmp1Bkx2QRiDVBixAZjUrVfzaIdCy2qnVPHjUaf4xkXXqoLsM0Av1xei8eSBq1zHLIN+AJH7VlJOt3XqNapG6iYSm1cH9yWcwgu5dX0urlhYybIIEfCwPth89v3+EqgMgEaV9Q7eTtpFwqv8omKO1vDuiH6/ez9npL60soLlj8hqVS9RoLZGtf1DYTxUka8tNLThnCH6DRToWCk9t3cghL+vyygc02fgve9oiVsLk9+QmdtuLCJMcm2Ah/VJqjOLFQdBn8xPscpzS1
     groups:
       - atlassian-admins
+  olblak:
+    ssh_keys:
+      oros:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3fajdGhdouy07qdycSZ39z9vADHV1TI04p3E6So4+47xR5bsi4Xylw8Xbd5mmrcFaEFJWXrzF3ryE2ufq7XlRxQk163qn8F+aWO434ENq7Ra3UyV9J2YWYQlYFC0v/Z1/N7gNZLADUP7g4E8+1lAJlTia6Pd8Z1a59jFArnl03MRBbo3yPosDoAXb7N5+Ad19FkjFnfYX13AK86NRkoY34JNfkPaA6n2u1iVX0GUeh8IV86+6q3WTU5nSwPJlYTMl4lzdO11VPoC3EupPYkBV8Rn1O1N6VDwCUGp8d/Tk1/kJhs9gP40kh5JeggHd+cP1X4rCellSnl9qhq5u1q5
+    groups:
+      - atlassian-admins
+      - sudo
 
 
 # Lets Encrypt settings
@@ -105,7 +112,7 @@ profile::l10n_server::image_tag: '3a5429b'
 
 
 # corresponds to Git tag in https://github.com/jenkins-infra/infra-rating
-profile::rating::image_tag: 'build8a3eb3'
+profile::rating::image_tag: 'build310bb5'
 profile::rating::dbconfig: |
   ENC[PKCS7,MIICGwYJKoZIhvcNAQcDoIICDDCCAggCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAzkg6biDr6WEQub2or38ZGXUkUBlN3ccSj/2NpEZwvVW5iVVyX5QCRb4FdUePrCcZJGIv66jy04csy4c6aAJI/ZkRQK9AUYUhERdkLP6MwQtGxTnkBzCK/cuNNkYvuy3w7pp7yBZD2ZwE3Hl8aWbDDiTEqBmCllSZYFS6yy1/nWtgFac5l3F4bjoaIQrKf9DQsuvxkmoiBvZu8tQT383ni3tRh7gbNdV4wmzqLh4NZt8UhRrkMZ/tr3d+f/0L6SHrIuNP8xEeJM+Eb2T5bnRAmfvAFkaaaFxdpo4RNF3/3ar7OCDnHmQh6WfCnYCvpDbBi3vfBsC1EVszcd3rKRwyoTCB3QYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQMK7h6BgshvMmTnvbTnLwdoCBsCad1NcjzCBem4tYwp1oUc0F9iD4WDeusCHJzLtA8ubv4DbNNNQNI53CdE6SxltwScf3nH5+6/7mjI0kXQ8wX8/iFue0OqqBbFeq59P0dxiH0eLLa7+RG/k+G5gm1m5wnNpHHVPROsqEhXGEKYxGZ7PtRfvE3iP3h2M3HPYlU8245KGaPd4jhhh6AffUCWfqDOB53q7qHE+Ttdp9g8XJH2zFKmPbAKgENt9zuo9lMYz4]
 
