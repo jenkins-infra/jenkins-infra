@@ -291,17 +291,16 @@ azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlv
 
 
 profile::datadog_ssl_check::sites:
-    - issues.jenkins-ci.org
-    - wiki.jenkins-ci.org
-    - jenkins.io
-    - www.jenkins.io
-    - ci.jenkins.io
-    - mirrors.jenkins.io
     - accounts.jenkins.io
-    - usage.jenkins.io
+    - ci.jenkins.io
+    - issues.jenkins-ci.org
+    - jenkins.io
     - pkg.jenkins.io
-    - updates.jenkins.io
     - plugins.jenkins.io
+    - usage.jenkins.io
+    - updates.jenkins.io
+    - wiki.jenkins-ci.org
+    - www.jenkins.io
 
 limits:
   '*':
