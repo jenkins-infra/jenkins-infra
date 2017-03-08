@@ -28,6 +28,11 @@ class profile::confluence (
     group  => $profile::atlassian::group_name,
   }
 
+  file { '/var/log/apache2/wiki.jenkins.io':
+    ensure => directory,
+    group  => $profile::atlassian::group_name,
+  }
+
   file { '/srv/wiki/home':
     ensure => directory,
     # confluence container is baked with UID=1000 & GID=1001
@@ -116,6 +121,28 @@ class profile::confluence (
     access_log_pipe => '/dev/null',
     redirect_status => 'temp',
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
+  }
+
+  apache::vhost { 'wiki.jenkins.io':
+    port            => '443',
+    docroot         => '/srv/wiki/docroot',
+    access_log      => false,
+    error_log_file  => 'wiki.jenkins.io/error.log',
+    log_level       => 'warn',
+    custom_fragment => template("${module_name}/confluence/vhost.conf"),
+
+    notify          => Service['apache2'],
+    require         => File['/var/log/apache2/wiki.jenkins.io'],
+  }
+  ### #endif
+
+  apache::vhost { 'wiki.jenkins.io non-ssl':
+    # redirect non-SSL to SSL
+    servername      => 'wiki.jenkins.io',
+    port            => '80',
+    docroot         => '/srv/wiki/docroot',
+    redirect_status => 'temp',
+    redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
   profile::apachemaintenance { 'wiki.jenkins-ci.org':
