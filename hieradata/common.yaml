@@ -295,6 +295,13 @@ profile::datadog_ssl_check::sites:
     - wiki.jenkins-ci.org
     - jenkins.io
     - www.jenkins.io
+    - ci.jenkins.io
+    - mirrors.jenkins.io
+    - accounts.jenkins.io
+    - usage.jenkins.io
+    - pkg.jenkins.io
+    - updates.jenkins.io
+    - plugins.jenkins.io
 
 limits:
   '*':
