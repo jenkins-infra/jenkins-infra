@@ -4,9 +4,10 @@
 #
 
 class profile::datadog_ssl_check (
-  $sites = undef,
+  $sites = ["N/A"]
 ){
 
+  require datadog_agent
   include datadog_agent
 
   file { 'ssl_check_expire_days.py':
