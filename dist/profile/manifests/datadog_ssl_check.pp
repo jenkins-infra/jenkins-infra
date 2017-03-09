@@ -2,12 +2,10 @@
 # Define datadog check for ssl expiration
 # Inspired by: https://workshop.avatarnewyork.com/project/datadog-ssl-expires-check/
 #
-
 class profile::datadog_ssl_check (
-  $sites = undef,
+  $sites = [],
 ){
-
-  include datadog_agent
+  require datadog_agent
 
   file { 'ssl_check_expire_days.py':
     ensure => present,
