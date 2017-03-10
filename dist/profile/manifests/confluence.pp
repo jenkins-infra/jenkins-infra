@@ -14,6 +14,7 @@ class profile::confluence (
   include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
+  include profile::letsencrypt
 
   account { 'wiki':
     home_dir => '/srv/wiki',
@@ -113,6 +114,16 @@ class profile::confluence (
   }
   ### #endif
 
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'wiki.jenkins.io':
+        domains     => ['wiki.jenkins.io'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
+  }
+
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
     servername      => 'wiki.jenkins-ci.org',
@@ -120,11 +131,17 @@ class profile::confluence (
     docroot         => '/srv/wiki/docroot',
     access_log_pipe => '/dev/null',
     redirect_status => 'temp',
-    redirect_dest   => 'https://wiki.jenkins-ci.org/'
+    redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
   apache::vhost { 'wiki.jenkins.io':
     port            => '443',
+    ssl             => true,
+    ssl_key         => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+    ssl_cert        => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
+    ssl_chain       => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
     docroot         => '/srv/wiki/docroot',
     access_log      => false,
     error_log_file  => 'wiki.jenkins.io/error.log',
