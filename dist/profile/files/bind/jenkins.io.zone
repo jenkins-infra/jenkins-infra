@@ -2,7 +2,7 @@
 
 ; SOA Record
 @  1D  IN  SOA    ns1.jenkins-ci.org. tyler.monkeypox.org. (
-                2017030801 ; serial, todays date + todays serial #
+                2015122201 ; serial, todays date + todays serial #
                 28800      ; refresh, seconds
                 7200       ; retry, seconds
                 604800     ; expire, seconds
