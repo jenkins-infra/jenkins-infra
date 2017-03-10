@@ -122,6 +122,14 @@ class profile::confluence (
         plugin      => 'apache',
         manage_cron => true,
     }
+    Apache::Vhost <| title == "wiki.jenkins.io" |> {
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+      ssl_key       => "/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem",
+      ssl_cert      => "/etc/letsencrypt/live/wiki.jenkins.io/cert.pem",
+      ssl_chain     => "/etc/letsencrypt/live/wiki.jenkins.io/chain.pem",
+    }
+
   }
 
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
@@ -137,11 +145,6 @@ class profile::confluence (
   apache::vhost { 'wiki.jenkins.io':
     port            => '443',
     ssl             => true,
-    ssl_key         => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
-    # When Apache is upgraded to >= 2.4.8 this should be changed to
-    # fullchain.pem
-    ssl_cert        => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
-    ssl_chain       => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
     docroot         => '/srv/wiki/docroot',
     access_log      => false,
     error_log_file  => 'wiki.jenkins.io/error.log',
