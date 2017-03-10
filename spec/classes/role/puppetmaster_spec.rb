@@ -9,4 +9,5 @@ describe 'role::puppetmaster' do
 
   it { should contain_class 'profile::puppetmaster' }
   it { should contain_class 'profile::sudo::osu' }
+  it { should contain_class 'profile::datadog_ssl_check' }
 end
