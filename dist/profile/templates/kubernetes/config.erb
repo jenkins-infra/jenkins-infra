@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: <%= @certificate_authority_data %>
+    server: <%= @server %>
+  name: "<%= @clustername %>"
+contexts:
+- context:
+    cluster: <%= @clustername %>
+    user: "<%= @username %>"
+  name: "<%= @clustername %>"
+current-context: "<%= @clustername %>"
+kind: Config
+users:
+- name: "<%= @username %>"
+  user:
+    client-certificate-data: <%= @client_certificate_data %>
+    client-key-data: <%= @client_key_data %>
