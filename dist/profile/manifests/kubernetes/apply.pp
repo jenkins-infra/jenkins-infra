@@ -1,20 +1,20 @@
-# Define: profile::kubernetes::apply
+#   Define: profile::kubernetes::apply
 #
-# This definition will template and apply kubernetes resource received by argument
+#   This definition will template and apply kubernetes resource received by argument
 #
-# Parameters:
-#   $resource:
-#     Resource name with following format <name>/file.yaml
-#     ! ${module_name}/kubernetes/resources/${resource}.erb must exist
-#   $parameters:
-#     Parameters used in erb templates
+#   Parameters:
+#     $resource:
+#       Resource name with following format <name>/file.yaml
+#       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
+#     $parameters:
+#       Parameters used in erb templates
 #
-# Sample usage:
-#   profile::kubernetes::apply { 'datadog/secret.yaml':
-#     parameters => {
-#       apiKey => 'secret_key'
+#   Sample usage:
+#     profile::kubernetes::apply { 'datadog/secret.yaml':
+#       parameters => {
+#         apiKey => 'secret_key'
+#       }
 #     }
-#   }
 #
 define profile::kubernetes::apply (
   String $resource = $title,

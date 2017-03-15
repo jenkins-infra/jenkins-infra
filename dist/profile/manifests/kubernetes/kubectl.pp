@@ -3,7 +3,7 @@
 #   This class install everything need to run kubectl command
 #   System use, directories, configuration, binary,...
 #
-#   Paramaters:
+#   Parameters:
 #     $user:
 #       System use who run kubectl command
 #     $home:
