@@ -36,7 +36,6 @@ class profile::kubernetes::resources::datadog (
     refreshonly => true,
     environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
     logoutput   => true,
-    onlyif      => 'kubectl get daemonset datadog',
     subscribe   => [
       Exec['apply datadog/secret.yaml'],
       Exec['apply datadog/daemonset.yaml'],
