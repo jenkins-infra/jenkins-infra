@@ -2,61 +2,45 @@
 class profile::kubernetes::resources::datadog (
     $apiKey = base64('encode', $::datadog_agent::api_key, 'strict')
   ){
-  include ::stdlib
   include profile::kubernetes::params
-  include profile::kubernetes::kubectl
+  require profile::kubernetes::kubectl
 
-  file { 'datadog_dir':
+  file { "${profile::kubernetes::params::resources}/datadog":
     ensure => 'directory',
     owner  => $profile::kubernetes::params::user,
-    path   => "${profile::kubernetes::params::resources}/datadog",
   }
 
-  file { 'datadog_secret':
-    ensure  => 'present',
-    content => template("${module_name}/kubernetes/resources/datadog/secret.yaml.erb"),
-    path    => "${profile::kubernetes::params::resources}/datadog/secret.yaml",
-    owner   => $profile::kubernetes::params::user,
+  profile::kubernetes::apply { 'datadog/secret.yaml':
+    parameters => {
+        'apiKey' => $apiKey
+    },
   }
+  profile::kubernetes::apply { 'datadog/daemonset.yaml':}
 
-  file { 'datadog_daemonset':
-    ensure  => 'present',
-    content => template("${module_name}/kubernetes/resources/datadog/daemonset.yaml.erb"),
-    path    => "${profile::kubernetes::params::resources}/datadog/daemonset.yaml",
-    owner   => $profile::kubernetes::params::user,
-  }
-
-  $daemonset = loadyaml("${profile::kubernetes::params::resources}/datadog/daemonset.yaml")
-  # Search app label value
-  if ! empty($daemonset){
-    $label_app = $daemonset['spec']['template'][metadata][labels][app]
-  }
-
-  exec { 'apply secret':
-    command     => "kubectl apply -f ${profile::kubernetes::params::resources}/datadog/secret.yaml",
+  # As secret changes do not trigger pods update,
+  # we must reload pods 'manually' to use the newly updated secret
+  # If we delete a pod defined by daemonset,
+  # this daemonset will recreate a new one
+  exec { 'Reload datadog pods':
     path        => ["${profile::kubernetes::params::bin}/"],
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-  }
-
-  exec { 'apply daemonset':
-    command     => "kubectl apply -f ${profile::kubernetes::params::resources}/datadog/daemonset.yaml",
-    path        => ["${profile::kubernetes::params::bin}/"],
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-  }
-
-  # Only delete pods if secrets were udpated and daemonset already exist
-  exec { 'reset daemonset pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => "kubectl delete pods -l app=${label_app}",
+    command     => 'kubectl delete pods -l app=datadog',
     refreshonly => true,
     environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
     logoutput   => true,
     onlyif      => 'kubectl get daemonset datadog',
     subscribe   => [
-      File['datadog_secret'],
+      Exec['apply datadog/secret.yaml'],
+      Exec['apply datadog/daemonset.yaml'],
     ],
-    before      => Exec['apply daemonset']
+  }
+  exec { 'Get datadog pods':
+    path        => ["${profile::kubernetes::params::bin}/"],
+    command     => 'kubectl get pods -l app=datadog',
+    refreshonly => true,
+    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
+    logoutput   => true,
+    subscribe   => [
+      Exec['apply datadog/secret.yaml'],
+    ],
   }
 }
