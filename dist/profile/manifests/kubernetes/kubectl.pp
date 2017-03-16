@@ -22,13 +22,16 @@
 #       Kubernetes cluster name
 #       Used to template .kube/config
 #       Cfr .kube/config for more information
-#     $certificate_authority_data
+#     $certificate_authority_data:
 #       Used to template .kube/config
 #       Cfr .kube/config for more information
-#     $client_certificate_data
+#     $client_certificate_data:
 #       Used to template .kube/config
 #       Cfr .kube/config for more information
-#     $username
+#     $username:
+#       Used to template .kube/config
+#       Cfr .kube/config for more information
+#     $client_key_data:
 #       Used to template .kube/config
 #       Cfr .kube/config for more information
 #
