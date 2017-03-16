@@ -4,8 +4,6 @@ describe 'profile::kubernetes::resources::datadog' do
    let (:params) do 
        {
           :apiKey    => 'datadogapikey',
-#          :user      => 'k8s',
-#          :resources => '/home/k8s/resources'
        }
    end
    it { should contain_class('profile::kubernetes::params') }
