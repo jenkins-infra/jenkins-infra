@@ -52,7 +52,6 @@ class profile::kubernetes::kubectl (
 
   user { $user:
     ensure     => 'present',
-    name       => $user,
     home       => $home,
     managehome => true
   }
