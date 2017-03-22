@@ -25,6 +25,7 @@ class profile::kubernetes::resources::datadog (
     },
   }
   profile::kubernetes::apply { 'datadog/daemonset.yaml':}
+  profile::kubernetes::apply { 'datadog/deployment.yaml':}
 
   # As secret changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated secret

@@ -14,6 +14,7 @@ describe 'profile::kubernetes::resources::datadog' do
      )
    }
    it { should contain_profile__kubernetes__apply('datadog/daemonset.yaml')}
+   it { should contain_profile__kubernetes__apply('datadog/deployment.yaml')}
    it { should contain_profile__kubernetes__apply('datadog/secret.yaml').with(
      :parameters => { 'apiKey' => 'datadogapikey'}
      )

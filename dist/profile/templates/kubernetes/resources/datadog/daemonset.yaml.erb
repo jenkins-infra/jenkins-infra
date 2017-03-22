@@ -25,6 +25,15 @@ spec:
           - containerPort: 8125
             name: dogstatsdport
             protocol: UDP
+          - containerPort: 8126
+            name: trace
+            protocol: TCP
+            # Port 7777 is a legacy port used by former client libraries and is being replaced by 8126.
+            # For now, it is safer to expose both ports, unless you explicitly configure your
+            # client to use port 8126. Future client libraries will report to port 8126 by default.
+          - containerPort: 7777
+            name: legacy-trace
+            protocol: TCP
         env:
           - name: API_KEY
             valueFrom:
@@ -32,9 +41,11 @@ spec:
                     name: datadog
                     key: apiKey
           - name: KUBERNETES
-            value: "no"
+            value: "yes"
           - name: SD_BACKEND
             value: docker
+          - name: "DD_APM_ENABLED"
+            value: "yes"
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
