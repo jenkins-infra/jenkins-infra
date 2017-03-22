@@ -250,7 +250,7 @@ archives_mirroring_privkey: ''
 
 docker::version: '1.12.1-0~trusty'
 
-profile::pluginsite::image_tag: '47-df13c8'
+profile::pluginsite::image_tag: '50-8a166d'
 
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
