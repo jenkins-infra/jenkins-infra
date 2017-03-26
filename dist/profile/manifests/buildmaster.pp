@@ -292,7 +292,7 @@ class profile::buildmaster(
     ssl                   => true,
     docroot               => $docroot,
     error_log_file        => "${ci_fqdn}/error.log",
-    access_log_pipe       => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
     custom_fragment       => "
@@ -331,7 +331,7 @@ RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
     redirect_status => 'permanent',
     redirect_dest   => "https://${ci_fqdn}/",
     error_log_file  => "${ci_fqdn}/error_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => '/dev/null',
     require         => Apache::Vhost[$ci_fqdn],
   }
 
