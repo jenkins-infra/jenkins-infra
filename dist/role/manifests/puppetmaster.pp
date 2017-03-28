@@ -4,4 +4,5 @@ class role::puppetmaster {
   include profile::base
   include profile::puppetmaster
   include profile::sudo::osu
+  include profile::datadog_ssl_check
 }
