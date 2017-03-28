@@ -1,7 +1,7 @@
 #   Class: profile::kubernetes::kubectl
 #
-#   This class install everything need to run kubectl command
-#   System use, directories, configuration, binary,...
+#   This class install everything needed to run kubectl command
+#   System user, directories, configuration, kubectl binary,...
 #
 #   Parameters:
 #     $user:

@@ -1,0 +1,54 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: pluginsite
+    labels:
+        app: pluginsite
+        type: pluginsite
+        logtype: archive
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: pluginsite
+                type: pluginsite
+                logtype: archive
+        spec:
+            containers:
+                - name: pluginsite
+                  image: jenkinsciinfra/plugin-site:<%= @parameters['image_tag'] %>
+                  imagePullPolicy: Always
+                  livenessProbe:
+                      httpGet:
+                          path: /labels
+                          port: 8080
+                          scheme: HTTP
+                      initialDelaySeconds: 20
+                      timeoutSeconds: 5
+                  readinessProbe:
+                      httpGet:
+                          path: /labels
+                          port: 8080
+                          scheme: HTTP
+                      initialDelaySeconds: 30
+                      timeoutSeconds: 5
+                  ports:
+                      - containerPort: 5000
+                        protocol: TCP
+                      - containerPort: 8080
+                        protocol: TCP
+                  env:
+                      - name: REST_API_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: pluginsite
+                                key: plugin.site.api.url
+                      - name: DATA_FILE_URL
+                        valueFrom:
+                            configMapKeyRef:
+                                name: pluginsite
+                                key: plugin.site.data.file.url
+
+    # It seems that this pod require quite a lot of resources, so let's wait and see before defining resource limitation

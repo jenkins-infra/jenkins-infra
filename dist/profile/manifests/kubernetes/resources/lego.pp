@@ -5,9 +5,9 @@
 #
 #   Parameters:
 #     $email:
-#       Mail address used by letsencrypt to send notifications 
+#       Mail address used by letsencrypt to send notifications
 #     $url:
-#       Endpoint used by letsencrypt to get certificate 
+#       Endpoint used by letsencrypt to get certificate
 #       This value can also be set to https://acme-staging.api.letsencrypt.org/directory
 #       for staging environment
 #
