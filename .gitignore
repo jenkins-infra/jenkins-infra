@@ -6,3 +6,4 @@ spec/fixtures/
 vagrant2014*
 d2014*
 modules/
+.kube/
