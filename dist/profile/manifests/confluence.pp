@@ -11,6 +11,7 @@ class profile::confluence (
   # as a preparation, deploying mock-webapp and not the real confluence
 
   include profile::atlassian
+  include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
 
@@ -62,7 +63,7 @@ class profile::confluence (
 
   docker::run { 'confluence':
     command         => undef,
-    ports           => ['8081:8080'],
+    ports           => ['8081:8080', '8091:8091'],
     image           => "jenkinsciinfra/confluence:${image_tag}",
     volumes         => ['/srv/wiki/home:/srv/wiki/home', '/srv/wiki/cache:/srv/wiki/cache'],
     env_file        => '/srv/wiki/container.env',
@@ -111,6 +112,7 @@ class profile::confluence (
     servername      => 'wiki.jenkins-ci.org',
     port            => '80',
     docroot         => '/srv/wiki/docroot',
+    access_log_pipe => '/dev/null',
     redirect_status => 'temp',
     redirect_dest   => 'https://wiki.jenkins-ci.org/'
   }
@@ -130,5 +132,12 @@ class profile::confluence (
 
   host { 'wiki.jenkins-ci.org':
     ip => '127.0.0.1',
+  }
+
+  firewall {
+    '299 allow synchrony for Confluence':
+      proto  => 'tcp',
+      port   => 8091,
+      action => 'accept',
   }
 }
