@@ -29,6 +29,9 @@ class profile::catchall(
   }
 
   apache::vhost { 'jenkins-ci.org':
+    serveraliases   => [
+      'www.jenkins-ci.org',
+    ],
     docroot         => $docroot,
     port            => 443,
     ssl             => true,
