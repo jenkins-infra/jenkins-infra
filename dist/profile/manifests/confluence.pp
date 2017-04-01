@@ -11,6 +11,7 @@ class profile::confluence (
   # as a preparation, deploying mock-webapp and not the real confluence
 
   include profile::atlassian
+  include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
 
