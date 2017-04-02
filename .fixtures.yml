@@ -27,7 +27,7 @@ fixtures:
   forge_modules:
     stdlib:
       repo: 'puppetlabs/stdlib'
-      ref: '4.9.0'
+      ref: '4.15.0'
     datadog_agent:
       repo: 'datadog/datadog_agent'
       ref: '1.6.0'
