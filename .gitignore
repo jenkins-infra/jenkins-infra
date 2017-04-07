@@ -7,3 +7,5 @@ vagrant2014*
 d2014*
 modules/
 .kube/
+# hieradata/roles/kubernetes.yaml is used for local testing
+hieradata/roles/kubernetes.yaml
