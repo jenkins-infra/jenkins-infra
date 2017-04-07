@@ -38,6 +38,14 @@ class profile::jira (
     group   => $profile::atlassian::group_name,
   }
 
+  file { '/srv/jira/docroot/robots.txt':
+    ensure => directory,
+    owner  => 'jira',
+    mode   => '0755',
+    group  => $profile::atlassian::group_name,
+    source => 'puppet:///modules/profile/jira/robots.txt',
+  }
+
   # JIRA stores LDAP access information in database, not in file
   file { '/srv/jira/container.env':
     content => join([

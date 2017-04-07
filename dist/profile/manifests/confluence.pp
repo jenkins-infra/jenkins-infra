@@ -43,6 +43,7 @@ class profile::confluence (
   file { '/srv/wiki/docroot/robots.txt':
     ensure => directory,
     owner  => 'wiki',
+    mode   => '0755',
     group  => $profile::atlassian::group_name,
     source => 'puppet:///modules/profile/confluence/robots.txt',
   }
