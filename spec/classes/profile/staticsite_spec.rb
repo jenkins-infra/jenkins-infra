@@ -40,7 +40,7 @@ describe 'profile::staticsite' do
                 .with(:docroot => '/srv/jenkins.io/current') }
 
     it { should contain_apache__vhost('jenkins.io')
-                .with(:docroot => '/srv/jenkins.io/beta') }
+                .with( { :docroot => '/srv/jenkins.io/beta', :override  => ['FileInfo'] } ) }
 
     it 'should upgrade non-TLS to TLS' do
       expect(subject).to contain_apache__vhost('jenkins.io unsecured').with({
