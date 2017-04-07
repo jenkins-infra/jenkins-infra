@@ -19,7 +19,7 @@
 class profile::kubernetes::resources::pluginsite (
     String $url = 'plugins.jenkins.io',
     String $data_file_url = 'https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/plugins.json.gzip',
-    String $image_tag = 'latest'
+    String $image_tag = ''
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
