@@ -9,6 +9,8 @@
 #       Set frontend url
 #     $image_tag:
 #       Set plugin-site image tag
+#     $aliases:
+#       Set a list of $url aliases used by ingress
 #
 #   Remark:
 #     `kubectl get service nginx --namespace nginx-ingress` return service public ip
@@ -17,9 +19,10 @@
 
 # Deploy pluginsite resources on kubernetes cluster
 class profile::kubernetes::resources::pluginsite (
-    String $url = 'plugins.jenkins.io',
+    String $url = '',
     String $data_file_url = 'https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/plugins.json.gzip',
-    String $image_tag = ''
+    String $image_tag = '',
+    Array $aliases = []
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
@@ -34,6 +37,7 @@ class profile::kubernetes::resources::pluginsite (
   profile::kubernetes::apply { 'pluginsite/ingress-tls.yaml':
     parameters  => {
       'url'     => $url,
+      'aliases' => $aliases
     }
   }
   profile::kubernetes::apply { 'pluginsite/configmap.yaml':
