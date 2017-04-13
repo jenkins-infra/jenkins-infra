@@ -9,7 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - <%= @parameters['url'] %>
+      - <%= @parameters['url'] -%>
+  <% @parameters['aliases'].each do |vhost_alias| %>
+      - <%= vhost_alias -%>
+  <% end %>
     secretName: pluginsite-tls
   rules:
   - host: <%= @parameters['url'] %>
@@ -23,3 +26,16 @@ spec:
         backend:
           serviceName: pluginsite
           servicePort: 5000
+  <% @parameters['aliases'].each do |vhost_alias| %>
+  - host: <%= vhost_alias %>
+    http:
+      paths:
+      - path: /api
+        backend:
+          serviceName: pluginsite
+          servicePort: 8080
+      - path: /
+        backend:
+          serviceName: pluginsite
+          servicePort: 5000
+  <% end %>
