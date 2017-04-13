@@ -66,7 +66,7 @@ class profile::buildmaster(
   }
 
   docker::run { 'jenkins':
-    image            => 'jenkinsci/jenkins:2.46',
+    image            => 'jenkinsci/jenkins:lts-alpine',
     # This is a "clever" hack to force the init script to pass the numeric UID
     # through on `docker run`. Since passing the string 'jenkins' doesn't
     # actually map the UIDs properly. Using the extra_parameters option because
