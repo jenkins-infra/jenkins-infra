@@ -42,6 +42,9 @@ l10n        3600    IN    A    52.71.7.244    ; jenkins-l10n
 census      3600    IN    A    52.202.38.86   ; jenkins-census
 usage       3600    IN    A    52.204.62.78   ; jenkins-usage
 
+; Azure
+nginx.azure   3600    IN    A       52.225.129.228 ; kubernetes service: namespace:nginx-ingress name:nginx
+plugins.azure 3600    IN    CNAME   nginx.azure    ; used to test plugins.jenkins.io migration
 
 ; CNAME Records
 www         3600    IN    CNAME    @

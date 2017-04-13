@@ -5,7 +5,8 @@ describe 'profile::kubernetes::resources::pluginsite' do
     {
         :url           => 'plugins.jenkins.io',
         :data_file_url => 'https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/plugins.json.gzip',
-        :image_tag     => 'latest'
+        :image_tag     => 'latest',
+        :aliases       => []
     }
   end
   it { should contain_class('profile::kubernetes::params') }
@@ -35,7 +36,8 @@ describe 'profile::kubernetes::resources::pluginsite' do
   }
   it { should contain_profile__kubernetes__apply('pluginsite/ingress-tls.yaml').with(
     :parameters => {
-      'url'     => 'plugins.jenkins.io'
+      'url'     => 'plugins.jenkins.io',
+      'aliases' => []
       }
     )
   }
