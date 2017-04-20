@@ -1,0 +1,81 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: accountapp
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: accountapp
+        type: accountapp
+        logtype: archive
+    spec:
+      containers:
+        - name: accountapp
+          image: jenkinsciinfra/account-app:<%= @parameters['image_tag'] %>
+          imagePullPolicy: Always
+          env:
+            - name: LDAP_URL
+              value: '<%= @parameters['ldap_url'] %>'
+            - name: LDAP_MANAGER_DN
+              value: '<%= @parameters['ldap_manager_dn'] %>'
+            - name: LDAP_NEW_USER_BASE_DN
+              value: '<%= @parameters['ldap_new_user_base_dn'] %>'
+            - name: JIRA_USERNAME
+              value: '<%= @parameters['jira_username'] %>'
+            - name: JIRA_URL
+              value: '<%= @parameters['jira_url'] %>'
+            - name: RECAPTCHA_PUBLIC_KEY
+              value: '<%= @parameters['recaptcha_public_key'] %>'
+            - name: SMTP_SERVER
+              value: '<%= @parameters['smtp_server'] %>'
+            - name: APP_URL
+              value: '<%= @parameters['url'] %>'
+            - name: ELECTION_CLOSE
+              value: '<%= @parameters["election_close"] %>'
+            - name: ELECTION_OPEN
+              value: '<%= @parameters["election_open"] %>'
+            - name: ELECTION_LOGFILE
+              value: '<%= @parameters["election_logfile"] %>'
+            - name: ELECTION_CANDIDATES
+              value: '<%= @parameters["election_candidates"] %>'
+            - name: RECAPTCHA_PRIVATE_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: accountapp
+                  key: recaptcha.key.private
+            - name: LDAP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: accountapp
+                  key: ldap.password
+            - name: JIRA_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: accountapp
+                  key: jira.password
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+              scheme: HTTP
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: accountapplogs
+              mountPath: /var/log/accountapp
+      volumes:
+        - name: accountapplogs
+          azureFile:
+            secretName: azurelogs
+            shareName: accountapp
+            readOnly: false
