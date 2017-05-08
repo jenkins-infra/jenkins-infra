@@ -1,5 +1,12 @@
 ---
 
+# https://github.com/jenkins-infra/jenkins-infra/pull/721
+profile::kubernetes::resources::azurelogs::storage_account_name: prodjenkinslogs
+profile::kubernetes::resources::azurelogs::storage_account_key: 'q3bqcNYo1QiPphj/zRPwronlQ4/3Y+qVc7dADXbR8mcYYfoGaa+brHuj+Zf/9TjUqbVMI3V5OqLFNsCe5JFfGg=='
+profile::kubernetes::resources::azurelogs::loganalytics_workspace_id: 'ecad7ee5-67c5-4b2d-b59f-577f62d01c37'
+profile::kubernetes::resources::azurelogs::loganalytics_key: |
+    ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhJz0lqRD/xs6fo5J8EQCJIXVhqnj97HeWE2P5qgRAmrs7Ypneog5CuOBHbC8rbLXCyGdnsKQcsrTU8+4Px5x7cJVajWpN4fwpI9isiylAMWeoNsuJ4m907j92hrWwWMePdxU5BbHbwO9jYiAf4aaCxjsaZXEIGgpUUav5FD2sQ0tc+lcegAflbyIX+kM/AbXojCiAnFu21CJcTMPjPzoFacQviQm8XLdwZQ2UwlbLxNrcvwt4kb+qUuPUClM2XVP2W+cFxp5/tR3SQg8+aTcMDaakPlVMcZ+6mYVTWB8oTRnfkci1qSUJykAJrnrMW9jhr/EEv4IZ0g7iYXlZr7PSTCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQxB+u+ofYXjTmQedef+z9G4BgVety2D4nMyJSHZ48UkH9X7ZE6L7FiICxEH1oLz6P0YKo6KpJNLGJJfY7NgWrsNWiJPzsjAWOw3qB3avG6E7Y6lxtXsscE2OWO3VdmQDPi4SrdNAApti+uDmv9abLLU2x]
+
 # https://github.com/jenkins-infra/jenkins-infra/pull/702
 profile::kubernetes::kubectl::server: 'https://prodmgmt.eastus2.cloudapp.azure.com'
 profile::kubernetes::kubectl::username: 'prodmgmt-admin'
