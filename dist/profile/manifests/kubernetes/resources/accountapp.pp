@@ -11,8 +11,8 @@
 #       date election will close. yyyy/MM/dd
 #     $election_open:
 #       date app will start collecting votes. yyyy/MM/dd
-#     $election_logfile:
-#       path to store collected votes.
+#     $election_logdir:
+#       collected votes directory.
 #     $jira_username:
 #       jira username
 #     $jira_url:
@@ -43,10 +43,10 @@
 #
 # Deploy accountapp resources on kubernetes cluster
 class profile::kubernetes::resources::accountapp (
-    String $election_close = '2038/01/19',
+    String $election_close = '1970/01/02',
     String $election_open = '1970/01/01',
-    String $election_logfile = '/var/log/accountapp/elections.log',
-    String $election_candidates = 'bob,alice',
+    String $election_logdir= '/var/log/accountapp/elections',
+    String $election_candidates = '',
     String $image_tag = 'latest',
     String $jira_username = 'jira_username',
     String $jira_url = 'https://jira_url',
@@ -90,7 +90,7 @@ class profile::kubernetes::resources::accountapp (
 
       'election_close'        => $election_close,
       'election_open'         => $election_open,
-      'election_logfile'      => $election_logfile,
+      'election_logdir'      => $election_logfile,
       'election_candidates'   => $election_candidates,
       'url'                   => "https://${url}",
       'ldap_url'              => $ldap_url,
