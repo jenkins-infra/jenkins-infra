@@ -258,6 +258,11 @@ profile::kubernetes::resources::pluginsite::url: plugins.jenkins.io
 profile::kubernetes::resources::pluginsite::aliases:
     - plugins.azure.jenkins.io
 
+profile::kubernetes::resources::repo_proxy::image_tag: 'd43da4'
+profile::kubernetes::resources::repo_proxy::url: repo.azure.jenkins.io
+profile::kubernetes::resources::repo_proxy::aliases:
+    - repo.azure.jenkins-ci.org
+
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: 'overridewithstorageaccountname'
