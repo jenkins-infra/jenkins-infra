@@ -46,18 +46,20 @@ class profile::kubernetes::resources::accountapp (
     String $election_close = '1970/01/02',
     String $election_open = '1970/01/01',
     String $election_logdir= '/var/log/accountapp/elections',
-    String $election_candidates = '',
+    String $election_candidates = 'bob,alice',
     String $image_tag = 'latest',
     String $jira_username = 'jira_username',
     String $jira_url = 'https://jira_url',
     String $jira_password = 'jira_password',
     String $ldap_manager_dn = 'cn=admin,dc=jenkins-ci,dc=org',
-    String $ldap_new_user_base_dn = '',
+    String $ldap_new_user_base_dn = 'ou=people,dc=jenkins-ci,dc=org',
     String $ldap_password = 'ldap_password',
     String $ldap_url = 'ldap://localhost:389/',
     String $recaptcha_private_key = 'recaptcha_private_key',
     String $recaptcha_public_key = 'recaptcha_public_key',
     String $smtp_server = 'localhost',
+    String $storage_account_name = '',
+    String $storage_account_key = '',
     String $url = 'accounts.jenkins.io'
   ){
   include profile::kubernetes::params
@@ -70,18 +72,21 @@ class profile::kubernetes::resources::accountapp (
     owner  => $profile::kubernetes::params::user,
   }
 
-  profile::kubernetes::apply { 'accountapp/ingress-tls.yaml':
-    parameters  => {
-      'url'     => $url,
-    }
-  }
   profile::kubernetes::apply { 'accountapp/service.yaml':}
 
   profile::kubernetes::apply { 'accountapp/secret.yaml':
     parameters  => {
-      'ldap_password'         => base64('encode', $ldap_password, 'strict'),
       'jira_password'         => base64('encode', $jira_password, 'strict'),
-      'recaptcha_private_key' => base64('encode', $recaptcha_private_key, 'strict')
+      'ldap_password'         => base64('encode', $ldap_password, 'strict'),
+      'recaptcha_private_key' => base64('encode', $recaptcha_private_key, 'strict'),
+      'storage_account_name'  => base64('encode', $storage_account_name, 'strict'),
+      'storage_account_key'   => base64('encode', $storage_account_key, 'strict')
+    }
+  }
+
+  profile::kubernetes::apply { 'accountapp/ingress-tls.yaml':
+    parameters  => {
+      'url'     => $url,
     }
   }
 
@@ -90,17 +95,17 @@ class profile::kubernetes::resources::accountapp (
 
       'election_close'        => $election_close,
       'election_open'         => $election_open,
-      'election_logdir'      => $election_logfile,
+      'election_logdir'       => $election_logdir,
       'election_candidates'   => $election_candidates,
-      'url'                   => "https://${url}",
+      'image_tag'             => $image_tag,
+      'jira_username'         => $jira_username,
+      'jira_url'              => $jira_url,
       'ldap_url'              => $ldap_url,
       'ldap_manager_dn'       => $ldap_manager_dn,
       'ldap_new_user_base_dn' => $ldap_new_user_base_dn,
-      'jira_username'         => $jira_username,
-      'jira_url'              => $jira_url,
       'recaptcha_public_key'  => $recaptcha_public_key,
       'smtp_server'           => $smtp_server,
-      'image_tag'             => $image_tag
+      'url'                   => "http://${url}/"
     }
   }
 

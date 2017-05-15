@@ -58,24 +58,24 @@ spec:
                   key: jira.password
           livenessProbe:
             httpGet:
-              path: /
+              path: /login/
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 30
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
-              path: /
+              path: /login/
               port: 8080
               scheme: HTTP
           ports:
             - containerPort: 8080
           volumeMounts:
-            - name: accountapplogs
+            - name: accountapp
               mountPath: /var/log/accountapp
       volumes:
-        - name: accountapplogs
+        - name: accountapp
           azureFile:
-            secretName: azurelogs
+            secretName: accountapp
             shareName: accountapp
             readOnly: false

@@ -18,7 +18,9 @@ describe 'profile::kubernetes::resources::accountapp' do
            :jira_password         => 'jira_password',
            :recaptcha_public_key  => 'recaptcha_public_key',
            :recaptcha_private_key => 'recaptcha_private_key',
-           :smtp_server           => 'smtp_server'
+           :smtp_server           => 'smtp_server',
+           :storage_account_name  => 'infratestaccountapp_name',
+           :storage_account_key   => 'infratestaccountapp_key'
 
        }
    end
@@ -38,7 +40,9 @@ describe 'profile::kubernetes::resources::accountapp' do
      :parameters => { 
         'ldap_password' 		=> 'bGRhcF9wYXNzd29yZA==',
         'jira_password'         => 'amlyYV9wYXNzd29yZA==',
-        'recaptcha_private_key' => 'cmVjYXB0Y2hhX3ByaXZhdGVfa2V5'
+        'recaptcha_private_key' => 'cmVjYXB0Y2hhX3ByaXZhdGVfa2V5',
+        'storage_account_name'  => 'aW5mcmF0ZXN0YWNjb3VudGFwcF9uYW1l',
+        'storage_account_key'   => 'aW5mcmF0ZXN0YWNjb3VudGFwcF9rZXk='
         }
      )
    }
