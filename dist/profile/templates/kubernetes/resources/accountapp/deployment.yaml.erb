@@ -58,14 +58,14 @@ spec:
                   key: jira.password
           livenessProbe:
             httpGet:
-              path: /login/
+              path: /login
               port: 8080
               scheme: HTTP
             initialDelaySeconds: 30
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
-              path: /login/
+              path: /login
               port: 8080
               scheme: HTTP
           ports:
