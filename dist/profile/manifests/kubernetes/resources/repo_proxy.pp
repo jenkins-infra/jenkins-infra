@@ -39,7 +39,7 @@ class profile::kubernetes::resources::repo_proxy (
   profile::kubernetes::apply{ 'repo_proxy/secret.yaml':
     parameters => {
       'storage_account_name' => $base64_storage_account_name,
-      'storage_account_key' => $base64_storage_account_key
+      'storage_account_key'  => $base64_storage_account_key
     }
   }
   profile::kubernetes::apply{ 'repo_proxy/service.yaml':

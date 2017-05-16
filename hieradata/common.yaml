@@ -260,8 +260,6 @@ profile::kubernetes::resources::pluginsite::aliases:
 
 profile::kubernetes::resources::repo_proxy::image_tag: '2-buildd369f4'
 profile::kubernetes::resources::repo_proxy::url: repo.azure.jenkins.io
-profile::kubernetes::resources::repo_proxy::aliases:
-    - repo.azure.jenkins-ci.org
 
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
