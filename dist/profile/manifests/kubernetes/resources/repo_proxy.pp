@@ -60,7 +60,7 @@ class profile::kubernetes::resources::repo_proxy (
   # we must reload pods 'manually' to use the newly updated secret
   exec { 'Reload repo_proxy pods':
     path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=repo_proxy --grace-period=10',
+    command     => 'kubectl delete pods -l app=repo-proxy --grace-period=10',
     refreshonly => true,
     environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
     logoutput   => true,
