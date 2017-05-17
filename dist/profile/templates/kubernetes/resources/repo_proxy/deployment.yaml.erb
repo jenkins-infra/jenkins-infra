@@ -1,0 +1,45 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: repo-proxy
+    labels:
+        app: repo-proxy
+        type: repo-proxy
+        logtype: archive
+spec:
+    replicas: 2
+    template:
+        metadata:
+            labels:
+                app: repo-proxy
+                type: repo-proxy
+                logtype: archive
+        spec:
+            containers:
+                - name: repo-proxy
+                  image: jenkinsciinfra/repo-proxy:<%= @parameters['image_tag'] %>
+                  imagePullPolicy: Always
+                  livenessProbe:
+                      httpGet:
+                          path: /webapp/
+                          port: 80
+                          scheme: HTTP
+                      initialDelaySeconds: 20
+                      timeoutSeconds: 5
+                  readinessProbe:
+                      httpGet:
+                          path: /webapp/
+                          port: 80
+                          scheme: HTTP
+                      initialDelaySeconds: 30
+                      timeoutSeconds: 5
+                  volumeMounts:
+                    - name: cache
+                      mountPath: /var/cache/nginx
+            volumes:
+                - name: cache
+                  azureFile: 
+                      secretName: repo-proxy
+                      shareName: repo-proxy
+                      readOnly: false

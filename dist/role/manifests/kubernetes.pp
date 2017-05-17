@@ -5,4 +5,5 @@ class role::kubernetes{
   include profile::kubernetes::resources::pluginsite
   include profile::kubernetes::resources::kube_state_metrics
   include profile::kubernetes::resources::fluentd
+  include profile::kubernetes::resources::repo_proxy
 }

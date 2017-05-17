@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo-proxy
+  labels:
+    app: repo-proxy
+    type: repo-proxy
+    logtype: archive
+spec:
+  ports:
+  - name: repo-proxy
+    protocol: TCP
+    targetPort: 80
+    port: 80
+  selector:
+    type: repo-proxy
