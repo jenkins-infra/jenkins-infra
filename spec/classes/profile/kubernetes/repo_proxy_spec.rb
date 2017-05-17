@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'profile::kubernetes::resources::repo_proxy' do
   let (:params) do
     {
-        :url           => 'repo.azure.jenkins.io',
+        :url           => 'repo.azure.jenkins.test',
         :image_tag     => 'latest',
-        :aliases       => ['repo.azure.jenkins-ci.org'],
+        :aliases       => ['repo.azure.jenkins-ci.test'],
         :storage_account_key => 'storage_account_key',
         :storage_account_name => 'storage_account_name'
     }
@@ -20,11 +20,13 @@ describe 'profile::kubernetes::resources::repo_proxy' do
     )
   }
   it { should contain_profile__kubernetes__apply('repo_proxy/service.yaml')}
+
   it { should contain_profile__kubernetes__apply('repo_proxy/deployment.yaml').with(
     :parameters => {
       'image_tag' => 'latest'
       }
     )
+  }
 
   it { should contain_profile__kubernetes__apply('repo_proxy/secret.yaml').with(
     :parameters => {
@@ -36,14 +38,14 @@ describe 'profile::kubernetes::resources::repo_proxy' do
 
   it { should contain_profile__kubernetes__apply('repo_proxy/ingress-tls.yaml').with(
     :parameters => {
-      'url'     => 'repo.azure.jenkins.io',
-      'aliases' => ['repo.azure.jenkins-ci.org']
+      'url'     => 'repo.azure.jenkins.test',
+      'aliases' => ['repo.azure.jenkins-ci.test']
       }
     )
   }
   it { should contain_exec('Reload repo_proxy pods').with(
     :subscribe => [ 
-      Exec['apply repo_proxy/secret.yaml']
+      'Exec[apply repo_proxy/secret.yaml]'
       ] 
     )
   }
