@@ -306,6 +306,14 @@ RewriteEngine on
 RewriteCond %{HTTP_USER_AGENT} YisouSpider|Catlight*|CheckmanJenkins [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
+# Block requests which attempt to access API endpoints and end up hanging
+# Jenkins. Really Jenkins should have a permission to block Anonymous/API
+# access but it doesn't, so Apache it is.
+# See also: https://issues.jenkins-ci.org/browse/INFRA-1204
+RewriteCond %{REQUEST_FILENAME} ^(.*)api/json(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
+
 # Blackhole all the /cli requests over HTTP
 RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 ",
