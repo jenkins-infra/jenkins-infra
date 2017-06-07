@@ -61,6 +61,7 @@ patron      3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for patron.j
 javadoc     3600    IN    CNAME    eggplant ; CNAME for javadoc.jenkins.io which is currently in role::eggplant
 plugins     3600    IN    CNAME    plugins.azure ; plugins.jenkins.io runs a simple pluginsite
 reports     3600    IN    CNAME    prodjenkinsreports.blob.core.windows.net. ; see INFRA-947
+wiki        3600    IN    CNAME    lettuce
 
 ; Magical CNAME for certificate validation
 D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.
