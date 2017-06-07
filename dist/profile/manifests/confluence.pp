@@ -14,6 +14,7 @@ class profile::confluence (
   include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
+  include profile::letsencrypt
 
   account { 'wiki':
     home_dir => '/srv/wiki',
@@ -24,6 +25,11 @@ class profile::confluence (
   }
 
   file { '/var/log/apache2/wiki.jenkins-ci.org':
+    ensure => directory,
+    group  => $profile::atlassian::group_name,
+  }
+
+  file { '/var/log/apache2/wiki.jenkins.io':
     ensure => directory,
     group  => $profile::atlassian::group_name,
   }
@@ -108,6 +114,24 @@ class profile::confluence (
   }
   ### #endif
 
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'wiki.jenkins.io':
+        domains     => ['wiki.jenkins.io'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
+    Apache::Vhost <| title == 'wiki.jenkins.io' |> {
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pemr',
+      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
+    }
+
+  }
+
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
     # redirect non-SSL to SSL
     servername      => 'wiki.jenkins-ci.org',
@@ -115,7 +139,30 @@ class profile::confluence (
     docroot         => '/srv/wiki/docroot',
     access_log_pipe => '/dev/null',
     redirect_status => 'temp',
-    redirect_dest   => 'https://wiki.jenkins-ci.org/'
+    redirect_dest   => 'https://wiki.jenkins.io/'
+  }
+
+  apache::vhost { 'wiki.jenkins.io':
+    port            => '443',
+    ssl             => true,
+    docroot         => '/srv/wiki/docroot',
+    access_log      => false,
+    error_log_file  => 'wiki.jenkins.io/error.log',
+    log_level       => 'warn',
+    custom_fragment => template("${module_name}/confluence/vhost.conf"),
+
+    notify          => Service['apache2'],
+    require         => File['/var/log/apache2/wiki.jenkins.io'],
+  }
+  ### #endif
+
+  apache::vhost { 'wiki.jenkins.io non-ssl':
+    # redirect non-SSL to SSL
+    servername      => 'wiki.jenkins.io',
+    port            => '80',
+    docroot         => '/srv/wiki/docroot',
+    redirect_status => 'temp',
+    redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
   profile::apachemaintenance { 'wiki.jenkins-ci.org':
