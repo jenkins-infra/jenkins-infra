@@ -19,6 +19,9 @@ describe 'profile::kubernetes::resources::accountapp' do
            :recaptcha_public_key  => 'recaptcha_public_key',
            :recaptcha_private_key => 'recaptcha_private_key',
            :smtp_server           => 'smtp_server',
+           :smtp_auth             => 'smtp_auth',
+           :smtp_password         => 'smtp_password',
+           :smtp_user             => 'smtp_user',
            :storage_account_name  => 'infratestaccountapp_name',
            :storage_account_key   => 'infratestaccountapp_key'
 
@@ -60,6 +63,9 @@ describe 'profile::kubernetes::resources::accountapp' do
        'jira_url'              => 'https://issues.jenkins-ci.test',
        'recaptcha_public_key'  => 'recaptcha_public_key',
        'smtp_server'           => 'smtp_server',
+       'smtp_user'             => 'smtp_user',
+       'smtp_password'         => 'smtp_password',
+       'smtp_auth'             => 'smtp_auth',
        'image_tag'             => 'latest'
 	   }
 	 )

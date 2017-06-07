@@ -33,6 +33,12 @@
 #       recaptcha public key
 #     $smtp_server:
 #       smtp server
+#     $smtp_user:
+#       smtp user
+#     $smtp_password:
+#       smtp password
+#     $smtp_auth:
+#       smtp authentication (boolean)
 #     $url:
 #       account app url endpoint
 #
@@ -58,6 +64,9 @@ class profile::kubernetes::resources::accountapp (
     String $recaptcha_private_key = 'recaptcha_private_key',
     String $recaptcha_public_key = 'recaptcha_public_key',
     String $smtp_server = 'localhost',
+    String $smtp_user = '',
+    String $smtp_password = '',
+    String $smtp_auth = 'true',
     String $storage_account_name = '',
     String $storage_account_key = '',
     String $url = 'accounts.jenkins.io'
@@ -105,6 +114,9 @@ class profile::kubernetes::resources::accountapp (
       'ldap_new_user_base_dn' => $ldap_new_user_base_dn,
       'recaptcha_public_key'  => $recaptcha_public_key,
       'smtp_server'           => $smtp_server,
+      'smtp_user'             => $smtp_user,
+      'smtp_password'         => $smtp_password,
+      'smtp_auth'             => $smtp_auth,
       'url'                   => "http://${url}/"
     }
   }

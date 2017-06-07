@@ -29,8 +29,14 @@ spec:
               value: '<%= @parameters['jira_url'] %>'
             - name: RECAPTCHA_PUBLIC_KEY
               value: '<%= @parameters['recaptcha_public_key'] %>'
+            - name: SMTP_AUTH
+              value: '<%= @parameters['smtp_auth'] %>'
+            - name: SMTP_PASSWORD
+              value: '<%= @parameters['smtp_password'] %>'
             - name: SMTP_SERVER
               value: '<%= @parameters['smtp_server'] %>'
+            - name: SMTP_USER
+              value: '<%= @parameters['smtp_user'] %>'
             - name: APP_URL
               value: '<%= @parameters['url'] %>'
             - name: ELECTION_CLOSE
