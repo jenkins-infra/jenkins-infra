@@ -125,7 +125,7 @@ class profile::confluence (
     Apache::Vhost <| title == 'wiki.jenkins.io' |> {
     # When Apache is upgraded to >= 2.4.8 this should be changed to
     # fullchain.pem
-      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pemr',
+      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
       ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
       ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
     }
