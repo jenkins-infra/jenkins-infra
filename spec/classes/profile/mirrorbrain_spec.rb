@@ -23,21 +23,7 @@ describe 'profile::mirrorbrain' do
   context 'tooling for Azure sync' do
     # Needed for running some scripts
     it { should contain_package 'ruby' }
-    it { should contain_package 'python-pip' }
     it { should contain_exec('install-azure-storage-gem') }
-
-    it 'should remove the azure-cli from pip' do
-      expect(subject).to contain_package('azure-cli-python').with({
-        :provider => :pip,
-        :name => 'azure-cli',
-        :ensure => :absent,
-      })
-    end
-
-    it { should contain_apt__source('azure-cli') }
-    it { should contain_package('azure-cli') }
-
-    it { should contain_file("#{params[:home_dir]}/azure-sync.sh") }
   end
 
 
