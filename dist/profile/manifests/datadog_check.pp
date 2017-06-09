@@ -1,7 +1,8 @@
 # Assemble fragments into datadog checker configuration files
 #
 define profile::datadog_check(
-  $checker,
+  $ensure    = present,
+  $checker   = undef,
   $source    = undef,
   $content   = undef,
 ) {
@@ -27,6 +28,7 @@ define profile::datadog_check(
   }
 
   concat::fragment { $name:
+    ensure  => $ensure,
     target  => $target,
     source  => $source,
     content => $content,
