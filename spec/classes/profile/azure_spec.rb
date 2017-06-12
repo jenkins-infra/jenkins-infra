@@ -17,7 +17,6 @@ describe 'profile::azure' do
     it 'should remove the azure-cli from pip' do
       expect(subject).to contain_package('azure-cli-python').with({
         :provider => :pip,
-        :name => 'azure-cli',
         :ensure => :absent,
       })
     end

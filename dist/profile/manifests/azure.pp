@@ -10,7 +10,6 @@ class profile::azure (
 
     package { 'azure-cli-python' :
         ensure   => absent,
-        name     => 'azure-cli',
         provider => pip,
         require  => Package['python-pip'],
     }
