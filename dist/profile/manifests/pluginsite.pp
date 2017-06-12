@@ -17,10 +17,12 @@ class profile::pluginsite(
   $apache_log_dir = "/var/log/apache2/${pluginsite_fqdn}"
 
   docker::image { $image:
+    ensure    => absent,
     image_tag => $image_tag,
   }
 
   docker::run { 'pluginsite' :
+    ensure  => absent,
     image   => "${image}:${image_tag}",
     ports   => ['8080:8080', '5000:5000'],
     env     => [
@@ -31,15 +33,17 @@ class profile::pluginsite(
   }
 
   file { [$apache_log_dir, $docroot]:
-    ensure => directory,
+    ensure => absent,
   }
 
   profile::datadog_check { 'pluginsite-http-check':
+    ensure  => absent,
     checker => 'http_check',
     source  => 'puppet:///modules/profile/pluginsite/http_check.yaml',
   }
 
   apache::vhost { $pluginsite_fqdn:
+    ensure          => absent,
     port            => 443,
     ssl             => true,
     docroot         => $docroot,
@@ -61,6 +65,7 @@ class profile::pluginsite(
   }
 
   apache::vhost { "${pluginsite_fqdn} unsecured":
+    ensure          => absent,
     servername      => $pluginsite_fqdn,
     port            => '80',
     docroot         => $docroot,
@@ -82,7 +87,7 @@ class profile::pluginsite(
     letsencrypt::certonly { $pluginsite_fqdn:
         domains     => [$pluginsite_fqdn],
         plugin      => 'apache',
-        manage_cron => true,
+        manage_cron => false,
     }
 
     Apache::Vhost <| title == $pluginsite_fqdn |> {

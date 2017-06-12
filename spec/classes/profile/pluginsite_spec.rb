@@ -29,7 +29,7 @@ describe 'profile::pluginsite' do
   end
 
   context 'Apache configuration' do
-    it { should contain_file('/srv/pluginsite').with_ensure(:directory) }
+    it { should contain_file('/srv/pluginsite').with_ensure(:absent) }
 
     context 'plugins.jenkins.io virtual host' do
       it 'should have a vhost' do
