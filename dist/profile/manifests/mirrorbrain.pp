@@ -94,8 +94,6 @@ class profile::mirrorbrain (
 
   ## Files for Azure blob storage sync
   ##########################
-  ensure_packages(['python-pip'])
-
   # NOTE: The `ruby2.0` package is critically broken/stupid on Ubuntu 14.04, so
   # until we upgrade we will need to manually install and manage the
   # azure-storage gem. See this thread for more details:
@@ -125,21 +123,6 @@ export AZURE_STORAGE_KEY=${azure_access_key}",
     owner   => $user,
   }
 
-  apt::source { 'azure-cli':
-    location => 'https://apt-mo.trafficmanager.net/repos/azure-cli/',
-    release  => 'wheezy',
-    repos    => 'main',
-    key      => {
-      server => 'apt-mo.trafficmanager.net',
-      id     => '417A0893',
-    },
-  }
-
-  package { 'azure-cli':
-    ensure  => present,
-    require => Apt::Source['azure-cli'],
-  }
-
   file { "${home_dir}/azure-sync.sh" :
     ensure  => present,
     content => "#!/bin/sh
@@ -155,13 +138,6 @@ wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/
         Exec['install-azure-storage-gem'],
         File["${home_dir}/.azure-storage-env"],
     ],
-  }
-
-  package { 'azure-cli-python' :
-    ensure   => absent,
-    name     => 'azure-cli',
-    provider => pip,
-    require  => Package['python-pip'],
   }
   ##########################
 
