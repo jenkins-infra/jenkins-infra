@@ -19,17 +19,17 @@ class profile::pluginsite(
   docker::image { $image:
     ensure    => absent,
     image_tag => $image_tag,
+    require   => Docker::Run['pluginsite'],
   }
 
   docker::run { 'pluginsite' :
-    ensure  => absent,
-    image   => "${image}:${image_tag}",
-    ports   => ['8080:8080', '5000:5000'],
-    env     => [
+    ensure => absent,
+    image  => "${image}:${image_tag}",
+    ports  => ['8080:8080', '5000:5000'],
+    env    => [
       'DATA_FILE_URL=https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/plugins.json.gzip',
       "REST_API_URL=https://${pluginsite_fqdn}/api",
     ],
-    require => Docker::Image[$image],
   }
 
   file { [$apache_log_dir, $docroot]:
