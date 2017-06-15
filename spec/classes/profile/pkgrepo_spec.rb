@@ -154,11 +154,7 @@ describe 'profile::pkgrepo' do
   end
 
   context 'letsencrypt setup' do
-    let(:facts) do
-      {
-        :environment => 'production',
-      }
-    end
+    let(:environment) { 'production' }
 
     it { should contain_letsencrypt__certonly('pkg.jenkins.io') }
   end

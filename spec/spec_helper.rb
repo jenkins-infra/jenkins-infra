@@ -29,6 +29,11 @@ RSpec.configure do |c|
     :operatingsystemrelease => '12.04',
     :concat_basedir => '/tmp',
     :is_pe => true,
+    # Needed for conditionals like:
+    # <https://github.com/saz/puppet-sudo/blob/v3.0.6/manifests/init.pp#L147>
+    :puppetversion => '4.8.1',
+    :pe_version => '4.8.1',
+    :pe_server_version => '2016.5.1',
   }
 
   c.before(:each) do

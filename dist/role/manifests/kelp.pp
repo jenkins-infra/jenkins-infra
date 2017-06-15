@@ -7,5 +7,4 @@ class role::kelp {
   include profile::bind
   include profile::buildslave
   include profile::jenkinsadmin
-  include profile::pluginsite
 }

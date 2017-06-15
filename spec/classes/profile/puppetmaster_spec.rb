@@ -40,22 +40,7 @@ describe 'profile::puppetmaster' do
   it { should contain_firewall('013 allow mcollective').with_action('accept').with_port(61613) }
 
   context 'setting up the irc reporter' do
-    let(:facts) do
-      {
-        :is_pe => true,
-        :pe_version => '3.7.2',
-      }
-    end
     it { should contain_class 'irc' }
-
-    context 'the puppet-irc module' do
-      # https://issues.jenkins-ci.org/browse/INFRA-502
-      it 'should use the appropriate $gem_provider' do
-        expect(subject).to contain_package('carrier-pigeon').with({
-          :provider => 'pe_puppetserver_gem',
-        })
-      end
-    end
   end
 
   context 'the datadog_agent module' do
