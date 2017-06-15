@@ -44,8 +44,12 @@ pipeline {
                  */
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
                 sh 'HOME=$PWD bundle exec rake resolve'
-                sh 'bundle exec rake lint'
-                sh 'bundle exec parallel_rspec spec/classes'
+                parallel(
+                    'lint' : { sh 'bundle exec rake lint' },
+                    'spec' : { sh 'bundle exec parallel_rspec spec/classes' },
+                    /* Verify that our Puppetfile is correct */
+                    'puppetfile' : { sh 'bundle exec r10k puppetfile install' },
+                )
             }
         }
     }
