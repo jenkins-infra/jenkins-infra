@@ -54,7 +54,7 @@ describe 'profile::buildmaster' do
 
 
   context 'with letsencrypt => false' do
-    let(:facts) { {:environment => 'production' } }
+    let(:environment) { 'production' }
     let(:params) do
       {
         :ci_fqdn => fqdn,
@@ -102,11 +102,7 @@ describe 'profile::buildmaster' do
     end
 
     context 'when running in production' do
-      let(:facts) do
-        {
-          :environment => 'production',
-        }
-      end
+      let(:environment) { 'production' }
 
       it { should contain_letsencrypt__certonly(fqdn) }
 
