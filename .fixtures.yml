@@ -20,9 +20,6 @@ fixtures:
     mirrorbrain:
       repo: 'git://github.com/jenkins-infra/puppet-mirrorbrain.git'
       ref: '78ec0b0'
-    r10k:
-      repo: 'git://github.com/acidprime/r10k.git'
-      ref: 'f270781'
 
   forge_modules:
     stdlib:
@@ -103,6 +100,9 @@ fixtures:
     limits:
       repo: 'erwbgy/limits'
       ref: '0.3.1'
+    r10k:
+      repo: 'puppet/r10k'
+      ref: '6.0.0'
 
 
 
