@@ -4,12 +4,7 @@ forge "http://forge.puppetlabs.com"
 mod "puppet/r10k", '6.0.0'
 
 # Deps for zack/r10k
-# We are tracking stdlib from git because the puppet module tool
-# is getting in the way when we want to upgrade newer than the
-# supported module version
-mod "stdlib",
-        :git => 'git@github.com:puppetlabs/puppetlabs-stdlib.git',
-        :ref => '4.15.0'
+mod "stdlib", '4.17.0'
 
 mod 'puppetlabs/ruby', '0.5.0'
 mod "puppetlabs/gcc", '0.3.0'
