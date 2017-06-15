@@ -95,12 +95,7 @@ describe 'profile::updatesite' do
   end
 
   context 'when running in production' do
-    let(:facts) do
-      {
-        :environment => 'production',
-      }
-    end
-
+    let(:environment) { 'production' }
     it { should contain_letsencrypt__certonly(fqdn) }
 
     it 'should configure the letsencrypt ssl keys on the vhost' do

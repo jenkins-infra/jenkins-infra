@@ -1,8 +1,7 @@
 forge "http://forge.puppetlabs.com"
 
 # Install and manage r10k
-mod "puppet/r10k",
-      :ref => '6.0.0'
+mod "puppet/r10k", '6.0.0'
 
 # Deps for zack/r10k
 # We are tracking stdlib from git because the puppet module tool

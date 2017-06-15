@@ -94,11 +94,7 @@ describe 'profile::usage' do
 
     context 'in a production environment' do
       let(:fqdn) { 'usage.jenkins.io' }
-      let(:facts) do
-        {
-          :environment => 'production',
-        }
-      end
+      let(:environment) { 'production' }
 
       it { should contain_letsencrypt__certonly(fqdn) }
 

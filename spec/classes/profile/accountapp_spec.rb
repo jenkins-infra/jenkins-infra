@@ -58,11 +58,7 @@ describe 'profile::accountapp' do
     end
 
     context 'in production' do
-      let(:facts) do
-        {
-          :environment => 'production'
-        }
-      end
+      let(:environment) { 'production' }
 
       it 'should obtain certificates' do
         expect(subject).to contain_letsencrypt__certonly('accounts.jenkins.io').with({
