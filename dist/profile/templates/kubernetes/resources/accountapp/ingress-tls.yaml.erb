@@ -1,0 +1,22 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: accountapp
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /
+spec:
+  tls:
+  - hosts:
+    - <%= @parameters['url'] %>
+    secretName: accountapp-tls
+  rules:
+  - host: <%= @parameters['url'] %>
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: accountapp
+          servicePort: 80
