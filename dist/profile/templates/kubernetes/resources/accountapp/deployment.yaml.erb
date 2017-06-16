@@ -31,8 +31,6 @@ spec:
               value: '<%= @parameters['recaptcha_public_key'] %>'
             - name: SMTP_AUTH
               value: '<%= @parameters['smtp_auth'] %>'
-            - name: SMTP_PASSWORD
-              value: '<%= @parameters['smtp_password'] %>'
             - name: SMTP_SERVER
               value: '<%= @parameters['smtp_server'] %>'
             - name: SMTP_USER
@@ -62,6 +60,11 @@ spec:
                 secretKeyRef:
                   name: accountapp
                   key: jira.password
+            - name: SMTP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: accountapp
+                  key: smtp.password
           livenessProbe:
             httpGet:
               path: /login

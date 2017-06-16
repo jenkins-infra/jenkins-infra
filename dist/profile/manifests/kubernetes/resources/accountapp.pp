@@ -87,6 +87,7 @@ class profile::kubernetes::resources::accountapp (
     parameters  => {
       'jira_password'         => base64('encode', $jira_password, 'strict'),
       'ldap_password'         => base64('encode', $ldap_password, 'strict'),
+      'smtp_password'         => base64('encode', $smtp_password, 'strict'),
       'recaptcha_private_key' => base64('encode', $recaptcha_private_key, 'strict'),
       'storage_account_name'  => base64('encode', $storage_account_name, 'strict'),
       'storage_account_key'   => base64('encode', $storage_account_key, 'strict')
@@ -101,7 +102,6 @@ class profile::kubernetes::resources::accountapp (
 
   profile::kubernetes::apply { 'accountapp/deployment.yaml':
     parameters => {
-
       'election_close'        => $election_close,
       'election_open'         => $election_open,
       'election_logdir'       => $election_logdir,
@@ -115,7 +115,6 @@ class profile::kubernetes::resources::accountapp (
       'recaptcha_public_key'  => $recaptcha_public_key,
       'smtp_server'           => $smtp_server,
       'smtp_user'             => $smtp_user,
-      'smtp_password'         => $smtp_password,
       'smtp_auth'             => $smtp_auth,
       'url'                   => "http://${url}/"
     }
