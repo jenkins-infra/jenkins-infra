@@ -66,7 +66,7 @@ class profile::kubernetes::resources::accountapp (
     String $smtp_server = 'localhost',
     String $smtp_user = '',
     String $smtp_password = '',
-    String $smtp_auth = 'true',
+    Boolean $smtp_auth = true,
     String $storage_account_name = '',
     String $storage_account_key = '',
     String $url = 'accounts.jenkins.io'
