@@ -7,4 +7,5 @@ class role::kubernetes{
   include profile::kubernetes::resources::fluentd
   include profile::kubernetes::resources::repo_proxy
   include profile::kubernetes::resources::registry
+  include profile::kubernetes::resources::accountapp
 }

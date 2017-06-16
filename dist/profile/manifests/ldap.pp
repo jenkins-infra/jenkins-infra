@@ -241,7 +241,12 @@ class profile::ldap(
     action => 'accept',
   }
 
-
+  firewall { '107 accept inbound LDAPS from beta.accounts.jenkins.io':
+    proto  => 'tcp',
+    source => 'beta.accounts.jenkins.io.',
+    port   => 636,
+    action => 'accept',
+  }
 
   # normally nobody listens on this port, but when we need to find the
   # source IP address JFrog is using to connect us, run 'stone -d -d

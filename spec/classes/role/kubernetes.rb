@@ -7,4 +7,5 @@ describe 'role::kubernetes' do
     it { should contain_class 'profile::kubernetes::resources::fluentd'}
     it { should contain_class 'profile::kubernetes::resources::repo_proxy'}
     it { should contain_class 'profile::kubernetes::resources::registry'}
+    it { should contain_class 'profile::kubernetes::resources::accountapp'}
 end
