@@ -198,7 +198,7 @@ profile::accountapp::recaptcha_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQ
 profile::accountapp::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAtPLjTQcHB7F579pE/3xUKQgWr+mFSKYbaYQqNvdAeaYZmwNX8EEmp0VComSO0WwCaVtlyG4bRhV7U/wJKoXJx5/hOenfXa+13QVo0S1eOIv7uYH0xCuD5m6Ziqg1HxyJb7+8POqpctsnowW9at2hP6r7/WQnr5fKXaoIi5/GgA+rC2OVETShoQYT4bEiuKDXTDfYT3qr+6Ap/nza0/w1i6qWJRw50RdWXBjPcSg15pKRic1BQ05nj9BCgf3Wp2Ar3Jh9RzL8Efd8BbQV5mmG8c8SQtuoDMaC6FEssNUFI5HHHlY+PNnw/6+kwxnHfDU++0ZRC9uaxx6apsePhA6vojBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCzHrpY0SYAqN1DqXDjdmDRgDDX4wr5Fka3rQD4SEd9ixaZYhmxjD6Odaa2WrBILqXAAU8cdMInaHYqFjfShieJux8=]
 
 # Configure accountapp on kubernetes
-profile::kubernetes::resources::accountapp::image_tag: 28-buildfa149f
+profile::kubernetes::resources::accountapp::image_tag: 34-buildfd9403
 profile::kubernetes::resources::accountapp::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAtPLjTQcHB7F579pE/3xUKQgWr+mFSKYbaYQqNvdAeaYZmwNX8EEmp0VComSO0WwCaVtlyG4bRhV7U/wJKoXJx5/hOenfXa+13QVo0S1eOIv7uYH0xCuD5m6Ziqg1HxyJb7+8POqpctsnowW9at2hP6r7/WQnr5fKXaoIi5/GgA+rC2OVETShoQYT4bEiuKDXTDfYT3qr+6Ap/nza0/w1i6qWJRw50RdWXBjPcSg15pKRic1BQ05nj9BCgf3Wp2Ar3Jh9RzL8Efd8BbQV5mmG8c8SQtuoDMaC6FEssNUFI5HHHlY+PNnw/6+kwxnHfDU++0ZRC9uaxx6apsePhA6vojBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCzHrpY0SYAqN1DqXDjdmDRgDDX4wr5Fka3rQD4SEd9ixaZYhmxjD6Odaa2WrBILqXAAU8cdMInaHYqFjfShieJux8=]
 profile::kubernetes::resources::accountapp::jira_username: accountapp
 profile::kubernetes::resources::accountapp::jira_url: 'https://issues.jenkins-ci.org'
@@ -206,11 +206,14 @@ profile::kubernetes::resources::accountapp::ldap_manager_dn: 'cn=admin,dc=jenkin
 profile::kubernetes::resources::accountapp::ldap_new_user_base_dn: 'ou=people,dc=jenkins-ci,dc=org'
 profile::kubernetes::resources::accountapp::ldap_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqiy3p23Izav86uJq+IZo0TnV7iX7SIqfQSec7RE4j+WRR+2YBWyMMJID0QFqb+qY16VGucbyL+nYtu7JRF7DnMdOFJ/LHKNKlzrc1YU2AQAvWU0ait9tWwGhn6QZdu5tbxwuxSx5Kz7UIFNzYmmbsaaQWCO6nRJ/YSqkqN4iw94HQP8ye29KYHCQha4O7BAlMhA9q8o60INs/sR+fdmoCzMirXmUJ8rsKOprX9un+Yx5Yv8GAjT/YtFodOpoM9iWu2DE5d4AO5jSQEs6LIi7SyWaBTRq98/DUDPylNMXSSZmdZX9g3tXf3EI1leqlJwS0PI0WaCa86k/Nenn0osE0jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCENT4nSBkk2hQyKggLEkudgBDLiT0S2y7RXpXwWd1A0Xx5]
 profile::kubernetes::resources::accountapp::ldap_url: ldaps://ldap.jenkins.io:636/
-profile::kubernetes::resources::accountapp::smtp_server: localhost
 profile::kubernetes::resources::accountapp::recaptcha_private_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAr4yWPGlfq6tyqZdnqx7lyrgZgMFeIpW2/WcDEy/CtoJEIURlXu8VJI9y74Z1BI2rS0zgwK2sNdVLMeEGXa1aCqcGCJGNQCkpMg3go1BlrDUHpfnL7THNBqSkhUxETX9eIfizR5Uh77eyuViVb95WMCpkluwFcW8eC00nufLbtnAjeIFzZfU7LulrmKm4vEtLQqabZ0XiLE3Pc93WlaTfyAPgefJjaE0F219qN/Opyn9NJY2CyzUx9qArqxfLmkr5S/bo1STsZk0qATq+bjA/8WoPDOFnEnt+0fV3wFcBs1aBla06/Lo18eb67+EsP5yPINZ6B+80eZWh7QiI9r5QFjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBbCELbMyeO3BqicazrDq/GgDDmswwiJaHwad6V9J2VhVI1pk7r+Bbp+bFHaJvh/DE0ineg7ZhGI6k//yroIIOF54A=]
 profile::kubernetes::resources::accountapp::recaptcha_public_key: 6Le4HxYTAAAAACmLvcV8H4rki8HOWRdcU8HqnSFR
-#profile::kubernetes::resources::accountapp::smtp_server: 
-profile::kubernetes::resources::accountapp::url: accounts.jenkins.io
+profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
+profile::kubernetes::resources::accountapp::url: beta.accounts.jenkins.io
+## Following open elections
+#profile::kubernetes::resources::accountapp::election_close: '1970/01/02',
+#profile::kubernetes::resources::accountapp::election_open: '1970/01/01',
+#profile::kubernetes::resources::accountapp::election_candidates: 'bob,alice',
 
 profile::buildmaster::plugins:
   - workflow-aggregator
