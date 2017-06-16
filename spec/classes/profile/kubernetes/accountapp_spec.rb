@@ -7,7 +7,7 @@ describe 'profile::kubernetes::resources::accountapp' do
            :election_open         => '1970/01/01',
            :election_logdir      => '/var/log/accountapp/elections',
            :election_candidates   => 'bob,alice',
-           :url                   => 'accounts.jenkins.test',
+           :domain_name           => 'accounts.jenkins.test',
            :image_tag             => 'latest',
            :ldap_url              => 'https://ldap.jenkins-ci.test',
            :ldap_password         => 'ldap_password',

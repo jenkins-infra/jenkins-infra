@@ -1,6 +1,6 @@
 #   Class: profile::kubernetes::resources::accountapp
 #
-#   This class deploy plugins jenkins website
+#   This class deploys the Jenkins account-app to Kubernetes
 #
 #   Parameters:
 #     $image_tag:
@@ -18,7 +18,7 @@
 #     $jira_url:
 #       jira url endpoint
 #     $jira_password:
-#       jira password 
+#       jira password
 #     $ldap_manager_dn:
 #       ldap manager dn
 #     $ldap_new_user_base_dn:
@@ -28,7 +28,7 @@
 #     $ldap_url:
 #       ldap endpoint
 #     $recaptcha_private_key:
-#       recaptcha private key 
+#       recaptcha private key
 #     $recaptcha_public_key:
 #       recaptcha public key
 #     $smtp_server:
@@ -39,7 +39,7 @@
 #       smtp password
 #     $smtp_auth:
 #       smtp authentication (boolean)
-#     $url:
+#     $domain_name:
 #       account app url endpoint
 #
 #   Remark:
@@ -69,7 +69,7 @@ class profile::kubernetes::resources::accountapp (
     Boolean $smtp_auth = true,
     String $storage_account_name = '',
     String $storage_account_key = '',
-    String $url = 'accounts.jenkins.io'
+    String $domain_name = 'accounts.jenkins.io'
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
@@ -96,7 +96,7 @@ class profile::kubernetes::resources::accountapp (
 
   profile::kubernetes::apply { 'accountapp/ingress-tls.yaml':
     parameters  => {
-      'url'     => $url,
+      'url'     => $domain_name,
     }
   }
 
@@ -116,7 +116,7 @@ class profile::kubernetes::resources::accountapp (
       'smtp_server'           => $smtp_server,
       'smtp_user'             => $smtp_user,
       'smtp_auth'             => $smtp_auth,
-      'url'                   => "https://${url}/"
+      'url'                   => "https://${domain_name}/"
     }
   }
 
