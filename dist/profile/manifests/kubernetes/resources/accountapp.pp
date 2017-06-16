@@ -116,7 +116,7 @@ class profile::kubernetes::resources::accountapp (
       'smtp_server'           => $smtp_server,
       'smtp_user'             => $smtp_user,
       'smtp_auth'             => $smtp_auth,
-      'url'                   => "http://${url}/"
+      'url'                   => "https://${url}/"
     }
   }
 
