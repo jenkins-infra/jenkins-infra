@@ -5,7 +5,7 @@ describe 'profile::kubernetes::resources::accountapp' do
        {
            :election_close        => '2038/01/19',
            :election_open         => '1970/01/01',
-           :election_logfile      => '/var/log/accountapp/elections.log',
+           :election_logdir      => '/var/log/accountapp/elections',
            :election_candidates   => 'bob,alice',
            :url                   => 'accounts.jenkins.test',
            :image_tag             => 'latest',
@@ -18,8 +18,8 @@ describe 'profile::kubernetes::resources::accountapp' do
            :jira_password         => 'jira_password',
            :recaptcha_public_key  => 'recaptcha_public_key',
            :recaptcha_private_key => 'recaptcha_private_key',
-           :smtp_server           => 'smtp_server',
-           :smtp_auth             => 'smtp_auth',
+           :smtp_server           => 'smtp.jenkins.test',
+           :smtp_auth             => true,
            :smtp_password         => 'smtp_password',
            :smtp_user             => 'smtp_user',
            :storage_account_name  => 'infratestaccountapp_name',
@@ -53,7 +53,7 @@ describe 'profile::kubernetes::resources::accountapp' do
 	 :parameters => {
        'election_close'        => '2038/01/19',
        'election_open'         => '1970/01/01',
-       'election_logfile'      => '/var/log/accountapp/elections.log',
+       'election_logdir'      => '/var/log/accountapp/elections',
        'election_candidates'   => 'bob,alice',
        'url'                   => 'https://accounts.jenkins.test',
        'ldap_url'              => 'https://ldap.jenkins-ci.test',
@@ -62,10 +62,10 @@ describe 'profile::kubernetes::resources::accountapp' do
        'jira_username'         => 'accountapp',
        'jira_url'              => 'https://issues.jenkins-ci.test',
        'recaptcha_public_key'  => 'recaptcha_public_key',
-       'smtp_server'           => 'smtp_server',
+       'smtp_server'           => 'smtp.jenkins.test',
        'smtp_user'             => 'smtp_user',
        'smtp_password'         => 'smtp_password',
-       'smtp_auth'             => 'smtp_auth',
+       'smtp_auth'             => true,
        'image_tag'             => 'latest'
 	   }
 	 )
