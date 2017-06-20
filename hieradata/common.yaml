@@ -322,6 +322,9 @@ profile::datadog_ssl_check::sites:
     - wiki.jenkins-ci.org
     - www.jenkins.io
 
+profile::datadog_pluginsite_check::sites:
+    - plugins.jenkins.io
+
 profile::kubernetes::resources::fluentd::image_tag: '0.7.2'
 
 limits:
