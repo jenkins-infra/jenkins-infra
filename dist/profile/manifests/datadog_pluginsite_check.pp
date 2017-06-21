@@ -22,6 +22,6 @@ class profile::datadog_pluginsite_check (
     owner   => $::datadog_agent::params::dd_user,
     group   => $::datadog_agent::params::dd_group,
     path    => "${::datadog_agent::params::conf_dir}/plugins_api_check.yaml",
-    notify => Service[$datadog_agent::params::service_name]
+    notify  => Service[$datadog_agent::params::service_name]
   }
 }
