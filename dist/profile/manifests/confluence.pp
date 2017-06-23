@@ -151,7 +151,7 @@ class profile::confluence (
   }
   ### #endif
 
- apache::vhost { 'wiki.jenkins.io non-ssl':
+  apache::vhost { 'wiki.jenkins.io non-ssl':
     # redirect non-SSL to SSL
     servername      => 'wiki.jenkins.io',
     port            => '80',
