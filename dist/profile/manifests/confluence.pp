@@ -95,7 +95,6 @@ class profile::confluence (
   }
 
   apache::vhost { 'wiki.jenkins-ci.org':
-    servername      => 'wiki.jenkins-ci.org',
     ssl             => true,
     port            => '443',
     docroot         => '/srv/wiki/docroot',
