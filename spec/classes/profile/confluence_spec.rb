@@ -60,4 +60,15 @@ describe 'profile::confluence' do
   context 'datadog configuration' do
     it { should contain_file '/etc/dd-agent/conf.d/http_check.yaml' }
   end
+
+  context 'environment => production' do
+    let(:environment) { 'production' }
+
+    it 'should obtain certificates' do
+      expect(subject).to contain_letsencrypt__certonly('wiki.jenkins.io').with({
+        :plugin => 'apache',
+        :domains => ['wiki.jenkins.io', 'wiki.jenkins-ci.org'],
+      })
+    end
+  end
 end
