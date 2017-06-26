@@ -95,13 +95,15 @@ class profile::confluence (
   }
 
   apache::vhost { 'wiki.jenkins-ci.org':
-    # redirect non-SSL to SSL
     servername      => 'wiki.jenkins-ci.org',
+    ssl             => true,
     port            => '443',
     docroot         => '/srv/wiki/docroot',
     access_log_pipe => '/dev/null',
     redirect_status => 'permanent',
-    redirect_dest   => 'https://wiki.jenkins.io/'
+    redirect_dest   => 'https://wiki.jenkins.io/',
+    require         => Apache::Vhost['wiki.jenkins.io'],
+    notify          => Service['apache2'],
   }
 
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
