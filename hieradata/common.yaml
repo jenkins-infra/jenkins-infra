@@ -264,7 +264,7 @@ docker::version: '1.12.1-0~trusty'
 # profile::pluginsite::image_tag is deprecated as pluginsite is now deployed on kubernetes
 # you should instead update profile::kubernetes::resources:pluginsite::image_tag
 profile::pluginsite::image_tag: '50-8a166d'
-profile::kubernetes::resources::pluginsite::image_tag: '55-c5c221'
+profile::kubernetes::resources::pluginsite::image_tag: '65-36a0e4'
 profile::kubernetes::resources::pluginsite::url: plugins.jenkins.io
 profile::kubernetes::resources::pluginsite::aliases:
     - plugins.azure.jenkins.io
