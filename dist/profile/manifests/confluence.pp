@@ -94,31 +94,11 @@ class profile::confluence (
     restart_service => true,
   }
 
-  ### to put maintenance screen up, comment out the following and comment in the apache::vhost for https://jenkins-ci.org
-  ### #if
-  #file { '/etc/apache2/sites-enabled/25-wiki.jenkins-ci.org.conf':
-  #  ensure => 'link',
-  #  target => '/etc/apache2/sites-available/wiki.jenkins-ci.org.maintenance.conf',
-  #}
-  ### #else
-  apache::vhost { 'wiki.jenkins-ci.org':
-    port            => '443',
-    docroot         => '/srv/wiki/docroot',
-    access_log      => false,
-    error_log_file  => 'wiki.jenkins-ci.org/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/confluence/vhost.conf"),
-
-    notify          => Service['apache2'],
-    require         => File['/var/log/apache2/wiki.jenkins-ci.org'],
-  }
-  ### #endif
-
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
     letsencrypt::certonly { 'wiki.jenkins.io':
-        domains     => ['wiki.jenkins.io'],
+        domains     => ['wiki.jenkins.io','wiki.jenkins-ci.org'],
         plugin      => 'apache',
         manage_cron => true,
     }
@@ -129,7 +109,22 @@ class profile::confluence (
       ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
       ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
     }
+    Apache::Vhost <| title == 'wiki.jenkins-ci.org' |> {
+      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
+      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
+    }
 
+  }
+
+  apache::vhost { 'wiki.jenkins-ci.org':
+    # redirect non-SSL to SSL
+    servername      => 'wiki.jenkins-ci.org',
+    port            => '443',
+    docroot         => '/srv/wiki/docroot',
+    access_log_pipe => '/dev/null',
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
   apache::vhost { 'wiki.jenkins-ci.org non-ssl':
@@ -138,7 +133,7 @@ class profile::confluence (
     port            => '80',
     docroot         => '/srv/wiki/docroot',
     access_log_pipe => '/dev/null',
-    redirect_status => 'temp',
+    redirect_status => 'permanent',
     redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
@@ -161,11 +156,11 @@ class profile::confluence (
     servername      => 'wiki.jenkins.io',
     port            => '80',
     docroot         => '/srv/wiki/docroot',
-    redirect_status => 'temp',
+    redirect_status => 'permanent',
     redirect_dest   => 'https://wiki.jenkins.io/'
   }
 
-  profile::apachemaintenance { 'wiki.jenkins-ci.org':
+  profile::apachemaintenance { 'wiki.jenkins.io':
   }
 
   profile::datadog_check { 'confluence-http-check':
@@ -178,7 +173,7 @@ class profile::confluence (
     source  => 'puppet:///modules/profile/confluence/process_check.yaml',
   }
 
-  host { 'wiki.jenkins-ci.org':
+  host { 'wiki.jenkins.io':
     ip => '127.0.0.1',
   }
 
