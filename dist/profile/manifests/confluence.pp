@@ -94,29 +94,6 @@ class profile::confluence (
     restart_service => true,
   }
 
-  # We can only acquire certs in production due to the way the letsencrypt
-  # challenge process works
-  if (($::environment == 'production') and ($::vagrant != '1')) {
-    letsencrypt::certonly { 'wiki.jenkins.io':
-        domains     => ['wiki.jenkins.io','wiki.jenkins-ci.org'],
-        plugin      => 'apache',
-        manage_cron => true,
-    }
-    Apache::Vhost <| title == 'wiki.jenkins.io' |> {
-    # When Apache is upgraded to >= 2.4.8 this should be changed to
-    # fullchain.pem
-      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
-      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
-      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
-    }
-    Apache::Vhost <| title == 'wiki.jenkins-ci.org' |> {
-      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
-      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
-      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
-    }
-
-  }
-
   apache::vhost { 'wiki.jenkins-ci.org':
     # redirect non-SSL to SSL
     servername      => 'wiki.jenkins-ci.org',
@@ -182,5 +159,28 @@ class profile::confluence (
       proto  => 'tcp',
       port   => 8091,
       action => 'accept',
+  }
+
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'wiki.jenkins.io':
+        domains     => ['wiki.jenkins.io','wiki.jenkins-ci.org'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
+    Apache::Vhost <| title == 'wiki.jenkins.io' |> {
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
+      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
+    }
+    Apache::Vhost <| title == 'wiki.jenkins-ci.org' |> {
+      ssl_key       => '/etc/letsencrypt/live/wiki.jenkins.io/privkey.pem',
+      ssl_cert      => '/etc/letsencrypt/live/wiki.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/wiki.jenkins.io/chain.pem',
+    }
+
   }
 }
