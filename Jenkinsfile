@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent any
+    agent none
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
