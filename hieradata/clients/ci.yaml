@@ -9,11 +9,13 @@ profile::buildmaster::plugins:
   - blueocean
   - build-timeout
   - buildtriggerbadge
+  - checkstyle
   - cloudbees-folder
   - credentials
   - credentials-binding
   - docker-workflow
   - embeddable-build-status
+  - findbugs
   - git-client
   - git
   - github
