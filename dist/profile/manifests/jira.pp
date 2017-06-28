@@ -113,6 +113,7 @@ class profile::jira (
   }
 
   profile::datadog_check { 'jira-http-check':
+    ensure  => 'absent',
     checker => 'http_check',
     source  => 'puppet:///modules/profile/jira/http_check.yaml',
   }

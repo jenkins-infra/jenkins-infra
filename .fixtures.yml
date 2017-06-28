@@ -27,7 +27,7 @@ fixtures:
       ref: '4.15.0'
     datadog_agent:
       repo: 'datadog/datadog_agent'
-      ref: '1.6.0'
+      ref: '1.10.0'
     ruby:
       repo: 'puppetlabs/ruby'
       ref: '0.5.0'
