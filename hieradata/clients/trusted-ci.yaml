@@ -6,7 +6,7 @@ profile::buildmaster::letsencrypt: false
 # These are plugins we need only in our trusted-ci environment
 profile::buildmaster::plugins:
   - ansicolor
-  - azure-slave-plugin
+  - azure-vm-agents
   - blueocean
   - build-timeout
   - buildtriggerbadge
