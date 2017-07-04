@@ -33,7 +33,7 @@ fixtures:
       ref: '0.5.0'
     firewall:
       repo: 'puppetlabs/firewall'
-      ref: '1.1.3'
+      ref: '1.9.0'
     apache:
       repo: 'puppetlabs/apache'
       ref: '1.8.1'
