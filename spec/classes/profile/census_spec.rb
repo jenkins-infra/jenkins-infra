@@ -28,10 +28,11 @@ end
 
 
 describe 'profile::census::agent' do
+  let(:home_dir) { '/var/lib/jenkins' }
   let(:params) do
     {
       :user => 'jenkins',
-      :home_dir => '/var/lib/jenkins',
+      :home_dir => home_dir,
     }
   end
 
@@ -39,7 +40,7 @@ describe 'profile::census::agent' do
   it { should contain_class 'stdlib' }
 
   it 'should have the usage private key' do
-    expect(subject).to contain_file("#{params[:home_dir]}/.ssh/usage").with({
+    expect(subject).to contain_file("#{home_dir}/.ssh/usage").with({
       :ensure => :file,
       :owner => params[:user],
       :mode => '0600',
@@ -51,5 +52,23 @@ describe 'profile::census::agent' do
       :user => params[:user],
       :type => 'ssh-rsa',
     })
+  end
+
+  it 'should concat ~/.ssh/config' do
+    expect(subject).to contain_concat("#{home_dir}/.ssh/config").with({
+      :ensure => :present,
+      :mode   => '0644',
+    })
+
+    expect(subject).to contain_concat__fragment('usage-key concat').with({
+      :ensure => :present,
+      :target => "#{home_dir}/.ssh/config",
+    })
+
+    expect(subject).to contain_concat__fragment('census-key concat').with({
+      :ensure => :present,
+      :target => "#{home_dir}/.ssh/config",
+    })
+
   end
 end
