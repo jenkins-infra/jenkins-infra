@@ -65,7 +65,7 @@ mod 'nanliu/staging', '0.4.0'
 
 
 # For managing server-side ssh configuration options
-mod 'saz/ssh', '2.8.1'
+mod 'saz/ssh', '3.0.1'
 
 mod 'puppetlabs/lvm', '0.3.2'
 mod 'datadog/datadog_agent', '1.6.0'
