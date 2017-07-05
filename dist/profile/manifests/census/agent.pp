@@ -10,6 +10,8 @@ class profile::census::agent(
   validate_string($user)
   validate_string($home_dir)
 
+  $ssh_config = "${home_dir}/.ssh/config"
+
   ssh_authorized_key { 'usage':
     type    => 'ssh-rsa',
     user    => $user,
@@ -17,21 +19,37 @@ class profile::census::agent(
     require => File["${home_dir}/.ssh"],
   }
 
-  ::ssh::client::config::user { $user :
-    ensure              => present,
-    user_home_dir       => $home_dir,
-    manage_user_ssh_dir => false,
-    options             => {
-      'Host usage.jenkins.io'  => {
-        'User'         => 'usagestats',
-        'IdentityFile' => "${home_dir}/.ssh/usage",
+  ensure_resources('concat', {
+      $ssh_config => {
+          ensure  => present,
+          mode    => '0644',
+          owner   => $user,
+          group   => $user,
+          require => File["${home_dir}/.ssh"],
       },
-      'Host census.jenkins.io' => {
-        'User'         => 'census',
-        'IdentityFile' => "${home_dir}/.ssh/usage",
-      },
-    },
-    require             => File["${home_dir}/.ssh"],
+    }
+  )
+
+  concat::fragment { 'census-key concat':
+    ensure  => present,
+    target  => $ssh_config,
+    order   => '10',
+    content => "
+Host census.jenkins.io
+  User census
+  IdentityFile ${home_dir}/.ssh/usage
+",
+  }
+
+  concat::fragment { 'usage-key concat':
+    ensure  => present,
+    target  => $ssh_config,
+    order   => '11',
+    content => "
+Host usage.jenkins.io
+  User usagestats
+  IdentityFile ${home_dir}/.ssh/usage
+",
   }
 
   file { "${home_dir}/.ssh/usage" :
@@ -39,6 +57,6 @@ class profile::census::agent(
     owner   => $user,
     mode    => '0600',
     content => hiera('usage_ssh_privkey'),
-    require => Ssh::Client::Config::User[$user],
+    require => File["${home_dir}/.ssh"],
   }
 }

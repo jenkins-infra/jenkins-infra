@@ -145,8 +145,9 @@ node 'trusted-ci' {
 node /^trusted-agent-\d+$/ {
   notice('This agent is trusted!')
   $hiera_role = 'trustedagent'
-  include role::jenkins::agent
   include role::census::agent
+  include role::updatecenter
+
 }
 
 node 'bounce' {
