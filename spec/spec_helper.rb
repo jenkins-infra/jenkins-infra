@@ -17,6 +17,8 @@ RSpec.configure do |c|
   c.mock_with :rspec
   c.formatter = :documentation
 
+  c.manifest = File.join(File.dirname(__FILE__), '..',  'manifests', 'site.pp')
+
   c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
 
   c.default_facts = {
