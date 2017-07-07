@@ -192,7 +192,7 @@ class profile::buildmaster(
   }
 
   file { "${ssh_dir}/azure_k8s":
-    ensure  => present,
+    ensure  => absent,
     mode    => '0600',
     content => hiera('azure::k8s::management_ssh_privkey'),
     require => [
@@ -201,7 +201,7 @@ class profile::buildmaster(
   }
 
   file { "${ssh_dir}/azure_k8s.pub":
-    ensure  => present,
+    ensure  => absent,
     mode    => '0644',
     content => hiera('azure::k8s::management_ssh_pubkey'),
     require => [
