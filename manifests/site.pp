@@ -138,6 +138,7 @@ node /^agent-\d+$/ {
 }
 
 node 'trusted-ci' {
+  $hiera_role = 'trustedci'
   sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
   include role::jenkins::master
 }
