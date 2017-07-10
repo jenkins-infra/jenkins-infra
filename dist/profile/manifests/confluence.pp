@@ -142,6 +142,7 @@ class profile::confluence (
   }
 
   profile::datadog_check { 'confluence-http-check':
+    ensure  => 'absent',
     checker => 'http_check',
     source  => 'puppet:///modules/profile/confluence/http_check.yaml',
   }

@@ -68,7 +68,7 @@ mod 'nanliu/staging', '0.4.0'
 mod 'saz/ssh', '3.0.1'
 
 mod 'puppetlabs/lvm', '0.3.2'
-mod 'datadog/datadog_agent', '1.6.0'
+mod 'datadog/datadog_agent', '1.10.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'danzilio/letsencrypt', '1.0.0'

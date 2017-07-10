@@ -56,6 +56,7 @@ class profile::accountapp(
   }
 
   profile::datadog_check { 'accountapp-http-check':
+    ensure  => 'absent',
     checker => 'http_check',
     source  => 'puppet:///modules/profile/accountapp/http_check.yaml',
   }
