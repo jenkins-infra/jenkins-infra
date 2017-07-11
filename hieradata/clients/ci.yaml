@@ -31,5 +31,6 @@ profile::buildmaster::plugins:
   - throttle-concurrents
   - timestamper
   - toolenv
+  - warnings
   - workflow-aggregator
   - workflow-multibranch
