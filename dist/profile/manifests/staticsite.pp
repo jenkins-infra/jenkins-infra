@@ -106,8 +106,8 @@ class profile::staticsite(
 
   apache::vhost { 'beta.jenkins-ci.org':
     port    => '80',
-    docroot => $site_docroot,
-    require => File[$site_docroot],
+    docroot => $beta_docroot,
+    require => File[$beta_docroot],
   }
 
   apache::vhost { 'jenkins.io':
@@ -117,10 +117,10 @@ class profile::staticsite(
     ],
     port          => '443',
     ssl           => true,
-    docroot       => $beta_docroot,
-    require       => File[$beta_docroot],
+    docroot       => $site_docroot,
+    require       => File[$site_docroot],
     directories   => [
-      { 'path'            =>  $beta_docroot,
+      { 'path'            =>  $site_docroot,
         'custom_fragment' => 'AllowOverrideList ErrorDocument',
       }
     ]
@@ -133,7 +133,7 @@ class profile::staticsite(
       'www.jenkins.io',
     ],
     port            => '80',
-    docroot         => $beta_docroot,
+    docroot         => $site_docroot,
     redirect_status => 'permanent',
     redirect_dest   => 'https://jenkins.io/',
   }
