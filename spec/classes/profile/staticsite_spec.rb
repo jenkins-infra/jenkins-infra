@@ -37,10 +37,10 @@ describe 'profile::staticsite' do
   context 'apache setup' do
     it { should contain_class 'letsencrypt' }
     it { should contain_apache__vhost('beta.jenkins-ci.org')
-                .with(:docroot => '/srv/jenkins.io/current') }
+                .with(:docroot => '/srv/jenkins.io/beta') }
 
     it { should contain_apache__vhost('jenkins.io')
-                .with(:docroot => '/srv/jenkins.io/beta') }
+                .with(:docroot => '/srv/jenkins.io/current') }
 
     it 'should upgrade non-TLS to TLS' do
       expect(subject).to contain_apache__vhost('jenkins.io unsecured').with({
