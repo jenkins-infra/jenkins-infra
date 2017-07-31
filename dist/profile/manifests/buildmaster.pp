@@ -313,6 +313,9 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 RewriteCond %{REQUEST_FILENAME} ^(.*)api/json(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
+RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
 
 # Blackhole all the /cli requests over HTTP
 RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
