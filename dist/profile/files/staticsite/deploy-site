@@ -87,8 +87,6 @@ if ARGV.size != 1
   Dir.glob(File.join(base_dir, '*')).each do |path|
     # Don't bother looking at non-directories
     next unless File.directory? path
-    # Don't both with anything that isn't a jenkins.io type directory
-    next unless path.match version_regex
 
     # Skip our currently deployed sites
     next if path.end_with? current
