@@ -22,6 +22,7 @@ class profile::buildmaster(
 ) {
   include ::stdlib
   include ::apache
+  include apache::mod::alias
   include apache::mod::proxy
   include apache::mod::headers
   include apache::mod::rewrite
@@ -275,6 +276,13 @@ class profile::buildmaster(
     require => Package['httpd'],
   }
 
+  file { "${docroot}/empty.json" :
+    ensure  => file,
+    content => '{}',
+    mode    => '0644',
+    require => File[$docroot],
+  }
+
   apache::vhost { $ci_fqdn:
     serveraliases         => [
       # Give all our buildmaster profiles this server alias; it's easier than
@@ -300,32 +308,29 @@ RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
 
 RewriteEngine on
-# Block abusive software which is default configured to hit our Jenkins
-# instance(s). These are typically Build Notifiers that use us as a default
-# since we're public, not anymore for you!
-RewriteCond %{HTTP_USER_AGENT} YisouSpider|Catlight*|CheckmanJenkins [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-# Block requests which attempt to access API endpoints and end up hanging
-# Jenkins. Really Jenkins should have a permission to block Anonymous/API
-# access but it doesn't, so Apache it is.
-# See also: https://issues.jenkins-ci.org/browse/INFRA-1204
-RewriteCond %{REQUEST_FILENAME} ^(.*)api/json(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
 RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
-
 # Blackhole all the /cli requests over HTTP
 RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
+
+# Loading our Proxy rules ourselves from a custom fragment since the
+# puppetlabs/apache module doesn't support ordering of both proxy_pass and
+# proxy_pass_match configurations
+ProxyRequests Off
+ProxyPreserveHost On
+ProxyPassMatch (.*)/api/json(/|$)(.*)  !
+ProxyPass / http://localhost:8080/ nocanon
+ProxyPassReverse / http://localhost:8080/
 ",
-    proxy_pass            => [
+    aliases               => [
       {
-        path         => '/',
-        url          => 'http://localhost:8080/',
-        keywords     => ['nocanon'],
-        reverse_urls => ['http://localhost:8080/'],
+        # Send all api/json requests to `empty.json` to prevent abusive clients
+        # (checkman) from receiving an invalid JSON response and repeatedly attempting
+        # to hammer us to get a better response
+        aliasmatch => '(.*)/api/json(/|$)(.*)',
+        path       => "${docroot}/empty.json",
       },
     ],
   }
