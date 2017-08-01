@@ -87,6 +87,7 @@ if ARGV.size != 1
   Dir.glob(File.join(base_dir, '*')).each do |path|
     # Don't bother looking at non-directories
     next unless File.directory? path
+    next if File.symlink? path
 
     # Skip our currently deployed sites
     next if path.end_with? current
