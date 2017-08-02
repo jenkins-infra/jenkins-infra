@@ -88,6 +88,8 @@ if ARGV.size != 1
     # Don't bother looking at non-directories
     next unless File.directory? path
     next if File.symlink? path
+    # Skip the archives directory, we'll need that
+    next if path.end_with 'archives'
 
     # Skip our currently deployed sites
     next if path.end_with? current
