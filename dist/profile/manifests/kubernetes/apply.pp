@@ -37,4 +37,9 @@ define profile::kubernetes::apply (
     logoutput   => true,
     subscribe   => File["${profile::kubernetes::params::resources}/${resource}"],
   }
+
+  # Remove resource from trash directory
+  file { "${profile::kubernetes::params::trash}/${resource}":
+    ensure  => 'absent'
+  }
 }

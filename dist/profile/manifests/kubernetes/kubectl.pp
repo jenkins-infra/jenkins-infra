@@ -34,10 +34,13 @@
 #     $client_key_data:
 #       Used to template .kube/config
 #       Cfr .kube/config for more information
+#     $trash:
+#       Kubernetes trash directory that contains deleted resources
 #
 class profile::kubernetes::kubectl (
     $user = $profile::kubernetes::params::user,
     $home = $profile::kubernetes::params::home,
+    $trash = $profile::kubernetes::params::trash,
     $bin = $profile::kubernetes::params::bin,
     $resources = $profile::kubernetes::params::resources,
     $server = undef,
@@ -65,6 +68,12 @@ class profile::kubernetes::kubectl (
     ensure => 'directory',
     owner  => $user
   }
+
+  file { $trash:
+    ensure => 'directory',
+    owner  => $user
+  }
+
   file { "${home}/.kube":
     ensure => 'directory',
     owner  => $user

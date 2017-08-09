@@ -8,4 +8,5 @@ class profile::kubernetes::params (
   $home = "/home/${user}"
   $bin = "${home}/.bin"
   $resources = "${home}/resources"
+  $trash = "${home}/trash"
 }
