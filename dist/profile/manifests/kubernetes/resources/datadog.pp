@@ -8,7 +8,7 @@
 #       Contain datadog api key.
 #       Used in secret template
 class profile::kubernetes::resources::datadog (
-    String $apiKey  = base64('encode', $::datadog_agent::api_key, 'strict'),
+    String $api_key  = base64('encode', $::datadog_agent::api_key, 'strict'),
   ){
   include ::stdlib
   include profile::kubernetes::params
@@ -23,7 +23,7 @@ class profile::kubernetes::resources::datadog (
 
   profile::kubernetes::apply { 'datadog/secret.yaml':
     parameters => {
-        'apiKey' => $apiKey
+        'api_key' => $api_key
     },
   }
 

@@ -42,7 +42,7 @@ define profile::kubernetes::delete (
     # Only run kubectl delete if the resources is deployed.
     exec { "Remove ${resource} on ${cluster[clustername]}":
       command     => "kubectl delete --grace-period=60 --ignore-not-found=true -f ${profile::kubernetes::params::trash}/${resource}",
-      path        => [$profile::kubernetes::params::bin,$path],
+      path        => [$profile::kubernetes::params::bin,$::path],
       environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
       onlyif      => "test \"$(kubectl apply --dry-run=true -f ${profile::kubernetes::params::trash}/${resource} | grep configured)\""
     }

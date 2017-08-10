@@ -36,7 +36,7 @@ define profile::kubernetes::apply (
     # only if the configuration file is updated by puppet run
     exec { "update ${resource} on ${cluster[clustername]}":
       command     => "kubectl apply -f ${profile::kubernetes::params::resources}/${resource}",
-      path        => [$profile::kubernetes::params::bin,$path],
+      path        => [$profile::kubernetes::params::bin,$::path],
       environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
       refreshonly => true,
       logoutput   => true,
@@ -47,7 +47,7 @@ define profile::kubernetes::apply (
     # Always deploys a resource that is not yet created on the cluster
     exec { "init ${resource} on ${cluster[clustername]}":
       command     => "kubectl apply -f ${profile::kubernetes::params::resources}/${resource}",
-      path        => [$profile::kubernetes::params::bin,$path],
+      path        => [$profile::kubernetes::params::bin,$::path],
       environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
       logoutput   => true,
       onlyif      => "test \"$(kubectl apply --dry-run -f ${profile::kubernetes::params::resources}/${resource} | grep created)\""

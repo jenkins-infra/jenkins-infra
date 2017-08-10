@@ -30,7 +30,7 @@ define profile::kubernetes::reload (
   $profile::kubernetes::params::clusters.each | $cluster | {
     $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${cluster[clustername]}"] }
     exec { "reload ${app} pods on ${cluster[clustername]}":
-      command     => "kubectl delete pods -l app=${::app}",
+      command     => "kubectl delete pods -l app=${app}",
       path        => [$profile::kubernetes::params::bin],
       environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
       logoutput   => true,
