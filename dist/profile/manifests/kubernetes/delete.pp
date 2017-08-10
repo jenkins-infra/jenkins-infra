@@ -25,14 +25,10 @@ define profile::kubernetes::delete (
   $clusters = $profile::kubernetes::params::clusters
 
   $dirname = dirname($resource)
-
-  file { "${profile::kubernetes::params::trash}/${dirname}":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  $basename = basename($resource)
 
   # Add resource file to trash directory
-  file { "${profile::kubernetes::params::trash}/${resource}":
+  file { "${profile::kubernetes::params::trash}/${dirname}.${basename}":
     ensure  => 'present',
     content => template("${module_name}/kubernetes/resources/${resource}.erb"),
     owner   => $profile::kubernetes::params::user
@@ -41,10 +37,10 @@ define profile::kubernetes::delete (
   $clusters.each | $cluster | {
     # Only run kubectl delete if the resources is deployed.
     exec { "Remove ${resource} on ${cluster[clustername]}":
-      command     => "kubectl delete --grace-period=60 --ignore-not-found=true -f ${profile::kubernetes::params::trash}/${resource}",
+      command     => "kubectl delete --grace-period=60 --ignore-not-found=true -f ${profile::kubernetes::params::trash}/${dirname}.${basename}",
       path        => [$profile::kubernetes::params::bin,$::path],
       environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
-      onlyif      => "test \"$(kubectl apply --dry-run=true -f ${profile::kubernetes::params::trash}/${resource} | grep configured)\""
+      onlyif      => "test \"$(kubectl apply --dry-run=true -f ${profile::kubernetes::params::trash}/${dirname}.${basename} | grep configured)\""
     }
   }
 

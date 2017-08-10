@@ -23,6 +23,10 @@ define profile::kubernetes::apply (
   include ::stdlib
   include profile::kubernetes::params
 
+  $dirname = dirname($resource)
+  $basename = basename($resource)
+
+
   $clusters = $profile::kubernetes::params::clusters
 
   file { "${profile::kubernetes::params::resources}/${resource}":
@@ -55,7 +59,7 @@ define profile::kubernetes::apply (
   }
 
   # Remove resource from trash directory
-  file { "${profile::kubernetes::params::trash}/${resource}":
+  file { "${profile::kubernetes::params::trash}/${dirname}.${basename}":
     ensure  => 'absent'
   }
 }
