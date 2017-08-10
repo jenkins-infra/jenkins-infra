@@ -10,16 +10,19 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
-#
+#     $clusters:
+#       Array of cluster informations
 #   Sample usage:
 #     profile::kubernetes::delete{ 'nginx/deployment.yaml':
 #     }
 #
 define profile::kubernetes::delete (
-  String $resource = $title
+  String $resource = $title,
 ){
   include ::stdlib
   include profile::kubernetes::params
+
+  $clusters = $profile::kubernetes::params::clusters
 
   $dirname = dirname($resource)
 
@@ -35,12 +38,14 @@ define profile::kubernetes::delete (
     owner   => $profile::kubernetes::params::user
   }
 
-  # Only run kubectl delete if the resources is deployed.
-  exec { "Remove ${resource}":
-    command     => "kubectl delete --grace-period=60 --ignore-not-found=true -f ${profile::kubernetes::params::trash}/${resource}",
-    path        => [$profile::kubernetes::params::bin],
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    onlyif      => "/usr/bin/test ! \"$(kubectl apply --dry-run=true -f ${profile::kubernetes::params::trash}/${resource} | grep created)\""
+  $clusters.each | $cluster | {
+    # Only run kubectl delete if the resources is deployed.
+    exec { "Remove ${resource} on ${cluster[clustername]}":
+      command     => "kubectl delete --grace-period=60 --ignore-not-found=true -f ${profile::kubernetes::params::trash}/${resource}",
+      path        => [$profile::kubernetes::params::bin,$path],
+      environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
+      onlyif      => "test \"$(kubectl apply --dry-run=true -f ${profile::kubernetes::params::trash}/${resource} | grep configured)\""
+    }
   }
 
   # Remove resource file 

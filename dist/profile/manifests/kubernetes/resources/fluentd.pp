@@ -34,16 +34,12 @@ class profile::kubernetes::resources::fluentd (
   # we must reload pods 'manually' to use the newly updated secret
   # If we delete a pod defined by daemonset,
   # this daemonset will recreate a new one
-  # Daemonset still need to be reset
-  exec { 'Reload fluentd pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=fluentd --grace-period=10',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => [
-      Exec['apply azurelogs/secret.yaml'],
-      Exec['apply fluentd/daemonset.yaml']
+  profile::kubernetes::reload { 'fluentd pods':
+    app        => 'fluentd',
+    depends_on => [
+      'azurelogs/secret.yaml',
+      'fluentd/daemonset.yaml',
     ]
   }
+
 }

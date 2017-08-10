@@ -29,11 +29,6 @@ describe 'profile::kubernetes::kubectl' do
           :owner  => 'k8s' 
       )
     }
-    it { should contain_file('/home/k8s/.kube/config').with(
-      :owner  => 'k8s',
-      :ensure => 'present'
-      )
-    }
     it { should contain_file('/home/k8s/.bin').with(
       :ensure => 'directory',
       :owner  => 'k8s'

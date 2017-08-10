@@ -14,26 +14,6 @@
 #     $resources:
 #       Resources folder that contain all kubernetes resources file that will be
 #       deploy on Kubernetes cluster
-#     $server:
-#       Kubernetes server fqdn
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $clustername:
-#       Kubernetes cluster name
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $certificate_authority_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $client_certificate_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $username:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $client_key_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
 #     $trash:
 #       Kubernetes trash directory that contains deleted resources
 #
@@ -43,15 +23,11 @@ class profile::kubernetes::kubectl (
     $trash = $profile::kubernetes::params::trash,
     $bin = $profile::kubernetes::params::bin,
     $resources = $profile::kubernetes::params::resources,
-    $server = undef,
-    $clustername = undef,
-    $certificate_authority_data = undef,
-    $client_certificate_data = undef,
-    $username = undef,
-    $client_key_data = undef
   ) {
 
   include profile::kubernetes::params
+
+  $clusters = $profile::kubernetes::params::clusters
 
   user { $user:
     ensure     => 'present',
@@ -86,9 +62,11 @@ class profile::kubernetes::kubectl (
     mode   => '0755',
   }
 
-  file { "${home}/.kube/config":
-    ensure  => 'present',
-    content => template("${module_name}/kubernetes/config.erb"),
-    owner   => $user,
+  $clusters.each | $cluster | {
+    file { "${home}/.kube/${cluster[clustername]}.conf":
+      ensure  => 'present',
+      content => template("${module_name}/kubernetes/config.erb"),
+      owner   => $user,
+    }
   }
 }
