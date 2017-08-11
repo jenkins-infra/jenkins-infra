@@ -43,10 +43,5 @@ describe 'profile::kubernetes::resources::repo_proxy' do
       }
     )
   }
-  it { should contain_exec('Reload repo_proxy pods').with(
-    :subscribe => [ 
-      'Exec[apply repo_proxy/secret.yaml]'
-      ] 
-    )
-  }
+  it { should contain_profile__kubernetes__reload('repo_proxy pods')}
 end

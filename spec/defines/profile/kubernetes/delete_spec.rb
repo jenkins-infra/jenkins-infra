@@ -12,21 +12,15 @@ describe 'profile::kubernetes::delete' do
     
     it { should contain_class 'profile::kubernetes::params' }
 
-    it { should contain_file("/home/k8s/trash/nginx").with(
-      :owner  => 'k8s',
-      :ensure => 'directory'
-      )
-    }
-
-    it { should contain_file("/home/k8s/trash/nginx/deployment.yaml").with(
+    it { should contain_file("/home/k8s/trash/nginx.deployment.yaml").with(
       :owner  => 'k8s',
       :ensure => 'present'
       )
     }
   
-   it { should contain_file("/home/k8s/resources/nginx/deployment.yaml").with(
-     :ensure => 'absent'
-     )
-   }
+    it { should contain_file("/home/k8s/resources/nginx/deployment.yaml").with(
+      :ensure => 'absent'
+      )
+    }
 
 end

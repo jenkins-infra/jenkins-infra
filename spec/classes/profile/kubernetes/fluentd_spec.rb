@@ -21,16 +21,5 @@ describe 'profile::kubernetes::resources::fluentd' do
     )
   }
 
-  it { should contain_exec('Reload fluentd pods').with(
-      :path        => ["/home/k8s/.bin/"],
-      :command     => 'kubectl delete pods -l app=fluentd --grace-period=10',
-      :refreshonly => true,
-      :environment => ["KUBECONFIG=/home/k8s/.kube/config"] ,
-      :logoutput   => true,
-      :subscribe   => [
-          'Exec[apply azurelogs/secret.yaml]',
-          'Exec[apply fluentd/daemonset.yaml]'
-      ]
-    )
-  } 
+  it { should contain_profile__kubernetes__reload('fluentd pods')}
 end

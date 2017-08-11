@@ -2,6 +2,7 @@ require 'spec_helper'
 
 
 describe 'profile::kubernetes::kubectl' do
+    let (:pre_condition) { 'include profile::kubernetes::params'}
     kubectl_version = '1.5.4'
     let (:params) do
       {
@@ -12,6 +13,7 @@ describe 'profile::kubernetes::kubectl' do
       }
     end
     it { should contain_class 'profile::kubernetes::params' }
+
     it { should contain_user('k8s').with(
         :ensure     => 'present',
         :name       => 'k8s',
