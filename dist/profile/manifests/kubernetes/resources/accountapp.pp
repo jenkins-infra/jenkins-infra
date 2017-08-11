@@ -126,4 +126,7 @@ class profile::kubernetes::resources::accountapp (
       'accountapp/secret.yaml'
     ]
   }
+
+  profile::kubernetes::backup { 'accountapp-tls':
+  }
 }

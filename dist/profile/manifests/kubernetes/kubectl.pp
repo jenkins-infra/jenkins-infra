@@ -22,7 +22,9 @@ class profile::kubernetes::kubectl (
     $home = $profile::kubernetes::params::home,
     $trash = $profile::kubernetes::params::trash,
     $bin = $profile::kubernetes::params::bin,
+    $backup = $profile::kubernetes::params::backup,
     $resources = $profile::kubernetes::params::resources,
+    $config = $profile::kubernetes::params::config
   ) {
 
   include profile::kubernetes::params
@@ -50,6 +52,11 @@ class profile::kubernetes::kubectl (
     owner  => $user
   }
 
+  file { $backup:
+    ensure => 'directory',
+    owner  => $user
+  }
+
   file { "${home}/.kube":
     ensure => 'directory',
     owner  => $user
@@ -62,11 +69,22 @@ class profile::kubernetes::kubectl (
     mode   => '0755',
   }
 
+  file { "${bin}/backup.sh":
+    ensure  => 'present',
+    content => template("${module_name}/kubernetes/backup.sh.erb"),
+    owner   => $user,
+    mode    => '0755'
+  }
+
   $clusters.each | $cluster | {
     file { "${home}/.kube/${cluster[clustername]}.conf":
       ensure  => 'present',
       content => template("${module_name}/kubernetes/config.erb"),
       owner   => $user,
+    }
+    file { "${backup}/${cluster[clustername]}":
+      ensure => 'directory',
+      owner  => $user
     }
   }
 }

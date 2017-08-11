@@ -10,8 +10,7 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
-#     $clusters:
-#       Array of cluster informations
+#
 #   Sample usage:
 #     profile::kubernetes::delete{ 'nginx/deployment.yaml':
 #     }

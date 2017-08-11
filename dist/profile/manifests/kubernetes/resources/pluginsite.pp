@@ -63,4 +63,6 @@ class profile::kubernetes::resources::pluginsite (
     ]
   }
 
+  profile::kubernetes::backup { 'pluginsite-tls':
+  }
 }

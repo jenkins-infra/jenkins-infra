@@ -65,4 +65,7 @@ class profile::kubernetes::resources::repo_proxy (
     ]
   }
 
+  profile::kubernetes::backup { 'repo-proxy-tls':
+  }
+
 }
