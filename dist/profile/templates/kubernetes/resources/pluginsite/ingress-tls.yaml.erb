@@ -18,7 +18,7 @@ spec:
   - host: <%= @parameters['url'] %>
     http:
       paths:
-      - path: /api
+      - path: /api/
         backend:
           serviceName: pluginsite
           servicePort: 8080
@@ -30,7 +30,7 @@ spec:
   - host: <%= vhost_alias %>
     http:
       paths:
-      - path: /api
+      - path: /api/
         backend:
           serviceName: pluginsite
           servicePort: 8080
