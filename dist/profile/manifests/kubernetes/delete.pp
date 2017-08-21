@@ -10,6 +10,9 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
+#     $clusters:
+#       List of cluster information, cfr profile::kubernetes::params for more
+#       informations
 #
 #   Sample usage:
 #     profile::kubernetes::delete{ 'nginx/deployment.yaml':
@@ -17,11 +20,10 @@
 #
 define profile::kubernetes::delete (
   String $resource = $title,
+  $clusters = $profile::kubernetes::params::clusters
 ){
   include ::stdlib
   include profile::kubernetes::params
-
-  $clusters = $profile::kubernetes::params::clusters
 
   $dirname = dirname($resource)
   $basename = basename($resource)

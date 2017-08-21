@@ -24,12 +24,11 @@ class profile::kubernetes::kubectl (
     $bin = $profile::kubernetes::params::bin,
     $backup = $profile::kubernetes::params::backup,
     $resources = $profile::kubernetes::params::resources,
-    $config = $profile::kubernetes::params::config
+    $config = $profile::kubernetes::params::config,
+    $clusters = $profile::kubernetes::params::clusters
   ) {
 
   include profile::kubernetes::params
-
-  $clusters = $profile::kubernetes::params::clusters
 
   user { $user:
     ensure     => 'present',

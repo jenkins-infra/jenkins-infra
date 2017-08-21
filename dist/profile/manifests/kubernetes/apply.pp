@@ -6,8 +6,14 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
+#
 #     $parameters:
 #       Parameters used in erb templates
+#
+#     $clusters:
+#       List of cluster information, cfr profile::kubernetes::params for more
+#       informations
+
 #
 #   Sample usage:
 #     profile::kubernetes::apply { 'datadog/secret.yaml':
@@ -19,15 +25,13 @@
 define profile::kubernetes::apply (
   String $resource = $title,
   Hash $parameters = {},
+  $clusters = $profile::kubernetes::params::clusters
 ){
   include ::stdlib
   include profile::kubernetes::params
 
   $dirname = dirname($resource)
   $basename = basename($resource)
-
-
-  $clusters = $profile::kubernetes::params::clusters
 
   file { "${profile::kubernetes::params::resources}/${resource}":
     ensure  => 'present',

@@ -46,6 +46,7 @@ pipeline {
                 sh 'HOME=$PWD bundle exec rake resolve'
                 sh 'bundle exec rake lint'
                 sh 'bundle exec parallel_rspec spec/classes'
+                sh 'bundle exec parallel_rspec spec/defines'
             }
         }
     }

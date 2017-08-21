@@ -9,6 +9,12 @@
 #     $app:
 #       Value for pods label 'app'
 #     $depends_on:
+#       Define which resources need to be monitored in order to trigger this reload
+#
+#     $clusters:
+#       List of cluster information, cfr profile::kubernetes::params for more
+#       informations
+
 #
 #   Sample usage:
 #     profile::kubernetes::reload { 'datadog':
@@ -22,12 +28,13 @@
 define profile::kubernetes::reload (
   String $resource = $title,
   String $app= undef,
-  Array  $depends_on = undef
+  Array  $depends_on = undef,
+  $clusters = $profile::kubernetes::params::clusters,
 ){
   include ::stdlib
   include profile::kubernetes::params
 
-  $profile::kubernetes::params::clusters.each | $cluster | {
+  $clusters.each | $cluster | {
     $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${cluster[clustername]}"] }
     exec { "reload ${app} pods on ${cluster[clustername]}":
       command     => "kubectl delete pods -l app=${app}",
