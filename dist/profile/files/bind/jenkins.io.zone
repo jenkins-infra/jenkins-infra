@@ -43,7 +43,7 @@ census      3600    IN    A    52.202.38.86   ; jenkins-census
 usage       3600    IN    A    52.204.62.78   ; jenkins-usage
 
 ; Azure
-nginx.azure   3600  IN    A       52.225.129.228 ; kubernetes service: namespace:nginx-ingress name:nginx
+nginx.azure   3600  IN    A       13.68.19.38 ; kubernetes service: namespace:nginx-ingress name:nginx
 plugins.azure 3600  IN    CNAME   nginx.azure    ; used to test plugins.jenkins.io migration
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
 beta.accounts 3600  IN    CNAME   nginx.azure    ; Must be deleted when accounts is a CNAME for nginx.azure
