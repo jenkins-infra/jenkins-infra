@@ -41,5 +41,5 @@ describe 'profile::kubernetes::resources::pluginsite' do
       }
     )
   }
-  it { should contain_exec('Reload pluginsite pods')}
+  it { should contain_profile__kubernetes__reload('pluginsite pods')}
 end

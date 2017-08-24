@@ -70,5 +70,5 @@ describe 'profile::kubernetes::resources::accountapp' do
 	   }
 	 )
    }
-   it { should contain_exec('Reload accountapp pods')}
+   it { should contain_profile__kubernetes__reload('accountapp pods')}
 end

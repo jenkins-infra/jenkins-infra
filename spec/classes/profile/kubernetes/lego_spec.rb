@@ -23,5 +23,5 @@ describe 'profile::kubernetes::resources::lego' do
         }
      )
    }
-   it { should contain_exec('Reload lego pods')}
+   it { should contain_profile__kubernetes__reload('kube-lego pods')}
 end

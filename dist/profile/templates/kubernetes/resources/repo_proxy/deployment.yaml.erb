@@ -22,14 +22,14 @@ spec:
                   imagePullPolicy: Always
                   livenessProbe:
                       httpGet:
-                          path: /webapp/
+                          path: /api/system/ping
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 20
                       timeoutSeconds: 5
                   readinessProbe:
                       httpGet:
-                          path: /webapp/
+                          path: /api/system/ping
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 30

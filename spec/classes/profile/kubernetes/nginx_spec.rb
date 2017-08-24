@@ -16,5 +16,5 @@ describe 'profile::kubernetes::resources::nginx' do
    it { should contain_profile__kubernetes__apply('nginx/deployment.yaml')}
    it { should contain_profile__kubernetes__apply('nginx/default-service.yaml')}
    it { should contain_profile__kubernetes__apply('nginx/service.yaml')}
-   it { should contain_exec('Reload nginx-ingress pods')}
+   it { should contain_profile__kubernetes__reload('nginx pods')}
 end

@@ -1,17 +1,20 @@
 require 'spec_helper'
 
-
 describe 'profile::kubernetes::kubectl' do
     kubectl_version = '1.5.4'
+
+    let (:pre_condition) { 'include profile::kubernetes::params'}
     let (:params) do
       {
-        :user       => 'k8s',
-        :home       => '/home/k8s',
-        :bin        => '/home/k8s/.bin',
-        :resources  => '/home/k8s/resources',
+        :clusters      => [{
+          'clustername' =>  'clusterexample1',
+        }]
+
       }
     end
+
     it { should contain_class 'profile::kubernetes::params' }
+
     it { should contain_user('k8s').with(
         :ensure     => 'present',
         :name       => 'k8s',
@@ -19,31 +22,60 @@ describe 'profile::kubernetes::kubectl' do
         :managehome => true
       )
     }
-    it { should contain_file('/home/k8s/resources').with(
-      :ensure => 'directory',
-      :owner  => 'k8s'
-      )
-    }
-    it { should contain_file('/home/k8s/.kube').with(
-          :ensure => 'directory',
-          :owner  => 'k8s' 
-      )
-    }
-    it { should contain_file('/home/k8s/.kube/config').with(
-      :owner  => 'k8s',
-      :ensure => 'present'
-      )
-    }
+
     it { should contain_file('/home/k8s/.bin').with(
-      :ensure => 'directory',
-      :owner  => 'k8s'
+        :ensure => 'directory',
+        :owner  => 'k8s'
       )
     }
+
+    it { should contain_file('/home/k8s/resources').with(
+        :ensure => 'directory',
+        :owner  => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/trash').with(
+        :ensure => 'directory',
+        :owner  => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/backup').with(
+        :ensure => 'directory',
+        :owner  => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/.kube').with(
+        :ensure => 'directory',
+        :owner  => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/.bin/backup.sh').with(
+        :ensure => 'present',
+        :owner  => 'k8s'
+      )
+    }
+
     it { should contain_file('/home/k8s/.bin/kubectl').with(
-      :mode => '0755',
-      :ensure => 'present',
-      :source => "https://storage.googleapis.com/kubernetes-release/release/v#{kubectl_version}/bin/linux/amd64/kubectl",
-      :owner => 'k8s'
+        :mode => '0755',
+        :ensure => 'present',
+        :source => "https://storage.googleapis.com/kubernetes-release/release/v#{kubectl_version}/bin/linux/amd64/kubectl",
+        :owner => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/.kube/clusterexample1.conf').with(
+        :ensure => 'present',
+        :owner  => 'k8s'
+      )
+    }
+
+    it { should contain_file('/home/k8s/backup/clusterexample1').with(
+        :ensure => 'directory',
+        :owner  => 'k8s'
       )
     }
 end

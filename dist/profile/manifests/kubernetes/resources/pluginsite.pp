@@ -56,12 +56,13 @@ class profile::kubernetes::resources::pluginsite (
 
   # As configmap changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated configmap
-  exec { 'Reload pluginsite pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=plugins-jenkins',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => Exec['apply pluginsite/configmap.yaml']
+  profile::kubernetes::reload { 'pluginsite pods':
+    app        => 'plugins-jenkins',
+    depends_on => [
+      'pluginsite/configmap.yaml',
+    ]
+  }
+
+  profile::kubernetes::backup { 'pluginsite-tls':
   }
 }

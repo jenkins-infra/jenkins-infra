@@ -6,8 +6,7 @@ gem 'parallel_tests'
 # Needed for integration tests
 gem 'beaker'
 # This gem is like, never released
-gem 'puppet-lint', :github => 'rodjek/puppet-lint',
-                   :ref => '2546fed6be894bbcff15c3f48d4b6f6bc15d94d1'
+gem 'puppet-lint', '~>2.3.0'
 gem 'puppet', '~> 4.8.1'
 # Needed to make sure we can install modules and then run a `puppet apply` in
 # vagrant

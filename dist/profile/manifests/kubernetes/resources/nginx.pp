@@ -25,12 +25,11 @@ class profile::kubernetes::resources::nginx (
 
   # As configmap changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated secret
-  exec { 'Reload nginx-ingress pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=nginx',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => Exec['apply nginx/configmap.yaml']
+  profile::kubernetes::reload { 'nginx pods':
+    app        => 'nginx',
+    depends_on => [
+      'nginx/configmap.yaml'
+    ]
   }
+
 }

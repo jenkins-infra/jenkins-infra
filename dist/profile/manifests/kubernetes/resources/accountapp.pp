@@ -120,15 +120,13 @@ class profile::kubernetes::resources::accountapp (
     }
   }
 
+  profile::kubernetes::reload { 'accountapp pods':
+    app        => 'accountapp',
+    depends_on => [
+      'accountapp/secret.yaml'
+    ]
+  }
 
-  # As configmap changes do not trigger pods update,
-  # we must reload pods 'manually' to use the newly updated configmap
-  exec { 'Reload accountapp pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=accountapp',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => Exec['apply accountapp/secret.yaml']
+  profile::kubernetes::backup { 'accountapp-tls':
   }
 }
