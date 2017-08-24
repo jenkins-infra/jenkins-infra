@@ -209,7 +209,7 @@ profile::kubernetes::resources::accountapp::ldap_url: ldaps://ldap.jenkins.io:63
 profile::kubernetes::resources::accountapp::recaptcha_private_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAr4yWPGlfq6tyqZdnqx7lyrgZgMFeIpW2/WcDEy/CtoJEIURlXu8VJI9y74Z1BI2rS0zgwK2sNdVLMeEGXa1aCqcGCJGNQCkpMg3go1BlrDUHpfnL7THNBqSkhUxETX9eIfizR5Uh77eyuViVb95WMCpkluwFcW8eC00nufLbtnAjeIFzZfU7LulrmKm4vEtLQqabZ0XiLE3Pc93WlaTfyAPgefJjaE0F219qN/Opyn9NJY2CyzUx9qArqxfLmkr5S/bo1STsZk0qATq+bjA/8WoPDOFnEnt+0fV3wFcBs1aBla06/Lo18eb67+EsP5yPINZ6B+80eZWh7QiI9r5QFjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBbCELbMyeO3BqicazrDq/GgDDmswwiJaHwad6V9J2VhVI1pk7r+Bbp+bFHaJvh/DE0ineg7ZhGI6k//yroIIOF54A=]
 profile::kubernetes::resources::accountapp::recaptcha_public_key: 6Le4HxYTAAAAACmLvcV8H4rki8HOWRdcU8HqnSFR
 profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
-profile::kubernetes::resources::accountapp::domain_name: beta.accounts.jenkins.io
+profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
