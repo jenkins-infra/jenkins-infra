@@ -13,6 +13,8 @@
 #       Ensure is set to present or absent (default present)
 #     $user:
 #       Define user who owns the cronjob
+#     $bin:
+#       Define bin directory
 #
 #     $clusters:
 #       List of cluster information, cfr profile::kubernetes::params for more
@@ -28,6 +30,7 @@ define profile::kubernetes::backup(
   String $type = 'secret',
   String $ensure = 'present',
   String $user = $profile::kubernetes::params::user,
+  String $bin = $profile::kubernetes::params::bin,
   $clusters = $profile::kubernetes::params::clusters
 ){
   include ::stdlib
@@ -39,7 +42,7 @@ define profile::kubernetes::backup(
       ensure  => $ensure,
       user    => $user,
       name    => "Backup ${type}/${resource} from ${cluster[clustername]}",
-      command => "backup.sh ${cluster[clustername]} ${resource} ${type}",
+      command => "${bin}/backup.sh ${cluster[clustername]} ${resource} ${type}",
       hour    => '3',
       minute  => '13'
     }

@@ -6,6 +6,7 @@ describe 'profile::kubernetes::backup' do
     let (:params) do
       {
         :user       => 'k8s',
+        :bin        => '/home/k8s/.bin',
         :type       => 'secret',
         :clusters   => [{
           'clustername' =>  'clusterexample1',
@@ -19,7 +20,7 @@ describe 'profile::kubernetes::backup' do
       :ensure  => 'present',
       :user    => 'k8s',
       :name    => 'Backup secret/accountapp-tls from clusterexample1',
-      :command => 'backup.sh clusterexample1 accountapp-tls secret',
+      :command => '/home/k8s/.bin/backup.sh clusterexample1 accountapp-tls secret',
       :hour    => '3',
       :minute  => '13'
       )
