@@ -14,38 +14,18 @@
 #     $resources:
 #       Resources folder that contain all kubernetes resources file that will be
 #       deploy on Kubernetes cluster
-#     $server:
-#       Kubernetes server fqdn
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $clustername:
-#       Kubernetes cluster name
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $certificate_authority_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $client_certificate_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $username:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
-#     $client_key_data:
-#       Used to template .kube/config
-#       Cfr .kube/config for more information
+#     $trash:
+#       Kubernetes trash directory that contains deleted resources
 #
 class profile::kubernetes::kubectl (
     $user = $profile::kubernetes::params::user,
     $home = $profile::kubernetes::params::home,
+    $trash = $profile::kubernetes::params::trash,
     $bin = $profile::kubernetes::params::bin,
+    $backup = $profile::kubernetes::params::backup,
     $resources = $profile::kubernetes::params::resources,
-    $server = undef,
-    $clustername = undef,
-    $certificate_authority_data = undef,
-    $client_certificate_data = undef,
-    $username = undef,
-    $client_key_data = undef
+    $config = $profile::kubernetes::params::config,
+    $clusters = $profile::kubernetes::params::clusters
   ) {
 
   include profile::kubernetes::params
@@ -65,6 +45,17 @@ class profile::kubernetes::kubectl (
     ensure => 'directory',
     owner  => $user
   }
+
+  file { $trash:
+    ensure => 'directory',
+    owner  => $user
+  }
+
+  file { $backup:
+    ensure => 'directory',
+    owner  => $user
+  }
+
   file { "${home}/.kube":
     ensure => 'directory',
     owner  => $user
@@ -77,9 +68,22 @@ class profile::kubernetes::kubectl (
     mode   => '0755',
   }
 
-  file { "${home}/.kube/config":
+  file { "${bin}/backup.sh":
     ensure  => 'present',
-    content => template("${module_name}/kubernetes/config.erb"),
+    content => template("${module_name}/kubernetes/backup.sh.erb"),
     owner   => $user,
+    mode    => '0755'
+  }
+
+  $clusters.each | $cluster | {
+    file { "${home}/.kube/${cluster[clustername]}.conf":
+      ensure  => 'present',
+      content => template("${module_name}/kubernetes/config.erb"),
+      owner   => $user,
+    }
+    file { "${backup}/${cluster[clustername]}":
+      ensure => 'directory',
+      owner  => $user
+    }
   }
 }

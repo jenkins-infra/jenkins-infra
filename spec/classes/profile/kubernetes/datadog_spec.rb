@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'profile::kubernetes::resources::datadog' do
    let (:params) do 
        {
-          :apiKey    => 'datadogapikey',
+          :api_key    => 'datadogapikey',
        }
    end
    it { should contain_class('profile::kubernetes::params') }
@@ -16,8 +16,8 @@ describe 'profile::kubernetes::resources::datadog' do
    it { should contain_profile__kubernetes__apply('datadog/daemonset.yaml')}
    it { should contain_profile__kubernetes__apply('datadog/deployment.yaml')}
    it { should contain_profile__kubernetes__apply('datadog/secret.yaml').with(
-     :parameters => { 'apiKey' => 'datadogapikey'}
+     :parameters => { 'api_key' => 'datadogapikey'}
      )
    }
-   it { should contain_exec('Reload datadog pods')}
+   it { should contain_profile__kubernetes__reload('datadog pods')}
 end

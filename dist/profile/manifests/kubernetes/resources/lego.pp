@@ -37,12 +37,11 @@ class profile::kubernetes::resources::lego (
 
   # As configmap changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated configmap
-  exec { 'Reload lego pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=kube-lego',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => Exec['apply lego/configmap.yaml']
+  profile::kubernetes::reload { 'kube-lego pods':
+    app        => 'kube-lego',
+    depends_on => [
+      'lego/configmap.yaml'
+    ]
   }
+
 }

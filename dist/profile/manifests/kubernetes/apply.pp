@@ -6,8 +6,14 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
+#
 #     $parameters:
 #       Parameters used in erb templates
+#
+#     $clusters:
+#       List of cluster information, cfr profile::kubernetes::params for more
+#       informations
+
 #
 #   Sample usage:
 #     profile::kubernetes::apply { 'datadog/secret.yaml':
@@ -18,10 +24,14 @@
 #
 define profile::kubernetes::apply (
   String $resource = $title,
-  Hash $parameters = {}
+  Hash $parameters = {},
+  $clusters = $profile::kubernetes::params::clusters
 ){
   include ::stdlib
   include profile::kubernetes::params
+
+  $dirname = dirname($resource)
+  $basename = basename($resource)
 
   file { "${profile::kubernetes::params::resources}/${resource}":
     ensure  => 'present',
@@ -29,12 +39,31 @@ define profile::kubernetes::apply (
     owner   => $profile::kubernetes::params::user,
   }
 
-  exec { "apply ${resource}":
-    command     => "kubectl apply -f ${profile::kubernetes::params::resources}/${resource}",
-    path        => [$profile::kubernetes::params::bin],
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    refreshonly => true,
-    logoutput   => true,
-    subscribe   => File["${profile::kubernetes::params::resources}/${resource}"],
+  $clusters.each | $cluster | {
+    # --dry-run doesn't know if a resource needs to be updated (only created or not) therefor we trigger an update
+    # only if the configuration file is updated by puppet run
+    exec { "update ${resource} on ${cluster[clustername]}":
+      command     => "kubectl apply -f ${profile::kubernetes::params::resources}/${resource}",
+      path        => [$profile::kubernetes::params::bin,$::path],
+      environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
+      refreshonly => true,
+      logoutput   => true,
+      subscribe   => File["${profile::kubernetes::params::resources}/${resource}"],
+      onlyif      => "test \"$(kubectl apply --dry-run -f ${profile::kubernetes::params::resources}/${resource} | grep configured)\""
+    }
+
+    # Always deploys a resource that is not yet created on the cluster
+    exec { "init ${resource} on ${cluster[clustername]}":
+      command     => "kubectl apply -f ${profile::kubernetes::params::resources}/${resource}",
+      path        => [$profile::kubernetes::params::bin,$::path],
+      environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
+      logoutput   => true,
+      onlyif      => "test \"$(kubectl apply --dry-run -f ${profile::kubernetes::params::resources}/${resource} | grep created)\""
+    }
+  }
+
+  # Remove resource from trash directory
+  file { "${profile::kubernetes::params::trash}/${dirname}.${basename}":
+    ensure  => 'absent'
   }
 }

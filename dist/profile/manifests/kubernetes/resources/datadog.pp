@@ -8,11 +8,13 @@
 #       Contain datadog api key.
 #       Used in secret template
 class profile::kubernetes::resources::datadog (
-    $apiKey = base64('encode', $::datadog_agent::api_key, 'strict')
+    String $api_key  = base64('encode', $::datadog_agent::api_key, 'strict'),
   ){
   include ::stdlib
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
+
+  $clusters = $profile::kubernetes::params::clusters
 
   file { "${profile::kubernetes::params::resources}/datadog":
     ensure => 'directory',
@@ -21,9 +23,10 @@ class profile::kubernetes::resources::datadog (
 
   profile::kubernetes::apply { 'datadog/secret.yaml':
     parameters => {
-        'apiKey' => $apiKey
+        'api_key' => $api_key
     },
   }
+
   profile::kubernetes::apply { 'datadog/daemonset.yaml':}
   profile::kubernetes::apply { 'datadog/deployment.yaml':}
 
@@ -31,15 +34,11 @@ class profile::kubernetes::resources::datadog (
   # we must reload pods 'manually' to use the newly updated secret
   # If we delete a pod defined by daemonset,
   # this daemonset will recreate a new one
-  exec { 'Reload datadog pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=datadog',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => [
-      Exec['apply datadog/secret.yaml'],
-      Exec['apply datadog/daemonset.yaml'],
-    ],
+  profile::kubernetes::reload { 'datadog pods':
+    app        => 'datadog',
+    depends_on => [
+      'datadog/secret.yaml',
+      'datadog/daemonset.yaml',
+    ]
   }
 }

@@ -1,6 +1,8 @@
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppetlabs_spec_helper/rake_tasks'
 
+PuppetLint.configuration.send('disable_140chars')
+
 desc "Validate the Puppet syntax of all manifests"
 task :validate do
   Dir['./{dist,manifests}/**/*.pp'].each do |filename|

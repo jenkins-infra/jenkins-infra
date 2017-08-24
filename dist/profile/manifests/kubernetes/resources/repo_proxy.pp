@@ -58,14 +58,14 @@ class profile::kubernetes::resources::repo_proxy (
 
   # As secret changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated secret
-  exec { 'Reload repo_proxy pods':
-    path        => ["${profile::kubernetes::params::bin}/"],
-    command     => 'kubectl delete pods -l app=repo-proxy --grace-period=10',
-    refreshonly => true,
-    environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/config"] ,
-    logoutput   => true,
-    subscribe   => [
-      Exec['apply repo_proxy/secret.yaml']
+  profile::kubernetes::reload { 'repo_proxy pods':
+    app        => 'repo-proxy',
+    depends_on => [
+      'repo_proxy/secret.yaml',
     ]
   }
+
+  profile::kubernetes::backup { 'repo-proxy-tls':
+  }
+
 }

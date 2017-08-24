@@ -29,8 +29,4 @@ describe 'kubernetes' do
       it { should be_owned_by 'k8s' }
   end
 
-  describe file('/home/k8s/.kube/config') do
-      it { should be_file }
-      it { should be_owned_by 'k8s' }
-  end
 end
