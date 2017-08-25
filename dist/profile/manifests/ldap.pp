@@ -241,9 +241,9 @@ class profile::ldap(
     action => 'accept',
   }
 
-  firewall { '107 accept inbound LDAPS from beta.accounts.jenkins.io':
+  firewall { '107 accept inbound LDAPS from nginx.azure.jenkins.io':
     proto  => 'tcp',
-    source => 'beta.accounts.jenkins.io.',
+    source => '13.68.19.38',
     port   => 636,
     action => 'accept',
   }
