@@ -150,6 +150,18 @@ class profile::buildmaster(
     notify  => Service['docker-jenkins'],
   }
 
+  file { "${groovy_d}/agent-security.groovy":
+    ensure  => present,
+    owner   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/agent-security.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
   file { "${groovy_d}/lock-down-jenkins.groovy":
     ensure  => present,
     require => [
