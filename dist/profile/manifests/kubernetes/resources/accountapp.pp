@@ -41,6 +41,8 @@
 #       smtp authentication (boolean)
 #     $domain_name:
 #       account app url endpoint
+#     $domain_alias:
+#       account app alias endpoint
 #
 #   Remark:
 #     `kubectl get service nginx --namespace nginx-ingress` return service public ip
@@ -69,7 +71,8 @@ class profile::kubernetes::resources::accountapp (
     Boolean $smtp_auth = true,
     String $storage_account_name = '',
     String $storage_account_key = '',
-    String $domain_name = 'accounts.jenkins.io'
+    String $domain_name = 'accounts.jenkins.io',
+    Array $domain_alias = ['accounts.jenkins-ci.org']
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
@@ -97,6 +100,7 @@ class profile::kubernetes::resources::accountapp (
   profile::kubernetes::apply { 'accountapp/ingress-tls.yaml':
     parameters  => {
       'url'     => $domain_name,
+      'aliases' => $domain_alias
     }
   }
 
