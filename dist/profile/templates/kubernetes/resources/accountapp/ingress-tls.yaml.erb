@@ -12,6 +12,9 @@ spec:
   tls:
   - hosts:
     - <%= @parameters['url'] %>
+  <% @parameters['aliases'].each do |vhost_alias| %>
+    - <%= vhost_alias -%>
+  <% end %>
     secretName: accountapp-tls
   rules:
   - host: <%= @parameters['url'] %>
@@ -21,3 +24,12 @@ spec:
         backend:
           serviceName: accountapp
           servicePort: 80
+  <% @parameters['aliases'].each do |vhost_alias| %>
+  - host: <%= vhost_alias -%>
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: accountapp
+          servicePort: 80
+  <% end %>
