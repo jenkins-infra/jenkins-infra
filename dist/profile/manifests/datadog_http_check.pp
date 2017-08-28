@@ -29,7 +29,7 @@ class profile::datadog_http_check(
   $contact = ['pagerduty'],
   $days_warning = 30,
   $days_critical = 10,
-  $timeout = 1,
+  $timeout = 3,
   $treshold = 3,
   $window = 5
 ){
