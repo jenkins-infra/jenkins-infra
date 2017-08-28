@@ -210,6 +210,9 @@ profile::kubernetes::resources::accountapp::recaptcha_private_key: ENC[PKCS7,MII
 profile::kubernetes::resources::accountapp::recaptcha_public_key: 6Le4HxYTAAAAACmLvcV8H4rki8HOWRdcU8HqnSFR
 profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
 profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
+
+profile::kubernetes::resources::jenkinsio::image_tag: latest
+
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view

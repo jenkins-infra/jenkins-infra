@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkinsio
+  labels:
+    app: jenkinsio
+    type: jenkinsio
+    logtype: archive
+spec:
+  ports:
+  - name: jenkinsio
+    protocol: TCP
+    targetPort: 80
+    port: 80
+  selector:
+    type: jenkinsio
