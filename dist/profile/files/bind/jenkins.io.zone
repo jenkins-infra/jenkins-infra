@@ -46,14 +46,13 @@ usage       3600    IN    A    52.204.62.78   ; jenkins-usage
 nginx.azure   3600  IN    A       13.68.19.38 ; kubernetes service: namespace:nginx-ingress name:nginx
 plugins.azure 3600  IN    CNAME   nginx.azure    ; used to test plugins.jenkins.io migration
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
-beta.accounts 3600  IN    CNAME   nginx.azure    ; Must be deleted when accounts is a CNAME for nginx.azure
+accounts      3600  IN    CNAME   nginx.azure    ; accountapp application
 
 ; CNAME Records
 www         3600    IN    CNAME    @
 pkg         3600    IN    CNAME    mirrors ; pkg and mirrors run off the same host
 beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
 puppet      3600    IN    CNAME    radish
-accounts    3600    IN    CNAME    eggplant
 updates     3600    IN    CNAME    mirrors ; updates.jenkins.io for delivering update center, etc
 archives    3600    IN    CNAME    okra ; archives.jenkins.io for delivering old releases
 ;fallback    3600    IN    CNAME    spinach ; fallback.jenkins.io for acting as a fallback mirror

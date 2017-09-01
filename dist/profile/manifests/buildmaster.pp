@@ -162,6 +162,18 @@ class profile::buildmaster(
     notify  => Service['docker-jenkins'],
   }
 
+  file { "${groovy_d}/pipeline-configuration.groovy":
+    ensure  => present,
+    owner   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/pipeline-configuration.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
   file { "${groovy_d}/lock-down-jenkins.groovy":
     ensure  => present,
     require => [
