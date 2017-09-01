@@ -11,7 +11,7 @@ metadata:
 spec:
   tls:
   - hosts:
-    - <%= @parameters['url'] %>
+    - <%= @parameters['url'] -%>
   <% @parameters['aliases'].each do |vhost_alias| %>
     - <%= vhost_alias -%>
   <% end %>
@@ -25,7 +25,7 @@ spec:
           serviceName: accountapp
           servicePort: 80
   <% @parameters['aliases'].each do |vhost_alias| %>
-  - host: <%= vhost_alias -%>
+  - host: <%= vhost_alias %>
     http:
       paths:
       - path: /
