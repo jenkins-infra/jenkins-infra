@@ -59,7 +59,8 @@ class profile::kubernetes::resources::repo_proxy (
   }
   profile::kubernetes::apply{ 'repo_proxy/deployment.yaml':
     parameters => {
-      'image_tag' => $image_tag
+      'image_tag'      => $image_tag,
+      'deploy_context' => $profile::kubernetes::params::deploy_context,
     }
   }
 

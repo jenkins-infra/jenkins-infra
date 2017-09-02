@@ -81,7 +81,11 @@ spec:
               mountPath: /var/log/accountapp
       volumes:
         - name: accountapp
+          <% if @parameters['deploy_context'] == 'local' %>
+          emptyDir: {}
+          <% else %>
           azureFile:
             secretName: accountapp
             shareName: accountapp
             readOnly: false
+          <% end -%>

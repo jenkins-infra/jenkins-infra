@@ -51,9 +51,9 @@
 #
 # Deploy accountapp resources on kubernetes cluster
 class profile::kubernetes::resources::accountapp (
-    String $election_close = '1970-01-02',
-    String $election_open = '1970-01-01',
-    String $election_logdir= '/var/log/accountapp/elections',
+    String $election_close = '1970/01/02',
+    String $election_open = '1970/01/01',
+    String $election_logdir = '/var/log/accountapp/elections',
     String $election_candidates = 'bob,alice',
     String $image_tag = 'latest',
     String $jira_username = 'jira_username',
@@ -72,7 +72,7 @@ class profile::kubernetes::resources::accountapp (
     String $storage_account_name = '',
     String $storage_account_key = '',
     String $domain_name = 'accounts.jenkins.io',
-    Array $domain_alias = ['accounts.jenkins-ci.org']
+    Array $domain_alias = ['accounts.jenkins-ci.org'],
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
@@ -120,7 +120,8 @@ class profile::kubernetes::resources::accountapp (
       'smtp_server'           => $smtp_server,
       'smtp_user'             => $smtp_user,
       'smtp_auth'             => $smtp_auth,
-      'url'                   => "https://${domain_name}/"
+      'url'                   => "https://${domain_name}/",
+      'deploy_context'        => $profile::kubernetes::params::deploy_context,
     }
   }
 

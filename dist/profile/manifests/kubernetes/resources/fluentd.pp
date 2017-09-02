@@ -26,7 +26,8 @@ class profile::kubernetes::resources::fluentd (
 
   profile::kubernetes::apply{ 'fluentd/daemonset.yaml':
     parameters => {
-      'image_tag' => $image_tag
+      'image_tag'      => $image_tag,
+      'deploy_context' => $profile::kubernetes::params::deploy_context,
     }
   }
 

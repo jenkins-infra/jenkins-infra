@@ -48,5 +48,9 @@ spec:
                       mountPath: /var/cache/nginx
             volumes:
               - name: repo-proxy
+                <% if @parameters['deploy_context'] == 'local' %>
+                emptyDir: {}
+                <% else %>
                 persistentVolumeClaim:
                     claimName: repo-proxy
+                <% end -%>

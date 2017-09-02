@@ -47,10 +47,14 @@ spec:
               readOnly: true
       volumes:
         - name: logs
-          azureFile: 
+          <% if @parameters['deploy_context'] == 'local' %>
+          emptyDir: {}
+          <% else %>
+          azureFile:
             secretName: azurelogs
             shareName: logs
             readOnly: false
+          <% end -%>
 
         - name: varlibdockercontainers
           hostPath:
