@@ -20,6 +20,11 @@
 #     $trash:
 #       Directory that contains Kubernetes resources that need to be removed from Kubernetes
 #       clusters.
+#     $deploy_context:
+#       Describes the context in which this code is running, e.g. locally, or on Azure.
+#       This can be used, for example, to swap out Azure-specific storage volumes
+#       for ephemeral, local volumes during development with minikube or similar.
+#       Currently used values are: 'local', 'azure'.
 #     $clusters:
 #       clusters contains a list of cluster information.
 #       This variable must respect following format:
@@ -47,6 +52,7 @@ class profile::kubernetes::params (
   $backup = "${home}/backup",
   $config = "${home}/.kube",
   $trash = "${home}/trash",
-  $clusters = []
+  $deploy_context = 'azure',
+  $clusters = [],
   ){
 }
