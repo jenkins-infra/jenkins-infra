@@ -307,6 +307,13 @@ class profile::buildmaster(
     require => File[$docroot],
   }
 
+  file { "${docroot}/empty.xml" :
+    ensure  => file,
+    content => '<nope/>',
+    mode    => '0644',
+    require => File[$docroot],
+  }
+
   apache::vhost { $ci_fqdn:
     serveraliases         => [
       # Give all our buildmaster profiles this server alias; it's easier than
@@ -344,7 +351,7 @@ RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 # proxy_pass_match configurations
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPassMatch (.*)/api/(json|python)(/|$)(.*)  !
+ProxyPassMatch (.*)/api/(json|python|xml)(/|$)(.*)  !
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 ",
@@ -355,6 +362,13 @@ ProxyPassReverse / http://localhost:8080/
         # to hammer us to get a better response. Works for Python API as well.
         aliasmatch => '(.*)/api/(json|python)(/|$)(.*)',
         path       => "${docroot}/empty.json",
+      },
+      {
+        # Send all api/xml to `empty.xml` to prevent abusive clients
+        # (checkman) from receiving an invalid XML response and repeatedly attempting
+        # to hammer us to get a better response.
+        aliasmatch => '(.*)/api/xml(/|$)(.*)',
+        path       => "${docroot}/empty.xml",
       },
     ],
   }
