@@ -344,16 +344,16 @@ RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 # proxy_pass_match configurations
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPassMatch (.*)/api/json(/|$)(.*)  !
+ProxyPassMatch (.*)/api/(json|python)(/|$)(.*)  !
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 ",
     aliases               => [
       {
-        # Send all api/json requests to `empty.json` to prevent abusive clients
+        # Send all api/json or api/python requests to `empty.json` to prevent abusive clients
         # (checkman) from receiving an invalid JSON response and repeatedly attempting
-        # to hammer us to get a better response
-        aliasmatch => '(.*)/api/json(/|$)(.*)',
+        # to hammer us to get a better response. Works for Python API as well.
+        aliasmatch => '(.*)/api/(json|python)(/|$)(.*)',
         path       => "${docroot}/empty.json",
       },
     ],
