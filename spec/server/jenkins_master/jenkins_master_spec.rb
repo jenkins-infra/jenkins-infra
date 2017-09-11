@@ -47,6 +47,11 @@ describe 'jenkins_master' do
           its(:stdout) { should match '{}' }
         end
       end
+      # Same trick but this time with api/python
+      describe command("curl --verbose --insecure -A \"#{agent}\" -H 'Location: https://ci.jenkins.io/' https://127.0.0.1/api/python") do
+        its(:exit_status) { should eql 0 }
+        its(:stdout) { should match '{}' }
+      end
     end
   end
 end
