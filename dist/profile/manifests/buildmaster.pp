@@ -364,8 +364,8 @@ ProxyPassReverse / http://localhost:8080/
         path       => "${docroot}/empty.json",
       },
       {
-        # Send all api/xml to `empty.xml` to prevent abusive clients
-        # (checkman) from receiving an invalid XML response and repeatedly attempting
+        # Send all api/xml to `empty.xml` to prevent abusive clients (like checkman over
+        # in JSON land) from receiving an invalid XML response and repeatedly attempting
         # to hammer us to get a better response.
         aliasmatch => '(.*)/api/xml(/|$)(.*)',
         path       => "${docroot}/empty.xml",
