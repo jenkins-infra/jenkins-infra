@@ -57,10 +57,6 @@ describe 'profile::confluence' do
     )
   }
 
-  context 'datadog configuration' do
-    it { should contain_file '/etc/dd-agent/conf.d/http_check.yaml' }
-  end
-
   context 'environment => production' do
     let(:environment) { 'production' }
 
