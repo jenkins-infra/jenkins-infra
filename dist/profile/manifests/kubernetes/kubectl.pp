@@ -25,7 +25,8 @@ class profile::kubernetes::kubectl (
     $backup = $profile::kubernetes::params::backup,
     $resources = $profile::kubernetes::params::resources,
     $config = $profile::kubernetes::params::config,
-    $clusters = $profile::kubernetes::params::clusters
+    $clusters = $profile::kubernetes::params::clusters,
+    $version = '1.6.6'
   ) {
 
   include profile::kubernetes::params
@@ -63,7 +64,7 @@ class profile::kubernetes::kubectl (
 
   file { "${bin}/kubectl":
     ensure => 'present',
-    source => 'https://storage.googleapis.com/kubernetes-release/release/v1.5.4/bin/linux/amd64/kubectl',
+    source => "https://storage.googleapis.com/kubernetes-release/release/v${version}/bin/linux/amd64/kubectl",
     owner  => $user,
     mode   => '0755',
   }

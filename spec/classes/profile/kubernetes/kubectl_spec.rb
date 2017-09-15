@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe 'profile::kubernetes::kubectl' do
-    kubectl_version = '1.5.4'
 
     let (:pre_condition) { 'include profile::kubernetes::params'}
     let (:params) do
       {
         :clusters      => [{
           'clustername' =>  'clusterexample1',
-        }]
+        }],
+        :version       => '1.6.6'
 
       }
     end
@@ -62,7 +62,7 @@ describe 'profile::kubernetes::kubectl' do
     it { should contain_file('/home/k8s/.bin/kubectl').with(
         :mode => '0755',
         :ensure => 'present',
-        :source => "https://storage.googleapis.com/kubernetes-release/release/v#{kubectl_version}/bin/linux/amd64/kubectl",
+        :source => "https://storage.googleapis.com/kubernetes-release/release/v1.6.6/bin/linux/amd64/kubectl",
         :owner => 'k8s'
       )
     }
