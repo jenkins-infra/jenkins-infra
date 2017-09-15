@@ -141,12 +141,6 @@ class profile::confluence (
   profile::apachemaintenance { 'wiki.jenkins.io':
   }
 
-  profile::datadog_check { 'confluence-http-check':
-    ensure  => 'absent',
-    checker => 'http_check',
-    source  => 'puppet:///modules/profile/confluence/http_check.yaml',
-  }
-
   profile::datadog_check { 'confluence-process-check':
     checker => 'process',
     source  => 'puppet:///modules/profile/confluence/process_check.yaml',

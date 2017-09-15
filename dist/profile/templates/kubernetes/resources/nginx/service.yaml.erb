@@ -5,6 +5,7 @@ metadata:
   namespace: nginx-ingress
 spec:
   type: LoadBalancer
+  externalTrafficPolicy: Local
   ports:
   - port: 80
     name: http
