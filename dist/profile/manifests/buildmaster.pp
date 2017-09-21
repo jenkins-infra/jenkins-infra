@@ -343,6 +343,13 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
+# Black hole all traffic to routes like /view/All/people/ which is pretty much
+# hit illegitimately used anyways
+# See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
+RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
+
 # Blackhole all the /cli requests over HTTP
 RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 
