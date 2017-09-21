@@ -347,7 +347,7 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 # hit illegitimately used anyways
 # See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
-RewriteRule ^.* "https://jenkins.io/infra/ci-redirects/"  [L]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
 
 # Blackhole all the /cli requests over HTTP
