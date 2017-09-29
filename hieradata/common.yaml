@@ -211,7 +211,7 @@ profile::kubernetes::resources::accountapp::recaptcha_public_key: 6Le4HxYTAAAAAC
 profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
 profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
 
-profile::kubernetes::resources::jenkinsio::image_tag: 1.13
+profile::kubernetes::resources::jenkinsio::image_tag: '1.13'
 
 profile::buildmaster::plugins:
   - workflow-aggregator
