@@ -1,0 +1,45 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: jenkinsio
+    labels:
+        app: jenkinsio
+        type: jenkinsio
+        logtype: stream
+spec:
+    replicas: 3
+    template:
+        metadata:
+            labels:
+                app: jenkinsio
+                type: jenkinsio
+                logtype: archive
+        spec:
+            containers:
+                - name: jenkinsio
+                  image: nginx:<%= @parameters['image_tag'] %>
+                  imagePullPolicy: Always
+                  livenessProbe:
+                      httpGet:
+                          path: /project/conduct/
+                          port: 80
+                          scheme: HTTP
+                      initialDelaySeconds: 20
+                      timeoutSeconds: 5
+                  readinessProbe:
+                      httpGet:
+                          path: /project/conduct/
+                          port: 80
+                          scheme: HTTP
+                      initialDelaySeconds: 30
+                      timeoutSeconds: 5
+                  volumeMounts:
+                    - name: html
+                      mountPath: /usr/share/nginx/html
+            volumes:
+                - name: html
+                  azureFile: 
+                      secretName: jenkinsio
+                      shareName: jenkinsio
+                      readOnly: true
