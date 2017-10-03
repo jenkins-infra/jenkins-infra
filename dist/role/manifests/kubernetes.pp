@@ -8,4 +8,5 @@ class role::kubernetes{
   include profile::kubernetes::resources::repo_proxy
   include profile::kubernetes::resources::registry
   include profile::kubernetes::resources::accountapp
+  include profile::kubernetes::resources::jenkinsio
 }
