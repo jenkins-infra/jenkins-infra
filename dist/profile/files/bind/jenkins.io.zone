@@ -10,7 +10,7 @@
                 )
 
 ; A Records
-@           3600    IN    A    140.211.15.101 ; eggplant
+@           3600    IN    A    13.68.19.38 ; nginx.azure
 
 ; Physical machine at Contegix
 cucumber    3600    IN    A    199.193.196.24
@@ -43,13 +43,13 @@ census      3600    IN    A    52.202.38.86   ; jenkins-census
 usage       3600    IN    A    52.204.62.78   ; jenkins-usage
 
 ; Azure
-nginx.azure   3600  IN    A       13.68.19.38 ; kubernetes service: namespace:nginx-ingress name:nginx
+nginx.azure   3600  IN    CNAME   @              ; kubernetes service: namespace:nginx-ingress name:nginx
 plugins.azure 3600  IN    CNAME   nginx.azure    ; used to test plugins.jenkins.io migration
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
 accounts      3600  IN    CNAME   nginx.azure    ; accountapp application
+www           3600  IN    CNAME   nginx.azure    ; main website
 
 ; CNAME Records
-www         3600    IN    CNAME    @
 pkg         3600    IN    CNAME    mirrors ; pkg and mirrors run off the same host
 beta        3600    IN    CNAME    eggplant ; beta site for the jenkins-ci.org/jenkins.io site
 puppet      3600    IN    CNAME    radish
