@@ -8,20 +8,6 @@ describe 'profile::usage' do
     it { should contain_class 'lvm' }
     it { should contain_class 'stdlib' }
     it { should contain_package 'lvm2' }
-
-    it 'should have an access log dir' do
-      expect(subject).to contain_file("#{volume}/apache-logs").with({
-        :ensure => :directory,
-        :require => "Mount[#{volume}]",
-      })
-    end
-
-    it 'should have a decrypted log dir' do
-      expect(subject).to contain_file("#{volume}/usage-stats").with({
-        :ensure => :directory,
-        :require => "Mount[#{volume}]",
-      })
-    end
   end
 
   context 'apache setup' do
@@ -56,7 +42,7 @@ describe 'profile::usage' do
     it 'should contain a logging directory' do
       expect(subject).to contain_file('/var/log/apache2/usage.jenkins.io').with({
         :ensure => :link,
-        :target => '/srv/usage/apache-logs',
+        :target => '/srv/bigger-usage/apache-logs',
       })
     end
 
@@ -123,7 +109,7 @@ describe 'profile::usage' do
       expect(subject).to contain_file("#{params[:user]}_home").with({
         :ensure => :directory,
         :owner => params[:user],
-        :path => '/srv/usage',
+        :path => '/srv/bigger-usage',
       })
     end
 
@@ -155,7 +141,7 @@ describe 'profile::usage' do
     it 'should symlink /var/log/usage-stats to /srv/usage' do
       expect(subject).to contain_file('/var/log/usage-stats').with({
         :ensure => :link,
-        :target => '/srv/usage/usage-stats',
+        :target => '/srv/bigger-usage/usage-stats',
       })
     end
 
