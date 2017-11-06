@@ -32,7 +32,7 @@ class profile::usage(
   }
 
   # This path hard-coded in hiera
-  $home_dir = '/srv/usage'
+  $home_dir = '/srv/bigger-usage'
 
   ## Volume setup
   ############################
@@ -54,11 +54,10 @@ class profile::usage(
   $mounted_stats_dir = "${home_dir}/usage-stats"
 
   file { [$mounted_logs_dir, $mounted_stats_dir]:
-    ensure  => directory,
-    owner   => $user,
-    group   => $group,
-    mode    => '0755',
-    require => Mount[$home_dir],
+    ensure => directory,
+    owner  => $user,
+    group  => $group,
+    mode   => '0755',
   }
   ############################
 
