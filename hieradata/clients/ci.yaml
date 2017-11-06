@@ -21,12 +21,14 @@ profile::buildmaster::plugins:
   - github-branch-source
   - github-organization-folder
   - groovy
+  - jacoco
   - jobConfigHistory
   - ldap
   - mailer
   - parallel-test-executor
   - pipeline-stage-view
   - pipeline-utility-steps
+  - pmd
   - ssh-agent
   - throttle-concurrents
   - timestamper
