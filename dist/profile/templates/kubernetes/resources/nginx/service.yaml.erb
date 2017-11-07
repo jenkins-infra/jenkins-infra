@@ -9,6 +9,7 @@ spec:
   type: LoadBalancer
   # Require Kubernetes 1.7
   # externalTrafficPolicy: Local
+  sessionAffinity: ClientIP
   ports:
   - port: 80
     name: http

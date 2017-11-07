@@ -8,6 +8,7 @@ metadata:
     type: repo-proxy
     logtype: archive
 spec:
+  sessionAffinity: ClientIP
   ports:
   - name: repo-proxy
     protocol: TCP
