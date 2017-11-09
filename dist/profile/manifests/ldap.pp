@@ -248,6 +248,13 @@ class profile::ldap(
     action => 'accept',
   }
 
+  firewall { '107 accept inbound LDAPS from kube cluster prodbean':
+    proto  => 'tcp',
+    source => '52.225.217.151',
+    port   => 636,
+    action => 'accept',
+  }
+
   # normally nobody listens on this port, but when we need to find the
   # source IP address JFrog is using to connect us, run 'stone -d -d
   # localhost:636 9636' and watch the log
