@@ -10,7 +10,7 @@
                 )
 
 ; A Records
-@           3600    IN    A    52.225.217.151 ; nginx.azure
+@           3600    IN    A    13.68.19.38 ; nginx.azure
 
 ; Physical machine at Contegix
 cucumber    3600    IN    A    199.193.196.24
