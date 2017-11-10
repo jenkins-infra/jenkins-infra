@@ -44,11 +44,11 @@ class profile::accountapp(
   }
 
   docker::run { 'accountapp':
-    ensure => 'present',
+    ensure  => 'present',
     ports   => ['8080:8080'],
     volumes => ['/var/log/accountapp/:/var/log/accountapp'],
-    image  => "jenkinsciinfra/account-app:${image_tag}",
-    env    => [
+    image   => "jenkinsciinfra/account-app:${image_tag}",
+    env     => [
       "ELECTION_CLOSE='${election_close}'",
       "ELECTION_OPEN='${election_open}'",
       "ELECTION_LOGDIR='${election_logdir}'",
