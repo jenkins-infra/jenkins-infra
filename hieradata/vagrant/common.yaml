@@ -2,6 +2,11 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
+profile::accountapp::smtp_user: 'smtp_user_example'
+profile::accountapp::smtp_password: 'smtp_password_example'
+profile::accountapp::jira_password: 'jira_password_example'
+profile::accountapp::recaptcha_private_key: 'recaptcha_example_private_key'
+profile::accountapp::recaptcha_public_key: 'recaptcha_example_public_key'
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
