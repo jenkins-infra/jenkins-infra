@@ -45,12 +45,18 @@ if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
   instance.securityRealm = realm
 }
 
-println "Checking authorization strategy"
 /* Every time we run, it's worth re-defining our authorization strategy to make
  * sure that it is correct
  */
 AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
-strategy.add(Jenkins.READ, 'anonymous')
+
+[
+    Jenkins.READ,
+    Item.READ,
+].each { permission ->
+    strategy.add(permission, 'anonymous')
+}
+
 strategy.add(Jenkins.ADMINISTER, 'admins')
 /* give our role account superpowers */
 strategy.add(Jenkins.ADMINISTER, 'jenkins')
