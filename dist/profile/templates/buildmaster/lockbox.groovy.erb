@@ -3,8 +3,7 @@
 import jenkins.model.*
 import hudson.security.*
 import hudson.security.csrf.*
-
-//JenkinsLocationConfiguration.get().setUrl('http://lolcat')
+import hudson.model.Item
 
 def instance = Jenkins.instance
 
@@ -47,13 +46,28 @@ if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
 }
 
 println "Checking authorization strategy"
-if (instance.authorizationStrategy == AuthorizationStrategy.UNSECURED) {
-  AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
-  strategy.add(Jenkins.READ, 'anonymous')
-  strategy.add(Jenkins.ADMINISTER, 'admins')
-  /* give our role account superpowers */
-  strategy.add(Jenkins.ADMINISTER, 'jenkins')
-  instance.authorizationStrategy = strategy
+/* Every time we run, it's worth re-defining our authorization strategy to make
+ * sure that it is correct
+ */
+AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
+strategy.add(Jenkins.READ, 'anonymous')
+strategy.add(Jenkins.ADMINISTER, 'admins')
+/* give our role account superpowers */
+strategy.add(Jenkins.ADMINISTER, 'jenkins')
+
+/* https://issues.jenkins-ci.org/browse/INFRA-1346 */
+[
+    Jenkins.READ,
+    Item.BUILD,
+    Item.CANCEL,
+    Item.CONFIGURE,
+    Item.CREATE,
+    Item.DELETE,
+    Item.DISCOVER,
+    Item.READ,
+].each { permission ->
+    strategy.add(permission, 'jenkins-admins')
 }
+instance.authorizationStrategy = strategy
 
 instance.save()

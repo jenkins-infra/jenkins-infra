@@ -117,7 +117,7 @@ class profile::datadog_http_check(
     },
     {
       'sitename'                     => 'repo.jenkins-ci.org',
-      'url'                          => 'https://repo.jenkins-ci.org/api/system/ping',
+      'url'                          => 'https://repo.jenkins-ci.org/repo1-cache/org/springframework/spring-tx/maven-metadata.xml',
       'timeout'                      => $timeout,
       'treshold'                     => $treshold,
       'window'                       => $window,
@@ -130,7 +130,7 @@ class profile::datadog_http_check(
     },
     {
       'sitename'                     => 'repo.azure.jenkins.io',
-      'url'                          => 'https://repo.azure.jenkins.io/api/system/ping',
+      'url'                          => 'https://repo.azure.jenkins.io/repo1-cache/org/springframework/spring-tx/maven-metadata.xml',
       'timeout'                      => $timeout,
       'treshold'                     => $treshold,
       'window'                       => $window,
