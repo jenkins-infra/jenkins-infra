@@ -206,6 +206,13 @@ class profile::ldap(
     action => 'accept',
   }
 
+  firewall { '107 accept inbound LDAPS request from accounts app on eggplant':
+    proto  => 'tcp',
+    source => 'eggplant.jenkins.io',
+    port   => 636,
+    action => 'accept',
+  }
+
   firewall { '107 accept inbound LDAPS request from puppet.jenkins.io':
     proto  => 'tcp',
     source => 'puppet.jenkins.io',
