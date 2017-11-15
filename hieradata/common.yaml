@@ -280,7 +280,7 @@ profile::kubernetes::resources::pluginsite::url: plugins.jenkins.io
 profile::kubernetes::resources::pluginsite::aliases:
     - plugins.azure.jenkins.io
 
-profile::kubernetes::resources::repo_proxy::image_tag: '4-build913432'
+profile::kubernetes::resources::repo_proxy::image_tag: '19-build1bc066'
 profile::kubernetes::resources::repo_proxy::url: repo.azure.jenkins.io
 
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
