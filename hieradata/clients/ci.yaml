@@ -23,6 +23,8 @@ profile::buildmaster::plugins:
   - groovy
   - jacoco
   - jobConfigHistory
+  - junit-attachments
+  - junit-realtime-test-reporter
   - ldap
   - mailer
   - parallel-test-executor
