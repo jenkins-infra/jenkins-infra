@@ -16,30 +16,36 @@ spec:
                 type: repo-proxy
                 logtype: archive
         spec:
+            # Nginx user need write permission on /var/cache/nginx
+            initContainers:
+                - name: volume-mount-hack
+                  image: busybox
+                  command: ["sh", "-c", "chown -R 101:101 /var/cache/nginx"]
+                  volumeMounts:
+                      - name: repo-proxy
+                        mountPath: /var/cache/nginx
             containers:
                 - name: repo-proxy
                   image: jenkinsciinfra/repo-proxy:<%= @parameters['image_tag'] %>
                   imagePullPolicy: Always
                   livenessProbe:
                       httpGet:
-                          path: /api/system/ping
+                          path: /repo1-cache/org/springframework/spring-tx/maven-metadata.xml
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 20
                       timeoutSeconds: 5
                   readinessProbe:
                       httpGet:
-                          path: /api/system/ping
+                          path: /repo1-cache/org/springframework/spring-tx/maven-metadata.xml
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 30
                       timeoutSeconds: 5
                   volumeMounts:
-                    - name: cache
+                    - name: repo-proxy
                       mountPath: /var/cache/nginx
             volumes:
-                - name: cache
-                  azureFile: 
-                      secretName: repo-proxy
-                      shareName: repo-proxy
-                      readOnly: false
+              - name: repo-proxy
+                persistentVolumeClaim:
+                    claimName: repo-proxy
