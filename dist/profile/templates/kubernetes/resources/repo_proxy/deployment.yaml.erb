@@ -30,14 +30,14 @@ spec:
                   imagePullPolicy: Always
                   livenessProbe:
                       httpGet:
-                          path: /releases/com/perfectomobile/jenkins/2.20.0.19/jenkins-2.20.0.19.pom
+                          path: /repo1/org/springframework/spring-tx/maven-metadata.xml
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 20
                       timeoutSeconds: 5
                   readinessProbe:
                       httpGet:
-                          path: /releases/com/perfectomobile/jenkins/2.20.0.19/jenkins-2.20.0.19.pom
+                          path: /repo1/org/springframework/spring-tx/maven-metadata.xml
                           port: 80
                           scheme: HTTP
                       initialDelaySeconds: 30
