@@ -44,6 +44,13 @@ class profile::kubernetes::resources::repo_proxy (
   }
   profile::kubernetes::apply{ 'repo_proxy/service.yaml':
   }
+
+  profile::kubernetes::apply{ 'repo_proxy/persistentVolume.yaml':
+  }
+
+  profile::kubernetes::apply{ 'repo_proxy/persistentVolumeClaim.yaml':
+  }
+
   profile::kubernetes::apply{ 'repo_proxy/ingress-tls.yaml':
     parameters => {
       'url'     => $url,
