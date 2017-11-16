@@ -3,7 +3,7 @@
 [![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Infra/jenkins-infra/production)](https://ci.jenkins.io/job/Infra/job/jenkins-infra/job/production/)
 
 This repository is the [r10k](https://github.com/adrienthebo/r10k) control
-repository for the [Jenkins](https://jenkins-ci.org) project's own
+repository for the [Jenkins](https://jenkins.io) project's own
 infrastructure.
 
 ## Local development
