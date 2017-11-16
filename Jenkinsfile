@@ -42,6 +42,7 @@ pipeline {
                  *   Could not initialize global default settings:
                  *   Permission denied - /.puppetlabs
                  */
+                sh 'exit 1'
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
                 sh 'HOME=$PWD bundle exec rake resolve'
                 sh 'bundle exec rake lint'
