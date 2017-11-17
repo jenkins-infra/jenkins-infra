@@ -108,6 +108,13 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 @ 3600 IN  TXT "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:140.211.8.0/23 ip4:173.203.60.151 ip4:140.211.166.128/25 -all"
 @ 3600 IN  SPF "v=spf1 mx ip4:199.193.196.24 ip4:140.211.15.0/24 ip4:140.211.8.0/23 ip4:173.203.60.151 ip4:140.211.166.128/25 -all"
 
+; Certificates DNS Verification, it can be removed when validated
+@          3600  IN  TXT   "nuorpib8b66b00omtejqkj76v4"   ; For certificate:  jenkins-ci.org
+cucumber   3600  IN  TXT   "nuorpib8b66b00omtejqkj76v4"   ; For certificate:  svn.jenkins-ci.org
+edamame    3600  IN  TXT   "a7p88u6si2hmbsdfsdtgbs04dt"    ; For certificate:  issues.jenkins-ci.org
+artichoke  3600  IN  TXT   "a7p88u6si2hmbsdfsdtgbs04dt"    ; For certificate:  puppet.jenkins-ci.org
+lettuce    3600  IN  TXT   "a7p88u6si2hmbsdfsdtgbs04dt"    ; For certificate:  wiki.jenkins-ci.org
+
 ; DKIM
 cucumber._domainkey     1W IN TXT ("v=DKIM1;p="
     "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzGI3F6ZZemke1oeZLfdl"
