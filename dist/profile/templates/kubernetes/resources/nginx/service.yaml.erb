@@ -10,6 +10,9 @@ spec:
   # Require Kubernetes 1.7
   # externalTrafficPolicy: Local
   sessionAffinity: ClientIP
+<% if !@parameters['loadBalancerIP'].empty? -%>
+  loadBalancerIP: <%=@parameters['loadBalancerIP']%>
+<% end -%>
   ports:
   - port: 80
     name: http

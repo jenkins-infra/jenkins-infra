@@ -7,6 +7,7 @@
 # -> https://github.com/kubernetes/ingress/blob/master/controllers/nginx/Changelog.md
 #
 class profile::kubernetes::resources::nginx (
+    String $loadbalancerip = ''
   ){
   include profile::kubernetes::params
   require profile::kubernetes::kubectl
@@ -21,7 +22,11 @@ class profile::kubernetes::resources::nginx (
   profile::kubernetes::apply { 'nginx/default-deployment.yaml':}
   profile::kubernetes::apply { 'nginx/default-service.yaml':}
   profile::kubernetes::apply { 'nginx/deployment.yaml':}
-  profile::kubernetes::apply { 'nginx/service.yaml':}
+  profile::kubernetes::apply { 'nginx/service.yaml':
+    parameters => {
+      loadBalancerIP => $loadbalancerip
+    }
+  }
 
   # As configmap changes do not trigger pods update,
   # we must reload pods 'manually' to use the newly updated secret
