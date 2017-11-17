@@ -10,7 +10,7 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
                 )
 
 ; A Records
-@           3600    IN    A    140.211.15.101
+@           3600    IN    A    13.68.19.38
 
 ; Primary at Contegix
 cucumber    3600    IN    A    199.193.196.24
@@ -63,7 +63,7 @@ l10n        3600    IN    CNAME    l10n.jenkins.io.
 mirrors     3600    IN    CNAME    mirrors.jenkins.io.
 pkg         3600    IN    CNAME    pkg.jenkins.io.
 usage       3600    IN    CNAME    usage.jenkins.io.
-stats       3600    IN    CNAME    @
+stats       3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for stats.jenkins.io which is hosted on GH pages
 meetings    3600    IN    CNAME    edamame
 jekyll      3600    IN    CNAME    jenkinsci.github.io.
 mirrors2    3600    IN    CNAME    lettuce
