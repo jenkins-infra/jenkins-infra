@@ -71,6 +71,11 @@ pbssnl2yyudgfdl3flznotnarnamz5su._domainkey 3600    IN  CNAME   pbssnl2yyudgfdl3
 6ch6fw67efpfgoqyhdhs2cy2fpkwrvsk._domainkey 3600    IN  CNAME   6ch6fw67efpfgoqyhdhs2cy2fpkwrvsk.dkim.amazonses.com.
 37qo4cqmkxeocwr2iicjop77fq52m6yh._domainkey 3600    IN  CNAME   37qo4cqmkxeocwr2iicjop77fq52m6yh.dkim.amazonses.com.
 
+; Certificates DNS Verification, it can be removed when validated
+ci          3600    IN    TXT   "nuorpib8b66b00omtejqkj76v4" ; For certificate: ci.jenkins-ci.org
+mirrors     3600    IN    TXT   "nuorpib8b66b00omtejqkj76v4" ; For certificate: updates.jenkins-ci.org
+usage       3600    IN    TXT   "nuorpib8b66b00omtejqkj76v4" ; For certificate:  usage.jenkins-ci.org
+
 ; NS Records
 @           3600    IN    NS    ns1.jenkins-ci.org.
 @           3600    IN    NS    ns2.jenkins-ci.org.
