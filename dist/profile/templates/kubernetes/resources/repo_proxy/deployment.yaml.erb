@@ -19,7 +19,8 @@ spec:
             # Nginx user need write permission on /var/cache/nginx
             initContainers:
                 - name: volume-mount-hack
-                  image: busybox
+                  # Use the same image than repo-proxy in order to have the user nginx
+                  image: jenkinsciinfra/repo-proxy:<%= @parameters['image_tag'] %>
                   command: ["sh", "-c", "chown -R $(id -u nginx):$(id -g nginx) /var/cache/nginx"]
                   volumeMounts:
                       - name: repo-proxy
