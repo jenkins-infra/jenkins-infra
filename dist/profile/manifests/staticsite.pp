@@ -16,7 +16,6 @@ class profile::staticsite(
   include profile::apachemisc
 
   validate_string($deployer_user)
-  validate_string($deployer_ssh_key)
   validate_absolute_path($site_root)
 
   ensure_packages(['zip'])
@@ -31,6 +30,7 @@ class profile::staticsite(
   account { $deployer_user:
     ensure       => absent,
     home_dir     => $site_root,
+    manage_home  => false,
     gid          => $deployer_group,
     create_group => false,
     shell        => $deployer_shell,
