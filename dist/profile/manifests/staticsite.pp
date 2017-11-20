@@ -31,7 +31,6 @@ class profile::staticsite(
   account { $deployer_user:
     ensure       => absent,
     home_dir     => $site_root,
-    ssh_key      => $deployer_ssh_key,
     gid          => $deployer_group,
     create_group => false,
     shell        => $deployer_shell,
