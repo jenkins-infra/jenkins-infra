@@ -22,7 +22,6 @@ describe 'profile::staticsite' do
 
     it 'contains a deployer account setup' do
       expect(subject).to contain_account('site-deployer').with(
-        :ssh_key => ssh_key,
         :shell   => '/usr/lib/sftp-server',
       )
     end
