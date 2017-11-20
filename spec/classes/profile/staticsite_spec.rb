@@ -8,10 +8,10 @@ describe 'profile::staticsite' do
 
   describe 'the filesystem' do
     it { should contain_file('/srv/jenkins.io/archives').
-                  with(:ensure => 'directory') }
+                  with(:ensure => 'absent') }
 
     it { should contain_file('/srv/jenkins.io/deploy-site').with({
-      :ensure => 'present',
+      :ensure => 'absent',
       :owner  => 'site-deployer',
     }) }
   end
@@ -72,7 +72,7 @@ describe 'profile::staticsite' do
 
   it 'should invoke deploy-site in a cron' do
     expect(subject).to contain_cron('deploy-site').with({
-      :ensure => 'present',
+      :ensure => 'absent',
       :user => 'site-deployer',
     })
   end

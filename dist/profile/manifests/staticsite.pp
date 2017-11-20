@@ -29,13 +29,13 @@ class profile::staticsite(
   $beta_docroot = "${site_root}/beta"
 
   account { $deployer_user:
+    ensure       => absent,
     home_dir     => $site_root,
     ssh_key      => $deployer_ssh_key,
     gid          => $deployer_group,
     create_group => false,
     shell        => $deployer_shell,
     comment      => 'Static Site Deployer role account',
-    notify       => Exec['chown staticsite'],
   }
 
 
@@ -46,19 +46,18 @@ class profile::staticsite(
   }
 
   file { "${site_root}/archives":
-    ensure  => directory,
+    ensure  => absent,
     mode    => '0644',
     owner   => $deployer_user,
     group   => $deployer_group,
     require => Account[$deployer_user],
-    notify  => Exec['chown staticsite'],
   }
 
   # The deploy-site script ensures that we can unzip an archive properly, it
   # does not ensure that the archive gets placed in the appropriate location on
   # the machine
   file { "${site_root}/deploy-site":
-    ensure  => present,
+    ensure  => absent,
     owner   => $deployer_user,
     group   => $deployer_group,
     mode    => '0700',
@@ -70,7 +69,7 @@ class profile::staticsite(
   # just SFTP, the `deploy-site` script is idempotent and can be run repeatedly
   # without any issue
   cron { 'deploy-site':
-    ensure  => present,
+    ensure  => absent,
     user    => $deployer_user,
     command => "${site_root}/deploy-site",
     minute  => '*',
@@ -82,7 +81,7 @@ class profile::staticsite(
   # place for it to go. This prevents apache::vhost from making current/ a
   # directory
   file { $site_docroot:
-    ensure  => link,
+    ensure  => absent,
     replace => false,
     owner   => $deployer_user,
     group   => $deployer_group,
@@ -91,7 +90,7 @@ class profile::staticsite(
   }
 
   file { $beta_docroot:
-    ensure  => link,
+    ensure  => absent,
     replace => false,
     owner   => $deployer_user,
     group   => $deployer_group,
@@ -99,18 +98,15 @@ class profile::staticsite(
     require => File["${site_root}/archives"],
   }
 
-  exec { 'chown staticsite':
-    command     => "/bin/chown -R ${deployer_user}:${deployer_group} ${site_root}",
-    refreshonly => true,
-  }
-
   apache::vhost { 'beta.jenkins-ci.org':
+    ensure  => absent,
     port    => '80',
     docroot => $beta_docroot,
     require => File[$beta_docroot],
   }
 
   apache::vhost { 'jenkins.io':
+    ensure        => absent,
     serveraliases => [
       'beta.jenkins.io',
       'www.jenkins.io',
@@ -127,6 +123,7 @@ class profile::staticsite(
   }
 
   apache::vhost { 'jenkins.io unsecured':
+    ensure          => absent,
     servername      => 'jenkins.io',
     serveraliases   => [
       'beta.jenkins.io',
@@ -144,7 +141,12 @@ class profile::staticsite(
     letsencrypt::certonly { 'jenkins.io':
         domains     => ['jenkins.io', 'www.jenkins.io'],
         plugin      => 'apache',
-        manage_cron => true,
+        manage_cron => false,
+    }
+
+    # Not really a good way to remove this stuff with the puppet module :(
+    cron { 'letsencrypt renew cron jenkins.io':
+        ensure => absent,
     }
 
     Apache::Vhost <| title == 'jenkins.io' |> {
