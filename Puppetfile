@@ -43,7 +43,7 @@ mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
 # request which adds support for multiple SSH keys:
 # <https://github.com/torrancew/puppet-account/pull/18>
 mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
-               :ref => '6f2414c'
+               :ref => '1a36eba'
 
 mod 'jenkins_keys',
   :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
