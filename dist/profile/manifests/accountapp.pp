@@ -30,6 +30,7 @@ class profile::accountapp(
 ) {
   include profile::docker
   include profile::apachemisc
+  include profile::letsencrypt
 
   $docroot = '/var/www/html'
 
