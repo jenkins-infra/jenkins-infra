@@ -3,7 +3,6 @@
 class role::eggplant {
   include profile::base
   include profile::sudo::osu
-  include profile::staticsite
   include profile::catchall
   include profile::javadoc
   include profile::accountapp
