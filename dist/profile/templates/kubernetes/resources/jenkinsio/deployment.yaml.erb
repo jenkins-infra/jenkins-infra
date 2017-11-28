@@ -18,7 +18,7 @@ spec:
         spec:
             containers:
                 - name: jenkinsio
-                  image: nginx:<%= @parameters['image_tag'] %>
+                  image: jenkinsciinfra/jenkinsio:<%= @parameters['image_tag'] %>
                   imagePullPolicy: Always
                   livenessProbe:
                       httpGet:
