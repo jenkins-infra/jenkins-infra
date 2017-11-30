@@ -16,15 +16,14 @@ describe 'profile::kubernetes::resources::accountapp' do
            :jira_username         => 'accountapp',
            :jira_url              => 'https://issues.jenkins-ci.test',
            :jira_password         => 'jira_password',
-           :recaptcha_public_key  => 'recaptcha_public_key',
-           :recaptcha_private_key => 'recaptcha_private_key',
+           :seats                 => '2',
+           :seniority             => '12',
            :smtp_server           => 'smtp.jenkins.test',
            :smtp_auth             => true,
            :smtp_password         => 'smtp_password',
            :smtp_user             => 'smtp_user',
            :storage_account_name  => 'infratestaccountapp_name',
            :storage_account_key   => 'infratestaccountapp_key'
-
        }
    end
    it { should contain_class('profile::kubernetes::params') }
@@ -44,7 +43,6 @@ describe 'profile::kubernetes::resources::accountapp' do
         'ldap_password' 		=> 'bGRhcF9wYXNzd29yZA==',
         'jira_password'         => 'amlyYV9wYXNzd29yZA==',
         'smtp_password'         => 'c210cF9wYXNzd29yZA==',
-        'recaptcha_private_key' => 'cmVjYXB0Y2hhX3ByaXZhdGVfa2V5',
         'storage_account_name'  => 'aW5mcmF0ZXN0YWNjb3VudGFwcF9uYW1l',
         'storage_account_key'   => 'aW5mcmF0ZXN0YWNjb3VudGFwcF9rZXk='
         }
@@ -54,7 +52,7 @@ describe 'profile::kubernetes::resources::accountapp' do
 	 :parameters => {
        'election_close'        => '2038/01/19',
        'election_open'         => '1970/01/01',
-       'election_logdir'      => '/var/log/accountapp/elections',
+       'election_logdir'       => '/var/log/accountapp/elections',
        'election_candidates'   => 'bob,alice',
        'image_tag'             => 'latest',
        'ldap_url'              => 'https://ldap.jenkins-ci.test',
@@ -62,7 +60,8 @@ describe 'profile::kubernetes::resources::accountapp' do
        'ldap_new_user_base_dn' => '',
        'jira_username'         => 'accountapp',
        'jira_url'              => 'https://issues.jenkins-ci.test',
-       'recaptcha_public_key'  => 'recaptcha_public_key',
+       'seats'                 => '2',
+       'seniority'             => '12',
        'smtp_server'           => 'smtp.jenkins.test',
        'smtp_user'             => 'smtp_user',
        'smtp_auth'             => true,

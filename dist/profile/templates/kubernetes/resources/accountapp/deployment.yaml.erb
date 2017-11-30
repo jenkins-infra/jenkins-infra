@@ -27,8 +27,10 @@ spec:
               value: '<%= @parameters['jira_username'] %>'
             - name: JIRA_URL
               value: '<%= @parameters['jira_url'] %>'
-            - name: RECAPTCHA_PUBLIC_KEY
-              value: '<%= @parameters['recaptcha_public_key'] %>'
+            - name: SEATS
+              value: '<%= @parameters['seats'] %>'
+            - name: SENIORITY
+              value: '<%= @parameters['seniority'] %>'
             - name: SMTP_AUTH
               value: '<%= @parameters['smtp_auth'] %>'
             - name: SMTP_SERVER
@@ -45,11 +47,6 @@ spec:
               value: '<%= @parameters["election_logdir"] %>'
             - name: ELECTION_CANDIDATES
               value: '<%= @parameters["election_candidates"] %>'
-            - name: RECAPTCHA_PRIVATE_KEY
-              valueFrom:
-                secretKeyRef:
-                  name: accountapp
-                  key: recaptcha.key.private
             - name: LDAP_PASSWORD
               valueFrom:
                 secretKeyRef:
