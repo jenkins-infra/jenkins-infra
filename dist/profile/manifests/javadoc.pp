@@ -12,14 +12,15 @@ class profile::javadoc(
   $user = 'www-data'
 
   file { $site_root:
-    ensure => directory,
-    owner  => $user,
-    group  => 'www-data',
+    ensure  => directory,
+    owner   => $user,
+    group   => 'www-data',
+    recurse => true
   }
 
   cron { 'update javadoc.jenkins.io':
     ensure  => present,
-    command => "cd /tmp && /usr/bin/wget ${remote_archive} && /bin/tar -C ${site_root} --strip 1 --overwrite --owner=${user} -xjf javadoc-site.tar.bz2 && rm -f javadoc-site.tar.bz2",
+    command => "cd /tmp && /usr/bin/wget ${remote_archive} && /bin/tar -C ${site_root} --strip 1 --overwrite --owner=${user} -xjf javadoc-site.tar.bz2 ; rm -f javadoc-site.tar.bz2",
     user    => $user,
     hour    => 4,
     minute  => 0,
