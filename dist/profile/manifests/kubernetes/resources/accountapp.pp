@@ -27,10 +27,10 @@
 #       ldap password
 #     $ldap_url:
 #       ldap endpoint
-#     $recaptcha_private_key:
-#       recaptcha private key
-#     $recaptcha_public_key:
-#       recaptcha public key
+#     $seats:
+#       Define number of elected seats for current election
+#     $seniority:
+#       Define seniority in month required to vote
 #     $smtp_server:
 #       smtp server
 #     $smtp_user:
@@ -51,8 +51,8 @@
 #
 # Deploy accountapp resources on kubernetes cluster
 class profile::kubernetes::resources::accountapp (
-    String $election_close = '1970/01/02',
-    String $election_open = '1970/01/01',
+    String $election_close = '1970-01-02',
+    String $election_open = '1970-01-01',
     String $election_logdir= '/var/log/accountapp/elections',
     String $election_candidates = 'bob,alice',
     String $image_tag = 'latest',
@@ -63,8 +63,8 @@ class profile::kubernetes::resources::accountapp (
     String $ldap_new_user_base_dn = 'ou=people,dc=jenkins-ci,dc=org',
     String $ldap_password = 'ldap_password',
     String $ldap_url = 'ldap://localhost:389/',
-    String $recaptcha_private_key = 'recaptcha_private_key',
-    String $recaptcha_public_key = 'recaptcha_public_key',
+    String $seats = '2',
+    String $seniority = '12',
     String $smtp_server = 'localhost',
     String $smtp_user = '',
     String $smtp_password = '',
@@ -88,12 +88,11 @@ class profile::kubernetes::resources::accountapp (
 
   profile::kubernetes::apply { 'accountapp/secret.yaml':
     parameters  => {
-      'jira_password'         => base64('encode', $jira_password, 'strict'),
-      'ldap_password'         => base64('encode', $ldap_password, 'strict'),
-      'smtp_password'         => base64('encode', $smtp_password, 'strict'),
-      'recaptcha_private_key' => base64('encode', $recaptcha_private_key, 'strict'),
-      'storage_account_name'  => base64('encode', $storage_account_name, 'strict'),
-      'storage_account_key'   => base64('encode', $storage_account_key, 'strict')
+      'jira_password'        => base64('encode', $jira_password, 'strict'),
+      'ldap_password'        => base64('encode', $ldap_password, 'strict'),
+      'smtp_password'        => base64('encode', $smtp_password, 'strict'),
+      'storage_account_name' => base64('encode', $storage_account_name, 'strict'),
+      'storage_account_key'  => base64('encode', $storage_account_key, 'strict')
     }
   }
 
@@ -116,7 +115,8 @@ class profile::kubernetes::resources::accountapp (
       'ldap_url'              => $ldap_url,
       'ldap_manager_dn'       => $ldap_manager_dn,
       'ldap_new_user_base_dn' => $ldap_new_user_base_dn,
-      'recaptcha_public_key'  => $recaptcha_public_key,
+      'seats'                 => $seats,
+      'seniority'             => $seniority,
       'smtp_server'           => $smtp_server,
       'smtp_user'             => $smtp_user,
       'smtp_auth'             => $smtp_auth,
