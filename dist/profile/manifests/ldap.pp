@@ -257,7 +257,7 @@ class profile::ldap(
 
   firewall { '107 accept inbound LDAPS from kube cluster prodbean':
     proto  => 'tcp',
-    source => '52.225.217.151',
+    source => '13.68.75.134',
     port   => 636,
     action => 'accept',
   }
