@@ -1,0 +1,17 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: ldap
+  namespace: ldap
+spec:
+  schedule: "23 4 * * *"
+  jobTemplate:
+    spec:
+        concurrencyPolicy: Forbid
+        template:
+            spec:
+                containers:
+                    - name: hello
+                      image: jenkinsciinfra/ldap:<%= @parameters['image_tag'] %>
+                      command: ["/entrypoint/backup"]
+                      restartPolicy: OnFailure
