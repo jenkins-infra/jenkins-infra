@@ -78,13 +78,17 @@ class profile::kubernetes::kubectl (
 
   $clusters.each | $cluster | {
     file { "${home}/.kube/${cluster[clustername]}.conf":
-      ensure  => 'present',
-      content => template("${module_name}/kubernetes/config.erb"),
-      owner   => $user,
+      ensure => 'absent',
     }
     file { "${backup}/${cluster[clustername]}":
       ensure => 'directory',
       owner  => $user
     }
+  }
+
+  file { "${home}/.kube/config":
+    ensure  => 'present',
+    content => template("${module_name}/kubernetes/config.erb"),
+    owner   => $user,
   }
 }
