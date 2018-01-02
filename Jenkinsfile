@@ -11,7 +11,7 @@ pipeline {
 
     stages {
         stage('Verify DNS') {
-            agent { docker 'rtyler/jenkins-infra-builder' }
+            agent { docker 'kohsuke/named-checkzone' }
             steps {
                 parallel(
                     'jenkins.io' : {
@@ -25,7 +25,7 @@ pipeline {
         }
 
         stage('Verify Puppet') {
-            agent { docker 'rtyler/jenkins-infra-builder' }
+            agent { docker 'ruby:2.4-stretch' }
             /* These environment variables make it feasible for Git to clone properly while
              * inside the wacky confines of a Docker container
              */
