@@ -2,33 +2,40 @@ require 'spec_helper'
 
 
 describe 'profile::kubernetes::reload' do
-    let (:title) { 'datadog'}
-    let (:params) do 
-      {  
-        'clusters' => [{
-          'clustername' =>  'clusterexample1',
-        }],
-        'app'           => 'datadog',
-        'depends_on'    => [
-             "datadog/secret.yaml",
-             "datadog/daemonset.yaml"
-        ]
-      }
-    end
+  let(:title) { 'datadog' }
 
-    it { should contain_class 'profile::kubernetes::params' }
+  let(:facts) do
+    {
+      'path' => '/usr/bin'
+    }
+  end
 
-    it { should contain_exec("reload datadog pods on clusterexample1").with(
-        :command     => "kubectl delete pods -l app=datadog",
-        :environment => ["KUBECONFIG=/home/k8s/.kube/clusterexample1.conf"],
-        :path        => ["/home/k8s/.bin"],
-        :logoutput   => true,
-        :refreshonly => true,
-        :subscribe   => [
-            'Exec[update datadog/secret.yaml on clusterexample1]',
-            'Exec[update datadog/daemonset.yaml on clusterexample1]'
+  let(:params) do
+    {
+      'app' => 'datadog',
+      'context' => 'minikube',
+      'user' => 'k8s',
+      'kubeconfig' => '/home/k8s/.kube/config',
+      'depends_on' => [
+        'datadog/secret.yaml',
+        'datadog/daemonset.yaml'
+      ]
+    }
+  end
+
+  it { should contain_class 'profile::kubernetes::params' }
+
+  it {
+    should contain_exec('reload datadog pods on minikube')
+      .with(
+        'command' => 'kubectl delete pods --context minikube -l app=datadog',
+        'path' => ['/home/k8s/.bin', '/usr/bin'],
+        'logoutput' => true,
+        'refreshonly' => true,
+        'subscribe' => [
+          'Exec[update datadog/secret.yaml on minikube]',
+          'Exec[update datadog/daemonset.yaml on minikube]'
         ]
       )
-    }
-  
+  }
 end

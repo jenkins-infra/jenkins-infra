@@ -3,9 +3,6 @@
 #   This definition will reload kubernetes resource received by argument
 #
 #   Parameters:
-#     $resource:
-#       Resource name with following format <name>/file.yaml
-#       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
 #     $app:
 #       Value for pods label 'app'
 #     $depends_on:
@@ -26,23 +23,24 @@
 #     }
 #
 define profile::kubernetes::reload (
-  String $resource = $title,
+  String $context = '',
   String $app= undef,
+  String $user = $profile::kubernetes::params::user,
+  String $kubeconfig = $profile::kubernetes::params::kubeconfig,
   Array  $depends_on = undef,
-  $clusters = $profile::kubernetes::params::clusters,
 ){
   include ::stdlib
   include profile::kubernetes::params
 
-  $clusters.each | $cluster | {
-    $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${cluster[clustername]}"] }
-    exec { "reload ${app} pods on ${cluster[clustername]}":
-      command     => "kubectl delete pods -l app=${app}",
-      path        => [$profile::kubernetes::params::bin],
-      environment => ["KUBECONFIG=${profile::kubernetes::params::home}/.kube/${cluster[clustername]}.conf"] ,
-      logoutput   => true,
-      subscribe   => $subscribe,
-      refreshonly => true
-    }
+  $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${context}"] }
+
+  exec { "reload ${app} pods on ${context}":
+    command     => "kubectl delete pods --context ${context} -l app=${app}",
+    path        => [$profile::kubernetes::params::bin,$::path],
+    environment => ["KUBECONFIG=${kubeconfig}"] ,
+    logoutput   => true,
+    subscribe   => $subscribe,
+    refreshonly => true,
+    user        => $user
   }
 }

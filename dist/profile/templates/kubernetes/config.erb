@@ -14,7 +14,7 @@ contexts:
       user: "<%= cluster['username'] %>"
     name: "<%= cluster['clustername'] %>"
 <% end -%>
-current-context: "<%= @clusters.first['clustername']%>"
+current-context: "<%= @clusters.first['clustername'] %>"
 kind: Config
 users:
 <%- @clusters.each do |cluster| -%>

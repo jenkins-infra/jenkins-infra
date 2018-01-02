@@ -11,35 +11,41 @@
 #
 
 class profile::kubernetes::resources::fluentd (
-  String $image_tag = ''
-){
+  String $image_tag = '',
+  Array $clusters = $profile::kubernetes::params::clusters
+) inherits profile::kubernetes::params {
 
   include ::stdlib
-  include profile::kubernetes::params
-  include profile::kubernetes::kubectl
-  include profile::kubernetes::resources::azurelogs
+  require profile::kubernetes::kubectl
+  require profile::kubernetes::resources::azurelogs
 
-  file { "${profile::kubernetes::params::resources}/fluentd":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  $clusters.each | $cluster | {
+    $context = $cluster['clustername']
 
-  profile::kubernetes::apply{ 'fluentd/daemonset.yaml':
-    parameters => {
-      'image_tag' => $image_tag
+    file { "${profile::kubernetes::params::resources}/${context}/fluentd":
+      ensure => 'directory',
+      owner  => $profile::kubernetes::params::user,
+    }
+
+    profile::kubernetes::apply{ "fluentd/daemonset.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'image_tag' => $image_tag
+      },
+      resource   =>  'fluentd/daemonset.yaml'
+    }
+
+    # As secret changes do not trigger pods update,
+    # we must reload pods 'manually' to use the newly updated secret
+    # If we delete a pod defined by daemonset,
+    # this daemonset will recreate a new one
+    profile::kubernetes::reload { "fluentd pods on ${context}":
+      context    => $context,
+      app        => 'fluentd',
+      depends_on => [
+        'azurelogs/secret.yaml',
+        'fluentd/daemonset.yaml',
+      ]
     }
   }
-
-  # As secret changes do not trigger pods update,
-  # we must reload pods 'manually' to use the newly updated secret
-  # If we delete a pod defined by daemonset,
-  # this daemonset will recreate a new one
-  profile::kubernetes::reload { 'fluentd pods':
-    app        => 'fluentd',
-    depends_on => [
-      'azurelogs/secret.yaml',
-      'fluentd/daemonset.yaml',
-    ]
-  }
-
 }

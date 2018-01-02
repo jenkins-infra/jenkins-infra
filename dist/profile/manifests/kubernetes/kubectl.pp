@@ -25,11 +25,10 @@ class profile::kubernetes::kubectl (
     $backup = $profile::kubernetes::params::backup,
     $resources = $profile::kubernetes::params::resources,
     $config = $profile::kubernetes::params::config,
+    $kubeconfig = $profile::kubernetes::params::kubeconfig,
     $clusters = $profile::kubernetes::params::clusters,
     $version = '1.6.6'
-  ) {
-
-  include profile::kubernetes::params
+  ) inherits profile::kubernetes::params {
 
   user { $user:
     ensure     => 'present',
@@ -76,11 +75,21 @@ class profile::kubernetes::kubectl (
     mode    => '0755'
   }
 
+  # Cleaning purpose and can be remove once done
   $clusters.each | $cluster | {
     file { "${home}/.kube/${cluster[clustername]}.conf":
       ensure => 'absent',
     }
+  }
+  ##
+
+  $clusters.each | $cluster | {
     file { "${backup}/${cluster[clustername]}":
+      ensure => 'directory',
+      owner  => $user
+    }
+
+    file { "${resources}/${cluster[clustername]}":
       ensure => 'directory',
       owner  => $user
     }

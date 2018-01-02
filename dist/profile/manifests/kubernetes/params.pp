@@ -47,6 +47,16 @@ class profile::kubernetes::params (
   $backup = "${home}/backup",
   $config = "${home}/.kube",
   $trash = "${home}/trash",
-  $clusters = []
+  $kubeconfig = "${home}/.kube/config",
+  $clusters = [
+    {
+      'clustername'                => 'minikube',
+      'certificate_authority_data' => 'fake_certificate_authority_data',
+      'server'                     => 'https://minikube',
+      'username'                   => 'minikube',
+      'client_certificate_data'    => 'fake_client_certificate_data',
+      'client_key_data'            => 'fake_client_key_data'
+    }
+  ]
   ){
 }

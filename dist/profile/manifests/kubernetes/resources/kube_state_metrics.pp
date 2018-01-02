@@ -9,20 +9,30 @@
 #       Set kube-state-metric image tag
 
 class profile::kubernetes::resources::kube_state_metrics(
-  String $image_tag = 'v0.4.1'
-){
-  include profile::kubernetes::params
-  include profile::kubernetes::kubectl
+  String $image_tag = 'v0.4.1',
+  Array $clusters = $profile::kubernetes::params::clusters
+) inherits profile::kubernetes::params {
 
-  file { "${profile::kubernetes::params::resources}/kube_state_metrics":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  require profile::kubernetes::kubectl
+  $clusters.each | $cluster | {
+    $context = $cluster['clustername']
 
-  profile::kubernetes::apply{ 'kube_state_metrics/service.yaml':}
-  profile::kubernetes::apply{ 'kube_state_metrics/deployment.yaml':
-    parameters => {
-      'image_tag' => $image_tag
+    file { "${profile::kubernetes::params::resources}/${context}/kube_state_metrics":
+      ensure => 'directory',
+      owner  => $profile::kubernetes::params::user,
+    }
+
+    profile::kubernetes::apply{ "kube_state_metrics/service.yaml on ${context}" :
+      context  => $context,
+      resource => 'kube_state_metrics/service.yaml'
+
+    }
+    profile::kubernetes::apply{ "kube_state_metrics/deployment.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'image_tag' => $image_tag
+      },
+      resource   => 'kube_state_metrics/deployment.yaml'
     }
   }
 }

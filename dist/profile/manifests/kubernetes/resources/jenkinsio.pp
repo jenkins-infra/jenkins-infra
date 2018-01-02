@@ -25,51 +25,65 @@ class profile::kubernetes::resources::jenkinsio (
     'jenkins.io',
     'jenkins-ci.org',
     'www.jenkins-ci.org'
-    ]
-){
+    ],
+  Array $clusters = $profile::kubernetes::params::clusters
+) inherits profile::kubernetes::params {
 
   include ::stdlib
-  include profile::kubernetes::params
-  include profile::kubernetes::kubectl
+  require profile::kubernetes::kubectl
 
   $base64_storage_account_name = base64('encode', $storage_account_name, 'strict')
   $base64_storage_account_key = base64('encode', $storage_account_key, 'strict')
 
-  file { "${profile::kubernetes::params::resources}/jenkinsio":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  $clusters.each | $cluster | {
+    $context = $cluster['clustername']
 
-  profile::kubernetes::apply{ 'jenkinsio/secret.yaml':
-    parameters => {
-      'storage_account_name' => $base64_storage_account_name,
-      'storage_account_key'  => $base64_storage_account_key
+    file { "${profile::kubernetes::params::resources}/${context}/jenkinsio":
+      ensure => 'directory',
+      owner  => $profile::kubernetes::params::user,
+    }
+
+    profile::kubernetes::apply{ "jenkinsio/secret.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'storage_account_name' => $base64_storage_account_name,
+        'storage_account_key'  => $base64_storage_account_key
+      },
+      resource   => 'jenkinsio/secret.yaml'
+    }
+    profile::kubernetes::apply{ "jenkinsio/service.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/service.yaml'
+    }
+    profile::kubernetes::apply{ "jenkinsio/ingress-tls.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'url'     => $url,
+        'aliases' => $aliases
+      },
+      resource   => 'jenkinsio/ingress-tls.yaml'
+    }
+    profile::kubernetes::apply{ "jenkinsio/deployment.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'image_tag' => $image_tag
+      },
+      resource   => 'jenkinsio/deployment.yaml'
+    }
+
+    # As secret changes do not trigger pods update,
+    # we must reload pods 'manually' to use the newly updated secret
+    profile::kubernetes::reload { "jenkinsio pods on ${context}":
+      context    => $context,
+      app        => 'jenkinsio',
+      depends_on => [
+        'jenkinsio/secret.yaml',
+      ]
+    }
+
+    profile::kubernetes::backup { "jenkinsio-tls on ${context}":
+      context  => $context,
+      resource => 'jenkinsio-tls'
     }
   }
-  profile::kubernetes::apply{ 'jenkinsio/service.yaml':
-  }
-  profile::kubernetes::apply{ 'jenkinsio/ingress-tls.yaml':
-    parameters => {
-      'url'     => $url,
-      'aliases' => $aliases
-    }
-  }
-  profile::kubernetes::apply{ 'jenkinsio/deployment.yaml':
-    parameters => {
-      'image_tag' => $image_tag
-    }
-  }
-
-  # As secret changes do not trigger pods update,
-  # we must reload pods 'manually' to use the newly updated secret
-  profile::kubernetes::reload { 'jenkinsio pods':
-    app        => 'jenkinsio',
-    depends_on => [
-      'jenkinsio/secret.yaml',
-    ]
-  }
-
-  profile::kubernetes::backup { 'jenkinsio-tls':
-  }
-
 }

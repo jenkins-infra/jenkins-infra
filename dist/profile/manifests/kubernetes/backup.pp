@@ -26,6 +26,7 @@
 #     }
 #
 define profile::kubernetes::backup(
+  String $context = '',
   String $resource = $title,
   String $type = 'secret',
   String $ensure = 'present',
@@ -36,15 +37,16 @@ define profile::kubernetes::backup(
   include ::stdlib
   include profile::kubernetes::params
 
+  if $context == '' {
+    fail("Kubernetes context is required for resource ${title}")
+  }
 
-  $clusters.each | $cluster | {
-    cron { "Backup ${type}/${resource} from ${cluster[clustername]}":
-      ensure  => $ensure,
-      user    => $user,
-      name    => "Backup ${type}/${resource} from ${cluster[clustername]}",
-      command => "${bin}/backup.sh ${cluster[clustername]} ${resource} ${type}",
-      hour    => '3',
-      minute  => '13'
-    }
+  cron { "Backup ${type}/${resource} from ${context}":
+    ensure  => $ensure,
+    user    => $user,
+    name    => "Backup ${type}/${resource} from ${context}",
+    command => "${bin}/backup.sh ${context} ${resource} ${type}",
+    hour    => '3',
+    minute  => '13'
   }
 }
