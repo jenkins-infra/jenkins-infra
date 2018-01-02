@@ -7,7 +7,7 @@ gem 'parallel_tests'
 gem 'beaker'
 # This gem is like, never released
 gem 'puppet-lint', '~>2.3.0'
-gem 'puppet', '~> 4.8.1'
+gem 'puppet', '~> 4.8'
 # Needed to make sure we can install modules and then run a `puppet apply` in
 # vagrant
 gem 'r10k'
