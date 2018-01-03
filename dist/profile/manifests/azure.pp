@@ -15,12 +15,13 @@ class profile::azure (
     }
 
     apt::source { 'azure-cli':
-        location => 'https://apt-mo.trafficmanager.net/repos/azure-cli/',
-        release  => 'wheezy',
-        repos    => 'main',
-        key      => {
-        server => 'apt-mo.trafficmanager.net',
-        id     => '417A0893',
+        architecture => 'amd64',
+        location     => 'https://apt-mo.trafficmanager.net/repos/azure-cli/',
+        release      => 'wheezy',
+        repos        => 'main',
+        key          => {
+          server => 'apt-mo.trafficmanager.net',
+          id     => '417A0893',
         },
     }
 
