@@ -15,6 +15,14 @@ class profile::kubernetes::resources::nginx (
   $clusters.each | $cluster | {
     $context = $cluster['clustername']
 
+    # Only set field loadBalancerIp if a publicIp is provided
+    if has_key($cluster,'nginx_public_ip'){
+      $public_ip = $cluster['nginx_public_ip']
+    }
+    else{
+      $public_ip = 'none'
+    }
+
     file { "${profile::kubernetes::params::resources}/${context}/nginx":
       ensure => 'directory',
       owner  => $profile::kubernetes::params::user,
@@ -41,8 +49,11 @@ class profile::kubernetes::resources::nginx (
       resource => 'nginx/deployment.yaml'
     }
     profile::kubernetes::apply { "nginx/service.yaml on ${context}":
-      context  => $context,
-      resource => 'nginx/service.yaml'
+      context    => $context,
+      resource   => 'nginx/service.yaml',
+      parameters =>  {
+        'loadBalancerIp' => $public_ip
+      }
     }
 
     # As configmap changes do not trigger pods update,
