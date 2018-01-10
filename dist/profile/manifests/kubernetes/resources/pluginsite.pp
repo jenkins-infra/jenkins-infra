@@ -3,12 +3,18 @@
 #   This class deploy plugins jenkins website
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $data_file_url:
 #       Set endpoint for plugins data file
+#
 #     $url:
 #       Set frontend url
+#
 #     $image_tag:
 #       Set plugin-site image tag
+#
 #     $aliases:
 #       Set a list of $url aliases used by ingress
 #

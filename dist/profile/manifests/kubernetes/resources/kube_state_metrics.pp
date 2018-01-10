@@ -5,6 +5,9 @@
 #    -> https://github.com/kubernetes/kube-state-metrics
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $image_tag:
 #       Set kube-state-metric image tag
 

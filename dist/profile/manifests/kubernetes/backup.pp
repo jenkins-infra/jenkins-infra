@@ -3,22 +3,25 @@
 #   This definition will backup once per day a resource given by argument from all clusters
 #
 #   Parameters:
-#     $resource:
-#       Resource name
-#       Default set to $title
-#     $type:
-#       Resource type (secret,daemonset,...)
-#       Default set to 'secret'
-#     $ensure:
-#       Ensure is set to present or absent (default present)
-#     $user:
-#       Define user who owns the cronjob
 #     $bin:
 #       Define bin directory
 #
-#     $clusters:
-#       List of cluster information, cfr profile::kubernetes::params for more
-#       informations
+#     $context:
+#       The name of the kubeconfig context to use
+#
+#     $ensure:
+#       Ensure if resource backup cronjob is set to present or absent (default present)
+#
+#     $resource:
+#       Resource name
+#       Default set to $title
+#
+#     $type:
+#       Resource type (secret,daemonset,...)
+#       Default set to 'secret'
+#
+#     $user:
+#       Define user who owns the cronjob
 #
 #   Sample usage:
 #     profile::kubernetes::backup { 'accountapp-tls':
@@ -26,13 +29,12 @@
 #     }
 #
 define profile::kubernetes::backup(
+  String $bin = $profile::kubernetes::params::bin,
   String $context = '',
+  String $ensure = 'present',
   String $resource = $title,
   String $type = 'secret',
-  String $ensure = 'present',
-  String $user = $profile::kubernetes::params::user,
-  String $bin = $profile::kubernetes::params::bin,
-  $clusters = $profile::kubernetes::params::clusters
+  String $user = $profile::kubernetes::params::user
 ){
   include ::stdlib
   include profile::kubernetes::params

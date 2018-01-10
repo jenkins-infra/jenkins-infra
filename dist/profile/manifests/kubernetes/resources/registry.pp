@@ -4,13 +4,16 @@
 #   to authenticate with private docker registry
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $dockerconfigjson:
 #       This string contain non base64 docker registry configuration in json
 #       -> https://kubernetes.io/docs/user-guide/images/#creating-a-secret-with-a-docker-config
 #
 class profile::kubernetes::resources::registry (
-    String $dockerconfigjson = '{"auths": {"https://index.docker.io/v1/": {"auth": "base64_auth"}}}',
-    Array $clusters = $profile::kubernetes::params::clusters
+    Array $clusters = $profile::kubernetes::params::clusters,
+    String $dockerconfigjson = '{"auths": {"https://index.docker.io/v1/": {"auth": "base64_auth"}}}'
   ) inherits profile::kubernetes::params {
 
   include ::stdlib

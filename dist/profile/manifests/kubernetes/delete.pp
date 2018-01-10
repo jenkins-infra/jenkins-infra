@@ -10,9 +10,15 @@
 #     $resource:
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
-#     $clusters:
-#       List of cluster information, cfr profile::kubernetes::params for more
-#       informations
+#
+#     $context:
+#       The name of the kubeconfig context to use
+#
+#     $kubeconfig:
+#        Kubernetes kubeconfig file path
+#
+#     $users:
+#       System user who own Kubernetes project
 #
 #   Sample usage:
 #     profile::kubernetes::delete{ 'nginx/deployment.yaml':
@@ -20,15 +26,19 @@
 #
 define profile::kubernetes::delete (
   String $context = '',
-  String $resource = $title,
-  String $user = $profile::kubernetes::params::user,
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
+  String $resource = $title,
+  String $user = $profile::kubernetes::params::user
 ){
   include ::stdlib
   include profile::kubernetes::params
 
   $dirname = dirname($resource)
   $basename = basename($resource)
+
+  if $context == '' {
+    fail("Kubernetes context is required for resource ${title}")
+  }
 
   # Add resource file to trash directory
   file { "${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}":
@@ -37,16 +47,11 @@ define profile::kubernetes::delete (
     owner   => $profile::kubernetes::params::user
   }
 
-$delete_args = "\
---context ${context} \
---grace-period=60 \
---ignore-not-found=true \
--f ${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}"
+  $delete_args = "--context ${context} --grace-period=60 --ignore-not-found=true\
+ -f ${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}"
 
-$apply_args = "\
---context ${context} \
---dry-run \
--f ${profile::kubernetes::params::resources}/${context}/${dirname}.${basename}"
+  $apply_args = "--context ${context} --dry-run\
+ -f ${profile::kubernetes::params::resources}/${context}/${dirname}.${basename}"
 
   # Only run kubectl delete if the resources is deployed.
   exec { "Remove ${resource} on ${context}":

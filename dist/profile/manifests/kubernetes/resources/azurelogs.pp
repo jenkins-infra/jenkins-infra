@@ -4,6 +4,9 @@
 #   This class deploy secrets for azure, related to logs
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $storage_account_name:$loganalytics_workspace_id
 #       Define storage account name used to store logs
 #
@@ -17,17 +20,15 @@
 #       Define azure log analytics key related to $loganalytics_workspace_id
 
 class profile::kubernetes::resources::azurelogs (
-  String $context = '',
+  Array $clusters = $profile::kubernetes::params::clusters,
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $loganalytics_key = '',
-  String $loganalytics_workspace_id = '',
-  Array $clusters = $profile::kubernetes::params::clusters
+  String $loganalytics_workspace_id = ''
 ) inherits profile::kubernetes::params {
 
   include ::stdlib
   require profile::kubernetes::kubectl
-
 
   $clusters.each | $cluster | {
     $context = $cluster['clustername']

@@ -5,13 +5,18 @@
 #   Parameters:
 #     $app:
 #       Value for pods label 'app'
+#
+#     $context:
+#       The name of the kubeconfig context to use
+#
+#     $kubeconfig:
+#        Kubernetes kubeconfig file path
+#
+#     $users:
+#       System user who own Kubernetes project
+#
 #     $depends_on:
 #       Define which resources need to be monitored in order to trigger this reload
-#
-#     $clusters:
-#       List of cluster information, cfr profile::kubernetes::params for more
-#       informations
-
 #
 #   Sample usage:
 #     profile::kubernetes::reload { 'datadog':
@@ -23,14 +28,18 @@
 #     }
 #
 define profile::kubernetes::reload (
-  String $context = '',
   String $app= undef,
-  String $user = $profile::kubernetes::params::user,
+  String $context = '',
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
-  Array  $depends_on = undef,
+  String $user = $profile::kubernetes::params::user,
+  Array  $depends_on = undef
 ){
   include ::stdlib
   include profile::kubernetes::params
+
+  if $context == '' {
+    fail("Kubernetes context is required for resource ${title}")
+  }
 
   $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${context}"] }
 

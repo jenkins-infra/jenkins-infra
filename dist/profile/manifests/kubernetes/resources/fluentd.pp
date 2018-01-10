@@ -6,13 +6,16 @@
 #   and send them on loganalytics/blob storage
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $image_tag:
 #       Define tag used for olblak/fluentd-k8s-azure
 #
 
 class profile::kubernetes::resources::fluentd (
-  String $image_tag = '',
-  Array $clusters = $profile::kubernetes::params::clusters
+  Array $clusters = $profile::kubernetes::params::clusters,
+  String $image_tag = ''
 ) inherits profile::kubernetes::params {
 
   include ::stdlib

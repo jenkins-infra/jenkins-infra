@@ -4,29 +4,36 @@
 #   This class deploy main jenkins website on Kubernetes
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $image_tag:
 #       Define tag used for nginx docker image
+#
 #     $storage_account_name:
 #       Define storage account key to access nginx-cache storage account
+#
 #     $storage_account_key:
 #       Define storage account key to access nginx-cache storage account
+#
 #     $url:
 #       Define url endpoint to access jenkinsio
+#
 #     $aliases:
 #       Define url endpoint aliases
 #
 
 class profile::kubernetes::resources::jenkinsio (
-  String $image_tag = 'alpine',
-  String $storage_account_name = '',
-  String $storage_account_key = '',
-  String $url = 'www.jenkins.io',
   Array  $aliases = [
     'jenkins.io',
     'jenkins-ci.org',
     'www.jenkins-ci.org'
     ],
-  Array $clusters = $profile::kubernetes::params::clusters
+  Array $clusters = $profile::kubernetes::params::clusters,
+  String $image_tag = 'alpine',
+  String $storage_account_name = '',
+  String $storage_account_key = '',
+  String $url = 'www.jenkins.io'
 ) inherits profile::kubernetes::params {
 
   include ::stdlib

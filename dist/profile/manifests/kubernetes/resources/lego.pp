@@ -4,6 +4,9 @@
 #   => https://github.com/jetstack/kube-lego
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $email:
 #       Mail address used by letsencrypt to send notifications
 #     $url:
@@ -13,9 +16,9 @@
 #
 #
 class profile::kubernetes::resources::lego (
+    Array $clusters = $profile::kubernetes::params::clusters,
     String $email = 'infra@lists.jenkins-ci.org',
     String $url = 'https://acme-v01.api.letsencrypt.org/directory',
-    Array $clusters = $profile::kubernetes::params::clusters
   ) inherits profile::kubernetes::params{
 
   require profile::kubernetes::kubectl

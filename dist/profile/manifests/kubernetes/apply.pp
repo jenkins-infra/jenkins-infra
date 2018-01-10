@@ -7,28 +7,29 @@
 #       Resource name with following format <name>/file.yaml
 #       ! ${module_name}/kubernetes/resources/${resource}.erb must exist
 #
+#     $kubeconfig:
+#        Kubernetes kubeconfig file path
+#
 #     $parameters:
 #       Parameters used in erb templates
 #
-#     $clusters:
-#       List of cluster information, cfr profile::kubernetes::params for more
-#       informations
-
+#     $context:
+#       The name of the kubeconfig context to use
 #
 #   Sample usage:
 #     profile::kubernetes::apply { 'datadog/secret.yaml':
+#       context =>  'default'
 #       parameters => {
 #         apiKey => 'secret_key'
 #       }
 #     }
 #
 define profile::kubernetes::apply (
-  String $resource = $title,
   String $context = '',
-  String $user = $profile::kubernetes::params::user,
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
-  Hash $parameters = {},
-  $clusters = $profile::kubernetes::params::clusters
+  String $resource = $title,
+  String $user = $profile::kubernetes::params::user,
+  Hash $parameters = {}
 ) {
 
   include ::stdlib

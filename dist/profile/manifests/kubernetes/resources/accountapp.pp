@@ -3,8 +3,12 @@
 #   This class deploys the Jenkins account-app to Kubernetes
 #
 #   Parameters:
-#     $image_tag:
-#       Set accountapp image tag.
+#     $clusters:
+#       clusters contains a list of cluster information.
+#     $domain_name:
+#       account app url endpoint
+#     $domain_alias:
+#       account app alias endpoint
 #     $election_candidates:
 #       coma separated list of candidates.
 #     $election_close:
@@ -13,6 +17,8 @@
 #       date app will start collecting votes. yyyy/MM/dd
 #     $election_logdir:
 #       collected votes directory.
+#     $image_tag:
+#       Set accountapp image tag.
 #     $jira_username:
 #       jira username
 #     $jira_url:
@@ -39,10 +45,6 @@
 #       smtp password
 #     $smtp_auth:
 #       smtp authentication (boolean)
-#     $domain_name:
-#       account app url endpoint
-#     $domain_alias:
-#       account app alias endpoint
 #
 #   Remark:
 #     `kubectl get service nginx --namespace nginx-ingress` return service public ip
@@ -51,6 +53,9 @@
 #
 # Deploy accountapp resources on kubernetes cluster
 class profile::kubernetes::resources::accountapp (
+    Array $clusters = $profile::kubernetes::params::clusters,
+    Array $domain_alias = ['accounts.jenkins-ci.org'],
+    String $domain_name = 'accounts.jenkins.io',
     String $election_close = '1970-01-02',
     String $election_open = '1970-01-01',
     String $election_logdir= '/var/log/accountapp/elections',
@@ -68,12 +73,9 @@ class profile::kubernetes::resources::accountapp (
     String $smtp_server = 'localhost',
     String $smtp_user = '',
     String $smtp_password = '',
-    Boolean $smtp_auth = true,
     String $storage_account_name = '',
     String $storage_account_key = '',
-    String $domain_name = 'accounts.jenkins.io',
-    Array $domain_alias = ['accounts.jenkins-ci.org'],
-    Array $clusters = $profile::kubernetes::params::clusters
+    Boolean $smtp_auth = true
   ) inherits profile::kubernetes::params {
 
   require profile::kubernetes::kubectl

@@ -4,26 +4,32 @@
 #   This class deploy a proxy cache in front of repo.jenkins-ci.org
 #
 #   Parameters:
-#     $image_tag:
-#       Define tag used for jenkinsciinfra/repo_proxy
-#     $storage_account_name:
-#       Define storage account key to access nginx-cache storage account
-#     $storage_account_key:
-#       Define storage account key to access nginx-cache storage account
-#     $url:
-#       Define url endpoint to access repo_proxy
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $aliases:
 #       Define url endpoint aliases
 #
+#     $image_tag:
+#       Define tag used for jenkinsciinfra/repo_proxy
+#
+#     $storage_account_name:
+#       Define storage account key to access nginx-cache storage account
+#
+#     $storage_account_key:
+#       Define storage account key to access nginx-cache storage account
+#
+#     $url:
+#       Define url endpoint to access repo_proxy
+#
 
 class profile::kubernetes::resources::repo_proxy (
-  String $context = '',
+  Array  $aliases = [],
+  Array $clusters = $profile::kubernetes::params::clusters,
   String $image_tag = '',
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $url = '',
-  Array  $aliases = [],
-  Array $clusters = $profile::kubernetes::params::clusters
 ) inherits profile::kubernetes::params {
 
   include ::stdlib

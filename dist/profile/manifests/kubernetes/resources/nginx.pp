@@ -2,6 +2,11 @@
 #
 #   This class deploy an nginx ingress resources
 #   from gce
+
+#   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #
 # Deploy nginx-ingress resources on kubernetes cluster
 # -> https://github.com/kubernetes/ingress/blob/master/controllers/nginx/Changelog.md

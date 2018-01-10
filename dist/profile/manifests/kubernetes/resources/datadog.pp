@@ -7,6 +7,10 @@
 #     $apiKey:
 #       Contain datadog api key.
 #       Used in secret template
+#
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 class profile::kubernetes::resources::datadog (
     String $api_key  = $::datadog_agent::api_key,
     Array $clusters = $profile::kubernetes::params::clusters
