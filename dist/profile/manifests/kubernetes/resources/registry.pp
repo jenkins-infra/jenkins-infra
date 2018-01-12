@@ -4,25 +4,35 @@
 #   to authenticate with private docker registry
 #
 #   Parameters:
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
 #     $dockerconfigjson:
 #       This string contain non base64 docker registry configuration in json
 #       -> https://kubernetes.io/docs/user-guide/images/#creating-a-secret-with-a-docker-config
 #
 class profile::kubernetes::resources::registry (
+    Array $clusters = $profile::kubernetes::params::clusters,
     String $dockerconfigjson = '{"auths": {"https://index.docker.io/v1/": {"auth": "base64_auth"}}}'
-  ){
+  ) inherits profile::kubernetes::params {
+
   include ::stdlib
-  include profile::kubernetes::params
   require profile::kubernetes::kubectl
 
-  file { "${profile::kubernetes::params::resources}/registry":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  $clusters.each | $cluster | {
+    $context = $cluster['clustername']
 
-  profile::kubernetes::apply { 'registry/secret.yaml':
-    parameters => {
-        'dockerconfigjson' => base64('encode', $dockerconfigjson, 'strict')
-    },
+    file { "${profile::kubernetes::params::resources}/${context}/registry":
+      ensure => 'directory',
+      owner  => $profile::kubernetes::params::user,
+    }
+
+    profile::kubernetes::apply { "registry/secret.yaml on ${context}":
+      context    => $context,
+      parameters => {
+          'dockerconfigjson' => base64('encode', $dockerconfigjson, 'strict')
+      },
+      resource   => 'registry/secret.yaml'
+    }
   }
 }

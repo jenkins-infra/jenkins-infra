@@ -3,8 +3,12 @@
 #   This class deploys the Jenkins account-app to Kubernetes
 #
 #   Parameters:
-#     $image_tag:
-#       Set accountapp image tag.
+#     $clusters:
+#       clusters contains a list of cluster information.
+#     $domain_name:
+#       account app url endpoint
+#     $domain_alias:
+#       account app alias endpoint
 #     $election_candidates:
 #       coma separated list of candidates.
 #     $election_close:
@@ -13,6 +17,8 @@
 #       date app will start collecting votes. yyyy/MM/dd
 #     $election_logdir:
 #       collected votes directory.
+#     $image_tag:
+#       Set accountapp image tag.
 #     $jira_username:
 #       jira username
 #     $jira_url:
@@ -39,10 +45,6 @@
 #       smtp password
 #     $smtp_auth:
 #       smtp authentication (boolean)
-#     $domain_name:
-#       account app url endpoint
-#     $domain_alias:
-#       account app alias endpoint
 #
 #   Remark:
 #     `kubectl get service nginx --namespace nginx-ingress` return service public ip
@@ -51,6 +53,9 @@
 #
 # Deploy accountapp resources on kubernetes cluster
 class profile::kubernetes::resources::accountapp (
+    Array $clusters = $profile::kubernetes::params::clusters,
+    Array $domain_alias = ['accounts.jenkins-ci.org'],
+    String $domain_name = 'accounts.jenkins.io',
     String $election_close = '1970-01-02',
     String $election_open = '1970-01-01',
     String $election_logdir= '/var/log/accountapp/elections',
@@ -68,69 +73,82 @@ class profile::kubernetes::resources::accountapp (
     String $smtp_server = 'localhost',
     String $smtp_user = '',
     String $smtp_password = '',
-    Boolean $smtp_auth = true,
     String $storage_account_name = '',
     String $storage_account_key = '',
-    String $domain_name = 'accounts.jenkins.io',
-    Array $domain_alias = ['accounts.jenkins-ci.org']
-  ){
-  include profile::kubernetes::params
+    Boolean $smtp_auth = true
+  ) inherits profile::kubernetes::params {
+
   require profile::kubernetes::kubectl
   require profile::kubernetes::resources::nginx
   require profile::kubernetes::resources::lego
 
-  file { "${profile::kubernetes::params::resources}/accountapp":
-    ensure => 'directory',
-    owner  => $profile::kubernetes::params::user,
-  }
+  $clusters.each | $cluster | {
+    $context = $cluster['clustername']
 
-  profile::kubernetes::apply { 'accountapp/service.yaml':}
-
-  profile::kubernetes::apply { 'accountapp/secret.yaml':
-    parameters  => {
-      'jira_password'        => base64('encode', $jira_password, 'strict'),
-      'ldap_password'        => base64('encode', $ldap_password, 'strict'),
-      'smtp_password'        => base64('encode', $smtp_password, 'strict'),
-      'storage_account_name' => base64('encode', $storage_account_name, 'strict'),
-      'storage_account_key'  => base64('encode', $storage_account_key, 'strict')
+    file { "${profile::kubernetes::params::resources}/${context}/accountapp":
+      ensure => 'directory',
+      owner  => $profile::kubernetes::params::user,
     }
-  }
 
-  profile::kubernetes::apply { 'accountapp/ingress-tls.yaml':
-    parameters  => {
-      'url'     => $domain_name,
-      'aliases' => $domain_alias
+    profile::kubernetes::apply { "accountapp/service.yaml on ${context}":
+      context  => $context,
+      resource => 'accountapp/service.yaml'
     }
-  }
 
-  profile::kubernetes::apply { 'accountapp/deployment.yaml':
-    parameters => {
-      'election_close'        => $election_close,
-      'election_open'         => $election_open,
-      'election_logdir'       => $election_logdir,
-      'election_candidates'   => $election_candidates,
-      'image_tag'             => $image_tag,
-      'jira_username'         => $jira_username,
-      'jira_url'              => $jira_url,
-      'ldap_url'              => $ldap_url,
-      'ldap_manager_dn'       => $ldap_manager_dn,
-      'ldap_new_user_base_dn' => $ldap_new_user_base_dn,
-      'seats'                 => $seats,
-      'seniority'             => $seniority,
-      'smtp_server'           => $smtp_server,
-      'smtp_user'             => $smtp_user,
-      'smtp_auth'             => $smtp_auth,
-      'url'                   => "https://${domain_name}/"
+    profile::kubernetes::apply { "accountapp/secret.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'jira_password'        => base64('encode', $jira_password, 'strict'),
+        'ldap_password'        => base64('encode', $ldap_password, 'strict'),
+        'smtp_password'        => base64('encode', $smtp_password, 'strict'),
+        'storage_account_name' => base64('encode', $storage_account_name, 'strict'),
+        'storage_account_key'  => base64('encode', $storage_account_key, 'strict')
+      },
+      resource   => 'accountapp/secret.yaml'
     }
-  }
 
-  profile::kubernetes::reload { 'accountapp pods':
-    app        => 'accountapp',
-    depends_on => [
-      'accountapp/secret.yaml'
-    ]
-  }
+    profile::kubernetes::apply { "accountapp/ingress-tls.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'url'     => $domain_name,
+        'aliases' => $domain_alias
+      },
+      resource   =>  'accountapp/ingress-tls.yaml'
+    }
 
-  profile::kubernetes::backup { 'accountapp-tls':
+    profile::kubernetes::apply { "accountapp/deployment.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'election_close'        => $election_close,
+        'election_open'         => $election_open,
+        'election_logdir'       => $election_logdir,
+        'election_candidates'   => $election_candidates,
+        'image_tag'             => $image_tag,
+        'jira_username'         => $jira_username,
+        'jira_url'              => $jira_url,
+        'ldap_url'              => $ldap_url,
+        'ldap_manager_dn'       => $ldap_manager_dn,
+        'ldap_new_user_base_dn' => $ldap_new_user_base_dn,
+        'seats'                 => $seats,
+        'seniority'             => $seniority,
+        'smtp_server'           => $smtp_server,
+        'smtp_user'             => $smtp_user,
+        'smtp_auth'             => $smtp_auth,
+        'url'                   => "https://${domain_name}/"
+      },
+      resource   => 'accountapp/deployment.yaml'
+    }
+
+    profile::kubernetes::reload { "accountapp pods on ${context}":
+      app        => 'accountapp',
+      context    => $context,
+      depends_on => [
+        'accountapp/secret.yaml'
+      ]
+    }
+
+    profile::kubernetes::backup { "accountapp-tls on ${context}":
+      context =>  $context
+    }
   }
 }
