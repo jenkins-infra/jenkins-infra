@@ -14,17 +14,17 @@ spec:
       - name: default-http-backend
         # Any image is permissable as long as:
         # 1. It serves a 404 page at /
-        # 2. It serves 200 on a /healthz endpoint
-        image: gcr.io/google_containers/defaultbackend:1.0
+        # 2. It serves 200 on a / endpoint
+        image: olblak/jenkins404:3519ac
         livenessProbe:
           httpGet:
-            path: /healthz
-            port: 8080
+            path: /
+            port: 80
             scheme: HTTP
           initialDelaySeconds: 30
           timeoutSeconds: 5
         ports:
-            - containerPort: 8080
+            - containerPort: 80
         resources:
           limits:
             cpu: 10m
