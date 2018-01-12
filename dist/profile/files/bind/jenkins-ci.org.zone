@@ -10,7 +10,7 @@ JENKINS-CI.ORG.    3600    IN    SOA    ns1.jenkins-ci.org. tyler.monkeypox.org.
                 )
 
 ; A Records
-@           3600    IN    A    13.68.19.38
+@           3600    IN    A    40.79.70.97
 
 ; Primary at Contegix
 cucumber    3600    IN    A    199.193.196.24
