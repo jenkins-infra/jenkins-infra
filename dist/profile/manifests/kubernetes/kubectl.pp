@@ -4,32 +4,50 @@
 #   System user, directories, configuration, kubectl binary,...
 #
 #   Parameters:
-#     $user:
-#       System use who run kubectl command
-#     $home:
-#       Kubernetes user home
+#     $backup:
+#       Define backup directory path where to backup kubernetes resources
+#
 #     $bin:
 #       Binary folder used by k8s user
 #       Mainly used for kubectl
+#
+#     $clusters:
+#       clusters contains a list of cluster information.
+#
+#     $config:
+#       Directory that contains Kubernetes configuration files
+#
+#     $home:
+#       Kubernetes user home
+#
+#     $kubeconfig:
+#        Kubernetes kubeconfig file path
+#
 #     $resources:
 #       Resources folder that contain all kubernetes resources file that will be
 #       deploy on Kubernetes cluster
+#
+#     $version:
+#       Kubectl binary version
+#
 #     $trash:
 #       Kubernetes trash directory that contains deleted resources
 #
+#     $users:
+#       System user who own Kubernetes project
+#
 class profile::kubernetes::kubectl (
-    $user = $profile::kubernetes::params::user,
-    $home = $profile::kubernetes::params::home,
-    $trash = $profile::kubernetes::params::trash,
-    $bin = $profile::kubernetes::params::bin,
     $backup = $profile::kubernetes::params::backup,
-    $resources = $profile::kubernetes::params::resources,
-    $config = $profile::kubernetes::params::config,
+    $bin = $profile::kubernetes::params::bin,
     $clusters = $profile::kubernetes::params::clusters,
-    $version = '1.6.6'
-  ) {
-
-  include profile::kubernetes::params
+    $config = $profile::kubernetes::params::config,
+    $home = $profile::kubernetes::params::home,
+    $kubeconfig = $profile::kubernetes::params::kubeconfig,
+    $resources = $profile::kubernetes::params::resources,
+    $version = '1.7.7',
+    $trash = $profile::kubernetes::params::trash,
+    $user = $profile::kubernetes::params::user
+  ) inherits profile::kubernetes::params {
 
   user { $user:
     ensure     => 'present',
@@ -76,15 +94,29 @@ class profile::kubernetes::kubectl (
     mode    => '0755'
   }
 
+  # Cleaning purpose and can be remove once done
   $clusters.each | $cluster | {
     file { "${home}/.kube/${cluster[clustername]}.conf":
-      ensure  => 'present',
-      content => template("${module_name}/kubernetes/config.erb"),
-      owner   => $user,
+      ensure => 'absent',
     }
+  }
+  ##
+
+  $clusters.each | $cluster | {
     file { "${backup}/${cluster[clustername]}":
       ensure => 'directory',
       owner  => $user
     }
+
+    file { "${resources}/${cluster[clustername]}":
+      ensure => 'directory',
+      owner  => $user
+    }
+  }
+
+  file { "${home}/.kube/config":
+    ensure  => 'present',
+    content => template("${module_name}/kubernetes/config.erb"),
+    owner   => $user,
   }
 }

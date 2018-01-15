@@ -1,48 +1,57 @@
 require 'spec_helper'
 
-
 describe 'profile::kubernetes::apply' do
-    let (:title) { 'nginx/deployment.yaml'}
-    let (:facts) do
-        {
-            :path       => '/usr/bin'
-        }
-    end
-    let (:params) do 
-      {  
-        'clusters' => [{
-          'clustername' =>  'clusterexample1',
-        }]
-      }
-    end
-
-    it { should contain_class 'profile::kubernetes::params' }
-
-    it { should contain_file("/home/k8s/resources/nginx/deployment.yaml").with(
-      :owner  => 'k8s',
-      :ensure => 'present'
-      )
+  let(:title) { 'nginx/deployment.yaml on minikube' }
+  let(:facts) do
+    {
+      'path' => '/usr/bin'
     }
-
-    it { should contain_file("/home/k8s/trash/nginx.deployment.yaml").with(
-      :ensure => 'absent'
-      )
+  end
+  let(:params) do
+    {
+      'resource' => 'nginx/deployment.yaml',
+      'context' => 'minikube',
+      'user' => 'k8s',
+      'kubeconfig' => '/home/k8s/.kube/config'
     }
+  end
 
-    it { should contain_exec("update nginx/deployment.yaml on clusterexample1").with(
-        :command     => "kubectl apply -f /home/k8s/resources/nginx/deployment.yaml",
-        :environment => ["KUBECONFIG=/home/k8s/.kube/clusterexample1.conf"],
-        :path        => ["/home/k8s/.bin",'/usr/bin'],
-        :onlyif      => "test \"$(kubectl apply --dry-run -f /home/k8s/resources/nginx/deployment.yaml | grep configured)\""
+  args = [
+    '--context minikube ',
+    '-f /home/k8s/resources/minikube/nginx/deployment.yaml'
+  ].join
 
+  it { should contain_class 'profile::kubernetes::params' }
+
+  it {
+    should contain_file('/home/k8s/resources/minikube/nginx/deployment.yaml')
+      .with(
+        'owner'  => 'k8s',
+        'ensure' => 'present'
       )
-    }
-    it { should contain_exec("init nginx/deployment.yaml on clusterexample1").with(
-        :command     => "kubectl apply -f /home/k8s/resources/nginx/deployment.yaml",
-        :environment => ["KUBECONFIG=/home/k8s/.kube/clusterexample1.conf"],
-        :path        => ["/home/k8s/.bin", '/usr/bin'],
-        :onlyif      => "test \"$(kubectl apply --dry-run -f /home/k8s/resources/nginx/deployment.yaml | grep created)\""
+  }
 
+  it {
+    should contain_file('/home/k8s/trash/minikube.nginx.deployment.yaml')
+      .with(
+        'ensure' => 'absent'
       )
-    }
+  }
+
+  it {
+    should contain_exec('update nginx/deployment.yaml on minikube')
+      .with(
+        'command' => "kubectl apply #{args}",
+        'path'    => ['/home/k8s/.bin', '/usr/bin'],
+        'onlyif'  => "test \"$(kubectl apply --dry-run #{args} | grep configured)\""
+      )
+  }
+  it {
+    should contain_exec('init nginx/deployment.yaml on minikube')
+      .with(
+        'command' => "kubectl apply #{args}",
+        'path' => ['/home/k8s/.bin', '/usr/bin'],
+        'onlyif' => "test \"$(kubectl apply --dry-run #{args} | grep created)\""
+      )
+  }
 end
