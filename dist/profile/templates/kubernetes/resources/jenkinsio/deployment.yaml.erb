@@ -21,17 +21,13 @@ spec:
                   image: jenkinsciinfra/jenkinsio:<%= @parameters['image_tag'] %>
                   imagePullPolicy: Always
                   livenessProbe:
-                      httpGet:
-                          path: /project/conduct/
+                      tcpSocket:
                           port: 80
-                          scheme: HTTP
                       initialDelaySeconds: 20
                       timeoutSeconds: 5
                   readinessProbe:
-                      httpGet:
-                          path: /project/conduct/
+                      tcpSocket:
                           port: 80
-                          scheme: HTTP
                       initialDelaySeconds: 30
                       timeoutSeconds: 5
                   volumeMounts:
