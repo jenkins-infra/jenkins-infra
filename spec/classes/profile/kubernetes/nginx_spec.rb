@@ -31,7 +31,7 @@ describe 'profile::kubernetes::resources::nginx' do
   }
 
   it {
-    should contain_profile__kubernetes__apply('nginx/deployment.yaml on minikube')
+    should contain_profile__kubernetes__apply('nginx/daemonset.yaml on minikube')
   }
 
   it {
@@ -44,5 +44,8 @@ describe 'profile::kubernetes::resources::nginx' do
 
   it {
     should contain_profile__kubernetes__reload('nginx pods on minikube')
+  }
+  it {
+    should contain_profile__kubernetes__delete('nginx/deployment.yaml on minikube')
   }
 end

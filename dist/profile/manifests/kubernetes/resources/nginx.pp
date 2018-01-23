@@ -49,9 +49,9 @@ class profile::kubernetes::resources::nginx (
       context  => $context,
       resource => 'nginx/default-service.yaml'
     }
-    profile::kubernetes::apply { "nginx/deployment.yaml on ${context}":
+    profile::kubernetes::apply { "nginx/daemonset.yaml on ${context}":
       context  => $context,
-      resource => 'nginx/deployment.yaml'
+      resource => 'nginx/daemonset.yaml'
     }
     profile::kubernetes::apply { "nginx/service.yaml on ${context}":
       context    => $context,
@@ -59,6 +59,10 @@ class profile::kubernetes::resources::nginx (
       parameters =>  {
         'loadBalancerIp' => $public_ip
       }
+    }
+    profile::kubernetes::delete { "nginx/deployment.yaml on ${context}":
+      context  => $context,
+      resource => 'nginx/deployment.yaml',
     }
 
     # As configmap changes do not trigger pods update,
