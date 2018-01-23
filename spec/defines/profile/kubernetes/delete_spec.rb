@@ -38,7 +38,7 @@ describe 'profile::kubernetes::delete' do
   apply_args = [
     '--context minikube ',
     '--dry-run ',
-    '-f /home/k8s/resources/minikube/nginx.deployment.yaml'
+    '-f /home/k8s/trash/minikube.nginx.deployment.yaml'
   ].join
 
   it {

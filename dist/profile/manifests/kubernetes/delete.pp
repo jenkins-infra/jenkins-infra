@@ -51,7 +51,7 @@ define profile::kubernetes::delete (
  -f ${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}"
 
   $apply_args = "--context ${context} --dry-run\
- -f ${profile::kubernetes::params::resources}/${context}/${dirname}.${basename}"
+ -f ${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}"
 
   # Only run kubectl delete if the resources is deployed.
   exec { "Remove ${resource} on ${context}":
