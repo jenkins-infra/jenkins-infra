@@ -65,6 +65,13 @@ spec:
               - name: tls
                 mountPath: "/etc/openldap/ssl"
                 readOnly: true
+            lifecycle:
+              postStart:
+                exec:
+                  command: ["/bin/bash", "-c", "sleep 10 && /entrypoint/restore"]
+              preStop:
+                exec:
+                  command: ["/bin/bash", "-c", "sleep 10 && /entrypoint/backup"]
         volumes:
             - name: backup
               persistentVolumeClaim:
