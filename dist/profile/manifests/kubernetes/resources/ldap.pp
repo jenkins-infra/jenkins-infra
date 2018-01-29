@@ -57,14 +57,14 @@ class profile::kubernetes::resources::ldap (
       resource => 'ldap/namespace.yaml',
     }
 
-    profile::kubernetes::apply { "ldap/persistentVolume.yaml on ${context}":
+    profile::kubernetes::apply { "ldap/persistentVolume-backup.yaml on ${context}":
       context  => $context,
-      resource => 'ldap/persistentVolume.yaml',
+      resource => 'ldap/persistentVolume-backup.yaml',
     }
 
-    profile::kubernetes::apply { "ldap/persistentVolumeClaim.yaml on ${context}":
+    profile::kubernetes::apply { "ldap/persistentVolumeClaim-backup.yaml on ${context}":
       context  => $context,
-      resource => 'ldap/persistentVolumeClaim.yaml',
+      resource => 'ldap/persistentVolumeClaim-backup.yaml',
     }
 
     # As long as we can't mount the ldap database on a shared storage,
