@@ -28,6 +28,7 @@ profile::buildmaster::plugins:
   - ldap
   - mailer
   - parallel-test-executor
+  - pipeline-githubnotify-step
   - pipeline-stage-view
   - pipeline-utility-steps
   - pmd
