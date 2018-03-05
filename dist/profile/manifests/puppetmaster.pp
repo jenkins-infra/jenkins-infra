@@ -95,7 +95,7 @@ class profile::puppetmaster {
   $api_key = $::datadog_agent::api_key
   file { '/etc/dd-agent/datadog.yaml':
     ensure  => file,
-    content => template('datadog_agent/datadog.yaml.erb'),
+    content => template('datadog_agent/datadog-reports.yaml.erb'),
     owner   => 'pe-puppet',
     group   => 'root',
     mode    => '0640',
