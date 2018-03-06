@@ -26,7 +26,7 @@ class profile::datadog_ssl_check (
     content => template("${module_name}/datadog_ssl_check/ssl_check_expire_days.yaml.erb"),
     owner   => $::datadog_agent::params::dd_user,
     group   => $::datadog_agent::params::dd_group,
-    path    => "${::datadog_agent::params::conf_dir}/ssl_check_expire_days.yaml",
+    path    => "${::datadog_agent::params::conf6_dir}/ssl_check_expire_days.yaml",
     notify  => Service['datadog-agent']
   }
 }

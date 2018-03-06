@@ -6,7 +6,7 @@ define profile::datadog_check(
   $source    = undef,
   $content   = undef,
 ) {
-  $target ="${datadog_agent::params::conf_dir}/${checker}.yaml"
+  $target ="${datadog_agent::params::conf6_dir}/${checker}.yaml"
 
   include datadog_agent
 
