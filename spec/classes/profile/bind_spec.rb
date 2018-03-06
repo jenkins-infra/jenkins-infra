@@ -40,7 +40,7 @@ describe 'profile::bind' do
   context 'DNS monitoring' do
     it 'should contain a datadog_check for DNS' do
       expect(subject).to contain_file('datadog-dns-check-config').with({
-        :path => '/etc/dd-agent/conf.d/dns_check.yaml',
+        :path => '/etc/datadog-agent/conf.d/dns_check.yaml',
         :ensure => :present,
       })
     end
