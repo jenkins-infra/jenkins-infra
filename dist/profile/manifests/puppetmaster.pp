@@ -92,13 +92,7 @@ class profile::puppetmaster {
     notify   => Service['pe-puppetserver'],
   }
 
-  $api_key = $::datadog_agent::api_key
   file { '/etc/dd-agent/datadog.yaml':
-    ensure  => file,
-    content => template('datadog_agent/datadog-reports.yaml.erb'),
-    owner   => 'pe-puppet',
-    group   => 'root',
-    mode    => '0640',
-    require => File['/etc/dd-agent'],
+    ensure  => absent,
   }
 }
