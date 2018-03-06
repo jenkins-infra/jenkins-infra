@@ -39,7 +39,7 @@ class profile::bind (
 
   file { 'datadog-dns-check-config':
     ensure => present,
-    path   => "${::datadog_agent::params::conf_dir}/dns_check.yaml",
+    path   => "${::datadog_agent::params::conf6_dir}/dns_check.yaml",
     source => "puppet:///modules/${module_name}/bind/dns_check.yaml",
     notify => Service['datadog-agent'],
   }

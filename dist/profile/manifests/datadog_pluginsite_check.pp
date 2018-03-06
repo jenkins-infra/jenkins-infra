@@ -10,7 +10,7 @@ class profile::datadog_pluginsite_check (
   file { 'plugins_api_check.py':
     ensure => present,
     source => "puppet:///modules/${module_name}/datadog_pluginsite_check/plugins_api_check.py",
-    path   => '/etc/dd-agent/checks.d/plugins_api_check.py',
+    path   => '/etc/datadog-agent/checks.d/plugins_api_check.py',
     owner  => $::datadog_agent::params::dd_user,
     group  => $::datadog_agent::params::dd_group,
     notify => Service[$datadog_agent::params::service_name]
