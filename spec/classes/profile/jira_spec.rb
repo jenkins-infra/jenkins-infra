@@ -11,6 +11,6 @@ describe 'profile::jira' do
   it { should contain_file '/etc/apache2/sites-available/issues.jenkins-ci.org.maintenance.conf' }
 
   context 'datadog configuration' do
-    it { should contain_file '/etc/dd-agent/conf.d/process.yaml' }
+    it { should contain_file '/etc/datadog-agent/conf.d/process.yaml' }
   end
 end

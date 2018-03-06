@@ -21,7 +21,7 @@ class profile::datadog_pluginsite_check (
     content => template("${module_name}/datadog_pluginsite_check/plugins_api_check.yaml.erb"),
     owner   => $::datadog_agent::params::dd_user,
     group   => $::datadog_agent::params::dd_group,
-    path    => "${::datadog_agent::params::conf_dir}/plugins_api_check.yaml",
+    path    => "${::datadog_agent::params::conf6_dir}/plugins_api_check.yaml",
     notify  => Service[$datadog_agent::params::service_name]
   }
 }
