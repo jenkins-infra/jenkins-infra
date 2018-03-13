@@ -12,17 +12,17 @@ spec:
   type: LoadBalancer
   loadBalancerSourceRanges:
     <% @parameters['whitelisted_sources'].each do |ip| -%>
-    - <%= ip -%>
+    - <%= ip %>
     <% end %>
 <% if @parameters['loadBalancerIp'] != 'none' -%>
   loadBalancerIP: <%= @parameters['loadBalancerIp'] %>
 <% end -%>
   ports:
-  - name: ldap
+  - name: ldap-tcp
     protocol: TCP
     targetPort: 389
     port: 389
-  - name: ldaps
+  - name: ldaps-tcp
     protocol: TCP
     targetPort: 636
     port: 636
