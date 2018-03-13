@@ -115,7 +115,8 @@ class profile::kubernetes::resources::ldap (
       context    => $context,
       depends_on => [
         'ldap/secret.yaml'
-      ]
+      ],
+      namespace  => 'ldap'
     }
 
   }
