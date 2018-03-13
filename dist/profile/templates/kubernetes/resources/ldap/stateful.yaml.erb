@@ -23,9 +23,10 @@ spec:
 #            type: rollingUpdate
         terminationGracePeriodSeconds: 20
         containers:
-          - name: ldap
+          - name: slapd
             #image: jenkinsciinfra/ldap:<%= @parameters['image_tag'] %>
-            image: olblak/ldap:sandbox
+            image: olblak/ldap:eb3bfc
+#            imagePullPolicy: IfNotPresent
             imagePullPolicy: Always
             env:
                 - name: OPENLDAP_ADMIN_DN
@@ -64,20 +65,53 @@ spec:
             volumeMounts:
               - name: backup
                 mountPath: '<%= @parameters['openldap_backup_path'] %>'
+              - name: data
+                mountPath: '<%= @parameters['openldap_data_path'] %>'
               - name: tls
                 mountPath: "/etc/openldap/ssl"
                 readOnly: true
             lifecycle:
-              postStart:
-                exec:
-                  command: ["/bin/bash", "-c", "sleep 10 && /entrypoint/restore"]
               preStop:
                 exec:
                   command: ["/bin/bash", "-c", "sleep 10 && /entrypoint/backup"]
+
+          - name: backup
+            image: olblak/ldap:backup-eb3bfc
+#            imagePullPolicy: IfNotPresent
+            imagePullPolicy: Always
+            env:
+                - name: OPENLDAP_ADMIN_DN
+                  value: '<%= @parameters['openldap_admin_dn'] %>'
+                - name: OPENLDAP_DATABASE
+                  value: '<%= @parameters['openldap_database'] %>'
+                - name: OPENLDAP_DEBUG_LEVEL
+                  value: '<%= @parameters['openldap_debug_level'] %>'
+                - name: OPENLDAP_SSL_CA
+                  value: '<%= @parameters['ca_tls_crt_path'] %>'
+                - name: OPENLDAP_SSL_CRT
+                  value: '<%= @parameters['ldap_tls_crt_path'] %>'
+                - name: OPENLDAP_SSL_KEY
+                  value: '<%= @parameters['ldap_tls_key_path'] %>'
+                - name: OPENLDAP_BACKUP_PATH
+                  value: '<%= @parameters['openldap_backup_path'] %>'
+                - name: OPENLDAP_ADMIN_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: ldap
+                      key: ldap.admin.password
+            volumeMounts:
+              - name: backup
+                mountPath: '<%= @parameters['openldap_backup_path'] %>'
+              - name: tls
+                mountPath: "/etc/openldap/ssl"
+                readOnly: true
         volumes:
             - name: backup
               persistentVolumeClaim:
                 claimName: backup
+            - name: data
+              persistentVolumeClaim:
+                claimName: data
             - name: tls
               secret:
                 secretName: ldap

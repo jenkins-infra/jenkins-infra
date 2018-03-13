@@ -27,11 +27,12 @@ class profile::kubernetes::resources::ldap (
     String $openldap_database = 'dc=jenkins-ci,dc=org',
     String $openldap_debug_level = '256',
     String $openldap_backup_path = '/var/lib/openldap/openldap-backup',
+    String $openldap_data_path = '/var/lib/openldap/openldap-data',
     String $storage_account_key = '',
     String $storage_account_name = '',
     String $url = 'ldap.jenkins.io'
-  ){
-  include profile::kubernetes::params
+  ) inherits profile::kubernetes::params {
+    #include profile::kubernetes::params
   require profile::kubernetes::kubectl
   require profile::kubernetes::resources::nginx
   require profile::kubernetes::resources::lego
@@ -67,12 +68,10 @@ class profile::kubernetes::resources::ldap (
       resource => 'ldap/persistentVolumeClaim-backup.yaml',
     }
 
-    # As long as we can't mount the ldap database on a shared storage,
-    # we can't use a kubernetes cron to backup the db
-    #    profile::kubernetes::apply { "ldap/cron-backup.yaml on ${context}":
-    #      context  => $context,
-    #      resource => 'ldap/cron-backup.yaml',
-    #    }
+    profile::kubernetes::apply { "ldap/persistentVolumeClaim-data.yaml on ${context}":
+      context  => $context,
+      resource => 'ldap/persistentVolumeClaim-data.yaml',
+    }
 
     profile::kubernetes::apply { "ldap/service.yaml on ${context}":
       context    => $context,
@@ -104,6 +103,7 @@ class profile::kubernetes::resources::ldap (
         'openldap_database'    => $openldap_database,
         'openldap_debug_level' => $openldap_debug_level,
         'openldap_backup_path' => $openldap_backup_path,
+        'openldap_data_path'   => $openldap_data_path,
         'ldap_tls_crt_path'    => $ldap_tls_crt_path,
         'ldap_tls_key_path'    => $ldap_tls_key_path,
         'ca_tls_crt_path'      => $ca_tls_crt_path,
