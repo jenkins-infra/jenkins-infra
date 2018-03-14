@@ -18,13 +18,11 @@ spec:
   loadBalancerIP: <%= @parameters['loadBalancerIp'] %>
 <% end -%>
   ports:
-  - name: ldap-tcp
-    protocol: TCP
-    targetPort: 389
-    port: 389
-  - name: ldaps-tcp
-    protocol: TCP
-    targetPort: 636
-    port: 636
+    - name: ldap
+      targetPort: 389
+      port: 389
+    - name: ldaps
+      targetPort: 636
+      port: 636
   selector:
-    type: ldap
+      type: ldap
