@@ -10,20 +10,20 @@ set -o pipefail
 #   $2: Resource Name (ex: datadog)
 #   $3: Resource Type (ex: service,daemonset,...)
 
-CLUSTER="$1"
+CONTEXT="$1"
 RESOURCE="$2"
 TYPE="$3"
 
 export PATH=<%=@bin%>
-export KUBECONFIG="<%=@config%>/${CLUSTER}.conf"
 
 BACKUP_DIR=<%=@backup%>
-FILE="<%=@backup%>/$CLUSTER/$TYPE.$RESOURCE.yaml"
-CMD="$(kubectl get "${TYPE}" --export=true -o yaml "${RESOURCE}")"
+FILE="<%=@backup%>/$CONTEXT/$TYPE.$RESOURCE.yaml"
+
+CMD="$(kubectl --context "${CONTEXT}" get "${TYPE}" --export=true -o yaml "${RESOURCE}")"
 status="$?"
 
 if [ "$status" -eq 0 ]; then
-echo "${CMD}" > "${BACKUP_DIR}/${CLUSTER}/${TYPE}.${RESOURCE}.yaml"
+echo "${CMD}" > "${BACKUP_DIR}/${CONTEXT}/${TYPE}.${RESOURCE}.yaml"
     exit 0
 else
     echo "${CMD}"
