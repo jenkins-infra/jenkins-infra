@@ -16,13 +16,13 @@ class profile::kubernetes::resources::ldap (
       '10.0.0.0/8'
     ],
     String $ca_tls_crt = '',
-    String $ca_tls_crt_path = 'cacert.pem',
+    String $ca_tls_crt_filename = 'cacert.pem',
     String $frontend_url = 'accounts.jenkins.io',
     String $ldap_admin_password = 's3cr3t',
     String $ldap_tls_crt = 'test',
     String $ldap_tls_key = 'test',
-    String $ldap_tls_crt_path = 'cert.pem',
-    String $ldap_tls_key_path = 'privkey.key',
+    String $ldap_tls_crt_filename = 'cert.pem',
+    String $ldap_tls_key_filename = 'privkey.key',
     String $openldap_admin_dn = 'cn=admin,dc=jenkins-ci,dc=org',
     String $openldap_database = 'dc=jenkins-ci,dc=org',
     String $openldap_debug_level = '256',
@@ -104,9 +104,9 @@ class profile::kubernetes::resources::ldap (
         'openldap_debug_level' => $openldap_debug_level,
         'openldap_backup_path' => $openldap_backup_path,
         'openldap_data_path'   => $openldap_data_path,
-        'ldap_tls_crt_path'    => $ldap_tls_crt_path,
-        'ldap_tls_key_path'    => $ldap_tls_key_path,
-        'ca_tls_crt_path'      => $ca_tls_crt_path,
+        'ldap_tls_crt_filename'    => $ldap_tls_crt_filename,
+        'ldap_tls_key_filename'    => $ldap_tls_key_filename,
+        'ca_tls_crt_filename'      => $ca_tls_crt_filename,
       }
     }
 
