@@ -99,14 +99,14 @@ class profile::kubernetes::resources::ldap (
       context    => $context,
       resource   => 'ldap/stateful.yaml',
       parameters => {
-        'openldap_admin_dn'    => $openldap_admin_dn,
-        'openldap_database'    => $openldap_database,
-        'openldap_debug_level' => $openldap_debug_level,
-        'openldap_backup_path' => $openldap_backup_path,
-        'openldap_data_path'   => $openldap_data_path,
-        'ldap_tls_crt_filename'    => $ldap_tls_crt_filename,
-        'ldap_tls_key_filename'    => $ldap_tls_key_filename,
-        'ca_tls_crt_filename'      => $ca_tls_crt_filename,
+        'openldap_admin_dn'     => $openldap_admin_dn,
+        'openldap_database'     => $openldap_database,
+        'openldap_debug_level'  => $openldap_debug_level,
+        'openldap_backup_path'  => $openldap_backup_path,
+        'openldap_data_path'    => $openldap_data_path,
+        'ldap_tls_crt_filename' => $ldap_tls_crt_filename,
+        'ldap_tls_key_filename' => $ldap_tls_key_filename,
+        'ca_tls_crt_filename'   => $ca_tls_crt_filename,
       }
     }
 
