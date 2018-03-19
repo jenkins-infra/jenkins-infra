@@ -15,6 +15,13 @@ describe 'profile::kubernetes::resources::repo_proxy' do
   it { should contain_class('profile::kubernetes::kubectl') }
 
   it {
+    should contain_file('/home/k8s/.bin/clean_repo_proxy_cache').with(
+      'ensure' => 'present',
+      'owner'  => 'k8s'
+    )
+  }
+
+  it {
     should contain_file('/home/k8s/resources/minikube/repo_proxy').with(
       'ensure' => 'directory',
       'owner'  => 'k8s'
