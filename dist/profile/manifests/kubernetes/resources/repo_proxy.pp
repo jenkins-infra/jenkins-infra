@@ -27,9 +27,11 @@ class profile::kubernetes::resources::repo_proxy (
   Array  $aliases = [],
   Array $clusters = $profile::kubernetes::params::clusters,
   String $image_tag = '',
+  String $bin = $profile::kubernetes::params::bin,
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $url = '',
+  String $user = $profile::kubernetes::params::user,
 ) inherits profile::kubernetes::params {
 
   include ::stdlib
@@ -37,6 +39,13 @@ class profile::kubernetes::resources::repo_proxy (
 
   $base64_storage_account_name = base64('encode', $storage_account_name, 'strict')
   $base64_storage_account_key = base64('encode', $storage_account_key, 'strict')
+
+  file { "${bin}/clean_repo_proxy_cache":
+    ensure  => 'present',
+    content => template("${module_name}/kubernetes/clean_repo_proxy_cache.erb"),
+    owner   => $user,
+    mode    => '0755'
+  }
 
   $clusters.each | $cluster | {
     $context = $cluster['clustername']
