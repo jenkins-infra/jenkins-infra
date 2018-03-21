@@ -59,19 +59,19 @@ define profile::kubernetes::apply (
     refreshonly => true,
     logoutput   => true,
     subscribe   => File["${profile::kubernetes::params::resources}/${context}/${resource}"],
-    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep configured)\"",
+    #    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep configured)\"",
     user        => $user
   }
 
-  # Always deploys a resource that is not yet created on the cluster
-  exec { "init ${resource} on ${context}":
-    command     => "kubectl apply ${kubectl_options}",
-    environment => ["KUBECONFIG=${kubeconfig}"] ,
-    path        => [$profile::kubernetes::params::bin,$::path],
-    logoutput   => true,
-    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep created)\"",
-    user        => $user
-  }
+  #  # Always deploys a resource that is not yet created on the cluster
+  #  exec { "init ${resource} on ${context}":
+  #    command     => "kubectl apply ${kubectl_options}",
+  #    environment => ["KUBECONFIG=${kubeconfig}"] ,
+  #    path        => [$profile::kubernetes::params::bin,$::path],
+  #    logoutput   => true,
+  #    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep created)\"",
+  #    user        => $user
+  #  }
 
   # Remove resource from trash directory
   file { "${profile::kubernetes::params::trash}/${context}.${dirname}.${basename}":
