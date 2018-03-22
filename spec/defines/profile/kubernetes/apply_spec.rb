@@ -43,15 +43,15 @@ describe 'profile::kubernetes::apply' do
       .with(
         'command' => "kubectl apply #{args}",
         'path'    => ['/home/k8s/.bin', '/usr/bin'],
-        'onlyif'  => "test \"$(kubectl apply --dry-run #{args} | grep configured)\""
+#       'onlyif'  => "test \"$(kubectl apply --dry-run #{args} | grep configured)\""
       )
   }
-  it {
-    should contain_exec('init nginx/deployment.yaml on minikube')
-      .with(
-        'command' => "kubectl apply #{args}",
-        'path' => ['/home/k8s/.bin', '/usr/bin'],
-        'onlyif' => "test \"$(kubectl apply --dry-run #{args} | grep created)\""
-      )
-  }
+#  it {
+#    should contain_exec('init nginx/deployment.yaml on minikube')
+#      .with(
+#        'command' => "kubectl apply #{args}",
+#        'path' => ['/home/k8s/.bin', '/usr/bin'],
+#        'onlyif' => "test \"$(kubectl apply --dry-run #{args} | grep created)\""
+#      )
+#  }
 end
