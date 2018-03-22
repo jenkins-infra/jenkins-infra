@@ -50,8 +50,6 @@ define profile::kubernetes::apply (
 
   $kubectl_options = "--context ${context} -f ${profile::kubernetes::params::resources}/${context}/${resource}"
 
-  # --dry-run doesn't know if a resource needs to be updated (only created or not) therefor we trigger an update
-  # only if the configuration file is updated by puppet run
   exec { "update ${resource} on ${context}":
     command     => "kubectl apply ${kubectl_options}",
     environment => ["KUBECONFIG=${kubeconfig}"] ,
@@ -59,17 +57,6 @@ define profile::kubernetes::apply (
     refreshonly => true,
     logoutput   => true,
     subscribe   => File["${profile::kubernetes::params::resources}/${context}/${resource}"],
-    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep configured)\"",
-    user        => $user
-  }
-
-  # Always deploys a resource that is not yet created on the cluster
-  exec { "init ${resource} on ${context}":
-    command     => "kubectl apply ${kubectl_options}",
-    environment => ["KUBECONFIG=${kubeconfig}"] ,
-    path        => [$profile::kubernetes::params::bin,$::path],
-    logoutput   => true,
-    onlyif      => "test \"$(kubectl apply --dry-run ${kubectl_options} | grep created)\"",
     user        => $user
   }
 
