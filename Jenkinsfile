@@ -11,7 +11,12 @@ pipeline {
 
     stages {
         stage('Verify DNS') {
-            agent { docker 'kohsuke/named-checkzone' }
+            agent {
+                docker {
+                    image 'kohsuke/named-checkzone'
+                    args '--entrypoint='
+                }
+            }
             steps {
                 parallel(
                     'jenkins.io' : {
