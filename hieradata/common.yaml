@@ -12,6 +12,8 @@ accounts:
     ssh_keys:
       kiwi:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEAueiy12T5bvFhsc9YjfLc3aVIxgySd3gDxQWy/bletIoZL8omKmzocBYJ7F58U1asoyfWsy2ToTOY8jJp1eToXmbD6L5+xvHba0A7djYh9aQRrFam7doKQ0zp0ZSUF6+R1v0OM4nnWqK4n2ECIYd+Bdzrp+xA5+XlW3ZSNzlnW2BeWznzmgRMcp6wI+zQ9GMHWviR1cxpml5Z6wrxTZ0aX91btvnNPqoOGva976B6e6403FOEkkIFTk6CC1TFKwc/VjbqxYBg4kU0JhiTP+iEZibcQrYjWdYUgAotYbFVe5/DneHMLNsMPdeihba4PUwt62rXyNegenuCRmCntLcaFQ==
+      grape:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDTU0s5OKCC6VpKZGL9NJD4mNLY0AtujkVB1JkkuQ4OkMi2YGUHJtGhTbTwEVhNxpm0x2dM5KSzse6MLDYuGBW0qkE/VVuD9+9I73hbq461KqP0+WlupNh+Qc86kbiLBDv64+vWc+50mp1dbINpoM5xvaPYxgjnemydPv7vu5bhCHBugW7aN8VcLgfFgcp8vZCEanMtd3hIRjRU8v8Skk233ZGu1bXkG8iIOBQPabvEtZ0VDMg9pT3Q1R6lnnKqfCwHXd6zP6uAtejFSxvKRGKpu3OLGQMHwk7NlImVuhkVdaEFBq7pQtpOaGuP2eLKcN1wy5jsTYE+ZB6pvHCi2ecb
     groups:
       - sudo
       - atlassian-admins
