@@ -18,6 +18,7 @@ class profile::kubernetes::resources::ldap (
     String $ca_tls_crt = '',
     String $ca_tls_crt_filename = 'cacert.pem',
     String $frontend_url = 'accounts.jenkins.io',
+    String $image_tag = '',
     String $ldap_admin_password = 's3cr3t',
     String $ldap_tls_crt = 'test',
     String $ldap_tls_key = 'test',
@@ -99,6 +100,7 @@ class profile::kubernetes::resources::ldap (
       context    => $context,
       resource   => 'ldap/stateful.yaml',
       parameters => {
+        'image_tag'             => $image_tag,
         'openldap_admin_dn'     => $openldap_admin_dn,
         'openldap_database'     => $openldap_database,
         'openldap_debug_level'  => $openldap_debug_level,
