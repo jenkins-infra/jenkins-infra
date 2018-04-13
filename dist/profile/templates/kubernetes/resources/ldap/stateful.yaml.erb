@@ -73,7 +73,7 @@ spec:
                 exec:
                   command: ["/bin/bash", "-c", "sleep 10 && /entrypoint/backup"]
 
-          - name: backup
+          - name: crond
             image: jenkinsciinfra/ldap:cron-<%= @parameters['image_tag'] %>
             imagePullPolicy: IfNotPresent
             env:
