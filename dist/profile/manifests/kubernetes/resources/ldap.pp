@@ -17,7 +17,6 @@ class profile::kubernetes::resources::ldap (
     ],
     String $ca_tls_crt = '',
     String $ca_tls_crt_filename = 'cacert.pem',
-    String $frontend_url = 'accounts.jenkins.io',
     String $image_tag = '',
     String $ldap_admin_password = 's3cr3t',
     String $ldap_tls_crt = 'test',
@@ -31,9 +30,7 @@ class profile::kubernetes::resources::ldap (
     String $openldap_data_path = '/var/lib/openldap/openldap-data',
     String $storage_account_key = '',
     String $storage_account_name = '',
-    String $url = 'ldap.jenkins.io'
   ) inherits profile::kubernetes::params {
-    #include profile::kubernetes::params
   require profile::kubernetes::kubectl
   require profile::kubernetes::resources::nginx
   require profile::kubernetes::resources::lego

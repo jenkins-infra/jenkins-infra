@@ -114,8 +114,8 @@ spec:
                 secretName: ldap
                 items:
                   - key: cacert.pem
-                    path: <%= @parameters['ca_tls_crt_path'] %>
+                    path: <%= @parameters['ca_tls_crt_filename'] %>
                   - key: cert.pem
-                    path: <%= @parameters['ldap_tls_crt_path'] %>
+                    path: <%= @parameters['ldap_tls_crt_filename'] %>
                   - key: privkey.key
-                    path: <%= @parameters['ldap_tls_key_path'] %>
+                    path: <%= @parameters['ldap_tls_key_filename'] %>
