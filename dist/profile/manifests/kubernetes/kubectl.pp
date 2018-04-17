@@ -44,7 +44,7 @@ class profile::kubernetes::kubectl (
     $home = $profile::kubernetes::params::home,
     $kubeconfig = $profile::kubernetes::params::kubeconfig,
     $resources = $profile::kubernetes::params::resources,
-    $version = '1.7.7',
+    $version = '1.7.13',
     $trash = $profile::kubernetes::params::trash,
     $user = $profile::kubernetes::params::user
   ) inherits profile::kubernetes::params {

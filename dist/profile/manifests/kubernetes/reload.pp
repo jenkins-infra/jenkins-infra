@@ -32,6 +32,7 @@ define profile::kubernetes::reload (
   String $context = '',
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
   String $user = $profile::kubernetes::params::user,
+  String $namespace = 'default',
   Array  $depends_on = undef
 ){
   include ::stdlib
@@ -44,7 +45,7 @@ define profile::kubernetes::reload (
   $subscribe = $depends_on.map | $item | { Resource[Exec,"update ${item} on ${context}"] }
 
   exec { "reload ${app} pods on ${context}":
-    command     => "kubectl delete pods --context ${context} -l app=${app}",
+    command     => "kubectl delete pods --namespace ${namespace} --context ${context} -l app=${app}",
     path        => [$profile::kubernetes::params::bin,$::path],
     environment => ["KUBECONFIG=${kubeconfig}"] ,
     logoutput   => true,

@@ -14,6 +14,7 @@ describe 'profile::kubernetes::reload' do
     {
       'app' => 'datadog',
       'context' => 'minikube',
+      'namespace' => 'default',
       'user' => 'k8s',
       'kubeconfig' => '/home/k8s/.kube/config',
       'depends_on' => [
@@ -28,7 +29,7 @@ describe 'profile::kubernetes::reload' do
   it {
     should contain_exec('reload datadog pods on minikube')
       .with(
-        'command' => 'kubectl delete pods --context minikube -l app=datadog',
+        'command' => 'kubectl delete pods --namespace default --context minikube -l app=datadog',
         'path' => ['/home/k8s/.bin', '/usr/bin'],
         'logoutput' => true,
         'refreshonly' => true,
