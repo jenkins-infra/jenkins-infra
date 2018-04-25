@@ -356,10 +356,10 @@ RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
-RewriteCond "%{HTTP:Authorization}" !^Basic
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
 RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
 # Analogously for XML.
-RewriteCond "%{HTTP:Authorization}" !^Basic
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
 RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
 
 # Loading our Proxy rules ourselves from a custom fragment since the
