@@ -353,6 +353,15 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 # Blackhole all the /cli requests over HTTP
 RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 
+# Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
+# (checkman) from receiving an invalid JSON response and repeatedly attempting
+# to hammer us to get a better response. Works for Python API as well.
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
+RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
+# Analogously for XML.
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
+RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
+
 # Loading our Proxy rules ourselves from a custom fragment since the
 # puppetlabs/apache module doesn't support ordering of both proxy_pass and
 # proxy_pass_match configurations
@@ -362,22 +371,6 @@ ProxyPassMatch (.*)/api/(json|python|xml)(/|$)(.*)  !
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 ",
-    aliases               => [
-      {
-        # Send all api/json or api/python requests to `empty.json` to prevent abusive clients
-        # (checkman) from receiving an invalid JSON response and repeatedly attempting
-        # to hammer us to get a better response. Works for Python API as well.
-        aliasmatch => '(.*)/api/(json|python)(/|$)(.*)',
-        path       => "${docroot}/empty.json",
-      },
-      {
-        # Send all api/xml to `empty.xml` to prevent abusive clients (like checkman over
-        # in JSON land) from receiving an invalid XML response and repeatedly attempting
-        # to hammer us to get a better response.
-        aliasmatch => '(.*)/api/xml(/|$)(.*)',
-        path       => "${docroot}/empty.xml",
-      },
-    ],
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
