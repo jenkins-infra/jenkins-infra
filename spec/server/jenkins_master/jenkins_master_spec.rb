@@ -57,6 +57,7 @@ describe 'jenkins_master' do
         its(:exit_status) { should eql 0 }
         its(:stdout) { should match '<nope/>' }
       end
+      # TODO check that it passes if Basic authorization is passed
     end
   end
 end
