@@ -367,7 +367,6 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
 # proxy_pass_match configurations
 ProxyRequests Off
 ProxyPreserveHost On
-ProxyPassMatch (.*)/api/(json|python|xml)(/|$)(.*)  !
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 ",
