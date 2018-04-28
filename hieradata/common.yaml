@@ -210,7 +210,7 @@ profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
 
 profile::kubernetes::resources::jenkinsio::image_tag: '127648'
 
-profile::kubernetes::resources::ldap::image_tag: '2-build645d5d'
+profile::kubernetes::resources::ldap::image_tag: '3-buildd7ba85'
 profile::kubernetes::resources::ldap::whitelisted_sources:
   - '10.0.0.0/8'         # Kubernetes internal IP
   - '50.19.229.208/32'   # 106 accept inbound LDAPS request from hosted Artifactory by JFrog
