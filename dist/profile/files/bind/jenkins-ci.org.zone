@@ -58,7 +58,6 @@ maven2      3600    IN    CNAME    cucumber
 ci          3600    IN    CNAME    ci.jenkins.io.
 svn         3600    IN    CNAME    cucumber
 javanet2    3600    IN    CNAME    cucumber
-ldap        3600    IN    CNAME    cucumber
 l10n        3600    IN    CNAME    l10n.jenkins.io.
 mirrors     3600    IN    CNAME    mirrors.jenkins.io.
 pkg         3600    IN    CNAME    pkg.jenkins.io.
