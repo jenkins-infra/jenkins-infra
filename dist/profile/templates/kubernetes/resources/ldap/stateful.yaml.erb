@@ -46,12 +46,6 @@ spec:
                     secretKeyRef:
                       name: ldap
                       key: ldap.admin.password
-            readinessProbe:
-                exec:
-                  command:
-                    - /entrypoint/healthcheck
-                initialDelaySeconds: 5
-                periodSeconds: 5
             ports:
               - containerPort: 389
               - containerPort: 636
