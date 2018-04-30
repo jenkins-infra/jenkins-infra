@@ -46,11 +46,6 @@ spec:
                     secretKeyRef:
                       name: ldap
                       key: ldap.admin.password
-            livenessProbe:
-                tcpSocket:
-                  port: 636
-                initialDelaySeconds: 5
-                periodSeconds: 10
             readinessProbe:
                 exec:
                   command:
