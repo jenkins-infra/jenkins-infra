@@ -54,8 +54,8 @@ describe 'profile::kubernetes::resources::ldap' do
         'openldap_admin_dn'     => 'cn=admin,dc=jenkins-ci,dc=org',
         'openldap_database'     => 'dc=jenkins-ci,dc=org',
         'openldap_debug_level'  => '256',
-        'openldap_backup_path'  => '/var/lib/openldap/openldap-backup',
-        'openldap_data_path'    => '/var/lib/openldap/openldap-data',
+        'openldap_backup_path'  => '/var/backups',
+        'openldap_data_path'    => '/var/lib/ldap',
         'ldap_tls_crt_filename' => 'cert.pem',
         'ldap_tls_key_filename' => 'privkey.key',
         'ca_tls_crt_filename'   => 'cacert.pem'
