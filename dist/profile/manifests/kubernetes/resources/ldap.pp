@@ -26,8 +26,8 @@ class profile::kubernetes::resources::ldap (
     String $openldap_admin_dn = 'cn=admin,dc=jenkins-ci,dc=org',
     String $openldap_database = 'dc=jenkins-ci,dc=org',
     String $openldap_debug_level = '256',
-    String $openldap_backup_path = '/var/lib/openldap/openldap-backup',
-    String $openldap_data_path = '/var/lib/openldap/openldap-data',
+    String $openldap_backup_path = '/var/backups',
+    String $openldap_data_path = '/var/lib/ldap',
     String $storage_account_key = '',
     String $storage_account_name = '',
   ) inherits profile::kubernetes::params {
