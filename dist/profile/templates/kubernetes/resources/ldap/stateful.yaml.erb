@@ -55,7 +55,7 @@ spec:
               - name: data
                 mountPath: '<%= @parameters['openldap_data_path'] %>'
               - name: tls
-                mountPath: "/etc/openldap/ssl"
+                mountPath: "/etc/ldap/ssl"
                 readOnly: true
             lifecycle:
               preStop:
@@ -89,7 +89,7 @@ spec:
               - name: backup
                 mountPath: '<%= @parameters['openldap_backup_path'] %>'
               - name: tls
-                mountPath: "/etc/openldap/ssl"
+                mountPath: "/etc/ldap/ssl"
                 readOnly: true
         volumes:
             - name: backup
