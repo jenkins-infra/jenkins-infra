@@ -11,7 +11,7 @@ spec:
       name: datadog
     spec:
       containers:
-      - image: datadog/docker-dd-agent:11.0.5112
+      - image: datadog/agent:latest
         imagePullPolicy: Always
         name: datadog
         resources:
@@ -35,17 +35,23 @@ spec:
             name: legacy-trace
             protocol: TCP
         env:
-          - name: API_KEY
+          - name: DD_API_KEY
             valueFrom:
                 secretKeyRef: 
                     name: datadog
                     key: apiKey
           - name: KUBERNETES
             value: "yes"
-          - name: SD_BACKEND
-            value: docker
-          - name: "DD_APM_ENABLED"
-            value: "yes"
+          - name: DD_KUBERNETES_KUBELET_HOST
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+        livenessProbe:
+          exec:
+            command:
+              - ./probe.sh
+            initialDelaySeconds: 15
+            periodSeconds: 5
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
