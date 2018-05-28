@@ -27,6 +27,7 @@
 define profile::kubernetes::delete (
   String $context = '',
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
+  String $home = $profile::kubernetes::params::home,
   String $resource = $title,
   String $user = $profile::kubernetes::params::user
 ){
@@ -56,7 +57,11 @@ define profile::kubernetes::delete (
   # Only run kubectl delete if the resources is deployed.
   exec { "Remove ${resource} on ${context}":
     command     => "kubectl delete ${delete_args}",
-    environment => ["KUBECONFIG=${kubeconfig}"] ,
+    cwd         => $home,
+    environment => [
+      "KUBECONFIG=${kubeconfig}",
+      "HOME=${home}"
+    ] ,
     path        => [$profile::kubernetes::params::bin,$::path],
     onlyif      => "test \"$(kubectl apply ${apply_args} | grep configured)\"",
     user        => $user,
