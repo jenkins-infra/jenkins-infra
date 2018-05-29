@@ -3,6 +3,8 @@ kind: DaemonSet
 metadata:
   name: datadog
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
@@ -37,7 +39,7 @@ spec:
         env:
           - name: DD_API_KEY
             valueFrom:
-                secretKeyRef: 
+                secretKeyRef:
                     name: datadog
                     key: apiKey
           - name: KUBERNETES
@@ -50,8 +52,8 @@ spec:
           exec:
             command:
               - ./probe.sh
-            initialDelaySeconds: 15
-            periodSeconds: 5
+          initialDelaySeconds: 15
+          periodSeconds: 5
         volumeMounts:
           - name: dockersocket
             mountPath: /var/run/docker.sock
