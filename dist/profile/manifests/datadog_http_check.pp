@@ -65,7 +65,7 @@ class profile::datadog_http_check(
     },
     {
       'sitename'                     => 'issues.jenkins-ci.org',
-      'url'                          => 'https://issues.jenkins-ci.org/browse/JENKINS-12345',
+      'url'                          => 'https://issues.jenkins-ci.org/status',
       'timeout'                      => $timeout,
       'treshold'                     => $treshold,
       'window'                       => $window,
@@ -75,6 +75,19 @@ class profile::datadog_http_check(
       'days_critical'                => $days_critical,
       'contact'                      => $contact,
       'tags'                         => ['production','jenkins-ci.org']
+    },
+    {
+      'sitename'                     => 'javadoc.io',
+      'url'                          => 'http://javadoc.jenkins.io/script.js',
+      'timeout'                      => $timeout,
+      'treshold'                     => $treshold,
+      'window'                       => $window,
+      'collect_response_time'        => true ,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => '', # We don't want to be wake up in the middle of the night for this service cfr. INFRA-1593
+      'tags'                         => ['production','jenkins.io']
     },
     {
       'sitename'                     => 'jenkins.io',
@@ -142,6 +155,19 @@ class profile::datadog_http_check(
       'tags'                         => ['production','jenkins.io']
     },
     {
+      'sitename'                     => 'reports.jenkins.io',
+      'url'                          => 'http://reports.jenkins.io/reports/core-taglib/jelly-taglib-ref.html',
+      'timeout'                      => $timeout,
+      'treshold'                     => $treshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => '', # We don't want to be wake up in the middle of the night for this service cfr. INFRA-1593
+      'tags'                         => ['production','jenkins.io']
+    },
+    {
       'sitename'                     => 'updates.jenkins.io',
       'url'                          => 'https://updates.jenkins.io',
       'timeout'                      => $timeout,
@@ -169,20 +195,7 @@ class profile::datadog_http_check(
     },
     {
       'sitename'                     => 'wiki.jenkins.io',
-      'url'                          => 'https://wiki.jenkins.io/display/JENKINS/Git+Plugin',
-      'timeout'                      => $timeout,
-      'treshold'                     => $treshold,
-      'window'                       => $window,
-      'collect_response_time'        => true,
-      'check_certificate_expiration' => true,
-      'days_warning'                 => $days_warning,
-      'days_critical'                => $days_critical,
-      'contact'                      => $contact,
-      'tags'                         => ['production','jenkins.io']
-    },
-    {
-      'sitename'                     => 'wiki.jenkins.io backend',
-      'url'                          => 'https://wiki.jenkins.io/s/2015/1/1/_/download/superbatch/css/batch.css',
+      'url'                          => 'https://wiki.jenkins.io/status',
       'timeout'                      => $timeout,
       'treshold'                     => $treshold,
       'window'                       => $window,
