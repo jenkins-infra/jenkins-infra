@@ -4,6 +4,8 @@ kind: DaemonSet
 metadata:
   name: fluentd
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:

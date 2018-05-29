@@ -4,6 +4,8 @@ metadata:
   name: nginx
   namespace: nginx-ingress
 spec:
+  updateStrategy:
+    type: RollingUpdate
   template:
     metadata:
       labels:
