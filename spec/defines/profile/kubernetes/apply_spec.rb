@@ -9,9 +9,10 @@ describe 'profile::kubernetes::apply' do
   end
   let(:params) do
     {
-      'resource' => 'nginx/deployment.yaml',
-      'context' => 'minikube',
-      'user' => 'k8s',
+      'resource'   => 'nginx/deployment.yaml',
+      'context'    => 'minikube',
+      'home'       => '/home/k8s',
+      'user'       => 'k8s',
       'kubeconfig' => '/home/k8s/.kube/config'
     }
   end

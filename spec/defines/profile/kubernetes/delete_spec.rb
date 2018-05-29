@@ -13,6 +13,7 @@ describe 'profile::kubernetes::delete' do
     {
       'context'    => 'minikube',
       'resource'   => 'nginx/deployment.yaml',
+      'home'       => '/home/k8s',
       'user'       => 'k8s',
       'kubeconfig' => '/home/k8s/.kube/config'
     }

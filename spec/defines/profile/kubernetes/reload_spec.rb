@@ -14,6 +14,7 @@ describe 'profile::kubernetes::reload' do
     {
       'app' => 'datadog',
       'context' => 'minikube',
+      'home' => '/home/k8s',
       'namespace' => 'default',
       'user' => 'k8s',
       'kubeconfig' => '/home/k8s/.kube/config',
