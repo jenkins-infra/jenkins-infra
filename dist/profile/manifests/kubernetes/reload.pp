@@ -30,6 +30,7 @@
 define profile::kubernetes::reload (
   String $app= undef,
   String $context = '',
+  String $home = $profile::kubernetes::params::home,
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
   String $user = $profile::kubernetes::params::user,
   String $namespace = 'default',
@@ -46,8 +47,12 @@ define profile::kubernetes::reload (
 
   exec { "reload ${app} pods on ${context}":
     command     => "kubectl delete pods --namespace ${namespace} --context ${context} -l app=${app}",
+    cwd         => $home,
     path        => [$profile::kubernetes::params::bin,$::path],
-    environment => ["KUBECONFIG=${kubeconfig}"] ,
+    environment => [
+      "KUBECONFIG=${kubeconfig}",
+      "HOME=${home}"
+    ] ,
     logoutput   => true,
     subscribe   => $subscribe,
     refreshonly => true,

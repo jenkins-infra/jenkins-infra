@@ -27,6 +27,7 @@
 define profile::kubernetes::apply (
   String $context = '',
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
+  String $home = $profile::kubernetes::params::home,
   String $resource = $title,
   String $user = $profile::kubernetes::params::user,
   Hash $parameters = {}
@@ -52,12 +53,16 @@ define profile::kubernetes::apply (
 
   exec { "update ${resource} on ${context}":
     command     => "kubectl apply ${kubectl_options}",
-    environment => ["KUBECONFIG=${kubeconfig}"] ,
+    cwd         => $home,
+    environment => [
+      "KUBECONFIG=${kubeconfig}",
+      "HOME=${home}"
+    ] ,
     path        => [$profile::kubernetes::params::bin,$::path],
     refreshonly => true,
     logoutput   => true,
     subscribe   => File["${profile::kubernetes::params::resources}/${context}/${resource}"],
-    user        => $user
+    user        => $user,
   }
 
   # Remove resource from trash directory
