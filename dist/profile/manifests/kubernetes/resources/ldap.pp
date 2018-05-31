@@ -113,7 +113,10 @@ class profile::kubernetes::resources::ldap (
       app        => 'ldap',
       context    => $context,
       depends_on => [
-        'ldap/secret.yaml'
+        'ldap/secret.yaml',
+        'ldap/persistentVolume-backup.yaml',
+        'ldap/persistentVolumeClaim-backup.yaml',
+        'ldap/persistentVolumeClaim-data.yaml'
       ],
       namespace  => 'ldap'
     }
