@@ -62,6 +62,12 @@ spec:
                 secretKeyRef:
                   name: accountapp
                   key: smtp.password
+            - name: DD_AGENT_SERVICE_HOST
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.hostIP
+            - name: DD_AGENT_SERVICE_PORT:
+              value: 8126
           livenessProbe:
             httpGet:
               path: /login
