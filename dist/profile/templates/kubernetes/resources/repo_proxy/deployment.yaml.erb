@@ -30,17 +30,13 @@ spec:
                   image: jenkinsciinfra/repo-proxy:<%= @parameters['image_tag'] %>
                   imagePullPolicy: Always
                   livenessProbe:
-                      httpGet:
-                          path: /repo1/org/springframework/spring-tx/maven-metadata.xml
+                      tcpSocket:
                           port: 80
-                          scheme: HTTP
                       initialDelaySeconds: 20
                       timeoutSeconds: 5
                   readinessProbe:
-                      httpGet:
-                          path: /repo1/org/springframework/spring-tx/maven-metadata.xml
+                      tcpSocket:
                           port: 80
-                          scheme: HTTP
                       initialDelaySeconds: 30
                       timeoutSeconds: 5
                   volumeMounts:
