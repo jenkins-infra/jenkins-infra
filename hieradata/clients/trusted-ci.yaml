@@ -23,6 +23,7 @@ profile::buildmaster::plugins:
   - jacoco
   - jobConfigHistory
   - ldap
+  - lockable-resources
   - mailer
   - parallel-test-executor
   - pipeline-githubnotify-step
