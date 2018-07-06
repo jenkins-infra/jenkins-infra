@@ -27,6 +27,7 @@ profile::buildmaster::plugins:
   - junit-attachments
   - junit-realtime-test-reporter
   - ldap
+  - lockable-resources
   - mailer
   - parallel-test-executor
   - pipeline-githubnotify-step
