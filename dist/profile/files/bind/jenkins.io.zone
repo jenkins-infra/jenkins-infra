@@ -47,6 +47,7 @@ accounts      3600  IN    CNAME   nginx.azure    ; accountapp application
 nginx.azure   3600  IN    CNAME   @              ; kubernetes service: namespace:nginx-ingress name:nginx
 plugins       3600  IN    CNAME   nginx.azure    ; plugins.jenkins.io runs a simple pluginsite
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
+reports       3600  IN    CNAME   nginx.azure    ; 
 www           3600  IN    CNAME   nginx.azure    ; main website
 
 ; CNAME Records
@@ -58,7 +59,6 @@ archives    3600    IN    CNAME    okra ; archives.jenkins.io for delivering old
 stats       3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for stats.jenkins.io which is hosted on GH pages
 patron      3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for patron.jenkins.io which is hosted on GH pages
 javadoc     3600    IN    CNAME    eggplant ; CNAME for javadoc.jenkins.io which is currently in role::eggplant
-reports     3600    IN    CNAME    prodjenkinsreports.blob.core.windows.net. ; see INFRA-947
 wiki        3600    IN    CNAME    lettuce
 
 ; Magical CNAME for certificate validation
