@@ -23,6 +23,8 @@ describe 'profile::kubernetes::resources::reports' do
 
   it { should contain_profile__kubernetes__apply('reports/service.yaml on minikube')}
 
+  it { should contain_profile__kubernetes__apply('reports/configmap.yaml on minikube')}
+
   it {
     should contain_profile__kubernetes__apply('reports/deployment.yaml on minikube')
       .with(

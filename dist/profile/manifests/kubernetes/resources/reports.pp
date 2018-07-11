@@ -56,6 +56,12 @@ class profile::kubernetes::resources::reports (
       },
       resource   => 'reports/secret.yaml'
     }
+
+    profile::kubernetes::apply{ "reports/configmap.yaml on ${context}":
+      context  => $context,
+      resource => 'reports/configmap.yaml'
+    }
+
     profile::kubernetes::apply{ "reports/service.yaml on ${context}":
       context  => $context,
       resource => 'reports/service.yaml'
@@ -85,6 +91,7 @@ class profile::kubernetes::resources::reports (
       app        => 'reports',
       depends_on => [
         'reports/secret.yaml',
+        'reports/configmap.yaml'
       ]
     }
 
