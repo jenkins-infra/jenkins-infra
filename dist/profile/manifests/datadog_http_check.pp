@@ -156,7 +156,7 @@ class profile::datadog_http_check(
     },
     {
       'sitename'                     => 'reports.jenkins.io',
-      'url'                          => 'http://reports.jenkins.io/reports/core-taglib/jelly-taglib-ref.html',
+      'url'                          => 'https://reports.jenkins.io/artifactory-ldap-users-report.json',
       'timeout'                      => $timeout,
       'threshold'                    => $threshold,
       'window'                       => $window,
