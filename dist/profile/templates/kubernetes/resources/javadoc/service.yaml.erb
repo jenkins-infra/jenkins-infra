@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: javadoc
+  labels:
+    app: javadoc
+spec:
+  ports:
+  - name: javadoc
+    protocol: TCP
+    targetPort: 80
+    port: 80
+  selector:
+    type: javadoc
