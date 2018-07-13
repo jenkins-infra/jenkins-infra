@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: javadoc
+data:
+  default.conf: |
+    server {
+      listen       80;
+      server_name  localhost;
+      location / {
+          root   /usr/share/nginx/html;
+          index  index.html index.htm;
+          autoindex on;
+      }
+    }
