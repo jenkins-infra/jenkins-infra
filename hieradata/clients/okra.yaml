@@ -4,7 +4,7 @@ lvm::volume_groups:
     physical_volumes:
       - /dev/xvdb
       - /dev/xvdd
-      - /dev/xvde
+      - /dev/xvde1
     logical_volumes:
       releases:
         size: 449G
