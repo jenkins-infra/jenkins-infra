@@ -4,7 +4,8 @@ lvm::volume_groups:
     physical_volumes:
       - /dev/xvdb
       - /dev/xvdd
+      - /dev/xvde
     logical_volumes:
       releases:
-        size: 299G
+        size: 449G
         mountpath: /srv/releases
