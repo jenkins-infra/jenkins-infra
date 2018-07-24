@@ -1,0 +1,37 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: evergreen
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: evergreen
+        type: evergreen
+    spec:
+      containers:
+        - name: evergreen
+          image: jenkinsciinfra/evergreen-backend:<%= @parameters['image_tag'] %>
+          imagePullPolicy: Always
+          env:
+            - name: DB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: evergreen
+                  key: postgres_url
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3030
+              scheme: HTTP
+            initialDelaySeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3030
+              scheme: HTTP
+          ports:
+            - containerPort: 3030
