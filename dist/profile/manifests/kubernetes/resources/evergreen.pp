@@ -23,6 +23,11 @@ class profile::kubernetes::resources::evergreen (
       owner  => $profile::kubernetes::params::user,
     }
 
+    profile::kubernetes::apply { "evergreen/namespace.yaml on ${context}":
+      context  => $context,
+      resource => 'evergreen/namespace.yaml'
+    }
+
     profile::kubernetes::apply { "evergreen/service.yaml on ${context}":
       context  => $context,
       resource => 'evergreen/service.yaml'
@@ -31,6 +36,7 @@ class profile::kubernetes::resources::evergreen (
     profile::kubernetes::apply { "evergreen/secret.yaml on ${context}":
       context    => $context,
       parameters => {
+        'postgres_url' => base64('encode', $postgres_url, 'strict')
       },
       resource   => 'evergreen/secret.yaml'
     }
@@ -47,6 +53,7 @@ class profile::kubernetes::resources::evergreen (
     profile::kubernetes::apply { "evergreen/deployment.yaml on ${context}":
       context    => $context,
       parameters => {
+        'image_tag' =>  $image_tag
       },
       resource   => 'evergreen/deployment.yaml'
     }
