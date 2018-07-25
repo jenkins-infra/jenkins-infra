@@ -17,11 +17,28 @@ spec:
           image: jenkinsciinfra/evergreen-backend:<%= @parameters['image_tag'] %>
           imagePullPolicy: Always
           env:
+            - name: NODE_ENV
+              value: 'production'
             - name: DB_CONNECTION_STRING
               valueFrom:
                 secretKeyRef:
                   name: evergreen
                   key: postgres_url
+            - name: EVERGREEN_INTERNAL_API_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: evergreen
+                  key: internal_api_secret
+            - name: EVERGREEN_JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: evergreen
+                  key: jwt_secret
+            - name: SENTRY_URL
+              valueFrom:
+                secretKeyRef:
+                  name: evergreen
+                  key: sentry_url
           livenessProbe:
             httpGet:
               path: /

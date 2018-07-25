@@ -8,6 +8,9 @@ class profile::kubernetes::resources::evergreen (
     Array $domain_alias = [],
     String $image_tag = 'latest',
     String $domain_name = 'evergreen.jenkins.io',
+    String $jwt_secret = 'default-jwt-secret',
+    String $internal_api_secret = 'default-internal-api-secret',
+    String $sentry_url = 'http://example.com/sentry',
     String $postgres_url = '',
 ) inherits profile::kubernetes::params {
 
