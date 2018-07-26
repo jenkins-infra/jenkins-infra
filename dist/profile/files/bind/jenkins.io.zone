@@ -50,6 +50,7 @@ plugins       3600  IN    CNAME   nginx.azure    ; plugins.jenkins.io runs a sim
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
 reports       3600  IN    CNAME   nginx.azure    ; 
 www           3600  IN    CNAME   nginx.azure    ; main website
+evergreen     3600  IN    CNAME   nginx.azure    ; evergreen distribution system
 
 ; CNAME Records
 pkg         3600    IN    CNAME    mirrors ; pkg and mirrors run off the same host
