@@ -12,4 +12,5 @@ class role::kubernetes{
   include profile::kubernetes::resources::accountapp
   include profile::kubernetes::resources::jenkinsio
   include profile::kubernetes::resources::ldap
+  include profile::kubernetes::resources::evergreen
 }
