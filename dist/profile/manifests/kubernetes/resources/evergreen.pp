@@ -39,7 +39,10 @@ class profile::kubernetes::resources::evergreen (
     profile::kubernetes::apply { "evergreen/secret.yaml on ${context}":
       context    => $context,
       parameters => {
-        'postgres_url' => base64('encode', $postgres_url, 'strict')
+        'postgres_url' => base64('encode', $postgres_url, 'strict'),
+        'jwt_secret' => base64('encode', $jwt_secret, 'strict'),
+        'internal_api_secret' => base64('encode', $internal_api_secret, 'strict'),
+        'sentry_url' => base64('encode', $sentry_url, 'strict'),
       },
       resource   => 'evergreen/secret.yaml'
     }
