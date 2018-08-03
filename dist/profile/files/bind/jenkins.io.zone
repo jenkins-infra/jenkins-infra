@@ -48,6 +48,7 @@ nginx.azure   3600  IN    CNAME   @              ; kubernetes service: namespace
 javadoc       3600  IN    CNAME   nginx.azure    ; javadoc website
 plugins       3600  IN    CNAME   nginx.azure    ; plugins.jenkins.io runs a simple pluginsite
 repo.azure    3600  IN    CNAME   nginx.azure    ; Proxy cache in front of repo.jenkins-ci.org
+azure.updates 3600  IN    CNAME   nginx.azure    ; Update Center fallback service
 reports       3600  IN    CNAME   nginx.azure    ; 
 www           3600  IN    CNAME   nginx.azure    ; main website
 evergreen     3600  IN    CNAME   nginx.azure    ; evergreen distribution system
