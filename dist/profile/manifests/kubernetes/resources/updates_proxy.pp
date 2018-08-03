@@ -30,7 +30,7 @@ class profile::kubernetes::resources::updates_proxy (
   String $image_tag = '2.4.34',
   String $storage_account_name = '',
   String $storage_account_key = '',
-  String $url = 'azure.updates.jenkins.io'
+  String $url = 'updates.azure.jenkins.io'
 ) inherits profile::kubernetes::params {
 
   include ::stdlib

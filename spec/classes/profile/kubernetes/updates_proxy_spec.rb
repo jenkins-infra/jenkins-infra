@@ -62,7 +62,7 @@ describe 'profile::kubernetes::resources::updates_proxy' do
     ).with(
       'context'    => 'minikube',
       'parameters' => {
-        'url'     => 'azure.updates.jenkins.io',
+        'url'     => 'updates.azure.jenkins.io',
         'aliases' => []
       }
     )
