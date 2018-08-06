@@ -401,7 +401,7 @@ date \"+%s\" > /srv/releases/jenkins/TIME
 
             # we serve most files from mirrors, but as a fallback,
             # this slow server has everything.
-            MirrorBrainFallback na us https://updates.azure.jenkins.io/
+            MirrorBrainFallback na us http://updates.azure.jenkins.io/
 
             # Do not redirect for files smaller than 4096 bytes
             MirrorBrainMinSize 4096
