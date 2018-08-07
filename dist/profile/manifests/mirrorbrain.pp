@@ -390,6 +390,30 @@ date \"+%s\" > /srv/releases/jenkins/TIME
     ],
     directories       => [
       {
+        path            => "${docroot}/plugins",
+        options         => 'FollowSymLinks Indexes',
+        allow_override  => ['All'],
+        custom_fragment => '
+            MirrorBrainEngine On
+            MirrorBrainDebug Off
+            FormGET On
+            MirrorBrainHandleHEADRequestLocally Off
+
+            # we serve most files from mirrors, but as a fallback,
+            # this slow server has everything.
+            MirrorBrainFallback na us http://updates.azure.jenkins.io/
+
+            # Do not redirect for files smaller than 4096 bytes
+            MirrorBrainMinSize 4096
+            ## NOTE: Re-enabling these exclude rules will kill our bandwidth allocation.
+            #MirrorBrainExcludeUserAgent rpm/4.4.2*
+            #MirrorBrainExcludeUserAgent *APT-HTTP*
+
+            MirrorBrainExcludeMimeType application/pgp-keys
+            MirrorBrainExcludeMimeType text/html
+        ',
+      },
+      {
         path            => $docroot,
         options         => 'FollowSymLinks Indexes',
         allow_override  => ['All'],
