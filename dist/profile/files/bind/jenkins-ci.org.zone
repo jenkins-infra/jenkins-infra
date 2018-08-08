@@ -78,7 +78,7 @@ recipe      3600    IN    CNAME    recipe.jenkins.cloudbees.net.        ; hosted
 puppet      3600    IN    CNAME    artichoke
 archives    3600    IN    CNAME    okra
 demo        3600    IN    CNAME    kelp
-accounts    3600    IN    CNAME    eggplant
+accounts    3600    IN    CNAME    accounts.jenkins.io.
 
 ; MX Records
 @          3600    IN    MX    0    cucumber
