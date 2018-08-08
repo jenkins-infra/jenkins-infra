@@ -4,25 +4,23 @@ describe 'profile::catchall' do
   let(:docroot) { '/tmp/rspecdocroot' }
   let(:params) do
     {
-      :docroot => docroot,
+      'docroot' => docroot
     }
   end
 
   it { should contain_class 'profile::catchall' }
   it { should contain_class 'apache' }
 
-  it { should contain_file(docroot).with_ensure(:directory) }
+  it { should contain_file(docroot).with_ensure(:absent) }
   # https://issues.jenkins-ci.org/browse/INFRA-639
-  it 'should install jenkins.jnlp' do
-    expect(subject).to contain_file("#{docroot}/jenkins.jnlp").with({
-      :ensure => :present,
-      :owner => 'www-data',
-      :mode => '0755',
-    })
+  it 'should not install jenkins.jnlp' do
+    expect(subject).to contain_file("#{docroot}/jenkins.jnlp").with(
+      'ensure' => 'absent'
+    )
   end
 
   ['legacy_cert.key', 'legacy_chain.crt', 'legacy_cert.crt'].each do |f|
-    it { should contain_file("/etc/apache2/#{f}").with_ensure(:present) }
+    it { should contain_file("/etc/apache2/#{f}").with_ensure(:absent) }
   end
 
   context 'Apache VirtualHosts' do
@@ -30,34 +28,35 @@ describe 'profile::catchall' do
       let(:name) { 'jenkins-ci.org' }
       it { should contain_apache__vhost(name) }
 
-      it 'should be configured to serve over HTTPs' do
-        expect(subject).to contain_apache__vhost(name).with({
-          :port => 443,
-          :ssl => true,
-          :ssl_key   => '/etc/apache2/legacy_cert.key',
-          :ssl_chain => '/etc/apache2/legacy_chain.crt',
-          :ssl_cert  => '/etc/apache2/legacy_cert.crt',
-        })
+      it 'should not be configured to serve over HTTPs' do
+        expect(subject).to contain_apache__vhost(name).with(
+          'ensure' => 'absent'
+        )
       end
     end
-
 
     context 'HTTP VirtualHost' do
       let(:name) { 'jenkins-ci.org unsecured' }
       it { should contain_apache__vhost(name) }
 
-      it 'should be configured to promote to a HTTPs request' do
-        expect(subject).to contain_apache__vhost(name).with({
-          :port => 80,
-          :redirect_status => 'permanent',
-          :redirect_dest => 'https://jenkins-ci.org/',
-        })
+      it 'should not be configured to promote to a HTTPs request' do
+        expect(subject).to contain_apache__vhost(name).with(
+          'ensure' => 'absent'
+        )
       end
     end
 
     # Legacy vhosts which I hope can perish at some point
     # See INFRA-639
-    it { should contain_apache__vhost('stats.jenkins-ci.org') }
-    it { should contain_apache__vhost('maven.jenkins-ci.org') }
+    it {
+      should contain_apache__vhost('stats.jenkins-ci.org').with(
+        'ensure' => 'absent'
+      )
+    }
+    it {
+      should contain_apache__vhost('maven.jenkins-ci.org').with(
+        'ensure' => 'absent'
+      )
+    }
   end
 end
