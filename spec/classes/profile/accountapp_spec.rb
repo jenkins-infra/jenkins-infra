@@ -7,7 +7,7 @@ describe 'profile::accountapp' do
     let(:environment) { 'production' }
     let(:vagrant) { nil }
 
-    it { should contain_letsencrypt__certonly('accounts.jenkins.io') }
+    it { should_not contain_letsencrypt__certonly('accounts.jenkins.io') }
     it { should contain_class 'Letsencrypt' }
   end
 end

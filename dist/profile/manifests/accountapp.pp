@@ -39,85 +39,24 @@ class profile::accountapp(
   # I put a very bad permission on /var/log/accountapp in order to avoid permission issue.
   #
   file { '/var/log/accountapp':
-    ensure => 'directory',
-    mode   => '0777',
-    group  => 'docker'
+    ensure => 'absent',
   }
 
   docker::run { 'accountapp':
-    ensure  => 'present',
-    ports   => ['8080:8080'],
-    volumes => ['/var/log/accountapp/:/var/log/accountapp'],
-    image   => "jenkinsciinfra/account-app:${image_tag}",
-    env     => [
-      "ELECTION_CLOSE='${election_close}'",
-      "ELECTION_OPEN='${election_open}'",
-      "ELECTION_LOGDIR='${election_logdir}'",
-      "ELECTION_CANDIDATES='${election_candidates}'",
-      "JIRA_PASSWORD='${jira_password}'",
-      "JIRA_USERNAME='${jira_username}'",
-      "JIRA_URL='${jira_url}'",
-      "LDAP_URL='${ldap_url}'",
-      "LDAP_MANAGER_DN='${ldap_manager_dn}'",
-      "LDAP_NEW_USER_BASE_DN='${ldap_new_user_base_dn}'",
-      "LDAP_PASSWORD='${ldap_password}'",
-      "SEATS='${seats}'",
-      "SENIORITY='{seniority}'",
-      "SMTP_PASSWORD='${smtp_password}'",
-      "SMTP_SERVER='${smtp_server}'",
-      "SMTP_USER='${smtp_user}'",
-      "SMTP_AUTH='${smtp_auth}'",
-      "URL='https://${domain_name}/'"
-    ]
+    ensure => 'absent',
+    image  => "jenkinsciinfra/account-app:${image_tag}",
   }
 
   # docroot is required for apache::vhost but should never be used because
   # we're proxying everything here
 
   apache::vhost { $domain_name :
-    serveraliases => [
-      $domain_alias
-    ],
-    port          => '443',
-    ssl           => true,
-    docroot       => $docroot,
-    proxy_pass    => [
-      {
-        path         => '/',
-        url          => 'http://localhost:8080/',
-        reverse_urls => 'http://localhost:8080/',
-      },
-    ],
+    ensure  => 'absent',
+    docroot => $docroot,
   }
 
   apache::vhost { "${domain_name} unsecured":
-    servername      => $domain_name,
-    serveraliases   => [
-      $domain_alias,
-    ],
-    port            => '80',
-    docroot         => $docroot,
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${domain_name}",
+    ensure  => 'absent',
+    docroot => $docroot,
   }
-
-  # We can only acquire certs in production due to the way the letsencrypt
-  # challenge process works
-  if (($::environment == 'production') and ($::vagrant != '1')) {
-    letsencrypt::certonly { $domain_name:
-        domains     => [ $domain_name , $domain_alias],
-        plugin      => 'apache',
-        manage_cron => true,
-    }
-    Apache::Vhost <| title == $domain_name |> {
-      ssl_key   => "/etc/letsencrypt/live/${domain_name}/privkey.pem",
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert  => "/etc/letsencrypt/live/${domain_name}/cert.pem",
-      ssl_chain => "/etc/letsencrypt/live/${domain_name}/chain.pem",
-    }
-  }
-###
-
-
 }
