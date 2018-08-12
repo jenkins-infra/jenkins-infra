@@ -35,16 +35,29 @@ class profile::javadoc(
   }
 
   apache::vhost { 'javadoc.jenkins.io':
+    ssl             => true,
+    port            => '443',
     serveraliases   => [
       'javadoc.jenkins-ci.org',
     ],
     docroot         => $site_root,
-    port            => 80,
     access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
     error_log_file  => 'javadoc.jenkins.io/error.log',
     require         => [
       File[$site_root],
       File[$apache_log_dir],
     ],
+  }
+
+  apache::vhost { 'javadoc.jenkins.io non-ssl':
+    # redirect non-SSL to SSL
+    port            => 80,
+    serveraliases   => [
+      'javadoc.jenkins-ci.org',
+    ],
+    docroot         => $site_root,
+    access_log_pipe => '/dev/null',
+    redirect_status => 'permanent',
+    redirect_dest   => 'https://javadoc.jenkins-ci.org/'
   }
 }
