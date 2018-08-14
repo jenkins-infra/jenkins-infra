@@ -304,7 +304,7 @@ azure::k8s::management_ssh_privkey: |
   cMpoafDY75csbcS8OaTbucHfLp13ri5B+98yb5PJDYI8OT9nIOFAVV10BHckSdK8
   C8OJi1cx72NrCM+U/QDfqs9vVYDepptX2T3vrBy3wywRSuQFpb079I71/k8q368h
   uF8J1P5METp+SiQ2tUp7gKu/CZaGTrINuDV2gQIDAQABAoIBACBTG0Jw71wRjJrB
-  q1uxv7sZ9HX9UqRYnQftN7cmSYbnsvNUGwVAX8/PjurgJSqEztK5lcQrHYpqNUE4
+201808141809  q1uxv7sZ9HX9UqRYnQftN7cmSYbnsvNUGwVAX8/PjurgJSqEztK5lcQrHYpqNUE4
   RIXzAbAi8bZIJ65U2ounvi5CGwVD44H6xNZQWWHOP+vzwC+ukXSjBjfhz4wDI0xj
   FH+cgD1shfyUblMdDG8AW44UoK0nmzdlncmdjQ9Oqj+nmOSQ2/nNY+2MAQZHO2LM
   POCjWl0l+uUlXhmCZRs+ioK6emRuv74cvBq9eURgl+8boweRHp1B5tevCK9/xRta
@@ -344,7 +344,7 @@ profile::datadog_pluginsite_check::sites:
 
 profile::kubernetes::resources::fluentd::image_tag: '0.7.2'
 
-profile::kubernetes::resources::evergreen::image_tag: '201808140113'
+profile::kubernetes::resources::evergreen::image_tag: '201808141809'
 
 limits:
   '*':
