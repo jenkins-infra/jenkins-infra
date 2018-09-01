@@ -6,10 +6,10 @@
 class profile::confluence (
   $image_tag,         # tag of confluence container
   $cache_image_tag,   # tag of confluence cache container
-  $database_url,      # JDBC URL that represents the database backend
-  $database_user,     # JDBC password
-  $database_password, # Database password
-  $database_jdbc_url  # JDBC URL without user/password 
+  String $database_url = '',      # JDBC URL that represents the database backend
+  String $database_user = '',     # JDBC password
+  String $database_password = '', # Database password
+  String $database_jdbc_url = ''  # JDBC URL without user/password
 ) {
   # as a preparation, deploying mock-webapp and not the real confluence
 
