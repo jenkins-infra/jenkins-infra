@@ -6,7 +6,10 @@
 class profile::confluence (
   $image_tag,         # tag of confluence container
   $cache_image_tag,   # tag of confluence cache container
-  $database_url,      # JDBC URL that represents the database backend
+  String $database_url = '',      # JDBC URL that represents the database backend
+  String $database_user = '',     # JDBC password
+  String $database_password = '', # Database password
+  String $database_jdbc_url = ''  # JDBC URL without user/password
 ) {
   # as a preparation, deploying mock-webapp and not the real confluence
 
@@ -59,7 +62,9 @@ class profile::confluence (
     content => join([
         'LDAP_HOST=ldap.jenkins.io',
         "LDAP_PASSWORD=${ldap_password}",
-        "DATABASE_URL=${database_url}"
+        "DB_JDBC_URL=${database_jdbc_url}",
+        "DB_USER=${database_user}",
+        "DB_PASSWORD=${database_password}"
       ], "\n"),
     mode    => '0600',
   }
