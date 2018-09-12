@@ -39,6 +39,11 @@ spec:
                 secretKeyRef:
                   name: evergreen
                   key: sentry_url
+            - name: SENTRY_DSN
+              valueFrom:
+                secretKeyRef:
+                  name: evergreen
+                  key: sentry_dsn
           livenessProbe:
             httpGet:
               path: /

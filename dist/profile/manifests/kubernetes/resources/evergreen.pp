@@ -3,6 +3,10 @@
 #   This class deploys the Jenkins Essentials backend service layer, a
 #   container which communicates with a provisioned Azure PostgreSQL database
 #
+#
+#   The parameters $sentry_url and $sentry_dsn are _different_.
+#     * sentry_url is where Evergreen will report client errors to
+#     * sentry_dsn is where the Evergreen backend will report its own errors to
 class profile::kubernetes::resources::evergreen (
     Array $clusters = $profile::kubernetes::params::clusters,
     Array $domain_alias = [],
@@ -11,6 +15,7 @@ class profile::kubernetes::resources::evergreen (
     String $jwt_secret = 'default-jwt-secret',
     String $internal_api_secret = 'default-internal-api-secret',
     String $sentry_url = 'http://example.com/sentry',
+    String $sentry_dsn = 'http://example.com/sentry',
     String $postgres_url = '',
 ) inherits profile::kubernetes::params {
 
@@ -43,6 +48,7 @@ class profile::kubernetes::resources::evergreen (
         'jwt_secret'          => base64('encode', $jwt_secret, 'strict'),
         'internal_api_secret' => base64('encode', $internal_api_secret, 'strict'),
         'sentry_url'          => base64('encode', $sentry_url, 'strict'),
+        'sentry_dsn'          => base64('encode', $sentry_dsn, 'strict'),
       },
       resource   => 'evergreen/secret.yaml'
     }
