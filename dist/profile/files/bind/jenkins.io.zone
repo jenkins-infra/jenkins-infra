@@ -63,6 +63,7 @@ archives    3600    IN    CNAME    okra ; archives.jenkins.io for delivering old
 stats       3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for stats.jenkins.io which is hosted on GH pages
 patron      3600    IN    CNAME    jenkins-infra.github.io. ; CNAME for patron.jenkins.io which is hosted on GH pages
 wiki        3600    IN    CNAME    lettuce
+issues      3600    IN    CNAME    edamame
 
 ; Magical CNAME for certificate validation
 D07F852F584FA592123140354D366066.ldap.jenkins.io. 3600 IN CNAME 75E741181A7ACDBE2996804B2813E09B65970718.comodoca.com.
