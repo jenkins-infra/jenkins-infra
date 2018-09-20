@@ -1,0 +1,18 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: uplink
+  namespace: uplink
+  labels:
+    app: uplink
+    type: uplink
+spec:
+  sessionAffinity: ClientIP
+  ports:
+  - name: uplink
+    protocol: TCP
+    targetPort: 3030
+    port: 80
+  selector:
+    type: uplink

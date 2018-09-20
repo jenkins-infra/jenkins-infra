@@ -52,6 +52,7 @@ updates.azure 3600  IN    CNAME   nginx.azure    ; Update Center fallback servic
 reports       3600  IN    CNAME   nginx.azure    ; 
 www           3600  IN    CNAME   nginx.azure    ; main website
 evergreen     3600  IN    CNAME   nginx.azure    ; evergreen distribution system
+uplink        3600  IN    CNAME   nginx.azure    ; uplink distribution system
 
 ; CNAME Records
 pkg         3600    IN    CNAME    mirrors ; pkg and mirrors run off the same host
