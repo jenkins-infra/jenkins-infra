@@ -9,6 +9,8 @@ describe 'profile::jira' do
   it { should contain_service('docker-jira') }
   it { should contain_file '/var/www/maintenance/maintenance.html' }
   it { should contain_file '/etc/apache2/sites-available/issues.jenkins-ci.org.maintenance.conf' }
+  it { should contain_file '/var/log/apache2/issues.jenkins.io' }
+  it { should contain_apache__vhost 'issues.jenkins.io' }
 
   context 'datadog configuration' do
     it { should contain_file '/etc/datadog-agent/conf.d/process.yaml' }

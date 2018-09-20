@@ -25,6 +25,11 @@ class profile::jira (
     group  => $profile::atlassian::group_name,
   }
 
+  file { '/var/log/apache2/issues.jenkins.io':
+    ensure => directory,
+    group  => $profile::atlassian::group_name,
+  }
+
   file { '/srv/jira/home':
     ensure  => directory,
     require => File['/srv/jira'],
@@ -109,25 +114,26 @@ class profile::jira (
     redirect_dest   => 'https://issues.jenkins-ci.org/'
   }
 
-  apache::vhost { 'issues.jenkins-ci.io':
+  apache::vhost { 'issues.jenkins.io':
+    servername      => 'issues.jenkins.io',
     port            => '443',
     docroot         => '/srv/jira/docroot',
     access_log      => false,
-    error_log_file  => 'issues.jenkins-ci.io/error.log',
+    error_log_file  => 'issues.jenkins.io/error.log',
     log_level       => 'warn',
     custom_fragment => template("${module_name}/jira/vhost.conf"),
 
     notify          => Service['apache2'],
-    require         => File['/var/log/apache2/issues.jenkins-ci.io'],
+    require         => File['/var/log/apache2/issues.jenkins.io'],
   }
 
-  apache::vhost { 'issues.jenkins-ci.io non-ssl':
+  apache::vhost { 'issues.jenkins.io non-ssl':
     # redirect non-SSL to SSL
-    servername      => 'issues.jenkins-ci.io',
+    servername      => 'issues.jenkins.io',
     port            => '80',
     docroot         => '/srv/jira/docroot',
     redirect_status => 'temp',
-    redirect_dest   => 'https://issues.jenkins-ci.io/'
+    redirect_dest   => 'https://issues.jenkins.io/'
   }
 
   profile::apachemaintenance { 'issues.jenkins-ci.org':
