@@ -147,4 +147,26 @@ class profile::jira (
   host { 'issues.jenkins-ci.org':
     ip => '127.0.0.1',
   }
+
+  # We can only acquire certs in production due to the way the letsencrypt
+  # challenge process works
+  if (($::environment == 'production') and ($::vagrant != '1')) {
+    letsencrypt::certonly { 'issues.jenkins.io':
+        domains     => ['issues.jenkins.io','issues.jenkins-ci.org'],
+        plugin      => 'apache',
+        manage_cron => true,
+    }
+    Apache::Vhost <| title == 'issues.jenkins.io' |> {
+    # When Apache is upgraded to >= 2.4.8 this should be changed to
+    # fullchain.pem
+      ssl_key       => '/etc/letsencrypt/live/issues.jenkins.io/privkey.pem',
+      ssl_cert      => '/etc/letsencrypt/live/issues.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/issues.jenkins.io/chain.pem',
+    }
+    Apache::Vhost <| title == 'issues.jenkins-ci.org' |> {
+      ssl_key       => '/etc/letsencrypt/live/issues.jenkins.io/privkey.pem',
+      ssl_cert      => '/etc/letsencrypt/live/issues.jenkins.io/cert.pem',
+      ssl_chain     => '/etc/letsencrypt/live/issues.jenkins.io/chain.pem',
+    }
+  }
 }
