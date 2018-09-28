@@ -28,6 +28,12 @@ class profile::firewall {
   }
 
   firewall {
+    '999 drop all UDP requests':
+      proto  => 'udp',
+      action => 'drop',
+  }
+
+  firewall {
     '999 drop all other requests':
       action => 'drop',
   }
