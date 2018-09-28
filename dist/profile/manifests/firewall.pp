@@ -37,6 +37,11 @@ class profile::firewall {
   }
 
   firewall {
+    '999 drop all UDP requests':
+      ensure => absent,
+  }
+
+  firewall {
     '999 drop all other requests':
       action => 'drop',
   }
