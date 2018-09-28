@@ -27,9 +27,12 @@ class profile::firewall {
     action => 'accept',
   }
 
+  # Unfortunately I don't have the time to block all UDP traffic while still
+  # preserving DNS UDP traffic
   firewall {
-    '999 drop all UDP requests':
+    '900 drop all UDP port 111 requests':
       proto  => 'udp',
+      port   => 111,
       action => 'drop',
   }
 
