@@ -1,0 +1,10 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: jenkinsio-cn
+subsets:
+  - addresses:
+      - ip: <%= @parameters['cn_endpoint_ip'] %>
+    ports:
+      - name: https
+        port: 443
