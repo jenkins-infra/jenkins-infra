@@ -212,7 +212,7 @@ profile::kubernetes::resources::accountapp::ldap_url: ldaps://ldap.jenkins.io:63
 profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
 profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
 
-profile::kubernetes::resources::jenkinsio::image_tag: '127648'
+profile::kubernetes::resources::jenkinsio::image_tag: 'latest'
 
 profile::kubernetes::resources::ldap::image_tag: '12-builde29683'
 profile::kubernetes::resources::ldap::whitelisted_sources:

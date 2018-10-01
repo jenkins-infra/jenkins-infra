@@ -30,7 +30,8 @@ class profile::kubernetes::resources::jenkinsio (
     'www.jenkins-ci.org'
     ],
   Array $clusters = $profile::kubernetes::params::clusters,
-  String $image_tag = 'alpine',
+  String $image_tag = 'latest',
+  String $cn_endpoint_ip = '122.112.226.199',
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $url = 'www.jenkins.io'
@@ -62,6 +63,20 @@ class profile::kubernetes::resources::jenkinsio (
       context  => $context,
       resource => 'jenkinsio/service.yaml'
     }
+
+    profile::kubernetes::apply{ "jenkinsio/cn-service.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/cn-service.yaml'
+    }
+
+    profile::kubernetes::apply{ "jenkinsio/cn-endpoint.yaml on ${context}":
+      context    => $context,
+      resource   => 'jenkinsio/cn-endpoint.yaml',
+      parameters => {
+        'cn_endpoint_ip'   => $cn_endpoint_ip
+      },
+    }
+
     profile::kubernetes::apply{ "jenkinsio/ingress-tls.yaml on ${context}":
       context    => $context,
       parameters => {
@@ -70,6 +85,12 @@ class profile::kubernetes::resources::jenkinsio (
       },
       resource   => 'jenkinsio/ingress-tls.yaml'
     }
+
+    profile::kubernetes::apply{ "jenkinsio/configmap.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/configmap.yaml'
+    }
+
     profile::kubernetes::apply{ "jenkinsio/deployment.yaml on ${context}":
       context    => $context,
       parameters => {
@@ -85,6 +106,7 @@ class profile::kubernetes::resources::jenkinsio (
       app        => 'jenkinsio',
       depends_on => [
         'jenkinsio/secret.yaml',
+        'jenkinsio/configmap.yaml',
       ]
     }
 

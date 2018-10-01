@@ -22,6 +22,8 @@ describe 'profile::kubernetes::resources::jenkinsio' do
   }
 
   it { should contain_profile__kubernetes__apply('jenkinsio/service.yaml on minikube')}
+  it { should contain_profile__kubernetes__apply('jenkinsio/cn-service.yaml on minikube')}
+  it { should contain_profile__kubernetes__apply('jenkinsio/cn-endpoint.yaml on minikube')}
 
   it {
     should contain_profile__kubernetes__apply('jenkinsio/deployment.yaml on minikube')
