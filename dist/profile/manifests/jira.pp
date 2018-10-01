@@ -11,6 +11,7 @@ class profile::jira (
   include apache::mod::headers
   include apache::mod::rewrite
   include profile::apachemisc
+  include profile::letsencrypt
 
   account { 'jira':
     home_dir => '/srv/jira',
