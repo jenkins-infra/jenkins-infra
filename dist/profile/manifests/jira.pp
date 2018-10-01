@@ -118,6 +118,7 @@ class profile::jira (
   apache::vhost { 'issues.jenkins.io':
     servername      => 'issues.jenkins.io',
     port            => '443',
+    ssl             =>  true,
     docroot         => '/srv/jira/docroot',
     access_log      => false,
     error_log_file  => 'issues.jenkins.io/error.log',
