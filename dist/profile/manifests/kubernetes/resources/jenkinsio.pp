@@ -31,7 +31,7 @@ class profile::kubernetes::resources::jenkinsio (
     ],
   Array $clusters = $profile::kubernetes::params::clusters,
   String $image_tag = 'latest',
-  String $cn_endpoint_ip = '122.112.226.199',
+  String $cn_endpoint_ip = '159.138.4.250',
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $url = 'www.jenkins.io'
