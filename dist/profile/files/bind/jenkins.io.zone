@@ -42,7 +42,7 @@ census      3600    IN    A    52.202.38.86   ; jenkins-census
 usage       3600    IN    A    52.204.62.78   ; jenkins-usage
 
 ; Chinese Version
-cn            3600  IN    A    122.112.226.199 ; Hosted at Huawei China
+cn            3600  IN    A    159.138.4.250 ; Hosted at Huawei China
 
 ; Azure
 ldap          3600  IN    A       52.232.180.203 ; jenkins-ldap
