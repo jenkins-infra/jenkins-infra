@@ -5,6 +5,7 @@ metadata:
   name: jenkinsio-cn
 spec:
   ports:
-  - protocol: TCP 
-    port: 80
-    targetPort: 443
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
