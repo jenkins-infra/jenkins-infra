@@ -1,0 +1,28 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+    name: jenkinsadmin
+    namespace: chatbot
+spec:
+    replicas: 1
+    template:
+        metadata:
+            labels:
+                app: jenkinsadmin
+                type: chatbot
+                logtype: stream
+        spec:
+            containers:
+                - name: jenkinsadmin
+                  image: jenkinsciinfra/ircbot:<%= @parameters['image_tag'] %>
+                  imagePullPolicy: IfNotPresent
+                  args: <%= @parameters['nick_password'] %>
+                  volumeMounts:
+                    - name: credentials
+                      mountPath: /home/chatbot
+                      readOnly: true
+            volumes:
+                - name: credentials
+                  secret:
+                    name: jenkinsadmin

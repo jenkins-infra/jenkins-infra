@@ -8,14 +8,14 @@ profile::accountapp::jira_password: 'jira_password_example'
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
-profile::jenkinsadmin::github_login: 'jenkinsadmin'
-profile::jenkinsadmin::github_token: 'githubtoken'
-# access to JIRA (for creating new components)
-profile::jenkinsadmin::jira_login: 'ircbot'
-profile::jenkinsadmin::jira_password: 'jiratoken'
-# access to freenode (for authenticating as 'jenkinsadmin')
+profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
+profile::kubernetes::resources::chatbot_jenkinsadmin::github_token: 'githubtoken'
+# access JIRA (for creating new components)
+profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
+profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: 'jiratoken'
+# access freenode (for authenticating as 'jenkinsadmin')
 # TODO: nickname is hard-coded to the bot right now
-profile::jenkinsadmin::nick_password: 'ircpassword'
+profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: 'ircpassword'
 profile::jira::database_url: mysql://jira:raji@db/jiradb
 
 profile::ldap::ssl_key: |
