@@ -69,12 +69,12 @@ class profile::kubernetes::resources::jenkinsio (
       resource => 'jenkinsio/cn-service.yaml'
     }
 
-    profile::kubernetes::apply{ "jenkinsio/cn-endpoint.yaml on ${context}":
+    profile::kubernetes::delete{ "jenkinsio/cn-endpoint.yaml on ${context}":
       context    => $context,
       resource   => 'jenkinsio/cn-endpoint.yaml',
       parameters => {
-        'cn_endpoint_ip'   => $cn_endpoint_ip
-      },
+        'cn_endpoint_ip' => $cn_endpoint_ip
+      }
     }
 
     profile::kubernetes::apply{ "jenkinsio/ingress-tls.yaml on ${context}":
@@ -99,6 +99,19 @@ class profile::kubernetes::resources::jenkinsio (
       resource   => 'jenkinsio/deployment.yaml'
     }
 
+    profile::kubernetes::apply{ "jenkinsio/cn-configmap.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/cn-configmap.yaml'
+    }
+
+    profile::kubernetes::apply{ "jenkinsio/cn-deployment.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'image_tag' => $image_tag
+      },
+      resource   => 'jenkinsio/cn-deployment.yaml'
+    }
+
     # As secret changes do not trigger pods update,
     # we must reload pods 'manually' to use the newly updated secret
     profile::kubernetes::reload { "jenkinsio pods on ${context}":
@@ -107,6 +120,15 @@ class profile::kubernetes::resources::jenkinsio (
       depends_on => [
         'jenkinsio/secret.yaml',
         'jenkinsio/configmap.yaml',
+      ]
+    }
+
+    profile::kubernetes::reload { "cnjenkinsio pods on ${context}":
+      context    => $context,
+      app        => 'cnjenkinsio',
+      depends_on => [
+        'jenkinsio/secret.yaml',
+        'jenkinsio/cn-configmap.yaml',
       ]
     }
 
