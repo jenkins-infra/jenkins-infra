@@ -29,7 +29,8 @@ define profile::kubernetes::delete (
   String $kubeconfig = $profile::kubernetes::params::kubeconfig,
   String $home = $profile::kubernetes::params::home,
   String $resource = $title,
-  String $user = $profile::kubernetes::params::user
+  String $user = $profile::kubernetes::params::user,
+  Hash $parameters = {}
 ){
   include ::stdlib
   include profile::kubernetes::params
