@@ -29,7 +29,12 @@ spec:
         backend:
           serviceName: jenkinsio
           servicePort: 80
-      - path: /zh
+      # annotation rewrite-target or regex-true enable regex behaviors
+      - path: /zh$
+        backend:
+          serviceName: jenkinsio-zh
+          servicePort: 80
+      - path: /zh/
         backend:
           serviceName: jenkinsio-zh
           servicePort: 80
@@ -41,7 +46,12 @@ spec:
         backend:
           serviceName: jenkinsio
           servicePort: 80
-      - path: /zh
+      # annotation rewrite-target or regex-true enable regex behaviors
+      - path: /zh$
+        backend:
+          serviceName: jenkinsio-zh
+          servicePort: 80
+      - path: /zh/
         backend:
           serviceName: jenkinsio-zh
           servicePort: 80
