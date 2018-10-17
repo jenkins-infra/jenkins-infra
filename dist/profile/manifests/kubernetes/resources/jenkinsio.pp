@@ -31,7 +31,6 @@ class profile::kubernetes::resources::jenkinsio (
     ],
   Array $clusters = $profile::kubernetes::params::clusters,
   String $image_tag = 'latest',
-  String $cn_endpoint_ip = '159.138.4.250',
   String $storage_account_name = '',
   String $storage_account_key = '',
   String $url = 'www.jenkins.io'
@@ -64,18 +63,11 @@ class profile::kubernetes::resources::jenkinsio (
       resource => 'jenkinsio/service.yaml'
     }
 
-    profile::kubernetes::apply{ "jenkinsio/cn-service.yaml on ${context}":
+    profile::kubernetes::apply{ "jenkinsio/zh-service.yaml on ${context}":
       context  => $context,
-      resource => 'jenkinsio/cn-service.yaml'
+      resource => 'jenkinsio/zh-service.yaml'
     }
 
-    profile::kubernetes::delete{ "jenkinsio/cn-endpoint.yaml on ${context}":
-      context    => $context,
-      resource   => 'jenkinsio/cn-endpoint.yaml',
-      parameters => {
-        'cn_endpoint_ip' => $cn_endpoint_ip
-      }
-    }
 
     profile::kubernetes::apply{ "jenkinsio/ingress-tls.yaml on ${context}":
       context    => $context,
@@ -99,17 +91,17 @@ class profile::kubernetes::resources::jenkinsio (
       resource   => 'jenkinsio/deployment.yaml'
     }
 
-    profile::kubernetes::apply{ "jenkinsio/cn-configmap.yaml on ${context}":
+    profile::kubernetes::apply{ "jenkinsio/zh-configmap.yaml on ${context}":
       context  => $context,
-      resource => 'jenkinsio/cn-configmap.yaml'
+      resource => 'jenkinsio/zh-configmap.yaml'
     }
 
-    profile::kubernetes::apply{ "jenkinsio/cn-deployment.yaml on ${context}":
+    profile::kubernetes::apply{ "jenkinsio/zh-deployment.yaml on ${context}":
       context    => $context,
       parameters => {
         'image_tag' => $image_tag
       },
-      resource   => 'jenkinsio/cn-deployment.yaml'
+      resource   => 'jenkinsio/zh-deployment.yaml'
     }
 
     # As secret changes do not trigger pods update,
@@ -123,12 +115,12 @@ class profile::kubernetes::resources::jenkinsio (
       ]
     }
 
-    profile::kubernetes::reload { "cnjenkinsio pods on ${context}":
+    profile::kubernetes::reload { "zhjenkinsio pods on ${context}":
       context    => $context,
-      app        => 'cnjenkinsio',
+      app        => 'zhjenkinsio',
       depends_on => [
         'jenkinsio/secret.yaml',
-        'jenkinsio/cn-configmap.yaml',
+        'jenkinsio/zh-configmap.yaml',
       ]
     }
 
@@ -136,5 +128,26 @@ class profile::kubernetes::resources::jenkinsio (
       context  => $context,
       resource => 'jenkinsio-tls'
     }
+
+    # Can be remove once resources are removed from the cluster
+    profile::kubernetes::delete{ "jenkinsio/cn-service.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/cn-service.yaml'
+    }
+
+    profile::kubernetes::delete{ "jenkinsio/cn-configmap.yaml on ${context}":
+      context  => $context,
+      resource => 'jenkinsio/cn-configmap.yaml'
+    }
+
+    profile::kubernetes::delete{ "jenkinsio/cn-deployment.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'image_tag' => $image_tag
+      },
+      resource   => 'jenkinsio/cn-deployment.yaml'
+    }
+
+
   }
 }
