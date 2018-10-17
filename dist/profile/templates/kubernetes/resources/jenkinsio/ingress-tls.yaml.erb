@@ -29,9 +29,9 @@ spec:
         backend:
           serviceName: jenkinsio
           servicePort: 80
-      - path: /cn/
+      - path: /zh
         backend:
-          serviceName: jenkinsio-cn
+          serviceName: jenkinsio-zh
           servicePort: 80
   <% @parameters['aliases'].each do |vhost_alias| %>
   - host: <%= vhost_alias %>
@@ -41,8 +41,8 @@ spec:
         backend:
           serviceName: jenkinsio
           servicePort: 80
-      - path: /cn/
+      - path: /zh
         backend:
-          serviceName: jenkinsio-cn
+          serviceName: jenkinsio-zh
           servicePort: 80
   <% end %>
