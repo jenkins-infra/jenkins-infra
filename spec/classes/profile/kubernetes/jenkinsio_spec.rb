@@ -22,9 +22,9 @@ describe 'profile::kubernetes::resources::jenkinsio' do
   }
 
   it { should contain_profile__kubernetes__apply('jenkinsio/service.yaml on minikube')}
-  it { should contain_profile__kubernetes__apply('jenkinsio/cn-service.yaml on minikube')}
-  it { should contain_profile__kubernetes__apply('jenkinsio/cn-configmap.yaml on minikube')}
-  it { should contain_profile__kubernetes__apply('jenkinsio/cn-deployment.yaml on minikube')}
+  it { should contain_profile__kubernetes__apply('jenkinsio/zh-service.yaml on minikube')}
+  it { should contain_profile__kubernetes__apply('jenkinsio/zh-configmap.yaml on minikube')}
+  it { should contain_profile__kubernetes__apply('jenkinsio/zh-deployment.yaml on minikube')}
 
   it {
     should contain_profile__kubernetes__apply('jenkinsio/deployment.yaml on minikube')
