@@ -71,7 +71,7 @@ mod 'puppetlabs/lvm', '0.3.2'
 mod 'datadog/datadog_agent', '2.0.1'
 
 # Used for grabbing certificates for jenkins.io
-mod 'danzilio/letsencrypt', '1.0.0'
+mod 'puppet-letsencrypt', '2.5.0'
 
 # For managing ldap, and dependencies
 mod 'camptocamp/openldap', '1.14.0'
