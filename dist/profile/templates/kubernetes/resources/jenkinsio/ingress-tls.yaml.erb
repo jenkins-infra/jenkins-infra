@@ -5,7 +5,6 @@ metadata:
   annotations:
     kubernetes.io/tls-acme: "true"
     kubernetes.io/ingress.class: "nginx"
-    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/hsts: "false"
     nginx.ingress.kubernetes.io/configuration-snippet: |
@@ -29,11 +28,6 @@ spec:
         backend:
           serviceName: jenkinsio
           servicePort: 80
-      # annotation rewrite-target or regex-true enable regex behaviors
-      - path: /zh$
-        backend:
-          serviceName: jenkinsio-zh
-          servicePort: 80
       - path: /zh/
         backend:
           serviceName: jenkinsio-zh
@@ -45,11 +39,6 @@ spec:
       - path: /
         backend:
           serviceName: jenkinsio
-          servicePort: 80
-      # annotation rewrite-target or regex-true enable regex behaviors
-      - path: /zh$
-        backend:
-          serviceName: jenkinsio-zh
           servicePort: 80
       - path: /zh/
         backend:
