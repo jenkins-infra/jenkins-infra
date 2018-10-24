@@ -31,13 +31,14 @@ class profile::kubernetes::resources::chatbot_jenkinsadmin (
       resource => 'chatbot_jenkinsadmin/namespace.yaml'
     }
 
+    $github_credentials = "login=${github_login}\npassword=${github_password}\n"
+    $jira_credentials = "login=${jira_login}\npassword=${jira_password}\n"
+
     profile::kubernetes::apply { "chatbot_jenkinsadmin/secret.yaml on ${context}":
       context    => $context,
       parameters => {
-        'github_login'    => base64('encode', $github_login, 'strict'),
-        'github_password' => base64('encode', $github_password, 'strict'),
-        'jira_login'      => base64('encode', $jira_login, 'strict'),
-        'jira_password'   => base64('encode', $jira_password, 'strict')
+        'github' => base64('encode', $github_credentials, 'strict'),
+        'jira'   => base64('encode', $jira_credentials , 'strict'),
       },
       resource   => 'chatbot_jenkinsadmin/secret.yaml'
     }

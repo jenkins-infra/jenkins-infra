@@ -17,7 +17,7 @@ spec:
                 - name: jenkinsadmin
                   image: jenkinsciinfra/ircbot:<%= @parameters['image_tag'] %>
                   imagePullPolicy: IfNotPresent
-                  args: <%= @parameters['nick_password'] %>
+                  args: ["<%= @parameters['nick_password'] %>"]
                   volumeMounts:
                     - name: credentials
                       mountPath: /home/chatbot
@@ -25,4 +25,4 @@ spec:
             volumes:
                 - name: credentials
                   secret:
-                    name: jenkinsadmin
+                    secretName: jenkinsadmin
