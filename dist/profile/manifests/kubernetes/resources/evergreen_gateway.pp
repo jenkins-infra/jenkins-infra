@@ -28,7 +28,7 @@
 
 class profile::kubernetes::resources::evergreen_gateway (
   Array $clusters = $profile::kubernetes::params::clusters,
-  String $image_tag = 'evergreen-d69c65',
+  String $image_tag = '',
   String $db_host   = '',
   String $db_port   = '5432',
   String $db_user   = '',
@@ -48,15 +48,26 @@ class profile::kubernetes::resources::evergreen_gateway (
       owner  => $profile::kubernetes::params::user,
     }
 
-    profile::kubernetes::apply{ "evergreen_gateway/configmap.yaml on ${context}":
+    # Template evergreen profile file
+    $profile = @("PROFILE"/L$)
+      export DB_HOST==${db_host}
+      export DB_PORT=${db_port}
+      export DB_USER=${db_user}
+      export DB_NAME=${db_name}
+      export DB_PASS=${db_pass}
+
+      echo "\${DB_HOST}:\${DB_PORT}:\${DB_NAME}:\${DB_USER}:\${DB_PASS}" > \${HOME}/.pgpass
+      chmod 0600 \${HOME}/.pgpass
+
+      psql -U \${DB_USER} -d \${DB_NAME} -h \${DB_HOST}
+      | PROFILE
+
+
+    profile::kubernetes::apply{ "evergreen_gateway/secret.yaml on ${context}":
       context    => $context,
-      resource   => 'evergreen_gateway/configmap.yaml',
+      resource   => 'evergreen_gateway/secret.yaml',
       parameters => {
-        'db_host' => $db_host,
-        'db_port' => $db_port,
-        'db_user' => $db_user,
-        'db_name' => $db_name,
-        'db_pass' => $db_pass
+        'profile' => base64('encode', $profile, 'strict')
       }
     }
 
@@ -76,8 +87,9 @@ class profile::kubernetes::resources::evergreen_gateway (
     profile::kubernetes::reload { "evergreen_gateway pods on ${context}":
       context    => $context,
       app        => 'gateway',
+      namespace  => 'evergreen',
       depends_on => [
-        'evergreen_gateway/configmap.yaml',
+        'evergreen_gateway/secret.yaml',
       ]
     }
   }
