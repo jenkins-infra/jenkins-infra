@@ -9,7 +9,7 @@ profile::accountapp::jira_password: 'jira_password_example'
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
 profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_token: 'githubtoken'
+profile::kubernetes::resources::chatbot_jenkinsadmin::github_password: 'githubtoken'
 # access JIRA (for creating new components)
 profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
 profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: 'jiratoken'
