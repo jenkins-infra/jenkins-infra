@@ -5,7 +5,7 @@
 #############################################################
 ##                                                         ##
 ##  THIS CLASS IS DEPRECATED IN FAVOR OF                   ##
-##  profile::kubernetes::resources::chatbot_jenkinsadminl  ##
+##  profile::kubernetes::resources::chatbot_jenkinsadmin   ##
 ##                                                         ##
 #############################################################
 
