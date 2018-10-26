@@ -17,7 +17,13 @@ spec:
                 - name: jenkinsadmin
                   image: jenkinsciinfra/ircbot:<%= @parameters['image_tag'] %>
                   imagePullPolicy: IfNotPresent
-                  args: ["<%= @parameters['nick_password'] %>"]
+                  args: ["$NICK_PASSWORD"]
+                  env:
+                    - name: NICK_PASSWORD
+                      valueFrom:
+                        secretKeyRef:
+                            name: jenkinsadmin
+                            key: nick_password
                   volumeMounts:
                     - name: credentials
                       mountPath: /home/chatbot
@@ -26,3 +32,10 @@ spec:
                 - name: credentials
                   secret:
                     secretName: jenkinsadmin
+                    items:
+                      - key: github
+                        path: .github
+                        mode: 0600
+                      - key: jira
+                        path: .jenkins-ci.org
+                        mode: 0600

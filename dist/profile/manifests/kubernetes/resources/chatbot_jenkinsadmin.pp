@@ -37,8 +37,9 @@ class profile::kubernetes::resources::chatbot_jenkinsadmin (
     profile::kubernetes::apply { "chatbot_jenkinsadmin/secret.yaml on ${context}":
       context    => $context,
       parameters => {
-        'github' => base64('encode', $github_credentials, 'strict'),
-        'jira'   => base64('encode', $jira_credentials , 'strict'),
+        'github'        => base64('encode', $github_credentials, 'strict'),
+        'jira'          => base64('encode', $jira_credentials , 'strict'),
+        'nick_password' => base64('encode', $nick_password, 'strict')
       },
       resource   => 'chatbot_jenkinsadmin/secret.yaml'
     }
@@ -46,8 +47,7 @@ class profile::kubernetes::resources::chatbot_jenkinsadmin (
     profile::kubernetes::apply { "chatbot_jenkinsadmin/deployment.yaml on ${context}":
       context    => $context,
       parameters => {
-        'image_tag'     =>  $image_tag,
-        'nick_password' => $nick_password
+        'image_tag'     =>  $image_tag
       },
       resource   => 'chatbot_jenkinsadmin/deployment.yaml'
     }
