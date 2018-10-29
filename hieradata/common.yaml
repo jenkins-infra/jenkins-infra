@@ -212,6 +212,18 @@ profile::kubernetes::resources::accountapp::ldap_url: ldaps://ldap.jenkins.io:63
 profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
 profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
 
+profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
+profile::kubernetes::resources::chatbot_jenkinsadmin::github_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPU/ayIbg0ST7GaBU1Hh5myKg9SjVJEDCNLIreZqQLr/IUiM5biFvcdE4QjhUUDPEpZNz5HLXDS75AQsWr5hS7Xy4TPIP+Y7s9T5QMYOuGME9wFCcSbitVV0Uq9NLPQxv6ZsUaNlU+IKYomHLIhPEzxVQ4N7IlgfkaBljpOC5CjoTz20oSb16icMoyZLKKiZRxbS+HisaF475l0koo+a8s1CTYjCrFwlEh/aTXHMRENDuAlk4D/ld9AxKBdKG16xN1caCfoPsbW/CchQUnER88ktvkXj/YAe+CjlJ4xqpvYzjxVT4GNTEn4ovFPkcVqHo0T9MWRq5BLJ3fNImNLylajA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCUi3iHEOPMwHw+rB78aUpxgBDaoeS26SryhDsl9/l49TeT]
+# access to JIRA creating new components)
+profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
+profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATAeBkzcuvu32ZdCm7jq/zI1gRlaNroGyrBxA/kxTw1uL4OhApI8RcgbO/PinbIbva6mnde0hXSsWmIoYN9wN1SpHyk7VJvzrKUf8E4HyvXdmDQBRRvd2q5I9f0wh7nKz2kVOht8eX4A//Q+U7NcGCo//1vDYVy2zfbWSFW5JD727rFgzflF/VPjEBOx8y+bKBTF8EOtygiBAI1WDfnfgM+ogwsZjE6z2ipCHJ8zMsTs0djtH/+C86WYtA52izXs7hvKrqUWir38/f4MkLjSNgpPVrvBxufXopXmzyIMV1uvMpCqJ6x4qAlNcukBfZCEiE3h2e1+GfBHId7rsOrGqmDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBClxcblTgjZwGo3nsZGyK1HgDCPD2E9tLavlMvRuTnMfmNv6p4v9gDJYesF4k4/7AvDuyIjBCmlSGvFRjnDbzElYLM=]
+# access to freenode for authenticating as 'jenkinsadmin')
+# TODO: nickname is hard-coded to the bot right now
+profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApcoIRvdK5ucSrPibeyrhAQactyxQGTJLdVaopQdEu8MUVQIPcsi052ib60se8E51JUSiQhus3dV9b7KTnLqPGV2eYz08jAgUJTnYcxOlSp7nRY8HXRXIAJ8uhjrYxXpw8B0pisxb4joEEMhYdlBMrFthXUxD8g3LoybOLsRVjQViFJeRfvg9cVUQ2fgqHnXKyyTCadqQCYyNXlSB9yc8J4W1/xfjpIfE3EcQ6GcHYe225tPy0aPMetUnt7v5qRzuuO5xPYO86ByBDd4rSxn6El1cokOxIIg1IAr4q55h6QwFLHoXX4GtvV05CHB9pgfxuxc0JHV7Mv9L/+cDpwyq8jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvd92Vb6hSA9rBlA48KfaogBDLJlf7Q+XwAU4fMZbOO7go]
+# Tag is the docker container image tag from our build process, this job:
+# <https:kubernetes::resources::chatbot_//trusted.ci.jenkins.io:1443/job/Containers/job/ircbot>
+profile::kubernetes::resources::chatbot_jenkinsadmin::image_tag: '43-builda0b99b'
+
 profile::kubernetes::resources::jenkinsio::image_tag: 'latest'
 
 profile::kubernetes::resources::ldap::image_tag: '12-builde29683'
