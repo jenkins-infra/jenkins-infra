@@ -17,7 +17,9 @@ spec:
                 - name: jenkinsadmin
                   image: jenkinsciinfra/ircbot:<%= @parameters['image_tag'] %>
                   imagePullPolicy: IfNotPresent
-                  args: ["$NICK_PASSWORD"]
+                  # A shell is required to load $NICK_PASSWORD env variable
+                  command: ["/bin/sh", "-c"]
+                  args: ["java -Dircbot.name=jenkins-admin -jar /usr/local/bin/ircbot-2.0-SNAPSHOT.jar $NICK_PASSWORD"]
                   env:
                     - name: NICK_PASSWORD
                       valueFrom:
@@ -26,7 +28,7 @@ spec:
                             key: nick_password
                   volumeMounts:
                     - name: credentials
-                      mountPath: /home/chatbot
+                      mountPath: /home/ircbot
                       readOnly: true
             volumes:
                 - name: credentials
@@ -35,7 +37,7 @@ spec:
                     items:
                       - key: github
                         path: .github
-                        mode: 0600
+                        mode: 0644
                       - key: jira
                         path: .jenkins-ci.org
-                        mode: 0600
+                        mode: 0644

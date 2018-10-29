@@ -32,7 +32,7 @@ class profile::kubernetes::resources::chatbot_jenkinsadmin (
     }
 
     $github_credentials = "login=${github_login}\npassword=${github_password}\n"
-    $jira_credentials = "login=${jira_login}\npassword=${jira_password}\n"
+    $jira_credentials = "userName=${jira_login}\npassword=${jira_password}\n"
 
     profile::kubernetes::apply { "chatbot_jenkinsadmin/secret.yaml on ${context}":
       context    => $context,
