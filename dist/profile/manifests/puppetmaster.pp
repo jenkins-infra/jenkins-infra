@@ -54,6 +54,7 @@ class profile::puppetmaster {
     proto  => 'tcp',
     port   => 443,
     action => 'accept',
+    source => '127.0.0.1'
   }
 
   firewall { '012 allow puppet agents':
