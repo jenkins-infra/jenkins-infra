@@ -3,6 +3,7 @@ class role::kubernetes{
   include profile::base
   include profile::kubernetes::resources::datadog
   include profile::kubernetes::resources::reports
+  include profile::kubernetes::resources::chatbot_jenkinsadmin
   include profile::kubernetes::resources::updates_proxy
   include profile::kubernetes::resources::javadoc
   include profile::kubernetes::resources::pluginsite
@@ -13,6 +14,7 @@ class role::kubernetes{
   include profile::kubernetes::resources::accountapp
   include profile::kubernetes::resources::jenkinsio
   include profile::kubernetes::resources::ldap
+  include profile::kubernetes::resources::evergreen_gateway
   include profile::kubernetes::resources::evergreen
   include profile::kubernetes::resources::uplink
 }

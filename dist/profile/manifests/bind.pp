@@ -1,4 +1,14 @@
 # Run containerized BIND9 to serve both jenkins-ci.org and the jenkins.io zone
+
+#################################################################################
+##                                                                             ##
+##  THIS CLASS IS DEPRECATED IN FAVOR OF                                       ##
+##  https://github.com/jenkins-infra/azure/blob/master/plans/dns_jenkinsio.tf  ##
+##  https://github.com/jenkins-infra/azure/blob/master/plans/dns_jenkinsci.tf  ##
+##                                                                             ##
+#################################################################################
+
+
 class profile::bind (
   # all injected from hiera
   $image_tag,
@@ -49,6 +59,7 @@ class profile::bind (
   }
 
   docker::run { 'bind':
+    ensure  => 'absent',
     command => undef,
     ports   => ['53:53', '53:53/udp'],
     image   => "jenkinsciinfra/bind:${image_tag}",

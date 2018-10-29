@@ -1,6 +1,14 @@
 #
 # IRC bot that runs most project related tasks
 # containerized in https://github.com/jenkins-infra/ircbot
+
+#############################################################
+##                                                         ##
+##  THIS CLASS IS DEPRECATED IN FAVOR OF                   ##
+##  profile::kubernetes::resources::chatbot_jenkinsadmin   ##
+##                                                         ##
+#############################################################
+
 class profile::jenkinsadmin (
   # Parameters supplied by Hiera
   $github_login,
@@ -24,6 +32,7 @@ class profile::jenkinsadmin (
     # to the invocation of the Java command, since the IRC bot .jar file
     # requires:
     #    java -jar /home/ircbot/*.jar $NICKPASSWORD
+    ensure   => 'absent',
     command  => $nick_password,
     volumes  => ['/home/ircbot/.github:/home/ircbot/.github',
                 '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
