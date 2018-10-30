@@ -89,7 +89,8 @@ profile::accountapp::smtp_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQ
 # BIND container to deploy.
 profile::bind::image_tag: '15-237a33'
 
-irc::irc_server: 'irc://infra-butler@irc.freenode.net/#jenkins-infra'
+irc::irc_server: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHKHAdkfe6JOYrRTa0fkos70NiLX7KNceJiFbtj7wXTZYZcHxMySufm0MHhNTbRA8PYTnlHgff1dQxMj0iIQ7uSH5jHgYLuyCkbTw/xXYVrEQozb/I5xe9IBrl+ot4ctra/fCC6q//Wf+xuJQ4DzAkrmPK041dORSh8mw31HkSdcL3EvzV8dEOXqJHhgIuyskAWNoyq1nHjU44+93yh9x9s/FvOMt4tQ+odquUeVvcnpcpeT2rWyg075otE+r4kJI2LAhINwo1oCdaUL8WZK4E2l6asMVYQFCohJfoIJpNh9bc5HWNfxcU4Var4pGSbl4JlM//dV/EABQcYEg7hvwkDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAH4ik2W0sBT5z+yJhU1SvVgFDCilHva0EW+lnE0c10kWfc5e3fwkg+W3fvtt7xOZp8jOMAgGFnnPD3C9v9+tJk0EjJmQ05fXlbTl0nAH62ZSLQNc7/C6bKKutknGKcJBfdEQ==]
+irc::register_first: true
 irc::irc_join: true
 irc::timeout: 20
 

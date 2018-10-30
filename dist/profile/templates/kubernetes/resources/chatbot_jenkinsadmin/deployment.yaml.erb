@@ -18,7 +18,10 @@ spec:
                   image: jenkinsciinfra/ircbot:<%= @parameters['image_tag'] %>
                   imagePullPolicy: IfNotPresent
                   # A shell is required to load $NICK_PASSWORD env variable
-                  args: ["$NICK_PASSWORD"]
+                  # For a reason that I can't understand, the java command must be defined as an argument otherwise it doesn't take into account the $NICK_PASSWORD parameter
+                  command: ["/tini","--","/bin/sh","-c"]
+                  args: ["java -Dircbot.name=jenkins-admin -jar /usr/local/bin/ircbot-2.0-SNAPSHOT.jar $NICK_PASSWORD"]
+
                   env:
                     - name: NICK_PASSWORD
                       valueFrom:

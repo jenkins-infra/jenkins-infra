@@ -50,7 +50,7 @@ class profile::kubernetes::resources::evergreen_gateway (
 
     # Template evergreen profile file
     $profile = @("PROFILE"/L$)
-      export DB_HOST==${db_host}
+      export DB_HOST=${db_host}
       export DB_PORT=${db_port}
       export DB_USER=${db_user}
       export DB_NAME=${db_name}
