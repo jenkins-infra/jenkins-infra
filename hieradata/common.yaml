@@ -222,7 +222,7 @@ profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: ENC[PKCS7,M
 profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApcoIRvdK5ucSrPibeyrhAQactyxQGTJLdVaopQdEu8MUVQIPcsi052ib60se8E51JUSiQhus3dV9b7KTnLqPGV2eYz08jAgUJTnYcxOlSp7nRY8HXRXIAJ8uhjrYxXpw8B0pisxb4joEEMhYdlBMrFthXUxD8g3LoybOLsRVjQViFJeRfvg9cVUQ2fgqHnXKyyTCadqQCYyNXlSB9yc8J4W1/xfjpIfE3EcQ6GcHYe225tPy0aPMetUnt7v5qRzuuO5xPYO86ByBDd4rSxn6El1cokOxIIg1IAr4q55h6QwFLHoXX4GtvV05CHB9pgfxuxc0JHV7Mv9L/+cDpwyq8jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvd92Vb6hSA9rBlA48KfaogBDLJlf7Q+XwAU4fMZbOO7go]
 # Tag is the docker container image tag from our build process, this job:
 # <https:kubernetes::resources::chatbot_//trusted.ci.jenkins.io:1443/job/Containers/job/ircbot>
-profile::kubernetes::resources::chatbot_jenkinsadmin::image_tag: '43-builda0b99b'
+profile::kubernetes::resources::chatbot_jenkinsadmin::image_tag: '44-build2496ce'
 
 profile::kubernetes::resources::jenkinsio::image_tag: 'latest'
 
