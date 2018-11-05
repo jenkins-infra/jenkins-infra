@@ -4,7 +4,7 @@ forge "http://forge.puppetlabs.com"
 mod "puppet/r10k", '6.0.0'
 
 # Deps for zack/r10k
-mod "puppetlabs/stdlib", '4.17.0'
+mod "puppetlabs/stdlib", '4.25.1'
 
 mod 'puppetlabs/ruby', '0.5.0'
 mod "puppetlabs/gcc", '0.3.0'
