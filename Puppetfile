@@ -31,7 +31,7 @@ mod 'adrien/filemapper'
 mod 'puppetlabs-docker', '3.1.0'
 
 # Deps for docker
-mod 'puppetlabs/apt', '2.2.2'
+mod 'puppetlabs/apt', '6.2.1'
 mod 'stahnma/epel', '1.2.2'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
