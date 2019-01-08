@@ -5,7 +5,7 @@
 Vagrant.configure("2") do |config|
 
     # prefer aws provider over virtualbox to make it the default
-    config.vm.box = 'ubuntu/trusty64'
+    config.vm.box = 'ubuntu/bionic64'
 
     # modules/account/.travis.yml has incorrect link target, and this blows up
     # when vagrant tries to rsync files as it tries to resolves symlinks.
