@@ -26,6 +26,11 @@ class profile::openvpn (
   validate_string($openvpn_server_key)
   validate_string($openvpn_dh_pem)
 
+  sysctl { "net.ipv4.ip_forward":
+    ensure => present,
+    value  => "1",
+  }
+
   docker::image { $image:
     image_tag => $image_tag
   }
@@ -52,4 +57,5 @@ class profile::openvpn (
     port   => 443,
     action => 'accept'
   }
+
 }
