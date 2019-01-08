@@ -70,6 +70,7 @@ profile::ldap::ssl_chain: |
 profile::openvpn::auth_ldap_password: 's3cr3t'
 profile::openvpn::auth_ldap_password: 'ldaps://ldap'
 
+# Dumb Self Signed Certificate for testing purpose
 profile::openvpn::openvpn_ca_pem: |
   -----BEGIN CERTIFICATE-----
   MIIDiTCCAnGgAwIBAgIUE5kg1FzG3S2HY3wmn+YKCBZddHIwDQYJKoZIhvcNAQEL
@@ -93,6 +94,7 @@ profile::openvpn::openvpn_ca_pem: |
   +ARrNnxpk0YcjRS8vZCCm+QyQcl6SqfAAqmd4zQojfNONqW14SwKwzfX4rsA
   -----END CERTIFICATE-----
 
+# Dumb Self Signed Certificate for testing purpose
 profile::openvpn::openvpn_server_pem: |
   -----BEGIN CERTIFICATE-----
   MIIDMDCCAhgCFGXhX2+qymGO4kQ1BmlX+ALRP8g7MA0GCSqGSIb3DQEBCwUAMFQx
@@ -115,6 +117,7 @@ profile::openvpn::openvpn_server_pem: |
   4ZlfnQ==
   -----END CERTIFICATE-----
 
+# Dumb Private Key for testing purpose
 profile::openvpn::openvpn_server_key: |
   -----BEGIN PRIVATE KEY-----
   MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDON350cTG/IXAw
@@ -145,6 +148,7 @@ profile::openvpn::openvpn_server_key: |
   fbID8N632RFEBJgAg02JhYW0
   -----END PRIVATE KEY-----
 
+# Dumb dh certificate for testing purpose
 profile::openvpn::openvpn_dh_pem: |
   -----BEGIN DH PARAMETERS-----
   MIIBCAKCAQEA85Md0iWYllvKYyO5Xe2yNLgzEyWhUw56ol5kVbrQVchT4yAU4Jkp
