@@ -15,7 +15,7 @@ mod "puppetlabs/vcsrepo", '1.1.0'
 mod "gentoo/portage", '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
-mod "puppetlabs/ntp", '4.1.2'
+mod "puppetlabs/ntp", '7.3.0'
 
 # Module for managing sudoers across all machines
 mod 'saz/sudo', '3.0.6'
@@ -50,7 +50,7 @@ mod 'jenkins_keys',
   :ref => 'eeb7db7'
 
 # Apache and its dependencies
-mod "puppetlabs/apache", '1.8.1'
+mod "puppetlabs/apache", '3.5.0'
 # Used internally to gzip compress rotated logs
 mod 'apachelogcompressor',
         :git => 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git',
@@ -68,7 +68,7 @@ mod 'nanliu/staging', '0.4.0'
 mod 'saz/ssh', '3.0.1'
 
 mod 'puppetlabs/lvm', '0.3.2'
-mod 'datadog/datadog_agent', '2.2.0'
+mod 'datadog/datadog_agent', '2.4.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '2.5.0'
