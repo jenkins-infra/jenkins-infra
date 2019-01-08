@@ -1,3 +1,4 @@
+# This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
   #$image_tag             = 'latest',
@@ -36,8 +37,8 @@ class profile::openvpn (
   }
 
   docker::run { 'openvpn':
-    image             => "${image}:${image_tag}",
-    env               => [
+    image            => "${image}:${image_tag}",
+    env              => [
       "AUTH_LDAP_BINDDN=${auth_ldap_binddn}",
       "AUTH_LDAP_URL=${auth_ldap_url}",
       "AUTH_LDAP_PASSWORD=${auth_ldap_password}",
@@ -47,9 +48,9 @@ class profile::openvpn (
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}"
     ],
-    extra_parameters  => [ '--restart=always --cap-add=NET_ADMIN' ],
-    ports             => "443:443",
-    require           => [Docker::Image[$image]]
+    extra_parameters => [ '--restart=always --cap-add=NET_ADMIN' ],
+    net              => "host",
+    require          => [Docker::Image[$image]]
   }
 
   firewall { '107 accept incoming 443 connections':
