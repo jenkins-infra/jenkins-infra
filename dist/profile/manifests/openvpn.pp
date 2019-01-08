@@ -1,0 +1,55 @@
+
+class profile::openvpn (
+  #$image_tag             = 'latest',
+  #$image                 = 'jenkinsciinfra/openvpn',
+  $image_tag              = 'af995e',
+  $image                  = 'olblak/openvpn',
+  $auth_ldap_password     = undef,
+  $auth_ldap_binddn       ='cn=admin,dc=jenkins-ci,dc=org',
+  $auth_ldap_url          = 'ldaps://ldap.jenkins.io',
+  $auth_ldap_group_member = 'cn=admins',
+  $openvpn_ca_pem         = undef,
+  $openvpn_server_pem     = undef,
+  $openvpn_server_key     = undef,
+  $openvpn_dh_pem         = undef
+) {
+  include profile::docker
+
+  validate_string($image_tag)
+  validate_string($image)
+  validate_string($auth_ldap_password)
+  validate_string($auth_ldap_binddn)
+  validate_string($auth_ldap_url)
+  validate_string($auth_ldap_group_member)
+  validate_string($openvpn_ca_pem)
+  validate_string($openvpn_server_pem)
+  validate_string($openvpn_server_key)
+  validate_string($openvpn_dh_pem)
+
+  docker::image { $image:
+    image_tag => $image_tag
+  }
+
+  docker::run { 'openvpn':
+    image             => "${image}:${image_tag}",
+    env               => [
+      "AUTH_LDAP_BINDDN=${auth_ldap_binddn}",
+      "AUTH_LDAP_URL=${auth_ldap_url}",
+      "AUTH_LDAP_PASSWORD=${auth_ldap_password}",
+      "AUTH_LDAP_GROUPS_MEMBER=${auth_ldap_group_member}",
+      "OPENVPN_CA_PEM=${openvpn_ca_pem}",
+      "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
+      "OPENVPN_SERVER_KEY=${openvpn_server_key}",
+      "OPENVPN_DH_PEM=${openvpn_dh_pem}"
+    ],
+    extra_parameters  => [ '--restart=always --cap-add=NET_ADMIN' ],
+    ports             => "443:443",
+    require           => [Docker::Image[$image]]
+  }
+
+  firewall { '107 accept incoming 443 connections':
+    proto  => 'tcp',
+    port   => 443,
+    action => 'accept'
+  }
+}
