@@ -27,9 +27,9 @@ class profile::openvpn (
   validate_string($openvpn_server_key)
   validate_string($openvpn_dh_pem)
 
-  sysctl { "net.ipv4.ip_forward":
+  sysctl { 'net.ipv4.ip_forward':
     ensure => present,
-    value  => "1",
+    value  => '1',
   }
 
   docker::image { $image:
@@ -49,7 +49,7 @@ class profile::openvpn (
       "OPENVPN_DH_PEM=${openvpn_dh_pem}"
     ],
     extra_parameters => [ '--restart=always --cap-add=NET_ADMIN' ],
-    net              => "host",
+    net              => 'host',
     require          => [Docker::Image[$image]]
   }
 
