@@ -7,7 +7,7 @@ define profile::jenkinsplugin (
   validate_string($name)
 
   exec { "install-plugin-${name}":
-    command   => "/usr/share/jenkins/idempotent-cli install-plugin ${name}",
+    command   => "/usr/share/jenkins/idempotent-cli install-plugins.sh ${name}",
     tries     => $::jenkins::cli_tries,
     try_sleep => $::jenkins::cli_try_sleep,
     path      => ['/bin', '/usr/bin'],
