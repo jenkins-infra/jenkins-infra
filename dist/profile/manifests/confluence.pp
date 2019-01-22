@@ -158,7 +158,7 @@ class profile::confluence (
   firewall {
     '299 allow synchrony for Confluence':
       proto  => 'tcp',
-      dport   => 8091,
+      dport  => 8091,
       action => 'accept',
   }
 

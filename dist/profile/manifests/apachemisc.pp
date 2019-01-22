@@ -50,14 +50,14 @@ class profile::apachemisc(
   firewall {
     '200 allow http':
       proto  => 'tcp',
-      dport   => 80,
+      dport  => 80,
       action => 'accept',
   }
 
   firewall {
     '201 allow https':
       proto  => 'tcp',
-      dport   => 443,
+      dport  => 443,
       action => 'accept',
   }
 }

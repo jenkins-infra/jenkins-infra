@@ -77,13 +77,13 @@ class profile::bind (
 
   firewall { '900 accept tcp DNS queries':
     proto  => 'tcp',
-    dport   => 53,
+    dport  => 53,
     action => 'accept',
   }
 
   firewall { '901 accept udp DNS queries':
     proto  => 'udp',
-    dport   => 53,
+    dport  => 53,
     action => 'accept',
   }
 }

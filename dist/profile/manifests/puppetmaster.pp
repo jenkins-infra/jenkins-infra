@@ -52,20 +52,20 @@ class profile::puppetmaster {
 
   firewall { '010 allow dashboard traffic':
     proto  => 'tcp',
-    dport   => 443,
+    dport  => 443,
     action => 'accept',
     source => '127.0.0.1'
   }
 
   firewall { '012 allow puppet agents':
     proto  => 'tcp',
-    dport   => 8140,
+    dport  => 8140,
     action => 'accept',
   }
 
   firewall { '013 allow mcollective':
     proto  => 'tcp',
-    dport   => 61613,
+    dport  => 61613,
     action => 'accept',
   }
 

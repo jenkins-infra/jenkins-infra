@@ -11,7 +11,7 @@ class profile::firewall {
 
   firewall { '001 accept ssh traffic':
     proto  => 'tcp',
-    dport   => 22,
+    dport  => 22,
     action => 'accept',
   }
 
@@ -32,7 +32,7 @@ class profile::firewall {
   firewall {
     '900 drop all UDP port 111 requests':
       proto  => 'udp',
-      dport   => 111,
+      dport  => 111,
       action => 'drop',
   }
 
