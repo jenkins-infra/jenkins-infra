@@ -39,10 +39,10 @@ class profile::buildmaster(
     include profile::letsencrypt
   }
 
-  $ldap_url    = hiera('ldap_url')
-  $ldap_dn     = hiera('ldap_dn')
-  $ldap_admin_dn = hiera('ldap_admin_dn')
-  $ldap_admin_password = hiera('ldap_admin_password')
+  $ldap_url    = lookup('ldap_url')
+  $ldap_dn     = lookup('ldap_dn')
+  $ldap_admin_dn = lookup('ldap_admin_dn')
+  $ldap_admin_password = lookup('ldap_admin_password')
 
   $ssh_dir = "${jenkins_home}/.ssh"
   $ssh_cli_key = 'jenkins-cli-key'
@@ -220,7 +220,7 @@ class profile::buildmaster(
   file { "${ssh_dir}/azure_k8s":
     ensure  => absent,
     mode    => '0600',
-    content => hiera('azure::k8s::management_ssh_privkey'),
+    content => lookup('azure::k8s::management_ssh_privkey'),
     require => [
         File[$ssh_dir],
     ],
@@ -229,7 +229,7 @@ class profile::buildmaster(
   file { "${ssh_dir}/azure_k8s.pub":
     ensure  => absent,
     mode    => '0644',
-    content => hiera('azure::k8s::management_ssh_pubkey'),
+    content => lookup('azure::k8s::management_ssh_pubkey'),
     require => [
         File[$ssh_dir],
     ],

@@ -57,7 +57,7 @@ class profile::buildslave(
 
     file { "${home_dir}/.docker/config.json":
       ensure  => $docker_config_presence,
-      content => hiera('docker_hub_key'),
+      content => lookup('docker_hub_key'),
       owner   => $user,
       require => File["${home_dir}/.docker"],
     }
