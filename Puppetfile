@@ -85,7 +85,7 @@ mod 'mirrorbrain',
 # For managing Jenkins itself
 mod 'rtyler/jenkins', '1.7.0'
 # Needed for the Jenkins module
-mod 'puppetlabs/java', '1.5.0'
+mod 'puppetlabs/java', '3.3.0'
 mod 'puppet/archive', '1.1.2'
 
 # Helpful for managing ulimits for users systematically
