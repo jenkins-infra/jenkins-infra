@@ -77,10 +77,10 @@ Vagrant.configure("2") do |config|
         # so we're manually invoking Puppet too!
         node.vm.provision 'shell', :inline => <<-EOF
             if [ ! -f "/apt-cached" ]; then
-              wget -q http://apt.puppetlabs.com/puppetlabs-release-pc1-trusty.deb
-              dpkg -i puppetlabs-release-pc1-trusty.deb
+              wget -q http://apt.puppetlabs.com/puppet5-release-bionic.deb
+              dpkg -i puppet5-release-bionic.deb
               apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
-              /opt/puppetlabs/bin/gem install --no-ri --no-rdoc deep_merge
+              /opt/puppetlabs/puppet/bin/gem install --no-ri --no-rdoc deep_merge
             fi
 
             cd /vagrant
