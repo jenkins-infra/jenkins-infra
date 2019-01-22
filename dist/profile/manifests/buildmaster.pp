@@ -79,11 +79,12 @@ class profile::buildmaster(
     # Additionally, Jenkins picks up `user.home` as "?" without the explicit
     # JAVA_OPTS override, breaking the current azure plugin:
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
+    # Quote inside env variable must be escaped as puppet generate a bash script
     env              => [
       "HOME=${jenkins_home}",
       'USER=jenkins',
-      'JAVA_OPTS="-Duser.home=/var/jenkins_home  -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"',
-      'JENKINS_OPTS="--httpKeepAliveTimeout=60000"',
+      'JAVA_OPTS=\"-Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2\"',
+      'JENKINS_OPTS=\"--httpKeepAliveTimeout=60000\"',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
