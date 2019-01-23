@@ -27,7 +27,7 @@ class profile::apachecert (
   }
 
   file { '/etc/apache2/server.key':
-    content => hiera("profile::apachecert::secret-key-${id}"),
+    content => lookup("profile::apachecert::secret-key-${id}"),
     mode    => '0600',
     require => Package['httpd'],
     notify  => Service['httpd'],

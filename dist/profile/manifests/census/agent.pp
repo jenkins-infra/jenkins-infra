@@ -15,7 +15,7 @@ class profile::census::agent(
   ssh_authorized_key { 'usage':
     type    => 'ssh-rsa',
     user    => $user,
-    key     => hiera('usage_ssh_pubkey'),
+    key     => lookup('usage_ssh_pubkey'),
     require => File["${home_dir}/.ssh"],
   }
 
@@ -56,7 +56,7 @@ Host usage.jenkins.io
     ensure  => file,
     owner   => $user,
     mode    => '0600',
-    content => hiera('usage_ssh_privkey'),
+    content => lookup('usage_ssh_privkey'),
     require => File["${home_dir}/.ssh"],
   }
 }

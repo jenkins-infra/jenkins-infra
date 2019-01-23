@@ -35,9 +35,9 @@ describe 'profile::puppetmaster' do
   end
 
   it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
-  it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_port(443) }
-  it { should contain_firewall('012 allow puppet agents').with_action('accept').with_port(8140) }
-  it { should contain_firewall('013 allow mcollective').with_action('accept').with_port(61613) }
+  it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_dport(443) }
+  it { should contain_firewall('012 allow puppet agents').with_action('accept').with_dport(8140) }
+  it { should contain_firewall('013 allow mcollective').with_action('accept').with_dport(61613) }
 
   context 'setting up the irc reporter' do
     it { should contain_class 'irc' }

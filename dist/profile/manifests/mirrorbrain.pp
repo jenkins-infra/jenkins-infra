@@ -81,7 +81,7 @@ class profile::mirrorbrain (
     owner   => $user,
     group   => $group,
     mode    => '0600',
-    content => hiera('osuosl_mirroring_privkey'),
+    content => lookup('osuosl_mirroring_privkey'),
     require => Account[$user],
   }
 

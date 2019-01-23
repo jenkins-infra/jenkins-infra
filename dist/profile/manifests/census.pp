@@ -50,7 +50,7 @@ class profile::census(
   ssh_authorized_key { 'usage':
     type    => 'ssh-rsa',
     user    => $user,
-    key     => hiera('usage_ssh_pubkey'),
+    key     => lookup('usage_ssh_pubkey'),
     require => File["${home_dir}/.ssh"],
   }
 

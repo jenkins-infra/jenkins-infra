@@ -45,7 +45,7 @@ describe 'profile::buildmaster' do
   context 'JNLP' do
     it 'should open the JNLP port in the firewall' do
       expect(subject).to contain_firewall('803 Expose JNLP port').with({
-        :port => 50000,
+        :dport => 50000,
         :proto => 'tcp',
         :action => 'accept',
       })
@@ -125,20 +125,20 @@ describe 'profile::buildmaster' do
 
     it 'should have a CLI port rule' do
       expect(subject).to contain_firewall('108 Jenkins CLI port').with({
-        :port => 47278,
+        :dport => 47278,
         :action => :accept,
       })
     end
 
     it 'should ensure nothing talks directly to Jenkins' do
       expect(subject).to contain_firewall('801 Allow Jenkins web access only on localhost').with({
-        :port => 8080,
+        :dport => 8080,
         :action => :accept,
         :iniface => 'lo',
       })
 
       expect(subject).to contain_firewall('802 Block external Jenkins web access').with({
-        :port => 8080,
+        :dport => 8080,
         :action => :drop,
       })
 
@@ -146,7 +146,7 @@ describe 'profile::buildmaster' do
 
     it 'should allow CLI SSH on 22222' do
       expect(subject).to contain_firewall('810 Jenkins CLI SSH').with({
-        :port => 22222,
+        :dport => 22222,
         :action => :accept,
       })
     end
