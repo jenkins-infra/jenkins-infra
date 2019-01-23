@@ -51,7 +51,7 @@ describe 'profile::confluence' do
   it { should contain_apache__vhost('wiki.jenkins.io')}
 
   it { should contain_firewall('299 allow synchrony for Confluence').with(
-      :port   => 8091,
+      :dport   => 8091,
       :proto  => 'tcp',
       :action => 'accept'
     )
