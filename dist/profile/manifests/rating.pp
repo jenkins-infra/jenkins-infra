@@ -28,7 +28,7 @@ class profile::rating (
   }
 
   file { $config:
-    content => hiera('profile::rating::dbconfig'),
+    content => lookup('profile::rating::dbconfig'),
     mode    => '0644',
     notify  => Service['docker-rating'],
   }

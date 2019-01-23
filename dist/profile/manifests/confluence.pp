@@ -57,7 +57,7 @@ class profile::confluence (
     source => 'puppet:///modules/profile/confluence/robots.txt',
   }
 
-  $ldap_password = hiera('profile::ldap::admin_password')
+  $ldap_password = lookup('profile::ldap::admin_password')
   file { '/srv/wiki/container.env':
     content => join([
         'LDAP_HOST=ldap.jenkins.io',
@@ -158,7 +158,7 @@ class profile::confluence (
   firewall {
     '299 allow synchrony for Confluence':
       proto  => 'tcp',
-      port   => 8091,
+      dport  => 8091,
       action => 'accept',
   }
 

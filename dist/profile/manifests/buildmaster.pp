@@ -39,10 +39,10 @@ class profile::buildmaster(
     include profile::letsencrypt
   }
 
-  $ldap_url    = hiera('ldap_url')
-  $ldap_dn     = hiera('ldap_dn')
-  $ldap_admin_dn = hiera('ldap_admin_dn')
-  $ldap_admin_password = hiera('ldap_admin_password')
+  $ldap_url    = lookup('ldap_url')
+  $ldap_dn     = lookup('ldap_dn')
+  $ldap_admin_dn = lookup('ldap_admin_dn')
+  $ldap_admin_password = lookup('ldap_admin_password')
 
   $ssh_dir = "${jenkins_home}/.ssh"
   $ssh_cli_key = 'jenkins-cli-key'
@@ -79,11 +79,12 @@ class profile::buildmaster(
     # Additionally, Jenkins picks up `user.home` as "?" without the explicit
     # JAVA_OPTS override, breaking the current azure plugin:
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
+    # Quote inside env variable must be escaped as puppet generate a bash script
     env              => [
       "HOME=${jenkins_home}",
       'USER=jenkins',
-      'JAVA_OPTS="-Duser.home=/var/jenkins_home  -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"',
-      'JENKINS_OPTS="--httpKeepAliveTimeout=60000"',
+      'JAVA_OPTS=\"-Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2\"',
+      'JENKINS_OPTS=\"--httpKeepAliveTimeout=60000\"',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
@@ -219,7 +220,7 @@ class profile::buildmaster(
   file { "${ssh_dir}/azure_k8s":
     ensure  => absent,
     mode    => '0600',
-    content => hiera('azure::k8s::management_ssh_privkey'),
+    content => lookup('azure::k8s::management_ssh_privkey'),
     require => [
         File[$ssh_dir],
     ],
@@ -228,7 +229,7 @@ class profile::buildmaster(
   file { "${ssh_dir}/azure_k8s.pub":
     ensure  => absent,
     mode    => '0644',
-    content => hiera('azure::k8s::management_ssh_pubkey'),
+    content => lookup('azure::k8s::management_ssh_pubkey'),
     require => [
         File[$ssh_dir],
     ],
@@ -392,32 +393,32 @@ ProxyPassReverse / http://localhost:8080/
   # This is a legacy role imported from infra-puppet, thus the goofy numbering
   firewall { '108 Jenkins CLI port' :
     proto  => 'tcp',
-    port   => 47278,
+    dport  => 47278,
     action => 'accept',
   }
 
   firewall { '801 Allow Jenkins web access only on localhost':
     proto   => 'tcp',
-    port    => 8080,
+    dport   => 8080,
     action  => 'accept',
     iniface => 'lo',
   }
 
   firewall { '802 Block external Jenkins web access':
     proto  => 'tcp',
-    port   => 8080,
+    dport  => 8080,
     action => 'drop',
   }
 
   firewall { '803 Expose JNLP port':
     proto  => 'tcp',
-    port   => 50000,
+    dport  => 50000,
     action => 'accept',
   }
 
   firewall { '810 Jenkins CLI SSH':
     proto  => 'tcp',
-    port   => 22222,
+    dport  => 22222,
     action => 'accept',
   }
 
