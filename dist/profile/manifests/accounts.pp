@@ -6,6 +6,12 @@ class profile::accounts {
     ensure => present,
   }
 
-  $accounts = hiera_hash('accounts')
+  $accounts = lookup({
+    'name'  => 'accounts',
+    'merge' => {
+      'strategy' => 'deep',
+    }
+  })
+
   create_resources('account', $accounts)
 }
