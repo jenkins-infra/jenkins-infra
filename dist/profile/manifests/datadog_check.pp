@@ -13,24 +13,24 @@ define profile::datadog_check(
   # define the header section
   if !defined(Concat[$target]) {
     concat { $target:
-      owner => 'root',
-      group => 'root',
+      ensure => $ensure,
+      owner  => 'root',
+      group  => 'root',
+      notify => Service[$datadog_agent::params::service_name]
     }
 
     concat::fragment { "${target}-header":
       target  => $target,
       content => "init_config:\n\ninstances:\n",
       order   => '00',
+      notify => Service[$datadog_agent::params::service_name]
     }
-
-    # when the file in question is updated, we need to restart datadog agent
-    Exec["concat_${target}"] ~> Service[$datadog_agent::params::service_name]
   }
 
   concat::fragment { $name:
-    ensure  => $ensure,
     target  => $target,
     source  => $source,
     content => $content,
+    notify => Service[$datadog_agent::params::service_name]
   }
 }
