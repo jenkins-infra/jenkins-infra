@@ -77,8 +77,8 @@ Vagrant.configure("2") do |config|
         # so we're manually invoking Puppet too!
         node.vm.provision 'shell', :inline => <<-EOF
             if [ ! -f "/apt-cached" ]; then
-              wget -q http://apt.puppetlabs.com/puppet5-release-bionic.deb
-              dpkg -i puppet5-release-bionic.deb
+              wget -q http://apt.puppetlabs.com/puppet-release-bionic.deb
+              dpkg -i puppet-release-bionic.deb
               apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
               /opt/puppetlabs/puppet/bin/gem install --no-ri --no-rdoc deep_merge
             fi
