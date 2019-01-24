@@ -1,25 +1,30 @@
 ---
-:backends:
-  - eyaml
-  - yaml
-
-:hierarchy:
-  - "clients/%{clientcert}"
-  - "env/%{environment}"
-  - "roles/%{hiera_role}"
-  - common
-
-#:yaml:
-# datadir is empty here, so hiera uses its defaults:
-# - /var/lib/hiera on *nix
-# - %CommonAppData%\PuppetLabs\hiera\var on Windows
-# When specifying a datadir, make sure the directory exists.
-#  :datadir: "/etc/puppetlabs/puppet/environments/%{environment}/hieradata"
-
-:eyaml:
-  :datadir: "/etc/puppetlabs/code/environments/%{environment}/hieradata"
-  :extension: 'yaml'
-  :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
-  :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
-
-:merge_behavior: deeper
+version: 5
+defaults:
+    datadir: "environments/%{environment}/hieradata"
+    data_hash: yaml_data
+hierarchy:
+    - name: "Client Data"
+      path: "clients/%{clientcert}.yaml"
+      lookup_key: eyaml_lookup_key
+      options:
+          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+    - name: "Environment Data"
+      path: "env/%{environment}.yaml"
+      lookup_key: eyaml_lookup_key
+      options:
+          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+    - name: "Role Data"
+      path: "roles/%{hiera_role}.yaml"
+      lookup_key: eyaml_lookup_key
+      options:
+          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+    - name: "Common Data"
+      path: "common.yaml"
+      lookup_key: eyaml_lookup_key
+      options:
+          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
