@@ -6,11 +6,10 @@ class profile::accounts {
     ensure => present,
   }
 
-  $accounts = hiera_hash('accounts')
-  $accounts = lookup ({
+  $accounts = lookup({
     'name'  => 'accounts',
     'merge' => {
-      'strategy' => 'deep'
+      'strategy' => 'deep',
     }
   })
 
