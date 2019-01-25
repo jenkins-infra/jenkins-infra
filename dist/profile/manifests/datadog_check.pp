@@ -23,7 +23,7 @@ define profile::datadog_check(
       target  => $target,
       content => "init_config:\n\ninstances:\n",
       order   => '00',
-      notify => Service[$datadog_agent::params::service_name]
+      notify  => Service[$datadog_agent::params::service_name]
     }
   }
 
@@ -31,6 +31,6 @@ define profile::datadog_check(
     target  => $target,
     source  => $source,
     content => $content,
-    notify => Service[$datadog_agent::params::service_name]
+    notify  => Service[$datadog_agent::params::service_name]
   }
 }
