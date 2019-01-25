@@ -70,7 +70,9 @@ mod 'saz/ssh', '5.0.0'
 mod 'puppetlabs-sshkeys_core', '1.0.2'
 
 mod 'puppetlabs/lvm', '0.3.2'
-mod 'datadog/datadog_agent', '2.4.0'
+# Downgrade from 2.4.0 to 2.3.0 as 2.4.0 use exec command that always trigger a change
+# https://github.com/DataDog/puppet-datadog-agent/issues/491
+mod 'datadog/datadog_agent', '2.3.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '2.5.0'

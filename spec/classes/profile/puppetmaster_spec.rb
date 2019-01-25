@@ -13,16 +13,6 @@ describe 'profile::puppetmaster' do
   context 'puppet.conf' do
     let(:path) { '/etc/puppetlabs/puppet/puppet.conf' }
 
-    it 'should enable report handlers' do
-      expect(subject).to contain_ini_setting('update report handlers').with({
-        :ensure => 'present',
-        :path => path,
-        :section => 'master',
-        :setting => 'reports',
-        :value => 'console,puppetdb,irc,datadog_reports',
-      })
-    end
-
     it 'should enable pluginsync on the master' do
       expect(subject).to contain_ini_setting('enable master pluginsync').with({
         :ensure => 'present',
@@ -45,13 +35,6 @@ describe 'profile::puppetmaster' do
 
   context 'the datadog_agent module' do
     it { should contain_class 'datadog_agent' }
-
-    context 'puppet reporting' do
-      # Needed for reporting Puppet run reports to datadog
-      it { should contain_package 'dogapi' }
-
-      it { should contain_file('/etc/dd-agent/datadog.yaml') }
-    end
   end
 
   it { should contain_package 'deep_merge' }
