@@ -155,7 +155,7 @@ class profile::ldap(
   firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog':
     proto  => 'tcp',
     source => '50.19.229.208',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
@@ -166,14 +166,14 @@ class profile::ldap(
   firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (second IP)':
     proto  => 'tcp',
     source => '50.16.203.43',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (third IP)':
     proto  => 'tcp',
     source => '54.236.124.56',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
@@ -181,84 +181,84 @@ class profile::ldap(
   firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (fourth IP)':
     proto  => 'tcp',
     source => '104.196.52.71',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '106 accept inbound LDAPS request from hosted Artifactory by JFrog (fifth IP)':
     proto  => 'tcp',
     source => '104.196.31.82',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '106 accept inbound LDAPS request from spambot':
     proto  => 'tcp',
     source => 'home.kohsuke.org',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS request from accounts app':
     proto  => 'tcp',
     source => 'accounts.jenkins.io',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS request from accounts app on eggplant':
     proto  => 'tcp',
     source => 'eggplant.jenkins.io',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS request from puppet.jenkins.io':
     proto  => 'tcp',
     source => 'puppet.jenkins.io',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS request from Confluence':
     proto  => 'tcp',
     source => 'wiki.jenkins-ci.org',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS request from JIRA':
     proto  => 'tcp',
     source => 'issues.jenkins-ci.org',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS from trusted-ci':
     proto  => 'tcp',
     source => '52.91.48.6',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS from ci':
     proto  => 'tcp',
     source => 'ci.jenkins.io',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS from nginx.azure.jenkins.io':
     proto  => 'tcp',
     source => '13.68.19.38',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
   firewall { '107 accept inbound LDAPS from kube cluster prodbean':
     proto  => 'tcp',
     source => '40.79.70.97',
-    port   => 636,
+    dport  => 636,
     action => 'accept',
   }
 
@@ -267,7 +267,7 @@ class profile::ldap(
   # localhost:636 9636' and watch the log
   firewall { '106 debugging the LDAPS connection (necessary to report source IP address)':
     proto  => 'tcp',
-    port   => 9636,
+    dport  => 9636,
     action => 'accept',
   }
 }

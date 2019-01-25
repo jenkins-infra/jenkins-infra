@@ -24,7 +24,7 @@ describe 'profile::r10k' do
 
     it 'should open iptables for the webhook' do
       expect(subject).to contain_firewall('011 allow r10k webhooks').with({
-        :port => 8088,
+        :dport => 8088,
         :action => :accept,
       })
     end
