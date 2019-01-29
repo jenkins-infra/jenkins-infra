@@ -362,7 +362,7 @@ profile::datadog_pluginsite_check::sites:
 
 profile::kubernetes::resources::fluentd::image_tag: '0.7.2'
 
-profile::kubernetes::resources::evergreen::image_tag: '201810291929'
+profile::kubernetes::resources::evergreen::image_tag: '201901291940'
 profile::kubernetes::resources::evergreen_gateway::image_tag: 'evergreen-f96f19'
 
 limits:
