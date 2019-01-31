@@ -3,7 +3,7 @@
 class profile::openvpn (
   #$image_tag             = 'latest',
   #$image                 = 'jenkinsciinfra/openvpn',
-  $image_tag              = 'af995e',
+  $image_tag              = 'fb44ef',
   $image                  = 'olblak/openvpn',
   $auth_ldap_password     = undef,
   $auth_ldap_binddn       ='cn=admin,dc=jenkins-ci,dc=org',
