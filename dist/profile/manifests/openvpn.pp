@@ -1,12 +1,10 @@
 # This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
-  #$image_tag             = 'latest',
-  #$image                 = 'jenkinsciinfra/openvpn',
-  $image_tag              = 'fb44ef',
-  $image                  = 'olblak/openvpn',
+  $image_tag              = 'latest',
+  $image                  = 'jenkinsciinfra/openvpn',
   $auth_ldap_password     = undef,
-  $auth_ldap_binddn       ='cn=admin,dc=jenkins-ci,dc=org',
+  $auth_ldap_binddn       = 'cn=admin,dc=jenkins-ci,dc=org',
   $auth_ldap_url          = 'ldaps://ldap.jenkins.io',
   $auth_ldap_group_member = 'cn=admins',
   $openvpn_ca_pem         = undef,
