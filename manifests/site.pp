@@ -156,6 +156,11 @@ node /^trusted-agent-\d+$/ {
 
 }
 
+node 'vpn.jenkins.io' {
+  sshkeyman::hostkey { ['vpn.jenkins.io']: }
+  include role::openvpn
+}
+
 node 'bounce' {
   include role::bounce
 }
