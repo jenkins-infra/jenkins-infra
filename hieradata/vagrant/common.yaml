@@ -68,7 +68,7 @@ profile::ldap::ssl_chain: |
   -----END CERTIFICATE-----
 
 profile::openvpn::auth_ldap_password: 's3cr3t'
-profile::openvpn::auth_ldap_password: 'ldaps://ldap'
+profile::openvpn::auth_ldap_url: 'ldaps://ldap'
 
 # Dumb Self Signed Certificate for testing purpose
 profile::openvpn::openvpn_ca_pem: |
