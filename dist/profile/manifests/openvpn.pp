@@ -7,6 +7,7 @@ class profile::openvpn (
   $auth_ldap_binddn       = 'cn=admin,dc=jenkins-ci,dc=org',
   $auth_ldap_url          = 'ldaps://ldap.jenkins.io',
   $auth_ldap_group_member = 'cn=admins',
+  $openvpn_ldap_ca_pem    = undef,
   $openvpn_ca_pem         = undef,
   $openvpn_server_pem     = undef,
   $openvpn_server_key     = undef,
@@ -42,6 +43,7 @@ class profile::openvpn (
       "AUTH_LDAP_PASSWORD=${auth_ldap_password}",
       "AUTH_LDAP_GROUPS_MEMBER=${auth_ldap_group_member}",
       "OPENVPN_CA_PEM=${openvpn_ca_pem}",
+      "OPENVPN_LDAP_CA_PEM=${openvpn_ldap_ca_pem}",
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}"
