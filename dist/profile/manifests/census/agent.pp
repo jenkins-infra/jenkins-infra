@@ -31,7 +31,6 @@ class profile::census::agent(
   )
 
   concat::fragment { 'census-key concat':
-    ensure  => present,
     target  => $ssh_config,
     order   => '10',
     content => "
@@ -42,7 +41,6 @@ Host census.jenkins.io
   }
 
   concat::fragment { 'usage-key concat':
-    ensure  => present,
     target  => $ssh_config,
     order   => '11',
     content => "
