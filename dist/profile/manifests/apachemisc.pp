@@ -16,6 +16,18 @@ class profile::apachemisc(
   include apache::mod::proxy_http
   include apache::mod::ssl
 
+  # This should be removed/refactored once this pull request has been merged
+  # and released: https://github.com/puppetlabs/puppetlabs-apache/pull/1867
+  apache::mod {
+    'http2' :
+  }
+
+  apache::custom_config { 'http2.conf':
+    ensure  => present,
+    content => 'Protocols h2 h2c http/1.1',
+    require => Apache::Mod['http2'],
+  }
+
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
     ensure  => present,
     source  => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
