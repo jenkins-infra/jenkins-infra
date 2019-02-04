@@ -59,4 +59,34 @@ class profile::openvpn (
     action => 'accept'
   }
 
+  firewall { '100 snat for network public dmz tier':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth0',
+    source      => '10.8.0.0/24',
+    destination => '10.0.99.0/24',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network public data tier':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth1',
+    source      => '10.8.0.0/24',
+    destination => '10.0.2.0/24',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network public app tier':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth2',
+    source      => '10.8.0.0/24',
+    destination => '10.0.1.0/24',
+    table       => 'nat',
+  }
+
 }
