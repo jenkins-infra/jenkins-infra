@@ -32,6 +32,7 @@ class profile::azure (
 
     package { 'blobxfer' :
         ensure   => present,
-        provider => pip,
+        provider => pip
+    }
   }
 }

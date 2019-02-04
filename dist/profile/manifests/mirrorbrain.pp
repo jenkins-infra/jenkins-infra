@@ -111,7 +111,7 @@ export AZURE_STORAGE_KEY=${azure_access_key}",
   }
 
   file { "${home_dir}/azure-sync.sh" :
-    ensure  => present,
+    ensure  => absent,
     content => "#!/bin/sh
 
 eval `cat ${home_dir}/.azure-storage-env`
@@ -123,6 +123,20 @@ wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/
     require => [
         Package['azure-cli'],
         Package['azure-storage'],
+        File["${home_dir}/.azure-storage-env"],
+    ],
+  }
+
+  file { "${home_dir}/batch-upload.bash":
+    ensure  => present,
+    owner   => $user,
+    group   => $group,
+    mode    => '0644',
+    source  => "puppet:///modules/${module_name}/mirrorbrain/batch-upload.bash",
+    require => [
+        Package['azure-cli'],
+        Package['blobxfer'],
+        Exec['install-azure-storage-gem'],
         File["${home_dir}/.azure-storage-env"],
     ],
   }
