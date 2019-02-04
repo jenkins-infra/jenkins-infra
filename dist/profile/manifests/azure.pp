@@ -29,5 +29,9 @@ class profile::azure (
         ensure  => present,
         require => Apt::Source['azure-cli'],
     }
+
+    package { 'blobxfer' :
+        ensure   => present,
+        provider => pip,
   }
 }
