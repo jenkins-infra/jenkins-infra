@@ -34,7 +34,7 @@ Vagrant.configure("2") do |config|
         elsif ENV.has_key?('AWS_ACCESS_KEY_ID') && \
                 ENV.has_key?('AWS_SECRET_ACCESS_KEY') && \
                 ENV.has_key?('AWS_KEYPAIR_NAME')
-            aws.access_key_id = ENV['AWS_ACCESS_KEY_ID'] 
+            aws.access_key_id = ENV['AWS_ACCESS_KEY_ID']
             aws.secret_access_key = ENV['AWS_SECRET_ACCESS_KEY']
             aws.keypair_name = ENV['AWS_KEYPAIR_NAME']
         end
@@ -98,6 +98,7 @@ Vagrant.configure("2") do |config|
 
             node.vm.provision :serverspec do |spec|
               spec.pattern = "spec/server/#{specfile}/*.rb"
+              spec.html_output = true
             end
         end
     end
