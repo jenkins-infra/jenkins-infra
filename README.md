@@ -23,13 +23,6 @@ The amount of testing that can be done locally is as follows:
 
 #### Pre-requisites
 
- * Import your SSH public key into a [key
-   pair](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html)
-   into the `us-west-2` region. We have an AMI in us-west-2 that has Ubuntu 12.04,
-   Puppet and a Docker-capable kernel installed for testing
- * Make sure your `default` [security
-   group](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html)
-   allows SSH (port 22) from the outside world.
  * Run the `./vagrant-bootstrap` script locally to make sure your local
    environment is prepared for Vagranting
 
@@ -43,7 +36,7 @@ catalog on a VM.
 ##### Pre-requisites
 
 * Install [Vagrant](https://www.vagrantup.com)
-* Install Vagrant plugins: `vagrant plugin install vagrant-aws  vagrant-serverspec`
+* Install Vagrant plugins: `vagrant plugin install vagrant-serverspec`
 
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
