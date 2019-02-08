@@ -29,9 +29,10 @@ describe 'profile::puppetmaster' do
   it { should contain_firewall('012 allow puppet agents').with_action('accept').with_dport(8140) }
   it { should contain_firewall('013 allow mcollective').with_action('accept').with_dport(61613) }
 
-  context 'setting up the irc reporter' do
-    it { should contain_class 'irc' }
-  end
+  # Disable this test until [INFRA-2006] is addressed
+  #context 'setting up the irc reporter' do
+  #  it { should contain_class 'irc' }
+  #end
 
   context 'the datadog_agent module' do
     it { should contain_class 'datadog_agent' }
