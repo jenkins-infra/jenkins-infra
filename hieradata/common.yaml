@@ -360,13 +360,21 @@ azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlv
 profile::datadog_ssl_check::sites:
     - accounts.jenkins.io
     - ci.jenkins.io
+    - evergreen.jenkins.io
     - issues.jenkins-ci.org
+    - javadoc.jenkins.io
     - jenkins.io
     - pkg.jenkins.io
     - plugins.jenkins.io
+    - rating.jenkins.io
+    - repo.azure.jenkins.io
+    - reports.jenkins.io
     - usage.jenkins.io
     - updates.jenkins.io
+    - updates.jenkins-ci.org
+    - uplink.jenkins.io
     - wiki.jenkins-ci.org
+    - wiki.jenkins.io
     - www.jenkins.io
 
 profile::datadog_pluginsite_check::sites:
