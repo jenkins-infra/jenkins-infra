@@ -356,27 +356,6 @@ azure::k8s::management_ssh_privkey: |
   -----END RSA PRIVATE KEY-----
 azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlvw/SS/v+8LwGten0CHvYdIjY1y1NcR2SrX3Azv/zDPStTaiRTcOWGEByn84q6VRyH4+iN+HY31tMopVGpKEUJvIkP7qpW8UGpNS5MPOhhCfOsBxGHZ6AzjLwpOsHrlEahgl7tU1JW4VnX4jRy+2mQJkqnHtPeqYZMtNZwymhp8NjvlyxtxLw5pNu5wd8unXeuLkH73zJvk8kNgjw5P2cg4UBVXXQEdyRJ0rwLw4mLVzHvY2sIz5T9AN+qz29VgN6mm1fZPe+sHLfDLBFK5AWlvTv0jvX+TyrfryG4XwnU/kwROn5KJDa1SnuAq78JloZOsg24NXaB'
 
-
-profile::datadog_ssl_check::sites:
-    - accounts.jenkins.io
-    - ci.jenkins.io
-    - evergreen.jenkins.io
-    - issues.jenkins-ci.org
-    - javadoc.jenkins.io
-    - jenkins.io
-    - pkg.jenkins.io
-    - plugins.jenkins.io
-    - rating.jenkins.io
-    - repo.azure.jenkins.io
-    - reports.jenkins.io
-    - usage.jenkins.io
-    - updates.jenkins.io
-    - updates.jenkins-ci.org
-    - uplink.jenkins.io
-    - wiki.jenkins-ci.org
-    - wiki.jenkins.io
-    - www.jenkins.io
-
 profile::datadog_pluginsite_check::sites:
     - plugins.jenkins.io
 
