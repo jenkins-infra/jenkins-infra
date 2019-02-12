@@ -98,6 +98,7 @@ Vagrant.configure("2") do |config|
 
             node.vm.provision :serverspec do |spec|
               spec.pattern = "spec/server/#{specfile}/*.rb"
+              spec.html_output = true
             end
         end
     end
