@@ -64,6 +64,19 @@ class profile::datadog_http_check(
       'tags'                         => ['production','jenkins.io']
     },
     {
+      'sitename'                     => 'evergreen.jenkins.io',
+      'url'                          => 'https://evergreen.jenkins.io',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins.io']
+    },
+    {
       'sitename'                     => 'issues.jenkins-ci.org',
       'url'                          => 'https://issues.jenkins-ci.org/status',
       'timeout'                      => $timeout,
@@ -75,6 +88,19 @@ class profile::datadog_http_check(
       'days_critical'                => $days_critical,
       'contact'                      => $contact,
       'tags'                         => ['production','jenkins-ci.org']
+    },
+    {
+      'sitename'                     => 'issues.jenkins.io',
+      'url'                          => 'https://issues.jenkins.io/status',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins.io']
     },
     {
       'sitename'                     => 'javadoc.io',
@@ -120,6 +146,20 @@ class profile::datadog_http_check(
       'url'                          => 'https://plugins.jenkins.io',
       'timeout'                      => $timeout,
       'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true ,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins.io']
+    },
+    {
+      'sitename'                     => 'rating.jenkins.io',
+      'url'                          => 'https://rating.jenkins.io',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'http_response_status_code'    => 403,
       'window'                       => $window,
       'collect_response_time'        => true ,
       'check_certificate_expiration' => true,
@@ -181,6 +221,32 @@ class profile::datadog_http_check(
       'tags'                         => ['production','jenkins.io']
     },
     {
+      'sitename'                     => 'updates.jenkins-ci.org',
+      'url'                          => 'https://updates.jenkins-ci.org',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins-ci.org']
+    },
+    {
+      'sitename'                     => 'uplink.jenkins.io',
+      'url'                          => 'https://uplink.jenkins.io',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins.io']
+    },
+    {
       'sitename'                     => 'usage.jenkins.io',
       'url'                          => 'https://usage.jenkins.io',
       'timeout'                      => $timeout,
@@ -192,6 +258,19 @@ class profile::datadog_http_check(
       'days_critical'                => $days_critical,
       'contact'                      => $contact,
       'tags'                         => ['production','jenkins.io']
+    },
+    {
+      'sitename'                     => 'wiki.jenkins-ci.org',
+      'url'                          => 'https://wiki.jenkins-ci.org/status',
+      'timeout'                      => $timeout,
+      'threshold'                    => $threshold,
+      'window'                       => $window,
+      'collect_response_time'        => true,
+      'check_certificate_expiration' => true,
+      'days_warning'                 => $days_warning,
+      'days_critical'                => $days_critical,
+      'contact'                      => $contact,
+      'tags'                         => ['production','jenkins-ci.org']
     },
     {
       'sitename'                     => 'wiki.jenkins.io',
