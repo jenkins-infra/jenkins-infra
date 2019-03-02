@@ -82,10 +82,6 @@ mod 'camptocamp/openldap', '1.14.0'
 mod 'herculesteam/augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam/augeasproviders_core', '2.1.2'
 
-mod 'mirrorbrain',
-    :git => 'git://github.com/jenkins-infra/puppet-mirrorbrain.git',
-    :ref => '78ec0b0'
-
 # For managing Jenkins itself
 mod 'rtyler/jenkins', '1.7.0'
 # Needed for the Jenkins module

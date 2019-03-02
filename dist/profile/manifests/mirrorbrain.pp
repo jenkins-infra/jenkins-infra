@@ -13,8 +13,6 @@ class profile::mirrorbrain (
   $docroot      = '/srv/releases/jenkins',
   $ssh_keys     = undef,
 ) {
-  include ::mirrorbrain
-  include ::mirrorbrain::apache
 
   # Need to declare the 'ruby' class ahead of profile::apachemisc which
   # includes the apachelogcompressor module, which itself does a
@@ -27,6 +25,7 @@ class profile::mirrorbrain (
     ruby_dev_packages => ['ruby2.0-dev'],
   }
 
+  include ::apt
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
@@ -257,6 +256,13 @@ date \"+%s\" > /srv/releases/jenkins/TIME
 
   ## Cron tasks
   #############
+  cron { 'geoip-update':
+    command => '/usr/bin/geoip-lite-update',
+    user    => 'root',
+    hour    => 4,
+    minute  => 20,
+  }
+
   cron { 'mirrorbrain-time-update':
     command => '/usr/local/bin/mirmon-time-update',
     user    => 'root',
@@ -418,6 +424,60 @@ date \"+%s\" > /srv/releases/jenkins/TIME
         options        => 'None',
         allow_override => ['None'],
       },
+    ],
+  }
+
+  $apt_repo = 'apache-mirrorbrain';
+  # https://build.opensuse.org/project/show/Apache:MirrorBrain#
+  apt::key { $apt_repo:
+    ensure => present,
+    id     => 'bd6d129a',
+    server => 'pgp.mit.edu',
+  }
+  # Manually injecting an apt repo list file since apt::source doesn't want to
+  # handle our "weird" OBS debian repository layout and on Ubuntu it tries very
+  # hard to add "trusty" or whatever the codename is into the repos
+  file { "/etc/apt/sources.list.d/${apt_repo}.list":
+    ensure  => present,
+    content => 'deb https://download.opensuse.org/repositories/Apache:/MirrorBrain/xUbuntu_16.04 /',
+    owner   => 'root',
+    group   => 'root',
+    require => Apt::Key[$apt_repo],
+    notify  => Exec['apt_update'],
+  }
+
+  package { ['mirrorbrain', 'mirrorbrain-tools', 'mirrorbrain-scanner']:
+    ensure  => present,
+    require => [
+      File["/etc/apt/sources.list.d/${apt_repo}.list"],
+      Class['Apt::Update'],
+    ],
+  }
+
+  package { ['geoip-bin', 'geoip-database', 'mirmon']:
+    ensure => present,
+  }
+
+
+  # Install and configure Mirrorbrain for Apache
+  package { ['libapache2-mod-mirrorbrain',
+            'libapache2-mod-autoindex-mb',
+            'libapache2-mod-asn',
+            'libapache2-mod-form',
+            'libapache2-mod-geoip']:
+    ensure  => present,
+    require => [
+      File["/etc/apt/sources.list.d/${apt_repo}.list"],
+      Class['Apt::Update'],
+    ],
+  }
+  apache::mod { ['autoindex_mb', 'dbd', 'form', 'geoip', 'mirrorbrain']:
+    require => [
+      Package['libapache-mid-mirrorbrain'],
+      Package['libapache2-mod-autoindex-mb'],
+      Package['libapache2-mod-asn'],
+      Package['libapache2-mod-form'],
+      Package['libapache2-mod-geoip'],
     ],
   }
 }

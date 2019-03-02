@@ -17,8 +17,7 @@ describe 'profile::mirrorbrain' do
   it { should contain_class 'profile::firewall' }
   it { should contain_class 'profile::letsencrypt' }
 
-  it { should contain_class 'mirrorbrain' }
-  it { should contain_class 'mirrorbrain::apache' }
+  it { should contain_package 'mirrorbrain' }
 
   context 'tooling for Azure sync' do
     # Needed for running some scripts
