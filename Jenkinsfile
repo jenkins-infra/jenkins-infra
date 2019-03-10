@@ -29,8 +29,8 @@ pipeline {
                 *   Permission denied - /.puppetlabs
                 */
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
-                sh 'HOME=$PWD bundle exec rake resolve'
-                stash includes: 'vendor/**,modules/**,spec/fixtures/modules/**', name: 'deps'
+                sh 'HOME=$PWD bundle exec rake spec_clean spec_prep'
+                stash includes: 'vendor/**,spec/fixtures/modules/**', name: 'deps'
             }
         }
 
