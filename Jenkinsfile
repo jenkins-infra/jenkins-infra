@@ -5,7 +5,7 @@ pipeline {
 
     options {
         buildDiscarder(logRotator(numToKeepStr: '10'))
-        timeout(time: 1, unit: 'HOURS')
+        timeout(time: 30, unit: 'MINUTES')
         timestamps()
     }
 
@@ -20,7 +20,7 @@ pipeline {
             }
         }
 
-        stage('Verify Puppet') {
+        stage('Prepare Dependencies') {
             agent { label 'ruby' }
             /* These environment variables make it feasible for Git to clone properly while
              * inside the wacky confines of a Docker container
@@ -40,9 +40,34 @@ pipeline {
                  */
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
                 sh 'HOME=$PWD bundle exec rake resolve'
-                sh 'bundle exec rake lint'
-                sh 'bundle exec parallel_rspec spec/classes'
-                sh 'bundle exec parallel_rspec spec/defines'
+                stash includes: 'vendor,modules,spec/fixtures/modules', name: 'deps'
+            }
+        }
+
+        stage('Verify') {
+            parallel {
+                stage('Syntax') {
+                    agent { label 'ruby' }
+                    steps {
+                        unstash 'deps'
+                        sh 'bundle exec rake lint'
+                    }
+                }
+                stage('Profiles') {
+                    agent { label 'ruby' }
+                    steps {
+                        unstash 'deps'
+                        sh 'bundle exec parallel_rspec spec/classes/profile'
+                    }
+                }
+                stage('Roles') {
+                    agent { label 'ruby' }
+                    steps {
+                        unstash 'deps'
+                        sh 'bundle exec parallel_rspec spec/classes/role'
+                        sh 'bundle exec parallel_rspec spec/defines'
+                    }
+                }
             }
         }
     }
