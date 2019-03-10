@@ -9,6 +9,11 @@ pipeline {
         timestamps()
     }
 
+    environment {
+        LANG = 'UTF-8'
+        LC_CTYPE = 'UTF-8'
+    }
+
     stages {
         stage('Prepare Dependencies') {
             agent { label 'ruby' }
