@@ -40,7 +40,7 @@ pipeline {
                  * Ignoring spec/fixtures which can include non-ASCII data that
                  * causes problems with our stash
                  */
-                stash includes: '.bundle/**,vendor/**,spec/fixtures/modules/**',
+                stash includes: '.bundle/*,vendor/**/*,spec/fixtures/**/*',
                           name: 'deps',
                       excludes: 'vendor/**/spec/fixtures/**'
             }
