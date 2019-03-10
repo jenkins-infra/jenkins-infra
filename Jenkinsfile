@@ -11,26 +11,17 @@ pipeline {
 
     stages {
         stage('Verify DNS') {
-            agent {
-                docker {
-                    image 'kohsuke/named-checkzone'
-                    args '--entrypoint='
-                }
-            }
+            agent { label 'alpine' }
+
             steps {
-                parallel(
-                    'jenkins.io' : {
-                        sh '/usr/sbin/named-checkzone jenkins.io dist/profile/files/bind/jenkins.io.zone'
-                    },
-                    'jenkins-ci.org' : {
-                        sh '/usr/sbin/named-checkzone jenkins-ci.org dist/profile/files/bind/jenkins-ci.org.zone'
-                    },
-                )
+                sh 'apk add -U bind'
+                sh '/usr/sbin/named-checkzone jenkins.io dist/profile/files/bind/jenkins.io.zone'
+                sh '/usr/sbin/named-checkzone jenkins-ci.org dist/profile/files/bind/jenkins-ci.org.zone'
             }
         }
 
         stage('Verify Puppet') {
-            agent { docker 'ruby:2.4-stretch' }
+            agent { label 'ruby' }
             /* These environment variables make it feasible for Git to clone properly while
              * inside the wacky confines of a Docker container
              */
