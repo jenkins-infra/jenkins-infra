@@ -35,7 +35,14 @@ pipeline {
                 */
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
                 sh 'HOME=$PWD bundle exec rake spec_clean spec_prep'
-                stash includes: 'vendor/**,spec/fixtures/modules/**', name: 'deps'
+
+                /*
+                 * Ignoring spec/fixtures which can include non-ASCII data that
+                 * causes problems with our stash
+                 */
+                stash includes: 'vendor/**,spec/fixtures/modules/**',
+                          name: 'deps',
+                      excludes: 'vendor/**/spec/fixtures/**'
             }
         }
 
