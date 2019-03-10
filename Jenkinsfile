@@ -40,7 +40,7 @@ pipeline {
                  */
                 sh 'HOME=$PWD bundle install --without development plugins --path vendor/gems'
                 sh 'HOME=$PWD bundle exec rake resolve'
-                stash includes: 'vendor,modules,spec/fixtures/modules', name: 'deps'
+                stash includes: 'vendor/**,modules/**,spec/fixtures/modules/**', name: 'deps'
             }
         }
 
