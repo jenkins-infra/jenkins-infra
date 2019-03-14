@@ -6,7 +6,7 @@ class profile::openvpn (
   $auth_ldap_password     = undef,
   $auth_ldap_binddn       = 'cn=admin,dc=jenkins-ci,dc=org',
   $auth_ldap_url          = 'ldaps://ldap.jenkins.io',
-  $auth_ldap_group_member = 'cn=admins',
+  $auth_ldap_group_member = 'cn=all',
   $openvpn_ldap_ca_pem    = undef,
   $openvpn_ca_pem         = undef,
   $openvpn_server_pem     = undef,
@@ -59,34 +59,47 @@ class profile::openvpn (
     action => 'accept'
   }
 
-  firewall { '100 snat for network public dmz tier':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth0',
-    source      => '10.8.0.0/24',
-    destination => '10.0.99.0/24',
-    table       => 'nat',
-  }
+  # Following firewall rules authorizes different network accesses as defined in https://github.com/jenkins-infra/openvpn
 
-  firewall { '100 snat for network public data tier':
+  firewall { '100 snat for network public data tier from default vpn network to port 80/443':
     chain       => 'POSTROUTING',
     jump        => 'MASQUERADE',
-    proto       => 'all',
+    proto       => 'tcp',
     outiface    => 'eth1',
     source      => '10.8.0.0/24',
+    dport       => [80,443],
     destination => '10.0.2.0/24',
     table       => 'nat',
   }
 
-  firewall { '100 snat for network public app tier':
+  # Admin Rules
+  firewall { '100 snat for network public dmz tier from admin vpn network':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth0',
+    source      => '10.8.1.0/24',
+    destination => '10.0.99.0/24',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network public data tier from admin vpn network':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth1',
+    source      => '10.8.1.0/24',
+    destination => '10.0.2.0/24',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network public app tier from admin vpn network':
     chain       => 'POSTROUTING',
     jump        => 'MASQUERADE',
     proto       => 'all',
     outiface    => 'eth2',
-    source      => '10.8.0.0/24',
+    source      => '10.8.1.0/24',
     destination => '10.0.1.0/24',
     table       => 'nat',
   }
-
 }
