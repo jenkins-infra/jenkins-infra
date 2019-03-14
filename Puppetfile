@@ -92,7 +92,7 @@ mod 'puppet/archive', '1.1.2'
 mod 'erwbgy/limits', '0.3.1'
 
 # Needed for managing pgsql behind Mirrorbrain
-mod 'puppetlabs/postgresql', '4.7.1'
+mod 'puppetlabs/postgresql', '5.12.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'
