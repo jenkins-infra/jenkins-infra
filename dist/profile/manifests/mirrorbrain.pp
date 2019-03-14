@@ -471,7 +471,7 @@ date \"+%s\" > /srv/releases/jenkins/TIME
   }
   apache::mod { ['autoindex_mb', 'dbd', 'form', 'geoip', 'mirrorbrain']:
     require => [
-      Package['libapache-mid-mirrorbrain'],
+      Package['libapache2-mod-mirrorbrain'],
       Package['libapache2-mod-autoindex-mb'],
       Package['libapache2-mod-asn'],
       Package['libapache2-mod-form'],
