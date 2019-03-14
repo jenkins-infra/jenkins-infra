@@ -18,11 +18,9 @@ class profile::mirrorbrain (
   # includes the apachelogcompressor module, which itself does a
   # `contain 'ruby'`
   class { '::ruby' :
-    ruby_package => 'ruby2.0',
   }
   # Required for installing the azure-storage gem
   class { '::ruby::dev' :
-    ruby_dev_packages => ['ruby2.0-dev'],
   }
 
   include ::apt
@@ -106,9 +104,9 @@ class profile::mirrorbrain (
   #  require         => Package['ruby'],
   #}
   exec { 'install-azure-storage-gem':
-    command => '/usr/bin/gem2.0 install -N --pre azure-storage',
+    command => '/usr/bin/gem install -N --pre azure-storage',
     require => Package['ruby'],
-    unless  => '/usr/bin/gem2.0 list | /bin/grep "azure-storage"',
+    unless  => '/usr/bin/gem list | /bin/grep "azure-storage"',
   }
 
   $azure_account_name = lookup('azure::releases::account_name')
@@ -128,7 +126,7 @@ export AZURE_STORAGE_KEY=${azure_access_key}",
 
 eval `cat ${home_dir}/.azure-storage-env`
 wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/master/scripts/release-blob-sync
-/usr/bin/ruby2.0 release-blob-sync | sh
+/usr/bin/ruby release-blob-sync | sh
 ",
     owner   => $user,
     mode    => '0755',
