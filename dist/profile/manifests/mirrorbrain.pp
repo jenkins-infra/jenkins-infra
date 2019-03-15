@@ -24,6 +24,7 @@ class profile::mirrorbrain (
   }
 
   include ::apt
+  include profile::azure
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
@@ -91,22 +92,10 @@ class profile::mirrorbrain (
 
   ## Files for Azure blob storage sync
   ##########################
-  # NOTE: The `ruby2.0` package is critically broken/stupid on Ubuntu 14.04, so
-  # until we upgrade we will need to manually install and manage the
-  # azure-storage gem. See this thread for more details:
-  # <https://bugs.launchpad.net/ubuntu/+source/ruby2.0/+bug/1310292>
-  #package { 'azure-storage' :
-  #  ensure          => present,
-  #  # As of 20161107, the gem is in 'beta' so we need --pre to install it from
-  #  # rubygems.org
-  #  install_options => ['--pre'],
-  #  provider        => gem,
-  #  require         => Package['ruby'],
-  #}
-  exec { 'install-azure-storage-gem':
-    command => '/usr/bin/gem install -N --pre azure-storage',
-    require => Package['ruby'],
-    unless  => '/usr/bin/gem list | /bin/grep "azure-storage"',
+  package { 'azure-storage' :
+    ensure          => present,
+    provider        => gem,
+    require         => Package['ruby'],
   }
 
   $azure_account_name = lookup('azure::releases::account_name')
@@ -132,7 +121,7 @@ wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/
     mode    => '0755',
     require => [
         Package['azure-cli'],
-        Exec['install-azure-storage-gem'],
+        Package['azure-storage'],
         File["${home_dir}/.azure-storage-env"],
     ],
   }
