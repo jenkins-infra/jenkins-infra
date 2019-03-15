@@ -18,7 +18,6 @@ class profile::azure (
     apt::source { 'azure-cli':
         architecture => 'amd64',
         location     => 'https://packages.microsoft.com/repos/azure-cli/',
-        #release      => 'wheezy',
         repos        => 'main',
         key          => {
           server => 'packages.microsoft.com',

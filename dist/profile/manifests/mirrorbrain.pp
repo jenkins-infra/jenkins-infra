@@ -417,9 +417,9 @@ date \"+%s\" > /srv/releases/jenkins/TIME
   $apt_repo = 'apache-mirrorbrain';
   # https://build.opensuse.org/project/show/Apache:MirrorBrain#
   apt::key { $apt_repo:
-    ensure => present,
-    id     => 'bd6d129a',
-    server => 'pgp.mit.edu',
+    ensure  => present,
+    id      => '1d605fdd465bf2bb',
+    content => file('puppet:///modules/profile/mirrorbrain/mirrorbrain.pub'),
   }
   # Manually injecting an apt repo list file since apt::source doesn't want to
   # handle our "weird" OBS debian repository layout and on Ubuntu it tries very
