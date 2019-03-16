@@ -13,20 +13,18 @@ class profile::mirrorbrain (
   $docroot      = '/srv/releases/jenkins',
   $ssh_keys     = undef,
 ) {
-  include ::mirrorbrain
-  include ::mirrorbrain::apache
 
   # Need to declare the 'ruby' class ahead of profile::apachemisc which
   # includes the apachelogcompressor module, which itself does a
   # `contain 'ruby'`
   class { '::ruby' :
-    ruby_package => 'ruby2.0',
   }
   # Required for installing the azure-storage gem
   class { '::ruby::dev' :
-    ruby_dev_packages => ['ruby2.0-dev'],
   }
 
+  include ::apt
+  include profile::azure
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
@@ -94,22 +92,11 @@ class profile::mirrorbrain (
 
   ## Files for Azure blob storage sync
   ##########################
-  # NOTE: The `ruby2.0` package is critically broken/stupid on Ubuntu 14.04, so
-  # until we upgrade we will need to manually install and manage the
-  # azure-storage gem. See this thread for more details:
-  # <https://bugs.launchpad.net/ubuntu/+source/ruby2.0/+bug/1310292>
-  #package { 'azure-storage' :
-  #  ensure          => present,
-  #  # As of 20161107, the gem is in 'beta' so we need --pre to install it from
-  #  # rubygems.org
-  #  install_options => ['--pre'],
-  #  provider        => gem,
-  #  require         => Package['ruby'],
-  #}
-  exec { 'install-azure-storage-gem':
-    command => '/usr/bin/gem2.0 install -N --pre azure-storage',
-    require => Package['ruby'],
-    unless  => '/usr/bin/gem2.0 list | /bin/grep "azure-storage"',
+  package { 'azure-storage' :
+    ensure          => present,
+    provider        => gem,
+    install_options => '--pre',
+    require         => Package['ruby'],
   }
 
   $azure_account_name = lookup('azure::releases::account_name')
@@ -129,13 +116,13 @@ export AZURE_STORAGE_KEY=${azure_access_key}",
 
 eval `cat ${home_dir}/.azure-storage-env`
 wget -O release-blob-sync https://raw.githubusercontent.com/jenkins-infra/azure/master/scripts/release-blob-sync
-/usr/bin/ruby2.0 release-blob-sync | sh
+/usr/bin/ruby release-blob-sync | sh
 ",
     owner   => $user,
     mode    => '0755',
     require => [
         Package['azure-cli'],
-        Exec['install-azure-storage-gem'],
+        Package['azure-storage'],
         File["${home_dir}/.azure-storage-env"],
     ],
   }
@@ -257,6 +244,13 @@ date \"+%s\" > /srv/releases/jenkins/TIME
 
   ## Cron tasks
   #############
+  cron { 'geoip-update':
+    command => '/usr/bin/geoip-lite-update',
+    user    => 'root',
+    hour    => 4,
+    minute  => 20,
+  }
+
   cron { 'mirrorbrain-time-update':
     command => '/usr/local/bin/mirmon-time-update',
     user    => 'root',
@@ -418,6 +412,90 @@ date \"+%s\" > /srv/releases/jenkins/TIME
         options        => 'None',
         allow_override => ['None'],
       },
+    ],
+  }
+
+  $apt_repo = 'apache-mirrorbrain';
+  # https://build.opensuse.org/project/show/Apache:MirrorBrain#
+  apt::key { $apt_repo:
+    ensure  => present,
+    id      => '1d605fdd465bf2bb',
+    content => file('profile/mirrorbrain/mirrorbrain.pub'),
+  }
+  # Manually injecting an apt repo list file since apt::source doesn't want to
+  # handle our "weird" OBS debian repository layout and on Ubuntu it tries very
+  # hard to add "trusty" or whatever the codename is into the repos
+  file { "/etc/apt/sources.list.d/${apt_repo}.list":
+    ensure  => present,
+    content => 'deb https://download.opensuse.org/repositories/Apache:/MirrorBrain/xUbuntu_16.04 /',
+    owner   => 'root',
+    group   => 'root',
+    require => Apt::Key[$apt_repo],
+    notify  => Exec['apt_update'],
+  }
+
+  package { ['mirrorbrain', 'mirrorbrain-scanner']:
+    ensure  => present,
+    require => [
+      File["/etc/apt/sources.list.d/${apt_repo}.list"],
+      Class['Apt::Update'],
+    ],
+  }
+
+  # In Vagrant we need to seed the database information first and foremost to
+  # ensure that the database tables are seeded, otherwise the postinst scripts
+  # for the debian packages will fail the whole thing
+  #
+  # http://mirrorbrain.org/docs/installation/debian/#import-initial-mirrorbrain-data
+  if str2bool($::vagrant) {
+    exec { 'prepare-mb-db':
+      command => 'gunzip -c /usr/share/doc/mirrorbrain/sql/schema-postgresql.sql.gz | sudo -u mirrorbrain psql && gunzip -c /usr/share/doc/mirrorbrain/sql/initialdata-postgresql.sql.gz | sudo -u mirrorbrain psql',
+      path    => ['/bin', '/usr/bin'],
+      # If the mb command can execute successfully, then the DB is seeded
+      # properly
+      unless  => 'mb list',
+      require => [
+        Package['mirrorbrain'],
+        Postgresql::Server::Db[$pg_database],
+      ],
+    }
+  }
+  else {
+    exec { 'prepare-mb-db':
+      command => 'echo "No-op"',
+      path    => ['/bin'],
+    }
+  }
+
+  package { 'mirrorbrain-tools':
+    ensure  => present,
+    require => Exec['prepare-mb-db'],
+  }
+
+  package { ['geoip-bin', 'geoip-database', 'mirmon']:
+    ensure => present,
+  }
+
+
+  # Install and configure Mirrorbrain for Apache
+  package { ['libapache2-mod-mirrorbrain',
+            'libapache2-mod-autoindex-mb',
+            'libapache2-mod-asn',
+            'libapache2-mod-form',
+            'libapache2-mod-geoip']:
+    ensure  => present,
+    require => [
+      File["/etc/apt/sources.list.d/${apt_repo}.list"],
+      Class['Apt::Update'],
+    ],
+  }
+  apache::mod { ['autoindex_mb', 'dbd', 'form', 'geoip', 'mirrorbrain']:
+    require => [
+      Package['libapache2-mod-mirrorbrain'],
+      Package['libapache2-mod-autoindex-mb'],
+      Package['libapache2-mod-asn'],
+      Package['libapache2-mod-form'],
+      Package['libapache2-mod-geoip'],
     ],
   }
 }
