@@ -82,10 +82,6 @@ mod 'camptocamp/openldap', '1.14.0'
 mod 'herculesteam/augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam/augeasproviders_core', '2.1.2'
 
-mod 'mirrorbrain',
-    :git => 'git://github.com/jenkins-infra/puppet-mirrorbrain.git',
-    :ref => '78ec0b0'
-
 # For managing Jenkins itself
 mod 'rtyler/jenkins', '1.7.0'
 # Needed for the Jenkins module
@@ -96,7 +92,7 @@ mod 'puppet/archive', '1.1.2'
 mod 'erwbgy/limits', '0.3.1'
 
 # Needed for managing pgsql behind Mirrorbrain
-mod 'puppetlabs/postgresql', '4.7.1'
+mod 'puppetlabs/postgresql', '5.12.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'

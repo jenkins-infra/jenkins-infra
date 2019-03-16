@@ -17,9 +17,6 @@ fixtures:
       ref: '4e5e437'
     apachelogcompressor:
       repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
-    mirrorbrain:
-      repo: 'git://github.com/jenkins-infra/puppet-mirrorbrain.git'
-      ref: '78ec0b0'
 
   forge_modules:
     stdlib:
@@ -87,7 +84,7 @@ fixtures:
       ref: '1.5.0'
     postgresql:
       repo: 'puppetlabs/postgresql'
-      ref: '4.7.1'
+      ref: '5.12.1'
     docker:
       repo: 'garethr/docker'
       ref: '5.3.0'
