@@ -22,7 +22,7 @@ describe 'profile::mirrorbrain' do
   context 'tooling for Azure sync' do
     # Needed for running some scripts
     it { should contain_package 'ruby' }
-    it { should contain_exec('install-azure-storage-gem') }
+    it { should contain_package 'azure-storage' }
   end
 
 

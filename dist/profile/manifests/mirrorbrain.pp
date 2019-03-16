@@ -95,6 +95,7 @@ class profile::mirrorbrain (
   package { 'azure-storage' :
     ensure          => present,
     provider        => gem,
+    install_options => '--pre',
     require         => Package['ruby'],
   }
 
