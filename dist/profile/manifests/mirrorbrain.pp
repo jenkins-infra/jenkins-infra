@@ -434,12 +434,42 @@ date \"+%s\" > /srv/releases/jenkins/TIME
     notify  => Exec['apt_update'],
   }
 
-  package { ['mirrorbrain', 'mirrorbrain-tools', 'mirrorbrain-scanner']:
+  package { ['mirrorbrain', 'mirrorbrain-scanner']:
     ensure  => present,
     require => [
       File["/etc/apt/sources.list.d/${apt_repo}.list"],
       Class['Apt::Update'],
     ],
+  }
+
+  # In Vagrant we need to seed the database information first and foremost to
+  # ensure that the database tables are seeded, otherwise the postinst scripts
+  # for the debian packages will fail the whole thing
+  #
+  # http://mirrorbrain.org/docs/installation/debian/#import-initial-mirrorbrain-data
+  if str2bool($::vagrant) {
+    exec { 'prepare-mb-db':
+      command => 'gunzip -c /usr/share/doc/mirrorbrain/sql/schema-postgresql.sql.gz | sudo -u mirrorbrain psql && gunzip -c /usr/share/doc/mirrorbrain/sql/initialdata-postgresql.sql.gz | sudo -u mirrorbrain psql',
+      path    => ['/bin', '/usr/bin'],
+      # If the mb command can execute successfully, then the DB is seeded
+      # properly
+      unless  => 'mb list',
+      require => [
+        Package['mirrorbrain'],
+        Postgresql::Server::Db[$pg_database],
+      ],
+    }
+  }
+  else {
+    exec { 'prepare-mb-db':
+      command => 'echo "No-op"',
+      path    => ['/bin'],
+    }
+  }
+
+  package { 'mirrorbrain-tools':
+    ensure  => present,
+    require => Exec['prepare-mb-db'],
   }
 
   package { ['geoip-bin', 'geoip-database', 'mirmon']:
