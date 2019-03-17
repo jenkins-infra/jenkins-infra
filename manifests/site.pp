@@ -133,6 +133,11 @@ node 'ci' {
   include role::jenkins::master
 }
 
+node 'azure.ci.jenkins.io' {
+  sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
+  include role::jenkins::master
+}
+
 node /^agent-\d+$/ {
   include role::jenkins::agent
 }
