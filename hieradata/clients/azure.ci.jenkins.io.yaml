@@ -1,5 +1,5 @@
 ---
-profile::buildmaster::ci_fqdn: 'azure.ci.jenkins.io'
+profile::buildmaster::ci_fqdn: 'ci.jenkins.io'
 profile::buildmaster::letsencrypt: true
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
