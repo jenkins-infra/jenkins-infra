@@ -21,3 +21,5 @@ group :development do
   gem 'debugger-pry', :platform => :mri_19
   gem 'byebug', :platform => :mri_20
 end
+
+gem "rspec_junit_formatter"
