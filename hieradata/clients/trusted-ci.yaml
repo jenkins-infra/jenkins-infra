@@ -2,6 +2,7 @@
 
 profile::buildmaster::ci_fqdn: 'trusted.ci.jenkins.io'
 profile::buildmaster::proxy_port: 1443
+profile::buildmaster::anonymous_access: false
 profile::buildmaster::letsencrypt: false
 # These are plugins we need only in our trusted-ci environment
 profile::buildmaster::plugins:
