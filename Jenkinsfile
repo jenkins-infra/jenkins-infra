@@ -15,10 +15,10 @@ pipeline {
         /* These environment variables make it feasible for Git to clone properly while
          * inside the wacky confines of a Docker container
          */
-        GIT_COMMITTER_EMAIL = 'me@hatescake.com'
-        GIT_COMMITTER_NAME = 'Hates'
-        GIT_AUTHOR_NAME = 'Cake'
-        GIT_AUTHOR_EMAIL = 'hates@cake.com'
+        GIT_COMMITTER_EMAIL = 'git@example.com'
+        GIT_COMMITTER_NAME = 'Git'
+        GIT_AUTHOR_NAME = 'Git'
+        GIT_AUTHOR_EMAIL = 'git@example.com'
     }
 
     stages {
