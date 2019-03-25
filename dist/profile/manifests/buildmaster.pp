@@ -14,11 +14,12 @@
 #   be on the public internet
 #
 class profile::buildmaster(
-  $ci_fqdn     = 'ci.jenkins.io',
-  $letsencrypt = true,
-  $plugins     = undef,
-  $proxy_port  = 443,
-  $jenkins_home= '/var/lib/jenkins',
+  $anonymous_access = true,
+  $ci_fqdn          = 'ci.jenkins.io',
+  $letsencrypt      = true,
+  $plugins          = undef,
+  $proxy_port       = 443,
+  $jenkins_home     = '/var/lib/jenkins',
 ) {
   include ::stdlib
   include ::apache
