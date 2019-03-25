@@ -51,7 +51,9 @@ pipeline {
                 sh 'HOME=$PWD bundle exec rake resolve'
                 sh 'bundle exec rake lint'
                 sh 'bundle exec parallel_rspec spec/classes'
+                junit 'tmp/rspec*.xml'
                 sh 'bundle exec parallel_rspec spec/defines'
+                junit 'tmp/rspec*.xml'
             }
         }
     }
