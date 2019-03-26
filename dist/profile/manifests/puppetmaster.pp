@@ -7,8 +7,7 @@ class profile::puppetmaster {
 
   include profile::r10k
   # Set up our IRC reporter
-  # Disable IRC notification until INFRA-2006 is resolved
-  # include ::irc
+  include ::irc
   include datadog_agent
 
   # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
