@@ -344,6 +344,10 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
+# Abusive Chinese bot that ignores robots.txt
+RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
+RewriteRule ".?" "-" [F]
+
 # Black hole all traffic to routes like /view/All/people/ which is pretty much
 # hit illegitimately used anyways
 # See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
