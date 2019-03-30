@@ -346,7 +346,7 @@ RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
 # Abusive Chinese bot that ignores robots.txt
 RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
-RewriteRule ".?" "-" [F]
+RewriteRule \".?\" \"-\" [F]
 
 # Black hole all traffic to routes like /view/All/people/ which is pretty much
 # hit illegitimately used anyways
