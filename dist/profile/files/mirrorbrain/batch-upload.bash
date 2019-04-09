@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 source /srv/releases/.azure-storage-env
 
 ## Sync files from "/srv/releases/jenkins/$CONTAINER" to $CONTAINER for each container in "$AZURE_STORAGE_ACCOUNT",
@@ -18,3 +20,5 @@ for CONTAINER in $(az storage container list --account-name "$AZURE_STORAGE_ACCO
                         --exclude '.htaccess' 
         fi
 done;
+
+exit 0
