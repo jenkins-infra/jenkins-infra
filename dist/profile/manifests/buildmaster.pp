@@ -156,7 +156,7 @@ class profile::buildmaster(
     before  => Docker::Run['jenkins'],
     notify  => Service['docker-jenkins'],
   }
-  
+
   file { "${groovy_d}/agent-security.groovy":
     ensure  => $groovy_d_agent_security,
     owner   => 'jenkins',
