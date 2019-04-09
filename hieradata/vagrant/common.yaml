@@ -6,8 +6,8 @@ profile::accountapp::smtp_user: 'smtp_user_example'
 profile::accountapp::smtp_password: 'smtp_password_example'
 profile::accountapp::jira_password: 'jira_password_example'
 
-profile::buildmaster::java_opts_xms: '250mb'
-profile::buildmaster::java_opts_xmx: '250mb'
+profile::buildmaster::java_opts_xms: '250m'
+profile::buildmaster::java_opts_xmx: '250m'
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
