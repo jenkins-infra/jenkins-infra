@@ -9,11 +9,8 @@ describe 'profile::buildmaster' do
   end
 
   context 'Jenkins configuration' do
-    it { should contain_class 'jenkins' }
-
     # https://issues.jenkins-ci.org/browse/INFRA-916
     context 'as a Docker container' do
-      it { should contain_package('jenkins').with_ensure('absent') }
       it { should contain_file('/var/lib/jenkins').with_ensure('directory') }
       it { should contain_class 'profile::docker' }
 
