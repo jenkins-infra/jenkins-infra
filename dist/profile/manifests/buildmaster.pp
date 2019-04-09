@@ -64,8 +64,9 @@ class profile::buildmaster(
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
 
-  file { $jenkins_home:
-    ensure => directory
+  group { 'jenkins':
+    ensure => present,
+    gid    => 999,
   }
 
   user { 'jenkins':
@@ -74,6 +75,125 @@ class profile::buildmaster(
     gid    => 999,
     home   => $jenkins_home,
   }
+
+  file { $jenkins_home:
+    ensure => directory,
+    owner  => 'jenkins',
+    group  => 'jenkins'
+  }
+
+
+  file { '/etc/default/jenkins':
+    ensure  => absent,
+  }
+  # Make sure the old init script is gone, since the package removal won't
+  # handle it
+  # https://issues.jenkins-ci.org/browse/INFRA-916
+  # No-op, just to make puppet-jenkins STFU
+  file { '/etc/init.d/jenkins' :
+    ensure  => absent,
+  }
+
+  file { $script_dir:
+    ensure => directory,
+    owner  => 'jenkins',
+    group  => 'jenkins'
+  }
+
+  # Jenkins custom-bootstrapping
+  #
+  # These files should be laid down on the file system before Jenkins starts
+  # such that they're loaded properly
+  ##############################################################################
+  file { $groovy_d:
+    ensure  => directory,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => [
+        User['jenkins'],
+        File[$jenkins_home],
+    ],
+  }
+
+  file { "${groovy_d}/enable-ssh-port.groovy":
+    ensure  => $groovy_d_enable_ssh_port,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${groovy_d}/set-up-git.groovy":
+    ensure  => $groovy_d_set_up_git,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${groovy_d}/agent-security.groovy":
+    ensure  => $groovy_d_agent_security,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/agent-security.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${groovy_d}/pipeline-configuration.groovy":
+    ensure  => $groovy_d_pipeline_configuration,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    source  => "puppet:///modules/${module_name}/buildmaster/pipeline-configuration.groovy",
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+    ],
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${groovy_d}/lock-down-jenkins.groovy":
+    ensure  => $groovy_d_lock_down_jenkins,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => [
+        User['jenkins'],
+        File[$groovy_d],
+        Exec['generate-cli-ssh-key'],
+    ],
+    content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+
+  file { "${groovy_d}/terraform-credentials.groovy":
+    ensure  => $groovy_d_terraform_credentials,
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    require => [
+        File[$groovy_d],
+        File["${ssh_dir}/azure_k8s.pub"],
+    ],
+    source  => "puppet:///modules/${module_name}/buildmaster/terraform-credentials.groovy",
+    before  => Docker::Run['jenkins'],
+    notify  => Service['docker-jenkins'],
+  }
+  ##############################################################################
 
   docker::run { 'jenkins':
     image            => 'jenkins/jenkins:lts-alpine',
@@ -104,106 +224,6 @@ class profile::buildmaster(
     ],
   }
 
-  file { '/etc/default/jenkins':
-    ensure  => absent,
-  }
-  # Make sure the old init script is gone, since the package removal won't
-  # handle it
-  # https://issues.jenkins-ci.org/browse/INFRA-916
-  # No-op, just to make puppet-jenkins STFU
-  file { '/etc/init.d/jenkins' :
-    ensure  => absent,
-  }
-
-  file { $script_dir:
-    ensure => directory,
-  }
-
-  # Jenkins custom-bootstrapping
-  #
-  # These files should be laid down on the file system before Jenkins starts
-  # such that they're loaded properly
-  ##############################################################################
-  file { $groovy_d:
-    ensure  => directory,
-    owner   => 'jenkins',
-    require => [
-        User['jenkins'],
-        File[$jenkins_home],
-    ],
-  }
-
-  file { "${groovy_d}/enable-ssh-port.groovy":
-    ensure  => $groovy_d_enable_ssh_port,
-    owner   => 'jenkins',
-    source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
-    require => [
-        User['jenkins'],
-        File[$groovy_d],
-    ],
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-
-  file { "${groovy_d}/set-up-git.groovy":
-    ensure  => $groovy_d_set_up_git,
-    owner   => 'jenkins',
-    source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
-    require => [
-        User['jenkins'],
-        File[$groovy_d],
-    ],
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-
-  file { "${groovy_d}/agent-security.groovy":
-    ensure  => $groovy_d_agent_security,
-    owner   => 'jenkins',
-    source  => "puppet:///modules/${module_name}/buildmaster/agent-security.groovy",
-    require => [
-        User['jenkins'],
-        File[$groovy_d],
-    ],
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-
-  file { "${groovy_d}/pipeline-configuration.groovy":
-    ensure  => $groovy_d_pipeline_configuration,
-    owner   => 'jenkins',
-    source  => "puppet:///modules/${module_name}/buildmaster/pipeline-configuration.groovy",
-    require => [
-        User['jenkins'],
-        File[$groovy_d],
-    ],
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-
-  file { "${groovy_d}/lock-down-jenkins.groovy":
-    ensure  => $groovy_d_lock_down_jenkins,
-    require => [
-        User['jenkins'],
-        File[$groovy_d],
-        Exec['generate-cli-ssh-key'],
-    ],
-    content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-
-  file { "${groovy_d}/terraform-credentials.groovy":
-    ensure  => $groovy_d_terraform_credentials,
-    require => [
-        File[$groovy_d],
-        File["${ssh_dir}/azure_k8s.pub"],
-    ],
-    source  => "puppet:///modules/${module_name}/buildmaster/terraform-credentials.groovy",
-    before  => Docker::Run['jenkins'],
-    notify  => Service['docker-jenkins'],
-  }
-  ##############################################################################
 
 
   # Prepare Jenkins instance-only SSH keys for CLI usage
@@ -211,6 +231,7 @@ class profile::buildmaster(
   file { $ssh_dir :
     ensure  => directory,
     owner   => 'jenkins',
+    group   => 'jenkins',
     mode    => '0700',
     require => [
         User['jenkins'],
