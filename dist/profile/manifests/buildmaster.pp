@@ -20,12 +20,12 @@ class profile::buildmaster(
   $plugins          = undef,
   $proxy_port       = 443,
   $jenkins_home     = '/var/lib/jenkins',
-  $groovy_d_enable_ssh_port = 'absent',
-  $groovy_d_set_up_git = 'absent',
-  $groovy_d_agent_security = 'absent',
-  $groovy_d_pipeline_configuration = 'absent',
-  $groovy_d_lock_down_jenkins = 'absent',
-  $groovy_d_terraform_credentials = 'absent',
+  $groovy_d_enable_ssh_port = 'present',
+  $groovy_d_set_up_git = 'present',
+  $groovy_d_agent_security = 'present',
+  $groovy_d_pipeline_configuration = 'present',
+  $groovy_d_lock_down_jenkins = 'present',
+  $groovy_d_terraform_credentials = 'present',
   $java_opts_xms = '4g',
   $java_opts_xmx = '8g'
 ) {
