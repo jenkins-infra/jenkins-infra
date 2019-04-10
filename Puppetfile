@@ -80,8 +80,6 @@ mod 'camptocamp/openldap', '1.14.0'
 mod 'herculesteam/augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam/augeasproviders_core', '2.1.2'
 
-# For managing Jenkins itself
-mod 'rtyler/jenkins', '1.7.0'
 # Needed for the Jenkins module
 mod 'puppetlabs/java', '3.3.0'
 mod 'puppet/archive', '1.1.2'
