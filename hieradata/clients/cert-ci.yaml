@@ -1,10 +1,5 @@
 ---
 profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
-profile::buildmaster::groovy_d_agent_security: 'absent'
-profile::buildmaster::groovy_d_enable_ssh_port: 'absent'
-profile::buildmaster::groovy_d_lock_down_jenkins: 'absent'
-profile::buildmaster::groovy_d_pipeline_configuration: 'absent'
-profile::buildmaster::groovy_d_set_up_git: 'absent'
-profile::buildmaster::groovy_d_terraform_credentials: 'absent'
 profile::buildmaster::proxy_port: 1443
 profile::buildmaster::letsencrypt: false
+profile::buildmaster::groovy_init_enabled: false
