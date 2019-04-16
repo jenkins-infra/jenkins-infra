@@ -1,6 +1,5 @@
 ---
 profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
-profile::buildmaster::proxy_port: 1443
 profile::buildmaster::letsencrypt: false
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
