@@ -436,7 +436,6 @@ ProxyPassReverse / http://localhost:8080/
     require         => Apache::Vhost[$ci_fqdn],
   }
 
-
   # This is a legacy role imported from infra-puppet, thus the goofy numbering
   firewall { '108 Jenkins CLI port' :
     proto  => 'tcp',
