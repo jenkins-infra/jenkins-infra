@@ -50,12 +50,14 @@ if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
  */
 AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 
+<%if @anonymous_access %>
 [
     Jenkins.READ,
     Item.READ,
 ].each { permission ->
     strategy.add(permission, 'anonymous')
 }
+<%end%>
 
 strategy.add(Jenkins.ADMINISTER, 'admins')
 /* give our role account superpowers */

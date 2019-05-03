@@ -1,3 +1,0 @@
----
-
-profile::buildmaster::jenkins_home: '/mnt/jenkins'

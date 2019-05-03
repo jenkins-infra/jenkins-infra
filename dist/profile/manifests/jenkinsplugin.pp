@@ -7,9 +7,9 @@ define profile::jenkinsplugin (
   validate_string($name)
 
   exec { "install-plugin-${name}":
-    command   => "/usr/share/jenkins/idempotent-cli install-plugins.sh ${name}",
-    tries     => $::jenkins::cli_tries,
-    try_sleep => $::jenkins::cli_try_sleep,
+    command   => "/usr/share/jenkins/idempotent-cli install-plugin ${name}",
+    tries     => 10,
+    try_sleep => 10,
     path      => ['/bin', '/usr/bin'],
     unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi",
     require   => Docker::Run['jenkins'],

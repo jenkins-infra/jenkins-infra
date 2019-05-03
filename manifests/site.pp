@@ -148,6 +148,12 @@ node 'trusted-ci' {
   include role::jenkins::master
 }
 
+node 'trusted.ci.jenkins.io' {
+  $hiera_role = 'trustedci'
+  sshkeyman::hostkey { ['trusted.ci.jenkins.io']: }
+  include role::jenkins::master
+}
+
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
   include role::jenkins::master

@@ -9,11 +9,22 @@ describe 'profile::buildmaster' do
   end
 
   context 'Jenkins configuration' do
-    it { should contain_class 'jenkins' }
+    it { is_expected.to contain_user('jenkins').with(
+        'ensure' => 'present',
+        'uid'    => '999',
+        'gid'    => '999',
+        'home'   => '/var/lib/jenkins'
+      )
+    }
+
+    it { is_expected.to contain_group('jenkins').with(
+        'ensure' => 'present',
+        'gid'    => '999'
+      )
+    }
 
     # https://issues.jenkins-ci.org/browse/INFRA-916
     context 'as a Docker container' do
-      it { should contain_package('jenkins').with_ensure('absent') }
       it { should contain_file('/var/lib/jenkins').with_ensure('directory') }
       it { should contain_class 'profile::docker' }
 
@@ -25,16 +36,27 @@ describe 'profile::buildmaster' do
       end
     end
 
+    context 'Init groovy script' do
+      it { is_expected.to contain_file('/var/lib/jenkins/init.groovy.d').with(
+          'ensure' => 'directory',
+          'purge'  => 'true',
+          'recurse' => 'true'
+        )
+      }
+      context "By default: Init Groovy directory" do
+        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy')}
+        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy')}
+        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/agent-security.groovy')}
+        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/terraform-credentials.groovy')}
+        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/pipeline-configuration.groovy')}
+      end
+    end
+
+
+
     # Resources which ensure that we can run our local CLI scripting
     context 'Local CLI access' do
-      it { should contain_file('/var/lib/jenkins/init.groovy.d').with_ensure(:directory) }
-      it { should contain_file('/var/lib/jenkins/.ssh').with_ensure(:directory) }
-
-      context 'init.groovy.d' do
-        it { should contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy') }
-        it { should contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy') }
-        it { should contain_file('/var/lib/jenkins/init.groovy.d/terraform-credentials.groovy') }
-      end
+      it { is_expected.to contain_file('/var/lib/jenkins/.ssh') }
     end
   end
 
