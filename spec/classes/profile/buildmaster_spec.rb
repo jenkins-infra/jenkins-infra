@@ -11,15 +11,12 @@ describe 'profile::buildmaster' do
   context 'Jenkins configuration' do
     it { is_expected.to contain_user('jenkins').with(
         'ensure' => 'present',
-        'uid'    => '999',
-        'gid'    => '999',
         'home'   => '/var/lib/jenkins'
       )
     }
 
     it { is_expected.to contain_group('jenkins').with(
         'ensure' => 'present',
-        'gid'    => '999'
       )
     }
 
