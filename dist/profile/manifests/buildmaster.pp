@@ -67,13 +67,10 @@ class profile::buildmaster(
 
   group { 'jenkins':
     ensure => present,
-    gid    => 999,
   }
 
   user { 'jenkins':
     ensure => present,
-    uid    => 999,
-    gid    => 999,
     home   => $jenkins_home,
   }
 
