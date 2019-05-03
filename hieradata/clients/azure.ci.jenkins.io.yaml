@@ -29,7 +29,6 @@ profile::buildmaster::plugins:
   - github-branch-source
   - github-organization-folder
   - groovy
-  - jacoco
   - jobConfigHistory
   - junit-attachments
   - junit-realtime-test-reporter
@@ -40,11 +39,9 @@ profile::buildmaster::plugins:
   - pipeline-githubnotify-step
   - pipeline-stage-view
   - pipeline-utility-steps
-  - pmd
   - ssh-agent
   - throttle-concurrents
   - timestamper
   - toolenv
-  - warnings
   - workflow-aggregator
   - workflow-multibranch
