@@ -1,6 +1,6 @@
 ---
 profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
-profile::buildmaster::proxy_port: 1443
+profile::buildmaster::proxy_port: 443
 profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: false
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
