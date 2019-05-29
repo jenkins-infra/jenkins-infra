@@ -16,6 +16,8 @@
 class profile::buildmaster(
   $anonymous_access = true,
   $ci_fqdn          = 'ci.jenkins.io',
+  $docker_image     = 'jenkins/jenkins',
+  $docker_tag       = 'lts-alpine',
   $letsencrypt      = true,
   $plugins          = undef,
   $proxy_port       = 443,
@@ -211,7 +213,7 @@ class profile::buildmaster(
   ##############################################################################
 
   docker::run { 'jenkins':
-    image            => 'jenkins/jenkins:lts-alpine',
+    image            => "${docker_image}:${docker_tag}",
     # This is a "clever" hack to force the init script to pass the numeric UID
     # through on `docker run`. Since passing the string 'jenkins' doesn't
     # actually map the UIDs properly. Using the extra_parameters option because
