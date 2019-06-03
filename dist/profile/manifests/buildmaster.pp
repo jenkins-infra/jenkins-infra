@@ -228,7 +228,7 @@ class profile::buildmaster(
     env              => [
       "HOME=${jenkins_home}",
       'USER=jenkins',
-      "JAVA_OPTS='${java_opts}'",
+      "JAVA_OPTS=${java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],
