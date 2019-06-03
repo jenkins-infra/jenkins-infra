@@ -9,7 +9,7 @@ profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
 profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
 profile::buildmaster::groovy_d_terraform_credentials: 'present'
-profile::buildmaster::java_opts: "-server -Xlog:gc+heap*=debug,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc-%t.log::filecount=5,filesize=20M -XX:+PrintTenuringDistribution -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Xms4g -Xmx$8g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2" # Java11 specific configuration
+profile::buildmaster::java_opts: "-server -Xlog:gc+heap*=debug,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc-%t.log::filecount=5,filesize=20M -XX:+UnlockExperimentalVMOptions -XX:+UseZGC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Xms4g -Xmx$8g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2" # Java11 specific configuration
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - ansicolor
