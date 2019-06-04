@@ -4,6 +4,11 @@ metadata:
   name: jenkinsio
 data:
   default.conf: |
+    map $http_accept_language $lang {
+      default '';
+      ~zh zh;
+    }
+
     server {
       listen       80;
       server_name  localhost;
@@ -15,6 +20,10 @@ data:
       location / {
           root   /usr/share/nginx/html;
           index  index.html index.htm;
+          # Language setting
+          if ($lang) {
+            rewrite ^/$ http://localhost/$lang$1;
+          }   
       }
   
       error_page  404              /404/index.html;
