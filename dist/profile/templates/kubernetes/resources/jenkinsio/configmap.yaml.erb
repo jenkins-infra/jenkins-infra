@@ -20,6 +20,8 @@ data:
       location / {
           root   /usr/share/nginx/html;
           index  index.html index.htm;
+          # Language setting
+          rewrite (.*) https://jenkins.io/$lang;
       }
   
       error_page  404              /404/index.html;
@@ -85,6 +87,4 @@ data:
       # baked in 1.600 easter egg
       rewrite ^/100k$                  https://jenkins.io/content/jenkins-celebration-day-february-26 permanent;
       rewrite ^/jep/([0-9]+) https://github.com/jenkinsci/jep/blob/master/jep/$1/README.adoc permanent;
-      # Language setting
-      rewrite (.*) https://jenkins.io/$lang$1;
     }
