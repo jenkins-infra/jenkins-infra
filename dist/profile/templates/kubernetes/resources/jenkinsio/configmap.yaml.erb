@@ -21,7 +21,9 @@ data:
           root   /usr/share/nginx/html;
           index  index.html index.htm;
           # Language setting
-          rewrite (.*) https://jenkins.io/$lang;
+          if ($lang) {
+            rewrite ^/$ http://localhost/$lang$1;
+          }   
       }
   
       error_page  404              /404/index.html;
