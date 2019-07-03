@@ -59,23 +59,10 @@ AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 }
 <%end%>
 
-strategy.add(Jenkins.ADMINISTER, 'admins')
-/* give our role account superpowers */
-strategy.add(Jenkins.ADMINISTER, 'jenkins')
+<% @admin_ldap_groups.each do |group|%>
+strategy.add(Jenkins.ADMINISTER, <%= group %>)
+<%end%>
 
-/* https://issues.jenkins-ci.org/browse/INFRA-1346 */
-[
-    Jenkins.READ,
-    Item.BUILD,
-    Item.CANCEL,
-    Item.CONFIGURE,
-    Item.CREATE,
-    Item.DELETE,
-    Item.DISCOVER,
-    Item.READ,
-].each { permission ->
-    strategy.add(permission, 'jenkins-admins')
-}
 instance.authorizationStrategy = strategy
 
 instance.save()
