@@ -60,7 +60,7 @@ AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 <%end%>
 
 <% @admin_ldap_groups.each do |group|%>
-strategy.add(Jenkins.ADMINISTER, <%= group %>)
+strategy.add(Jenkins.ADMINISTER, '<%= group %>')
 <%end%>
 
 instance.authorizationStrategy = strategy
