@@ -9,6 +9,9 @@ accounts:
 profile::buildmaster::ci_fqdn: 'trusted.ci.jenkins.io'
 profile::buildmaster::proxy_port: 1443
 profile::buildmaster::anonymous_access: false
+profile::buildmaster::admin_ldap_group:
+  - admins
+  - trusted-admins
 profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: true
 profile::buildmaster::groovy_d_agent_security: 'present'

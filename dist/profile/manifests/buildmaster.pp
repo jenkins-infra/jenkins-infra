@@ -14,22 +14,23 @@
 #   be on the public internet
 #
 class profile::buildmaster(
-  $anonymous_access = true,
-  $ci_fqdn          = 'ci.jenkins.io',
-  $docker_image     = 'jenkins/jenkins',
-  $docker_tag       = 'lts-alpine',
-  $letsencrypt      = true,
-  $plugins          = undef,
-  $proxy_port       = 443,
-  $jenkins_home     = '/var/lib/jenkins',
-  $groovy_init_enabled = false,
-  $groovy_d_enable_ssh_port = 'absent',
-  $groovy_d_set_up_git = 'absent',
-  $groovy_d_agent_security = 'absent',
+  $anonymous_access                = false,
+  $admin_ldap_groups               = ['admins'],
+  $ci_fqdn                         = 'ci.jenkins.io',
+  $docker_image                    = 'jenkins/jenkins',
+  $docker_tag                      = 'lts-alpine',
+  $letsencrypt                     = true,
+  $plugins                         = undef,
+  $proxy_port                      = 443,
+  $jenkins_home                    = '/var/lib/jenkins',
+  $groovy_init_enabled             = false,
+  $groovy_d_enable_ssh_port        = 'absent',
+  $groovy_d_set_up_git             = 'absent',
+  $groovy_d_agent_security         = 'absent',
   $groovy_d_pipeline_configuration = 'absent',
-  $groovy_d_lock_down_jenkins = 'absent',
-  $groovy_d_terraform_credentials = 'absent',
-  $java_opts = '-server -Xloggc:/var/jenkins_home/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Xms4g -Xmx8g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2'
+  $groovy_d_lock_down_jenkins      = 'absent',
+  $groovy_d_terraform_credentials  = 'absent',
+  $java_opts                       = '-server -Xloggc:/var/jenkins_home/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Xms4g -Xmx8g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2'
 ) {
   include ::stdlib
   include ::apache
