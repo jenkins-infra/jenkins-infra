@@ -251,7 +251,7 @@ profile::kubernetes::resources::ldap::whitelisted_sources:
   - '140.211.9.94/32'    # 107 accept inbound LDAPS request from puppet.jenkins.io puppet.jenkins.io
   - '140.211.9.32/32'    # 107 accept inbound LDAPS request from Confluence wiki.jenkins-ci.org
   - '140.211.9.2/32'     # 107 accept inbound LDAPS request from JIRA issues.jenkins-ci.org
-  - '52.91.48.6/32'      # 107 accept inbound LDAPS from trusted-ci
+  - '3.89.75.197/32'      # 107 accept inbound LDAPS from trusted-ci
   - '52.71.231.250/32'   # 107 accept inbound LDAPS from ci
   - '104.209.251.202/32' # accept inbound LDAPS from vpn.jenkins.io
   - '104.210.5.242/32'   # accept inbound LDAPS from cert-ci
