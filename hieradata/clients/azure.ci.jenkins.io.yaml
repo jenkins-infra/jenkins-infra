@@ -7,7 +7,7 @@ accounts:
     groups:
       - sudo
 profile::buildmaster::anonymous_access: true
-profile::buildmaster::admin_ldap_group:
+profile::buildmaster::admin_ldap_groups:
   - admins
   - jenkins-admins
 profile::buildmaster::ci_fqdn: 'ci.jenkins.io'
