@@ -236,7 +236,7 @@ class profile::ldap(
 
   firewall { '107 accept inbound LDAPS from trusted-ci':
     proto  => 'tcp',
-    source => '52.91.48.6',
+    source => '3.89.75.197',
     dport  => 636,
     action => 'accept',
   }
