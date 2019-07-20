@@ -24,6 +24,7 @@ class profile::jenkinsadmin (
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':
+    ensure    => absent,
     image_tag => $image_tag,
   }
 
@@ -46,6 +47,7 @@ class profile::jenkinsadmin (
   }
 
   user { $user:
+    ensure     => absent,
     shell      => '/bin/false',
     # hard-coding because this is what we already have on spinach
     uid        => '1013',
@@ -53,6 +55,7 @@ class profile::jenkinsadmin (
   }
 
   file { '/home/ircbot/.github':
+    ensure  => absent,
     owner   => $user,
     require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-github.erb"),
@@ -61,8 +64,8 @@ class profile::jenkinsadmin (
   }
 
   file { '/home/ircbot/.jenkins-ci.org':
+    ensure  => absent,
     owner   => $user,
-    require => User[$user],
     content => template("${module_name}/jenkinsadmin/dot-jenkins.erb"),
     mode    => '0600',
     notify  => Service['docker-ircbot'],
