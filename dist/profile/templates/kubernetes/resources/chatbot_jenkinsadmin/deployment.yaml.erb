@@ -5,6 +5,9 @@ metadata:
     name: jenkinsadmin
     namespace: chatbot
 spec:
+    selector:
+      matchLabels:
+        app: jenkinsadmin
     replicas: 1
     template:
         metadata:
