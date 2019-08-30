@@ -30,6 +30,8 @@ class profile::kubernetes::resources::pluginsite (
     String $image_tag = '',
     Array $aliases = [],
     Array $clusters = $profile::kubernetes::params::clusters
+    String $client_id = '',
+    String $client_secret = ''
   ) inherits profile::kubernetes::params {
 
   require profile::kubernetes::kubectl
@@ -59,6 +61,14 @@ class profile::kubernetes::resources::pluginsite (
         'data_file_url' => $data_file_url
       },
       resource   => 'pluginsite/configmap.yaml'
+    }
+    profile::kubernetes::apply { "pluginsite/secret.yaml on ${context}":
+      context    => $context,
+      parameters => {
+        'client_id'       => base64('encode', $client_id, 'strict'),
+        'client_secret'   => base64('encode', $client_secret, 'strict'),
+      },
+      resource   => 'pluginsite/secret.yaml'
     }
     profile::kubernetes::apply { "pluginsite/service.yaml on ${context}":
       context  => $context,

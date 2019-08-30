@@ -40,6 +40,16 @@ spec:
                       - containerPort: 8080
                         protocol: TCP
                   env:
+                      - name: CLIENT_ID
+                        valueFrom:
+                          secretKeyRef:
+                            name: pluginsite
+                            key: client_id
+                      - name: CLIENT_SECRET
+                        valueFrom:
+                          secretKeyRef:
+                            name: pluginsite
+                            key: client_secret
                       - name: REST_API_URL
                         valueFrom:
                             configMapKeyRef:
