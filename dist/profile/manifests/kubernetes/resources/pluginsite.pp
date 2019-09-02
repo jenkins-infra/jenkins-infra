@@ -35,7 +35,7 @@ class profile::kubernetes::resources::pluginsite (
     String $data_file_url = 'https://ci.jenkins.io/job/Infra/job/plugin-site-api/job/generate-data/lastSuccessfulBuild/artifact/plugins.json.gzip',
     String $image_tag = '',
     Array $aliases = [],
-    Array $clusters = $profile::kubernetes::params::clusters
+    Array $clusters = $profile::kubernetes::params::clusters, 
     String $github_client_id = '',
     String $github_client_secret = ''
   ) inherits profile::kubernetes::params {
