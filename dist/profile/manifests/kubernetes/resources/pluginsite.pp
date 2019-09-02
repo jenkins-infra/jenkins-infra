@@ -18,6 +18,12 @@
 #     $aliases:
 #       Set a list of $url aliases used by ingress
 #
+#     $github_client_id:
+#        Set the github client id used to retrieve pages from github
+#
+#     $github_client_secret:
+#        Set the github client secret used to retrieve pages from github
+#
 #   Remark:
 #     `kubectl get service nginx --namespace nginx-ingress` return service public ip
 #     This public ip should be used for DNS record frontend_url -> this IP
@@ -30,8 +36,8 @@ class profile::kubernetes::resources::pluginsite (
     String $image_tag = '',
     Array $aliases = [],
     Array $clusters = $profile::kubernetes::params::clusters
-    String $client_id = '',
-    String $client_secret = ''
+    String $github_client_id = '',
+    String $github_client_secret = ''
   ) inherits profile::kubernetes::params {
 
   require profile::kubernetes::kubectl
@@ -65,8 +71,8 @@ class profile::kubernetes::resources::pluginsite (
     profile::kubernetes::apply { "pluginsite/secret.yaml on ${context}":
       context    => $context,
       parameters => {
-        'client_id'       => base64('encode', $client_id, 'strict'),
-        'client_secret'   => base64('encode', $client_secret, 'strict'),
+        'github_client_id'     => base64('encode', $github_client_id, 'strict'),
+        'github_client_secret' => base64('encode', $github_client_secret, 'strict'),
       },
       resource   => 'pluginsite/secret.yaml'
     }
