@@ -314,7 +314,7 @@ docker::version: '5:18.09.0~3-0~ubuntu-bionic'
 # profile::pluginsite::image_tag is deprecated as pluginsite is now deployed on kubernetes
 # you should instead update profile::kubernetes::resources:pluginsite::image_tag
 profile::pluginsite::image_tag: '50-8a166d'
-profile::kubernetes::resources::pluginsite::image_tag: '106-b93d69'
+profile::kubernetes::resources::pluginsite::image_tag: '108-9194b9'
 profile::kubernetes::resources::pluginsite::url: plugins.jenkins.io
 profile::kubernetes::resources::pluginsite::github_client_id: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAL1vRKApzActm9IwuxM8xq9Nublmz3vm1Sam7q5JCbnfMDXga9cAGkM1Uc1G2u5nZ0g/tSl9Soo5niA644zSaFER08tIwb8OUfupkv2J2/Cg7VpzZZqX/YpMxHvQvQs+/MMfvtc+bcYN9xHCl5khKSaS3epn8Bvd9rF5f+1OCw9VjDFKCS00qMklXEFmBvWdvdC3jtl1WRgA/HLKWJvdGXaAqrAupW9/0gsBYKTmb/aW3N6xIXaZ8OtBFS8jLVaSoy45nrmI26RJSvMw2RwmNULCsjOc4HLsomql/zr8EO4VEk6zrGrlkommaS7hqvdO6xHBlTWVGEEu5xPa8O3Y82zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBa+z+sgKCPP6dyNYRlLVhcgCBrPPunN3KvBPpNZiJgstynIgd48c2+FZcRMlQjPlLcGA==]
 profile::kubernetes::resources::pluginsite::github_client_secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhcYjzJVRCS74iWQBGh70rXQk+zIKVAdW9qaHCY/73Db0JDJkVO5gEIBOe+VU/Yd0lZNybIepjIc35y0A1TeM7+ck46Dp+GNF5E8owXyF8e/KQyRJ1JfzOiaSLl1oOEilMxjbp37IjvAnBt8IX0DEGJ3XiL/f94DcI81mM58saory6jxqD6rHTVa63Y0I4CkRHcq2PZn/HyeW/eP1cGlcXBZ50vgff4dkF2F58LmnhzVaNw+1glq/jq5TQtP67i/aQvN+GFFXR+pQq6HjAwt3SOns6buqq5gnID0EYyzIOsU4MW5KP5V+8ArbNk4G2aiKQCD2j8TVb2U10+BU9vjDdjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBsKL4KU7saUZzqmGMOzM9ngDCFdD+vovZR4Cl+BnFeSnqS1Zs+jWNLE+pN00FpRKwsUYxZuB2WZ/yKmgXIjHA6eNg=]
