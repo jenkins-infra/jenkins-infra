@@ -6,7 +6,7 @@ data:
   default.conf: |
     map $http_accept_language $lang {
       default '';
-      ~zh zh;
+      ~^zh zh;
     }
 
     server {
