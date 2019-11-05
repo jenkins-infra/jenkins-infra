@@ -82,6 +82,11 @@ class profile::buildmaster(
     group  => 'jenkins'
   }
 
+  file { "${jenkins_home}/gc":
+    ensure => directory,
+    owner  => 'jenkins',
+    group  => 'jenkins'
+  }
 
   file { '/etc/default/jenkins':
     ensure  => absent,
