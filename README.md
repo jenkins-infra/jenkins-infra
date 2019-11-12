@@ -6,6 +6,37 @@ This repository is the [r10k](https://github.com/adrienthebo/r10k) control
 repository for the [Jenkins](https://jenkins.io) project's own
 infrastructure.
 
+## Structure
+
+See the [Jenkins infrastructure project](https://jenkins.io/projects/infrastructure/) for overview of the project's infrastructure and the services being managed by this repository.
+A non exhaustive list of services is available [here](https://jenkins.io/projects/infrastructure/#services).
+
+### Implementation notes
+
+* The services are managed [r10k](https://github.com/adrienthebo/r10k) and Puppet,
+  configuration files are available inside this repository.
+* There are multiple types of service deployments:
+  * The majority of services run as containers inside Kubernetes, and it is a precondition for new services.
+  * Some services like ci.jenkins.io run inside virtual machines provisioned insideMicrosoft Azure.
+  * Some older services like Jenkins JIRA or Wiki run on machines outside Azure.
+* There are Puppet templates for all services.
+  Configuration options are defined by Hiera and stored in [hieradata](./hieradata).
+  See [hieradata/common.yaml](./hieradata/common.yaml) for the most of the settings.
+* Not all services are fully configured with Configuration-as-Code.
+  For example, Jenkins masters ([buildmaster template](./dist/profile/manifests/buildmaster.pp)) rely on configurations being supplied from Jenkins home directories.
+
+### Containerized services
+
+All containerized services are stored in separate repositories ([Plugin Site](https://plugins.jenkins.io/), [IRC Bot](https://jenkins.io/projects/infrastructure/ircbot/), etc.).
+They have their own release cycles and maintainers.
+This repo just manages and configures the deployments.
+
+* See [this page](https://jenkins.io/projects/infrastructure/#services) for service repository links.
+* Service images are hosted inside the [jenkinsciinfra DockerHub account](https://hub.docker.com/r/jenkinsciinfra/).
+* Usually there is a Continuous Delivery pipeline configured for services inside their repositories.
+* Image versions are defined in the [hieradata/common.yaml](./hieradata/common.yaml) file by the `*:image_tag` variables.
+  Services can be updated by submitting a pull request with the version update.
+
 ## Local development
 
 The amount of testing that can be done locally is as follows:
