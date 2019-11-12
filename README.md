@@ -9,7 +9,7 @@ infrastructure.
 ## Structure
 
 See the [Jenkins infrastructure project](https://jenkins.io/projects/infrastructure/) for overview of the project's infrastructure and the services being managed by this repository.
-Full list of services is available [here](https://jenkins.io/projects/infrastructure/#services).
+A non exhaustive list of services is available [here](https://jenkins.io/projects/infrastructure/#services).
 
 ### Implementation notes
 
