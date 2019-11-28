@@ -1,3 +1,7 @@
+#  !! This class is deprecated in favor of the plugin-site helm chart
+#  !! https://github.com/jenkins-infra/charts/tree/master/charts/plugin-site
+#
+#
 #   Class: profile::kubernetes::resources::pluginsite
 #
 #   This class deploy plugins jenkins website
