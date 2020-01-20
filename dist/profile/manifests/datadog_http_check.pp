@@ -64,19 +64,6 @@ class profile::datadog_http_check(
       'tags'                         => ['production','jenkins.io']
     },
     {
-      'sitename'                     => 'evergreen.jenkins.io',
-      'url'                          => 'https://evergreen.jenkins.io',
-      'timeout'                      => $timeout,
-      'threshold'                    => $threshold,
-      'window'                       => $window,
-      'collect_response_time'        => true,
-      'check_certificate_expiration' => true,
-      'days_warning'                 => $days_warning,
-      'days_critical'                => $days_critical,
-      'contact'                      => $contact,
-      'tags'                         => ['production','jenkins.io']
-    },
-    {
       'sitename'                     => 'issues.jenkins-ci.org',
       'url'                          => 'https://issues.jenkins-ci.org/status',
       'timeout'                      => $timeout,
