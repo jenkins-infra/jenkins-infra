@@ -70,6 +70,13 @@ accounts:
     groups:
       - atlassian-admins
       - sudo
+  markewaite:
+    ssh_keys:
+      muggle:
+        key: AAAAC3NzaC1lZDI1NTE5AAAAIP1YKQM/oJaYlZqAPSCPNbCo+dASh4AG/rxLtO5vVlwq
+    groups:
+      - atlassian-admins
+      - sudo
 
 
 # Lets Encrypt settings
