@@ -27,6 +27,18 @@ class profile::confluence (
     comment  => 'Runs confluence',
   }
 
+  ensure_packages([
+      'gist'
+  ])
+
+  file { '/etc/cron.daily/access_logs_reporter.sh':
+    ensure => file,
+    mode   => '0755',
+    owner  => 'root',
+    source => 'puppet:///modules/profile/confluence/report_last_log.sh',
+    require => Package['gist'],
+  }
+
   file { '/var/log/apache2/wiki.jenkins-ci.org':
     ensure => directory,
     group  => $profile::atlassian::group_name,
