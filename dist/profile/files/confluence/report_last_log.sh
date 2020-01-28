@@ -9,7 +9,9 @@ find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -type f -printf "%
   # cat it
   xargs cat | \
   # url field
-  awk -F" " '{print $7}' | \
+  awk -F" " '$9 == "200" { print $7 }' | \
+  # remove the blank lines
+  awk 'NF > 0' | \
   # truncate querystring
   awk -F"?" '{print $1}' | \
   # sort them all
