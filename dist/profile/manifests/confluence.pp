@@ -35,7 +35,7 @@ class profile::confluence (
   }
 
   file { '/var/www/html/reports':
-    enure => directory
+    enure => directory,
     mode  => '0755',
     owner => 'root',
   }
