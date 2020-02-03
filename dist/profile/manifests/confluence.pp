@@ -28,10 +28,10 @@ class profile::confluence (
   }
 
   file { '/etc/cron.daily/access_logs_reporter.sh':
-    ensure  => file,
-    mode    => '0755',
-    owner   => 'root',
-    source  => 'puppet:///modules/profile/confluence/report_last_log.sh',
+    ensure => file,
+    mode   => '0755',
+    owner  => 'root',
+    source => 'puppet:///modules/profile/confluence/report_last_log.sh',
   }
 
   file { '/var/www/html/reports':
