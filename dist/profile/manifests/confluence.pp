@@ -35,9 +35,9 @@ class profile::confluence (
   }
 
   file { '/var/www/html/reports':
-    enure => directory,
-    mode  => '0755',
-    owner => 'root',
+    ensure => directory,
+    mode   => '0755',
+    owner  => 'root',
   }
 
   file { '/var/log/apache2/wiki.jenkins-ci.org':
