@@ -1,5 +1,6 @@
 #!/bin/bash
-GIST_ID=
+# make sure all can read this file
+umask 100
 # grab all log files but sort by date
 find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -type f -printf "%T+\t%p\n" | sort | \
   # grab the two newest
@@ -21,7 +22,5 @@ find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -type f -printf "%
   # sort by the higest number of them
   sort -nrk1 | \
   # find the 100 newest
-  head -n 100 | \
-  # post to git
-  gist -u $GIST_ID -f urls.txt
+  head -n 100 > /var/www/html/reports/top_urls.txt
 

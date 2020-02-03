@@ -27,16 +27,17 @@ class profile::confluence (
     comment  => 'Runs confluence',
   }
 
-  ensure_packages([
-      'gist'
-  ])
-
   file { '/etc/cron.daily/access_logs_reporter.sh':
     ensure  => file,
     mode    => '0755',
     owner   => 'root',
     source  => 'puppet:///modules/profile/confluence/report_last_log.sh',
-    require => Package['gist'],
+  }
+
+  file { '/var/www/html/reports':
+    enure => directory
+    mode  => '0755',
+    owner => 'root',
   }
 
   file { '/var/log/apache2/wiki.jenkins-ci.org':
