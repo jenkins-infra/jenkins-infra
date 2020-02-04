@@ -17,6 +17,8 @@ find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -type f -printf "%
   awk 'NF > 0' | \
   # truncate querystring
   awk -F"?" '{print $1}' | \
+  # only handle wiki urls
+  grep "/display/" | \
   # sort them all
   sort | \
   # sort and count unique
