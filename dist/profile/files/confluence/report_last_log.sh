@@ -9,8 +9,8 @@ find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -type f -printf "%
   head -n 1 | \
   # grab the actual filename
   awk -F"\t" '{print $2}' | \
-  # cat it
-  xargs zcat | \
+  # cat it (zcat -f will handled gzip and non gzip files)
+  xargs zcat -f | \
   # url field
   awk -F" " '$9 == "200" { print $7 }' | \
   # remove the blank lines
