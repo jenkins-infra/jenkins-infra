@@ -19,7 +19,6 @@ LOGFILENAME=$(find /var/log/apache2/wiki.jenkins-ci.org -name 'access.log*' -not
 echo "# LogFile: $(basename $LOGFILENAME)" >> $TMPLOGFILE
 echo "# LastUpdated: $(TZ=UTC date)" >> $TMPLOGFILE
 
-
 # cat it (zcat -f will handled gzip and non gzip files)
 zcat -f $LOGFILENAME | \
   # url field
@@ -29,16 +28,18 @@ zcat -f $LOGFILENAME | \
   # truncate querystring
   awk -F"?" '{print $1}' | \
   # only handle wiki urls
-  grep "/display/" | \
+  #grep "/display/" | \
   # sort them all
   sort | \
   # sort and count unique
   uniq -c | \
-  # sort by the higest number of them
-  sort -nrk1 | \
+  # sort by the higest number of them (reverse sort so we can tail)
+  sort -nk1 | \
   # find the 100 newest
-  head -n 100 >> $TMPLOGFILE
-  
+  tail -n 100 >> $TMPLOGFILE
+
+echo $?
+
 if [ "$FINALFILE" = "-" ]; then
   cat $TMPLOGFILE
 else
