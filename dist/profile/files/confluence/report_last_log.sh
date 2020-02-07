@@ -3,7 +3,7 @@ set -euxo pipefail
 # make sure all can read this file
 umask 100
 
-FINAL_FILE=${FINALFILE:-/var/www/html/reports/top_urls.txt}
+FINALFILE=${FINALFILE:-/var/www/html/reports/top_urls.txt}
 
 # create a temporary file
 TMPLOGFILE=`mktemp -p /tmp`
