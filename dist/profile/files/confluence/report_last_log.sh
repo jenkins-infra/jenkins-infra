@@ -28,7 +28,7 @@ zcat -f $LOGFILENAME | \
   # truncate querystring
   awk -F"?" '{print $1}' | \
   # only handle wiki urls
-  #grep "/display/" | \
+  grep "/display/" | \
   # sort them all
   sort | \
   # sort and count unique
