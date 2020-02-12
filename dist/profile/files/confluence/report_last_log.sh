@@ -43,6 +43,7 @@ echo $?
 if [ "$FINALFILE" = "-" ]; then
   cat $TMPLOGFILE
 else
+  chmod 755 $TMPLOGFILE
   mv $TMPLOGFILE $FINALFILE
 fi
 
