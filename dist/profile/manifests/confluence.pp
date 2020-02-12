@@ -35,8 +35,8 @@ class profile::confluence (
   }
 
   cron { 'access_logs_reporter.sh':
-    command => '/usr/local/bin/access_logs_reporter.sh',
     ensure  => present,
+    command => '/usr/local/bin/access_logs_reporter.sh',
     user    => 'root',
     hour    => 7,
     minute  => 0,
