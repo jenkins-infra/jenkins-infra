@@ -27,11 +27,19 @@ class profile::confluence (
     comment  => 'Runs confluence',
   }
 
-  file { '/etc/cron.daily/access_logs_reporter.sh':
+  file { '/usr/local/bin/access_logs_reporter.sh':
     ensure => file,
     mode   => '0755',
     owner  => 'root',
     source => 'puppet:///modules/profile/confluence/report_last_log.sh',
+  }
+
+  cron { 'access_logs_reporter.sh':
+    command => '/usr/local/bin/access_logs_reporter.sh',
+    present => present,
+    user    => 'root',
+    hour    => 7,
+    minute  => 0,
   }
 
   file { '/var/www/html/reports':
