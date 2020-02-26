@@ -229,7 +229,7 @@ GEM
       net-ssh (>= 2.6.5)
     net-ssh (2.9.4)
     net-telnet (0.1.1)
-    nokogiri (1.10.1)
+    nokogiri (1.10.8)
       mini_portile2 (~> 2.4.0)
     open_uri_redirections (0.2.1)
     os (0.9.6)
