@@ -169,19 +169,6 @@ class profile::datadog_http_check(
       'tags'                         => ['production','jenkins-ci.org']
     },
     {
-      'sitename'                     => 'repo.azure.jenkins.io',
-      'url'                          => 'https://repo.azure.jenkins.io/api/system/ping',
-      'timeout'                      => $timeout,
-      'threshold'                    => $threshold,
-      'window'                       => $window,
-      'collect_response_time'        => true ,
-      'check_certificate_expiration' => true,
-      'days_warning'                 => $days_warning,
-      'days_critical'                => $days_critical,
-      'contact'                      => $contact,
-      'tags'                         => ['production','jenkins.io']
-    },
-    {
       'sitename'                     => 'reports.jenkins.io',
       'url'                          => 'https://reports.jenkins.io/artifactory-ldap-users-report.json',
       'timeout'                      => $timeout,
