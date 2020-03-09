@@ -44,6 +44,10 @@ pushd ${UPDATES_DIR}
     rsync ${RSYNC_ARGS} --delete ${BASE_DIR}/updates/ ${HOST}:jenkins/updates
 popd
 
+echo ">> Updating artifacts on get.jenkins.io"
+source /srv/releases/.azure-storage-env
+time  blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform'
+
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh
 /srv/releases/azure-sync.sh
