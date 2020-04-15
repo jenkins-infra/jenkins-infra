@@ -42,6 +42,7 @@ profile::buildmaster::plugins:
   - credentials
   - credentials-binding
   - docker-workflow
+  - ec2
   - embeddable-build-status
   - findbugs
   - git-client
