@@ -8,10 +8,6 @@ Options -Indexes
 # See also: https://issues.jenkins-ci.org/browse/INFRA-967
 RewriteCond %{HTTPS} on
 RewriteCond %{REQUEST_URI} ^/<%= @name %>/RPMS/noarch/*
-RewriteRule ^(.*)/noarch/(.*)\.rpm$ https://prodjenkinsreleases.blob.core.windows.net/<%= @name %>/$2.rpm [R=302,L]
-
-RewriteCond %{HTTPS} on
-RewriteRule ^(.*)\.rpm$ https://prodjenkinsreleases.blob.core.windows.net/<%= @name %>/$1.rpm [R=302,L]
 
 RedirectMatch /<%= @name %>/RPMS/noarch/(.*)\.rpm$ http://mirrors.jenkins.io/<%= @name %>/$1.rpm
 RedirectMatch /<%= @name %>/(.*)\.rpm$ http://mirrors.jenkins.io/<%= @name %>/$1.rpm
