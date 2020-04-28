@@ -12,8 +12,5 @@ RewriteRule ^binary/(.*)\.deb$  /<%= @name %>/direct/$1.deb [L]
 # 
 # See also: https://issues.jenkins-ci.org/browse/INFRA-964
 RewriteCond %{HTTPS} on
-RewriteRule ^binary/(.*)\.deb$ https://prodjenkinsreleases.blob.core.windows.net/<%= @name %>/$1.deb [R=302,L]
 
-
-# otherwise redirect to mirror
 RewriteRule ^binary/(.*)\.deb$ http://mirrors.jenkins.io/<%= @name %>/$1.deb [R=302,L]
