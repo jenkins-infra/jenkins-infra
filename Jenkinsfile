@@ -56,9 +56,9 @@ pipeline {
                 stage('vhost check') {
                     agent { label 'linux' }
                     steps {
-                        # Check that rewrite rules that contain '#' also include the 'NE' attribute
-                        # to assure that the '#' in the rewrite is not escaped
-                        # This is an imperfect test that would have detected the most recent failures
+                        // Check that rewrite rules that contain '#' also include the 'NE' attribute
+                        // to assure that the '#' in the rewrite is not escaped
+                        // This is an imperfect test that would have detected the most recent failures
                         sh 'git grep "RewriteRule.*#" | grep -v NE,NC,L,QSA'
                     }
                 }
