@@ -54,8 +54,9 @@ pipeline {
                     }
                 }
                 stage('vhost check') {
-                    agent { label 'linux' }
+                    agent { label 'ruby' }
                     steps {
+                        checkout scm
                         // Check that Confluence rewrite rules that contain '#' also include the 'NE' attribute
                         // to assure that the '#' in the rewrite is not escaped.
                         // This is an imperfect test that would have detected the most recent failures
