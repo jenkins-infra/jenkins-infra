@@ -8,6 +8,8 @@
 + *.war
 + *.hpi
 + *.jpi
++ *.msi
++ *.sha256
 
 # we recurse into directories
 + */
