@@ -113,12 +113,12 @@ class profile::archives {
     # When Apache is upgraded to >= 2.4.8 this should be changed to
     # fullchain.pem
       ssl_key       => '/etc/letsencrypt/live/archives.jenkins.io/privkey.pem',
-      ssl_cert      => '/etc/letsencrypt/live/archives.jenkins.io/cert.pem',
+      ssl_cert      => '/etc/letsencrypt/live/archives.jenkins.io/fullchain.pem',
       ssl_chain     => '/etc/letsencrypt/live/archives.jenkins.io/chain.pem',
     }
     Apache::Vhost <| title == 'archives.jenkins-ci.org' |> {
       ssl_key       => '/etc/letsencrypt/live/archives.jenkins.io/privkey.pem',
-      ssl_cert      => '/etc/letsencrypt/live/archives.jenkins.io/cert.pem',
+      ssl_cert      => '/etc/letsencrypt/live/archives.jenkins.io/fullchain.pem',
       ssl_chain     => '/etc/letsencrypt/live/archives.jenkins.io/chain.pem',
     }
   }
