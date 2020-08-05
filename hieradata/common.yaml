@@ -80,7 +80,7 @@ accounts:
   timja:
     ssh_keys:
       timja:
-        key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3+OVLBXvHTHUdvNqi2LCibfBM7y3vMr0baRSj6UVPmSj4ypo9A11dCIR9wy+tytPG+Ty67RTPPsvMs5G2cvZO/V/044KIwQPVn47QNW9EhJSl7Ht0yLeqwm/ZKq/1+qHiZYDGM3l+yjibeGkwuqM1AWzHYP5JavdkvxancAL+ixCvwiWycwhPTAt5wMP6OVGYyDmyQQEVSCBGO0aEdE1WvA/9/et/SraE6f/rrR0fOhhDz537wlz3DoZoWTvz3CMFrtjfz/YRMZtvJoKFLhdsM0gSKoTLiknMC139kTFrNqPQoErrznoEF2rWRIERFj44EbeJtZQcE02mLbUwFkJ
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3+OVLBXvHTHUdvNqi2LCibfBM7y3vMr0baRSj6UVPmSj4ypo9A11dCIR9wy+tytPG+Ty67RTPPsvMs5G2cvZO/V/044KIwQPVn47QNW9EhJSl7Ht0yLeqwm/ZKq/1+qHiZYDGM3l+yjibeGkwuqM1AWzHYP5JavdkvxancAL+ixCvwiWycwhPTAt5wMP6OVGYyDmyQQEVSCBGO0aEdE1WvA/9/et/SraE6f/rrR0fOhhDz537wlz3DoZoWTvz3CMFrtjfz/YRMZtvJoKFLhdsM0gSKoTLiknMC139kTFrNqPQoErrznoEF2rWRIERFj44EbeJtZQcE02mLbUwFkJ
     groups:
       - atlassian-admins
       - sudo
