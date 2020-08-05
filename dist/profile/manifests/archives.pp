@@ -6,6 +6,7 @@ class profile::archives {
   # volume configuration is in hiera
   include ::lvm
   include profile::apachemisc
+  include profile::letsencrypt
 
   $archives_dir = '/srv/releases'
 
