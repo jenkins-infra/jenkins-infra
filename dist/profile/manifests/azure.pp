@@ -21,7 +21,7 @@ class profile::azure (
         location     => 'https://packages.microsoft.com/repos/azure-cli/',
         repos        => 'main',
         key          => {
-          server => 'https://packages.microsoft.com/keys/microsoft.asc',
+          source => 'https://packages.microsoft.com/keys/microsoft.asc',
           id     => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
         },
     }
