@@ -16,11 +16,12 @@ class profile::azure (
     }
 
     apt::source { 'azure-cli':
+        ensure       =>  present,
         architecture => 'amd64',
         location     => 'https://packages.microsoft.com/repos/azure-cli/',
         repos        => 'main',
         key          => {
-          server => 'packages.microsoft.com',
+          source => 'https://packages.microsoft.com/keys/microsoft.asc',
           id     => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
         },
     }
