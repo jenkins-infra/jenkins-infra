@@ -17,7 +17,11 @@ echo ">> Update artifacts on get.jenkins.io"
 
 source /srv/releases/.azure-storage-env
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "$RECENT_RELEASES_JSON" )
+if [[ -z "$RECENT_RELEASES" ]] ; then
+    echo "No recent releases"
+    exit
+fi
 while IFS= read -r release; do
-     blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "${BASE_DIR}/plugins/$release" --remote-path mirrorbits/plugins/${release} --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --file-md5 --skip-on-md5-match  --no-progress-bar
+    blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "${BASE_DIR}/plugins/$release" --remote-path mirrorbits/plugins/${release} --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --file-md5 --skip-on-md5-match  --no-progress-bar
 done <<< "${RECENT_RELEASES}"
 
