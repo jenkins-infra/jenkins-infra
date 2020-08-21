@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+require 'set'
+require 'azure/storage'
+
+# NOTE: Be sure to set the environment variables:
+# export AZURE_STORAGE_ACCOUNT = <your azure storage account name>
+# export AZURE_STORAGE_KEY = <your azure storage access key>
+
+BASE_DIR = '/srv/releases/jenkins/'
+
+client = Azure::Storage::Client.create(:storage_account_name => ENV['AZURE_STORAGE_ACCOUNT'],
+                                       :storage_access_key => ENV['AZURE_STORAGE_KEY'])
+blobs = client.blob_client
+
+blobs.list_containers.each do |container|
+  uploaded = blobs.list_blobs(container.name).map { |b| b.name }
+  localed = Dir.entries("#{BASE_DIR}#{container.name}").map { |f| File.basename(f) }
+
+  # Filter out any files that were uploaded from a latest symlink
+  uploaded = uploaded.select { |f| !(f =~ /latest/) }
+
+  # For all directories where we're looking at war files, we need to look into
+  # the subdirectories. We need to compute the "name" for the blob which will
+  # really be "{version}/jenkins.war"
+  if container.name.match /war/
+    localed = Dir.glob("#{BASE_DIR}#{container.name}/**/*.war")
+
+    localed = localed.map do |filename|
+      # Make sure we skip over the latest symlink
+      next if filename.match /latest/
+      filename.gsub("#{BASE_DIR}#{container.name}/", '')
+    end
+  else
+    localed = localed.select { |f| !(f.start_with? '.') }
+  end
+
+  # Compute the difference between the local collection and the remote one
+  delta = Set.new(localed) - Set.new(uploaded)
+
+  # If there's no difference, keep going
+  next unless delta.length
+
+  delta.each do |filename|
+    next if filename.match /latest/
+    local_path = File.join(BASE_DIR, container.name, filename)
+
+    # Currently our files are too big to execute #create_block_blob safely :(
+    # See: https://github.com/Azure/azure-storage-ruby/issues/62
+    # see also: https://github.com/Azure/azure-storage-ruby/issues/61
+    #rc = blobs.create_block_blob(container.name,
+    #                            filename,
+    #                            File.open(local_path, 'r'))
+    #puts rc.inspect
+
+    # XXX: Temporary hack, we'll output the `az` commands and pipe this to
+    # shell, e.g.:
+    #   blob-sync | sh
+    puts "az storage blob upload -c #{container.name} -f #{local_path} -n #{filename}"
+  end
+end
