@@ -7,6 +7,7 @@ accounts:
     groups:
       - sudo
 profile::buildmaster::ci_fqdn: 'trusted.ci.jenkins.io'
+profile::buildmaster::ci_resource_domain: 'assets.trusted.ci.jenkins.io'
 profile::buildmaster::proxy_port: 1443
 profile::buildmaster::anonymous_access: false
 profile::buildmaster::admin_ldap_groups:
