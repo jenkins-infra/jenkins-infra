@@ -31,7 +31,7 @@ profile::buildmaster::groovy_d_terraform_credentials: 'present'
 profile::buildmaster::java_opts: "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Xms16g -Xmx16g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
-  - amazon-ecs-plugin
+  - amazon-ecs
   - ansicolor
   - azure-container-agents
   - azure-vm-agents
@@ -40,6 +40,7 @@ profile::buildmaster::plugins:
   - buildtriggerbadge
   - checkstyle
   - cloudbees-folder
+  - code-coverage-api
   - credentials
   - credentials-binding
   - docker-workflow
@@ -49,6 +50,7 @@ profile::buildmaster::plugins:
   - git-client
   - git
   - github
+  - github-checks
   - github-branch-source
   - github-organization-folder
   - groovy
@@ -66,5 +68,6 @@ profile::buildmaster::plugins:
   - throttle-concurrents
   - timestamper
   - toolenv
+  - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
