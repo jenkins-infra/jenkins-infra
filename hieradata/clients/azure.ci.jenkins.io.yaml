@@ -17,6 +17,7 @@ profile::buildmaster::admin_ldap_groups:
   - admins
   - jenkins-admins
 profile::buildmaster::ci_fqdn: 'ci.jenkins.io'
+profile::buildmaster::ci_resource_domain: 'assets.ci.jenkins.io'
 profile::buildmaster::letsencrypt: true
 profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::groovy_init_enabled: true
