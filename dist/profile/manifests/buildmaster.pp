@@ -17,6 +17,7 @@ class profile::buildmaster(
   $anonymous_access                = false,
   $admin_ldap_groups               = ['admins'],
   $ci_fqdn                         = 'ci.jenkins.io',
+  $ci_resource_domain              = 'assets.ci.jenkins.io',
   $docker_image                    = 'jenkins/jenkins',
   $docker_tag                      = 'lts-alpine',
   $letsencrypt                     = true,
@@ -366,7 +367,7 @@ class profile::buildmaster(
     serveraliases         => [
       # Give all our buildmaster profiles this server alias; it's easier than
       # parameterizing it for compatibility's sake
-      'ci.jenkins-ci.org',
+      'ci.jenkins-ci.org', $ci_resource_domain,
     ],
     require               => [
       Docker::Run['jenkins'],
@@ -476,7 +477,7 @@ ProxyPassReverse / http://localhost:8080/
   # challenge process works
   if (($letsencrypt == true) and ($::environment == 'production') and ($::vagrant != '1')) {
     letsencrypt::certonly { $ci_fqdn:
-      domains     => [$ci_fqdn],
+      domains     => [$ci_fqdn, $ci_resource_domain],
       plugin      => 'apache',
       manage_cron => true,
     }
