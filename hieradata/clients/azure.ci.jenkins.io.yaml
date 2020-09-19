@@ -45,7 +45,6 @@ profile::buildmaster::plugins:
   - docker-workflow
   - ec2
   - embeddable-build-status
-  - findbugs
   - git-client
   - git
   - github
