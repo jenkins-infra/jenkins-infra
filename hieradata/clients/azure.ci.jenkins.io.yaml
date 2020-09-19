@@ -50,7 +50,6 @@ profile::buildmaster::plugins:
   - github
   - github-checks
   - github-branch-source
-  - github-organization-folder
   - groovy
   - jobConfigHistory
   - junit-attachments
