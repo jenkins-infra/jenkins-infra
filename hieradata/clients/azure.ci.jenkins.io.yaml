@@ -38,7 +38,6 @@ profile::buildmaster::plugins:
   - blueocean
   - build-timeout
   - buildtriggerbadge
-  - checkstyle
   - cloudbees-folder
   - code-coverage-api
   - credentials
