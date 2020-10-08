@@ -58,23 +58,6 @@ echo ">> Updating the latest symlink for LTS"
 echo ">> Updating the latest symlink for LTS RC"
 /srv/releases/update-latest-symlink.sh "-stable-rc"
 
-echo ">> Update artifacts on get.jenkins.io"
-
-source /srv/releases/.azure-storage-env
-
-blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json"
-
-#RECENT_RELEASES=$(cat ${BASE_DIR}/updates/experimental/recent-releases.json | jq -r '.releases[] | .name + "/" + .version')
-#while IFS= read -r release; do
-#     blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "${BASE_DIR}/plugins/$release" --remote-path mirrorbits/plugins/${release} --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --file-md5 --skip-on-md5-match  --no-progress-bar
-#done <<< "${RECENT_RELEASES}"
-
-if [ "${FLAG}" = '--full-sync' ]; then
-  time  blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 
-fi
-
-
-
 echo ">> Triggering remote mirroring script"
 ssh $HOST "sh trigger-jenkins"
 
@@ -103,4 +86,13 @@ for f in debian debian-stable redhat redhat-stable war war-stable opensuse opens
   echo ">>>> updating index for ${f}/"
   mb scan -j 2 -v -d $f -e ftp-chi.osuosl.org;
 done
+
+
+
+if [ "${FLAG}" = '--full-sync' ]; then
+  echo ">> Update artifacts on get.jenkins.io"
+  source /srv/releases/.azure-storage-env
+  blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json" 2>&1
+  time blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 2>&1
+fi
 
