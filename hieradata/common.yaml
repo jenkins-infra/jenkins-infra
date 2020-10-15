@@ -7,6 +7,8 @@
 # resource intensive
 apache::mpm_module: 'event'
 
+ruby::rubygems_package: 'rubygems-integration'
+
 accounts:
   tyler:
     ssh_keys:
