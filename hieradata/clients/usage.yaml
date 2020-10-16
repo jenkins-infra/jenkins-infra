@@ -5,5 +5,5 @@ lvm::volume_groups:
       - /dev/xvdf
     logical_volumes:
       usage:
-        size: 99G
+        size: 200G
         mountpath: /srv/usage
