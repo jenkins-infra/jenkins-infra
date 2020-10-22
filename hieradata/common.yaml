@@ -7,6 +7,8 @@
 # resource intensive
 apache::mpm_module: 'event'
 
+ruby::rubygems_package: 'rubygems-integration'
+
 accounts:
   tyler:
     ssh_keys:
@@ -84,6 +86,14 @@ accounts:
     groups:
       - atlassian-admins
       - sudo
+  garethjevans:
+    ssh_keys:
+      garethjevans:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQC4ylUrdNI/+QNab9GOER69gXejALQnhGutBh1INiXA4eo/zGq8Ty5qJvd/Wi0uvaKmJU/3xfFj1bi6n+eYCYNLon3GAF7EufK+Vj3ojqgsXyHT4qrzQeEnqKUN4LVtCyN5em3Xb46lTfNC5zSYFdoFDWkYmALmhPPRD+OJVG6UYqQ51Ftqj6fQX/073RnI5zr5EAgucR9Wq9kQUZ7Rk78UGcz2VS3Rz427TS3T9+rkGpHSWx2S/96ktE83IFHh751bTs7Nqu/NlB/7UoMCGiIwPlbkkMBBpIjHoG2hjh2Bkd7QWC5BmP94oGzW9xF7bwavhr7ToiDzAeTt/Q42+3rVmQDDzKhDNOAU9M7NteEyENQqhy1TCkYJKDYd1+BPn0jcFNdSDdOhoG+qL7g2LN/pemRrh9QliRo3dTHK/KBVTTAuizFfy7+2uT7NH+Ny5gJDSQ6CFCr9/BEAnNfItjyt6jS58fgIXHAcMe2crvro4lExqs4iYJdC5Fb/Yh//CAjVfhEdnRRj/9yR6gKnj9AdHwXFxMe+VS0EbEw5BFY4XcBBBFqmoUORjzdqoGQ8SW6OWsl6+Qeo67WIRB6Arq/aWB9I8aRZwmrj9UAhU2gwhnPvwUIctSojcWxq/6va30yUktPfwzrptxDQtrXaWy+5Zw4lDuuxPfgFHimt52EB6Q==
+    groups:
+      - atlassian-admins
+      - sudo
+
 
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
@@ -217,6 +227,9 @@ profile::confluence::database_jdbc_url: ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAf
 
 
 datadog_agent::api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJX7oKxfhXnPTTFApoOCm97Fg72Rw8KIA9/pvLbiwYtXJBZBTXFUu3QJwXsqx3yLAvjGRLDmUV18Es8BH4Dppu7ZeIbhlvPwoNcusKUp0v5e9QV72er0SAuYg2qIisMUW0QhhqKCK6T6Owns+HweqNOZYzIwaFfaPK4RVUn5slKJNtoLwo4iV92QHKBi0Ge45tAM9p7jjv7qRJN1rgrN71OzY9CHE+V4DmsP+vmPJi37GSjrKs+g/saGQmodpMfkn1B9Qyrow8wrzPYkBD/IPKZMTklbPdbibBJeVFEeG4lI7yiR0PPfc/ms0zFe9HP++ixCSf+e8qdCjbTMZaAm6HzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDVY9nVGOH/O+HKrI1h57NLgDDswiScHBM5Q7uDwSpLI/csO3ave7EULHetXnZwuRkVnxX6uP80tycD2ZDYQjidr4A=]
+datadog_agent::process_enabled: true
+datadog_agent::logs_enabled: true
+datadog_agent::container_collect_all: true
 
 
 profile::buildslave::ssh_keys:
