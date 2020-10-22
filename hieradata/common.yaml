@@ -86,6 +86,14 @@ accounts:
     groups:
       - atlassian-admins
       - sudo
+  garethjevans:
+    ssh_keys:
+      garethjevans:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQC4ylUrdNI/+QNab9GOER69gXejALQnhGutBh1INiXA4eo/zGq8Ty5qJvd/Wi0uvaKmJU/3xfFj1bi6n+eYCYNLon3GAF7EufK+Vj3ojqgsXyHT4qrzQeEnqKUN4LVtCyN5em3Xb46lTfNC5zSYFdoFDWkYmALmhPPRD+OJVG6UYqQ51Ftqj6fQX/073RnI5zr5EAgucR9Wq9kQUZ7Rk78UGcz2VS3Rz427TS3T9+rkGpHSWx2S/96ktE83IFHh751bTs7Nqu/NlB/7UoMCGiIwPlbkkMBBpIjHoG2hjh2Bkd7QWC5BmP94oGzW9xF7bwavhr7ToiDzAeTt/Q42+3rVmQDDzKhDNOAU9M7NteEyENQqhy1TCkYJKDYd1+BPn0jcFNdSDdOhoG+qL7g2LN/pemRrh9QliRo3dTHK/KBVTTAuizFfy7+2uT7NH+Ny5gJDSQ6CFCr9/BEAnNfItjyt6jS58fgIXHAcMe2crvro4lExqs4iYJdC5Fb/Yh//CAjVfhEdnRRj/9yR6gKnj9AdHwXFxMe+VS0EbEw5BFY4XcBBBFqmoUORjzdqoGQ8SW6OWsl6+Qeo67WIRB6Arq/aWB9I8aRZwmrj9UAhU2gwhnPvwUIctSojcWxq/6va30yUktPfwzrptxDQtrXaWy+5Zw4lDuuxPfgFHimt52EB6Q==
+    groups:
+      - atlassian-admins
+      - sudo
+
 
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
