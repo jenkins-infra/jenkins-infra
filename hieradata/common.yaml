@@ -288,6 +288,8 @@ profile::kubernetes::resources::ldap::whitelisted_sources:
   - '52.147.174.4/32'      # Accept inbound LDAPS from public.aks.jenkins.io
 
 
+profile::buildmaster::docker_image: jenkins/jenkins@sha256
+profile::buildmaster::docker_tag: e302541e96852c2aee571cba83dc6b45d8c9ee71a45727d3117abd7304e59b31
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view

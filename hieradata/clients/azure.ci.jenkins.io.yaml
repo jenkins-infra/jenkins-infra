@@ -19,7 +19,8 @@ profile::buildmaster::admin_ldap_groups:
 profile::buildmaster::ci_fqdn: 'ci.jenkins.io'
 profile::buildmaster::ci_resource_domain: 'assets.ci.jenkins.io'
 profile::buildmaster::letsencrypt: true
-profile::buildmaster::docker_tag: 'lts-jdk11'
+profile::buildmaster::docker_image: 'jenkins/jenkins@sha256'
+profile::buildmaster::docker_tag: 'e302541e96852c2aee571cba83dc6b45d8c9ee71a45727d3117abd7304e59b31'
 profile::buildmaster::groovy_init_enabled: true
 profile::buildmaster::groovy_d_agent_security: 'present'
 profile::buildmaster::groovy_d_enable_ssh_port: 'present'
