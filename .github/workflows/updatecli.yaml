@@ -17,5 +17,5 @@ jobs:
         run: |
           curl -sSfL -o updatecli https://github.com/olblak/updatecli/releases/download/v0.0.21/updatecli.linux.amd64
           chmod +x ./updatecli
-          ./updatecli diff --config ./updateCli/updateCli.d --values ./updateCli/values.github-action.yaml
-          ./updatecli apply --config ./updateCli/updateCli.d --values ./updateCli/values.github-action.yaml
+          ./updatecli diff --config ./updateCli/updatecli.d --values ./updateCli/values.github-action.yaml
+          ./updatecli apply --config ./updateCli/updatecli.d --values ./updateCli/values.github-action.yaml
