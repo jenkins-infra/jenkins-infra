@@ -1,7 +1,7 @@
 ---
 source:
   kind: dockerDigest
-  name: Get latest jenkins/jenkins:lts-jdk11 docker digest
+  name: Get latest jenkins/jenkins:lts docker digest
   spec:
     image: "jenkins/jenkins"
     tag: "lts"
