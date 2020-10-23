@@ -28,6 +28,7 @@ targets:
   imageTag:
     name: "Update Docker Image Digest for jenkins/jenkins:lts-jdk11"
     kind: "yaml"
+    postfix: " #tag: lts-jdk11"
     spec:
       file: "hieradata/clients/azure.ci.jenkins.io.yaml"
       key: "profile::buildmaster::docker_tag"
