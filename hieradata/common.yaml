@@ -289,7 +289,7 @@ profile::kubernetes::resources::ldap::whitelisted_sources:
 
 
 profile::buildmaster::docker_image: jenkins/jenkins@sha256
-profile::buildmaster::docker_tag: e302541e96852c2aee571cba83dc6b45d8c9ee71a45727d3117abd7304e59b31
+profile::buildmaster::docker_tag: aa1ec2a6a106608a286dc06c334053fced1df87a7cb307853ca1cf8fa48ba09b #tag: lts
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
