@@ -38,10 +38,11 @@ def check_uri(url)
 
   case response
   when Net::HTTPOK, Net::HTTPMovedPermanently
-    true   # success response
-  when Net::HTTPClientError, Net::HTTPInternalServerError
-    raise response.error! # non-success response
+    return true   # success response
   end
+  message = response.code
+  message += ' ' + response.message.dump if response.message
+  raise StandardError.new(message)
 end
 
 
@@ -61,8 +62,8 @@ File.foreach(filename_vhost) do |line|
     puts "Adding https://wiki.jenkins.io#{uri} to confluence_urls"
     confluence_urls.add(uri)
     return_code=1
-  rescue Net::HTTPServerException, Net::HTTPClientError, Net::HTTPInternalServerError, Timeout::Error => err
-    puts "HEAD for https://wiki.jenkins.io#{$url} failed: #{err}"
+  rescue StandardError => err
+    puts "HEAD for https://wiki.jenkins.io#{uri} failed: #{err}"
     confluence_urls_without_a_page.add(uri)
     return_code=2
   end
