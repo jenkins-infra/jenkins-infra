@@ -26,25 +26,21 @@ def regex_to_url(regex)
 end
 
 def check_uri(url)
-  begin
-    uri = URI("https://wiki.jenkins.io#{url}")
+  uri = URI("https://wiki.jenkins.io#{url}")
 
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
+  http = Net::HTTP.new(uri.host, uri.port)
+  http.use_ssl = true
 
-    req = Net::HTTP::Head.new(uri.request_uri, {
-      'User-Agent': "jenkins-wiki-exporter/verify_confluence_urls"
-    })
-    response = http.head(uri.request_uri)
+  req = Net::HTTP::Head.new(uri.request_uri, {
+    'User-Agent': "jenkins-wiki-exporter/verify_confluence_urls"
+  })
+  response = http.head(uri.request_uri)
 
-    case response
-    when Net::HTTPOK, Net::HTTPMovedPermanently
-      true   # success response
-    when Net::HTTPClientError, Net::HTTPInternalServerError
-      false  # non-success response
-    end
-  rescue Timeout::Error => error
-    false    # non-success response
+  case response
+  when Net::HTTPOK, Net::HTTPMovedPermanently
+    true   # success response
+  when Net::HTTPClientError, Net::HTTPInternalServerError
+    raise response.error! # non-success response
   end
 end
 
@@ -60,12 +56,13 @@ File.foreach(filename_vhost) do |line|
   next if confluence_urls.any? { |url| match_regex.match(url) }
 
   uri = regex_to_url(match)
-  if check_uri(uri) then
+  begin
+    check_uri(uri)
     puts "Adding https://wiki.jenkins.io#{uri} to confluence_urls"
     confluence_urls.add(uri)
     return_code=1
-  else
-    puts "HEAD for https://wiki.jenkins.io#{$url} failed"
+  rescue Net::HTTPServerException, Net::HTTPClientError, Net::HTTPInternalServerError, Timeout::Error => err
+    puts "HEAD for https://wiki.jenkins.io#{$url} failed: #{err}"
     confluence_urls_without_a_page.add(uri)
     return_code=2
   end
