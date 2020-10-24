@@ -22,7 +22,7 @@ confluence_urls = File.readlines(filename_confluence_urls).collect(&:chomp).to_s
 confluence_urls_without_a_page = File.readlines(filename_confluence_urls_without_a_page).collect(&:chomp).to_set
 
 def regex_to_url(regex)
-  return regex.gsub(/\$$/, '').gsub(/^\^/, '').gsub(/\\/, '') #.gsub(/\\\+/, '+').gsub(/\\\(/, '(').gsub(/\\\)/, ')')
+  return regex.gsub(/\$$/, '').gsub(/^\^/, '').gsub(/\\/, '')
 end
 
 def check_uri(url)
