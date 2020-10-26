@@ -1,0 +1,21 @@
+name: Update CLI
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9 * * *'
+
+jobs:
+  update_cli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Update CLI
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -sSfL -o updatecli https://github.com/olblak/updatecli/releases/download/v0.0.21/updatecli.linux.amd64
+          chmod +x ./updatecli
+          ./updatecli diff --config ./updateCli/updatecli.d --values ./updateCli/values.github-action.yaml
+          ./updatecli apply --config ./updateCli/updatecli.d --values ./updateCli/values.github-action.yaml
