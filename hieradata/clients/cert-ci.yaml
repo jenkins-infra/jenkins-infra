@@ -1,8 +1,6 @@
 ---
 profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
 profile::buildmaster::ci_resource_domain: 'assets.cert.ci.jenkins.io'
-profile::buildmaster::docker_image: 'jenkins/jenkins'
-profile::buildmaster::docker_tag: 'lts-alpine'
 profile::buildmaster::proxy_port: 443
 profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: false
