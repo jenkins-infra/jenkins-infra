@@ -73,9 +73,9 @@ File.write(filename_confluence_urls, confluence_urls.to_a.sort_by(&:downcase).jo
 File.write(filename_confluence_urls_without_a_page, confluence_urls_without_a_page.to_a.sort_by(&:downcase).join("\n"))
 
 if return_code.to_i != 0; then
-  puts "======================== New redirect addition needs update to test data file ========================"
+  puts "======================== Ruby: New redirect addition needs update to test data file ========================"
   system("git diff")
-  puts "======================== End of redirect addition update for test data file ========================"
+  puts "======================== Ruby: End of redirect addition update for test data file ========================"
 end
 
 exit(0)
