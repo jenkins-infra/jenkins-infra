@@ -386,6 +386,7 @@ class profile::buildmaster(
     custom_fragment       => "
 RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
+RequestHeader set X-Forwarded-Host \"${ci_fqdn}\"
 
 RewriteEngine on
 
