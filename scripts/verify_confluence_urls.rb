@@ -78,4 +78,4 @@ if return_code.to_i != 0; then
   puts "======================== Ruby: End of redirect addition update for test data file ========================"
 end
 
-exit(0)
+exit(return_code.to_i)
