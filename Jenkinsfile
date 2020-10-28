@@ -65,6 +65,7 @@ pipeline {
                         sh 'if grep JENKINS// dist/profile/templates/confluence/vhost.conf; then echo "Extra / after JENKINS in Confluence URL"; exit 1; fi'
                         // Check confluence URLs from vhost.conf file
                         sh 'scripts/verify_confluence_urls'
+                        sh 'scripts/verify_confluence_urls.rb'
                     }
                 }
             }
