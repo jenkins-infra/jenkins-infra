@@ -28,7 +28,6 @@ targets:
   imageTag:
     name: "Update Docker Image Digest for jenkins/jenkins:lts"
     kind: yaml
-    postfix: " #tag: lts"
     spec:
       file: "hieradata/common.yaml"
       key: "profile::buildmaster::docker_tag"
