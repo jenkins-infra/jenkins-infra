@@ -55,6 +55,8 @@ File.foreach(filename_vhost) do |line|
 
   # Found pattern in the list of working confluence pages
   next if confluence_urls.any? { |url| match_regex.match(url) }
+  # Found pattern in the list of working confluence pages
+  next if confluence_urls_without_a_page.any? { |url| match_regex.match(url) }
 
   uri = regex_to_url(match)
   begin
