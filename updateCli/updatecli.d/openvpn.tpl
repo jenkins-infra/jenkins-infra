@@ -1,7 +1,7 @@
 ---
 source:
   kind: dockerDigest
-  name: Get latest jenkins/jenkins:lts docker digest
+  name: Get latest jenkinsciinfra/openvpn:latest docker digest
   spec:
     image: "jenkinsciinfra/openvpn"
     tag: "latest"
