@@ -12,7 +12,7 @@ profile::buildmaster::anonymous_access: false
 profile::buildmaster::admin_ldap_groups:
   - admins
   - trusted-admins
-profile::buildmaster::letsencrypt: false
+profile::buildmaster::letsencrypt: true
 profile::buildmaster::groovy_init_enabled: true
 profile::buildmaster::groovy_d_agent_security: 'present'
 profile::buildmaster::groovy_d_enable_ssh_port: 'present'
