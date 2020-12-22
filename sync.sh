@@ -46,7 +46,9 @@ pushd ${UPDATES_DIR}
 popd
 
 echo ">> Delivering bits to fallback"
-/srv/releases/populate-archives.sh
+# Temporarily disabled while archives.jenkins-ci.org is offline
+# /srv/releases/populate-archives.sh
+# Enable when archives.jenkins-ci.org is online
 /srv/releases/batch-upload.bash || true
 
 echo ">> Updating the latest symlink for weekly"
@@ -92,7 +94,7 @@ done
 if [ "${FLAG}" = '--full-sync' ]; then
   echo ">> Update artifacts on get.jenkins.io"
   source /srv/releases/.azure-storage-env
-  blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json" 2>&1
-  time blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 2>&1
+  /usr/local/bin/blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json" 2>&1
+  time /usr/local/bin/blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 2>&1
 fi
 
