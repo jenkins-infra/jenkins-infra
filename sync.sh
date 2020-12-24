@@ -46,9 +46,7 @@ pushd ${UPDATES_DIR}
 popd
 
 echo ">> Delivering bits to fallback"
-# Temporarily disabled while archives.jenkins-ci.org is offline
-# /srv/releases/populate-archives.sh
-# Enable when archives.jenkins-ci.org is online
+/srv/releases/populate-archives.sh
 /srv/releases/batch-upload.bash || true
 
 echo ">> Updating the latest symlink for weekly"
