@@ -67,6 +67,7 @@ class profile::buildmaster(
 
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
+  $apache_log_dir_assets = "/var/log/apache2/${ci_resource_domain}"
 
   group { 'jenkins':
     ensure => present,
@@ -344,7 +345,7 @@ class profile::buildmaster(
     ],
   }
 
-  file { [$apache_log_dir, $docroot,]:
+  file { [$apache_log_dir, $docroot, $apache_log_dir_assets]:
     ensure  => directory,
     require => Package['httpd'],
   }
@@ -386,6 +387,65 @@ class profile::buildmaster(
     custom_fragment       => "
 RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
+RequestHeader set X-Forwarded-Host \"${ci_fqdn}\"
+
+RewriteEngine on
+
+RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
+# Abusive Chinese bot that ignores robots.txt
+RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
+RewriteRule \".?\" \"-\" [F]
+
+# Black hole all traffic to routes like /view/All/people/ which is pretty much
+# hit illegitimately used anyways
+# See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
+RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
+
+# Blackhole all the /cli requests over HTTP
+RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
+
+# Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
+# (checkman) from receiving an invalid JSON response and repeatedly attempting
+# to hammer us to get a better response. Works for Python API as well.
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
+RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
+# Analogously for XML.
+RewriteCond \"%{HTTP:Authorization}\" !^Basic
+RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
+
+# Loading our Proxy rules ourselves from a custom fragment since the
+# puppetlabs/apache module doesn't support ordering of both proxy_pass and
+# proxy_pass_match configurations
+ProxyRequests Off
+ProxyPreserveHost On
+ProxyPass / http://localhost:8080/ nocanon
+ProxyPassReverse / http://localhost:8080/
+",
+  }
+
+  apache::vhost { $ci_resource_domain:
+    require               => [
+      Docker::Run['jenkins'],
+      File[$docroot],
+      # We need our installation to be secure before we allow access
+      File[$groovy_d],
+    ],
+    port                  => 443,
+    override              => 'All',
+    ssl                   => true,
+    docroot               => $docroot,
+    error_log_file        => "${ci_resource_domain}/error.log",
+    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    proxy_preserve_host   => true,
+    allow_encoded_slashes => 'on',
+    custom_fragment       => "
+RequestHeader set X-Forwarded-Proto \"https\"
+RequestHeader set X-Forwarded-Port \"${proxy_port}\"
+RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
 
 RewriteEngine on
 
@@ -441,6 +501,17 @@ ProxyPassReverse / http://localhost:8080/
     require         => Apache::Vhost[$ci_fqdn],
   }
 
+  apache::vhost { "${ci_resource_domain} unsecured":
+    servername      => $ci_resource_domain,
+    port            => 80,
+    docroot         => $docroot,
+    redirect_status => 'permanent',
+    redirect_dest   => "https://${ci_resource_domain}/",
+    error_log_file  => "${ci_resource_domain}/error_nonssl.log",
+    access_log_pipe => '/dev/null',
+    require         => Apache::Vhost[$ci_resource_domain],
+  }
+
   # This is a legacy role imported from infra-puppet, thus the goofy numbering
   firewall { '108 Jenkins CLI port' :
     proto  => 'tcp',
@@ -488,6 +559,20 @@ ProxyPassReverse / http://localhost:8080/
       # fullchain.pem
       ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/cert.pem",
       ssl_chain     => "/etc/letsencrypt/live/${ci_fqdn}/chain.pem",
+    }
+
+    letsencrypt::certonly { $ci_resource_domain:
+      domains     => [$ci_resource_domain],
+      plugin      => 'apache',
+      manage_cron => true,
+    }
+
+    Apache::Vhost <| title == $ci_resource_domain |> {
+      ssl_key       => "/etc/letsencrypt/live/${ci_resource_domain}/privkey.pem",
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
+      ssl_cert      => "/etc/letsencrypt/live/${ci_resource_domain}/cert.pem",
+      ssl_chain     => "/etc/letsencrypt/live/${ci_resource_domain}/chain.pem",
     }
   }
 }
