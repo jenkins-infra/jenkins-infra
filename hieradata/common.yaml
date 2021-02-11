@@ -255,8 +255,8 @@ profile::kubernetes::resources::ldap::whitelisted_sources:
   - '104.210.5.242/32' # accept inbound LDAPS from cert-ci
   - '104.208.238.39/32' # Accept inbound LDAPS from azure.ci.jenkins.io
   - '52.147.174.4/32' # Accept inbound LDAPS from public.aks.jenkins.io
-profile::buildmaster::docker_image: jenkins/jenkins@sha256
-profile::buildmaster::docker_tag: '63fde6791bc9e11dc8fc94830ac76228afbe8d31206ab8f83f251314a3f45ba9' #tag: lts
+profile::buildmaster::docker_image: jenkins/jenkins
+profile::buildmaster::docker_tag: 2.263.4
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
