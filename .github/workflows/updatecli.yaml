@@ -4,28 +4,26 @@ name: updatecli
 on:
   workflow_dispatch:
   schedule:
-    # * is a special character in YAML so you have to quote this string
-    # Run once a day
+    # Run every 15minutes
     - cron: '*/15 * * * *'
+jobs:
+  updatecli:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
-  jobs:
-    updatecli:
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v2
-
-        - name: Diff
-          uses: updatecli/updatecli-action@v1
-          with:
-            command: diff
-            flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
-          env:
-            UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        - name: Apply
-          uses: updatecli/updatecli-action@v1
-          with:
-            command: apply
-            flags: "--config ./updatecli/updatecli.d"
-          env:
-            UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Diff
+        uses: updatecli/updatecli-action@v1
+        with:
+          command: diff
+          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Apply
+        uses: updatecli/updatecli-action@v1
+        with:
+          command: apply
+          flags: "--config ./updatecli/updatecli.d"
+        env:
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
