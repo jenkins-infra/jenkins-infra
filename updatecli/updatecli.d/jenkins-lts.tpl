@@ -9,7 +9,7 @@ source:
       token: "{{ requiredEnv .github.token }}"
 conditions:
   defaultCiDockerImage:
-    name: "Ensure default jenkins docker image name set to jenkins/jenkins@sha256"
+    name: "Ensure default jenkins docker image name set to jenkins/jenkins"
     kind: yaml
     spec:
       file: hieradata/common.yaml
