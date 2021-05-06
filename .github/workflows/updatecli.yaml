@@ -24,6 +24,6 @@ jobs:
         uses: updatecli/updatecli-action@v1
         with:
           command: apply
-          flags: "--config ./updatecli/updatecli.d"
+          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
