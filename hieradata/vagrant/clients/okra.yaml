@@ -1,9 +1,0 @@
----
-lvm::volume_groups:
-  archives:
-    physical_volumes:
-      - /dev/loop0
-    logical_volumes:
-      releases:
-        size: 12M
-        mountpath: /srv/releases
