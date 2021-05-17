@@ -9,5 +9,5 @@ lvm::volume_groups:
       - /dev/xvdg
     logical_volumes:
       releases:
-        size: 749G
+        size: 739G
         mountpath: /srv/releases
