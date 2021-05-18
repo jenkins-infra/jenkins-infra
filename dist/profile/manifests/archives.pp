@@ -8,17 +8,6 @@ class profile::archives {
 
   $archives_dir = '/srv/releases'
 
-  if str2bool($::vagrant) {
-    # during serverspec test, fake /dev/xvdb by a loopback device
-    exec { 'create /tmp/xvdb':
-      command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
-      unless  => 'test -f /tmp/xvdb',
-      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      before  => Physical_volume['/dev/loop0'],
-    }
-  }
-
-
   package { 'lvm2':
     ensure => present,
   }
@@ -31,8 +20,7 @@ class profile::archives {
   file { $archives_dir:
     ensure  => directory,
     owner   => 'www-data',
-    require => [Package['httpd'],
-                Mount[$archives_dir]],
+    require => Package['httpd'],
   }
 
 
@@ -60,7 +48,7 @@ class profile::archives {
     options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
-                        Mount[$archives_dir],
+                        File[$archives_dir],
                         Apache::Mod['bw']],
   }
 
