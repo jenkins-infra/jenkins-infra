@@ -1,19 +1,20 @@
 ---
 source:
-  kind: dockerDigest
-  name: Get latest jenkins/jenkins:lts docker digest
+  kind: jenkins
+  name: Get latest stable jenkins version
   spec:
-    image: "jenkins/jenkins"
-    tag: "lts"
-
+    release: stable
+    github:
+      username: "{{ .github.username }}"
+      token: "{{ requiredEnv .github.token }}"
 conditions:
   defaultCiDockerImage:
-    name: "Ensure default jenkins docker image name set to jenkins/jenkins@sha256"
+    name: "Ensure default jenkins docker image name set to jenkins/jenkins"
     kind: yaml
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::docker_image"
-      value: "jenkins/jenkins@sha256"
+      value: "jenkins/jenkins"
     scm:
       github:
         user: "{{ .github.user }}" 
