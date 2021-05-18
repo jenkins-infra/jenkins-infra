@@ -3,8 +3,6 @@
 #
 class profile::archives {
   include ::stdlib
-  # volume configuration is in hiera
-  include ::lvm
   include profile::apachemisc
   include profile::letsencrypt
 
