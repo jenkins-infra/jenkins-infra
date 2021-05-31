@@ -1,12 +1,14 @@
 #
 # Defines an archive server for serving all the archived historical releases
 #
-class profile::archives {
+class profile::archives (
+    Array  $rsync_hosts_allow  = ['localhost', 'get.jenkins.io','pkg.origin.jenkins.io'],
+    String $archives_dir       = '/srv/releases',
+    String $rsync_motd_file    = '/etc/jenkins.motd'
+  ) {
   include ::stdlib
   include profile::apachemisc
   include profile::letsencrypt
-
-  $archives_dir = '/srv/releases'
 
   package { 'lvm2':
     ensure => present,
@@ -16,13 +18,11 @@ class profile::archives {
     ensure => present,
   }
 
-
   file { $archives_dir:
     ensure  => directory,
     owner   => 'www-data',
     require => Package['httpd'],
   }
-
 
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
@@ -110,5 +110,41 @@ class profile::archives {
     }
   }
 
+  # Install Rsync
+  #
+  # Rsync is needed by mirrorbits to access file metadata
+  # It's a requirement to use archives.jenkins.io as
+  # a fallback mirror from get.jenkins.io
+  #
+  package { 'rsync':
+    ensure => present,
+  }
+
+  file { '/etc/rsyncd.conf':
+    ensure  => present,
+    content => template("${module_name}/archives/rsyncd.conf.erb"),
+    owner   => 'root',
+    mode    => '0600',
+    require => Package['rsync'],
+  }
+
+  file { $rsync_motd_file:
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/archives/jenkins.motd",
+    owner   => 'root',
+    mode    => '0644',
+    require => Package['rsync'],
+  }
+
+  service { 'rsync':
+    ensure => running,
+    enable => true
+  }
+
+  firewall { '100 all inbound rsync':
+    proto  => 'tcp',
+    dport   => '873',
+    action => 'accept'
+  }
 
 }
