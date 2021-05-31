@@ -143,7 +143,7 @@ class profile::archives (
 
   firewall { '100 all inbound rsync':
     proto  => 'tcp',
-    dport   => '873',
+    dport  => '873',
     action => 'accept'
   }
 
