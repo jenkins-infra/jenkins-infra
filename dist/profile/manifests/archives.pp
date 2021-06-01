@@ -2,7 +2,7 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-    Array  $rsync_hosts_allow  = ['localhost', 'get.jenkins.io','pkg.origin.jenkins.io'],
+    Array  $rsync_hosts_allow  = ['localhost'],
     String $archives_dir       = '/srv/releases',
     String $rsync_motd_file    = '/etc/jenkins.motd'
   ) {
