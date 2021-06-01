@@ -15,4 +15,11 @@ describe 'profile::archives' do
 
   it { should contain_apache__mod 'bw' }
   it { should contain_apache__vhost 'archives.jenkins-ci.org' }
+
+  it { should contain_package('rsync') }
+  it { should contain_service('rsync').with(:ensure => 'running') }
+  it { should contain_file('/etc/rsyncd.conf').with(
+    :ensure => 'present',
+    :owner  => 'root',
+    :mode   => '0600')}
 end
