@@ -9,4 +9,4 @@ MAINTAINER tyler@linux.com
 #    extensions
 #  * bind9utils: ensure we can verify DNS zones
 RUN apt-get update -q && apt-get install -qy git build-essential zlib1g-dev ruby ruby-dev bind9utils && apt-get clean
-RUN gem install bundler --no-ri --no-rdoc
+RUN gem install bundler --no-document

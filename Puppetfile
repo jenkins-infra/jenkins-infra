@@ -45,9 +45,9 @@ mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
 mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
                :ref => '1deebe9'
 
-mod 'jenkins_keys',
-  :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
-  :ref => 'eeb7db7'
+# mod 'jenkins_keys',
+#   :git => 'https://github.com/jenkins-infra/jenkins-keys.git',
+#   :ref => 'eeb7db7'
 
 # Apache and its dependencies
 mod "puppetlabs/apache", '3.5.0'

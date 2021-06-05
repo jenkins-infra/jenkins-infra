@@ -1,6 +1,6 @@
 #!/bin/sh -xe
 
-gem install bundler --no-ri --no-rdoc
+gem install bundler --no-document
 
 mkdir -p vendor/gems
 

@@ -67,6 +67,48 @@ pipeline {
                         sh 'scripts/verify_confluence_urls.rb'
                     }
                 }
+                stage('acceptance tests for jenkins::master') {
+                    agent { label 'docker' }
+                    steps {
+                        sh '''
+                        # Install vagrant and bundler (to allow rubygems)
+                        curl -fsSL https://apt.releases.hashicorp.com/gpg | sudo apt-key add -
+                        sudo apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main"
+                        sudo apt-get update && sudo apt-get install -y vagrant bundler
+                        '''
+
+                        sh '''
+                        # Bootstrap Vagrant installation
+                        echo "> Installing Vagrant Plugin for serverspec"
+                        ## When using the upstream version
+                        # vagrant plugin install vagrant-serverspec
+                        ## When using the custom versions (dueto Docker provider)
+                        temp_repo="${TMPDIR:-/tmp}/vagrant-serverspec"
+                        rm -rf "${temp_repo}"
+                        git clone https://github.com/dduportal/vagrant-serverspec "${temp_repo}"
+                        cd "${temp_repo}"
+                        gem build ./vagrant-serverspec.gemspec
+                        vagrant plugin install ./vagrant-serverspec-1.5.3.gem
+                        cd -
+
+                        ./vagrant-bootstrap
+                        '''
+
+                        sh '''
+                        docker info
+                        vagrant up --provider=docker jenkins::master
+                        vagrant provision jenkins::master
+                        vagrant destroy -f jenkins::master
+                        '''
+                    }
+                    post {
+                        always {
+                            sh '''
+                            vagrant destroy -f
+                            '''
+                        }
+                    }
+                }
             }
         }
     }
