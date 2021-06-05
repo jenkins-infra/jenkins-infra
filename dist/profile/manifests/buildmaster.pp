@@ -115,7 +115,7 @@ class profile::buildmaster(
   # such that they're loaded properly
   ##############################################################################
 
-  # $groovy_init_enabled is used as a safeguard to disable all init groovy script 
+  # $groovy_init_enabled is used as a safeguard to disable all init groovy script
   # if we don't have to use any of them like on cert.ci
   unless $groovy_init_enabled {
     file { $groovy_d:
