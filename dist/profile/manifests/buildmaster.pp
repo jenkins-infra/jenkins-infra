@@ -404,10 +404,6 @@ RewriteRule \".?\" \"-\" [F]
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
-
-# Blackhole all the /cli requests over HTTP
-RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
-
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
@@ -461,10 +457,6 @@ RewriteRule \".?\" \"-\" [F]
 # See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-
-# Blackhole all the /cli requests over HTTP
-RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
