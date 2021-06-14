@@ -36,7 +36,6 @@ profile::buildmaster::plugins:
   - git
   - github
   - github-branch-source
-  - github-organization-folder
   - groovy
   - jobConfigHistory
   - ldap
