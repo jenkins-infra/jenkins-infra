@@ -31,8 +31,7 @@ class profile::buildmaster(
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
-  $java_opts_xms                   = '4g', # -Xms4g
-  $java_opts_xmx                   = '6g', # -Xmx6g
+  $memory_limit                    = '1g',
   $java_opts                       = '-server -Xloggc:/var/jenkins_home/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2'
 ) {
   include ::stdlib
@@ -222,6 +221,7 @@ class profile::buildmaster(
   ##############################################################################
 
   docker::run { 'jenkins':
+    memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
     # This is a "clever" hack to force the init script to pass the numeric UID
     # through on `docker run`. Since passing the string 'jenkins' doesn't
@@ -238,7 +238,7 @@ class profile::buildmaster(
     env              => [
       "HOME=${jenkins_home}",
       'USER=jenkins',
-      "JAVA_OPTS=${java_opts} -Xms${java_opts_xms} -Xmx${java_opts_xmx}",
+      "JAVA_OPTS=${java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],
