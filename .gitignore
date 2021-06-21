@@ -11,3 +11,5 @@ modules/
 hieradata/roles/kubernetes.yaml
 log/
 tmp/
+vendor/
+*.log

@@ -19,4 +19,10 @@ class profile::docker {
     iniface => 'docker0',
     action  => 'accept',
   }
+
+  ['lxcfs', 'lxd', 'lxd-client', 'liblxc-common', 'liblxc1'].each | $package | {
+    package { $package:
+      ensure => 'purged',
+    }
+  }
 }

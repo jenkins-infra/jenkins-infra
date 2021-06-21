@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
     # Ensure we use at least 1GB of Ram to avoir OOM with puppet agent
     config.vm.provider :virtualbox do |v|
-        v.memory = 1024
+        v.memory = 2048
         v.cpus = 2
         v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
         v.gui = false
