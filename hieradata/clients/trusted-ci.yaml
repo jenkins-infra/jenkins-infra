@@ -23,6 +23,7 @@ profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
 profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
 profile::buildmaster::groovy_d_terraform_credentials: 'present'
+profile::buildmaster::memory_limit: '7g'
 # These are plugins we need only in our trusted-ci environment
 profile::buildmaster::plugins:
   - ansicolor
