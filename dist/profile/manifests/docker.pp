@@ -25,4 +25,11 @@ class profile::docker {
       ensure => 'purged',
     }
   }
+
+  file { '/etc/docker/daemon.json':
+    ensure => present,
+    source => "puppet:///modules/${module_name}/docker/daemon.json",
+    mode   => '0644',
+    notify => Service['docker'],
+  }
 }
