@@ -301,8 +301,6 @@ usage_ssh_privkey: 'usage_ssh_privkey'
 osuosl_mirroring_privkey: ''
 archives_mirroring_privkey: ''
 docker::version: '5:20.10.7~3-0~ubuntu-bionic'
-docker::log_opt::max-size: '100m'
-docker::log_opt::max-file: 2
 # profile::pluginsite::image_tag is deprecated as pluginsite is now deployed on kubernetes
 # you should instead update profile::kubernetes::resources:pluginsite::image_tag
 profile::pluginsite::image_tag: '50-8a166d'
