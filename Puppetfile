@@ -21,7 +21,7 @@ mod "puppetlabs/ntp", '7.3.0'
 mod 'saz/sudo', '5.0.0'
 
 # Needed for managing firewall rules
-mod 'puppetlabs/firewall', '1.14.0'
+mod 'puppetlabs/firewall', '3.0.1'
 
 # Needed for managing .yaml files from within Puppet
 mod 'reidmv/yamlfile'
