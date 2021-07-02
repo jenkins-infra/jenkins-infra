@@ -5,15 +5,8 @@
 class profile::azure (
   $cli = true,
 ) {
-
-  if $cli {
-    ensure_packages(['python-pip'])
-
-    package { 'azure-cli-python' :
-        ensure   => absent,
-        provider => pip,
-        require  => Package['python-pip'],
-    }
+  # azure-cli only works on amd64
+  if ($cli == true) and ($facts['architecture'] == 'amd64') {
 
     apt::source { 'azure-cli':
         ensure       =>  present,
