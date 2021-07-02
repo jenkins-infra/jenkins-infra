@@ -4,6 +4,10 @@
 Vagrant.configure("2") do |config|
 
     # prefer aws provider over virtualbox to make it the default
+    # Ubuntu 20.04
+    # config.vm.box = 'ubuntu/focal64'
+
+    # Ubuntu 18.04
     config.vm.box = 'ubuntu/bionic64'
 
     # modules/account/.travis.yml has incorrect link target, and this blows up
