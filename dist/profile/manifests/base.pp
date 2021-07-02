@@ -7,6 +7,7 @@ class profile::base {
 
   if $::kernel == 'Linux' {
     include profile::apt
+    include profile::azure
     # None of these modules support anything other than Linux (apparently)
     include profile::firewall
     include profile::ntp
