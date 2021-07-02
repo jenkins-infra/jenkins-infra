@@ -5,15 +5,17 @@ class profile::letsencrypt {
     config => {
         email  => lookup('letsencrypt::config::email'),
         server => lookup('letsencrypt::config::server'),
-    }
+    },
+    renew_cron_ensure => 'present',
   }
 
-  package { 'python-certbot-apache':
+  package { 'python3-certbot-apache':
     ensure => present
   }
 
+  # This definition is removed in favor of "renew_cron_ensure" set to present
   cron { 'letsencrypt-renew-reload':
-    ensure  => present,
+    ensure  => absent,
     command => '/opt/letsencrypt/letsencrypt-auto renew --quiet --renew-hook="service apache2 reload"',
     hour    => 12,
     user    => 'root',
