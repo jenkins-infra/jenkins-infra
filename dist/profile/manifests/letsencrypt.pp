@@ -6,7 +6,6 @@ class profile::letsencrypt {
       email  => lookup('letsencrypt::config::email'),
       server => lookup('letsencrypt::config::server'),
     },
-    renew_cron_ensure => 'present',
   }
 
   package { 'python3-certbot-apache':
