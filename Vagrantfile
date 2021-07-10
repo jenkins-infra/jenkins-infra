@@ -2,21 +2,29 @@
 #    vagrant-serverspec
 
 Vagrant.configure("2") do |config|
-
-    # prefer aws provider over virtualbox to make it the default
-    config.vm.box = 'ubuntu/bionic64'
-
     # modules/account/.travis.yml has incorrect link target, and this blows up
     # when vagrant tries to rsync files as it tries to resolves symlinks.
     # see http://www.trilithium.com/johan/2011/09/delete-broken-symlinks/
     `find -L . -type l -delete`
 
     # Ensure we use at least 1GB of Ram to avoir OOM with puppet agent
-    config.vm.provider :virtualbox do |v|
+    config.vm.provider :virtualbox do |v, override|
+        override.vm.box   = 'ubuntu/bionic64'
         v.memory = 2048
         v.cpus = 2
         v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
         v.gui = false
+    end
+
+    ## Docker configuration requires a Docker image with some custom made modifications
+    # (mainly package present on vbox VM templates but absent from Docker Image)
+    config.vm.provider "docker" do |d, override|
+        d.build_dir = './vagrant-docker/'
+        d.create_args = ['--privileged']
+        d.volumes = ['/sys/fs/cgroup:/sys/fs/cgroup:ro']
+        d.has_ssh       = true
+        d.ports         = ['8080:8080']
+        d.force_host_vm = false # Directly use the Docker Engine, no VirtualBox
     end
 
     role_dir = './dist/role/manifests/'
@@ -42,10 +50,10 @@ Vagrant.configure("2") do |config|
         # so we're manually invoking Puppet too!
         node.vm.provision 'shell', :inline => <<-EOF
             if [ ! -f "/apt-cached" ]; then
-              wget -q http://apt.puppetlabs.com/puppet-release-bionic.deb
-              dpkg -i puppet-release-bionic.deb
-              apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
-              /opt/puppetlabs/puppet/bin/gem install --no-ri --no-rdoc deep_merge
+                wget -q http://apt.puppetlabs.com/puppet-release-bionic.deb
+                dpkg -i puppet-release-bionic.deb
+                apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
+                /opt/puppetlabs/puppet/bin/gem install --no-document deep_merge
             fi
 
             cd /vagrant
@@ -56,13 +64,13 @@ Vagrant.configure("2") do |config|
             export FACTER_clientcert=#{veggie}
             export FACTER_hiera_role=#{veggie}
             exec /opt/puppetlabs/bin/puppet apply \
-                  --modulepath=dist:modules \
-                  --hiera_config=spec/fixtures/hiera.yaml \
-                  --execute 'include profile::vagrant\n include role::#{veggie}'
+                --modulepath=dist:modules \
+                --hiera_config=spec/fixtures/hiera.yaml \
+                --execute 'include profile::vagrant\n include role::#{veggie}'
             EOF
 
             node.vm.provision :serverspec do |spec|
-              spec.pattern = "spec/server/#{specfile}/*.rb"
+                spec.pattern = "spec/server/#{specfile}/*.rb"
             end
         end
     end
