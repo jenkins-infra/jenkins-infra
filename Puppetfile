@@ -32,7 +32,7 @@ mod 'puppetlabs-docker', '4.0.1'
 
 # Deps for docker
 mod 'puppetlabs/apt', '8.0.2'
-mod 'stahnma/epel', '1.2.2'
+mod 'puppet/epel', '3.0.1'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
