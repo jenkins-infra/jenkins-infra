@@ -2,7 +2,7 @@
 # This profile configures letsencrypt on the host it's applied to
 class profile::letsencrypt {
   class { '::letsencrypt':
-    config            => {
+    config         => {
       email  => lookup('letsencrypt::config::email'),
       server => lookup('letsencrypt::config::server'),
     },
