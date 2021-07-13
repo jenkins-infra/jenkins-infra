@@ -24,8 +24,8 @@ class profile::azure (
     }
 
     package { 'azure-cli':
-        ensure    => present,
-        require   => [
+        ensure  => present,
+        require => [
           Apt::Source['azure-cli'],
           Exec['apt_update'],
         ]
