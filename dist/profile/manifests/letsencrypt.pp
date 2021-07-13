@@ -6,6 +6,8 @@ class profile::letsencrypt {
       email  => lookup('letsencrypt::config::email'),
       server => lookup('letsencrypt::config::server'),
     },
+    package_ensure => 'latest',
+    configure_epel => false,
   }
 
   package { 'python3-certbot-apache':
