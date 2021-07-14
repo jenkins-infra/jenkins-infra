@@ -49,7 +49,7 @@ Vagrant.configure("2") do |config|
               wget -q http://apt.puppetlabs.com/puppet-release-bionic.deb
               dpkg -i puppet-release-bionic.deb
               apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
-              /opt/puppetlabs/puppet/bin/gem install --no-ri --no-rdoc deep_merge
+              /opt/puppetlabs/puppet/bin/gem install --no-document deep_merge
             fi
 
             cd /vagrant
