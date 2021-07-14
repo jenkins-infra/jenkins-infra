@@ -4,7 +4,7 @@
 class profile::apt {
   class { 'apt':
   update => {
-    frequency => 'weekly',
+    frequency => 'daily',
   },
 }
 }
