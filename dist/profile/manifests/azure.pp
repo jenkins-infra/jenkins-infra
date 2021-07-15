@@ -5,15 +5,11 @@
 class profile::azure (
   $cli = true,
 ) {
+  include apt
 
-  if $cli {
-    ensure_packages(['python-pip'])
+  # azure-cli only works on amd64
+  if ($cli == true) and ($facts['architecture'] == 'amd64') {
 
-    package { 'azure-cli-python' :
-        ensure   => absent,
-        provider => pip,
-        require  => Package['python-pip'],
-    }
 
     apt::source { 'azure-cli':
         ensure       =>  present,
@@ -24,11 +20,15 @@ class profile::azure (
           source => 'https://packages.microsoft.com/keys/microsoft.asc',
           id     => 'BC528686B50D79E339D3721CEB3E94ADBE1229CF',
         },
+        notify       => Exec['apt_update']
     }
 
     package { 'azure-cli':
         ensure  => present,
-        require => Apt::Source['azure-cli'],
+        require => [
+          Apt::Source['azure-cli'],
+          Exec['apt_update'],
+        ]
     }
   }
 }

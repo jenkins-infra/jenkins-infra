@@ -21,7 +21,7 @@ mod "puppetlabs/ntp", '7.3.0'
 mod 'saz/sudo', '5.0.0'
 
 # Needed for managing firewall rules
-mod 'puppetlabs/firewall', '1.14.0'
+mod 'puppetlabs/firewall', '3.0.1'
 
 # Needed for managing .yaml files from within Puppet
 mod 'reidmv/yamlfile'
@@ -31,8 +31,8 @@ mod 'adrien/filemapper'
 mod 'puppetlabs-docker', '4.0.1'
 
 # Deps for docker
-mod 'puppetlabs/apt', '7.4.2'
-mod 'stahnma/epel', '1.2.2'
+mod 'puppetlabs/apt', '8.0.2'
+mod 'puppet/epel', '3.0.1'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
@@ -73,7 +73,7 @@ mod 'puppetlabs/lvm', '0.3.2'
 mod 'datadog/datadog_agent', '3.8.0'
 
 # Used for grabbing certificates for jenkins.io
-mod 'puppet-letsencrypt', '5.0.0'
+mod 'puppet-letsencrypt', '6.0.0'
 
 # For managing ldap, and dependencies
 mod 'camptocamp/openldap', '1.14.0'
