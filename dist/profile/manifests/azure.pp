@@ -8,6 +8,7 @@ class profile::azure (
   # azure-cli only works on amd64
   include apt
 
+  # azure-cli only works on amd64
   if ($cli == true) and ($facts['architecture'] == 'amd64') {
 
 
