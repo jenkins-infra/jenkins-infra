@@ -4,6 +4,10 @@
 Vagrant.configure("2") do |config|
 
     # prefer aws provider over virtualbox to make it the default
+    # Ubuntu 20.04
+    # config.vm.box = 'ubuntu/focal64'
+
+    # Ubuntu 18.04
     config.vm.box = 'ubuntu/bionic64'
 
     # modules/account/.travis.yml has incorrect link target, and this blows up
@@ -45,7 +49,7 @@ Vagrant.configure("2") do |config|
               wget -q http://apt.puppetlabs.com/puppet-release-bionic.deb
               dpkg -i puppet-release-bionic.deb
               apt-get update && apt-get install -yq puppet-agent && touch /apt-cached;
-              /opt/puppetlabs/puppet/bin/gem install --no-ri --no-rdoc deep_merge
+              /opt/puppetlabs/puppet/bin/gem install --no-document deep_merge
             fi
 
             cd /vagrant
