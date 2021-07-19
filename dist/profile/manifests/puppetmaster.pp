@@ -15,7 +15,7 @@ class profile::puppetmaster {
   # https://puppet.com/docs/pe/2019.8/installing_agents.html
   # Agent packages can be found on the primary server in
   # /opt/puppetlabs/server/data/packages/public/<PE VERSION>/
-  class pe_repo::platform::ubuntu_2004_aarch644 {
+  class pe_repo::platform::ubuntu_2004_aarch64 {
   }
 
   # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
