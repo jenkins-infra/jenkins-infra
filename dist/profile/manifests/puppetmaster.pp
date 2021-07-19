@@ -10,6 +10,14 @@ class profile::puppetmaster {
   include ::irc
   include datadog_agent
 
+  # Install ubuntu 20.04 repo package for aarch64
+  # required for running ubuntu 20.04 on arm64 instance
+  # https://puppet.com/docs/pe/2019.8/installing_agents.html
+  # Agent packages can be found on the primary server in
+  # /opt/puppetlabs/server/data/packages/public/<PE VERSION>/
+  class pe_repo::platform::ubuntu_2004_aarch644 {
+  }
+
   # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
   # resource defined since that comes with Puppet Enterprise. We'll define a
   # simple one just to make things 'work'
