@@ -1,6 +1,7 @@
 #
 # profile::puppetmaster is a governing what a Jenkins puppetmaster should look
 # like
+#
 class profile::puppetmaster {
   # pull in all our secret stuff, and install eyaml
   include ::jenkins_keys
@@ -10,13 +11,13 @@ class profile::puppetmaster {
   include ::irc
   include datadog_agent
 
+  include pe_repo::platform::ubuntu_2004_aarch64
+
   # Install ubuntu 20.04 repo package for aarch64
   # required for running ubuntu 20.04 on arm64 instance
   # https://puppet.com/docs/pe/2019.8/installing_agents.html
   # Agent packages can be found on the primary server in
   # /opt/puppetlabs/server/data/packages/public/<PE VERSION>/
-  class pe_repo::platform::ubuntu_2004_aarch64 {
-  }
 
   # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
   # resource defined since that comes with Puppet Enterprise. We'll define a
