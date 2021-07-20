@@ -153,25 +153,25 @@ class profile::archives (
 
   # Install a script to trigger mirror synchronization
   #
-  file { "/var/log/mirrorsync":
-    ensure     => "directory",
-    group      => $group,
-    owner      => $owner,
-    mode       => '0750',
+  file { '/var/log/mirrorsync':
+    ensure  => 'directory',
+    group   => $group,
+    owner   => $owner,
+    mode    => '0750',
     require => File['/usr/bin/mirrorsync']
   }
 
-  file { "/usr/bin/mirrorsync":
-    content    => template("${module_name}/archives/mirrorsync.erb"),
-    group      => $group,
-    owner      => $owner,
-    mode       => '0755',
+  file { '/usr/bin/mirrorsync':
+    content => template("${module_name}/archives/mirrorsync.erb"),
+    group   => $group,
+    owner   => $owner,
+    mode    => '0755',
   }
 
-  cron { "mirrorsync":
-    command     => "/usr/bin/mirrorsync",
-    user        => $owner,
-    minute      => 30,
-    require     => File['/usr/bin/mirrorsync'],
+  cron { 'mirrorsync':
+    command => '/usr/bin/mirrorsync',
+    user    => $owner,
+    minute  => 30,
+    require => File['/usr/bin/mirrorsync'],
   }
 }
