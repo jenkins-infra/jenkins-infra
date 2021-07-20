@@ -2,9 +2,13 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-    Array  $rsync_hosts_allow  = ['localhost'],
-    String $archives_dir       = '/srv/releases',
-    String $rsync_motd_file    = '/etc/jenkins.motd'
+    Array  $rsync_hosts_allow       = ['localhost'],
+    String $archives_dir            = '/srv/releases',
+    String $rsync_motd_file         = '/etc/jenkins.motd',
+    String $source_mirror_endpoint  = 'ftp-osl.osuosl.org',
+    String $source_mirror_directory = '/jenkins/',
+    String $owner                   = 'www-data',
+    String $group                   = 'www-data',
   ) {
   include ::stdlib
   include profile::apachemisc
@@ -20,7 +24,7 @@ class profile::archives (
 
   file { $archives_dir:
     ensure  => directory,
-    owner   => 'www-data',
+    owner   => $owner,
     require => Package['httpd'],
   }
 
@@ -147,4 +151,27 @@ class profile::archives (
     action => 'accept'
   }
 
+  # Install a script to trigger mirror synchronization
+  #
+  file { "/var/log/mirrorsync":
+    ensure     => "directory",
+    group      => $group,
+    owner      => $owner,
+    mode       => '0750',
+    require => File['/usr/bin/mirrorsync']
+  }
+
+  file { "/usr/bin/mirrorsync":
+    content    => template("${module_name}/archives/mirrorsync.erb"),
+    group      => $group,
+    owner      => $owner,
+    mode       => '0755',
+  }
+
+  cron { "mirrorsync":
+    command     => "/usr/bin/mirrorsync",
+    user        => $owner,
+    minute      => 30,
+    require     => File['/usr/bin/mirrorsync'],
+  }
 }
