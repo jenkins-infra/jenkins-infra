@@ -33,7 +33,6 @@ node default {
 
 # archives
 node 'archives.jenkins.io' {
-  sshkeyman::hostkey { ['archives.jenkins-ci.org', 'archives.jenkins.io']: }
   include role::archives
 }
 
