@@ -118,6 +118,7 @@ profile::archives::rsync_hosts_allow:
   - 20.75.10.224/29 # publick8s additionnal outboun IP range
   - pkg.origin.jenkins.io
   - get.jenkins.io
+  - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
 # BIND container to deploy.
 profile::bind::image_tag: '15-237a33'
 irc::irc_server: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPWgtQSWpkPOxLEiLfwhVQj6W5zoDG9EXMyO4jT7m8lyruI1Tx29JQLepY78Z89678LtUOL28XfY9EVCr/JR3Q5dZPfQPDsc0Xmu+sq8KCz6fr56uEjc3513Hf9C9T2Jk6fCnLsZjaLM2c1ubLkZNP3zFQIyOP/sjavgS6LlZHbdWO6/jCzUxVXi/Zq7Cj+z8Oqo8CMOkvhAHdnipy1ut3Ba9JGjAxL92VqapGZa9I0p0hFh6bP60t2CdGNr4uBph40Gvn8o7wkEGrzRL7Wjs8SIdA7H9sLwZh8NCJHKjWglYMZ2FOo9+l3j0RFI8J1kEGApYSru7WD4iTypXkUdeQDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBO6NjnH0pVdvt7FebMLlB0gFCHmbirZ29MQ9zA22Laduzwo7ARLckKIcQEWQfQ/FuErr/A2qy6PfmPEBRLhIwwInFdAi9VuScPqsS/HtVclO0CHUSgoG+9N5H1lw3s3pNzEg==]
