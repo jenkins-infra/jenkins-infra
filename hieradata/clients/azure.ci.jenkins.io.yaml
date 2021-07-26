@@ -61,6 +61,7 @@ profile::buildmaster::plugins:
   - mailer
   - parallel-test-executor
   - pipeline-githubnotify-step
+  - pipeline-graph-view
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent
