@@ -1,0 +1,35 @@
+---
+jenkins:
+  systemMessage: "Jenkins configured automatically by Jenkins Configuration as Code plugin\n\n"
+  ## Enable CLI
+  remotingSecurity:
+    enabled: true
+  ## No build on master
+  numExecutors: 0
+  nodes:
+  ## Dummy placeholder to create the agent (but nothing behind)
+  - permanent:
+      labelString: "linux dummy docker"
+      launcher:
+        ssh:
+          credentialsId: "jenkins-agent-dummy"
+          host: "jenkins-agent-dummy.local"
+          launchTimeoutSeconds: 713
+          port: 22
+          retryWaitTime: 175
+          sshHostKeyVerificationStrategy:
+            manuallyProvidedKeyVerificationStrategy:
+              key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn7dpDVKMQTwvXGbErDFcnuxbf26QdQXGGhXNbLsNnt"
+      mode: EXCLUSIVE
+      name: "jenkins-agent-dummy"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "PATH+MAVEN"
+            value: "/home/jenkins/tools/apache-maven-3.6.3/bin"
+      - toolLocation:
+          locations:
+          - home: "/home/jenkins/tools/apache-maven-3.6.3"
+            key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+      remoteFS: "/home/jenkins/ci.jenkins.io-agent"
+      retentionStrategy: "always"
