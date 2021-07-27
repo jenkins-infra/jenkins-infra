@@ -53,6 +53,7 @@ profile::buildmaster::plugins:
   - github-checks
   - github-branch-source
   - groovy
+  - kubernetes
   - jobConfigHistory
   - junit-attachments
   - junit-realtime-test-reporter

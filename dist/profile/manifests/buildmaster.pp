@@ -24,6 +24,7 @@ class profile::buildmaster(
   $plugins                         = undef,
   $proxy_port                      = 443,
   $jenkins_home                    = '/var/lib/jenkins',
+  $container_jenkins_home          = '/var/jenkins_home',
   $groovy_init_enabled             = false,
   $groovy_d_enable_ssh_port        = 'absent',
   $groovy_d_set_up_git             = 'absent',
@@ -32,7 +33,7 @@ class profile::buildmaster(
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
   $memory_limit                    = '1g',
-  $java_opts                       = '-XshowSettings:vm -server -Xloggc:/var/jenkins_home/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2'
+  $java_opts                       = "-XshowSettings:vm -server -Xloggc:${container_jenkins_home}/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
 ) {
   include ::stdlib
   include ::apache
@@ -236,7 +237,7 @@ class profile::buildmaster(
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
     # Quote inside env variable must be escaped as puppet generate a bash script
     env              => [
-      "HOME=${jenkins_home}",
+      "HOME=${container_jenkins_home}",
       'USER=jenkins',
       "JAVA_OPTS=${java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',

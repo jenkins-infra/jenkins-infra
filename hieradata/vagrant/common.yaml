@@ -7,6 +7,45 @@ profile::accountapp::smtp_password: 'smtp_password_example'
 profile::accountapp::jira_password: 'jira_password_example'
 
 profile::buildmaster::memory_limit: '1536m'
+profile::buildmaster::plugins:
+  - amazon-ecs
+  - ansicolor
+  - azure-container-agents
+  - azure-vm-agents
+  - blueocean
+  - build-timeout
+  - buildtriggerbadge
+  - cloudbees-folder
+  - code-coverage-api
+  - credentials
+  - credentials-binding
+  - docker-workflow
+  - ec2
+  - embeddable-build-status
+  - git-client
+  - git
+  - github
+  - github-checks
+  - github-branch-source
+  - groovy
+  - kubernetes
+  - jobConfigHistory
+  - junit-attachments
+  - junit-realtime-test-reporter
+  - ldap
+  - lockable-resources
+  - mailer
+  - parallel-test-executor
+  - pipeline-githubnotify-step
+  - pipeline-stage-view
+  - pipeline-utility-steps
+  - ssh-agent
+  - throttle-concurrents
+  - timestamper
+  - toolenv
+  - warnings-ng
+  - workflow-aggregator
+  - workflow-multibranch
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
