@@ -26,10 +26,17 @@ class profile::docker {
     }
   }
 
+  file { '/etc/docker':
+    ensure  => directory,
+    mode    => '0700',
+    recurse => true,
+  }
+
   file { '/etc/docker/daemon.json':
-    ensure => present,
-    source => "puppet:///modules/${module_name}/docker/daemon.json",
-    mode   => '0644',
-    notify => Service['docker'],
+    ensure  => file,
+    require => File['/etc/docker'],
+    source  => "puppet:///modules/${module_name}/docker/daemon.json",
+    mode    => '0600',
+    notify  => Service['docker'],
   }
 }

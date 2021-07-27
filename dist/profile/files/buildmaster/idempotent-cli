@@ -1,3 +1,15 @@
-#!/bin/sh -x
+#!/bin/bash
 
-exec /usr/bin/docker exec -u jenkins jenkins java -jar /var/jenkins_home/war/WEB-INF/jenkins-cli.jar -s http://localhost:8080  "$@"
+set -eux -o pipefail
+
+## URL to reach Jenkins from INSIDE the container
+jenkins_url="http://127.0.0.1:8080"
+
+## Array of argument to bake the commands to execute within the container
+# Note that we use the default container's user as it's not always the "jenkins"'s container user
+docker_cmd=("/usr/bin/docker" "exec" "jenkins")
+
+## Always download the jenkins-cli to ensure that versions are the same
+cli_host_path="$("${docker_cmd[@]}" find /var/jenkins_home/war/WEB-INF/lib -type f -name 'cli-*.jar' | head -n1 `# Only use the first item returned from find`)"
+
+exec "${docker_cmd[@]}" java -jar "${cli_host_path}" -s "${jenkins_url}" "$@"

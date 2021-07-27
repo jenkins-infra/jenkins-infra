@@ -41,21 +41,16 @@ This repo just manages and configures the deployments.
 
 The amount of testing that can be done locally is as follows:
 
- * `bundle install` - To get the necessary gems to run tests locally, if you're
-   unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
-   to create an isolated Ruby environment
- * `./check` - Will run the
-   [rspec-puppet](http://rspec-puppet) unit tests and the
-   [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
-   the rspec-puppet over and over, use `rake spec_standalone` to avoid
-   re-initializing the Puppet module fixtures every time.
+* `bundle install` - To get the necessary gems to run tests locally, if you're
+  unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
+  to create an isolated Ruby environment
+* `./check` - Will run the
+  [rspec-puppet](http://rspec-puppet) unit tests and the
+  [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
+  the rspec-puppet over and over, use `rake spec_standalone` to avoid
+  re-initializing the Puppet module fixtures every time.
 
 ### Vagrant-based testing
-
-#### Pre-requisites
-
- * Run the `./vagrant-bootstrap` script locally to make sure your local
-   environment is prepared for Vagranting
 
 #### Running server spec tests
 
@@ -64,10 +59,12 @@ testing. Combined with Vagrant, this allows us to create an acceptance test
 [per-role](dist/role/manifests) which provisions and tests an entire Puppet
 catalog on a VM.
 
-##### Pre-requisites
+##### Pre-requisites for Vagrant
 
 * Install [Vagrant](https://www.vagrantup.com)
 * Install Vagrant plugins: `vagrant plugin install vagrant-serverspec`
+* Run the `./vagrant-bootstrap` script locally to make sure your local
+  environment is prepared for Vagranting
 
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
@@ -75,6 +72,7 @@ To just rerun serverspect without puppet, `vagrant provision --provision-with se
 When it's all done, deprovision the instance via `vagrant destroy ROLE`.
 
 ### Updating dependencies
+
 For reasons that Tyler will hopefully clarify at some point, this module maintains
 the list of Puppet module dependencies in `Puppetfile` and `.fixtures.yml`. They
 need to be kept in sync. When you modify them, you can have the local environment
@@ -85,8 +83,7 @@ reflect changes by running `bundle exec rake resolve`.
 The default branch of this repository is `staging` which is where pull requests
 should be applied to by default.
 
-
-```
+```text
 
 +----------------+
 | pull-request-1 |
@@ -139,6 +136,5 @@ See [this page](https://github.com/jenkins-infra/.github/blob/master/CONTRIBUTIN
 Channels:
 
 * `#jenkins-infra` on the [Freenode](http://freenode.net) IRC network
-*  [INFRA project](https://issues.jenkins-ci.org/browse/INFRA) in JIRA.
+* [INFRA project](https://issues.jenkins-ci.org/browse/INFRA) in JIRA.
 * [infra@lists.jenkins-ci.org](http://lists.jenkins-ci.org/mailman/listinfo/jenkins-infra)
-
