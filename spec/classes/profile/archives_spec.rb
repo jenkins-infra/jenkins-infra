@@ -12,7 +12,7 @@ describe 'profile::archives' do
     :managehome => 'true'
   )}
 
-  it { should contain_file('mirrorsync').with(
+  it { should contain_file('/home/mirrorsync/.ssh').with(
     :ensure => 'directory',
     :mode   => '0700',
     :owner  => 'mirrorsync',
