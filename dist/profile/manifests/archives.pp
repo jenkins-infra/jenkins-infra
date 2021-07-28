@@ -2,18 +2,73 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-    Array  $rsync_hosts_allow       = ['localhost'],
-    String $archives_dir            = '/srv/releases',
-    String $rsync_motd_file         = '/etc/jenkins.motd',
-    String $source_mirror_endpoint  = 'ftp-osl.osuosl.org',
-    String $source_mirror_directory = '/jenkins/',
-    String $owner                   = 'www-data',
-    String $group                   = 'www-data',
+    Array  $rsync_hosts_allow           = ['localhost'],
+    String $archives_dir                = '/srv/releases',
+    String $rsync_motd_file             = '/etc/jenkins.motd',
+    String $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
+    String $source_mirror_directory     = '/jenkins/',
+    Array  $ssh_authorized_keys         = [],
   ) {
   include ::stdlib
   include profile::apachemisc
   include profile::letsencrypt
 
+  $apache_owner     = 'www-data'
+  $apache_group     = $apache_owner
+
+  ## Manage mirrorsync user and its home directory
+  user { 'mirrorsync':
+    ensure     => present,
+    shell      => '/bin/bash',
+    managehome => true,
+  }
+
+  # The user mirrorsync is only used to trigger a synchronization
+  # between a remote a mirror and the directory as the user www-data
+  sudo::conf { 'mirrorsync':
+    ensure  => present,
+    content => 'mirrorsync ALL=(ALL) NOPASSWD: /usr/bin/mirrorsync',
+    require => User['mirrorsync'],
+  }
+
+  file { '/home/mirrorsync/.ssh':
+    ensure  => 'directory',
+    mode    => '0700',
+    owner   => 'mirrorsync',
+    group   => 'mirrorsync',
+    require => User['mirrorsync'],
+  }
+
+  if $ssh_authorized_keys.size > 0 {
+    $ssh_authorized_keys.each | Hash $ssh_authorized_key | {
+      validate_hash($ssh_authorized_key)
+
+      unless 'id' in $ssh_authorized_key {
+        notice('"id" is required for the authorized key')
+      }
+
+      unless 'type' in $ssh_authorized_key {
+        notice('"type" is required for the authorized key')
+      }
+
+      unless 'user' in $ssh_authorized_key {
+        notice('"user" is required for the authorized key')
+      }
+
+      unless 'key' in $ssh_authorized_key {
+        notice('"key" is required for the authorized key')
+      }
+
+      ssh_authorized_key { $ssh_authorized_key["id"] :
+        type    => $ssh_authorized_key["type"],
+        user    => $ssh_authorized_key["user"],
+        key     => $ssh_authorized_key["key"],
+        require => File['/home/mirrorsync/.ssh'],
+      }
+    }
+  }
+
+  #
   package { 'lvm2':
     ensure => present,
   }
@@ -24,16 +79,22 @@ class profile::archives (
 
   file { $archives_dir:
     ensure  => directory,
-    owner   => $owner,
+    owner   => $apache_owner,
+    group   => $apache_group,
+    mode    => '0750',
     require => Package['httpd'],
   }
 
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
+    owner  => $apache_owner,
+    group  => $apache_group,
   }
 
   file { '/var/log/apache2/archives.jenkins.io':
     ensure => directory,
+    owner  => $apache_owner,
+    group  => $apache_group,
   }
 
   apache::mod { 'bw':
@@ -155,22 +216,22 @@ class profile::archives (
   #
   file { '/var/log/mirrorsync':
     ensure  => 'directory',
-    group   => $group,
-    owner   => $owner,
+    group   => 'mirrorsync',
+    owner   => 'mirrorsync',
     mode    => '0750',
     require => File['/usr/bin/mirrorsync']
   }
 
   file { '/usr/bin/mirrorsync':
     content => template("${module_name}/archives/mirrorsync.erb"),
-    group   => $group,
-    owner   => $owner,
+    group   => 'root',
+    owner   => 'root',
     mode    => '0755',
   }
 
   cron { 'mirrorsync':
     command => '/usr/bin/mirrorsync',
-    user    => $owner,
+    user    => 'mirrorsync',
     minute  => 30,
     require => File['/usr/bin/mirrorsync'],
   }
