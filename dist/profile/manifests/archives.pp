@@ -224,8 +224,8 @@ class profile::archives (
 
   file { '/usr/bin/mirrorsync':
     content => template("${module_name}/archives/mirrorsync.erb"),
-    group   => 'mirrorsync',
-    owner   => 'mirrorsync',
+    group   => 'root',
+    owner   => 'root',
     mode    => '0755',
   }
 
