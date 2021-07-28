@@ -1,4 +1,4 @@
-### Hieradata
+# Hieradata
 
 The yaml contained here uses the hiera-eyaml gem to store sensitive information.
 

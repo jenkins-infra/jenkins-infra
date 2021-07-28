@@ -7,6 +7,45 @@ profile::accountapp::smtp_password: 'smtp_password_example'
 profile::accountapp::jira_password: 'jira_password_example'
 
 profile::buildmaster::memory_limit: '1536m'
+profile::buildmaster::plugins:
+  - ansicolor
+  - azure-container-agents
+  - azure-vm-agents
+  - blueocean
+  - build-timeout
+  - buildtriggerbadge
+  - cloudbees-folder
+  - code-coverage-api
+  - configuration-as-code
+  - credentials
+  - credentials-binding
+  - docker-workflow
+  - ec2
+  - embeddable-build-status
+  - git-client
+  - git
+  - github
+  - github-checks
+  - github-branch-source
+  - groovy
+  - kubernetes
+  - jobConfigHistory
+  - ldap
+  - lockable-resources
+  - parallel-test-executor
+  - pipeline-stage-view
+  - pipeline-utility-steps
+  - ssh-agent
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
+  - throttle-concurrents
+  - timestamper
+  - toolenv
+  - warnings-ng
+  - workflow-aggregator
+  - workflow-multibranch
+# Provide a path relative to the "templates/" directory
+profile::buildmaster::jcasc_configs:
+  - vagrant/agents.yaml
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)

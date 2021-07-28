@@ -2,7 +2,6 @@
 
 
 echo "> Installing gems.."
-bundle install
+bundle install --path vendor/bundle
 echo "> Installing Puppet modules into modules/"
 r10k puppetfile install
-

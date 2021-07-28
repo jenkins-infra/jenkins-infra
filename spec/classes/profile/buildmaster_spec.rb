@@ -49,6 +49,10 @@ describe 'profile::buildmaster' do
       end
     end
 
+    context 'JCasC' do
+      it { is_expected.to contain_file('/var/lib/jenkins/casc.d').with('ensure' => 'directory')}
+      it { is_expected.to contain_file('/var/lib/jenkins/casc.d/agents.yaml')}
+    end
 
 
     # Resources which ensure that we can run our local CLI scripting

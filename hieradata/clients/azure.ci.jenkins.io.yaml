@@ -31,9 +31,11 @@ profile::buildmaster::groovy_d_terraform_credentials: 'present'
 profile::buildmaster::memory_limit: '30g'
 # ! java_opts needs to be java11 compliant
 profile::buildmaster::java_opts: "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
+# Provide a path relative to the "templates/" directory
+profile::buildmaster::jcasc_configs:
+  - azure.ci.jenkins.io/agents.yaml
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
-  - amazon-ecs
   - ansicolor
   - azure-container-agents
   - azure-vm-agents
@@ -42,6 +44,7 @@ profile::buildmaster::plugins:
   - buildtriggerbadge
   - cloudbees-folder
   - code-coverage-api
+  - configuration-as-code
   - credentials
   - credentials-binding
   - docker-workflow
@@ -53,6 +56,7 @@ profile::buildmaster::plugins:
   - github-checks
   - github-branch-source
   - groovy
+  - kubernetes
   - jobConfigHistory
   - junit-attachments
   - junit-realtime-test-reporter
@@ -61,9 +65,11 @@ profile::buildmaster::plugins:
   - mailer
   - parallel-test-executor
   - pipeline-githubnotify-step
+  - pipeline-graph-view
   - pipeline-stage-view
   - pipeline-utility-steps
-  - ssh-agent
+  - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - throttle-concurrents
   - timestamper
   - toolenv

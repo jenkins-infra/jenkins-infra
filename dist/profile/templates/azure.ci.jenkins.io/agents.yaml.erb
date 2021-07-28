@@ -1,0 +1,502 @@
+---
+jenkins:
+  ## No builds on master
+  numExecutors: 0
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  clouds:
+  - azureVM:
+      azureCredentialsId: "azure-credentials"
+      cloudName: "Azure"
+      configurationStatus: "pass"
+      deploymentTimeout: 1600
+      maxVirtualMachinesLimit: 10
+      newResourceGroupName: "jenkinsinfra-agents3"
+      resourceGroupReferenceType: "new"
+      vmTemplates:
+      - agentLaunchMethod: "SSH"
+        agentWorkspace: "/home/jenkins"
+        builtInImage: "Windows Server 2016"
+        credentialsId: "jenkinsvmagents-userpass"
+        diskType: "managed"
+        doNotUseMachineIfInitFails: true
+        enableMSI: false
+        enableUAMI: false
+        ephemeralOSDisk: false
+        executeInitScriptAsRoot: true
+        existingStorageAccountName: "<%= @agents_azure_vms_storage_account_linux %>"
+        imageReference:
+          galleryImageDefinition: "jenkins-agent-ubuntu-20"
+          galleryImageVersion: "<%= @agents_azure_vms_gallery_image_version %>"
+          galleryName: "prod_packer_images"
+          galleryResourceGroup: "prod-packer-images"
+          gallerySubscriptionId: "<%= @agents_azure_vms_gallery_subscription_id %>"
+        imageTopLevelType: "advanced"
+        initScript: |
+          # Allow user 'jenkins' to use Docker without sudo
+          usermod -aG docker jenkins
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "java"
+        labels: "linux java docker amd64 azure vm"
+        location: "East US 2"
+        noOfParallelJobs: 1
+        osDiskSize: 0
+        osType: "Linux"
+        preInstallSsh: false
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: 5
+        shutdownOnIdle: false
+        storageAccountNameReferenceType: "new"
+        storageAccountType: "Standard_LRS"
+        templateDesc: "Dynamically provisioned Ubuntu 20.04 LTS machine"
+        templateDisabled: false
+        templateName: "ubuntu-jenkinsinfra"
+        usageMode: "Use this node as much as possible"
+        usePrivateIP: false
+        virtualMachineSize: "Standard_DS4"
+      - agentLaunchMethod: "SSH"
+        agentWorkspace: "/mnt/agent-workspace"
+        builtInImage: "Windows Server 2016"
+        credentialsId: "jenkinsvmagents-userpass"
+        diskType: "managed"
+        doNotUseMachineIfInitFails: true
+        enableMSI: false
+        enableUAMI: false
+        ephemeralOSDisk: false
+        executeInitScriptAsRoot: true
+        existingStorageAccountName: "<%= @agents_azure_vms_storage_account_linux %>"
+        imageReference:
+          galleryImageDefinition: "jenkins-agent-ubuntu-20"
+          galleryImageVersion: "<%= @agents_azure_vms_gallery_image_version %>"
+          galleryName: "prod_packer_images"
+          galleryResourceGroup: "prod-packer-images"
+          gallerySubscriptionId: "<%= @agents_azure_vms_gallery_subscription_id %>"
+        imageTopLevelType: "advanced"
+        initScript: |
+          # Allow user 'jenkins' to use Docker without sudo
+          usermod -aG docker jenkins
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "java"
+        labels: "highmem highram docker linux amd64 azure vm"
+        location: "East US 2"
+        noOfParallelJobs: 1
+        osDiskSize: 0
+        osType: "Linux"
+        preInstallSsh: false
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: 5
+        shutdownOnIdle: false
+        storageAccountNameReferenceType: "new"
+        storageAccountType: "Standard_LRS"
+        templateDesc: "Dynamically provisioned Ubuntu 20.04 LTS machine"
+        templateDisabled: true
+        templateName: "ubuntu-jenkinsinfra-highmem"
+        usageMode: "Use this node as much as possible"
+        usePrivateIP: false
+        virtualMachineSize: "Standard_D16_v4"
+  - azureVM:
+      azureCredentialsId: "azure-credentials"
+      cloudName: "azure-eastus"
+      configurationStatus: "pass"
+      deploymentTimeout: 3000
+      maxVirtualMachinesLimit: 1
+      newResourceGroupName: "eastus-cijenkinsio"
+      resourceGroupReferenceType: "new"
+      vmTemplates:
+      - agentLaunchMethod: "SSH"
+        agentWorkspace: "C:\\Jenkins"
+        builtInImage: "Windows Server 2016"
+        credentialsId: "jenkinsvmagents-userpass"
+        diskType: "managed"
+        doNotUseMachineIfInitFails: false
+        enableMSI: false
+        enableUAMI: false
+        ephemeralOSDisk: false
+        executeInitScriptAsRoot: false
+        existingStorageAccountName: "<%= @agents_azure_vms_storage_account_windows %>"
+        imageReference:
+          galleryImageDefinition: "jenkins-agent-windows-2019"
+          galleryImageVersion: "<%= @agents_azure_vms_gallery_image_version %>"
+          galleryName: "prod_packer_images"
+          galleryResourceGroup: "prod-packer-images"
+          gallerySubscriptionId: "<%= @agents_azure_vms_gallery_subscription_id %>"
+        imageTopLevelType: "advanced"
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "java"
+        labels: "windows amd64 windock azure vm"
+        location: "East US"
+        maximumDeploymentSize: 10
+        noOfParallelJobs: 1
+        osDiskSize: 200
+        osType: "Windows"
+        preInstallSsh: true
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: 30
+        shutdownOnIdle: false
+        storageAccountNameReferenceType: "new"
+        storageAccountType: "Standard_LRS"
+        templateDesc: "Dynamically provisioned Windows 2019 Core image"
+        templateDisabled: false
+        templateName: "win2019-jenkinsinfra"
+        usageMode: "Use this node as much as possible"
+        usePrivateIP: false
+        virtualMachineSize: "Standard_DS4_v2"
+      - agentLaunchMethod: "SSH"
+        agentWorkspace: "C:\\Jenkins"
+        builtInImage: "Windows Server 2016"
+        credentialsId: "jenkinsvmagents-userpass"
+        diskType: "managed"
+        doNotUseMachineIfInitFails: false
+        enableMSI: false
+        enableUAMI: false
+        ephemeralOSDisk: false
+        executeInitScriptAsRoot: false
+        existingStorageAccountName: "<%= @agents_azure_vms_storage_account_windows %>"
+        imageReference:
+          id: "/subscriptions/<%= @agents_azure_vms_gallery_subscription_id %>/resourceGroups/prod-packer-images-eastus/providers/Microsoft.Compute/images/jenkins-agent-win10"
+        imageTopLevelType: "advanced"
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "java"
+        labels: "win10 azure vm"
+        location: "East US"
+        noOfParallelJobs: 1
+        osDiskSize: 200
+        osType: "Windows"
+        preInstallSsh: true
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: 60
+        shutdownOnIdle: false
+        storageAccountNameReferenceType: "new"
+        storageAccountType: "Standard_LRS"
+        templateDesc: "Dynamically provisioned Windows 10 image"
+        templateDisabled: false
+        templateName: "win10-jenkinsinfra"
+        usageMode: "Use this node as much as possible"
+        usePrivateIP: false
+        virtualMachineSize: "Standard_D4"
+  - aci:
+      credentialsId: "azure-credentials"
+      name: "ACI"
+      resourceGroup: "eastus-cijenkinsio"
+      templates:
+      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
+        cpu: "4"
+        image: "jenkinsciinfra/inbound-agent-maven:jdk8"
+        label: "maven azure container"
+        memory: "10"
+        name: "aci-maven"
+        osType: "Linux"
+        retentionStrategy: "containerOnce"
+        rootFs: "/home/jenkins"
+        timeout: 10
+      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
+        cpu: "4"
+        image: "jenkinsciinfra/inbound-agent-maven:jdk11"
+        label: "maven-11 azure container"
+        memory: "12"
+        name: "aci-maven-11"
+        osType: "Linux"
+        retentionStrategy: "containerOnce"
+        rootFs: "/home/jenkins"
+        timeout: 10
+      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
+        cpu: "2"
+        image: "jenkinsciinfra/inbound-agent-node:latest"
+        label: "node azure container"
+        memory: "4"
+        name: "aci-node"
+        osType: "Linux"
+        retentionStrategy: "containerOnce"
+        rootFs: "/home/jenkins"
+        timeout: 10
+      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
+        cpu: "2"
+        image: "jenkinsciinfra/inbound-agent-ruby"
+        label: "ruby azure container"
+        memory: "4"
+        name: "aci-ruby"
+        osType: "Linux"
+        retentionStrategy: "containerOnce"
+        rootFs: "/home/jenkins"
+        timeout: 10
+      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
+        cpu: "1"
+        image: "jenkins/inbound-agent:alpine"
+        label: "alpine azure container"
+        memory: "2"
+        name: "aci-alpine"
+        osType: "Linux"
+        retentionStrategy: "containerOnce"
+        rootFs: "/home/jenkins"
+        timeout: 10
+      - command: "pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl}\
+          \ -Secret ^${secret} -Name ^${nodeName}"
+        cpu: "2"
+        image: "jenkins/jnlp-agent-maven:windows-nanoserver"
+        label: "maven-windows azure container"
+        memory: "3.5"
+        name: "aci-maven-windows"
+        osType: "Windows"
+        retentionStrategy: "containerOnce"
+        rootFs: "C:/Users/jenkins/Work"
+        timeout: 60
+      - command: "pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl}\
+          \ -Secret ^${secret} -Name ^${nodeName}"
+        cpu: "2"
+        image: "jenkins/jnlp-agent-maven:windows-nanoserver-jdk11"
+        label: "maven-11-windows azure container"
+        memory: "3.5"
+        name: "aci-maven-11-windows"
+        osType: "Windows"
+        retentionStrategy: "containerOnce"
+        rootFs: "C:/Users/jenkins/Work"
+        timeout: 60
+  - amazonEC2:
+      cloudName: "aws"
+      credentialsId: "aws-credentials"
+      instanceCapStr: "30"
+      region: "us-east-2"
+      sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+      templates:
+      - ami: "ami-069e592870a22fe97"
+        amiOwners: "200564066411"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PUBLIC_DNS
+        deleteRootOnTermination: true
+        description: "Ubuntu 20.04 LTS"
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        idleTerminationMinutes: "30"
+        instanceCapStr: "5"
+        labelString: "linux java docker amd64 aws vm"
+        launchTimeoutStr: "600"
+        maxTotalUses: 30
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 1
+        remoteAdmin: "jenkins"
+        remoteFS: "/home/jenkins"
+        securityGroups: "ci-agents"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "jenkins"
+          value: "ci.jenkins.io"
+        - name: "os"
+          value: "linux"
+        - name: "architecture"
+          value: "amd64"
+        tenancy: Default
+        type: T3aLarge
+        useEphemeralDevices: true
+      - ami: "ami-08d0fa3cc1b887e2e"
+        amiOwners: "200564066411"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PUBLIC_DNS
+        deleteRootOnTermination: true
+        description: "Windows 2019"
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        idleTerminationMinutes: "30"
+        instanceCapStr: "10"
+        labelString: "windows windock amd64 aws vm"
+        launchTimeoutStr: "1000"
+        maxTotalUses: 30
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 1
+        remoteAdmin: "Administrator"
+        remoteFS: "C:\\Jenkins"
+        securityGroups: "ci-agents"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "jenkins"
+          value: "ci.jenkins.io"
+        - name: "os"
+          value: "windows-2019"
+        - name: "architecture"
+          value: "amd64"
+        tenancy: Default
+        tmpDir: "C:\\\\temp"
+        type: T3Xlarge
+        useEphemeralDevices: true
+      - ami: "ami-069e592870a22fe97"
+        amiOwners: "200564066411"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PUBLIC_DNS
+        deleteRootOnTermination: true
+        description: "High memory ubuntu 20.04 "
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        idleTerminationMinutes: "30"
+        instanceCapStr: "20"
+        labelString: "highmem highram docker linux amd64 aws vm"
+        launchTimeoutStr: "600"
+        maxTotalUses: 30
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 1
+        remoteAdmin: "jenkins"
+        remoteFS: "/home/jenkins"
+        securityGroups: "ci-agents"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "architecture"
+          value: "amd64"
+        - name: "os"
+          value: "linux"
+        - name: "jenkins"
+          value: "ci.jenkins.io"
+        tenancy: Default
+        type: M5ad4xlarge
+        useEphemeralDevices: true
+      - ami: "ami-01e7a03425bdc4cb1"
+        amiOwners: "200564066411"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PUBLIC_DNS
+        deleteRootOnTermination: true
+        description: "ARM64 ubuntu 20.04 "
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        idleTerminationMinutes: "30"
+        instanceCapStr: "2"
+        labelString: "arm64 arm64docker aws vm"
+        launchTimeoutStr: "600"
+        maxTotalUses: 30
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 1
+        remoteAdmin: "jenkins"
+        remoteFS: "/home/jenkins"
+        securityGroups: "ci-agents"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "architecture"
+          value: "arm64"
+        - name: "os"
+          value: "linux"
+        - name: "jenkins"
+          value: "ci.jenkins.io"
+        tenancy: Default
+        type: A1Xlarge
+        useEphemeralDevices: true
+      useInstanceProfileForCredentials: false
+  - kubernetes:
+      containerCap: 10
+      containerCapStr: "10"
+      credentialsId: "cik8s-kubeconfig"
+      directConnection: true
+      name: "cik8s"
+      namespace: "jenkins-agents"
+      serverUrl: "<%= @agents_kubernetes_cik8s_url %>"
+      templates:
+      - containers:
+        - alwaysPullImage: true
+          args: "1d"
+          command: "sleep"
+          image: "jenkins/inbound-agent:latest-jdk11"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "jnlp"
+          workingDir: "/home/jenkins/agent"
+        id: "f79567d4-f550-44b3-a9ce-70cf291910e6"
+        name: "jnlp"
+        slaveConnectTimeout: 100
+        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
+  nodes:
+  - permanent:
+      labelString: "ppc64le ppc64ledocker"
+      launcher:
+        ssh:
+          credentialsId: "jenkins-ppc64le"
+          host: "169.48.22.163"
+          launchTimeoutSeconds: 713
+          port: 22
+          retryWaitTime: 175
+          sshHostKeyVerificationStrategy:
+            manuallyProvidedKeyVerificationStrategy:
+              key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHn7dpDVKMQTwvXGbErDFcnuxbf26QdQXGGhXNbLsNnt"
+      mode: EXCLUSIVE
+      name: "ppc64le-agent"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "PATH+MAVEN"
+            value: "/home/jenkins/tools/apache-maven-3.6.3/bin"
+      - toolLocation:
+          locations:
+          - home: "/home/jenkins/tools/apache-maven-3.6.3"
+            key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+      remoteFS: "/home/jenkins/ci.jenkins.io-agent"
+      retentionStrategy: "always"
+  - permanent:
+      labelString: "s390x s390xdocker java"
+      launcher:
+        ssh:
+          credentialsId: "jenkins-s390x"
+          host: "148.100.113.105"
+          port: 22
+          sshHostKeyVerificationStrategy:
+            manuallyProvidedKeyVerificationStrategy:
+              key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYwX3Fu4fWEb9hPlan3FsiUsZoCsMD7CMqFNT/+Uh11HhvKU5ZFiF3sGNI7FrhNNbqBFd0HnS1t3zIkP3FFlKToSTrkcXPUyw+svFf5YbPbDxQUNE0kclTUsERzC3GNB5eXUlyNxCiGksqGtinXgknF2Z5cOO8osODP7ddRc6L3H4gvDi0/smz9QukZB2N0FqBJ3EZGbv0X9V3iwRu6Cu9lhcl/ue5fuIjKAgGzGQgWgCEg0k9xkK0OmxyJalI0eiqBRbdES/bXkkxp+4TQNOsxN/ZrZqxtlN7o9Fq9y+dp7xQFEoivSAjn6WQ6izjkMGKon7rcFJ4t4g6FJoQYv2Z"
+      name: "s390x-agent"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "PATH+MAVEN"
+            value: "/home/jenkins/tools/apache-maven-3.6.3/bin"
+      - toolLocation:
+          locations:
+          - home: "/home/jenkins/tools/apache-maven-3.6.3"
+            key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+      remoteFS: "/home/jenkins/agent"
+      retentionStrategy: "always"
