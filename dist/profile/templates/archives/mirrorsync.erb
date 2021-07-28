@@ -10,8 +10,8 @@ sync(){
 }
 
 # Ensure we run this script as user <%= @owner %>
-if [ "$(/usr/bin/whoami)" != "<%= @owner %>" ]; then
-  exec /usr/bin/sudo --user="<%= @owner %>" /usr/bin/mirrorsync
+if [ "$(/usr/bin/whoami)" != "<%= @apache_owner %>" ]; then
+  exec /usr/bin/sudo --user="<%= @apache_owner %>" /usr/bin/mirrorsync
 else
   time sync
 fi

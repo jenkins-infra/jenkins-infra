@@ -6,6 +6,19 @@ describe 'profile::archives' do
     {:operatingsystem => 'Ubuntu', :osfamily => 'Debian' }
   }
 
+  it { should contain_user('mirrorsync').with(
+    :ensure     => 'present',
+    :shell      => '/bin/bash',
+    :managehome => 'true'
+  )}
+
+  it { should contain_file('mirrorsync').with(
+    :ensure => 'directory',
+    :mode   => '0700',
+    :owner  => 'mirrorsync',
+    :group  => 'mirrorsync',
+  )}
+
   it { should contain_class 'profile::apachemisc' }
   it { should contain_class 'apache' }
 
