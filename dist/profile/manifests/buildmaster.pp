@@ -32,6 +32,9 @@ class profile::buildmaster(
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
+  $jcasc_configs                   = [],
+  # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
+  $jcasc_config_dir                = 'casc.d',
   $memory_limit                    = '1g',
   $java_opts                       = "-XshowSettings:vm -server -Xloggc:${container_jenkins_home}/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
 ) {
@@ -221,6 +224,46 @@ class profile::buildmaster(
   }
   ##############################################################################
 
+  ##############################################################################
+  # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
+  ##############################################################################
+  if size($jcasc_configs) > 0 {
+    file { "${jenkins_home}/${jcasc_config_dir}" :
+      ensure  => directory,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0700',
+      require => [
+          User['jenkins'],
+          File[$jenkins_home],
+      ],
+    }
+
+    # Define Casc directory through java opts to avoid conditional environment variable
+    $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir}"
+
+    $jcasc_configs.each | $jcasc_config_source_file | {
+      $jcasc_config_file = basename($jcasc_config_source_file)
+
+      file { "${jenkins_home}/${jcasc_config_dir}/${jcasc_config_file}":
+        ensure  => file,
+        owner   => 'jenkins',
+        group   => 'jenkins',
+        content => template("${module_name}/${jcasc_config_source_file}.erb"),
+        require => [
+            User['jenkins'],
+            File["${jenkins_home}/${jcasc_config_dir}"],
+        ],
+        before  => Docker::Run['jenkins'],
+        notify  => Service['docker-jenkins'],
+      }
+    }
+  } else {
+    $jcasc_java_opt = ''
+  }
+
+  ##############################################################################
+
   docker::run { 'jenkins':
     memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
@@ -239,7 +282,7 @@ class profile::buildmaster(
     env              => [
       "HOME=${container_jenkins_home}",
       'USER=jenkins',
-      "JAVA_OPTS=${java_opts}",
+      "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],

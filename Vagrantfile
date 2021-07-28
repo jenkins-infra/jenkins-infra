@@ -10,12 +10,6 @@ Vagrant.configure("2") do |config|
     # Ubuntu 18.04
     config.vm.box = 'ubuntu/bionic64'
 
-    # modules/account/.travis.yml has incorrect link target, and this blows up
-    # when vagrant tries to rsync files as it tries to resolves symlinks.
-    # see http://www.trilithium.com/johan/2011/09/delete-broken-symlinks/
-    `find -L . -type l -delete`
-
-    # Ensure we use at least 1GB of Ram to avoir OOM with puppet agent
     config.vm.provider :virtualbox do |v|
         v.memory = 2048
         v.cpus = 2
@@ -35,6 +29,10 @@ Vagrant.configure("2") do |config|
         if Dir["./spec/server/#{specfile}/*.rb"].empty?
             STDERR.write(">> no serverspec defined for #{veggie}\n")
         next
+        end
+
+        if veggie == 'jenkins::master'
+            config.vm.network "forwarded_port", guest: 8080, host: 8080
         end
 
         config.vm.define(veggie) do |node|
