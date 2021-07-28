@@ -28,6 +28,7 @@ class profile::archives (
   sudo::conf { 'mirrorsync':
     ensure  => present,
     content => 'mirrorsync ALL=(ALL) NOPASSWD: /usr/bin/mirrorsync',
+    require => User['mirrorsync'],
   }
 
   file { '/home/mirrorsync/.ssh':
