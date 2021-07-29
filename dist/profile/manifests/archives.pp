@@ -17,10 +17,17 @@ class profile::archives (
   $apache_group     = $apache_owner
 
   ## Manage mirrorsync user and its home directory
+  #
   user { 'mirrorsync':
     ensure     => present,
     shell      => '/bin/bash',
     managehome => true,
+  }
+
+  # Assume that an existing virtual resource named `User { 'www-data'`
+  # already exist
+  User <| title == $apache_owner |> {
+    groups +> 'mirrorsync'
   }
 
   # The user mirrorsync is only used to trigger a synchronization
@@ -218,7 +225,7 @@ class profile::archives (
     ensure  => 'directory',
     group   => 'mirrorsync',
     owner   => 'mirrorsync',
-    mode    => '0750',
+    mode    => '0770',
     require => File['/usr/bin/mirrorsync']
   }
 
