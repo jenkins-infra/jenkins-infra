@@ -19,6 +19,13 @@ describe 'profile::archives' do
     :group  => 'mirrorsync',
   )}
 
+  it { should contain_file('/var/log/mirrorsync').with(
+    :ensure => 'directory',
+    :mode   => '0750',
+    :owner  => 'mirrorsync',
+    :group  => 'mirrorsync',
+  )}
+
   it { should contain_class 'profile::apachemisc' }
   it { should contain_class 'apache' }
 
