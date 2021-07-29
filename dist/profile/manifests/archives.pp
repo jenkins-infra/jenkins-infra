@@ -27,7 +27,7 @@ class profile::archives (
   # Assume that an existing virtual resource named `User { 'www-data'`
   # already exist
   User <| title == $apache_owner |> {
-    groups +> "mirrorsync"
+    groups +> 'mirrorsync'
   }
 
   # The user mirrorsync is only used to trigger a synchronization
