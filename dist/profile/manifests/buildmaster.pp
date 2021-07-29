@@ -255,7 +255,7 @@ class profile::buildmaster(
             File["${jenkins_home}/${jcasc_config_dir}"],
         ],
         before  => Docker::Run['jenkins'],
-        notify  => Service['docker-jenkins'],
+        notify  => Exec['jcasc-reload-jenkins'],
       }
     }
   } else {
@@ -360,12 +360,34 @@ class profile::buildmaster(
     source  => "puppet:///modules/${module_name}/buildmaster/idempotent-cli",
     mode    => '0755',
   }
-  exec { 'safe-restart-jenkins-via-ssh-cli':
+  exec { 'safe-restart-jenkins':
     require     => [
       File[$cli_script],
     ],
     command     => "${cli_script} safe-restart",
     refreshonly => true,
+  }
+
+  $jcasc_cli_subcommand = 'reload-jcasc-configuration'
+  exec { 'jcasc-reload-jenkins':
+    require     => [
+      Exec['install-plugin-configuration-as-code'],
+      Exec['safe-restart-jenkins'],
+    ],
+    notify      => Exec['perform-jcasc-reload'],
+    command     => "/usr/share/jenkins/idempotent-cli help 2>&1 | grep -q ${jcasc_cli_subcommand}",
+    # Retry for 300s: jenkins might be restarting
+    tries       => 30,
+    try_sleep   => 10,
+    refreshonly => true,
+  }
+  exec { 'perform-jcasc-reload':
+    require     => [
+      File[$cli_script],
+    ],
+    command     => "${cli_script} ${jcasc_cli_subcommand}",
+    refreshonly => true,
+    logoutput   => true,
   }
   ##############################################################################
 
