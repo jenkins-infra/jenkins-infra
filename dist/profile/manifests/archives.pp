@@ -17,6 +17,12 @@ class profile::archives (
   $apache_group     = $apache_owner
 
   ## Manage mirrorsync user and its home directory
+  #
+  group { 'mirrorsync':
+    ensure  => present,
+    members => $apache_owner,
+  }
+
   user { 'mirrorsync':
     ensure     => present,
     shell      => '/bin/bash',
