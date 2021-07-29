@@ -21,7 +21,7 @@ describe 'profile::archives' do
 
   it { should contain_file('/var/log/mirrorsync').with(
     :ensure => 'directory',
-    :mode   => '0750',
+    :mode   => '0770',
     :owner  => 'mirrorsync',
     :group  => 'mirrorsync',
   )}
