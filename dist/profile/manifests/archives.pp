@@ -81,7 +81,7 @@ class profile::archives (
     ensure  => directory,
     owner   => $apache_owner,
     group   => $apache_group,
-    mode    => '0750',
+    mode    => '0775',
     require => Package['httpd'],
   }
 
