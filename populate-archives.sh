@@ -2,4 +2,5 @@
 #
 # mirror /srv/releases into archives.jenkins-ci.org
 #
-exec rsync -avz /srv/releases/jenkins/ www-data@archives.jenkins-ci.org:/srv/releases/
+# exec to ensure that signals are propagated to child process
+exec ssh mirrorsync@archives.jenkins-ci.org "mirrorsync"
