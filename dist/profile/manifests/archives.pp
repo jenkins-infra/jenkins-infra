@@ -216,8 +216,8 @@ class profile::archives (
   #
   file { '/var/log/mirrorsync':
     ensure  => 'directory',
-    group   => 'mirrorsync',
-    owner   => 'mirrorsync',
+    group   => 'www-data',
+    owner   => 'www-data',
     mode    => '0750',
     require => File['/usr/bin/mirrorsync']
   }
