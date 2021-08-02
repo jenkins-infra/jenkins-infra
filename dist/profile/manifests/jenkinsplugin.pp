@@ -16,6 +16,6 @@ define profile::jenkinsplugin (
     tries     => 10,
     try_sleep => 10,
     path      => ['/bin', '/usr/bin'],
-    notify    => Exec['safe-restart-jenkins-via-ssh-cli'],
+    notify    => Exec['safe-restart-jenkins'],
   }
 }
