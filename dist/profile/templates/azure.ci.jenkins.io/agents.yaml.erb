@@ -426,8 +426,8 @@ jenkins:
         useEphemeralDevices: true
       useInstanceProfileForCredentials: false
   - kubernetes:
-      containerCap: 10
-      containerCapStr: "10"
+      # 3 workers at 8 CPUs/32Gi each, smaller template is 1 CPU/1Gi (8*3=24)
+      containerCap: 24
       credentialsId: "cik8s-kubeconfig"
       directConnection: true
       name: "cik8s"
@@ -446,11 +446,28 @@ jenkins:
             successThreshold: 0
             timeoutSeconds: 0
           name: "jnlp"
-          workingDir: "/home/jenkins/agent"
+          workingDir: "/home/jenkins"
         id: "f79567d4-f550-44b3-a9ce-70cf291910e6"
         name: "jnlp"
         slaveConnectTimeout: 100
-        slaveConnectTimeoutStr: "100"
+        yamlMergeStrategy: "override"
+      - containers:
+        - alwaysPullImage: true
+          args: "^${computer.jnlpmac} ^${computer.name}"
+          command: "/usr/local/bin/jenkins-agent"
+          image: "jenkinsciinfra/inbound-agent-ruby"
+          livenessProbe:
+            failureThreshold: 0
+            initialDelaySeconds: 0
+            periodSeconds: 0
+            successThreshold: 0
+            timeoutSeconds: 0
+          name: "jnlp"
+          workingDir: "/home/jenkins"
+        id: "f79567d4-f550-44b3-a9ce-70cf291910e6"
+        label: "ruby container kubernetes"
+        name: "jnlp-ruby"
+        slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
   nodes:
   - permanent:
