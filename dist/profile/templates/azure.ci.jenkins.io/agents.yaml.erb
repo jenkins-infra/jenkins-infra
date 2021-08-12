@@ -397,8 +397,7 @@ jenkins:
       templates:
       - containers:
         - alwaysPullImage: true
-          args: "1d"
-          command: "sleep"
+          command: "/usr/local/bin/jenkins-agent"
           image: "jenkins/inbound-agent:latest-jdk11"
           livenessProbe:
             failureThreshold: 0
@@ -413,13 +412,13 @@ jenkins:
           resourceRequestMemory: "1G"
           workingDir: "/home/jenkins"
         name: "jnlp"
+        imagePullSecrets:
+        - name: "jenkins-dockerhub"
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
       <% @container_agents.each do |agent| %>
       - containers:
         - alwaysPullImage: true
-          args: "^${computer.jnlpmac} ^${computer.name}"
-          command: "/usr/local/bin/jenkins-agent"
           image: "<%= agent["image"] %>"
           livenessProbe:
             failureThreshold: 0
@@ -435,6 +434,7 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "container kubernetes <%= agent["labels"].join(' ') %>"
         name: "jnlp-<%= agent["name"] %>"
+        inheritFrom: "jnlp"
         instanceCap: <%= (@k8s_workers["cpus"].to_i / agent["cpus"].to_i - 1) * @k8s_workers["amount"].to_i %>
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
