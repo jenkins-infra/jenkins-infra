@@ -7,22 +7,22 @@ rsync daemon mode
 
 uid = nobody
 gid = nogroup
-use chroot = yes 
-max connections = 0 
+use chroot = yes
+max connections = 0
 pid file = /var/run/rsyncd.pid
 exclude = lost+found/
-transfer logging = yes 
+transfer logging = yes
 log file = /var/log/rsyncd.log
-ignore nonreadable = yes 
+ignore nonreadable = yes
 dont compress   = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2
-port = 873 
+port = 873
 motd file = <%= @rsync_motd_file %>
 
 # Timeout in seconds
-timeout = 300 
+timeout = 300
 
 # Any attempted uploads will fail
-read only = true 
+read only = true
 
 # Downloads will be possible if file permissions on the daemon side allow them
 write only = false
@@ -34,3 +34,4 @@ hosts allow = <%= @rsync_hosts_allow.join(',') %>
 [jenkins]
 path = <%= @archives_dir %>
 comment = "Jenkins Read-Only Mirror"
+ 
