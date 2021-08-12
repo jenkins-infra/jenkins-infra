@@ -69,9 +69,11 @@ Vagrant.configure("2") do |config|
                 --execute 'include profile::vagrant\n include role::#{veggie}'
             EOF
 
-            node.vm.provision :serverspec do |spec|
-                spec.pattern = "spec/server/#{specfile}/*.rb"
-            end
+            # Commented out as serverspec is not working anymore
+            # TODO: switch to another framework
+            # node.vm.provision :serverspec do |spec|
+            #     spec.pattern = "spec/server/#{specfile}/*.rb"
+            # end
         end
     end
 end

@@ -192,56 +192,18 @@ jenkins:
       name: "ACI"
       resourceGroup: "eastus-cijenkinsio"
       templates:
+      <% @container_agents.each do |agent| %>
       - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "4"
-        image: "jenkinsciinfra/inbound-agent-maven:jdk8"
-        label: "maven azure container"
-        memory: "10"
-        name: "aci-maven"
+        cpu: "<%= agent["cpus"] %>"
+        image: "<%= agent["image"] %>"
+        label: "container azure <%= agent["labels"].join(' ') %>"
+        memory: "<%= agent["memory"] %>"
+        name: "aci-<%= agent["name"] %>"
         osType: "Linux"
         retentionStrategy: "containerOnce"
         rootFs: "/home/jenkins"
         timeout: 10
-      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "4"
-        image: "jenkinsciinfra/inbound-agent-maven:jdk11"
-        label: "maven-11 azure container"
-        memory: "12"
-        name: "aci-maven-11"
-        osType: "Linux"
-        retentionStrategy: "containerOnce"
-        rootFs: "/home/jenkins"
-        timeout: 10
-      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "2"
-        image: "jenkinsciinfra/inbound-agent-node:latest"
-        label: "node azure container"
-        memory: "4"
-        name: "aci-node"
-        osType: "Linux"
-        retentionStrategy: "containerOnce"
-        rootFs: "/home/jenkins"
-        timeout: 10
-      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "2"
-        image: "jenkinsciinfra/inbound-agent-ruby"
-        label: "ruby azure container"
-        memory: "4"
-        name: "aci-ruby"
-        osType: "Linux"
-        retentionStrategy: "containerOnce"
-        rootFs: "/home/jenkins"
-        timeout: 10
-      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "1"
-        image: "jenkins/inbound-agent:alpine"
-        label: "alpine azure container"
-        memory: "2"
-        name: "aci-alpine"
-        osType: "Linux"
-        retentionStrategy: "containerOnce"
-        rootFs: "/home/jenkins"
-        timeout: 10
+      <% end %>
       - command: "pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl}\
           \ -Secret ^${secret} -Name ^${nodeName}"
         cpu: "2"
@@ -426,8 +388,7 @@ jenkins:
         useEphemeralDevices: true
       useInstanceProfileForCredentials: false
   - kubernetes:
-      # 3 workers at 8 CPUs/32Gi each, smaller template is 1 CPU/1Gi (8*3=24)
-      containerCap: 24
+      # 3 workers at 8 CPUs/32Gi each
       credentialsId: "cik8s-kubeconfig"
       directConnection: true
       name: "cik8s"
@@ -451,15 +412,15 @@ jenkins:
           resourceRequestCpu: "1"
           resourceRequestMemory: "1G"
           workingDir: "/home/jenkins"
-        instanceCap: 24
         name: "jnlp"
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
+      <% @container_agents.each do |agent| %>
       - containers:
         - alwaysPullImage: true
           args: "^${computer.jnlpmac} ^${computer.name}"
           command: "/usr/local/bin/jenkins-agent"
-          image: "jenkinsciinfra/inbound-agent-ruby"
+          image: "<%= agent["image"] %>"
           livenessProbe:
             failureThreshold: 0
             initialDelaySeconds: 0
@@ -467,60 +428,17 @@ jenkins:
             successThreshold: 0
             timeoutSeconds: 0
           name: "jnlp"
-          resourceLimitCpu: "2"
-          resourceLimitMemory: "4G"
-          resourceRequestCpu: "2"
-          resourceRequestMemory: "4G"
+          resourceLimitCpu: "<%= agent["cpus"] %>"
+          resourceLimitMemory: "<%= agent["memory"] %>G"
+          resourceRequestCpu: "<%= agent["cpus"] %>"
+          resourceRequestMemory: "<%= agent["memory"] %>G"
           workingDir: "/home/jenkins"
-        label: "ruby container kubernetes"
-        name: "jnlp-ruby"
-        instanceCap: 12
+        label: "container kubernetes <%= agent["labels"].join(' ') %>"
+        name: "jnlp-<%= agent["name"] %>"
+        instanceCap: <%= (@k8s_workers["cpus"].to_i / agent["cpus"].to_i - 1) * @k8s_workers["amount"].to_i %>
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
-      - containers:
-        - alwaysPullImage: true
-          args: "^${computer.jnlpmac} ^${computer.name}"
-          command: "/usr/local/bin/jenkins-agent"
-          image: "jenkinsciinfra/inbound-agent-maven:jdk8"
-          livenessProbe:
-            failureThreshold: 0
-            initialDelaySeconds: 0
-            periodSeconds: 0
-            successThreshold: 0
-            timeoutSeconds: 0
-          name: "jnlp"
-          resourceLimitCpu: "4"
-          resourceLimitMemory: "10G"
-          resourceRequestCpu: "4"
-          resourceRequestMemory: "10G"
-          workingDir: "/home/jenkins"
-        label: "maven kubernetes container jdk8"
-        name: "jnlp-maven-jdk8"
-        instanceCap: 6
-        slaveConnectTimeout: 100
-        yamlMergeStrategy: "override"
-      - containers:
-        - alwaysPullImage: true
-          args: "^${computer.jnlpmac} ^${computer.name}"
-          command: "/usr/local/bin/jenkins-agent"
-          image: "jenkinsciinfra/inbound-agent-maven:jdk11"
-          livenessProbe:
-            failureThreshold: 0
-            initialDelaySeconds: 0
-            periodSeconds: 0
-            successThreshold: 0
-            timeoutSeconds: 0
-          name: "jnlp"
-          resourceLimitCpu: "4"
-          resourceLimitMemory: "12G"
-          resourceRequestCpu: "4"
-          resourceRequestMemory: "12G"
-          workingDir: "/home/jenkins"
-        label: "maven-11 kubernetes container jdk11"
-        name: "jnlp-maven-jdk11"
-        instanceCap: 6
-        slaveConnectTimeout: 100
-        yamlMergeStrategy: "override"
+      <% end %>
   nodes:
   - permanent:
       labelString: "ppc64le ppc64ledocker"
