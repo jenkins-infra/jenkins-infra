@@ -451,7 +451,7 @@ jenkins:
           resourceRequestCpu: "1"
           resourceRequestMemory: "1G"
           workingDir: "/home/jenkins"
-        id: "f79567d4-f550-44b3-a9ce-70cf291910e6"
+        instanceCap: 24
         name: "jnlp"
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
@@ -474,6 +474,7 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "ruby container kubernetes"
         name: "jnlp-ruby"
+        instanceCap: 12
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
       - containers:
@@ -495,6 +496,7 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "maven kubernetes container jdk8"
         name: "jnlp-maven-jdk8"
+        instanceCap: 6
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
       - containers:
@@ -516,6 +518,7 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "maven-11 kubernetes container jdk11"
         name: "jnlp-maven-jdk11"
+        instanceCap: 6
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
   nodes:
