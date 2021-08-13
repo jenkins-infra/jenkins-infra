@@ -192,18 +192,6 @@ jenkins:
       name: "ACI"
       resourceGroup: "eastus-cijenkinsio"
       templates:
-      <% @container_agents.each do |agent| %>
-      - command: "/usr/local/bin/jenkins-agent -url ^${rootUrl} ^${secret} ^${nodeName}"
-        cpu: "<%= agent["cpus"] %>"
-        image: "<%= agent["image"] %>"
-        label: "container azure <%= agent["labels"].join(' ') %>"
-        memory: "<%= agent["memory"] %>"
-        name: "aci-<%= agent["name"] %>"
-        osType: "Linux"
-        retentionStrategy: "containerOnce"
-        rootFs: "/home/jenkins"
-        timeout: 10
-      <% end %>
       - command: "pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl}\
           \ -Secret ^${secret} -Name ^${nodeName}"
         cpu: "2"
