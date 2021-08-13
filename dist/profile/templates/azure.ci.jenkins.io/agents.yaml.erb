@@ -376,7 +376,8 @@ jenkins:
         useEphemeralDevices: true
       useInstanceProfileForCredentials: false
   - kubernetes:
-      # 3 workers at 8 CPUs/32Gi each
+      # Max 50 workers (8 CPU / 32 G) with 3 pods (2 CPU / 4G) each
+      containerCap: 150
       credentialsId: "cik8s-kubeconfig"
       directConnection: true
       name: "cik8s"
@@ -386,6 +387,7 @@ jenkins:
       - containers:
         - alwaysPullImage: true
           command: "/usr/local/bin/jenkins-agent"
+          args: ""
           image: "jenkins/inbound-agent:latest-jdk11"
           livenessProbe:
             failureThreshold: 0
@@ -415,6 +417,8 @@ jenkins:
             successThreshold: 0
             timeoutSeconds: 0
           name: "jnlp"
+          command: "/usr/local/bin/jenkins-agent"
+          args: ""
           resourceLimitCpu: "<%= agent["cpus"] %>"
           resourceLimitMemory: "<%= agent["memory"] %>G"
           resourceRequestCpu: "<%= agent["cpus"] %>"
@@ -422,8 +426,8 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "container kubernetes <%= agent["labels"].join(' ') %>"
         name: "jnlp-<%= agent["name"] %>"
-        inheritFrom: "jnlp"
-        instanceCap: <%= (@k8s_workers["cpus"].to_i / agent["cpus"].to_i - 1) * @k8s_workers["amount"].to_i %>
+        imagePullSecrets:
+        - name: "jenkins-dockerhub"
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
       <% end %>
