@@ -3,8 +3,19 @@ profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
 profile::buildmaster::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::buildmaster::proxy_port: 443
 profile::buildmaster::letsencrypt: false
+profile::buildmaster::docker_image: 'jenkins/jenkins'
+profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::groovy_init_enabled: false
 profile::buildmaster::memory_limit: '14g'
+# ! java_opts needs to be java11 compliant
+profile::buildmaster::java_opts: "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
 profile::buildmaster::plugins:
+  - azure-vm-agents
+  - configuration-as-code
+  - github
+  - github-checks
+  - github-branch-source
   - ldap
+  - workflow-aggregator
+  - workflow-multibranch
