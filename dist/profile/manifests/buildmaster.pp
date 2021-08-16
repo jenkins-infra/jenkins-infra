@@ -34,12 +34,21 @@ class profile::buildmaster(
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
   $jcasc_configs                   = [],
-  $jcasc_reload_token              = '',
+  $jcasc_reload_token                     = '',
   # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
   $jcasc_config_dir                = 'casc.d',
   $memory_limit                    = '1g',
   # ! java_opts needs to be java11 compliant
-  $java_opts = "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
+  $java_opts = "-server \
+-Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
+-XX:+UnlockExperimentalVMOptions \
+-XX:+UseG1GC \
+-XX:+ParallelRefProcEnabled \
+-XX:+UnlockDiagnosticVMOptions \
+-Duser.home=${container_jenkins_home} \
+-Djenkins.install.runSetupWizard=false \
+-Djenkins.model.Jenkins.slaveAgentPort=50000 \
+-Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
   $container_agents                = [],
 ) {
   include ::stdlib
@@ -67,7 +76,6 @@ class profile::buildmaster(
   $ldap_admin_password = lookup('ldap_admin_password')
 
   $ssh_dir = "${jenkins_home}/.ssh"
-  $ssh_cli_key = 'jenkins-cli-key'
 
   $script_dir = '/usr/share/jenkins'
   $lockbox_script = "${script_dir}/lockbox.groovy"
@@ -197,7 +205,6 @@ class profile::buildmaster(
       require => [
           User['jenkins'],
           File[$groovy_d],
-          Exec['generate-cli-ssh-key'],
       ],
       content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
       before  => Docker::Run[$docker_container_name],
@@ -317,11 +324,6 @@ class profile::buildmaster(
         File[$jenkins_home],
     ],
   }
-  exec { 'generate-cli-ssh-key':
-    require => File[$jenkins_home],
-    creates => "${ssh_dir}/${ssh_cli_key}",
-    command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
-  }
 
   file { "${ssh_dir}/azure_k8s":
     ensure  => absent,
@@ -343,25 +345,6 @@ class profile::buildmaster(
   ##############################################################################
 
 
-  # Bootstrap the Jenkins internal (to Jenkins) user entity for CLI work
-  ##############################################################################
-  file { "${script_dir}/create-jenkins-cli-user":
-    ensure  => present,
-    require => File[$script_dir],
-    source  => "puppet:///modules/${module_name}/buildmaster/create-jenkins-cli-user",
-    mode    => '0755',
-  }
-
-  exec { 'create-jenkins-cli-user':
-    creates => "${jenkins_home}/users/jenkins/config.xml",
-    command => "${script_dir}/create-jenkins-cli-user",
-    before  => Docker::Run[$docker_container_name],
-    require => [
-      File[$jenkins_home],
-      File["${script_dir}/create-jenkins-cli-user"],
-    ],
-  }
-  ##############################################################################
   # CLI support: legacy support (ensure clean up of old resources)
   ##############################################################################
   file { "${script_dir}/idempotent-cli":
@@ -371,8 +354,6 @@ class profile::buildmaster(
     command     => "/usr/bin/docker restart ${docker_container_name}",
     refreshonly => true,
   }
-
-
   ##############################################################################
 
 

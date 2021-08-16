@@ -53,7 +53,6 @@ describe 'profile::buildmaster' do
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d').with('ensure' => 'directory')}
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d/agents.yaml')}
       it { should contain_exec('install-plugin-configuration-as-code') }
-      it { should contain_exec('jcasc-reload-jenkins') }
       it { should contain_exec('perform-jcasc-reload') }
       it { should contain_exec('safe-restart-jenkins') }
     end
