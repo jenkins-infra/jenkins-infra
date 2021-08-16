@@ -150,13 +150,6 @@ describe 'profile::buildmaster' do
   context 'firewall rules' do
     it { should contain_class 'profile::firewall' }
 
-    it 'should have a CLI port rule' do
-      expect(subject).to contain_firewall('108 Jenkins CLI port').with({
-        :dport => 47278,
-        :action => :accept,
-      })
-    end
-
     it 'should ensure nothing talks directly to Jenkins' do
       expect(subject).to contain_firewall('801 Allow Jenkins web access only on localhost').with({
         :dport => 8080,
