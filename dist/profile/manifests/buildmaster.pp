@@ -19,7 +19,7 @@ class profile::buildmaster(
   $ci_fqdn                         = 'ci.jenkins.io',
   $ci_resource_domain              = 'assets.ci.jenkins.io',
   $docker_image                    = 'jenkins/jenkins',
-  $docker_tag                      = 'lts-alpine',
+  $docker_tag                      = 'lts-jdk11',
   $docker_container_name           = 'jenkins',
   $letsencrypt                     = true,
   $plugins                         = undef,
@@ -38,7 +38,8 @@ class profile::buildmaster(
   # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
   $jcasc_config_dir                = 'casc.d',
   $memory_limit                    = '1g',
-  $java_opts                       = "-XshowSettings:vm -server -Xloggc:${container_jenkins_home}/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
+  # ! java_opts needs to be java11 compliant
+  $java_opts = "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
   $container_agents                = [],
 ) {
   include ::stdlib
