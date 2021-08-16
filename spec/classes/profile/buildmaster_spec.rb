@@ -163,12 +163,5 @@ describe 'profile::buildmaster' do
       })
 
     end
-
-    it 'should allow CLI SSH on 22222' do
-      expect(subject).to contain_firewall('810 Jenkins CLI SSH').with({
-        :dport => 22222,
-        :action => :accept,
-      })
-    end
   end
 end

@@ -34,7 +34,7 @@ class profile::buildmaster(
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
   $jcasc_configs                   = [],
-  $jcasc_token                     = '',
+  $jcasc_reload_token              = '',
   # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
   $jcasc_config_dir                = 'casc.d',
   $memory_limit                    = '1g',
@@ -146,16 +146,9 @@ class profile::buildmaster(
     }
 
     file { "${groovy_d}/enable-ssh-port.groovy":
-      ensure  => $groovy_d_enable_ssh_port,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
-      require => [
-          User['jenkins'],
-          File[$groovy_d],
-      ],
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
+      ensure => absent,
+      before => Docker::Run[$docker_container_name],
+      notify => Service['docker-jenkins'],
     }
 
     file { "${groovy_d}/set-up-git.groovy":
@@ -303,7 +296,7 @@ class profile::buildmaster(
       "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
-    ports            => ['8080:8080', '50000:50000', '22222:22222'],
+    ports            => ['8080:8080', '50000:50000'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
     pull_on_start    => true,
     require          => [
@@ -569,12 +562,6 @@ ProxyPassReverse / http://localhost:8080/
   firewall { '803 Expose JNLP port':
     proto  => 'tcp',
     dport  => 50000,
-    action => 'accept',
-  }
-
-  firewall { '810 Jenkins CLI SSH':
-    proto  => 'tcp',
-    dport  => 22222,
     action => 'accept',
   }
 
