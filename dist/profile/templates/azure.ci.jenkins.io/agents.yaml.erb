@@ -376,8 +376,8 @@ jenkins:
         useEphemeralDevices: true
       useInstanceProfileForCredentials: false
   - kubernetes:
-      # Max 50 workers (8 CPU / 32 G) with 3 pods (2 CPU / 4G) each
-      containerCap: 150
+      # Max 50 workers (8 CPU / 32 G) with 2 pods (4 CPU / 8G) each
+      containerCap: 100
       credentialsId: "cik8s-kubeconfig"
       directConnection: true
       name: "cik8s"

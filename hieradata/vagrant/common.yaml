@@ -12,38 +12,34 @@ profile::buildmaster::container_agents:
     image: jenkinsciinfra/inbound-agent-ruby:latest
     labels:
       - ruby
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: maven
     image: jenkinsciinfra/inbound-agent-maven:jdk8
     labels:
       - maven
       - jdk8
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: maven-11
     image: jenkinsciinfra/inbound-agent-maven:jdk11
     labels:
       - maven-11
       - jdk11
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: node
     image: jenkinsciinfra/inbound-agent-node:latest
     labels:
       - node
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: alpine
     image: jenkins/inbound-agent:alpine
     labels:
       - alpine
-    cpus: 1
-    memory: 2
-profile::buildmaster::k8s_workers:
-  cpus: 8
-  memory: 32
-  amount: 3
+    cpus: 4
+    memory: 8
 profile::buildmaster::plugins:
   - ansicolor
   - azure-container-agents
