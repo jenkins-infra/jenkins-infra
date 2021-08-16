@@ -68,10 +68,6 @@ profile::buildmaster::container_agents:
       - alpine
     cpus: 1
     memory: 2
-profile::buildmaster::k8s_workers:
-  cpus: 8
-  memory: 32
-  amount: 3
 
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
