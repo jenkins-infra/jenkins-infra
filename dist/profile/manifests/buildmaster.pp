@@ -262,11 +262,8 @@ class profile::buildmaster(
         notify  => Exec['perform-jcasc-reload'],
       }
     }
-  } else {
-    $jcasc_java_opt = ''
-  }
 
-  exec { 'perform-jcasc-reload':
+    exec { 'perform-jcasc-reload':
     require     => [
       Exec['install-plugin-configuration-as-code'],
     ],
@@ -276,6 +273,9 @@ class profile::buildmaster(
     try_sleep   => 10,
     refreshonly => true,
     logoutput   => true,
+  }
+  } else {
+    $jcasc_java_opt = ''
   }
 
   ##############################################################################
