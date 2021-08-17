@@ -34,11 +34,9 @@ class profile::buildmaster(
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
   $jcasc_configs                   = [],
-  $jcasc_reload_token                     = '',
-  # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
-  $jcasc_config_dir                = 'casc.d',
+  $jcasc_reload_token              = '',
+  $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
   $memory_limit                    = '1g',
-  # ! java_opts needs to be java11 compliant
   $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
 -XX:+UnlockExperimentalVMOptions \
@@ -48,7 +46,7 @@ class profile::buildmaster(
 -Duser.home=${container_jenkins_home} \
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
--Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
+-Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
   $container_agents                = [],
 ) {
   include ::stdlib
