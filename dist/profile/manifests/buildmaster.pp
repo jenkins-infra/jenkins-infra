@@ -19,7 +19,8 @@ class profile::buildmaster(
   $ci_fqdn                         = 'ci.jenkins.io',
   $ci_resource_domain              = 'assets.ci.jenkins.io',
   $docker_image                    = 'jenkins/jenkins',
-  $docker_tag                      = 'lts-alpine',
+  $docker_tag                      = 'lts-jdk11',
+  $docker_container_name           = 'jenkins',
   $letsencrypt                     = true,
   $plugins                         = undef,
   $proxy_port                      = 443,
@@ -33,10 +34,19 @@ class profile::buildmaster(
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
   $jcasc_configs                   = [],
-  # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
-  $jcasc_config_dir                = 'casc.d',
+  $jcasc_reload_token              = '',
+  $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
   $memory_limit                    = '1g',
-  $java_opts                       = "-XshowSettings:vm -server -Xloggc:${container_jenkins_home}/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2",
+  $java_opts = "-server \
+-Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
+-XX:+UnlockExperimentalVMOptions \
+-XX:+UseG1GC \
+-XX:+ParallelRefProcEnabled \
+-XX:+UnlockDiagnosticVMOptions \
+-Duser.home=${container_jenkins_home} \
+-Djenkins.install.runSetupWizard=false \
+-Djenkins.model.Jenkins.slaveAgentPort=50000 \
+-Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
   $container_agents                = [],
 ) {
   include ::stdlib
@@ -64,13 +74,10 @@ class profile::buildmaster(
   $ldap_admin_password = lookup('ldap_admin_password')
 
   $ssh_dir = "${jenkins_home}/.ssh"
-  $ssh_cli_key = 'jenkins-cli-key'
 
   $script_dir = '/usr/share/jenkins'
-  $cli_script = "${script_dir}/idempotent-cli"
   $lockbox_script = "${script_dir}/lockbox.groovy"
   $groovy_d = "${jenkins_home}/init.groovy.d"
-
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
   $apache_log_dir_assets = "/var/log/apache2/${ci_resource_domain}"
@@ -145,16 +152,9 @@ class profile::buildmaster(
     }
 
     file { "${groovy_d}/enable-ssh-port.groovy":
-      ensure  => $groovy_d_enable_ssh_port,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/enable-ssh-port.groovy",
-      require => [
-          User['jenkins'],
-          File[$groovy_d],
-      ],
-      before  => Docker::Run['jenkins'],
-      notify  => Service['docker-jenkins'],
+      ensure => absent,
+      before => Docker::Run[$docker_container_name],
+      notify => Service['docker-jenkins'],
     }
 
     file { "${groovy_d}/set-up-git.groovy":
@@ -166,7 +166,7 @@ class profile::buildmaster(
           User['jenkins'],
           File[$groovy_d],
       ],
-      before  => Docker::Run['jenkins'],
+      before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
 
@@ -179,7 +179,7 @@ class profile::buildmaster(
           User['jenkins'],
           File[$groovy_d],
       ],
-      before  => Docker::Run['jenkins'],
+      before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
 
@@ -192,7 +192,7 @@ class profile::buildmaster(
           User['jenkins'],
           File[$groovy_d],
       ],
-      before  => Docker::Run['jenkins'],
+      before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
 
@@ -203,10 +203,9 @@ class profile::buildmaster(
       require => [
           User['jenkins'],
           File[$groovy_d],
-          Exec['generate-cli-ssh-key'],
       ],
       content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
-      before  => Docker::Run['jenkins'],
+      before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
 
@@ -219,7 +218,7 @@ class profile::buildmaster(
           File["${ssh_dir}/azure_k8s.pub"],
       ],
       source  => "puppet:///modules/${module_name}/buildmaster/terraform-credentials.groovy",
-      before  => Docker::Run['jenkins'],
+      before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
   }
@@ -228,7 +227,7 @@ class profile::buildmaster(
   ##############################################################################
   # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
   ##############################################################################
-  if size($jcasc_configs) > 0 {
+  unless $jcasc_configs.empty {
     file { "${jenkins_home}/${jcasc_config_dir}" :
       ensure  => directory,
       owner   => 'jenkins',
@@ -241,7 +240,11 @@ class profile::buildmaster(
     }
 
     # Define Casc directory through java opts to avoid conditional environment variable
-    $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir}"
+    if $jcasc_reload_token != '' {
+      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir} -Dcasc.reload.token=${jcasc_reload_token}"
+    } else {
+      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir}"
+    }
 
     $jcasc_configs.each | $jcasc_config_source_file | {
       $jcasc_config_file = basename($jcasc_config_source_file)
@@ -255,17 +258,29 @@ class profile::buildmaster(
             User['jenkins'],
             File["${jenkins_home}/${jcasc_config_dir}"],
         ],
-        before  => Docker::Run['jenkins'],
-        notify  => Exec['jcasc-reload-jenkins'],
+        before  => Docker::Run[$docker_container_name],
+        notify  => Exec['perform-jcasc-reload'],
       }
     }
   } else {
     $jcasc_java_opt = ''
   }
 
+  exec { 'perform-jcasc-reload':
+    require     => [
+      Exec['install-plugin-configuration-as-code'],
+    ],
+    command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${jcasc_reload_token}",
+    #   # Retry for 300s: jenkins might be restarting
+    tries       => 30,
+    try_sleep   => 10,
+    refreshonly => true,
+    logoutput   => true,
+  }
+
   ##############################################################################
 
-  docker::run { 'jenkins':
+  docker::run { $docker_container_name:
     memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
     # This is a "clever" hack to force the init script to pass the numeric UID
@@ -286,7 +301,7 @@ class profile::buildmaster(
       "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
-    ports            => ['8080:8080', '50000:50000', '22222:22222'],
+    ports            => ['8080:8080', '50000:50000'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
     pull_on_start    => true,
     require          => [
@@ -306,11 +321,6 @@ class profile::buildmaster(
         User['jenkins'],
         File[$jenkins_home],
     ],
-  }
-  exec { 'generate-cli-ssh-key':
-    require => File[$jenkins_home],
-    creates => "${ssh_dir}/${ssh_cli_key}",
-    command => "/usr/bin/ssh-keygen -b 4096 -q -f ${ssh_dir}/${ssh_cli_key} -N ''",
   }
 
   file { "${ssh_dir}/azure_k8s":
@@ -333,62 +343,14 @@ class profile::buildmaster(
   ##############################################################################
 
 
-  # Bootstrap the Jenkins internal (to Jenkins) user entity for CLI work
+  # CLI support: legacy support (ensure clean up of old resources)
   ##############################################################################
-  file { "${script_dir}/create-jenkins-cli-user":
-    ensure  => present,
-    require => File[$script_dir],
-    source  => "puppet:///modules/${module_name}/buildmaster/create-jenkins-cli-user",
-    mode    => '0755',
-  }
-
-  exec { 'create-jenkins-cli-user':
-    creates => "${jenkins_home}/users/jenkins/config.xml",
-    command => "${script_dir}/create-jenkins-cli-user",
-    before  => Docker::Run['jenkins'],
-    require => [
-      File[$jenkins_home],
-      File["${script_dir}/create-jenkins-cli-user"],
-    ],
-  }
-  ##############################################################################
-
-  # CLI support
-  ##############################################################################
-  file { $cli_script:
-    ensure  => present,
-    require => File[$script_dir],
-    source  => "puppet:///modules/${module_name}/buildmaster/idempotent-cli",
-    mode    => '0755',
+  file { "${script_dir}/idempotent-cli":
+    ensure  => absent,
   }
   exec { 'safe-restart-jenkins':
-    require     => [
-      File[$cli_script],
-    ],
-    command     => "${cli_script} safe-restart",
+    command     => "/usr/bin/docker restart ${docker_container_name}",
     refreshonly => true,
-  }
-
-  $jcasc_cli_subcommand = 'reload-jcasc-configuration'
-  exec { 'jcasc-reload-jenkins':
-    require     => [
-      Exec['install-plugin-configuration-as-code'],
-      Exec['safe-restart-jenkins'],
-    ],
-    notify      => Exec['perform-jcasc-reload'],
-    command     => "/usr/share/jenkins/idempotent-cli help 2>&1 | grep -q ${jcasc_cli_subcommand}",
-    # Retry for 300s: jenkins might be restarting
-    tries       => 30,
-    try_sleep   => 10,
-    refreshonly => true,
-  }
-  exec { 'perform-jcasc-reload':
-    require     => [
-      File[$cli_script],
-    ],
-    command     => "${cli_script} ${jcasc_cli_subcommand}",
-    refreshonly => true,
-    logoutput   => true,
   }
   ##############################################################################
 
@@ -400,17 +362,7 @@ class profile::buildmaster(
   profile::jenkinsplugin { $plugins:
     # Only install plugins after we've secured Jenkins, that seems reasonable
     require => [
-      File[$cli_script],
       File[$groovy_d],
-    ],
-  }
-
-  exec { 'jenkins-reload-config':
-    command     => "${cli_script} reload-configuration",
-    refreshonly => true,
-    require     => [
-      File[$cli_script],
-      Exec['generate-cli-ssh-key'],
     ],
   }
 
@@ -440,7 +392,7 @@ class profile::buildmaster(
       'ci.jenkins-ci.org', $ci_resource_domain,
     ],
     require               => [
-      Docker::Run['jenkins'],
+      Docker::Run[$docker_container_name],
       File[$docroot],
       # We need our installation to be secure before we allow access
       File[$groovy_d],
@@ -494,7 +446,7 @@ ProxyPassReverse / http://localhost:8080/
 
   apache::vhost { $ci_resource_domain:
     require               => [
-      Docker::Run['jenkins'],
+      Docker::Run[$docker_container_name],
       File[$docroot],
       # We need our installation to be secure before we allow access
       File[$groovy_d],
@@ -573,13 +525,6 @@ ProxyPassReverse / http://localhost:8080/
     require         => Apache::Vhost[$ci_resource_domain],
   }
 
-  # This is a legacy role imported from infra-puppet, thus the goofy numbering
-  firewall { '108 Jenkins CLI port' :
-    proto  => 'tcp',
-    dport  => 47278,
-    action => 'accept',
-  }
-
   firewall { '801 Allow Jenkins web access only on localhost':
     proto   => 'tcp',
     dport   => 8080,
@@ -596,12 +541,6 @@ ProxyPassReverse / http://localhost:8080/
   firewall { '803 Expose JNLP port':
     proto  => 'tcp',
     dport  => 50000,
-    action => 'accept',
-  }
-
-  firewall { '810 Jenkins CLI SSH':
-    proto  => 'tcp',
-    dport  => 22222,
     action => 'accept',
   }
 

@@ -53,7 +53,6 @@ describe 'profile::buildmaster' do
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d').with('ensure' => 'directory')}
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d/agents.yaml')}
       it { should contain_exec('install-plugin-configuration-as-code') }
-      it { should contain_exec('jcasc-reload-jenkins') }
       it { should contain_exec('perform-jcasc-reload') }
       it { should contain_exec('safe-restart-jenkins') }
     end
@@ -150,13 +149,6 @@ describe 'profile::buildmaster' do
   context 'firewall rules' do
     it { should contain_class 'profile::firewall' }
 
-    it 'should have a CLI port rule' do
-      expect(subject).to contain_firewall('108 Jenkins CLI port').with({
-        :dport => 47278,
-        :action => :accept,
-      })
-    end
-
     it 'should ensure nothing talks directly to Jenkins' do
       expect(subject).to contain_firewall('801 Allow Jenkins web access only on localhost').with({
         :dport => 8080,
@@ -169,13 +161,6 @@ describe 'profile::buildmaster' do
         :action => :drop,
       })
 
-    end
-
-    it 'should allow CLI SSH on 22222' do
-      expect(subject).to contain_firewall('810 Jenkins CLI SSH').with({
-        :dport => 22222,
-        :action => :accept,
-      })
     end
   end
 end

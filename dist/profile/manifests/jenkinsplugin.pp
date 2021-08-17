@@ -12,7 +12,7 @@ define profile::jenkinsplugin (
     ## The container should be running to allow a docker exec command at least
     require   => Docker::Run['jenkins'],
     ## Install the plugin (if needed) in the container, e.g. with the jenkins home mounted in /var/jenkins_home
-    command   => "/usr/share/jenkins/idempotent-cli install-plugin ${name}",
+    command   => "docker exec jenkins jenkins-plugin-cli --plugins ${name} --plugin-download-directory /var/jenkins_home/plugins",
     tries     => 10,
     try_sleep => 10,
     path      => ['/bin', '/usr/bin'],

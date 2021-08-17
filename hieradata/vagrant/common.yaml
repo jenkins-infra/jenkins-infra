@@ -6,6 +6,8 @@ profile::accountapp::smtp_user: 'smtp_user_example'
 profile::accountapp::smtp_password: 'smtp_password_example'
 profile::accountapp::jira_password: 'jira_password_example'
 
+profile::buildmaster::docker_image: 'jenkins/jenkins'
+profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::memory_limit: '1536m'
 profile::buildmaster::container_agents:
   - name: ruby
@@ -65,6 +67,7 @@ profile::buildmaster::plugins:
   - jobConfigHistory
   - ldap
   - lockable-resources
+  - matrix-auth
   - parallel-test-executor
   - pipeline-stage-view
   - pipeline-utility-steps
@@ -78,8 +81,11 @@ profile::buildmaster::plugins:
   - workflow-multibranch
 # Provide a path relative to the "templates/" directory
 profile::buildmaster::jcasc_configs:
+  # Same agent configuration as ci.jenkins.io!
   - azure.ci.jenkins.io/agents.yaml
-
+  # Custom authN/authZ
+  - vagrant/security.yaml
+profile::buildmaster::jcasc_reload_token: SuperSecretThatShouldBeEncryptedInProduction
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
 profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
