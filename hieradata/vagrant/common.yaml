@@ -10,38 +10,44 @@ profile::buildmaster::docker_image: 'jenkins/jenkins'
 profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::memory_limit: '1536m'
 profile::buildmaster::container_agents:
-  - name: ruby
+  - name: jnlp-ruby
     image: jenkinsciinfra/inbound-agent-ruby:latest
     labels:
       - ruby
-    cpus: 4
-    memory: 8
-  - name: maven
+    cpus: 2
+    memory: 4
+  - name: jnlp-maven-8
     image: jenkinsciinfra/inbound-agent-maven:jdk8
     labels:
       - maven
       - jdk8
-    cpus: 4
-    memory: 8
-  - name: maven-11
+    cpus: 2
+    memory: 4
+  - name: jnlp-maven-11
     image: jenkinsciinfra/inbound-agent-maven:jdk11
     labels:
       - maven-11
       - jdk11
-    cpus: 4
-    memory: 8
-  - name: node
+    cpus: 2
+    memory: 4
+  - name: jnlp-node
     image: jenkinsciinfra/inbound-agent-node:latest
     labels:
       - node
-    cpus: 4
-    memory: 8
-  - name: alpine
+    cpus: 2
+    memory: 4
+  - name: jnlp-alpine
     image: jenkins/inbound-agent:alpine
     labels:
       - alpine
-    cpus: 4
-    memory: 8
+    cpus: 1
+    memory: 2
+  - name: jnlp
+    image: jenkins/inbound-agent:latest-jdk11
+    labels:
+      - default
+    cpus: 1
+    memory: 1
 profile::buildmaster::plugins:
   - ansicolor
   - azure-container-agents
