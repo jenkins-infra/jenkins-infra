@@ -35,38 +35,45 @@ profile::buildmaster::jcasc_configs:
 profile::buildmaster::jcasc_reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
 # Agents configuration
 profile::buildmaster::container_agents:
-  - name: ruby
+  - name: jnlp-ruby
     image: jenkinsciinfra/inbound-agent-ruby:latest
     labels:
       - ruby
     cpus: 2
     memory: 4
-  - name: maven
+  - name: jnlp-maven-8
     image: jenkinsciinfra/inbound-agent-maven:jdk8
     labels:
       - maven
       - jdk8
     cpus: 2
     memory: 4
-  - name: maven-11
+  - name: jnlp-maven-11
     image: jenkinsciinfra/inbound-agent-maven:jdk11
     labels:
       - maven-11
       - jdk11
     cpus: 2
     memory: 4
-  - name: node
+  - name: jnlp-node
     image: jenkinsciinfra/inbound-agent-node:latest
     labels:
       - node
     cpus: 2
     memory: 4
-  - name: alpine
+  - name: jnlp-alpine
     image: jenkins/inbound-agent:alpine
     labels:
       - alpine
     cpus: 1
     memory: 2
+  - name: jnlp
+    image: jenkins/inbound-agent:latest-jdk11
+    labels:
+      - default
+    cpus: 1
+    memory: 1
+
 
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:

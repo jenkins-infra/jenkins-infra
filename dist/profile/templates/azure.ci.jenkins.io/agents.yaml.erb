@@ -384,31 +384,9 @@ jenkins:
       namespace: "jenkins-agents"
       serverUrl: "<%= @agents_kubernetes_cik8s_url %>"
       templates:
-      - containers:
-        - alwaysPullImage: true
-          command: "/usr/local/bin/jenkins-agent"
-          args: ""
-          image: "jenkins/inbound-agent:latest-jdk11"
-          livenessProbe:
-            failureThreshold: 0
-            initialDelaySeconds: 0
-            periodSeconds: 0
-            successThreshold: 0
-            timeoutSeconds: 0
-          name: "jnlp"
-          resourceLimitCpu: "1"
-          resourceLimitMemory: "1G"
-          resourceRequestCpu: "1"
-          resourceRequestMemory: "1G"
-          workingDir: "/home/jenkins"
-        name: "jnlp"
-        imagePullSecrets:
-        - name: "jenkins-dockerhub"
-        slaveConnectTimeout: 100
-        yamlMergeStrategy: "override"
       <% @container_agents.each do |agent| %>
       - containers:
-        - alwaysPullImage: true
+        - alwaysPullImage: false
           image: "<%= agent["image"] %>"
           livenessProbe:
             failureThreshold: 0
@@ -425,7 +403,7 @@ jenkins:
           resourceRequestMemory: "<%= agent["memory"] %>G"
           workingDir: "/home/jenkins"
         label: "container kubernetes <%= agent["labels"].join(' ') %>"
-        name: "jnlp-<%= agent["name"] %>"
+        name: "<%= agent["name"] %>"
         imagePullSecrets:
         - name: "jenkins-dockerhub"
         slaveConnectTimeout: 100
