@@ -1,0 +1,17 @@
+---
+sources:
+  getAzureGalleryLatestVersion:
+    kind: githubRelease
+    spec:
+      owner: "jenkins-infra"
+      repository: "packer-images"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+
+targets:
+  setAzureGalleryImageVersion:
+    source: getAzureGalleryLatestVersion
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agents_azure_vms_gallery_image_version"
