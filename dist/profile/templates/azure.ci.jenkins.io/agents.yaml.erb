@@ -385,7 +385,7 @@ jenkins:
       serverUrl: "<%= @agents_kubernetes_cik8s_url %>"
       templates:
       - containers:
-        - alwaysPullImage: true
+        - alwaysPullImage: false
           command: "/usr/local/bin/jenkins-agent"
           args: ""
           image: "jenkins/inbound-agent:latest-jdk11"
@@ -408,7 +408,7 @@ jenkins:
         yamlMergeStrategy: "override"
       <% @container_agents.each do |agent| %>
       - containers:
-        - alwaysPullImage: true
+        - alwaysPullImage: false
           image: "<%= agent["image"] %>"
           livenessProbe:
             failureThreshold: 0
