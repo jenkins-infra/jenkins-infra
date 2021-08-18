@@ -6,6 +6,8 @@ on:
   schedule:
     # Run every 15minutes
     - cron: '*/15 * * * *'
+  push:
+  pull_request:
 jobs:
   updatecli:
     runs-on: ubuntu-latest
@@ -22,6 +24,7 @@ jobs:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply
         uses: updatecli/updatecli-action@v1
+        if: github.ref == 'refs/heads/production'
         with:
           command: apply
           flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
