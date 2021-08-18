@@ -1,8 +1,0 @@
-github:
-  user: "updatebot"
-  email: "updatebot@olblak.com"
-  username: "olblak"
-  token: "UPDATECLI_GITHUB_TOKEN" 
-  branch: "staging"
-  owner: "olblak"
-  repository: "jenkins-infra"
