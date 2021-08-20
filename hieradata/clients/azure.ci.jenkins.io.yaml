@@ -1,4 +1,3 @@
----
 accounts:
   wfollonier:
     ssh_keys:
@@ -62,7 +61,7 @@ profile::buildmaster::container_agents:
     cpus: 2
     memory: 4
   - name: jnlp-alpine
-    image: jenkins/inbound-agent:alpine
+    image: jenkins/inbound-agent@sha256:1d70dc7c24c4caf6eea214744b7a6e161458ad55706c81b8a9cf00cab1429af7
     labels:
       - alpine
     cpus: 1
@@ -73,8 +72,6 @@ profile::buildmaster::container_agents:
       - default
     cpus: 1
     memory: 1
-
-
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - ansicolor
