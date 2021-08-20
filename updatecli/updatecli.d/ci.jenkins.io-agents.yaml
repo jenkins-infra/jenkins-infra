@@ -1,0 +1,166 @@
+---
+title: Bump ci.jenkins.io agent templates
+sources:
+  getAzureGalleryLatestVersion:
+    kind: githubRelease
+    spec:
+      owner: "jenkins-infra"
+      repository: "packer-images"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+  getLatestInboundRubyContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-ruby"
+      tag: "latest"
+  getLatestInboundMaven8ContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk8"
+  getLatestInboundMaven11ContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk11"
+  getLatestInboundNodeContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-node"
+      tag: "latest"
+  getLatestInboundAlpineContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkins/inbound-agent"
+      tag: "alpine"
+  getLatestInboundJDK11ContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkins/inbound-agent"
+      tag: "latest-jdk11"
+
+targets:
+  setAzureGalleryImageVersion:
+    sourceID: getAzureGalleryLatestVersion
+    name: "Bump Azure Gallery Image Version"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agents_azure_vms_gallery_image_version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundRubyContainerImage:
+    sourceID: getLatestInboundRubyContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[0].image"
+    transformers:
+      - addPrefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundMaven8ContainerImage:
+    sourceID: getLatestInboundMaven8ContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK8)"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[1].image"
+    transformers:
+      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundMaven11ContainerImage:
+    sourceID: getLatestInboundMaven11ContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK11)"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[2].image"
+    transformers:
+      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundNodeContainerImage:
+    sourceID: getLatestInboundNodeContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[3].image"
+    transformers:
+      - addPrefix: "jenkinsciinfra/inbound-agent-node@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundAlpineContainerImage:
+    sourceID: getLatestInboundAlpineContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[4].image"
+    transformers:
+      - addPrefix: "jenkins/inbound-agent@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundJDK11ContainerImage:
+    sourceID: getLatestInboundJDK11ContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
+    kind: yaml
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::buildmaster::container_agents[5].image"
+    transformers:
+      - addPrefix: "jenkins/inbound-agent@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
