@@ -41,7 +41,7 @@ profile::buildmaster::container_agents:
     cpus: 2
     memory: 4
   - name: jnlp-maven-8
-    image: jenkinsciinfra/inbound-agent-maven@sha256:118118ce0d2750818e4b172c04d82f2d673b26cd3b3839a0c0be4cff525f185d
+    image: jenkinsciinfra/inbound-agent-maven@sha256:3c9c58d8676e27f0a601c02a372e77ac3d13d14931ea2e44ca1ddb82a725b620
     labels:
       - maven
       - jdk8
