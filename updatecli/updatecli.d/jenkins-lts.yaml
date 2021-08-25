@@ -30,6 +30,11 @@ conditions:
         username: "{{ .github.username }}"
         branch: "{{ .github.branch }}"
 
+  testDockerImageExist:
+    kind: dockerImage
+    spec:
+      image: "jenkins/jenkins"
+
 targets:
   imageTag:
     name: "Update Docker Image Digest for jenkins/jenkins:lts"
