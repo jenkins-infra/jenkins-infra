@@ -404,8 +404,6 @@ jenkins:
           workingDir: "/home/jenkins"
         label: "container kubernetes <%= agent["labels"].join(' ') %>"
         name: "<%= agent["name"] %>"
-        imagePullSecrets:
-        - name: "jenkins-dockerhub"
         slaveConnectTimeout: 100
         yamlMergeStrategy: "override"
       <% end %>
