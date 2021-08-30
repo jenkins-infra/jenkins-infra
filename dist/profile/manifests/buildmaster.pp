@@ -300,6 +300,7 @@ class profile::buildmaster(
       'USER=jenkins',
       "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
+      'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
     ],
     ports            => ['8080:8080', '50000:50000'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
