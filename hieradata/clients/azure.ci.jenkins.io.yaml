@@ -111,11 +111,11 @@ profile::buildmaster::ec2_agents:
       - arm64docker
 profile::buildmaster::tools:
   jdk8:
-    version: "8u292-b10"
-    sourceURL: https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download
+    version: "8u302-b08"
+    sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
-    version: "11.0.6+10"
-    sourceURL: https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download
+    version: "11.0.12+7"
+    sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   maven:
     version: "3.8.1"
   groovy:
