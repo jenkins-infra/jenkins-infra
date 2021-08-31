@@ -72,6 +72,43 @@ profile::buildmaster::container_agents:
       - default
     cpus: 1
     memory: 1
+profile::buildmaster::ec2_agents:
+  - description: "Ubuntu 20.04 LTS"
+    maxInstances: 5
+    amiId: "ami-069e592870a22fe97"
+    instanceType: T3aLarge
+    os: "linux"
+    architecture: "amd64"
+    labels:
+      - java
+      - docker
+  - description: "Windows 2019"
+    maxInstances: 10
+    amiId: "ami-08d0fa3cc1b887e2e"
+    instanceType: T3Xlarge
+    os: "windows"
+    architecture: "amd64"
+    labels:
+      - windock
+  - description: "High memory ubuntu 20.04"
+    maxInstances: 20
+    amiId: "ami-069e592870a22fe97"
+    instanceType: M5ad4xlarge
+    os: "linux"
+    architecture: "amd64"
+    labels:
+      - highmem
+      - highram
+      - docker
+  - description: "ARM64 ubuntu 20.04"
+    maxInstances: 2
+    amiId: "ami-01e7a03425bdc4cb1"
+    instanceType: A1Xlarge
+    os: "linux"
+    architecture: "arm64"
+    labels:
+      - arm64docker
+
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - ansicolor
