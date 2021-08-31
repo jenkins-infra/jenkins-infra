@@ -38,6 +38,7 @@ class profile::buildmaster(
   $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
   $container_agents                = [],
   $ec2_agents                      = [],
+  $tools                           = {},
   $memory_limit                    = '1g',
   $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
