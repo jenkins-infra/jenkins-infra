@@ -36,6 +36,8 @@ class profile::buildmaster(
   $jcasc_configs                   = [],
   $jcasc_reload_token              = '',
   $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
+  $container_agents                = [],
+  $ec2_agents                      = [],
   $memory_limit                    = '1g',
   $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
@@ -47,7 +49,6 @@ class profile::buildmaster(
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
-  $container_agents                = [],
 ) {
   include ::stdlib
   include ::apache

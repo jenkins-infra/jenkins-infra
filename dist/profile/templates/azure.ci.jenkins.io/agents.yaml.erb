@@ -220,8 +220,10 @@ jenkins:
       instanceCapStr: "30"
       region: "us-east-2"
       sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+      useInstanceProfileForCredentials: false
       templates:
-      - ami: "ami-069e592870a22fe97"
+      <%- @ec2_agents.each do |agent| %>
+      - ami: "<%= agent["amiId"] %>"
         amiOwners: "200564066411"
         amiType:
           unixData:
@@ -230,51 +232,13 @@ jenkins:
         connectBySSHProcess: false
         connectionStrategy: PUBLIC_DNS
         deleteRootOnTermination: true
-        description: "Ubuntu 20.04 LTS"
+        description: "<%= agent["description"] %>"
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
         idleTerminationMinutes: "30"
-        instanceCapStr: "5"
-        labelString: "linux java docker amd64 aws vm"
-        launchTimeoutStr: "600"
-        maxTotalUses: 30
-        minimumNumberOfInstances: 0
-        minimumNumberOfSpareInstances: 0
-        mode: NORMAL
-        monitoring: false
-        numExecutors: 1
-        remoteAdmin: "jenkins"
-        remoteFS: "/home/jenkins"
-        securityGroups: "ci-agents"
-        stopOnTerminate: false
-        t2Unlimited: false
-        tags:
-        - name: "jenkins"
-          value: "ci.jenkins.io"
-        - name: "os"
-          value: "linux"
-        - name: "architecture"
-          value: "amd64"
-        tenancy: Default
-        type: T3aLarge
-        useEphemeralDevices: true
-      - ami: "ami-08d0fa3cc1b887e2e"
-        amiOwners: "200564066411"
-        amiType:
-          unixData:
-            sshPort: "22"
-        associatePublicIp: true
-        connectBySSHProcess: false
-        connectionStrategy: PUBLIC_DNS
-        deleteRootOnTermination: true
-        description: "Windows 2019"
-        ebsEncryptRootVolume: DEFAULT
-        ebsOptimized: false
-        hostKeyVerificationStrategy: ACCEPT_NEW
-        idleTerminationMinutes: "30"
-        instanceCapStr: "10"
-        labelString: "windows windock amd64 aws vm"
+        instanceCapStr: "<%= agent["maxInstances"] %>"
+        labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 30
         minimumNumberOfInstances: 0
@@ -282,99 +246,30 @@ jenkins:
         mode: NORMAL
         monitoring: false
         numExecutors: 1
+        <%- if agent["os"] == "windows" -%>
         remoteAdmin: "Administrator"
         remoteFS: "C:\\Jenkins"
+        <%- else %>
+        remoteAdmin: "jenkins"
+        remoteFS: "/home/jenkins"
+        <%- end %>
         securityGroups: "ci-agents"
         stopOnTerminate: false
         t2Unlimited: false
         tags:
+        - name: "architecture"
+          value: "<%= agent["architecture"] %>"
+        - name: "os"
+          value: "<%= agent["os"] %>"
         - name: "jenkins"
           value: "ci.jenkins.io"
-        - name: "os"
-          value: "windows-2019"
-        - name: "architecture"
-          value: "amd64"
         tenancy: Default
+        type: <%= agent["instanceType"] %>
+        <%- if agent["os"] == "windows" -%>
         tmpDir: "C:\\\\temp"
-        type: T3Xlarge
+        <%- end %>
         useEphemeralDevices: true
-      - ami: "ami-069e592870a22fe97"
-        amiOwners: "200564066411"
-        amiType:
-          unixData:
-            sshPort: "22"
-        associatePublicIp: true
-        connectBySSHProcess: false
-        connectionStrategy: PUBLIC_DNS
-        deleteRootOnTermination: true
-        description: "High memory ubuntu 20.04 "
-        ebsEncryptRootVolume: DEFAULT
-        ebsOptimized: false
-        hostKeyVerificationStrategy: ACCEPT_NEW
-        idleTerminationMinutes: "30"
-        instanceCapStr: "20"
-        labelString: "highmem highram docker linux amd64 aws vm"
-        launchTimeoutStr: "600"
-        maxTotalUses: 30
-        minimumNumberOfInstances: 0
-        minimumNumberOfSpareInstances: 0
-        mode: NORMAL
-        monitoring: false
-        numExecutors: 1
-        remoteAdmin: "jenkins"
-        remoteFS: "/home/jenkins"
-        securityGroups: "ci-agents"
-        stopOnTerminate: false
-        t2Unlimited: false
-        tags:
-        - name: "architecture"
-          value: "amd64"
-        - name: "os"
-          value: "linux"
-        - name: "jenkins"
-          value: "ci.jenkins.io"
-        tenancy: Default
-        type: M5ad4xlarge
-        useEphemeralDevices: true
-      - ami: "ami-01e7a03425bdc4cb1"
-        amiOwners: "200564066411"
-        amiType:
-          unixData:
-            sshPort: "22"
-        associatePublicIp: true
-        connectBySSHProcess: false
-        connectionStrategy: PUBLIC_DNS
-        deleteRootOnTermination: true
-        description: "ARM64 ubuntu 20.04 "
-        ebsEncryptRootVolume: DEFAULT
-        ebsOptimized: false
-        hostKeyVerificationStrategy: ACCEPT_NEW
-        idleTerminationMinutes: "30"
-        instanceCapStr: "2"
-        labelString: "arm64 arm64docker aws vm"
-        launchTimeoutStr: "600"
-        maxTotalUses: 30
-        minimumNumberOfInstances: 0
-        minimumNumberOfSpareInstances: 0
-        mode: NORMAL
-        monitoring: false
-        numExecutors: 1
-        remoteAdmin: "jenkins"
-        remoteFS: "/home/jenkins"
-        securityGroups: "ci-agents"
-        stopOnTerminate: false
-        t2Unlimited: false
-        tags:
-        - name: "architecture"
-          value: "arm64"
-        - name: "os"
-          value: "linux"
-        - name: "jenkins"
-          value: "ci.jenkins.io"
-        tenancy: Default
-        type: A1Xlarge
-        useEphemeralDevices: true
-      useInstanceProfileForCredentials: false
+      <%- end %>
   - kubernetes:
       # Max 50 workers (8 CPU / 32 G) with 2 pods (4 CPU / 8G) each
       containerCap: 100
@@ -384,29 +279,29 @@ jenkins:
       namespace: "jenkins-agents"
       serverUrl: "<%= @agents_kubernetes_cik8s_url %>"
       templates:
-      <% @container_agents.each do |agent| %>
-      - containers:
-        - alwaysPullImage: false
-          image: "<%= agent["image"] %>"
-          livenessProbe:
-            failureThreshold: 0
-            initialDelaySeconds: 0
-            periodSeconds: 0
-            successThreshold: 0
-            timeoutSeconds: 0
-          name: "jnlp"
-          command: "/usr/local/bin/jenkins-agent"
-          args: ""
-          resourceLimitCpu: "<%= agent["cpus"] %>"
-          resourceLimitMemory: "<%= agent["memory"] %>G"
-          resourceRequestCpu: "<%= agent["cpus"] %>"
-          resourceRequestMemory: "<%= agent["memory"] %>G"
-          workingDir: "/home/jenkins"
-        label: "container kubernetes <%= agent["labels"].join(' ') %>"
-        name: "<%= agent["name"] %>"
-        slaveConnectTimeout: 100
-        yamlMergeStrategy: "override"
-      <% end %>
+      <%- @container_agents.each do |agent| %>
+        - containers:
+          - alwaysPullImage: false
+            image: "<%= agent["image"] %>"
+            livenessProbe:
+              failureThreshold: 0
+              initialDelaySeconds: 0
+              periodSeconds: 0
+              successThreshold: 0
+              timeoutSeconds: 0
+            name: "jnlp"
+            command: "/usr/local/bin/jenkins-agent"
+            args: ""
+            resourceLimitCpu: "<%= agent["cpus"] %>"
+            resourceLimitMemory: "<%= agent["memory"] %>G"
+            resourceRequestCpu: "<%= agent["cpus"] %>"
+            resourceRequestMemory: "<%= agent["memory"] %>G"
+            workingDir: "/home/jenkins"
+          label: "container kubernetes <%= agent["labels"].join(' ') %>"
+          name: "<%= agent["name"] %>"
+          slaveConnectTimeout: 100
+          yamlMergeStrategy: "override"
+      <%- end %>
   nodes:
   - permanent:
       labelString: "ppc64le ppc64ledocker"
