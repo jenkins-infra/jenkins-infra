@@ -1,7 +1,7 @@
 ---
 title: Bump ci.jenkins.io agent templates
 sources:
-  getAzureGalleryLatestVersion:
+  packerImageVersion:
     kind: githubRelease
     spec:
       owner: "jenkins-infra"
@@ -38,10 +38,28 @@ sources:
     spec:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
+  getLatestUbuntuAgentAMIAmd64:
+    kind: shell
+    depends_on:
+      - packerImageVersion
+    spec:
+      command: bash ./updatecli/updatecli.d/get-ami.sh ubuntu-20 amd64 {{ source "packerImageVersion" }}
+  getLatestUbuntuAgentAMIArm64:
+    kind: shell
+    depends_on:
+      - packerImageVersion
+    spec:
+      command: bash ./updatecli/updatecli.d/get-ami.sh ubuntu-20 arm64 {{ source "packerImageVersion" }}
+  getLatestWindowsAgentAMIAmd64:
+    kind: shell
+    depends_on:
+      - packerImageVersion
+    spec:
+      command: bash ./updatecli/updatecli.d/get-ami.sh windows-2019 amd64 {{ source "packerImageVersion" }}
 
 targets:
   setAzureGalleryImageVersion:
-    sourceID: getAzureGalleryLatestVersion
+    sourceID: packerImageVersion
     name: "Bump Azure Gallery Image Version"
     kind: yaml
     spec:
@@ -155,6 +173,54 @@ targets:
       key: "profile::buildmaster::container_agents[5].image"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setUbuntuAgentAMIAmd64:
+    name: "Bump AMI ID for Ubuntu AMD64 agents"
+    kind: yaml
+    sourceID: getLatestUbuntuAgentAMIAmd64
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::ec2_amis.ubuntu-amd64"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setUbuntuAgentAMIArm64:
+    name: "Bump AMI ID for Ubuntu ARM64 agents"
+    kind: yaml
+    sourceID: getLatestUbuntuAgentAMIArm64
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::ec2_amis.ubuntu-arm64"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setWindowsAgentAMIamd64:
+    name: "Bump AMI ID for Windows AMD64 agents"
+    kind: yaml
+    sourceID: getLatestWindowsAgentAMIAmd64
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::ec2_amis.windows-amd64"
     scm:
       github:
         user: "{{ .github.user }}"

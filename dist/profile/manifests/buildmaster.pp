@@ -38,6 +38,7 @@ class profile::buildmaster(
   $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
   $container_agents                = [],
   $ec2_agents                      = [],
+  $ec2_amis                        = {},
   $tools                           = {},
   $memory_limit                    = '1g',
   $java_opts = "-server \
