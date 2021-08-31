@@ -223,7 +223,7 @@ jenkins:
       useInstanceProfileForCredentials: false
       templates:
       <%- @ec2_agents.each do |agent| %>
-      - ami: "<%= agent["amiId"] %>"
+      - ami: "<%= @ec2_amis[agent["os"].to_s + "-" + agent["architecture"].to_s] %>"
         amiOwners: "200564066411"
         amiType:
           unixData:

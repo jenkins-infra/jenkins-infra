@@ -76,16 +76,15 @@ profile::buildmaster::container_agents:
 profile::buildmaster::ec2_agents:
   - description: "Ubuntu 20.04 LTS"
     maxInstances: 5
-    amiId: "ami-07f1fc1d40738a4af"
     instanceType: T3aLarge
-    os: "linux"
+    os: "ubuntu"
     architecture: "amd64"
     labels:
       - java
       - docker
+      - linux
   - description: "Windows 2019"
     maxInstances: 10
-    amiId: "ami-06b7a50f05f0b2bd4"
     instanceType: T3Xlarge
     os: "windows"
     architecture: "amd64"
@@ -93,22 +92,22 @@ profile::buildmaster::ec2_agents:
       - windock
   - description: "High memory ubuntu 20.04"
     maxInstances: 20
-    amiId: "ami-008a58d505497af7d"
     instanceType: M5ad4xlarge
-    os: "linux"
+    os: "ubuntu"
     architecture: "amd64"
     labels:
       - highmem
       - highram
       - docker
+      - linux
   - description: "ARM64 ubuntu 20.04"
     maxInstances: 2
-    amiId: "ami-0b00f8b197dbe48a3"
     instanceType: A1Xlarge
-    os: "linux"
+    os: "ubuntu"
     architecture: "arm64"
     labels:
       - arm64docker
+      - linux
 profile::buildmaster::tools:
   jdk8:
     version: "8u302-b08"

@@ -14,19 +14,35 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
-      - name: Diff
-        uses: updatecli/updatecli-action@v1
+      - name: Install updatecli
+        run: |
+          curl -sSL https://github.com/updatecli/updatecli/releases/download/v0.7.1/updatecli_Linux_x86_64.tar.gz -o updatecli.tgz
+          tar xzf updatecli.tgz -C /usr/local/bin
+          updatecli version
+          rm -f updatecli.tgz
+      - name: Configure AWS Credentials
+        if: github.event_name != 'pull_request'
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          command: diff
-          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+      - name: Diff
+        # uses: updatecli/updatecli-action@v1
+        # with:
+        #   command: diff
+        #   flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
+        run: |
+          updatecli diff --config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply
-        uses: updatecli/updatecli-action@v1
+        # uses: updatecli/updatecli-action@v1
         if: github.ref == 'refs/heads/production'
-        with:
-          command: apply
-          flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
+        # with:
+        #   command: apply
+        #   flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
+        run: |
+          updatecli diff --config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
