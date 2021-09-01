@@ -48,6 +48,53 @@ profile::buildmaster::container_agents:
       - default
     cpus: 1
     memory: 1
+profile::buildmaster::ec2_agents:
+  - description: "Ubuntu 20.04 LTS"
+    maxInstances: 5
+    amiId: "ami-008a58d505497af7d"
+    instanceType: T3aLarge
+    os: "linux"
+    architecture: "amd64"
+    labels:
+      - java
+      - docker
+  - description: "Windows 2019"
+    maxInstances: 10
+    amiId: "ami-06b7a50f05f0b2bd4"
+    instanceType: T3Xlarge
+    os: "windows"
+    architecture: "amd64"
+    labels:
+      - windock
+  - description: "High memory ubuntu 20.04"
+    maxInstances: 20
+    amiId: "ami-008a58d505497af7d"
+    instanceType: M5ad4xlarge
+    os: "linux"
+    architecture: "amd64"
+    labels:
+      - highmem
+      - highram
+      - docker
+  - description: "ARM64 ubuntu 20.04"
+    maxInstances: 2
+    amiId: "ami-0caa36941c409bfd0"
+    instanceType: A1Xlarge
+    os: "linux"
+    architecture: "arm64"
+    labels:
+      - arm64docker
+profile::buildmaster::tools:
+  jdk8:
+    version: "8u302-b08"
+    sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
+  jdk11:
+    version: "11.0.12+7"
+    sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
+  maven:
+    version: "3.8.1"
+  groovy:
+    version: "2.4.7"
 profile::buildmaster::plugins:
   - ansicolor
   - azure-container-agents
@@ -89,6 +136,7 @@ profile::buildmaster::plugins:
 profile::buildmaster::jcasc_configs:
   # Same agent configuration as ci.jenkins.io!
   - azure.ci.jenkins.io/agents.yaml
+  - azure.ci.jenkins.io/tools.yaml
   # Custom authN/authZ
   - vagrant/security.yaml
 profile::buildmaster::jcasc_reload_token: SuperSecretThatShouldBeEncryptedInProduction
