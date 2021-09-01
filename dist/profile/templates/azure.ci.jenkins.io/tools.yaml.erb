@@ -25,10 +25,6 @@ tool:
               subdir: "jdk<%= @tools["jdk8"]["version"] %>"
               url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_windows_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.zip"
           - zip:
-              label: "windowspacker"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_windows_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.zip"
-          - zip:
               label: "arm64"
               subdir: "jdk<%= @tools["jdk8"]["version"] %>"
               url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_aarch64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
@@ -36,10 +32,6 @@ tool:
               label: "ppc64le"
               subdir: "jdk<%= @tools["jdk8"]["version"] %>"
               url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_ppc64le_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-          - zip:
-              label: "s390x"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>_openj9-0.26.0/OpenJDK8U-jdk_s390x_linux_openj9_<%= @tools["jdk8"]["version"].gsub('-', '') %>_openj9-0.26.0.tar.gz"
     - name: "jdk11"
       properties:
       - installSource:
