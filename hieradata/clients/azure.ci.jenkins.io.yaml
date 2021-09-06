@@ -76,7 +76,7 @@ profile::buildmaster::container_agents:
 profile::buildmaster::ec2_agents:
   - description: "Ubuntu 20.04 LTS"
     maxInstances: 5
-    amiId: "ami-008a58d505497af7d"
+    amiId: "ami-07f1fc1d40738a4af"
     instanceType: T3aLarge
     os: "linux"
     architecture: "amd64"
@@ -103,7 +103,7 @@ profile::buildmaster::ec2_agents:
       - docker
   - description: "ARM64 ubuntu 20.04"
     maxInstances: 2
-    amiId: "ami-0caa36941c409bfd0"
+    amiId: "ami-0b00f8b197dbe48a3"
     instanceType: A1Xlarge
     os: "linux"
     architecture: "arm64"
