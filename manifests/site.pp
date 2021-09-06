@@ -31,6 +31,10 @@ node default {
   include profile::base
 }
 
+# archives
+node 'archives.jenkins.io' {
+  include role::archives
+}
 
 # radish
 node 'puppet.jenkins.io' {
@@ -145,12 +149,6 @@ node /^agent-\d+$/ {
 node 'trusted-ci' {
   $hiera_role = 'trustedci'
   sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
-  include role::jenkins::master
-}
-
-node 'trusted.ci.jenkins.io' {
-  $hiera_role = 'trustedci'
-  sshkeyman::hostkey { ['trusted.ci.jenkins.io']: }
   include role::jenkins::master
 }
 

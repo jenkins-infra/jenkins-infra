@@ -1,26 +1,74 @@
 #
 # Defines an archive server for serving all the archived historical releases
 #
-class profile::archives {
+class profile::archives (
+    Array  $rsync_hosts_allow           = ['localhost'],
+    String $archives_dir                = '/srv/releases',
+    String $rsync_motd_file             = '/etc/jenkins.motd',
+    String $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
+    String $source_mirror_directory     = '/jenkins/',
+    Array  $ssh_authorized_keys         = [],
+  ) {
   include ::stdlib
-  # volume configuration is in hiera
-  include ::lvm
   include profile::apachemisc
   include profile::letsencrypt
 
-  $archives_dir = '/srv/releases'
+  $apache_owner     = 'www-data'
+  $apache_group     = $apache_owner
 
-  if str2bool($::vagrant) {
-    # during serverspec test, fake /dev/xvdb by a loopback device
-    exec { 'create /tmp/xvdb':
-      command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
-      unless  => 'test -f /tmp/xvdb',
-      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      before  => Physical_volume['/dev/loop0'],
+  ## Manage mirrorsync user and its home directory
+  user { 'mirrorsync':
+    ensure     => present,
+    shell      => '/bin/bash',
+    managehome => true,
+  }
+
+  # The user mirrorsync is only used to trigger a synchronization
+  # between a remote a mirror and the directory as the user www-data
+  sudo::conf { 'mirrorsync':
+    ensure  => present,
+    content => 'mirrorsync ALL=(ALL) NOPASSWD: /usr/bin/mirrorsync',
+    require => User['mirrorsync'],
+  }
+
+  file { '/home/mirrorsync/.ssh':
+    ensure  => 'directory',
+    mode    => '0700',
+    owner   => 'mirrorsync',
+    group   => 'mirrorsync',
+    require => User['mirrorsync'],
+  }
+
+  if $ssh_authorized_keys.size > 0 {
+    $ssh_authorized_keys.each | Hash $ssh_authorized_key | {
+      validate_hash($ssh_authorized_key)
+
+      unless 'id' in $ssh_authorized_key {
+        notice('"id" is required for the authorized key')
+      }
+
+      unless 'type' in $ssh_authorized_key {
+        notice('"type" is required for the authorized key')
+      }
+
+      unless 'user' in $ssh_authorized_key {
+        notice('"user" is required for the authorized key')
+      }
+
+      unless 'key' in $ssh_authorized_key {
+        notice('"key" is required for the authorized key')
+      }
+
+      ssh_authorized_key { $ssh_authorized_key["id"] :
+        type    => $ssh_authorized_key["type"],
+        user    => $ssh_authorized_key["user"],
+        key     => $ssh_authorized_key["key"],
+        require => File['/home/mirrorsync/.ssh'],
+      }
     }
   }
 
-
+  #
   package { 'lvm2':
     ensure => present,
   }
@@ -29,21 +77,24 @@ class profile::archives {
     ensure => present,
   }
 
-
   file { $archives_dir:
     ensure  => directory,
-    owner   => 'www-data',
-    require => [Package['httpd'],
-                Mount[$archives_dir]],
+    owner   => $apache_owner,
+    group   => $apache_group,
+    mode    => '0775',
+    require => Package['httpd'],
   }
-
 
   file { '/var/log/apache2/archives.jenkins-ci.org':
     ensure => directory,
+    owner  => $apache_owner,
+    group  => $apache_group,
   }
 
   file { '/var/log/apache2/archives.jenkins.io':
     ensure => directory,
+    owner  => $apache_owner,
+    group  => $apache_group,
   }
 
   apache::mod { 'bw':
@@ -62,7 +113,7 @@ class profile::archives {
     options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
-                        Mount[$archives_dir],
+                        File[$archives_dir],
                         Apache::Mod['bw']],
   }
 
@@ -124,5 +175,64 @@ class profile::archives {
     }
   }
 
+  # Install Rsync
+  #
+  # Rsync is needed by mirrorbits to access file metadata
+  # It's a requirement to use archives.jenkins.io as
+  # a fallback mirror from get.jenkins.io
+  #
+  package { 'rsync':
+    ensure => present,
+  }
 
+  file { '/etc/rsyncd.conf':
+    ensure  => present,
+    content => template("${module_name}/archives/rsyncd.conf.erb"),
+    owner   => 'root',
+    mode    => '0600',
+    require => Package['rsync'],
+  }
+
+  file { $rsync_motd_file:
+    ensure  => present,
+    source  => "puppet:///modules/${module_name}/archives/jenkins.motd",
+    owner   => 'root',
+    mode    => '0644',
+    require => Package['rsync'],
+  }
+
+  service { 'rsync':
+    ensure => running,
+    enable => true
+  }
+
+  firewall { '100 all inbound rsync':
+    proto  => 'tcp',
+    dport  => '873',
+    action => 'accept'
+  }
+
+  # Install a script to trigger mirror synchronization
+  #
+  file { '/var/log/mirrorsync':
+    ensure  => 'directory',
+    group   => 'mirrorsync',
+    owner   => 'mirrorsync',
+    mode    => '0750',
+    require => File['/usr/bin/mirrorsync']
+  }
+
+  file { '/usr/bin/mirrorsync':
+    content => template("${module_name}/archives/mirrorsync.erb"),
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0755',
+  }
+
+  cron { 'mirrorsync':
+    command => '/usr/bin/mirrorsync',
+    user    => 'mirrorsync',
+    minute  => 30,
+    require => File['/usr/bin/mirrorsync'],
+  }
 }

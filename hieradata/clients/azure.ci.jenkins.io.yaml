@@ -11,7 +11,7 @@ accounts:
       rsandell:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDwdnCxqQGMo1LTOhCDu7TpzT31sqJPYltmQEeKOut1lRP2HSn3Zac5XKXKq2Vn9xlmjSayC6mQcUw23x8VGa2bnCqWTxiAGSpAmcE4dZFRf/T20Il8YiuYNyP+Pl8zLOisOWMQ6XU6F//yoNeE+y1rnOolK0AHmO7/vz6FlnvM/pn5jSuHj+sicBdR5sA+wfejSkvW1Z3wH3vpa4xNFkS8nNjrC/Qv7rj+WmBxYMd4z7M5NFadfH1byH7omRLUZ2XNi6cDOY4g0+qbpwSmzs+JLTXa10uIMn9dcA3WOQDcBlYdQ0FSwsSYJy6jskf2A62yHJ3TESnNGis9o19AEGsVFxPo1aXdLJ5X9jEogjOX5CKK2kchpONaQoX7nh04ys5at8jzcn3B9KvSfx8B6UFlsvOHZOKlVNymZ+pe/JJecY08A4E/1Teo4wL4oVkBcMTbX2z04pXLbMtqELpzU29yeF5MRO1B37Jzf5E71TGWWxdllQ/WO+RTAInha1tLyujQoUop2EyZMFCvPtozVYIJpVV8hwQC1j4NyTnslmGaUd/3dyTVcnKKctDimGT+zULWE6ckCNwzsrIEY5ESERwa3JE5HtoEnolsddR5OQiVb4AImFz0Y4T3TvCQVFdhjs/1xjIRKsbg9eFzF2cy52GzTKDzcb9NQeRbPXPeLyZrBQ
     groups:
-      - sudo   
+      - sudo
 profile::buildmaster::anonymous_access: true
 profile::buildmaster::admin_ldap_groups:
   - admins
@@ -28,11 +28,14 @@ profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
 profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
 profile::buildmaster::groovy_d_terraform_credentials: 'present'
+profile::buildmaster::memory_limit: '30g'
 # ! java_opts needs to be java11 compliant
-profile::buildmaster::java_opts: "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Xms16g -Xmx16g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
+profile::buildmaster::java_opts: "-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
+# Provide a path relative to the "templates/" directory
+profile::buildmaster::jcasc_configs:
+  - azure.ci.jenkins.io/agents.yaml
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
-  - amazon-ecs
   - ansicolor
   - azure-container-agents
   - azure-vm-agents
@@ -41,6 +44,7 @@ profile::buildmaster::plugins:
   - buildtriggerbadge
   - cloudbees-folder
   - code-coverage-api
+  - configuration-as-code
   - credentials
   - credentials-binding
   - docker-workflow
@@ -52,6 +56,7 @@ profile::buildmaster::plugins:
   - github-checks
   - github-branch-source
   - groovy
+  - kubernetes
   - jobConfigHistory
   - junit-attachments
   - junit-realtime-test-reporter
@@ -60,9 +65,11 @@ profile::buildmaster::plugins:
   - mailer
   - parallel-test-executor
   - pipeline-githubnotify-step
+  - pipeline-graph-view
   - pipeline-stage-view
   - pipeline-utility-steps
-  - ssh-agent
+  - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - throttle-concurrents
   - timestamper
   - toolenv

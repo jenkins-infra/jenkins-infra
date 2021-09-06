@@ -6,8 +6,46 @@ profile::accountapp::smtp_user: 'smtp_user_example'
 profile::accountapp::smtp_password: 'smtp_password_example'
 profile::accountapp::jira_password: 'jira_password_example'
 
-profile::buildmaster::java_opts_xms: '250m'
-profile::buildmaster::java_opts_xmx: '250m'
+profile::buildmaster::memory_limit: '1536m'
+profile::buildmaster::plugins:
+  - ansicolor
+  - azure-container-agents
+  - azure-vm-agents
+  - blueocean
+  - build-timeout
+  - buildtriggerbadge
+  - cloudbees-folder
+  - code-coverage-api
+  - configuration-as-code
+  - credentials
+  - credentials-binding
+  - docker-workflow
+  - ec2
+  - embeddable-build-status
+  - git-client
+  - git
+  - github
+  - github-checks
+  - github-branch-source
+  - groovy
+  - kubernetes
+  - jobConfigHistory
+  - ldap
+  - lockable-resources
+  - parallel-test-executor
+  - pipeline-stage-view
+  - pipeline-utility-steps
+  - ssh-agent
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
+  - throttle-concurrents
+  - timestamper
+  - toolenv
+  - warnings-ng
+  - workflow-aggregator
+  - workflow-multibranch
+# Provide a path relative to the "templates/" directory
+profile::buildmaster::jcasc_configs:
+  - vagrant/agents.yaml
 
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
@@ -20,6 +58,10 @@ profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: 'jiratoken'
 # TODO: nickname is hard-coded to the bot right now
 profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: 'ircpassword'
 profile::jira::database_url: mysql://jira:raji@db/jiradb
+
+docker::version: '5:20.10.7~3-0~ubuntu-bionic'
+docker::log_opt::max-size: '100m'
+docker::log_opt::max-file: 2
 
 profile::ldap::ssl_key: |
   -----BEGIN RSA PRIVATE KEY-----

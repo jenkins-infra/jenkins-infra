@@ -24,6 +24,7 @@ class profile::buildmaster(
   $plugins                         = undef,
   $proxy_port                      = 443,
   $jenkins_home                    = '/var/lib/jenkins',
+  $container_jenkins_home          = '/var/jenkins_home',
   $groovy_init_enabled             = false,
   $groovy_d_enable_ssh_port        = 'absent',
   $groovy_d_set_up_git             = 'absent',
@@ -31,7 +32,11 @@ class profile::buildmaster(
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
-  $java_opts                       = '-server -Xloggc:/var/jenkins_home/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Xms4g -Xmx6g -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2'
+  $jcasc_configs                   = [],
+  # This path is relative to the jenkins_home (to reuse on both host AND container which have different absolute jenkins_home paths)
+  $jcasc_config_dir                = 'casc.d',
+  $memory_limit                    = '1g',
+  $java_opts                       = "-XshowSettings:vm -server -Xloggc:${container_jenkins_home}/gc-%t.log -XX:NumberOfGCLogFiles=5 -XX:+UseGCLogFileRotation -XX:GCLogFileSize=20m -XX:+PrintGC -XX:+PrintGCDateStamps -XX:+PrintGCDetails -XX:+PrintHeapAtGC -XX:+PrintGCCause -XX:+PrintTenuringDistribution -XX:+PrintReferenceGC -XX:+PrintAdaptiveSizePolicy -XX:+AlwaysPreTouch -XX:+UseG1GC -XX:+ExplicitGCInvokesConcurrent -XX:+ParallelRefProcEnabled -XX:+UseStringDeduplication -XX:+UnlockExperimentalVMOptions -XX:G1NewSizePercent=20 -XX:+UnlockDiagnosticVMOptions -XX:G1SummarizeRSetStatsPeriod=1 -Duser.home=${container_jenkins_home} -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2"
 ) {
   include ::stdlib
   include ::apache
@@ -113,7 +118,7 @@ class profile::buildmaster(
   # such that they're loaded properly
   ##############################################################################
 
-  # $groovy_init_enabled is used as a safeguard to disable all init groovy script 
+  # $groovy_init_enabled is used as a safeguard to disable all init groovy script
   # if we don't have to use any of them like on cert.ci
   unless $groovy_init_enabled {
     file { $groovy_d:
@@ -219,7 +224,48 @@ class profile::buildmaster(
   }
   ##############################################################################
 
+  ##############################################################################
+  # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
+  ##############################################################################
+  if size($jcasc_configs) > 0 {
+    file { "${jenkins_home}/${jcasc_config_dir}" :
+      ensure  => directory,
+      owner   => 'jenkins',
+      group   => 'jenkins',
+      mode    => '0700',
+      require => [
+          User['jenkins'],
+          File[$jenkins_home],
+      ],
+    }
+
+    # Define Casc directory through java opts to avoid conditional environment variable
+    $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir}"
+
+    $jcasc_configs.each | $jcasc_config_source_file | {
+      $jcasc_config_file = basename($jcasc_config_source_file)
+
+      file { "${jenkins_home}/${jcasc_config_dir}/${jcasc_config_file}":
+        ensure  => file,
+        owner   => 'jenkins',
+        group   => 'jenkins',
+        content => template("${module_name}/${jcasc_config_source_file}.erb"),
+        require => [
+            User['jenkins'],
+            File["${jenkins_home}/${jcasc_config_dir}"],
+        ],
+        before  => Docker::Run['jenkins'],
+        notify  => Service['docker-jenkins'],
+      }
+    }
+  } else {
+    $jcasc_java_opt = ''
+  }
+
+  ##############################################################################
+
   docker::run { 'jenkins':
+    memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
     # This is a "clever" hack to force the init script to pass the numeric UID
     # through on `docker run`. Since passing the string 'jenkins' doesn't
@@ -234,9 +280,9 @@ class profile::buildmaster(
     # https://github.com/jenkinsci/azure-slave-plugin/issues/56
     # Quote inside env variable must be escaped as puppet generate a bash script
     env              => [
-      "HOME=${jenkins_home}",
+      "HOME=${container_jenkins_home}",
       'USER=jenkins',
-      "JAVA_OPTS=${java_opts}",
+      "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
     ],
     ports            => ['8080:8080', '50000:50000', '22222:22222'],
@@ -404,10 +450,6 @@ RewriteRule \".?\" \"-\" [F]
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
-
-# Blackhole all the /cli requests over HTTP
-RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
-
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
@@ -461,10 +503,6 @@ RewriteRule \".?\" \"-\" [F]
 # See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-
-# Blackhole all the /cli requests over HTTP
-RewriteRule ^/cli.* https://github.com/jenkinsci-cert/SECURITY-218
 
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting

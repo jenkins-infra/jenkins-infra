@@ -19,4 +19,24 @@ class profile::docker {
     iniface => 'docker0',
     action  => 'accept',
   }
+
+  ['lxcfs', 'lxd', 'lxd-client', 'liblxc-common', 'liblxc1'].each | $package | {
+    package { $package:
+      ensure => 'purged',
+    }
+  }
+
+  file { '/etc/docker':
+    ensure  => directory,
+    mode    => '0700',
+    recurse => true,
+  }
+
+  file { '/etc/docker/daemon.json':
+    ensure  => file,
+    require => File['/etc/docker'],
+    source  => "puppet:///modules/${module_name}/docker/daemon.json",
+    mode    => '0600',
+    notify  => Service['docker'],
+  }
 }
