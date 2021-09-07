@@ -62,7 +62,7 @@ profile::buildmaster::container_agents:
     cpus: 2
     memory: 4
   - name: jnlp-alpine
-    image: jenkins/inbound-agent@sha256:357916dbd4ab62e7131d186cfa8f3063294e72b2deb66e07bac4d4834bdd8c30
+    image: jenkins/inbound-agent@sha256:b4acb7922ef153e3c785726fc4303a79366667cb39838b71bd5b38fe1a75e688
     labels:
       - alpine
     cpus: 1
