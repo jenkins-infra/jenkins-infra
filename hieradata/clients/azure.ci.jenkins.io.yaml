@@ -68,7 +68,7 @@ profile::buildmaster::container_agents:
     cpus: 1
     memory: 2
   - name: jnlp
-    image: jenkins/inbound-agent@sha256:a5d6dc1345a624b655990583a336d331a5cf116a32edefe245d8a86fe0851ad5
+    image: jenkins/inbound-agent@sha256:119466252d84e6ed07b69961c397f27b768c23dcda788e5e7729491353f51fae
     labels:
       - default
     cpus: 1
