@@ -36,39 +36,39 @@ profile::buildmaster::jcasc_reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCC
 # Agents configuration
 profile::buildmaster::container_agents:
   - name: jnlp-ruby
-    image: jenkinsciinfra/inbound-agent-ruby@sha256:e90ca984b2d24b28d426260bae3cf806b8a0137c9135c5b1807ed1d064cf2b0b
+    image: jenkinsciinfra/inbound-agent-ruby@sha256:f9bc5cf39f1b245828499e743cdd8c73275824aa4bb463faddfd2fa74cafad76
     labels:
       - ruby
     cpus: 2
     memory: 4
   - name: jnlp-maven-8
-    image: jenkinsciinfra/inbound-agent-maven@sha256:898ae1c8761b5c1bb17e109b5ff95668c0507909d809f1a11737b7c9be1af1f9
+    image: jenkinsciinfra/inbound-agent-maven@sha256:57bd51c40311abd9e4d837eb076888f542ca49f13e1eeac37ee5c4130632da99
     labels:
       - maven
       - jdk8
     cpus: 2
     memory: 4
   - name: jnlp-maven-11
-    image: jenkinsciinfra/inbound-agent-maven@sha256:a39fa4962753aa48c04743d7cb1060b32c461b27422fb4baa9e599184d12b9bf
+    image: jenkinsciinfra/inbound-agent-maven@sha256:c0d7e15500afc67c9c0a0269f7bf0334bfc3d188ac5f572454fcca1163b9e36e
     labels:
       - maven-11
       - jdk11
     cpus: 2
     memory: 4
   - name: jnlp-node
-    image: jenkinsciinfra/inbound-agent-node@sha256:1cadddca6c7f6999b1223925a9fabf34ee6af10908f9cf70809d9b9b8c2fe28e
+    image: jenkinsciinfra/inbound-agent-node@sha256:712f84e5e776a5e405c5211b809a3066ae3e22c2f684e1e5a254726e1a822b2f
     labels:
       - node
     cpus: 2
     memory: 4
   - name: jnlp-alpine
-    image: jenkins/inbound-agent@sha256:b4acb7922ef153e3c785726fc4303a79366667cb39838b71bd5b38fe1a75e688
+    image: jenkins/inbound-agent@sha256:c3be7d8146e8e4854a773aae6c7675e51216ee2856fc636b642ec1bc2ec97938
     labels:
       - alpine
     cpus: 1
     memory: 2
   - name: jnlp
-    image: jenkins/inbound-agent@sha256:2ab607866acf267f5c49011c8aa53496c42bf834bc03136ffbd82f422236d75a
+    image: jenkins/inbound-agent@sha256:73d4928b605f64a2f2e1a03dedae9dc02195be019041d51586cf4d09311bb63b
     labels:
       - default
     cpus: 1
