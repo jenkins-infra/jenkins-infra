@@ -56,7 +56,7 @@ profile::buildmaster::container_agents:
     cpus: 2
     memory: 4
   - name: jnlp-node
-    image: jenkinsciinfra/inbound-agent-node@sha256:83e4dfc07e623e114dc2ca68cec417479690f656c9e297ff6bd94da7b7c3ff52
+    image: jenkinsciinfra/inbound-agent-node@sha256:3fe18397b01a9c83ac778638612aa845c689c4d57d598b9b2deeb2311f3f1b4e
     labels:
       - node
     cpus: 2
