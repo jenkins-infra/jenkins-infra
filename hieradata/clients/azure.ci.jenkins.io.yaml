@@ -36,7 +36,7 @@ profile::buildmaster::jcasc_reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCC
 # Agents configuration
 profile::buildmaster::container_agents:
   - name: jnlp-ruby
-    image: jenkinsciinfra/inbound-agent-ruby@sha256:db11217e2ab28eee033e3e70abdd3eb230a5ee77b71c8a2782e6b972c56078ad
+    image: jenkinsciinfra/inbound-agent-ruby@sha256:da7a38bb888771a5010107ef0cc42250a5480c0796f8cc1c060d5ded0ccba890
     labels:
       - ruby
     cpus: 2
