@@ -43,6 +43,6 @@ jobs:
         #   command: apply
         #   flags: "--config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml"
         run: |
-          updatecli diff --config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml
+          updatecli apply --config ./updatecli/updatecli.d --values ./updatecli/values.github-action.yaml
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
