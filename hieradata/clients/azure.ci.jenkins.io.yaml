@@ -49,7 +49,7 @@ profile::buildmaster::container_agents:
     cpus: 2
     memory: 4
   - name: jnlp-maven-11
-    image: jenkinsciinfra/inbound-agent-maven@sha256:7af177eadb90133d9d71b5040b3f8c691feba181ef011b24ece03693192ed203
+    image: jenkinsciinfra/inbound-agent-maven@sha256:b5084c58f777055e9e14c6e6ba4db856c971f587bb6af342d53902f10239ac3e
     labels:
       - maven-11
       - jdk11
