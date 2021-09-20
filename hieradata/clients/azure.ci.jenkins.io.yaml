@@ -39,28 +39,28 @@ profile::buildmaster::container_agents:
     image: jenkinsciinfra/inbound-agent-ruby@sha256:1cec27354c01d95126060d21551ce67b7711a765eaf0b2f9992fb01abfc97a98
     labels:
       - ruby
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: jnlp-maven-8
     image: jenkinsciinfra/inbound-agent-maven@sha256:196f8aa7d329c6c119cf95235cdab7b443b14e74ba014afe6a98ed843094147a
     labels:
       - maven
       - jdk8
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: jnlp-maven-11
     image: jenkinsciinfra/inbound-agent-maven@sha256:d7f39b83ab72c4b545f9bcd27c099bcad09ed468240d32e66b39bd95ddca91c8
     labels:
       - maven-11
       - jdk11
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: jnlp-node
     image: jenkinsciinfra/inbound-agent-node@sha256:32470b55533d5e0e72b13643ca0d6e1f978d6ba749ec75f28c74d5b8aef208f2
     labels:
       - node
-    cpus: 2
-    memory: 4
+    cpus: 4
+    memory: 8
   - name: jnlp-alpine
     image: jenkins/inbound-agent@sha256:fd38a8a13e2210ce86c04a97acdc3513217a6245f27053ee340e2448e3cdd0de
     labels:
