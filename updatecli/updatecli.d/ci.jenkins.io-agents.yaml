@@ -64,7 +64,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::agents_azure_vms_gallery_image_version"
+      key: "profile::buildmaster::agent_images.azure_vms_gallery_image.version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -79,8 +79,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[0].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-ruby"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
     scm:
@@ -97,8 +97,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK8)"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[1].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-maven-8"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scm:
@@ -115,8 +115,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK11)"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[2].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-maven-11"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scm:
@@ -133,8 +133,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[3].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-node"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-node@sha256:"
     scm:
@@ -151,8 +151,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[4].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-alpine"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
     scm:
@@ -169,8 +169,8 @@ targets:
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
     kind: yaml
     spec:
-      file: hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::buildmaster::container_agents[5].image"
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
     scm:
@@ -188,7 +188,7 @@ targets:
     sourceID: getLatestUbuntuAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::ec2_amis.ubuntu-amd64"
+      key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-amd64"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -204,7 +204,7 @@ targets:
     sourceID: getLatestUbuntuAgentAMIArm64
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::ec2_amis.ubuntu-arm64"
+      key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-arm64"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -220,7 +220,7 @@ targets:
     sourceID: getLatestWindowsAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::ec2_amis.windows-amd64"
+      key: "profile::buildmaster::agent_images.ec2_amis.windows-amd64"
     scm:
       github:
         user: "{{ .github.user }}"

@@ -28,86 +28,146 @@ profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
 profile::buildmaster::groovy_d_terraform_credentials: 'present'
 profile::buildmaster::memory_limit: '30g'
-# Provide a path relative to the "templates/" directory
-profile::buildmaster::jcasc_configs:
-  - azure.ci.jenkins.io/agents.yaml
-  - azure.ci.jenkins.io/tools.yaml
-profile::buildmaster::jcasc_reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
-# Agents configuration
-profile::buildmaster::container_agents:
-  - name: jnlp-ruby
-    image: jenkinsciinfra/inbound-agent-ruby@sha256:5ffe0a46e1bb541d54553430dcaa66fec8a83025f0b6649966ee1fc0d77fbe53
-    labels:
-      - ruby
-    cpus: 4
-    memory: 8
-  - name: jnlp-maven-8
-    image: jenkinsciinfra/inbound-agent-maven@sha256:cb0a4d98fee99a52e491474cd8b2f12e85da1e0ea1b4b2c330b64c4981c963b4
-    labels:
-      - maven
-      - jdk8
-    cpus: 4
-    memory: 8
-  - name: jnlp-maven-11
-    image: jenkinsciinfra/inbound-agent-maven@sha256:9c4f38bb57eed4c5233ad01d50f45a9fa18a627007179b1bca98d079a3586570
-    labels:
-      - maven-11
-      - jdk11
-    cpus: 4
-    memory: 8
-  - name: jnlp-node
-    image: jenkinsciinfra/inbound-agent-node@sha256:15a9756c88aa2eb4d3851c6261f0675a8950313480d1e24569e79c81bebc78f1
-    labels:
-      - node
-    cpus: 4
-    memory: 8
-  - name: jnlp-alpine
-    image: jenkins/inbound-agent@sha256:fd38a8a13e2210ce86c04a97acdc3513217a6245f27053ee340e2448e3cdd0de
-    labels:
-      - alpine
-    cpus: 1
-    memory: 2
-  - name: jnlp
-    image: jenkins/inbound-agent@sha256:ac48acf2934b7aaad9d3c38ebe3ff8ec4aa6a7a0a0d11bc8121ea2284b495c14
-    labels:
-      - default
-    cpus: 1
-    memory: 1
-profile::buildmaster::ec2_agents:
-  - description: "Ubuntu 20.04 LTS"
-    maxInstances: 5
-    instanceType: T3aLarge
-    os: "ubuntu"
-    architecture: "amd64"
-    labels:
-      - java
-      - docker
-      - linux
-  - description: "Windows 2019"
-    maxInstances: 10
-    instanceType: T3Xlarge
-    os: "windows"
-    architecture: "amd64"
-    labels:
-      - windock
-  - description: "High memory ubuntu 20.04"
-    maxInstances: 20
-    instanceType: M5ad4xlarge
-    os: "ubuntu"
-    architecture: "amd64"
-    labels:
-      - highmem
-      - highram
-      - docker
-      - linux
-  - description: "ARM64 ubuntu 20.04"
-    maxInstances: 2
-    instanceType: A1Xlarge
-    os: "ubuntu"
-    architecture: "arm64"
-    labels:
-      - arm64docker
-      - linux
+profile::buildmaster::jcasc:
+  enabled: true
+  custom_configs:
+    - azure.ci.jenkins.io/agents.yaml.erb
+    - azure.ci.jenkins.io/tools.yaml.erb
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
+profile::buildmaster::cloud_agents:
+  kubernetes:
+    cik8s:
+      max_capacity: 100 # Max 50 workers (8 CPU / 32 G) with 2 pods (4 CPU / 8G) each
+      url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAF1QzoLi/6iki6G5iXpZPTQfRhQMUg/+gnz/0mBSPjyKmN2FJO4Q0AvEB64cR0geLnNdQB4Nylkm5Yxyy633TG6iRFokFiBf2L/jx1hCFXWESpRZv3Jcqm4Lb4LlhNdmV3w5pQcBdEFeqvqUM8MB+25eVMnapR2Cj9B5ozJuMmAarp17hKOZmzDXvS/eX09ybvQt5WZckMbHch1iUBtCqWy8Ze0LEN2LuyEtR3kyRBbSGknUzS763AsVTw5sZ32MdYkGVHuEZTZ+GIW9WQWj7xhCeGfoVMGvhC+v24s+KycoDXRVkjNRkECc0QY7Brp8XjqxgYeJtlRzfJn1wVbtD5TB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC4DXAv9aHddQFOkb7bSms0gFAEf+Cgob9UbWdKJmgrSdyol3A/+NwNpUJI0OaZAWllKc0NBqPeQE6qor407wYQobMPpbeebr/scI+NkU5wInwuWDlqlra1XrRdYJ+6b2/83g==]
+      agent_definitions:
+        - name: jnlp-ruby
+          cpus: 4
+          memory: 8
+        - name: jnlp-maven-8
+          labels:
+            - maven
+            - jdk8
+          cpus: 4
+          memory: 8
+        - name: jnlp-maven-11
+          image: jenkinsciinfra/inbound-agent-maven@sha256:0ddce98de47930b7505418421b89cbbfa5378d1c8f9c01bee416ff8ffe1d0775
+          labels:
+            - maven-11
+            - jdk11
+          cpus: 4
+          memory: 8
+        - name: jnlp-node
+          cpus: 4
+          memory: 8
+        - name: jnlp-alpine
+          cpus: 1
+          memory: 2
+        - name: jnlp
+          labels:
+            - default
+          cpus: 1
+          memory: 1
+  ec2:
+    aws-us-east-2:
+      region: us-east-2
+      agent_definitions:
+        - description: "Ubuntu 20.04 LTS"
+          maxInstances: 5
+          instanceType: T3aLarge
+          os: "ubuntu"
+          architecture: "amd64"
+          labels:
+            - java
+            - docker
+            - linux
+        - description: "Windows 2019"
+          maxInstances: 10
+          instanceType: T3Xlarge
+          os: "windows"
+          architecture: "amd64"
+          labels:
+            - windock
+        - description: "High memory ubuntu 20.04"
+          maxInstances: 20
+          instanceType: M5ad4xlarge
+          os: "ubuntu"
+          architecture: "amd64"
+          labels:
+            - highmem
+            - highram
+            - docker
+            - linux
+        - description: "ARM64 ubuntu 20.04"
+          maxInstances: 2
+          instanceType: A1Xlarge
+          os: "ubuntu"
+          architecture: "arm64"
+          labels:
+            - arm64docker
+            - linux
+  azure-vm-agents:
+    resource_group: eastus-cijenkinsio
+    agent_definitions:
+      - name: "ubuntu-20"
+        description: "Ubuntu 20.04 LTS"
+        imageDefinition: jenkins-agent-ubuntu-20
+        os: "ubuntu"
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
+        location: "East US 2"
+        instanceType: Standard_DS4
+        architecture: amd64
+        labels:
+          - java
+          - linux
+          - docker
+        idleTerminationMinutes: 5
+        maxInstances: 10
+      - name: "ubuntu-20-highmem"
+        description: "Ubuntu 20.04 LTS Highmem"
+        imageDefinition: jenkins-agent-ubuntu-20
+        os: "ubuntu"
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
+        location: "East US 2"
+        instanceType: Standard_D16_v4
+        architecture: amd64
+        labels:
+          - linux
+          - java
+          - highmem
+          - highram
+          - docker
+        idleTerminationMinutes: 5
+        maxInstances: 10
+      - name: "windows-2019"
+        description: "Windows 2019"
+        imageDefinition: jenkins-agent-windows-2019
+        os: "windows"
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFzRCKUXn+sqnS8toXrOWHCY6sUCgbaF9C8nLhuk1lAThsANcJpA1AVGvNx8UlwOvND8hr7MBsiKbJ1y1XVUfz6+SHF+HoXLqLdM+gqhcuDk6XRujZbqcZ3nI0VE/KtcBSfcBSQIcF4ClQeP9j3Pq4UqMoUhfzTqUj2ZOj4tvonEoY+H8glNpKytgY3Ysu2hiPm+0a4o6G6zCYuRaDy12gzU9Fizw/4xwROf4pCwSss6wV6O0MR81wJb8yK0wf7jRRTzxnwk1J53h3H9/ExIqiHNKhWkUCCusj/M+rAzH4z3lquvPbp/NCdtcwb6QzCvy7gfUiKYmyvR89eAIKiKCNzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBavWhbfJHjls5kGE4uWTAggCCDnUYqBwxDKQMn071k+GA7+sikbhAro6sMtoG+Cdh5sg==]
+        location: "East US 2"
+        instanceType: Standard_DS4_v2
+        architecture: amd64
+        labels:
+          - windock
+        idleTerminationMinutes: 30
+        maxInstances: 10
+  azure-container-agents:
+    aci-windows:
+      resource_group: eastus-cijenkinsio
+      agent_definitions:
+        - name: aci-maven-windows
+          os: windows
+          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+          cpus: 2
+          memory: 3.5
+          labels:
+            - maven-windows
+        - name: aci-maven-11-windows
+          os: windows
+          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+          cpus: 2
+          memory: 3.5
+          labels:
+            - maven-11-window
 profile::buildmaster::tools:
   jdk8:
     version: "8u302-b08"

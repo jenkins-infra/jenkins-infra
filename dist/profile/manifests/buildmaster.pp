@@ -33,12 +33,11 @@ class profile::buildmaster(
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
-  $jcasc_configs                   = [],
-  $jcasc_reload_token              = '',
-  $jcasc_config_dir                = 'casc.d', # Relative to the jenkins_home
-  $container_agents                = [],
-  $ec2_agents                      = [],
-  $ec2_amis                        = {},
+  $jcasc                           = {},
+  $cloud_agents                    = {},
+  $cloud_setups                    = {},
+  $agents_setup                    = {},
+  $agent_images                    = {},
   $tools                           = {},
   $memory_limit                    = '1g',
   $java_opts = "-server \
@@ -230,8 +229,17 @@ class profile::buildmaster(
   ##############################################################################
   # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
   ##############################################################################
-  unless $jcasc_configs.empty {
-    file { "${jenkins_home}/${jcasc_config_dir}" :
+  $jcasc_default_config= {
+    enabled =>        false, # Disabled by default to avoid messing up with unmanaged instances
+    custom_configs => [],
+    reload_token =>   '',
+    common_configs => ['buildmaster/casc/clouds.yaml.erb'],
+    config_dir =>     'casc.d', # Relative to the jenkins_home
+  }
+  $jcasc_final_config = $jcasc_default_config + $jcasc
+
+  if $jcasc_final_config["enabled"] {
+    file { "${jenkins_home}/${$jcasc_final_config["config_dir"]}" :
       ensure  => directory,
       owner   => 'jenkins',
       group   => 'jenkins',
@@ -243,23 +251,30 @@ class profile::buildmaster(
     }
 
     # Define Casc directory through java opts to avoid conditional environment variable
-    if $jcasc_reload_token != '' {
-      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir} -Dcasc.reload.token=${jcasc_reload_token}"
+    if $jcasc_final_config["reload_token"] != '' {
+      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${$jcasc_final_config["config_dir"]} \
+        -Dcasc.reload.token=${$jcasc_final_config["reload_token"]}"
     } else {
-      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${jcasc_config_dir}"
+      $jcasc_java_opts = " -Dcasc.jenkins.config=${container_jenkins_home}/${$jcasc_final_config["config_dir"]}"
     }
 
-    $jcasc_configs.each | $jcasc_config_source_file | {
-      $jcasc_config_file = basename($jcasc_config_source_file)
+    # The array $jcasc_final_config["common_configs"] contains the JCasC configurations which are consistents
+    #   across our Jenkins controllers. You can override the variable in hieradata to opt-out?
+    # The array $jcasc_final_config["custom_configs"] contains the JCasC configurations provided through hieradata (e.g. per-controller)
+    $all_jcasc_configs = concat($jcasc_final_config["common_configs"], $jcasc_final_config["custom_configs"])
 
-      file { "${jenkins_home}/${jcasc_config_dir}/${jcasc_config_file}":
+    # Applies CasC files from hieradata's definition (templates to be rendered as yaml files)
+    $all_jcasc_configs.each | $jcasc_config_source_file | {
+      $jcasc_config_file = basename($jcasc_config_source_file, '.erb')
+
+      file { "${jenkins_home}/${$jcasc_final_config["config_dir"]}/${jcasc_config_file}":
         ensure  => file,
         owner   => 'jenkins',
         group   => 'jenkins',
-        content => template("${module_name}/${jcasc_config_source_file}.erb"),
+        content => template("${module_name}/${jcasc_config_source_file}"),
         require => [
             User['jenkins'],
-            File["${jenkins_home}/${jcasc_config_dir}"],
+            File["${jenkins_home}/${$jcasc_final_config["config_dir"]}"],
         ],
         before  => Docker::Run[$docker_container_name],
         notify  => Exec['perform-jcasc-reload'],
@@ -270,7 +285,7 @@ class profile::buildmaster(
     require     => [
       Exec['install-plugin-configuration-as-code'],
     ],
-    command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${jcasc_reload_token}",
+    command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
     #   # Retry for 300s: jenkins might be restarting
     tries       => 30,
     try_sleep   => 10,
@@ -278,7 +293,7 @@ class profile::buildmaster(
     logoutput   => true,
   }
   } else {
-    $jcasc_java_opt = ''
+    $jcasc_java_opts = ''
   }
 
   ##############################################################################
