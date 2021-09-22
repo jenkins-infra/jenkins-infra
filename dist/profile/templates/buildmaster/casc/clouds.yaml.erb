@@ -1,0 +1,165 @@
+---
+jenkins:
+  clouds:
+<%- if @cloud_agents["azure-vm-agents"] && !@cloud_agents["azure-vm-agents"].empty? -%>
+<%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
+  <%- @cloud_agents["azure-vm-agents"]["agent_definitions"].each do |agent| -%>
+  - azureVM:
+      azureCredentialsId: "azure-credentials"
+      cloudName: "azure-<%= agent["name"] %>"
+      configurationStatus: "pass"
+      deploymentTimeout: 1200
+      maxVirtualMachinesLimit: <%= agent["maxInstances"] %>
+      existingResourceGroupName: "<%= @cloud_agents["azure-vm-agents"]["resource_group"] %>"
+      vmTemplates:
+      - agentLaunchMethod: "SSH"
+        agentWorkspace: "<%= @agents_setup[agent["os"]]["agentDir"] %>"
+        credentialsId: "jenkinsvmagents-userpass"
+        diskType: "managed"
+        doNotUseMachineIfInitFails: true
+        enableMSI: false
+        enableUAMI: false
+        ephemeralOSDisk: true
+        existingStorageAccountName: "<%= agent["storageAccount"] %>"
+        storageAccountType: "Standard_LRS"
+        imageReference:
+          galleryImageDefinition: "<%= agent["imageDefinition"] %>"
+          galleryImageVersion: "<%= @agent_images["azure_vms_gallery_image"]["version"] %>"
+          galleryName: "prod_packer_images"
+          galleryResourceGroup: "prod-packer-images"
+          gallerySubscriptionId: "<%= @agent_images["azure_vms_gallery_image"]["subscription_id"] %>"
+        imageTopLevelType: "advanced"
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "java"
+        labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
+        location: "<%= agent["location"] %>"
+        noOfParallelJobs: 1
+        osDiskSize: 0
+        osType: "<%= agent["os"] == "windows" ? 'Windows' : 'Linux' %>"
+        preInstallSsh: false
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: 5
+        shutdownOnIdle: false
+        templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
+        templateDisabled: false
+        templateName: "<%= agent["name"] %>"
+        usageMode: "Use this node as much as possible"
+        usePrivateIP: false
+        virtualMachineSize: "<%= agent["instanceType"] %>"
+    <%- end -%>
+<%- end -%>
+<%- if @cloud_agents["azure-container-agents"] && !@cloud_agents["azure-container-agents"].empty? -%>
+  <%- @cloud_agents["azure-container-agents"].each do |aci_cloud_name, aci_cloud_setup| -%>
+  - aci:
+      credentialsId: "azure-credentials"
+      name: "<%= aci_cloud_name %>"
+      resourceGroup: "<%= aci_cloud_setup["resource_group"] %>"
+      templates:
+      <%- aci_cloud_setup["agent_definitions"].each do |agent| -%>
+      - command: "<%= agent["command"] %>"
+        cpu: "<% agent["cpus"] %>"
+        image: "<%= @agent_images["container_images"]['jnlp-' + agent["name"].to_s] %>"
+        label: "<%= agent["os"] %> azure aci container <%= agent["labels"].join(' ') %>"
+        memory: "<% agent["memory"] %>"
+        name: "<% agent["name"] %>"
+        osType: "<%= agent["os"] == "windows" ? 'Windows' : 'Linux' %>"
+        retentionStrategy: "containerOnce"
+        rootFs: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
+        timeout: 60
+      <%- end -%>
+  <%- end -%>
+<%- end -%>
+<%- if @cloud_agents["ec2"] && !@cloud_agents["ec2"].empty? -%>
+  <%- @cloud_agents["ec2"].each do |ec2_cloud_name, ec2_cloud_setup| -%>
+  - amazonEC2:
+      cloudName: <%= ec2_cloud_name %>
+      credentialsId: "aws-credentials"
+      <%- $maxEC2Vms = 0; ec2_cloud_setup["agent_definitions"].each do |agent| -%>
+        <%- $maxEC2Vms = agent["maxInstances"] + $maxEC2Vms -%>
+      <%- end -%>
+      instanceCapStr: "<%= $maxEC2Vms %>"
+      region: "<%= ec2_cloud_setup["region"] %>"
+      sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+      useInstanceProfileForCredentials: false
+      templates:
+      <%- ec2_cloud_setup["agent_definitions"].each do |agent| -%>
+      - ami: "<%= @agent_images["ec2_amis"][agent["os"].to_s + "-" + agent["architecture"].to_s] %>"
+        amiOwners: "200564066411"
+        amiType:
+          unixData:
+            sshPort: "22"
+        associatePublicIp: true
+        connectBySSHProcess: false
+        connectionStrategy: PUBLIC_DNS
+        deleteRootOnTermination: true
+        description: "<%= agent["description"] %>"
+        ebsEncryptRootVolume: DEFAULT
+        ebsOptimized: false
+        hostKeyVerificationStrategy: ACCEPT_NEW
+        idleTerminationMinutes: "30"
+        instanceCapStr: "<%= agent["maxInstances"] %>"
+        labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
+        launchTimeoutStr: "1000"
+        maxTotalUses: 30
+        minimumNumberOfInstances: 0
+        minimumNumberOfSpareInstances: 0
+        mode: NORMAL
+        monitoring: false
+        numExecutors: 1
+        remoteAdmin: "<%= @agents_setup[agent["os"].to_s]["remoteAdmin"] %>"
+        remoteFS: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
+        securityGroups: "ci-agents"
+        stopOnTerminate: false
+        t2Unlimited: false
+        tags:
+        - name: "architecture"
+          value: "<%= agent["architecture"] %>"
+        - name: "os"
+          value: "<%= agent["os"] %>"
+        - name: "jenkins"
+          value: "ci.jenkins.io"
+        tenancy: Default
+        type: <%= agent["instanceType"] %>
+        tmpDir: "<%= @agents_setup[agent["os"]]["tempDir"] %>"
+        useEphemeralDevices: true
+      <%- end -%>
+  <%- end -%>
+<%- end -%>
+<%- if @cloud_agents["kubernetes"] && !@cloud_agents["kubernetes"].empty? -%>
+  <%- @cloud_agents["kubernetes"].each do |k8s_name, k8s_setup| -%>
+  - kubernetes:
+      name: "<%= k8s_name %>"
+      containerCap: <%= k8s_setup["max_capacity"] %>
+      credentialsId: "cik8s-kubeconfig"
+      directConnection: true
+      namespace: "jenkins-agents"
+      serverUrl: "<%= k8s_setup["url"] %>"
+      templates:
+      <%- k8s_setup["agent_definitions"].each do |agent| -%>
+        - containers:
+          - alwaysPullImage: false
+            image: "<%= @agent_images["container_images"][agent["name"]] %>"
+            livenessProbe:
+              failureThreshold: 0
+              initialDelaySeconds: 0
+              periodSeconds: 0
+              successThreshold: 0
+              timeoutSeconds: 0
+            name: "jnlp"
+            command: "/usr/local/bin/jenkins-agent"
+            args: ""
+            resourceLimitCpu: "<%= agent["cpus"] %>"
+            resourceLimitMemory: "<%= agent["memory"] %>G"
+            resourceRequestCpu: "<%= agent["cpus"] %>"
+            resourceRequestMemory: "<%= agent["memory"] %>G"
+            workingDir: "/home/jenkins"
+          label: "container kubernetes <%=  agent["name"].to_s.length > 5 ? agent["name"][5..] + ' ': ''  %><%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
+          name: "<%= agent["name"] %>"
+          slaveConnectTimeout: 100
+          yamlMergeStrategy: "override"
+      <%- end -%>
+  <%- end -%>
+<%- end -%>
