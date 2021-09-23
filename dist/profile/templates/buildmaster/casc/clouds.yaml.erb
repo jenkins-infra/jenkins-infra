@@ -156,7 +156,7 @@ jenkins:
             resourceRequestCpu: "<%= agent["cpus"] %>"
             resourceRequestMemory: "<%= agent["memory"] %>G"
             workingDir: "/home/jenkins"
-          label: "container kubernetes <%=  agent["name"].to_s.length > 5 ? agent["name"][5..] + ' ': ''  %><%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
+          label: "container kubernetes <%=  agent["name"].to_s.length > 5 ? agent["name"][5] + ' ': ''  %><%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
           name: "<%= agent["name"] %>"
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
