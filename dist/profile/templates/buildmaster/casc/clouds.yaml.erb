@@ -106,7 +106,7 @@ jenkins:
         maxTotalUses: 30
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
-        mode: NORMAL
+        mode: <%= agent["useAsMuchAsPosible"] == true ? 'NORMAL' : 'EXCLUSIVE' %>
         monitoring: false
         numExecutors: 1
         remoteAdmin: "<%= @agents_setup[agent["os"].to_s]["remoteAdmin"] %>"
