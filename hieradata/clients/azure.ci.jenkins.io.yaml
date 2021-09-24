@@ -121,7 +121,7 @@ profile::buildmaster::cloud_agents:
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
         location: "East US 2"
-        instanceType: Standard_DS4
+        instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
         labels:
           - java
@@ -129,13 +129,14 @@ profile::buildmaster::cloud_agents:
           - docker
         idleTerminationMinutes: 5
         maxInstances: 10
+        useAsMuchAsPosible: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
         location: "East US 2"
-        instanceType: Standard_D16_v4
+        instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
         architecture: amd64
         labels:
           - linux
@@ -145,18 +146,20 @@ profile::buildmaster::cloud_agents:
           - docker
         idleTerminationMinutes: 5
         maxInstances: 10
-      - name: "windows-2019"
+        useAsMuchAsPosible: false
+      - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
         os: "windows"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFzRCKUXn+sqnS8toXrOWHCY6sUCgbaF9C8nLhuk1lAThsANcJpA1AVGvNx8UlwOvND8hr7MBsiKbJ1y1XVUfz6+SHF+HoXLqLdM+gqhcuDk6XRujZbqcZ3nI0VE/KtcBSfcBSQIcF4ClQeP9j3Pq4UqMoUhfzTqUj2ZOj4tvonEoY+H8glNpKytgY3Ysu2hiPm+0a4o6G6zCYuRaDy12gzU9Fizw/4xwROf4pCwSss6wV6O0MR81wJb8yK0wf7jRRTzxnwk1J53h3H9/ExIqiHNKhWkUCCusj/M+rAzH4z3lquvPbp/NCdtcwb6QzCvy7gfUiKYmyvR89eAIKiKCNzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBavWhbfJHjls5kGE4uWTAggCCDnUYqBwxDKQMn071k+GA7+sikbhAro6sMtoG+Cdh5sg==]
         location: "East US 2"
-        instanceType: Standard_DS4_v2
+        instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
         labels:
           - windock
         idleTerminationMinutes: 30
         maxInstances: 10
+        useAsMuchAsPosible: true
   azure-container-agents:
     aci-windows:
       resource_group: eastus-cijenkinsio
