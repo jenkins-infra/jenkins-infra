@@ -304,7 +304,7 @@ profile::buildmaster::agent_images:
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:5ffe0a46e1bb541d54553430dcaa66fec8a83025f0b6649966ee1fc0d77fbe53
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:9ab24f6ef063080a2d1495bfa15d9fab8ea32630760e39a760fe10db68aad2d9
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:9c4f38bb57eed4c5233ad01d50f45a9fa18a627007179b1bca98d079a3586570
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:39843b73119a27115cedf7c3e0046df70af91ef5a23b3721ec2c1db369bb983e
     jnlp-node: jenkinsciinfra/inbound-agent-node@sha256:a8effe1451ab3b3fb559b0b885d9492a824ddf0f9f913990c071dbe43eed7d89
     jnlp-alpine: jenkins/inbound-agent@sha256:fd38a8a13e2210ce86c04a97acdc3513217a6245f27053ee340e2448e3cdd0de
     jnlp: jenkins/inbound-agent@sha256:ac48acf2934b7aaad9d3c38ebe3ff8ec4aa6a7a0a0d11bc8121ea2284b495c14
