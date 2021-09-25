@@ -164,6 +164,9 @@ profile::buildmaster::tools:
   jdk11:
     version: "11.0.12+7"
     sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
+  jdk17:
+    version: "17+35"
+    sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   maven:
     version: "3.8.1"
   groovy:
