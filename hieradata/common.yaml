@@ -306,7 +306,7 @@ profile::buildmaster::agent_images:
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:638b0fa97d8b86a16150053c10af2005a510fb8d9f4e3345d216cb8a97020bee
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:87f11d81fd295d36072ebef93baadb771a28aee0e579d9267e96379808ffce81
     jnlp-node: jenkinsciinfra/inbound-agent-node@sha256:ec1c70001433a61a660745e8d4deb4f9a94940f8c506a32c6044e710108fb905
-    jnlp-alpine: jenkins/inbound-agent@sha256:7333f28ee76733726f5823b2df92f322741926414441112091bf4106fe67b9c4
+    jnlp-alpine: jenkins/inbound-agent@sha256:687937233cb97da0dc4a8bca394173d2e31bcdb0e4cd7cca85af0a4c3c2b3021
     jnlp: jenkins/inbound-agent@sha256:c82b728a864f000000071f11808cbf97960f2fdec1f0552690e1c4b32cc2b67b
 ldap_url: 'ldap://localhost:389'
 ldap_dn: 'dc=example,dc=com'
