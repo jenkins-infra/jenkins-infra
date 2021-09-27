@@ -67,7 +67,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::tools.maven.mvn.version"
+      key: "profile::buildmaster::default_tools.maven.mvn.version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -83,7 +83,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::tools.jdk8.version"
+      key: "profile::buildmaster::default_tools.jdk8.version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -99,7 +99,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::tools.jdk11.version"
+      key: "profile::buildmaster::default_tools.jdk11.version"
     scm:
       github:
         user: "{{ .github.user }}"
@@ -115,7 +115,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::tools.jdk17.version"
+      key: "profile::buildmaster::default_tools.jdk17.version"
     scm:
       github:
         user: "{{ .github.user }}"
