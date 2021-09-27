@@ -38,7 +38,8 @@ class profile::buildmaster(
   $cloud_setups                    = {},
   $agents_setup                    = {},
   $agent_images                    = {},
-  $tools                           = {},
+  $additional_tools                = {},
+  $default_tools                   = {},
   $memory_limit                    = '1g',
   $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
