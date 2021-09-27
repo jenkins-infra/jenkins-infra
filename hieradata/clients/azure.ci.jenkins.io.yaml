@@ -175,8 +175,8 @@ profile::buildmaster::cloud_agents:
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
   azure-container-agents:
-    credentialsId: "azure-credentials"
     aci-windows:
+      credentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
       agent_definitions:
         - name: maven-8-windows
