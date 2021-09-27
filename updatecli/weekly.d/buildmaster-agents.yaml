@@ -1,5 +1,5 @@
 ---
-title: Bump ci.jenkins.io agent templates
+title: Bump agent templates version on all controllers
 sources:
   packerImageVersion:
     kind: githubRelease
