@@ -1,15 +1,18 @@
+<%- if @tools && !@tools.empty? -%>
 tool:
   git:
     installations:
     - name: "jgit"
   groovy:
     installations:
-    - name: "groovy"
+    <%- @tools["groovy"].each do |name, setup| %>
+    - name: "<%= name %>"
       properties:
       - installSource:
           installers:
           - groovyInstaller:
-              id: "<%= @tools["groovy"]["version"] %>"
+              id: "<%= setup["version"] %>"
+    <%- end -%>
   jdk:
     installations:
     - name: "jdk8"
@@ -82,12 +85,15 @@ tool:
               url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_s390x_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
   maven:
     installations:
-    - name: "mvn"
+    <%- @tools["maven"].each do |name, setup| -%>
+    - name: "<%= name %>"
       properties:
       - installSource:
           installers:
           - maven:
-              id: "<%= @tools["maven"]["version"] %>"
+              id: "<%= setup["version"] %>"
+    <%- end -%>
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
+<%- end -%>
