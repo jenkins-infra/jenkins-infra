@@ -240,6 +240,10 @@ class profile::buildmaster(
     ],
     config_dir =>     'casc.d', # Relative to the jenkins_home
   }
+
+  ### Deep merge the different sources (because hieradata 3 fails at deep merge, but with hieradata 5 we will be able to delegate)
+  $tools = deep_merge($default_tools, $additional_tools)
+
   $jcasc_final_config = $jcasc_default_config + $jcasc
 
   if $jcasc_final_config["enabled"] {

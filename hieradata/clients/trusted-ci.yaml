@@ -24,6 +24,46 @@ profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
 profile::buildmaster::groovy_d_terraform_credentials: 'present'
 profile::buildmaster::memory_limit: '7g'
+profile::buildmaster::jcasc:
+  enabled: true
+  custom_configs:
+    - trusted.ci.jenkins.io/agents.yaml.erb
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlreoLMhSaHCcZZaL1r7BQgmqUVbqWs+e2kaj0cn+r8o4N/qKZGXkkYBN9xhK+b5MRe2cTlfQ9J3gFFLFa6i1n1GrM/WwNMUm/cVYA2eGFNcV3ruUfigyriIrIaQVm7KIQZqv+RIQoZHJ1cWy+CdKg2hXi4KUBSawl1V3VXjSD4ZJEWv96KSceJZRTzVjZW66iD8i8Uq50WvHhvivMfHkaghowz626w/ejz0AettIKCVL9/j0B1iVv+ghOyd4A5kyIYJKR0BwQLpfKFoXY/0uhB7toZWSe7TUS7hzTAfYNhyTbS0aaczsa7pshiFZzxHAdvMeU7om4N1Dj+5LDUgAsDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBByyf8QkfPXbWYxJbMykP8SgCAQ5ncRq7jZddH/cFcb+xHJzKluSoRQU3fnSKJ8fnbEQA==]
+profile::buildmaster::cloud_agents:
+  azure-vm-agents:
+    azureCredentialsId: "azure-sponsorship-credentials"
+    resource_group: jenkinsinfra-trustedvmagents
+    agent_definitions:
+      - name: "ubuntu-20"
+        description: "Ubuntu 20.04 LTS"
+        imageDefinition: jenkins-agent-ubuntu-20
+        os: "ubuntu"
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXhMrX6DhUDJU5Ug4nLaRGGPWFHT2u9ZnxTQuXVQTBbR3Pb8pOYr/kWxQJmZTpVoqEnanVineZn1PFTxVVkjHUirX3kKgdwu3pZTrzaklBex1C1us64SmHErbHds0KeE/EX03k+Gti/V9W1z9jcTueHSld58olNCAb5oNbyo6noqLAZehoQLS39eRvsQDb4sYmVUv9X7daZ7Zu+kCYBtBZyfDNbRFMSOYcbj9WuygCwAijVGIC6q9hJWZYe/5DKAUZnynWDdPmtzDytrc3qKDaHSQ+5nQYORcO9vTuAevUoHis5elQ8dm6VWGiyvafx7xKzqbNghu9xGz/5IA/zzC9TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBEbhkLOEK5AaKPTV2CVxhagCAx5gsM01ONtqyQ7FRhnqOtyISGBXJtdfdcJXbp2MSBtw==]
+        location: "East US"
+        instanceType: Standard_DS2_v2 # 2 vCPUS / 7 Gb
+        architecture: amd64
+        labels:
+          - java
+          - linux
+          - docker
+        idleTerminationMinutes: 10
+        maxInstances: 15
+        useAsMuchAsPosible: true
+        credentialsId: "azure-jenkins-user"
+      - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
+        description: "Windows 2019"
+        imageDefinition: jenkins-agent-windows-2019
+        os: "windows"
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACyYOJKI6ZUkaYxvjc2B28AgmrulBjPZu4/1CgWkG9UDeDL36IaKtwZpbrunMC1iomzchJeeamWP97FYXZEuL+UrjtksLyDWMwXRjH+reENg8zXkm0d3ixajOAxyWMp8oWBQXHbF6sabFthVFsyH/NHiJNK7SathpmEZb2CV4Wijh2OEqWD9siJiIuG6ltkOO3lof2v83QG7FdBiiUq19k3vZQ7DQa8ew8jqH0+/+nMoMnpSg93PY/CJ5ty5Wp1gKEl3fZoLWT9ajwsPSAdQz7aK74/eYkSfbFY8EYPxSteAsLZz/OUJjhKpQQH8OUiYj88caw6uw+hnCdUI7ii+goTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBcFfMvnXKFZn9P6fwpv38CgCBZNquRP9m0BnCJIVRT+f8AvBve8ReanZIVHLCtKasF4w==]
+        location: "East US"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        architecture: amd64
+        labels:
+          - windock
+        idleTerminationMinutes: 60
+        maxInstances: 5
+        useAsMuchAsPosible: true
+        credentialsId: "azure-jenkins-user"
 # These are plugins we need only in our trusted-ci environment
 profile::buildmaster::plugins:
   - ansicolor
@@ -34,6 +74,7 @@ profile::buildmaster::plugins:
   - cloudbees-folder
   - credentials
   - credentials-binding
+  - configuration-as-code
   - docker-workflow
   - git-client
   - git
@@ -47,7 +88,8 @@ profile::buildmaster::plugins:
   - parallel-test-executor
   - pipeline-stage-view
   - pipeline-utility-steps
-  - ssh-agent
+  - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - throttle-concurrents
   - timestamper
   - toolenv
