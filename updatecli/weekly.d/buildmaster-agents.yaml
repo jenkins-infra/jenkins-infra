@@ -43,19 +43,19 @@ sources:
     depends_on:
       - packerImageVersion
     spec:
-      command: bash ./updatecli/updatecli.d/get-ami.sh ubuntu-20 amd64 {{ source "packerImageVersion" }}
+      command: bash ./updatecli/scripts/get-ami.sh ubuntu-20 amd64 {{ source "packerImageVersion" }}
   getLatestUbuntuAgentAMIArm64:
     kind: shell
     depends_on:
       - packerImageVersion
     spec:
-      command: bash ./updatecli/updatecli.d/get-ami.sh ubuntu-20 arm64 {{ source "packerImageVersion" }}
+      command: bash ./updatecli/scripts/get-ami.sh ubuntu-20 arm64 {{ source "packerImageVersion" }}
   getLatestWindowsAgentAMIAmd64:
     kind: shell
     depends_on:
       - packerImageVersion
     spec:
-      command: bash ./updatecli/updatecli.d/get-ami.sh windows-2019 amd64 {{ source "packerImageVersion" }}
+      command: bash ./updatecli/scripts/get-ami.sh windows-2019 amd64 {{ source "packerImageVersion" }}
 
 targets:
   setAzureGalleryImageVersion:
