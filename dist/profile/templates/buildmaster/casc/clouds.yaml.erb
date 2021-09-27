@@ -5,7 +5,7 @@ jenkins:
 <%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
   <%- @cloud_agents["azure-vm-agents"]["agent_definitions"].each do |agent| -%>
   - azureVM:
-      azureCredentialsId: "azure-credentials"
+      azureCredentialsId: "<%= @cloud_agents["azure-vm-agents"]["azureCredentialsId"] %>"
       cloudName: "azure-<%= agent["name"] %>"
       configurationStatus: "pass"
       deploymentTimeout: 1200
@@ -14,7 +14,7 @@ jenkins:
       vmTemplates:
       - agentLaunchMethod: "SSH"
         agentWorkspace: "<%= @agents_setup[agent["os"]]["agentDir"] %>"
-        credentialsId: "jenkinsvmagents-userpass"
+        credentialsId: "<%= agent["credentialsId"] %>"
         diskType: "managed"
         doNotUseMachineIfInitFails: true
         enableMSI: false
@@ -54,7 +54,7 @@ jenkins:
 <%- if @cloud_agents["azure-container-agents"] && !@cloud_agents["azure-container-agents"].empty? -%>
   <%- @cloud_agents["azure-container-agents"].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
-      credentialsId: "azure-credentials"
+      credentialsId: "<%= @cloud_agents["azure-container-agents"]["azureCredentialsId"] %>"
       name: "<%= aci_cloud_name %>"
       resourceGroup: "<%= aci_cloud_setup["resource_group"] %>"
       templates:
@@ -76,13 +76,13 @@ jenkins:
   <%- @cloud_agents["ec2"].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       cloudName: <%= ec2_cloud_name %>
-      credentialsId: "aws-credentials"
+      credentialsId: "<%= ec2_cloud_setup["credentialsId"] %>"
       <%- $maxEC2Vms = 0; ec2_cloud_setup["agent_definitions"].each do |agent| -%>
         <%- $maxEC2Vms = agent["maxInstances"] + $maxEC2Vms -%>
       <%- end -%>
       instanceCapStr: "<%= $maxEC2Vms %>"
       region: "<%= ec2_cloud_setup["region"] %>"
-      sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+      sshKeysCredentialsId: "<%= ec2_cloud_setup["sshKeysCredentialsId"] %>"
       useInstanceProfileForCredentials: false
       templates:
       <%- ec2_cloud_setup["agent_definitions"].each do |agent| -%>
@@ -133,7 +133,7 @@ jenkins:
   - kubernetes:
       name: "<%= k8s_name %>"
       containerCap: <%= k8s_setup["max_capacity"] %>
-      credentialsId: "cik8s-kubeconfig"
+      credentialsId: "<%= k8s_setup["credentialsId"] %>"
       directConnection: true
       namespace: "jenkins-agents"
       serverUrl: "<%= k8s_setup["url"] %>"
