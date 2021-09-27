@@ -7,9 +7,9 @@ jenkins:
   - azureVM:
       azureCredentialsId: "<%= @cloud_agents["azure-vm-agents"]["azureCredentialsId"] %>"
       cloudName: "azure-<%= agent["name"] %>"
-      configurationStatus: "pass"
       deploymentTimeout: 1200
       maxVirtualMachinesLimit: <%= agent["maxInstances"] %>
+      resourceGroupReferenceType: "existing"
       existingResourceGroupName: "<%= @cloud_agents["azure-vm-agents"]["resource_group"] %>"
       vmTemplates:
       - agentLaunchMethod: "SSH"
@@ -21,6 +21,7 @@ jenkins:
         enableUAMI: false
         ephemeralOSDisk: true
         existingStorageAccountName: "<%= agent["storageAccount"] %>"
+        storageAccountNameReferenceType: "existing"
         storageAccountType: "Standard_LRS"
         imageReference:
           galleryImageDefinition: "<%= agent["imageDefinition"] %>"
