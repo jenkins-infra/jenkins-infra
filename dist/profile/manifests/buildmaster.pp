@@ -233,7 +233,10 @@ class profile::buildmaster(
     enabled =>        false, # Disabled by default to avoid messing up with unmanaged instances
     custom_configs => [],
     reload_token =>   '',
-    common_configs => ['buildmaster/casc/clouds.yaml.erb'],
+    common_configs => [ # Configurations shared by all Jenkins controllers. There are hieradata attribute to really fill the configs (as an additional step for opt-in)
+      'buildmaster/casc/clouds.yaml.erb',
+      'buildmaster/casc/tools.yaml.erb',
+    ],
     config_dir =>     'casc.d', # Relative to the jenkins_home
   }
   $jcasc_final_config = $jcasc_default_config + $jcasc
