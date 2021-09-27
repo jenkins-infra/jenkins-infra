@@ -36,6 +36,7 @@ profile::buildmaster::jcasc:
 profile::buildmaster::cloud_agents:
   kubernetes:
     cik8s:
+      credentialsId: "cik8s-kubeconfig"
       max_capacity: 100 # Max 50 workers (8 CPU / 32 G) with 2 pods (4 CPU / 8G) each
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAF1QzoLi/6iki6G5iXpZPTQfRhQMUg/+gnz/0mBSPjyKmN2FJO4Q0AvEB64cR0geLnNdQB4Nylkm5Yxyy633TG6iRFokFiBf2L/jx1hCFXWESpRZv3Jcqm4Lb4LlhNdmV3w5pQcBdEFeqvqUM8MB+25eVMnapR2Cj9B5ozJuMmAarp17hKOZmzDXvS/eX09ybvQt5WZckMbHch1iUBtCqWy8Ze0LEN2LuyEtR3kyRBbSGknUzS763AsVTw5sZ32MdYkGVHuEZTZ+GIW9WQWj7xhCeGfoVMGvhC+v24s+KycoDXRVkjNRkECc0QY7Brp8XjqxgYeJtlRzfJn1wVbtD5TB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC4DXAv9aHddQFOkb7bSms0gFAEf+Cgob9UbWdKJmgrSdyol3A/+NwNpUJI0OaZAWllKc0NBqPeQE6qor407wYQobMPpbeebr/scI+NkU5wInwuWDlqlra1XrRdYJ+6b2/83g==]
       agent_definitions:
@@ -76,6 +77,8 @@ profile::buildmaster::cloud_agents:
   ec2:
     aws-us-east-2:
       region: us-east-2
+      credentialsId: "aws-credentials"
+      sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
       agent_definitions:
         - description: "Ubuntu 20.04 LTS"
           maxInstances: 5
@@ -116,6 +119,7 @@ profile::buildmaster::cloud_agents:
             - linux
           useAsMuchAsPosible: false
   azure-vm-agents:
+    azureCredentialsId: "azure-credentials"
     resource_group: eastus-cijenkinsio
     agent_definitions:
       - name: "ubuntu-20"
@@ -133,6 +137,7 @@ profile::buildmaster::cloud_agents:
         idleTerminationMinutes: 5
         maxInstances: 10
         useAsMuchAsPosible: true
+        credentialsId: "jenkinsvmagents-userpass"
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
@@ -150,6 +155,7 @@ profile::buildmaster::cloud_agents:
         idleTerminationMinutes: 5
         maxInstances: 10
         useAsMuchAsPosible: false
+        credentialsId: "jenkinsvmagents-userpass"
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -163,7 +169,9 @@ profile::buildmaster::cloud_agents:
         idleTerminationMinutes: 30
         maxInstances: 10
         useAsMuchAsPosible: true
+        credentialsId: "jenkinsvmagents-userpass"
   azure-container-agents:
+    credentialsId: "azure-credentials"
     aci-windows:
       resource_group: eastus-cijenkinsio
       agent_definitions:
