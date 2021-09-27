@@ -140,20 +140,21 @@ profile::buildmaster::cloud_agents:
         useAsMuchAsPosible: true
   azure-container-agents:
     aci-windows:
+      credentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
       agent_definitions:
-        - name: aci-maven-windows
+        - name: maven-8-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 2
-          memory: 3.5
+          cpus: 4
+          memory: 8
           labels:
             - maven-windows
-        - name: aci-maven-11-windows
+        - name: maven-11-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 2
-          memory: 3.5
+          cpus: 4
+          memory: 8
           labels:
             - maven-11-window
 profile::buildmaster::plugins:
