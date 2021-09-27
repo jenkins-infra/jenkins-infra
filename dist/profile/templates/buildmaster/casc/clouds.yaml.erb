@@ -55,7 +55,7 @@ jenkins:
 <%- if @cloud_agents["azure-container-agents"] && !@cloud_agents["azure-container-agents"].empty? -%>
   <%- @cloud_agents["azure-container-agents"].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
-      credentialsId: "<%= @cloud_agents["azure-container-agents"]["azureCredentialsId"] %>"
+      credentialsId: "<%= aci_cloud_setup["credentialsId"] %>"
       name: "<%= aci_cloud_name %>"
       resourceGroup: "<%= aci_cloud_setup["resource_group"] %>"
       templates:
