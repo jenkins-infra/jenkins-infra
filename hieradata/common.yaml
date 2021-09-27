@@ -320,7 +320,7 @@ profile::buildmaster::tools:
     sourceURL: https://github.com/adoptium/temurin17-binaries/releases/download
   maven:
     mvn:
-      version: "3.8.1"
+      version: "3.8.2"
   groovy:
     groovy: # Default version is named "groovy"
       version: "2.4.7"
