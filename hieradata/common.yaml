@@ -293,7 +293,7 @@ profile::buildmaster::agents_setup:
     tempDir: '/tmp'
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: ami-0d4fe7cdf8c98c8e3
+    ubuntu-amd64: ami-0f48724f832f28f85
     windows-amd64: ami-096abb291cb11312a
     ubuntu-arm64: ami-01919f5fcd4264997
   azure_vms_gallery_image:
