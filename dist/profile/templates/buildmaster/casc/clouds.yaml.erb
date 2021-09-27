@@ -41,7 +41,7 @@ jenkins:
         preInstallSsh: false
         retentionStrategy:
           azureVMCloudRetentionStrategy:
-            idleTerminationMinutes: 5
+            idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
         shutdownOnIdle: false
         templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
         templateDisabled: false
@@ -99,7 +99,7 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
-        idleTerminationMinutes: "30"
+        idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
         instanceCapStr: "<%= agent["maxInstances"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"

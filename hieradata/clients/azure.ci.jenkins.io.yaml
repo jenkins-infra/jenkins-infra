@@ -90,6 +90,7 @@ profile::buildmaster::cloud_agents:
             - docker
             - linux
           useAsMuchAsPosible: true
+          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "Windows 2019"
           maxInstances: 10
           instanceType: T3Xlarge # 8 vCPUs / 16 Gb
@@ -98,6 +99,7 @@ profile::buildmaster::cloud_agents:
           labels:
             - windock
           useAsMuchAsPosible: true
+          idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
         - description: "High memory ubuntu 20.04"
           maxInstances: 20
           instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -109,6 +111,7 @@ profile::buildmaster::cloud_agents:
             - docker
             - linux
           useAsMuchAsPosible: false
+          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "ARM64 ubuntu 20.04"
           maxInstances: 2
           instanceType: A1Xlarge # 4 vCPUs / 8 Gb
@@ -118,6 +121,7 @@ profile::buildmaster::cloud_agents:
             - arm64docker
             - linux
           useAsMuchAsPosible: false
+          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
   azure-vm-agents:
     azureCredentialsId: "azure-credentials"
     resource_group: eastus-cijenkinsio
