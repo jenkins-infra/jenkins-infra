@@ -20,7 +20,7 @@ tool:
       - installSource:
           installers:
           - zip:
-              label: "linux && amd64"
+              label: "(linux && amd64) || updatecenter || census"
               subdir: "jdk<%= @tools["jdk8"]["version"] %>"
               url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
           - zip:
