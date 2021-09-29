@@ -138,6 +138,7 @@ profile::buildmaster::cloud_agents:
         idleTerminationMinutes: 30
         maxInstances: 10
         useAsMuchAsPosible: true
+        useEphemeralOSDisk: false
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"
