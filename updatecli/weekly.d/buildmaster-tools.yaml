@@ -60,6 +60,13 @@ sources:
     transformers:
       - trimPrefix: "jdk-"
 
+conditions:
+  checkIfMavenReleaseIsAvailable:
+    kind: shell
+    sourceID: mavenVersion
+    spec:
+      command: bash ./updatecli/scripts/check-maven.sh
+
 targets:
   setMavenVersion:
     sourceID: mavenVersion
