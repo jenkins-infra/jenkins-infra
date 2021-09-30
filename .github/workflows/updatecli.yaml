@@ -29,6 +29,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       - name: Diff
+        continue-on-error: true
         #### Until https://github.com/updatecli/updatecli/pull/265
         # uses: updatecli/updatecli-action@v1
         # with:
