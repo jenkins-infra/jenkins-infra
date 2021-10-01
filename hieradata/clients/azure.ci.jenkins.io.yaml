@@ -192,7 +192,7 @@ profile::buildmaster::cloud_agents:
           cpus: 4
           memory: 8
           labels:
-            - maven-11-window
+            - maven-11-windows
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - ansicolor
