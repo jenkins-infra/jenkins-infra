@@ -69,34 +69,33 @@ class profile::catchall(
 
   # permalinks
   # - this one is referenced from 1.395.1 "sign post" release
-  Redirect /why            https://wiki.jenkins-ci.org/pages/viewpage.action?pageId=53608972
+  # TODO: Create a Jenkins Manifesto page?
+  Redirect /why            https://www.jenkins.io/
   # baked in the help file to create account on Oracle for JDK downloads
   Redirect /oracleAccountSignup    http://www.oracle.com/webapps/redirect/signon?nexturl=http://jenkins-ci.org/
-  # to the donation page
-  Redirect /donate        https://wiki.jenkins-ci.org/display/JENKINS/Donation
   # CLA links used in the CLA forms
-  Redirect /license        https://wiki.jenkins-ci.org/display/JENKINS/Governance+Document#GovernanceDocument-cla
-  Redirect /licenses        https://wiki.jenkins-ci.org/display/JENKINS/Governance+Document#GovernanceDocument-cla
+  Redirect /license        https://www.jenkins.io/project/governance/#cla
+  Redirect /licenses        https://www.jenkins.io/project/governance/#cla
   # used to advertise the project meeting
-  Redirect /meetings/        https://wiki.jenkins-ci.org/display/JENKINS/Governance+Meeting+Agenda
+  Redirect /meetings/        https://www.jenkins.io/project/governance-meeting/
   # used from friends of Jenkins plugin to link to the thank you page
-  Redirect /friend        https://wiki.jenkins-ci.org/display/JENKINS/Donation
+  Redirect /friend        https://www.jenkins.io/donate
   # used by Gradle JPI plugin to include fragment
   Redirect /gradle-jpi-plugin/latest    https://raw.github.com/jenkinsci/gradle-jpi-plugin/master/install
   # used when encouraging people to subscribe to security advisories
-  Redirect /advisories        https://wiki.jenkins-ci.org/display/JENKINS/Security+Advisories
+  Redirect /advisories        https://www.jenkins.io/security/advisories/
   # used in slides and handouts to refer to survey
   Redirect /survey        http://s.zoomerang.com/s/JenkinsSurvey
   # used by RekeySecretAdminMonitor in Jenkins
-  Redirect /rekey            https://wiki.jenkins-ci.org/display/SECURITY/Re-keying
+  Redirect /rekey            https://www.jenkins.io/security/advisory/2013-01-04/re-keying/
   # persistent Google hangout link
   Redirect /hangout        https://plus.google.com/hangouts/_/event/cjh74ltrnc8a8r2e3dbqlfnie38
 # .16.203.43 repo.jenkins-ci.org
-  Redirect /pull-request-greeting    https://wiki.jenkins-ci.org/display/JENKINS/Pull+Request+to+Repositories
+  Redirect /pull-request-greeting    https://www.jenkins.io/participate/code/
   # Mailer plugin uses this to redirect to Javamail javadoc page
   Redirect /javamail-properties   https://javamail.java.net/nonav/docs/api/overview-summary.html#overview_description
   # baked in jenkins.war 1.587 / 1.580.1
-  Redirect /security-144          https://wiki.jenkins-ci.org/display/JENKINS/Slave+To+Master+Access+Control
+  Redirect /security-144          https://www.jenkins.io/doc/book/security/controller-isolation/agent-to-controller/
   # baked in 1.600 easter egg
   Redirect /100k                  https://jenkins.io/content/jenkins-celebration-day-february-26
 
