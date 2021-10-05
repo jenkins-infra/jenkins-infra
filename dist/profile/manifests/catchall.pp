@@ -79,7 +79,7 @@ class profile::catchall(
   # used to advertise the project meeting
   Redirect /meetings/        https://www.jenkins.io/project/governance-meeting/
   # used from friends of Jenkins plugin to link to the thank you page
-  Redirect /friend        https://www.jenkins.io/donate
+  Redirect /friend        https://www.jenkins.io/donate/
   # used by Gradle JPI plugin to include fragment
   Redirect /gradle-jpi-plugin/latest    https://raw.github.com/jenkinsci/gradle-jpi-plugin/master/install
   # used when encouraging people to subscribe to security advisories
