@@ -30,23 +30,17 @@ jobs:
           aws-region: us-east-2
       - name: Diff
         continue-on-error: true
-        #### Until https://github.com/updatecli/updatecli/pull/265
-        # uses: updatecli/updatecli-action@v1
-        # with:
-        #   command: diff
-        #   flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
-        run: |
-          updatecli diff --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        uses: updatecli/updatecli-action@v1.11.0
+        with:
+          command: diff
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply
         if: github.ref == 'refs/heads/production'
-        #### Until https://github.com/updatecli/updatecli/pull/265
-        # uses: updatecli/updatecli-action@v1
-        # with:
-        #   command: apply
-        #   flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
-        run: |
-          updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        uses: updatecli/updatecli-action@v1.11.0
+        with:
+          command: apply
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
