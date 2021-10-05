@@ -15,12 +15,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install updatecli # Until https://github.com/updatecli/updatecli/pull/265
-        run: |
-          curl -sSL https://github.com/updatecli/updatecli/releases/download/v0.7.1/updatecli_Linux_x86_64.tar.gz -o updatecli.tgz
-          tar xzf updatecli.tgz -C /usr/local/bin
-          updatecli version
-          rm -f updatecli.tgz
       - name: Configure AWS Credentials
         if: github.event_name != 'pull_request'
         uses: aws-actions/configure-aws-credentials@v1
@@ -30,23 +24,17 @@ jobs:
           aws-region: us-east-2
       - name: Diff
         continue-on-error: true
-        #### Until https://github.com/updatecli/updatecli/pull/265
-        # uses: updatecli/updatecli-action@v1
-        # with:
-        #   command: diff
-        #   flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
-        run: |
-          updatecli diff --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        uses: updatecli/updatecli-action@v1
+        with:
+          command: diff
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply
         if: github.ref == 'refs/heads/production'
-        #### Until https://github.com/updatecli/updatecli/pull/265
-        # uses: updatecli/updatecli-action@v1
-        # with:
-        #   command: apply
-        #   flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
-        run: |
-          updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        uses: updatecli/updatecli-action@v1
+        with:
+          command: apply
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
