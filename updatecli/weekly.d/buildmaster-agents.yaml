@@ -39,47 +39,23 @@ sources:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
   getLatestUbuntuAgentAMIAmd64:
-    kind: aws/ami
+    kind: shell
     depends_on:
       - packerImageVersion
     spec:
-      region: us-east-2
-      sortBy: creationDateAsc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-ubuntu-20-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
-  getLatestWindowsAgentAMIAmd64:
-    kind: aws/ami
-    depends_on:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortBy: creationDateAsc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2019-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
+      command: bash ./updatecli/scripts/get-ami.sh ubuntu-20 amd64 {{ source "packerImageVersion" }}
   getLatestUbuntuAgentAMIArm64:
-    kind: aws/ami
+    kind: shell
     depends_on:
       - packerImageVersion
-    sortBy: creationDateAsc
     spec:
-      region: us-east-2
-      filters:
-        - name: "name"
-          values: "jenkins-agent-ubuntu-20-arm64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
+      command: bash ./updatecli/scripts/get-ami.sh ubuntu-20 arm64 {{ source "packerImageVersion" }}
+  getLatestWindowsAgentAMIAmd64:
+    kind: shell
+    depends_on:
+      - packerImageVersion
+    spec:
+      command: bash ./updatecli/scripts/get-ami.sh windows-2019 amd64 {{ source "packerImageVersion" }}
 
 targets:
   setAzureGalleryImageVersion:
