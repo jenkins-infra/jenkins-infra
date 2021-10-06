@@ -16,73 +16,17 @@ tool:
   jdk:
     installations:
     - name: "jdk8"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "(linux && amd64) || updatecenter || census"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_windows_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_aarch64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_ppc64le_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
+      home: "/opt/jdk-8"
+    - name: "jdk8-windows"
+      home: "C:\\Tools\\jdk-8"
     - name: "jdk11"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "linux && amd64"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_x64_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_x64_windows_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_aarch64_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_ppc64le_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "s390x"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_s390x_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
+      home: "/opt/jdk-11"
+    - name: "jdk11-windows"
+      home: "C:\\Tools\\jdk-11"
     - name: "jdk17"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "linux && amd64"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_x64_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_x64_windows_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_aarch64_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_ppc64le_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "s390x"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_s390x_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
+      home: "/opt/jdk-17"
+    - name: "jdk17-windows"
+      home: "C:\\Tools\\jdk-17"
   maven:
     installations:
     <%- @tools["maven"].each do |name, setup| -%>
