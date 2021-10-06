@@ -8,5 +8,5 @@ sources:
     basedir: '/etc/puppetlabs/code/environments'
 
 git:
-  provider: 'rugged'
+  provider: 'shellgit'
   private_key: '/var/lib/puppet/keys/r10k'
