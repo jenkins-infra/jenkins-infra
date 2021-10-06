@@ -309,15 +309,6 @@ profile::buildmaster::agent_images:
     jnlp-alpine: jenkins/inbound-agent@sha256:7d74cca45601fa726932227c97446c91ea280aa6f161c6254232e56b8c680328
     jnlp: jenkins/inbound-agent@sha256:b8753324d9874de95998fc66cad547d9d4420bc33fafc8fc99a21f267679bda4
 profile::buildmaster::default_tools:
-  jdk8:
-    version: "8u302-b08"
-    sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
-  jdk11:
-    version: "11.0.12+7"
-    sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
-  jdk17:
-    version: "17+35"
-    sourceURL: https://github.com/adoptium/temurin17-binaries/releases/download
   maven:
     mvn:
       version: "3.8.2"
