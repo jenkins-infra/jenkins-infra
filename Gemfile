@@ -14,7 +14,7 @@ gem 'r10k'
 gem 'puppetlabs_spec_helper'
 gem 'pry'
 gem 'serverspec'
-gem 'hiera-eyaml'
+gem 'hiera-eyaml', '~>3.2.2'
 
 group :development do
   gem 'debugger', :platform => :mri_19
