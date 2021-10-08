@@ -22,11 +22,14 @@ profile::buildmaster::cloud_agents:
       url: https://SuperSecretThatShouldBeEncryptedInProduction
       agent_definitions:
         - name: jnlp-ruby
-          cpus: 4
-          memory: 8
+          cpus: 2
+          memory: 4
+          labels:
+            - ruby
         - name: jnlp-maven-8
           labels:
             - maven
+            - maven-8
             - jdk8
           cpus: 4
           memory: 8
@@ -37,11 +40,15 @@ profile::buildmaster::cloud_agents:
           cpus: 4
           memory: 8
         - name: jnlp-node
-          cpus: 4
-          memory: 8
+          cpus: 2
+          memory: 4
+          labels:
+            - node
         - name: jnlp-alpine
           cpus: 1
           memory: 2
+          labels:
+            - alpine
         - name: jnlp
           labels:
             - default

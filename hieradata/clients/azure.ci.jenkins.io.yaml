@@ -36,7 +36,44 @@ profile::buildmaster::jcasc:
 profile::buildmaster::cloud_agents:
   kubernetes:
     cik8s:
-      credentialsId: "cik8s-kubeconfig"
+      credentialsId: "cik8s-jenkins-agent-sa-token"
+      serverCertificate: >
+        ENC[PKCS7,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
+        wEwRqQApm78Kdg==]
       max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAxiDM7EEtdDoITP4XryItM1kcyKMPxqw4YYfjnUbHbkkh8ZP9XSlNOGawkS7GFdErCjle6dApTUifg6UsvhI35b107kWl7lwDV5mtE2q9TsBsA4ePes4I61VcDVfZhlFDrDbMycx2YFzh1N3IHUfSIHkL4shtgyfI4YCAcSztBlg/OeEFDM9uRtJZW7235pdwlZfWK2Xvz88znml+9rruDT0seTEoUzZOYVg+eBUVmn9LlIuHLmsnzm0n+LqrPW2IiLfYCbcuSGleMWWf3QrkfqLtz2dwUHkD1lqnyf9sxVAQaL28iIWYaxlKzrG8GR1ASOnB1C1P08zHRuu8Wfu1wzB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBbwdn2neO2IzGZFfoxlWiFgFCoeLestNZkSKHDaV4ZZUiWB4v/TO3Re+znmoCu2xxuyjz4al8+3DXduk31g99llrNt3/Pf1kPvDkMC+rIX4ugbZ/uCQ21cksVCmvkblz8kVA==]
       agent_definitions:
