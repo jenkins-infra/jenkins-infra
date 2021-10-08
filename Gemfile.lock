@@ -194,10 +194,10 @@ GEM
       os (~> 0.9)
       signet (~> 0.7)
     hiera (3.4.2)
-    hiera-eyaml (2.0.8)
-      highline (~> 1.6.19)
-      trollop (~> 2.0)
-    highline (1.6.21)
+    hiera-eyaml (3.2.2)
+      highline
+      optimist
+    highline (2.0.3)
     hocon (1.2.5)
     httpclient (2.8.3)
     hurley (0.2)
@@ -233,6 +233,7 @@ GEM
       mini_portile2 (~> 2.6.1)
       racc (~> 1.4)
     open_uri_redirections (0.2.1)
+    optimist (3.0.1)
     os (0.9.6)
     parallel (1.6.1)
     parallel_tests (2.2.1)
@@ -338,7 +339,7 @@ DEPENDENCIES
   byebug
   debugger
   debugger-pry
-  hiera-eyaml
+  hiera-eyaml (~> 3.2.2)
   parallel_tests
   pry
   puppet (~> 4.8)
@@ -351,4 +352,4 @@ DEPENDENCIES
   serverspec
 
 BUNDLED WITH
-   1.16.6
+   1.17.2
