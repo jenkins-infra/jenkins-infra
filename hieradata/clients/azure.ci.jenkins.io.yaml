@@ -38,7 +38,7 @@ profile::buildmaster::cloud_agents:
     cik8s:
       credentialsId: "cik8s-kubeconfig"
       max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
-      url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAF1QzoLi/6iki6G5iXpZPTQfRhQMUg/+gnz/0mBSPjyKmN2FJO4Q0AvEB64cR0geLnNdQB4Nylkm5Yxyy633TG6iRFokFiBf2L/jx1hCFXWESpRZv3Jcqm4Lb4LlhNdmV3w5pQcBdEFeqvqUM8MB+25eVMnapR2Cj9B5ozJuMmAarp17hKOZmzDXvS/eX09ybvQt5WZckMbHch1iUBtCqWy8Ze0LEN2LuyEtR3kyRBbSGknUzS763AsVTw5sZ32MdYkGVHuEZTZ+GIW9WQWj7xhCeGfoVMGvhC+v24s+KycoDXRVkjNRkECc0QY7Brp8XjqxgYeJtlRzfJn1wVbtD5TB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC4DXAv9aHddQFOkb7bSms0gFAEf+Cgob9UbWdKJmgrSdyol3A/+NwNpUJI0OaZAWllKc0NBqPeQE6qor407wYQobMPpbeebr/scI+NkU5wInwuWDlqlra1XrRdYJ+6b2/83g==]
+      url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAxiDM7EEtdDoITP4XryItM1kcyKMPxqw4YYfjnUbHbkkh8ZP9XSlNOGawkS7GFdErCjle6dApTUifg6UsvhI35b107kWl7lwDV5mtE2q9TsBsA4ePes4I61VcDVfZhlFDrDbMycx2YFzh1N3IHUfSIHkL4shtgyfI4YCAcSztBlg/OeEFDM9uRtJZW7235pdwlZfWK2Xvz88znml+9rruDT0seTEoUzZOYVg+eBUVmn9LlIuHLmsnzm0n+LqrPW2IiLfYCbcuSGleMWWf3QrkfqLtz2dwUHkD1lqnyf9sxVAQaL28iIWYaxlKzrG8GR1ASOnB1C1P08zHRuu8Wfu1wzB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBbwdn2neO2IzGZFfoxlWiFgFCoeLestNZkSKHDaV4ZZUiWB4v/TO3Re+znmoCu2xxuyjz4al8+3DXduk31g99llrNt3/Pf1kPvDkMC+rIX4ugbZ/uCQ21cksVCmvkblz8kVA==]
       agent_definitions:
         - name: jnlp-ruby
           cpus: 2
