@@ -302,12 +302,12 @@ profile::buildmaster::agent_images:
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:b00d7ab8d0228cd8e3befed1e4dce45bd38a357e1350a5c326b8cd08591813d9
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:ebb5358eeabdf8acc39a7739fb1b5354657755250b1c4926f35ba64a6a53fa48
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:8009ff672631b34ea792d3d5dfaac1780533403df1e348a3b91fd872bb610995
-    jnlp-node: jenkinsciinfra/inbound-agent-node@sha256:29b649081a4c80ebeffa642457ce3d49e60194717ab06ae67cb224716069dd2a
-    jnlp-alpine: jenkins/inbound-agent@sha256:7d74cca45601fa726932227c97446c91ea280aa6f161c6254232e56b8c680328
-    jnlp: jenkins/inbound-agent@sha256:b8753324d9874de95998fc66cad547d9d4420bc33fafc8fc99a21f267679bda4
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:54090dadfefffcb5e2f4f795e0086bdab54c41c4120a522c1f3e9a5684963ea7
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:c23ba2d30a01301b7734e4b679bc88f5d3ec7530c93aec2158a9936a6608df35
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:122a2c839aed9e739cee3492cbedbc6ea40b4e7cd1036a7ade6ec1e417446e0f
+    jnlp-node: jenkinsciinfra/inbound-agent-node@sha256:a800f41a9174e2e8f40d1521263e3d066a6b4f0f32f494ec20c9470b410ca703
+    jnlp-alpine: jenkins/inbound-agent@sha256:238d9aaf9ca9453608115dd3a23ee76d32b440c0acd013fddb7ed666d060c2cf
+    jnlp: jenkins/inbound-agent@sha256:792289ae2f7d92ba97f3f868d070481629bb3b07a0f3e1110b63aa2aa9954197
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u302-b08"
