@@ -138,10 +138,12 @@ jenkins:
       directConnection: true
       namespace: "jenkins-agents"
       serverUrl: "<%= k8s_setup["url"] %>"
+      <%- if k8s_setup["serverCertificate"] -%>
       serverCertificate: |
         <%- k8s_setup["serverCertificate"].split("\n").each do |line| -%>
           <%= line %>
         <%- end -%>
+      <%- end -%>
       templates:
       <%- k8s_setup["agent_definitions"].each do |agent| -%>
         - containers:
