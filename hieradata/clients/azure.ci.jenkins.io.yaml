@@ -178,6 +178,10 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
+        privateIP: true
+        virtualNetworkName: "prod-jenkins-public-prod"
+        virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+        subnetName: "ci.j-agents-vm"
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
@@ -195,7 +199,11 @@ profile::buildmaster::cloud_agents:
         idleTerminationMinutes: 5
         maxInstances: 20
         useAsMuchAsPosible: false
+        privateIP: true
         credentialsId: "jenkinsvmagents-userpass"
+        virtualNetworkName: "prod-jenkins-public-prod"
+        virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+        subnetName: "ci.j-agents-vm"
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -211,6 +219,10 @@ profile::buildmaster::cloud_agents:
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
         useEphemeralOSDisk: false
+        privateIP: true
+        virtualNetworkName: "prod-jenkins-public-prod"
+        virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+        subnetName: "ci.j-agents-vm"
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"

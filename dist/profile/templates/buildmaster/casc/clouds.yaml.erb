@@ -48,8 +48,15 @@ jenkins:
         templateDisabled: false
         templateName: "<%= agent["name"] %>"
         usageMode: "<%= agent["useAsMuchAsPosible"] == true ? 'Use this node as much as possible' : 'Only build jobs with label expressions matching this node' %>"
-        usePrivateIP: false
         virtualMachineSize: "<%= agent["instanceType"] %>"
+        <%- if agent["usePrivateIP"] -%>
+        usePrivateIP: true
+        virtualNetworkName: "<%= agent["virtualNetworkName"] %>"
+        virtualNetworkResourceGroupName: "<%= agent["virtualNetworkResourceGroupName"] %>"
+        subnetName: "<%= agent["subnetName"] %>"
+        <%- else -%>
+        usePrivateIP: false
+        <%- end -%>
     <%- end -%>
 <%- end -%>
 <%- if @cloud_agents["azure-container-agents"] && !@cloud_agents["azure-container-agents"].empty? -%>
