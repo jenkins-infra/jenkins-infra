@@ -111,7 +111,7 @@ jenkins:
         instanceCapStr: "<%= agent["maxInstances"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
-        maxTotalUses: 30
+        maxTotalUses: 1 # Throw away the VMs after a build
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
         mode: <%= agent["useAsMuchAsPosible"] == true ? 'NORMAL' : 'EXCLUSIVE' %>
