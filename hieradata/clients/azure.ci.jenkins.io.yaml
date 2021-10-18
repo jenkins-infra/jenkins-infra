@@ -146,6 +146,7 @@ profile::buildmaster::cloud_agents:
             - highram
             - docker
             - linux
+            - docker-highmem
           useAsMuchAsPosible: false
           idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "ARM64 ubuntu 20.04"
@@ -196,6 +197,7 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker
+          - docker-highmem
         idleTerminationMinutes: 5
         maxInstances: 20
         useAsMuchAsPosible: false
