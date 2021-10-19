@@ -60,7 +60,7 @@ profile::buildmaster::cloud_agents:
       agent_definitions:
         - description: "Ubuntu 20.04 LTS"
           maxInstances: 5
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "ubuntu"
           architecture: "amd64"
           labels:
@@ -70,7 +70,7 @@ profile::buildmaster::cloud_agents:
           useAsMuchAsPosible: true
         - description: "Windows 2019"
           maxInstances: 10
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "windows"
           architecture: "amd64"
           labels:
