@@ -47,7 +47,7 @@ jenkins:
         templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
         templateDisabled: false
         templateName: "<%= agent["name"] %>"
-        usageMode: "<%= agent["useAsMuchAsPosible"] == true ? 'Use this node as much as possible' : 'Only build jobs with label expressions matching this node' %>"
+        usageMode: "<%= agent["useAsMuchAsPosible"] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
         virtualMachineSize: "<%= agent["instanceType"] %>"
         <%- if agent["usePrivateIP"] -%>
         usePrivateIP: true
