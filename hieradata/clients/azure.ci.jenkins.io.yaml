@@ -118,7 +118,7 @@ profile::buildmaster::cloud_agents:
       agent_definitions:
         - description: "Ubuntu 20.04 LTS"
           maxInstances: 20
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "ubuntu"
           architecture: "amd64"
           labels:
@@ -129,11 +129,12 @@ profile::buildmaster::cloud_agents:
           idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "Windows 2019"
           maxInstances: 10
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "windows"
           architecture: "amd64"
           labels:
             - windock
+            - docker-windows
           useAsMuchAsPosible: true
           idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
         - description: "High memory ubuntu 20.04"
@@ -146,6 +147,7 @@ profile::buildmaster::cloud_agents:
             - highram
             - docker
             - linux
+            - docker-highmem
           useAsMuchAsPosible: false
           idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "ARM64 ubuntu 20.04"
@@ -196,6 +198,7 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker
+          - docker-highmem
         idleTerminationMinutes: 5
         maxInstances: 20
         useAsMuchAsPosible: false
@@ -214,6 +217,7 @@ profile::buildmaster::cloud_agents:
         architecture: amd64
         labels:
           - windock
+          - docker-windows
         idleTerminationMinutes: 30
         maxInstances: 20
         useAsMuchAsPosible: true

@@ -75,6 +75,7 @@ profile::buildmaster::cloud_agents:
           architecture: "amd64"
           labels:
             - windock
+            - docker-windows
           useAsMuchAsPosible: true
         - description: "High memory ubuntu 20.04"
           maxInstances: 20
@@ -86,6 +87,7 @@ profile::buildmaster::cloud_agents:
             - highram
             - docker
             - linux
+            - docker-highmem
           useAsMuchAsPosible: false
         - description: "ARM64 ubuntu 20.04"
           maxInstances: 2
@@ -132,6 +134,7 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker
+          - docker-highmem
         idleTerminationMinutes: 5
         maxInstances: 10
         useAsMuchAsPosible: false
@@ -146,6 +149,7 @@ profile::buildmaster::cloud_agents:
         architecture: amd64
         labels:
           - windock
+          - docker-windows
         idleTerminationMinutes: 30
         maxInstances: 10
         useAsMuchAsPosible: true
