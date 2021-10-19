@@ -145,8 +145,6 @@ profile::buildmaster::cloud_agents:
           labels:
             - highmem
             - highram
-            - docker
-            - linux
             - docker-highmem
           useAsMuchAsPosible: false
           idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
@@ -193,11 +191,8 @@ profile::buildmaster::cloud_agents:
         instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
         architecture: amd64
         labels:
-          - linux
-          - java
           - highmem
           - highram
-          - docker
           - docker-highmem
         idleTerminationMinutes: 5
         maxInstances: 20
