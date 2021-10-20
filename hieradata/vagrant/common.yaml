@@ -60,7 +60,7 @@ profile::buildmaster::cloud_agents:
       agent_definitions:
         - description: "Ubuntu 20.04 LTS"
           maxInstances: 5
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "ubuntu"
           architecture: "amd64"
           labels:
@@ -70,11 +70,10 @@ profile::buildmaster::cloud_agents:
           useAsMuchAsPosible: true
         - description: "Windows 2019"
           maxInstances: 10
-          instanceType: T3Xlarge # 8 vCPUs / 16 Gb
+          instanceType: T3Xlarge # 4 vCPUs / 16 Gb
           os: "windows"
           architecture: "amd64"
           labels:
-            - windock
             - docker-windows
           useAsMuchAsPosible: true
         - description: "High memory ubuntu 20.04"
@@ -143,7 +142,6 @@ profile::buildmaster::cloud_agents:
         instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
         labels:
-          - windock
           - docker-windows
         idleTerminationMinutes: 30
         maxInstances: 10

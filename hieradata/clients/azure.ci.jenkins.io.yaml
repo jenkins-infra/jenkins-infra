@@ -133,7 +133,6 @@ profile::buildmaster::cloud_agents:
           os: "windows"
           architecture: "amd64"
           labels:
-            - windock
             - docker-windows
           useAsMuchAsPosible: true
           idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
@@ -211,7 +210,6 @@ profile::buildmaster::cloud_agents:
         instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
         labels:
-          - windock
           - docker-windows
         idleTerminationMinutes: 30
         maxInstances: 20

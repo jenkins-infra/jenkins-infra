@@ -60,7 +60,6 @@ profile::buildmaster::cloud_agents:
         instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
         architecture: amd64
         labels:
-          - windock
           - docker-windows
         idleTerminationMinutes: 60
         maxInstances: 5
