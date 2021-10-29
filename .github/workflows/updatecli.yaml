@@ -24,7 +24,7 @@ jobs:
           aws-region: us-east-2
       - name: Diff
         continue-on-error: true
-        uses: updatecli/updatecli-action@v1.14.0
+        uses: updatecli/updatecli-action@v1.15.0
         with:
           command: diff
           flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
@@ -32,7 +32,7 @@ jobs:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Apply
         if: github.ref == 'refs/heads/production'
-        uses: updatecli/updatecli-action@v1.14.0
+        uses: updatecli/updatecli-action@v1.15.0
         with:
           command: apply
           flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
