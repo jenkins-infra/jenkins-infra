@@ -2,7 +2,7 @@
 # This script uses apt to find the latest version of docker-ce available.
 set -eu -o pipefail
 
-# Upadting the list of latest updates available for installed packages on the system
+# Updating the list of latest updates available for installed packages on the system
 apt-get update >/dev/null
 
 # Retrieve from apt-cache the latest version of docker-ce available
