@@ -14,11 +14,8 @@ apt-get update >/dev/null
 #   Version table:
 # We want to get the Candidate version (which is the latest available)
 # And we want it in a readable format
-# --
-# DEV MEMO: Line explanation:
-# 1. Retrieve information about docker-ce from apt
-# 2. Keep only the line about the Candidate version (latest available)
-# 3. Cut it so we only keep the version and remove title (version contains a :, hence keeping fields 2 and 3)
-# 4. Trimming the result (removing spaces before and after)
-# 5. Surrounding the result with simple quotes ('') as it'll be needed this way
-apt-cache policy docker-ce | grep 'Candidate' | cut -f2,3 -d':' | xargs | { read -r x ; echo "'${x}'"; }
+apt-cache policy docker-ce `# 1. Retrieve information about docker-ce from apt` \
+  | grep 'Candidate' `# 2. Keep only the line about the Candidate version (latest available)` \
+  | cut -f2,3 -d':' `# 3. Cut it so we only keep the version and remove title (version contains a :, hence keeping fields 2 and 3)` \
+  | xargs `# 4. Trimming the result (removing spaces before and after)` \
+  | { read -r x ; echo "'${x}'"; } # 5. Surrounding the result with simple quotes ('') as it'll be needed this way
