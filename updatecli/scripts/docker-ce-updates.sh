@@ -2,6 +2,15 @@
 # This script uses apt to find the latest version of docker-ce available.
 set -eu -o pipefail
 
+for cli in apt-get apt-cache grep cut xargs
+do
+  if ! command -v $cli >/dev/null 2>&1
+  then
+    echo "ERROR: command line ${cli} required but not found. Exiting."
+    exit 1
+  fi
+done
+
 # Updating the list of latest updates available for installed packages on the system
 apt-get update >/dev/null
 
