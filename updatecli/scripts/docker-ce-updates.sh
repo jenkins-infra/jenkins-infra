@@ -27,4 +27,4 @@ apt-cache policy docker-ce `# 1. Retrieve information about docker-ce from apt` 
   | grep 'Candidate' `# 2. Keep only the line about the Candidate version (latest available)` \
   | cut -f2,3 -d':' `# 3. Cut it so we only keep the version and remove title (version contains a :, hence keeping fields 2 and 3)` \
   | xargs `# 4. Trimming the result (removing spaces before and after)` \
-  | { read -r x ; echo "'${x}'"; } # 5. Surrounding the result with simple quotes ('') as it'll be needed this way
+  | { read -r x ; if [ "$x" == '(none)' ]; then exit 1; else echo "'${x}'"; fi }  # 5. Failing if the result is empty or surrounding it with simple quotes ('')
