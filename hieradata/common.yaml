@@ -310,7 +310,7 @@ profile::buildmaster::agent_images:
     jnlp: jenkins/inbound-agent@sha256:c288755554ca358de9b4bc9fadc79251418104957ced8e9d476aaa0e3a782c29
 profile::buildmaster::default_tools:
   jdk8:
-    version: "8u302-b08"
+    version: "8u312-b07"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
     version: "11.0.13+8"
