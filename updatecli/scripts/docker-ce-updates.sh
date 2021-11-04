@@ -10,4 +10,4 @@ fi
 SCRIPT_PATH=$(dirname "$0")
 SCRIPT_PATH=$(cd "$SCRIPT_PATH" && pwd)
 
-docker run --rm --name=updatecli-docker-ce --volume="$SCRIPT_PATH":/scripts/ --entrypoint=bash ubuntu:bionic -c "chmod +x /scripts/fetch-docker-ce-latest-version.sh ; /scripts/fetch-docker-ce-latest-version.sh"
+docker run --rm --name=updatecli-docker-ce --volume="$SCRIPT_PATH":/scripts/ --entrypoint=bash ubuntu:bionic /scripts/fetch-docker-ce-latest-version.sh
