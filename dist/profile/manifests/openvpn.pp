@@ -51,6 +51,24 @@ class profile::openvpn (
     require          => [Docker::Image[$image]]
   }
 
+  # Ensure cloud-init doesn't manage network (netplan config + netplan apply + systemd, in Ubuntu Bionic)
+  # We assume the parent folder already exists
+  file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    content => 'network: {config: disabled}',
+  }
+
+  # Define eth interfaces with the correct mac addresses
+  # We assume the parent folder already exists
+  file { '/etc/netplan/90-cloud-init.yaml':
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    source => "puppet:///modules/${module_name}/openvpn/90-cloud-init.yaml",
+  }
+
   firewall { '107 accept incoming 443 connections':
     proto  => 'tcp',
     port   => 443,
