@@ -312,7 +312,7 @@ profile::buildmaster::agent_images:
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:aac2ab05ab59284cecd60f7f7fc639233ab724ca196f8b9b2bfffb1b7c2803e2
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:6345f08d43ed8b3e76d2723df49f7ad0fc876de779a107c8a78b1cfbea661584
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:712df34170ce6bf7865805fb2213fa7623f3d26890482164a3a34410507aef1a
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:04c55daa8f41d0df84747acb34b64f8ddf6ce4689e57d7c2d006dcbbe13f39e0'
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:c263cb7e6bf6618fcf3818ac9a556484b3fa20ff594a38ddb4cd663bd85c6022'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:804d8983550dac1e86f299e0b2c32af1e2a1bf9b2ab453e4a9222545bd608904'
     jnlp: jenkins/inbound-agent@sha256:213970cf5ffde436b5b11fb2b787a317d5eaf87f8a9a274d72490c84d7759958
 profile::buildmaster::default_tools:
