@@ -33,7 +33,7 @@ jenkins:
         installDocker: false
         installGit: false
         installMaven: false
-        javaPath: "java"
+        javaPath: "<%= agent["os"] == "windows" ? @agent_cli_tools['jdk']['jdk11']['windows'] : @agent_cli_tools['jdk']['jdk11']['linux'] %>/bin/java"
         labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
         location: "<%= agent["location"] %>"
         noOfParallelJobs: 1

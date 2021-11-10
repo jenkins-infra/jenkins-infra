@@ -16,17 +16,17 @@ tool:
   jdk:
     installations:
     - name: "jdk8-linux-static"
-      home: "/opt/jdk-8"
+      home: "<%= @agent_cli_tools['jdk']['jdk8']['linux'] %>"
     - name: "jdk8-windows-static"
-      home: "C:\\Tools\\jdk-8"
+      home: "<%= @agent_cli_tools['jdk']['jdk8']['windows'] %>"
     - name: "jdk11-linux-static"
-      home: "/opt/jdk-11"
+      home: "<%= @agent_cli_tools['jdk']['jdk11']['linux'] %>"
     - name: "jdk11-windows-static"
-      home: "C:\\Tools\\jdk-11"
+      home: "<%= @agent_cli_tools['jdk']['jdk11']['windows'] %>"
     - name: "jdk17-linux-static"
-      home: "/opt/jdk-17"
+      home: "<%= @agent_cli_tools['jdk']['jdk17']['linux'] %>"
     - name: "jdk17-windows-static"
-      home: "C:\\Tools\\jdk-17"
+      home: "<%= @agent_cli_tools['jdk']['jdk17']['windows'] %>"
     - name: "jdk8"
       properties:
       - installSource:
