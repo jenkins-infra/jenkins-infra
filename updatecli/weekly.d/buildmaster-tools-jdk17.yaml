@@ -2,7 +2,6 @@
 title: Bump JDK17 version (Jenkins tools) on all controllers
 sources:
   default:
-    # Version is retrieved from the GitHub source mirror: if there is a release, then you're sure that the artifacts are available
     kind: githubRelease
     name: Get the latest Adoptium JDK17 version
     spec:
