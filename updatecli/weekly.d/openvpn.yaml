@@ -1,35 +1,32 @@
 ---
+title: Bump OpenVPN Docker image version
 sources:
-  retrieveLatestImageVersion:
-    kind: dockerDigest
-    name: Get latest jenkinsciinfra/openvpn:latest docker digest
+  latestVersion:
+    kind: githubRelease
+    name: Get the latest stable docker-openvpn version
     spec:
-      image: "jenkinsciinfra/openvpn"
-      tag: "latest"
+      owner: "jenkins-infra"
+      repository: "docker-openvpn"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
 
 conditions:
-  defaultCiDockerImage:
-    name: "Ensure default openvpn docker image name set to jenkinsciinfra/openvpn@sha256"
-    sourceID: retrieveLatestImageVersion
-    kind: yaml
+  testDockerImageExist:
+    kind: dockerImage
+    spec:
+      image: "jenkinsciinfra/openvpn"
+  checkIfKeyExist:
+    kind: file
+    disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      key: "profile::openvpn::image"
-      value: "jenkinsciinfra/openvpn@sha256"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+      matchPattern: "profile::openvpn::image"
 
 targets:
   imageTag:
-    name: "Update Docker Image Digest for jenkinsciinfra/openvpn:latest"
-    sourceID: retrieveLatestImageVersion
+    name: "Update Docker Image tag for jenkinsciinfra/openvpn:latest"
     kind: yaml
     spec:
       file: "hieradata/common.yaml"
