@@ -1,0 +1,24 @@
+---
+title: Bump docker-ce version
+sources:
+  default:
+    name: Get latest docker-ce version
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/docker-ce-updates.sh
+targets:
+  default:
+    name: Update docker-ce version in common.yaml
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "docker::version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
