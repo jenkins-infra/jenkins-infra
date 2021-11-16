@@ -11,9 +11,7 @@ sources:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
-        kind: latest
-    transformers:
-      - trimPrefix: "v"
+        kind: semver
 
 conditions:
   checkIfUpdateCliBinaryIsPublished:

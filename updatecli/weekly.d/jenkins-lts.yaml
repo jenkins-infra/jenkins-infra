@@ -1,4 +1,5 @@
 ---
+title: Bump Jenkins LTS version
 sources:
   jenkinsLatestLTS:
     kind: jenkins
@@ -20,15 +21,6 @@ conditions:
       file: hieradata/common.yaml
       key: "profile::buildmaster::docker_image"
       value: "jenkins/jenkins"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
 
   testDockerImageExist:
     kind: dockerImage
