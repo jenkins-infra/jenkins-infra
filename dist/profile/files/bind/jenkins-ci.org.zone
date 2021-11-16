@@ -110,7 +110,7 @@ lists      3600    IN    MX    0    smtp4.osuosl.org.
 ; Certificates DNS Verification, it can be removed when validated
 @          3600  IN  TXT   "nuorpib8b66b00omtejqkj76v4"   ; For certificate:  jenkins-ci.org
 @          3600  IN  TXT   "a7p88u6si2hmbsdfsdtgbs04dt"   ; For certificate:  wiki.jenkins-ci.org
-@          3600  IN  TXT   "rffukoeejek9rl4d1b1o2bvk0q"   ; For certificate:  repo.jenkins-ci.org
+@          3600  IN  TXT   "d9g3op5gq2093d1q9kqc4mteqr"   ; For certificate:  repo.jenkins-ci.org
 
 ; DKIM
 cucumber._domainkey     1W IN TXT ("v=DKIM1;p="
