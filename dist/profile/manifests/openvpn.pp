@@ -11,7 +11,7 @@ class profile::openvpn (
   $openvpn_server_pem     = undef,
   $openvpn_server_key     = undef,
   $openvpn_dh_pem         = undef,
-  $networks               = undef
+  $networks               = {}
 ) {
   include profile::docker
 
@@ -62,7 +62,6 @@ class profile::openvpn (
 
 
   # Ensure cloud-init doesn't manage network (netplan config + netplan apply + systemd, in Ubuntu Bionic)
-  # We assume the parent folder already exists
   file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
     ensure  => 'file',
     owner   => 'root',
@@ -86,9 +85,6 @@ class profile::openvpn (
     content => template("${module_name}/openvpn/90-network-config.yaml.erb")
   }
 
-    file { '/srv/demo/passwd':
-    ensure  => present,
-  }
 
   firewall { '107 accept incoming 443 connections':
     proto  => 'tcp',
