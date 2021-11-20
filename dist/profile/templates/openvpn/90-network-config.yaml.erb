@@ -1,7 +1,7 @@
 network:
     version: 2
     ethernets:
-    <%- if @networks && !networks.empty? -%>
+    <%- if @networks && !@networks.empty? -%>
       <%- @networks.each do |interface, config| -%>
         <%= @interface %>:
             dhcp4: true
