@@ -79,9 +79,9 @@ class profile::openvpn (
   # Define eth interfaces with the correct mac addresses
   # We assume the parent folder already exists
   file { '/etc/netplan/90-network-config.yaml':
-    ensure => 'file',
-    owner  => 'root',
-    group  => 'root',
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
     content => template("${module_name}/openvpn/90-network-config.yaml.erb")
   }
 
