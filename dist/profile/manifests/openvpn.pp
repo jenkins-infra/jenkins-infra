@@ -66,6 +66,9 @@ class profile::openvpn (
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
+    require => [
+      File['/etc/cloud/cloud.cfg.d'],
+    ],
     content => 'network: {config: disabled}',
   }
 
@@ -82,6 +85,9 @@ class profile::openvpn (
     ensure  => 'file',
     owner   => 'root',
     group   => 'root',
+    require => [
+      File['/etc/netplan/'],
+    ],
     content => template("${module_name}/openvpn/90-network-config.yaml.erb")
   }
 
