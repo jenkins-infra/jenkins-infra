@@ -3,14 +3,14 @@ network:
     ethernets:
     <%- if @networks && !@networks.empty? -%>
       <%- @networks.each do |interface, config| -%>
-        <%= @interface %>:
+        <%= interface %>:
             dhcp4: true
             dhcp4-overrides:
-                route-metric: <%= @config["route-metric"] %>
+                route-metric: <%= config["route-metric"] %>
             dhcp6: false
             match:
                 driver: hv_netvsc
-                macaddress: <%= @config["macaddress"] %>
-            set-name: <%= @interface %>
+                macaddress: <%= config["macaddress"] %>
+            set-name: <%= interface %>
       <%- end -%>
     <%- end -%>
