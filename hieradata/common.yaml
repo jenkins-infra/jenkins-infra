@@ -242,48 +242,6 @@ profile::buildslave::ssh_keys:
 # place this file in ~/.docker/config.json
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
-# Configure accountapp on kubernetes
-profile::kubernetes::resources::accountapp::image_tag: 63-build24706c
-profile::kubernetes::resources::accountapp::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAtPLjTQcHB7F579pE/3xUKQgWr+mFSKYbaYQqNvdAeaYZmwNX8EEmp0VComSO0WwCaVtlyG4bRhV7U/wJKoXJx5/hOenfXa+13QVo0S1eOIv7uYH0xCuD5m6Ziqg1HxyJb7+8POqpctsnowW9at2hP6r7/WQnr5fKXaoIi5/GgA+rC2OVETShoQYT4bEiuKDXTDfYT3qr+6Ap/nza0/w1i6qWJRw50RdWXBjPcSg15pKRic1BQ05nj9BCgf3Wp2Ar3Jh9RzL8Efd8BbQV5mmG8c8SQtuoDMaC6FEssNUFI5HHHlY+PNnw/6+kwxnHfDU++0ZRC9uaxx6apsePhA6vojBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCzHrpY0SYAqN1DqXDjdmDRgDDX4wr5Fka3rQD4SEd9ixaZYhmxjD6Odaa2WrBILqXAAU8cdMInaHYqFjfShieJux8=]
-profile::kubernetes::resources::accountapp::jira_username: accountapp
-profile::kubernetes::resources::accountapp::jira_url: 'https://issues.jenkins-ci.org'
-profile::kubernetes::resources::accountapp::ldap_manager_dn: 'cn=admin,dc=jenkins-ci,dc=org'
-profile::kubernetes::resources::accountapp::ldap_new_user_base_dn: 'ou=people,dc=jenkins-ci,dc=org'
-profile::kubernetes::resources::accountapp::ldap_password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEADoDH0p2GJuCeZVvl2if6qukocGs2DzlVdA2C1c8BhiMYxPnZ8cbmbMxs07l4B4oxvfW573Po0YnC3pgOQSlJN5rIPXvNn5b4N5Gkr+ISjoffRLX3rh8ZM7JldPdoXKsu9HOs6BQkXL5a/jOLMWzvJMJhN7fCHS/J89Yj1uxOI3jDITfntIiQ0T45neNqr+Dj1LxL5XYNpXOUmjsiLhxPsnxZT1SGkNoF4Ji9anYgZvxej/iaIZck/If35tc+3lAIb3n3G8AbUOSR0bXCrdlHrIVoxGmU6dbkGSzTO8oq18j9qO/n8HW/zKvqa8czYJQaW6A/N5h/hlZA2JD/uRpwcjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCWBf5GCLw1hsMvNkwRMXr9gCDkYXpufRqMi+4zJqLTnRg0n7Su0CcLGP7Z/fsBa246wQ==]
-profile::kubernetes::resources::accountapp::ldap_url: ldaps://ldap.jenkins.io:636/
-profile::kubernetes::resources::accountapp::smtp_server: smtp.sendgrid.net
-profile::kubernetes::resources::accountapp::domain_name: accounts.jenkins.io
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPU/ayIbg0ST7GaBU1Hh5myKg9SjVJEDCNLIreZqQLr/IUiM5biFvcdE4QjhUUDPEpZNz5HLXDS75AQsWr5hS7Xy4TPIP+Y7s9T5QMYOuGME9wFCcSbitVV0Uq9NLPQxv6ZsUaNlU+IKYomHLIhPEzxVQ4N7IlgfkaBljpOC5CjoTz20oSb16icMoyZLKKiZRxbS+HisaF475l0koo+a8s1CTYjCrFwlEh/aTXHMRENDuAlk4D/ld9AxKBdKG16xN1caCfoPsbW/CchQUnER88ktvkXj/YAe+CjlJ4xqpvYzjxVT4GNTEn4ovFPkcVqHo0T9MWRq5BLJ3fNImNLylajA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCUi3iHEOPMwHw+rB78aUpxgBDaoeS26SryhDsl9/l49TeT]
-# access to JIRA creating new components)
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATAeBkzcuvu32ZdCm7jq/zI1gRlaNroGyrBxA/kxTw1uL4OhApI8RcgbO/PinbIbva6mnde0hXSsWmIoYN9wN1SpHyk7VJvzrKUf8E4HyvXdmDQBRRvd2q5I9f0wh7nKz2kVOht8eX4A//Q+U7NcGCo//1vDYVy2zfbWSFW5JD727rFgzflF/VPjEBOx8y+bKBTF8EOtygiBAI1WDfnfgM+ogwsZjE6z2ipCHJ8zMsTs0djtH/+C86WYtA52izXs7hvKrqUWir38/f4MkLjSNgpPVrvBxufXopXmzyIMV1uvMpCqJ6x4qAlNcukBfZCEiE3h2e1+GfBHId7rsOrGqmDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBClxcblTgjZwGo3nsZGyK1HgDCPD2E9tLavlMvRuTnMfmNv6p4v9gDJYesF4k4/7AvDuyIjBCmlSGvFRjnDbzElYLM=]
-# access to freenode for authenticating as 'jenkinsadmin')
-# TODO: nickname is hard-coded to the bot right now
-profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApcoIRvdK5ucSrPibeyrhAQactyxQGTJLdVaopQdEu8MUVQIPcsi052ib60se8E51JUSiQhus3dV9b7KTnLqPGV2eYz08jAgUJTnYcxOlSp7nRY8HXRXIAJ8uhjrYxXpw8B0pisxb4joEEMhYdlBMrFthXUxD8g3LoybOLsRVjQViFJeRfvg9cVUQ2fgqHnXKyyTCadqQCYyNXlSB9yc8J4W1/xfjpIfE3EcQ6GcHYe225tPy0aPMetUnt7v5qRzuuO5xPYO86ByBDd4rSxn6El1cokOxIIg1IAr4q55h6QwFLHoXX4GtvV05CHB9pgfxuxc0JHV7Mv9L/+cDpwyq8jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvd92Vb6hSA9rBlA48KfaogBDLJlf7Q+XwAU4fMZbOO7go]
-# Tag is the docker container image tag from our build process, this job:
-# <https:kubernetes::resources::chatbot_//trusted.ci.jenkins.io:1443/job/Containers/job/ircbot>
-profile::kubernetes::resources::chatbot_jenkinsadmin::image_tag: '45-build7611d7'
-profile::kubernetes::resources::jenkinsio::image_tag: 'latest'
-profile::kubernetes::resources::ldap::image_tag: '12-builde29683'
-profile::kubernetes::resources::ldap::whitelisted_sources:
-  - '10.0.0.0/8' # Kubernetes internal IP
-  - '50.19.229.208/32' # 106 accept inbound LDAPS request from hosted Artifactory by JFrog
-  - '50.16.203.43/32' # 106 accept inbound LDAPS request from hosted Artifactory by JFrog (second IP)
-  - '54.236.124.56/32' # 106 accept inbound LDAPS request from hosted Artifactory by JFrog (third IP)
-  - '104.196.52.71/32' # 106 accept inbound LDAPS request from hosted Artifactory by JFrog (fourth IP)
-  - '104.196.31.82/32' # 106 accept inbound LDAPS request from hosted Artifactory by JFrog (fifth IP)
-  - '73.71.177.172/32' # 106 accept inbound LDAPS request from spambot
-  - '140.211.15.101/32' # 107 accept inbound LDAPS request from accounts app
-  - '140.211.9.94/32' # 107 accept inbound LDAPS request from puppet.jenkins.io puppet.jenkins.io
-  - '140.211.9.32/32' # 107 accept inbound LDAPS request from Confluence wiki.jenkins-ci.org
-  - '140.211.9.2/32' # 107 accept inbound LDAPS request from JIRA issues.jenkins-ci.org
-  - '3.89.75.197/32' # 107 accept inbound LDAPS from trusted-ci
-  - '52.71.231.250/32' # 107 accept inbound LDAPS from ci
-  - '104.209.251.202/32' # accept inbound LDAPS from vpn.jenkins.io
-  - '104.210.5.242/32' # accept inbound LDAPS from cert-ci
-  - '104.208.238.39/32' # Accept inbound LDAPS from azure.ci.jenkins.io
-  - '52.147.174.4/32' # Accept inbound LDAPS from public.aks.jenkins.io
 profile::buildmaster::docker_image: jenkins/jenkins
 profile::buildmaster::docker_tag: "2.303.3-jdk11"
 profile::buildmaster::plugins:
@@ -366,17 +324,6 @@ osuosl_mirroring_privkey: ''
 archives_mirroring_privkey: ''
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
 docker::version: '5:20.10.11~3-0~ubuntu-bionic'
-# profile::pluginsite::image_tag is deprecated as pluginsite is now deployed on kubernetes
-# you should instead update profile::kubernetes::resources:pluginsite::image_tag
-profile::pluginsite::image_tag: '50-8a166d'
-profile::kubernetes::resources::pluginsite::image_tag: '120-bd2a5f'
-profile::kubernetes::resources::pluginsite::url: plugins.jenkins.io
-profile::kubernetes::resources::pluginsite::github_client_id: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAL1vRKApzActm9IwuxM8xq9Nublmz3vm1Sam7q5JCbnfMDXga9cAGkM1Uc1G2u5nZ0g/tSl9Soo5niA644zSaFER08tIwb8OUfupkv2J2/Cg7VpzZZqX/YpMxHvQvQs+/MMfvtc+bcYN9xHCl5khKSaS3epn8Bvd9rF5f+1OCw9VjDFKCS00qMklXEFmBvWdvdC3jtl1WRgA/HLKWJvdGXaAqrAupW9/0gsBYKTmb/aW3N6xIXaZ8OtBFS8jLVaSoy45nrmI26RJSvMw2RwmNULCsjOc4HLsomql/zr8EO4VEk6zrGrlkommaS7hqvdO6xHBlTWVGEEu5xPa8O3Y82zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBa+z+sgKCPP6dyNYRlLVhcgCBrPPunN3KvBPpNZiJgstynIgd48c2+FZcRMlQjPlLcGA==]
-profile::kubernetes::resources::pluginsite::github_client_secret: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhcYjzJVRCS74iWQBGh70rXQk+zIKVAdW9qaHCY/73Db0JDJkVO5gEIBOe+VU/Yd0lZNybIepjIc35y0A1TeM7+ck46Dp+GNF5E8owXyF8e/KQyRJ1JfzOiaSLl1oOEilMxjbp37IjvAnBt8IX0DEGJ3XiL/f94DcI81mM58saory6jxqD6rHTVa63Y0I4CkRHcq2PZn/HyeW/eP1cGlcXBZ50vgff4dkF2F58LmnhzVaNw+1glq/jq5TQtP67i/aQvN+GFFXR+pQq6HjAwt3SOns6buqq5gnID0EYyzIOsU4MW5KP5V+8ArbNk4G2aiKQCD2j8TVb2U10+BU9vjDdjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBsKL4KU7saUZzqmGMOzM9ngDCFdD+vovZR4Cl+BnFeSnqS1Zs+jWNLE+pN00FpRKwsUYxZuB2WZ/yKmgXIjHA6eNg=]
-profile::kubernetes::resources::pluginsite::aliases:
-  - plugins.azure.jenkins.io
-profile::kubernetes::resources::repo_proxy::image_tag: '19-build1bc066'
-profile::kubernetes::resources::repo_proxy::url: repo.azure.jenkins.io
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: 'overridewithstorageaccountname'
@@ -414,9 +361,6 @@ azure::k8s::management_ssh_privkey: |
 azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlvw/SS/v+8LwGten0CHvYdIjY1y1NcR2SrX3Azv/zDPStTaiRTcOWGEByn84q6VRyH4+iN+HY31tMopVGpKEUJvIkP7qpW8UGpNS5MPOhhCfOsBxGHZ6AzjLwpOsHrlEahgl7tU1JW4VnX4jRy+2mQJkqnHtPeqYZMtNZwymhp8NjvlyxtxLw5pNu5wd8unXeuLkH73zJvk8kNgjw5P2cg4UBVXXQEdyRJ0rwLw4mLVzHvY2sIz5T9AN+qz29VgN6mm1fZPe+sHLfDLBFK5AWlvTv0jvX+TyrfryG4XwnU/kwROn5KJDa1SnuAq78JloZOsg24NXaB'
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
-profile::kubernetes::resources::fluentd::image_tag: '0.7.2'
-profile::kubernetes::resources::evergreen::image_tag: '201901291940'
-profile::kubernetes::resources::evergreen_gateway::image_tag: 'evergreen-f96f19'
 limits:
   '*':
     nofile:
