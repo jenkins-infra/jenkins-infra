@@ -33,7 +33,7 @@ fixtures:
       ref: '1.9.0'
     apache:
       repo: 'puppetlabs/apache'
-      ref: '1.8.1'
+      ref: '7.0.0'
     ntp:
       repo: 'puppetlabs/ntp'
       ref: '4.1.2'
