@@ -1,8 +1,0 @@
-apiVersion: v1
-metadata:
-  name: kube-lego
-  namespace: kube-lego
-data:
-  lego.email: <%= @parameters['email'] %>
-  lego.url: <%= @parameters['url'] %>
-kind: ConfigMap

@@ -49,8 +49,6 @@ pipeline {
                         sh 'HOME=$PWD bundle exec rake spec_clean spec_prep'
                         sh 'bundle exec parallel_rspec spec/classes/role'
                         junit 'tmp/rspec*.xml'
-                        sh 'bundle exec parallel_rspec spec/defines'
-                        junit 'tmp/rspec*.xml'
                     }
                 }
                 stage('vhost check') {

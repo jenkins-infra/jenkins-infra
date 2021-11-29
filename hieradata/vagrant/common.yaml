@@ -203,16 +203,6 @@ profile::buildmaster::plugins:
   - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
-### Stuff for IRC jenkins-admin bot
-# access to GitHub (for creating repos, etc)
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_password: 'githubtoken'
-# access JIRA (for creating new components)
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: 'jiratoken'
-# access freenode (for authenticating as 'jenkinsadmin')
-# TODO: nickname is hard-coded to the bot right now
-profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: 'ircpassword'
 profile::jira::database_url: mysql://jira:raji@db/jiradb
 
 docker::log_opt::max-size: '100m'
