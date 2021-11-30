@@ -102,11 +102,6 @@ node 'tomato' {
   include role::jenkins::agent
 }
 
-node 'ldap' {
-  sshkeyman::hostkey { ['ldap.jenkins.io']: }
-  include role::ldapserver
-}
-
 node 'census' {
   sshkeyman::hostkey { ['census.jenkins.io']: }
   include role::census
