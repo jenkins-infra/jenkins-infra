@@ -203,7 +203,6 @@ profile::buildmaster::plugins:
   - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
-profile::jira::database_url: mysql://jira:raji@db/jiradb
 
 docker::log_opt::max-size: '100m'
 docker::log_opt::max-file: 2
