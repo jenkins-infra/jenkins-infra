@@ -2,10 +2,6 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
-profile::accountapp::smtp_user: 'smtp_user_example'
-profile::accountapp::smtp_password: 'smtp_password_example'
-profile::accountapp::jira_password: 'jira_password_example'
-
 profile::buildmaster::docker_image: 'jenkins/jenkins'
 profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::memory_limit: '1536m'
