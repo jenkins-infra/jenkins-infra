@@ -173,7 +173,7 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 5
+        idleTerminationMinutes: 1
         maxInstances: 10
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
@@ -181,6 +181,8 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
@@ -193,7 +195,7 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker-highmem
-        idleTerminationMinutes: 5
+        idleTerminationMinutes: 1
         maxInstances: 20
         useAsMuchAsPosible: false
         usePrivateIP: true
@@ -201,6 +203,8 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -220,6 +224,8 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"
