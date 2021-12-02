@@ -1,6 +1,0 @@
-instances:
-  - name: JIRA
-    url: https://issues.jenkins-ci.org/browse/JENKINS-12345
-    timeout: 1
-    threshold: 3
-    window: 5

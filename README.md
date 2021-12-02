@@ -16,9 +16,9 @@ A non exhaustive list of services is available [here](https://jenkins.io/project
 * The services are managed [r10k](https://github.com/adrienthebo/r10k) and Puppet,
   configuration files are available inside this repository.
 * There are multiple types of service deployments:
-  * The majority of services run as containers inside Kubernetes, and it is a precondition for new services.
-  * Some services like ci.jenkins.io run inside virtual machines provisioned insideMicrosoft Azure.
-  * Some older services like Jenkins JIRA or Wiki run on machines outside Azure.
+  * The majority of services run as containers inside Kubernetes, and are NOT managed here (ref. jenkins-infra/charts)
+  * Some services like ci.jenkins.io run inside virtual machines provisioned in cloud providers
+  * the other services are running on bare metal machines provided by sponsors
 * There are Puppet templates for all services.
   Configuration options are defined by Hiera and stored in [hieradata](./hieradata).
   See [hieradata/common.yaml](./hieradata/common.yaml) for the most of the settings.
