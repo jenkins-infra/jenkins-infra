@@ -85,12 +85,6 @@ node 'kelp' {
   include role::census::agent
 }
 
-# eggplant
-node 'eggplant' {
-  sshkeyman::hostkey { ['eggplant.jenkins.io', 'eggplant.jenkins-ci.org']: }
-  include role::eggplant
-}
-
 # cucumber (legacy host)
 node 'cucumber' {
   sshkeyman::hostkey { ['cucumber.jenkins.io', 'cucumber.jenkins-ci.org']: }
