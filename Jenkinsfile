@@ -51,20 +51,6 @@ pipeline {
                         junit 'tmp/rspec*.xml'
                     }
                 }
-                stage('vhost check') {
-                    agent { label 'ruby' }
-                    steps {
-                        // Check that Confluence rewrite rules that contain '#' also include the 'NE' attribute
-                        // to assure that the '#' in the rewrite is not escaped.
-                        // This is an imperfect test that would have detected the most recent failures
-                        sh 'if grep "RewriteRule.*#" dist/profile/templates/confluence/vhost.conf | grep -v NE,NC,L,QSA; then echo "Suspicious reference to ID in confluence RewriteRule URL without no expansion (NE) flag"; exit 1; fi'
-                        // Check that Confluence rewrite rules don't duplicate the mistake of adding an extra
-                        // '/' after the JENKINS portion of the URL.
-                        sh 'if grep JENKINS// dist/profile/templates/confluence/vhost.conf; then echo "Extra / after JENKINS in Confluence URL"; exit 1; fi'
-                        // Check confluence URLs from vhost.conf file
-                        sh 'scripts/verify_confluence_urls.rb'
-                    }
-                }
             }
         }
     }
