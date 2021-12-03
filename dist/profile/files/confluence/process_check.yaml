@@ -1,6 +1,0 @@
-  - name: Confluence
-    search_string: ['-Dcatalina.home=/srv/wiki']
-    exact_match: false
-    thresholds:
-      # expect exactly 1 instance
-      critical: [0, 1]

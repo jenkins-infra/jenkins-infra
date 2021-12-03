@@ -42,7 +42,7 @@ node 'puppet.jenkins.io' {
   include role::puppetmaster
 }
 
-# edamame (aka jenkins-confluence.osuosl.org)
+# edamame
 node 'edamame' {
   sshkeyman::hostkey { ['edamame.jenkins.io', 'edamame.jenkins-ci.org']: }
   include role::edamame
