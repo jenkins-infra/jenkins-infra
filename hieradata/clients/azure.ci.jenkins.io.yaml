@@ -113,7 +113,7 @@ profile::buildmaster::cloud_agents:
   ec2:
     aws-us-east-2:
       region: us-east-2
-      credentialsId: "aws-credentials"
+      credentialsId: "aws-credentials-jenkins-ci"
       sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
       agent_definitions:
         - description: "Ubuntu 20.04 LTS"
@@ -165,7 +165,7 @@ profile::buildmaster::cloud_agents:
         description: "Ubuntu 20.04 LTS"
         imageDefinition: jenkins-agent-ubuntu-20
         os: "ubuntu"
-        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
         location: "East US 2"
         instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
@@ -173,7 +173,7 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 5
+        idleTerminationMinutes: 1
         maxInstances: 10
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
@@ -181,11 +181,13 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
         os: "ubuntu"
-        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA05ciDWdydYYcaHSCRxPVWUFhxuqe1c+odQBXXv1ccdKG7tiUWr5+uIIUn2ZWTVc7wKwwT+Y+QuBP3wWP+j9Y42w6WKTGOqB3iZkfe8eY+kYr4/ISMBCktfWuUe6/EML5z6TbZ3cMyMirx6Sl2SgZfIuTRi/C0Z9hErCXDZS0jNQYkZ799t31dNKEkDQkX0K377LPmRfB5WGGyjquLYGB1pHq6z283Nq25sa/ePAXJ5s7K0AI5a1IrhcNbj6+XLvAmWpRvYAar4R5Q9G43M6Y2wR3wQdbT/UvLNmoJyckOjNUHVnjICoqVAqlRk//pH5MA4Kfvm6CUlPPX6bFqQmUfjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDrpvHjhf8cEEo+DN/KoRu7gCCHoOVwkjNG9DdwFioWyKiCu2+8f0iBM6FkdnbwpE3AWg==]
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAG/Diw4+KrBubbNNGJxe7yGXyJJUSSbhWIRXcLBYGPxo14g/jsZLqyoO7yW7mN36IUnByMnBhQemcp2gGXj7x4GXBwbrABRd4UhIJMfMoAaKjFktl2FQk1YRdgBFDmCd7+FeOSn4GsCG1w/IVSpN1ezlqBdVqiMuG3RSyEByVBHvLXBQLulGp/ZsKGoJkW2gFTLnjxSbpu3fB8Y2KtiZ6RT3IlfnGS5Yfhl9vBxTcxgzvRrjK2h6QjVFSz/r+unAhpPKZ8BPlFCQta7/HF1bzWE4G7fX+rYiNtTAH3aWdOlD/okMUlhzsByIzi74VFvHREFVOkD908Gds7kzMh3qptjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDg3jrltbTU6EQUsnrJ7+VRgCCtEzUFqD1vyGyzqY4dHdJpD1CrMKnVM/JW0AT+y6573g==]
         location: "East US 2"
         instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
         architecture: amd64
@@ -193,7 +195,7 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker-highmem
-        idleTerminationMinutes: 5
+        idleTerminationMinutes: 1
         maxInstances: 20
         useAsMuchAsPosible: false
         usePrivateIP: true
@@ -201,11 +203,13 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
         os: "windows"
-        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFzRCKUXn+sqnS8toXrOWHCY6sUCgbaF9C8nLhuk1lAThsANcJpA1AVGvNx8UlwOvND8hr7MBsiKbJ1y1XVUfz6+SHF+HoXLqLdM+gqhcuDk6XRujZbqcZ3nI0VE/KtcBSfcBSQIcF4ClQeP9j3Pq4UqMoUhfzTqUj2ZOj4tvonEoY+H8glNpKytgY3Ysu2hiPm+0a4o6G6zCYuRaDy12gzU9Fizw/4xwROf4pCwSss6wV6O0MR81wJb8yK0wf7jRRTzxnwk1J53h3H9/ExIqiHNKhWkUCCusj/M+rAzH4z3lquvPbp/NCdtcwb6QzCvy7gfUiKYmyvR89eAIKiKCNzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBavWhbfJHjls5kGE4uWTAggCCDnUYqBwxDKQMn071k+GA7+sikbhAro6sMtoG+Cdh5sg==]
+        storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
         location: "East US 2"
         instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
         architecture: amd64
@@ -220,6 +224,8 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"

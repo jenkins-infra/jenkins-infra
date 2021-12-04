@@ -1,0 +1,40 @@
+---
+title: Bump JDK11 version (Jenkins tools) on all controllers
+sources:
+  default:
+    kind: githubRelease
+    name: Get the latest Adoptium JDK11 version
+    spec:
+      owner: "adoptium"
+      repository: "temurin11-binaries"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: regex
+        # jdk-11.0.12+7(https://github.com/adoptium/temurin11-binaries/releases/tag/jdk-11.0.12%2B7) is OK
+        pattern: "^jdk-11.(\\d*).(\\d*).(\\d*)+(\\d*)$"
+    transformers:
+      - trimPrefix: "jdk-"
+
+conditions:
+  checkIfReleaseIsAvailable:
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
+
+targets:
+  default:
+    name: "Bump JDK11 version on tools"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::default_tools.jdk11.version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

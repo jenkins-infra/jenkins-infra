@@ -1,8 +1,0 @@
-user-agent: *
-disallow: /label
-disallow: /labels
-disallow: /dosearchsite.action
-disallow: /pages/viewpage.action
-disallow: /pages/info.action
-disallow: /pages/diffpagesbyversion.action
-disallow: /pages/viewpreviousversions.action

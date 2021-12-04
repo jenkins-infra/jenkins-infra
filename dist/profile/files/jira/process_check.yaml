@@ -1,6 +1,0 @@
-  - name: JIRA
-    search_string: ['-Dcatalina.home=/srv/jira']
-    exact_match: false
-    thresholds:
-      # expect exactly 1 instance
-      critical: [0, 1]

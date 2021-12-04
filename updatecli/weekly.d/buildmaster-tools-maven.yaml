@@ -1,0 +1,39 @@
+---
+title: Bump Maven version (Jenkins tools) on all controllers
+sources:
+  getLatestMavenVersion:
+    kind: githubRelease
+    name: Get the latest Maven version
+    spec:
+      owner: "apache"
+      repository: "maven"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: latest
+    transformers:
+      - trimPrefix: "maven-"
+
+conditions:
+  checkIfReleaseIsAvailable:
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `getLatestMavenVersion` }}/binaries/apache-maven-{{ source `getLatestMavenVersion` }}-bin.tar.gz
+
+targets:
+  setMavenVersion:
+    name: "Bump Maven version on tools"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::default_tools.maven.mvn.version"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"

@@ -5,5 +5,4 @@ describe 'role::edamame' do
 
   it { should contain_class 'profile::robobutler' }
   it { should contain_class 'profile::sudo::osu' }
-  it { should contain_class 'profile::bind' }
 end

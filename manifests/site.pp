@@ -42,7 +42,7 @@ node 'puppet.jenkins.io' {
   include role::puppetmaster
 }
 
-# edamame (aka jenkins-confluence.osuosl.org)
+# edamame
 node 'edamame' {
   sshkeyman::hostkey { ['edamame.jenkins.io', 'edamame.jenkins-ci.org']: }
   include role::edamame
@@ -85,12 +85,6 @@ node 'kelp' {
   include role::census::agent
 }
 
-# eggplant
-node 'eggplant' {
-  sshkeyman::hostkey { ['eggplant.jenkins.io', 'eggplant.jenkins-ci.org']: }
-  include role::eggplant
-}
-
 # cucumber (legacy host)
 node 'cucumber' {
   sshkeyman::hostkey { ['cucumber.jenkins.io', 'cucumber.jenkins-ci.org']: }
@@ -100,11 +94,6 @@ node 'cucumber' {
 # tomato (Mac OS X 10.10 build node)
 node 'tomato' {
   include role::jenkins::agent
-}
-
-node 'ldap' {
-  sshkeyman::hostkey { ['ldap.jenkins.io']: }
-  include role::ldapserver
 }
 
 node 'census' {

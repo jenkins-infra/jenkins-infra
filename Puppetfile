@@ -75,8 +75,7 @@ mod 'datadog/datadog_agent', '3.8.0'
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '6.0.0'
 
-# For managing ldap, and dependencies
-mod 'camptocamp/openldap', '1.14.0'
+# For managing dependencies
 mod 'herculesteam/augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam/augeasproviders_core', '2.1.2'
 

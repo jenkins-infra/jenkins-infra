@@ -211,7 +211,6 @@ class profile::buildmaster(
       before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
-
     file { "${groovy_d}/terraform-credentials.groovy":
       ensure  => $groovy_d_terraform_credentials,
       owner   => 'jenkins',
