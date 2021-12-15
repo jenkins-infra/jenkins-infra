@@ -44,7 +44,6 @@ class profile::updatecenter(
   )
 
   concat::fragment { 'updates-rsync-key concat':
-    ensure  => present,
     target  => "${home_dir}/.ssh/config",
     order   => '99',
     content => "
