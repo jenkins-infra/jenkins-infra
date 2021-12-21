@@ -22,7 +22,6 @@ describe 'profile::updatecenter' do
     })
 
     expect(subject).to contain_concat__fragment('updates-rsync-key concat').with({
-      :ensure => :present,
       :target => "#{home_dir}/.ssh/config",
     })
   end
