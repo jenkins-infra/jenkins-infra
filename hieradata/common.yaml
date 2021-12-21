@@ -244,7 +244,7 @@ profile::buildmaster::agent_images:
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:d28f007847ed9f36cdb2eab81c354412e6274cc4dd1e950d1998fdc3018a33a8
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:d14590b6f4ac782dbbb859082ffd676bf597e271e3802de2ebce6c9080b31063
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:e84828ceb644c91aafa932e41f545f8ea1be7ef5774134919ea510a9eacbd8d5'
-    jnlp-alpine: 'jenkins/inbound-agent@sha256:f7d47623cab363f1744cf7a871f92c701f2cf1332912c181b18cb5248fce28f0'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:9f7244eb736e0a25a4fc37678e31c78bbe206254d14ba793a5a593fb9d646896'
     jnlp: jenkins/inbound-agent@sha256:646a51f0e232ac4f8422bf5a4b8da67f2ca3e49b82361d939d92c0ad679f363c
 profile::buildmaster::default_tools:
   jdk8:
