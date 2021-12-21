@@ -23,6 +23,11 @@ sources:
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk11"
+  getLatestInboundMaven17ContainerImage:
+    kind: dockerDigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk17"
   getLatestInboundNodeContainerImage:
     kind: dockerDigest
     spec:
@@ -141,6 +146,24 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-11"
+    transformers:
+      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+    scm:
+      github:
+        user: "{{ .github.user }}"
+        email: "{{ .github.email }}"
+        owner: "{{ .github.owner }}"
+        repository: "{{ .github.repository }}"
+        token: "{{ requiredEnv .github.token }}"
+        username: "{{ .github.username }}"
+        branch: "{{ .github.branch }}"
+  setInboundMaven17ContainerImage:
+    sourceID: getLatestInboundMaven17ContainerImage
+    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK17)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::buildmaster::agent_images.container_images.jnlp-maven-17"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scm:

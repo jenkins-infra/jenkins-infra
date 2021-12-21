@@ -95,6 +95,12 @@ profile::buildmaster::cloud_agents:
             - jdk11
           cpus: 4
           memory: 8
+        - name: jnlp-maven-17
+          labels:
+            - maven-17
+            - jdk17
+          cpus: 4
+          memory: 8
         - name: jnlp-node
           cpus: 2
           memory: 4
