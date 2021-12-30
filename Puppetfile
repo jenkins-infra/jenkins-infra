@@ -91,3 +91,6 @@ mod 'puppetlabs/postgresql', '5.12.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'
+
+# To manage custom network configurations
+mod 'puppet-network', '0.10.1'

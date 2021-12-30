@@ -91,6 +91,14 @@ class profile::openvpn (
     content => template("${module_name}/openvpn/90-network-config.yaml.erb")
   }
 
+  ## Custom route for peered networks
+  network_route { '10.240.0.0/14':
+    ensure    => 'present',
+    gateway   => '10.0.2.1',
+    interface => 'eth1',
+    netmask   => '255.252.0.0',
+  }
+
 
   firewall { '107 accept incoming 443 connections':
     proto  => 'tcp',
@@ -99,7 +107,6 @@ class profile::openvpn (
   }
 
   # Following firewall rules authorizes different network accesses as defined in https://github.com/jenkins-infra/openvpn
-
   firewall { '100 snat for network public data tier from default vpn network to port 80/443':
     chain       => 'POSTROUTING',
     jump        => 'MASQUERADE',
@@ -139,6 +146,26 @@ class profile::openvpn (
     outiface    => 'eth2',
     source      => '10.8.1.0/24',
     destination => '10.0.1.0/24',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network private-vnet default tier from default vpn network (peered with public network)':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth1',
+    source      => '10.8.0.0/24',
+    destination => '10.240.0.0/14',
+    table       => 'nat',
+  }
+
+  firewall { '100 snat for network private-vnet default tier from admin vpn network (peered with public network)':
+    chain       => 'POSTROUTING',
+    jump        => 'MASQUERADE',
+    proto       => 'all',
+    outiface    => 'eth1',
+    source      => '10.8.1.0/24',
+    destination => '10.240.0.0/14',
     table       => 'nat',
   }
 }
