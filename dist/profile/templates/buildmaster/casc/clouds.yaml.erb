@@ -37,13 +37,14 @@ jenkins:
         labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
         location: "<%= agent["location"] %>"
         noOfParallelJobs: 1
-        osDiskSize: 0
+        osDiskSize: <%= agent["osDiskSize"] ? agent["osDiskSize"] : 0 %>
         osType: "<%= agent["os"] == "windows" ? 'Windows' : 'Linux' %>"
         preInstallSsh: false
         retentionStrategy:
           azureVMCloudRetentionStrategy:
             idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
         shutdownOnIdle: false
+        spotInstance: <%= agent["spotInstance"] || agent["spot"] ? true : false %>
         templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
         templateDisabled: false
         templateName: "<%= agent["name"] %>"

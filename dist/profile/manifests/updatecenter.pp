@@ -3,6 +3,8 @@
 #
 # Typically this host(s) will be acting as a Jenkins agent attached to a
 # trusted CI environment
+# TODO: requirement for $homedir/.m2 (same volume as agent workspace because of hardlinks)
+#   + enough space because of Maven cache
 class profile::updatecenter(
   $home_dir      = '/home/jenkins',
   $user          = 'jenkins',
@@ -44,7 +46,6 @@ class profile::updatecenter(
   )
 
   concat::fragment { 'updates-rsync-key concat':
-    ensure  => present,
     target  => "${home_dir}/.ssh/config",
     order   => '99',
     content => "

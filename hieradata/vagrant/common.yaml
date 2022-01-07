@@ -2,10 +2,6 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
-profile::accountapp::smtp_user: 'smtp_user_example'
-profile::accountapp::smtp_password: 'smtp_password_example'
-profile::accountapp::jira_password: 'jira_password_example'
-
 profile::buildmaster::docker_image: 'jenkins/jenkins'
 profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::memory_limit: '1536m'
@@ -37,6 +33,12 @@ profile::buildmaster::cloud_agents:
           labels:
             - maven-11
             - jdk11
+          cpus: 4
+          memory: 8
+        - name: jnlp-maven-17
+          labels:
+            - maven-17
+            - jdk17
           cpus: 4
           memory: 8
         - name: jnlp-node
@@ -117,6 +119,8 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
+        osDiskSize: 90
+        spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
         imageDefinition: jenkins-agent-ubuntu-20
@@ -133,6 +137,7 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: false
         usePrivateIP: false
+        osDiskSize: 90
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -147,6 +152,7 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: true
         useEphemeralOSDisk: false
+        osDiskSize: 90
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"
@@ -203,69 +209,9 @@ profile::buildmaster::plugins:
   - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
-### Stuff for IRC jenkins-admin bot
-# access to GitHub (for creating repos, etc)
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_login: 'jenkinsadmin'
-profile::kubernetes::resources::chatbot_jenkinsadmin::github_password: 'githubtoken'
-# access JIRA (for creating new components)
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_login: 'ircbot'
-profile::kubernetes::resources::chatbot_jenkinsadmin::jira_password: 'jiratoken'
-# access freenode (for authenticating as 'jenkinsadmin')
-# TODO: nickname is hard-coded to the bot right now
-profile::kubernetes::resources::chatbot_jenkinsadmin::nick_password: 'ircpassword'
-profile::jira::database_url: mysql://jira:raji@db/jiradb
 
 docker::log_opt::max-size: '100m'
 docker::log_opt::max-file: 2
-
-profile::ldap::ssl_key: |
-  -----BEGIN RSA PRIVATE KEY-----
-  MIICXAIBAAKBgQCw/CwMBPVJtUbvtJY7XxrwN0o5Bkus3U2E9AuZR7Ge4Ap5xQmh
-  oEE2ZjBCKTKELtcwATvFZJD9R8kBqU6dVp8S0wd1rnZSBpUu7uGgal/ZFth4Qx8L
-  S7zpRC3nNR3Wp4vSUwpQiYdaPy+g2s38eABdd1OmfAiVfwPyQFA6FgiuvQIDAQAB
-  AoGAefTKxV2FSM1JnFPsUe0vOuhelPzpmKzGhh9E/tKQatInZdGI2X78cOfpyS1q
-  Sfuc/M9cyKCL6HxW3nY0XecapVBYg+Cxz1UmqmnFkgyLvBNbJVrSL5QdHHcSkl8l
-  Mw9e2oMnTI3+EGl2Gfxv54r2Ph0K10td49/5GUErgBpe5AECQQDgCKul1heoMCkd
-  mPhbxziLvu/Hm88MEsMTEZTlaQDxQ18iwUZIi/X05TUp0qO/VFEBNS6jqW7aa5+Q
-  oycP8ElhAkEAyjzwnpxrIC+aYZZRsulNDzVUHWoNdQ9pgz6kqC+4b3sj83X7wdn6
-  WwiB/TRIj4HGyQ76sJIJrS7sRfvimisW3QJAOcICfr6zWqkP8JF/dinmaiDPsKZ6
-  uqIbqM7flEV9+LVl0ZACjrGGt5xgGGg1zx3txGHxpEAKVEVq3d8yMunAAQJBAJRR
-  nSa2ENrKDq8DT2enMpy0v7vSy4vOgdN/XcL7PIiGBxfGr5y8AKBC3RKWBaE5zFAo
-  bDKS6AXbI+0vjkEC2QECQGfRo2BX8T/AJtuTgaqKe6fJa256sb2UBQ94gHTM+g3g
-  9nkx0A60UEtCdY+Rv2DCgYxF3/S4cxKH7UQngwzs2KM=
-  -----END RSA PRIVATE KEY-----
-
-profile::ldap::ssl_cert: |
-  -----BEGIN CERTIFICATE-----
-  MIICNTCCAZ4CCQCiU0dd09lCwzANBgkqhkiG9w0BAQsFADBfMQswCQYDVQQGEwJB
-  VTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0
-  cyBQdHkgTHRkMRgwFgYDVQQDDA9sZGFwLmplbmtpbnMuaW8wHhcNMTYwNDIyMTg0
-  NzAwWhcNMTcwNDIyMTg0NzAwWjBfMQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29t
-  ZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMRgwFgYD
-  VQQDDA9sZGFwLmplbmtpbnMuaW8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGB
-  ALD8LAwE9Um1Ru+0ljtfGvA3SjkGS6zdTYT0C5lHsZ7gCnnFCaGgQTZmMEIpMoQu
-  1zABO8VkkP1HyQGpTp1WnxLTB3WudlIGlS7u4aBqX9kW2HhDHwtLvOlELec1Hdan
-  i9JTClCJh1o/L6Dazfx4AF13U6Z8CJV/A/JAUDoWCK69AgMBAAEwDQYJKoZIhvcN
-  AQELBQADgYEApCL0MOYHTNdyVFGE26KiadvxH0ZMg6nIUsrUnItg1WDDbfP1d0ZQ
-  V2jdQ4Az32SGom/DVzkpwK7K/FrUqJInNAoTSnj2Brh8EklOW2rGygqXEHuRp0Jb
-  u4DZf96/Ff36Ir0Inkdu+8EspUiRu+AwJvIn7elZSFm6dm9E8ouAWQI=
-  -----END CERTIFICATE-----
-
-profile::ldap::ssl_chain: |
-  -----BEGIN CERTIFICATE-----
-  MIICNTCCAZ4CCQCiU0dd09lCwzANBgkqhkiG9w0BAQsFADBfMQswCQYDVQQGEwJB
-  VTETMBEGA1UECAwKU29tZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0
-  cyBQdHkgTHRkMRgwFgYDVQQDDA9sZGFwLmplbmtpbnMuaW8wHhcNMTYwNDIyMTg0
-  NzAwWhcNMTcwNDIyMTg0NzAwWjBfMQswCQYDVQQGEwJBVTETMBEGA1UECAwKU29t
-  ZS1TdGF0ZTEhMB8GA1UECgwYSW50ZXJuZXQgV2lkZ2l0cyBQdHkgTHRkMRgwFgYD
-  VQQDDA9sZGFwLmplbmtpbnMuaW8wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGB
-  ALD8LAwE9Um1Ru+0ljtfGvA3SjkGS6zdTYT0C5lHsZ7gCnnFCaGgQTZmMEIpMoQu
-  1zABO8VkkP1HyQGpTp1WnxLTB3WudlIGlS7u4aBqX9kW2HhDHwtLvOlELec1Hdan
-  i9JTClCJh1o/L6Dazfx4AF13U6Z8CJV/A/JAUDoWCK69AgMBAAEwDQYJKoZIhvcN
-  AQELBQADgYEApCL0MOYHTNdyVFGE26KiadvxH0ZMg6nIUsrUnItg1WDDbfP1d0ZQ
-  V2jdQ4Az32SGom/DVzkpwK7K/FrUqJInNAoTSnj2Brh8EklOW2rGygqXEHuRp0Jb
-  u4DZf96/Ff36Ir0Inkdu+8EspUiRu+AwJvIn7elZSFm6dm9E8ouAWQI=
-  -----END CERTIFICATE-----
 
 profile::openvpn::auth_ldap_password: 's3cr3t'
 profile::openvpn::auth_ldap_url: 'ldaps://ldap'

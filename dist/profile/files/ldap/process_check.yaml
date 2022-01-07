@@ -1,7 +1,0 @@
-  - name: LDAP
-    search_string: ['/usr/sbin/slapd']
-    exact_match: false
-    thresholds:
-      # expect exactly 1 instance
-      critical: [0, 1]
-

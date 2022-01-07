@@ -28,7 +28,7 @@ targets:
     kind: yaml
     spec:
       file: ".github/workflows/updatecli.yaml"
-      key: "jobs.updatecli.steps[2].env.UPDATECLI_VERSION"
+      key: "jobs.updatecli.steps[1].env.UPDATECLI_VERSION"
     scm:
       github:
         user: "{{ .github.user }}"

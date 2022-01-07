@@ -1,8 +1,0 @@
----
-profile::apachecert::id: wiki-jira
-
-accounts:
-  abaranov:
-    ssh_keys:
-      default:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCRstRBewm86WSkH85NOIcE9P/uCSXtdBGIEd/kNfrOoBeJi5wlOYWK+3wQ0fpdEgug4UjwigGCQM+m2cXh4EgMiUgbDbjNQxY064ClDduOFHDD4YsEpZLVd2jKh7aoUGG1s1R/5mqpip+fARTp25uIyk1N8WyQfipTVDcwmeUcy/msXkhaC93ZoUop9lUzM/gAf6aVteFmCDmiHrYkXKt/Z7xH392huyGo3V7IJckVk/BuNkF9yIroOXgnQBoteBB7AwXY6jQhgaXkXkCbsaxVHcna68ilRWMfKxj7dXcHHS6yhw6LDlw8J1jtqtHVjUzenObBtjkScZBfVpBVTNu1
