@@ -144,7 +144,7 @@ class profile::archives (
     port            => '80',
     docroot         => $archives_dir,
     redirect_status => 'temp',
-    redirect_dest   => 'https://archives.jenkins.io'
+    redirect_dest   => 'https://archives.jenkins.io/'
   }
 
   apache::vhost { 'archives.jenkins.io':
