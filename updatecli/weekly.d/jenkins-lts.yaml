@@ -34,7 +34,6 @@ conditions:
       file: hieradata/common.yaml
       key: "profile::buildmaster::docker_image"
       value: "jenkins/jenkins"
-
   testDockerImageExist:
     kind: dockerImage
     sourceID: jenkinsLatestLTS
