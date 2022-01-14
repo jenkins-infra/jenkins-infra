@@ -39,14 +39,15 @@ profile::buildmaster::cloud_agents:
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXhMrX6DhUDJU5Ug4nLaRGGPWFHT2u9ZnxTQuXVQTBbR3Pb8pOYr/kWxQJmZTpVoqEnanVineZn1PFTxVVkjHUirX3kKgdwu3pZTrzaklBex1C1us64SmHErbHds0KeE/EX03k+Gti/V9W1z9jcTueHSld58olNCAb5oNbyo6noqLAZehoQLS39eRvsQDb4sYmVUv9X7daZ7Zu+kCYBtBZyfDNbRFMSOYcbj9WuygCwAijVGIC6q9hJWZYe/5DKAUZnynWDdPmtzDytrc3qKDaHSQ+5nQYORcO9vTuAevUoHis5elQ8dm6VWGiyvafx7xKzqbNghu9xGz/5IA/zzC9TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBEbhkLOEK5AaKPTV2CVxhagCAx5gsM01ONtqyQ7FRhnqOtyISGBXJtdfdcJXbp2MSBtw==]
         location: "East US"
-        instanceType: Standard_DS2_v2 # 2 vCPUS / 7 Gb
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
         architecture: amd64
         labels:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 10
-        maxInstances: 15
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
         useAsMuchAsPosible: true
         credentialsId: "azure-jenkins-user"
         usePrivateIP: false
@@ -57,11 +58,12 @@ profile::buildmaster::cloud_agents:
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACyYOJKI6ZUkaYxvjc2B28AgmrulBjPZu4/1CgWkG9UDeDL36IaKtwZpbrunMC1iomzchJeeamWP97FYXZEuL+UrjtksLyDWMwXRjH+reENg8zXkm0d3ixajOAxyWMp8oWBQXHbF6sabFthVFsyH/NHiJNK7SathpmEZb2CV4Wijh2OEqWD9siJiIuG6ltkOO3lof2v83QG7FdBiiUq19k3vZQ7DQa8ew8jqH0+/+nMoMnpSg93PY/CJ5ty5Wp1gKEl3fZoLWT9ajwsPSAdQz7aK74/eYkSfbFY8EYPxSteAsLZz/OUJjhKpQQH8OUiYj88caw6uw+hnCdUI7ii+goTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBcFfMvnXKFZn9P6fwpv38CgCBZNquRP9m0BnCJIVRT+f8AvBve8ReanZIVHLCtKasF4w==]
         location: "East US"
         instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
         architecture: amd64
         labels:
           - docker-windows
-        idleTerminationMinutes: 60
-        maxInstances: 5
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
         useAsMuchAsPosible: true
         credentialsId: "azure-jenkins-user"
         usePrivateIP: false
