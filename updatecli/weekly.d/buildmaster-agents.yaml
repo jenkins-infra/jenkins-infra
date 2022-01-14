@@ -1,5 +1,17 @@
----
 title: Bump agent templates version on all controllers
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
 sources:
   packerImageVersion:
     kind: githubRelease
@@ -13,36 +25,43 @@ sources:
     spec:
       image: "jenkinsciinfra/inbound-agent-ruby"
       tag: "latest"
+      architecture: amd64
   getLatestInboundMaven8ContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk8"
+      architecture: amd64
   getLatestInboundMaven11ContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk11"
+      architecture: amd64
   getLatestInboundMaven17ContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk17"
+      architecture: amd64
   getLatestInboundNodeContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkinsciinfra/inbound-agent-node"
       tag: "latest"
+      architecture: amd64
   getLatestInboundAlpineContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkins/inbound-agent"
       tag: "alpine"
+      architecture: amd64
   getLatestInboundJDK11ContainerImage:
     kind: dockerDigest
     spec:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
+      architecture: amd64
   getLatestUbuntuAgentAMIAmd64:
     kind: aws/ami
     depends_on:
@@ -94,15 +113,7 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.azure_vms_gallery_image.version"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundRubyContainerImage:
     sourceID: getLatestInboundRubyContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
@@ -112,15 +123,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-ruby"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundMaven8ContainerImage:
     sourceID: getLatestInboundMaven8ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK8)"
@@ -130,15 +133,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-8"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundMaven11ContainerImage:
     sourceID: getLatestInboundMaven11ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK11)"
@@ -148,15 +143,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-11"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundMaven17ContainerImage:
     sourceID: getLatestInboundMaven17ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK17)"
@@ -166,15 +153,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-17"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundNodeContainerImage:
     sourceID: getLatestInboundNodeContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
@@ -184,15 +163,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-node"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-node@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundAlpineContainerImage:
     sourceID: getLatestInboundAlpineContainerImage
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
@@ -202,15 +173,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-alpine"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setInboundJDK11ContainerImage:
     sourceID: getLatestInboundJDK11ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
@@ -220,15 +183,7 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setUbuntuAgentAMIAmd64:
     name: "Bump AMI ID for Ubuntu AMD64 agents"
     kind: yaml
@@ -236,15 +191,7 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-amd64"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setUbuntuAgentAMIArm64:
     name: "Bump AMI ID for Ubuntu ARM64 agents"
     kind: yaml
@@ -252,15 +199,7 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-arm64"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
   setWindowsAgentAMIamd64:
     name: "Bump AMI ID for Windows AMD64 agents"
     kind: yaml
@@ -268,12 +207,21 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.windows-amd64"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - setAzureGalleryImageVersion
+      - setInboundRubyContainerImage
+      - setInboundMaven8ContainerImage
+      - setInboundMaven11ContainerImage
+      - setInboundMaven17ContainerImage
+      - setInboundNodeContainerImage
+      - setInboundAlpineContainerImage
+      - setInboundJDK11ContainerImage
+      - setUbuntuAgentAMIAmd64
+      - setUbuntuAgentAMIArm64
+      - setWindowsAgentAMIamd64

@@ -1,6 +1,19 @@
 ---
 title: "Update updatecli version"
 
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
 sources:
   latestUpdatecliVersion:
     kind: githubRelease
@@ -29,12 +42,11 @@ targets:
     spec:
       file: ".github/workflows/updatecli.yaml"
       key: "jobs.updatecli.steps[1].env.UPDATECLI_VERSION"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - setUpdatecliVersion

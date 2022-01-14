@@ -1,5 +1,18 @@
 ---
 title: Bump Jenkins LTS version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
 sources:
   jenkinsLatestLTS:
     kind: jenkins
@@ -15,8 +28,8 @@ sources:
 conditions:
   defaultCiDockerImage:
     name: "Ensure default jenkins docker image name set to jenkins/jenkins"
-    sourceID: jenkinsLatestLTS
     kind: yaml
+    disablesourceinput: true
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::docker_image"
@@ -24,8 +37,11 @@ conditions:
 
   testDockerImageExist:
     kind: dockerImage
+    sourceID: jenkinsLatestLTS
     spec:
       image: "jenkins/jenkins"
+      architecture: amd64
+      # Tag comes from the source input value
 
 targets:
   imageTag:
@@ -35,12 +51,11 @@ targets:
     spec:
       file: "hieradata/common.yaml"
       key: "profile::buildmaster::docker_tag"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - imageTag

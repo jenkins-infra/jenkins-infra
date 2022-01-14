@@ -1,5 +1,17 @@
----
 title: Bump JDK17 version (Jenkins tools) on all controllers
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
 sources:
   default:
     kind: githubRelease
@@ -23,18 +35,17 @@ conditions:
       command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
 
 targets:
-  default:
+  setJDK17Version:
     name: "Bump JDK17 version on tools"
     kind: yaml
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.jdk17.version"
-    scm:
-      github:
-        user: "{{ .github.user }}"
-        email: "{{ .github.email }}"
-        owner: "{{ .github.owner }}"
-        repository: "{{ .github.repository }}"
-        token: "{{ requiredEnv .github.token }}"
-        username: "{{ .github.username }}"
-        branch: "{{ .github.branch }}"
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - setJDK17Version
