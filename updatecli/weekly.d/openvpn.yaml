@@ -30,6 +30,8 @@ conditions:
     kind: dockerImage
     spec:
       image: "jenkinsciinfra/openvpn"
+      architecture: amd64
+      # Tag comes from the source input value
   checkIfKeyExist:
     kind: file
     disablesourceinput: true
