@@ -16,7 +16,7 @@ scms:
 sources:
   latestVersion:
     kind: githubRelease
-    name: Get the latest stable docker-openvpn version
+    name: Get the latest stable jenkinsciinfra/rating version
     spec:
       owner: "jenkins-infra"
       repository: "rating"
@@ -52,3 +52,9 @@ pullrequests:
     scmID: default
     targets:
       - imageTag
+    spec:
+      labels:
+        - dependencies
+        - rating
+        - rating.jenkins.io
+        - site:rating.jenkins.io
