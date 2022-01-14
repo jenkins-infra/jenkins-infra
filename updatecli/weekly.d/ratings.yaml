@@ -1,0 +1,54 @@
+---
+title: Bump `jenkinsciinfra/rating` Docker image version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubRelease
+    name: Get the latest stable docker-openvpn version
+    spec:
+      owner: "jenkins-infra"
+      repository: "rating"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
+
+conditions:
+  testDockerImageExist:
+    kind: dockerImage
+    spec:
+      image: "jenkinsciinfra/rating"
+  checkIfKeyExist:
+    kind: file
+    disablesourceinput: true
+    spec:
+      file: hieradata/common.yaml
+      matchPattern: "profile::rating::image_tag"
+
+targets:
+  imageTag:
+    name: "Update Docker Image tag for jenkinsciinfra/rating:<latest version>"
+    kind: yaml
+    spec:
+      file: "hieradata/common.yaml"
+      key: "profile::rating::image_tag"
+    scmID: default
+
+pullrequests:
+  default:
+    kind: github
+    scmID: default
+    targets:
+      - imageTag
