@@ -21,6 +21,8 @@ LibraryConfiguration lib = new LibraryConfiguration('pipeline-library',
 
 lib.implicit = true
 lib.defaultVersion = 'master'
+lib.includeInChangesets = false
+lib.cachingConfiguration = new LibraryCachingConfiguration(180, null)
 
 GlobalLibraries.get().libraries = [lib]
 
