@@ -1,0 +1,19 @@
+unclassified:
+  globalLibraries:
+    libraries:
+      - defaultVersion: "master"
+        implicit: true
+        includeInChangesets: false
+        name: "pipeline-library"
+        retriever:
+          modernSCM:
+            scm:
+              git:
+                id: "pipeline-library"
+                remote: "https://github.com/jenkins-infra/pipeline-library.git"
+                traits:
+                - "gitBranchDiscovery"
+                - discoverOtherRefsTrait:
+                    ref: "pull/*"
+                - headWildcardFilter:
+                    includes: "*"
