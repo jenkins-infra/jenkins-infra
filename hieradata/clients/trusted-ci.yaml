@@ -46,6 +46,8 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
+          - maven-11
+          - jdk11
         idleTerminationMinutes: 5
         maxInstances: 7 # Quota of 56 vCPUs
         useAsMuchAsPosible: true
