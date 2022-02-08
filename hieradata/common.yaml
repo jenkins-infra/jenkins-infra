@@ -246,7 +246,7 @@ profile::buildmaster::agent_images:
     jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:e56f6ab81a47d787a1de45ac4485fd9ff0d2bf4fdc395f93d6c6a9a9b6ec27bd
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:adc2ade7076f2591e75adfa3e101fd4c7151aec7bba98d4601655abcf021b1fc'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:18912403b4b6a41e8c15d0ae510ba2699278ddad9112b1e5874c513be56b7901'
-    jnlp: jenkins/inbound-agent@sha256:546a99a86b4a0b5172f97176b69f3b6a1b710c9270889b6db9ca5a6abd4b3d83
+    jnlp: jenkins/inbound-agent@sha256:bc35ba576f79c11cd210e6688bb9c155d4f5486cf1d0ba339074a58799b20ecc
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u312-b07"
