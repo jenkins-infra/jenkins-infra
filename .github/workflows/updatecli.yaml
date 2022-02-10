@@ -1,4 +1,6 @@
+---
 name: updatecli
+
 on:
   # Allow to be run manually
   workflow_dispatch:
@@ -7,44 +9,31 @@ on:
     - cron: '0 2 * * 1' # Every monday at 2am UTC
   push:
   pull_request:
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   updatecli:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Install updatecli CLI
-        env:
-          UPDATECLI_VERSION: "0.19.2"
-        run: |
-          curl --silent --location --show-error --output /tmp/updatecli.tgz \
-            "https://github.com/updatecli/updatecli/releases/download/v${UPDATECLI_VERSION}/updatecli_$(uname -s)_$(uname -m).tar.gz"
-          tar xzf /tmp/updatecli.tgz -C /usr/local/bin/ updatecli
-          rm -f /tmp/updatecli.tgz
+
       - name: Diff
-        continue-on-error: true
-        run: |
-          updatecli diff --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        uses: updatecli/updatecli-action@v1.19.0
+        with:
+          command: diff
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Configure AWS Credentials
-        if: github.ref == 'refs/heads/production'
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-2
-      ## This step allows to generate a short-lived token which is allowed to modify GitHub Workflow files (that the default GITHUB_TOKEN cannot)
-      ## Please make sure that the 2 secrets are defined (usually at organization level, with a per-repository access)
-      - uses: tibdex/github-app-token@v1.5
-        id: generate_token
-        if: github.ref == 'refs/heads/production'
-        with:
-          app_id: ${{ secrets.JENKINS_ADMIN_APP_ID }}
-          private_key: ${{ secrets.JENKINS_ADMIN_APP_PRIVKEY }}
+          
       - name: Apply
+        uses: updatecli/updatecli-action@v1.19.0
         if: github.ref == 'refs/heads/production'
-        run: |
-          updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml
+        with:
+          command: apply
+          flags: "--config ./updatecli/weekly.d --values ./updatecli/values.github-action.yaml"
         env:
-          UPDATECLI_GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+          UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
