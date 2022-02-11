@@ -13,17 +13,17 @@ function get_jdk_download_url() {
   jdk_version="${1}"
   platform="${2}"
   case "${jdk_version}" in
-    8u*)
+    8*)
       ## JDK8 does not have the carret ('-') in their archive names
       echo "https://github.com/adoptium/temurin8-binaries/releases/download/jdk${jdk_version}/OpenJDK8U-jdk_${platform}_hotspot_${jdk_version//-}";
       return 0;;
-    11.*)
+    11*)
       ## JDK11 URLs have an underscore ('_') instead of a plus ('+') in their archive names
       echo "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-${jdk_version}/OpenJDK11U-jdk_${platform}_hotspot_${jdk_version//+/_}";
       return 0;;
-    17+*)
+    17*)
       ## JDK17 URLs have an underscore ('_') instead of a plus ('+') in their archive names
-      echo "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${jdk_version}/OpenJDK17-jdk_${platform}_hotspot_${jdk_version//+/_}";
+      echo "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${jdk_version}/OpenJDK17U-jdk_${platform}_hotspot_${jdk_version//+/_}";
       return 0;;
     *)
       echo "ERROR: unsupported JDK version (${jdk_version}).";
@@ -37,7 +37,7 @@ case "${1}" in
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux");;
   11.*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux" "s390x_linux");;
-  17+*)
+  17.*+*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux" "s390x_linux");;
   *)
     echo "ERROR: unsupported JDK version (${1}).";
