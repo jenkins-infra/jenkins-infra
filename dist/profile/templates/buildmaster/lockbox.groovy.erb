@@ -4,6 +4,7 @@ import jenkins.model.*
 import hudson.security.*
 import hudson.security.csrf.*
 import hudson.model.Item
+import org.jenkinsci.plugins.matrixauth.PermissionEntry
 
 def instance = Jenkins.instance
 
@@ -55,12 +56,12 @@ AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
     Jenkins.READ,
     Item.READ,
 ].each { permission ->
-    strategy.add(permission, 'anonymous')
+    strategy.add(permission, PermissionEntry.user('anonymous'))
 }
 <%end%>
 
 <% @admin_ldap_groups.each do |group|%>
-strategy.add(Jenkins.ADMINISTER, '<%= group %>')
+strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('<%= group %>'))
 <%end%>
 
 instance.authorizationStrategy = strategy
