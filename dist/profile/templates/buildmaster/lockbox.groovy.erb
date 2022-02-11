@@ -10,13 +10,6 @@ def instance = Jenkins.instance
 
 instance.numExecutors = 0
 
-println "Checking CSRF protection..."
-if (instance.crumbIssuer == null) {
-  println "Enabling CSRF protection"
-  instance.crumbIssuer = new DefaultCrumbIssuer(true)
-}
-
-
 println 'Checking authentication status'
 if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
   println "Enabling LDAP-based authentication"
