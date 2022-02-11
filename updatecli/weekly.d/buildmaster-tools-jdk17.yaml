@@ -23,8 +23,8 @@ sources:
       username: "{{ .github.username }}"
       versionFilter:
         kind: regex
-        # jdk-17+35(https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17%2B35) is OK
-        pattern: "^jdk-17\\+(\\d*)$"
+        # jdk-17.0.2+8(https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.2%2B8) is OK
+        pattern: "^jdk-17.(\\d*).(\\d*).(\\d*)+(\\d*)$"
     transformers:
       - trimPrefix: "jdk-"
 
