@@ -255,7 +255,7 @@ profile::buildmaster::default_tools:
     version: "11.0.14+9"
     sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   jdk17:
-    version: "17+35"
+    version: "17.0.2+8"
     sourceURL: https://github.com/adoptium/temurin17-binaries/releases/download
   maven:
     mvn:
