@@ -176,6 +176,10 @@ jenkins:
             workingDir: "/home/jenkins"
           label: "container kubernetes <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
           name: "<%= agent["name"] %>"
+           <%- if agent["imagePullSecrets"] -%>
+          imagePullSecrets:
+          - name: "<%= agent["imagePullSecrets"] %>"
+          <%- end -%>
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
       <%- end -%>
