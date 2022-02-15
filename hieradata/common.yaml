@@ -231,22 +231,22 @@ profile::buildmaster::agents_setup:
     tempDir: '/tmp'
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: ami-0b6c0945a681b0c9e
-    windows-amd64: "ami-0320d578c21e1255c"
-    ubuntu-arm64: ami-014ba4a5098e5e684
+    ubuntu-amd64: "ami-0a11509f4a702d787"
+    windows-amd64: "ami-0f2792367a1687a81"
+    ubuntu-arm64: "ami-05e14994806ee6819"
   azure_vms_gallery_image:
-    version: 0.14.0
+    version: 0.15.1
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:28dc684f68f8cb6c40c47d81491d4028a27efbaaa38ad2888c34c3c4197fb62f
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:671e159a7ab035f76bb481b301b7baabe4689e7839f8fd0c1fae3d43ede204a0
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:6f477dd70da59fc2fccf1d74785418c109ad68015b1ee014f56ec611a762b042
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:e56f6ab81a47d787a1de45ac4485fd9ff0d2bf4fdc395f93d6c6a9a9b6ec27bd
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:adc2ade7076f2591e75adfa3e101fd4c7151aec7bba98d4601655abcf021b1fc'
-    jnlp-alpine: 'jenkins/inbound-agent@sha256:e8d98c678f6de7b61633724a1fa0fddc497183316cd9f308f95766af25acf710'
-    jnlp: jenkins/inbound-agent@sha256:07c6ff015614ae40d7f4cecc6d7d8aa7e18ac38fd8b098702bf2dc9a6bc0ac16
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:eee239ba8afc442267551581cc639767fb0c6a60519154c1ef5626e52ef54be5
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:899535601195d4459adb17481806b1c8e1a937ed8c0efa12a66f88de1feaa73f
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:2e84058ff0cb225ebefc1a92d271e4d228003e64f0c95fc503f2543fc0b58f66
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:58f79c7505a51038cf1e6dd760fd1883194a6c0056ae08daf32e932c389ab556
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:e8dcef33795cf860e11a652c93c2319e704ba0970e98f382330be9f647b3475e'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:95f077b574d0888ce109b9b151255e1b40818a346b6ad1708ebb1ce97ed16146'
+    jnlp: jenkins/inbound-agent@sha256:a73b495c2c13ca951979429dc708c5c3e41ac76521266984081bf67c66e66c61
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u322-b06"
