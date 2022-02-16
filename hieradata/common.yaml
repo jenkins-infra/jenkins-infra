@@ -214,7 +214,7 @@ profile::buildslave::ssh_keys:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::buildmaster::docker_image: jenkins/jenkins
-profile::buildmaster::docker_tag: "2.319.2-jdk11"
+profile::buildmaster::docker_tag: "2.319.3-jdk11"
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
@@ -231,31 +231,31 @@ profile::buildmaster::agents_setup:
     tempDir: '/tmp'
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: ami-06152e99ecc2960ac
-    windows-amd64: "ami-048c46c688aeea070"
-    ubuntu-arm64: ami-0fa3b57239b75c563
+    ubuntu-amd64: "ami-0a11509f4a702d787"
+    windows-amd64: "ami-0f2792367a1687a81"
+    ubuntu-arm64: "ami-05e14994806ee6819"
   azure_vms_gallery_image:
-    version: 0.13.0
+    version: 0.15.1
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:894cc349293928fc821bd75d913145a8954964f63cd8c472619ef97a38875d09
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:aedc6cb558206d4a351ab47b9ef682eb852a9d6b6f2c0be71c03b60caeb12405
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:b553688c530c659217e56d681dd35d29075b92a649aebd440a99ac48fede30b0
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:7e6e2934e5fcc2801d03bf123838f92f04dfbccd764649c530664f9549c9ac40
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:0d29bb74ca1df4987fc12fb90ca0e4290296d24df2d884814b9b5fd112519221'
-    jnlp-alpine: 'jenkins/inbound-agent@sha256:2a524cf48b9d9bf321cc9caeb9483d30846915df78c7f05b3a920c83d55aab5e'
-    jnlp: jenkins/inbound-agent@sha256:e1bd129ba7c992a3d9dd8d0a987ceca9d5064cd1eabfda09bf1624e516feccbc
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:eee239ba8afc442267551581cc639767fb0c6a60519154c1ef5626e52ef54be5
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:899535601195d4459adb17481806b1c8e1a937ed8c0efa12a66f88de1feaa73f
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:2e84058ff0cb225ebefc1a92d271e4d228003e64f0c95fc503f2543fc0b58f66
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:58f79c7505a51038cf1e6dd760fd1883194a6c0056ae08daf32e932c389ab556
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:e8dcef33795cf860e11a652c93c2319e704ba0970e98f382330be9f647b3475e'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:95f077b574d0888ce109b9b151255e1b40818a346b6ad1708ebb1ce97ed16146'
+    jnlp: jenkins/inbound-agent@sha256:a73b495c2c13ca951979429dc708c5c3e41ac76521266984081bf67c66e66c61
 profile::buildmaster::default_tools:
   jdk8:
-    version: "8u312-b07"
+    version: "8u322-b06"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
     version: "11.0.14+9"
     sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   jdk17:
-    version: "17+35"
+    version: "17.0.2+8"
     sourceURL: https://github.com/adoptium/temurin17-binaries/releases/download
   maven:
     mvn:

@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Install updatecli CLI
         env:
-          UPDATECLI_VERSION: "0.18.3"
+          UPDATECLI_VERSION: "0.19.2"
         run: |
           curl --silent --location --show-error --output /tmp/updatecli.tgz \
             "https://github.com/updatecli/updatecli/releases/download/v${UPDATECLI_VERSION}/updatecli_$(uname -s)_$(uname -m).tar.gz"

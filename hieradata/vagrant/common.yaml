@@ -22,6 +22,7 @@ profile::buildmaster::cloud_agents:
           memory: 4
           labels:
             - ruby
+          imagePullSecrets: dockerhub-credential
         - name: jnlp-maven-8
           labels:
             - maven
@@ -29,28 +30,33 @@ profile::buildmaster::cloud_agents:
             - jdk8
           cpus: 4
           memory: 8
+          imagePullSecrets: dockerhub-credential
         - name: jnlp-maven-11
           labels:
             - maven-11
             - jdk11
           cpus: 4
           memory: 8
+          imagePullSecrets: dockerhub-credential
         - name: jnlp-maven-17
           labels:
             - maven-17
             - jdk17
           cpus: 4
           memory: 8
+          imagePullSecrets: dockerhub-credential
         - name: jnlp-node
           cpus: 2
           memory: 4
           labels:
             - node
+          imagePullSecrets: dockerhub-credential
         - name: jnlp-alpine
           cpus: 1
           memory: 2
           labels:
             - alpine
+          imagePullSecrets: dockerhub-credential
         - name: jnlp
           labels:
             - default
