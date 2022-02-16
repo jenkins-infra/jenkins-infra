@@ -311,8 +311,6 @@ profile::buildmaster::cloud_agents:
           memory: 8
           labels:
             - maven-11-windows
-
-
 # These are plugins we need in our ci environment
 profile::buildmaster::plugins:
   - ansicolor
