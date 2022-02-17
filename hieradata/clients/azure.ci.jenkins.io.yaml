@@ -172,7 +172,8 @@ profile::buildmaster::cloud_agents:
         - name: jnlp
           cpus: 2
           memory: 4
-          # labels:
+          labels:
+            - test-doks
           #   - maven-11
           #   - jdk11
           imagePullSecrets: dockerhub-credential
