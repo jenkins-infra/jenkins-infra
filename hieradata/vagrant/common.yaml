@@ -62,6 +62,18 @@ profile::buildmaster::cloud_agents:
             - default
           cpus: 1
           memory: 1
+    doks:
+      max_capacity: 150 # TODO: define correct values for Digital Ocean
+      url: https://SuperSecretThatShouldBeEncryptedInProduction
+      agent_definitions:
+        - name: jnlp
+          cpus: 2
+          memory: 4
+          labels:
+            - test-doks
+          #   - maven-11
+          #   - jdk11
+          imagePullSecrets: dockerhub-credential
   ec2:
     aws-us-east-2:
       region: us-east-2
