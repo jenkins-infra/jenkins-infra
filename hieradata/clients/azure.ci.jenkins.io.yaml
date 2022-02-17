@@ -169,7 +169,7 @@ profile::buildmaster::cloud_agents:
       max_capacity: 150 # TODO: define correct values for Digital Ocean
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAULTSAALRyxhViywGMhqcGUPJt50ZaCcA9+1ndE/SHhtUvA/G99DQkFrwBEvqmzXY2Twzg3ub8TEi5siP+vXRrFGR7vck1+VIBtOlJu5mdbKXVd+DAUoKO19wBE+3TxjYUUvwMjUtdzOBLytDV2OCA0AGkvMOnQDZxy536l5OSfokCTj7/bN1G1GtXJGiQj2v9SkqBM9HA0jq6t6zhaqCOqbVdnS8Ea88e/92CTBs6xmtjy10OGX/fKheq/dSPo2l5B3NEZl0R8bwLJqpxoBRtvRRUZsmqMb6taExVw07gCnnBDBIcYExQ2M3xqPzHZuFyqzZoa0XFC857ClNM+IIgDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBUdH19c7P46mX0hduJLDmzgFCasiOAAjfj4sgmIEzjAY/m9+QpBECwqAF3+UQp9HOSdnacUHDvNvbZGB2xRAOZ0AXcc/KT27ABmOY6sE6wVLkqsvcj3STpGdVdAYeGjinlHg==]
       agent_definitions:
-        - name: test-doks
+        - name: jnlp
           cpus: 2
           memory: 4
           # labels:
