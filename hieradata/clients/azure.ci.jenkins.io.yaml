@@ -75,9 +75,10 @@ profile::buildmaster::cloud_agents:
         BOSWYswPR4liVPS4jTNf7tQRx9u+X1YZsG74cOEfqwJEP3GmLh1x5s73yJyP
         ymjCaTi1xPZDZAoXdk7G1q7Eop0txEeDt7ePD7XMEwmahONtcbxGQ2YmoM37
         x8Z1xU]
-      max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
+      max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
       agent_definitions:
+        # For puppet & docker-inbound-agent on jenkins-infra only
         - name: jnlp-ruby
           cpus: 2
           memory: 4
@@ -166,16 +167,48 @@ profile::buildmaster::cloud_agents:
         j/7MozDXtFiOnHUnNDjmt7A/8IlQos7c0LoTbOnsWrNWL3vaEiiK9e2HfuPe
         zqzgglTr5bmnOHqTBRxC1qTyhFkEzwxOGPha+4jvL2TF5NKRFfqJFWRTWSN0
         vLNGfFIfenLFPP]
-      max_capacity: 10 # TODO: define correct values for Digital Ocean
+      max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAULTSAALRyxhViywGMhqcGUPJt50ZaCcA9+1ndE/SHhtUvA/G99DQkFrwBEvqmzXY2Twzg3ub8TEi5siP+vXRrFGR7vck1+VIBtOlJu5mdbKXVd+DAUoKO19wBE+3TxjYUUvwMjUtdzOBLytDV2OCA0AGkvMOnQDZxy536l5OSfokCTj7/bN1G1GtXJGiQj2v9SkqBM9HA0jq6t6zhaqCOqbVdnS8Ea88e/92CTBs6xmtjy10OGX/fKheq/dSPo2l5B3NEZl0R8bwLJqpxoBRtvRRUZsmqMb6taExVw07gCnnBDBIcYExQ2M3xqPzHZuFyqzZoa0XFC857ClNM+IIgDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBUdH19c7P46mX0hduJLDmzgFCasiOAAjfj4sgmIEzjAY/m9+QpBECwqAF3+UQp9HOSdnacUHDvNvbZGB2xRAOZ0AXcc/KT27ABmOY6sE6wVLkqsvcj3STpGdVdAYeGjinlHg==]
       agent_definitions:
-        - name: jnlp
+        - name: jnlp-maven-8
+          labels:
+            - maven
+            - maven-8
+            - jdk8
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-maven-11
+          labels:
+            - maven-11
+            - jdk11
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-maven-17
+          labels:
+            - maven-17
+            - jdk17
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-node
           cpus: 2
           memory: 4
           labels:
-            - test-doks
-          #   - maven-11
-          #   - jdk11
+            - node
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-alpine
+          cpus: 1
+          memory: 2
+          labels:
+            - alpine
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp
+          labels:
+            - default
+          cpus: 1
+          memory: 1
           imagePullSecrets: dockerhub-credential
   ec2:
     aws-us-east-2:
