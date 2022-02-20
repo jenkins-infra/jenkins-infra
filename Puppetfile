@@ -36,13 +36,13 @@ mod 'puppet/epel', '3.0.1'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
-mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
+mod 'irc', :git => 'https://github.com/jenkins-infra/puppet-irc.git',
            :ref => '4e5e437'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
 # <https://github.com/torrancew/puppet-account/pull/18>
-mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
+mod 'account', :git => 'https://github.com/jenkins-infra/puppet-account.git',
                :ref => '1deebe9'
 
 mod 'jenkins_keys',
@@ -53,7 +53,7 @@ mod 'jenkins_keys',
 mod "puppetlabs/apache", '3.5.0'
 # Used internally to gzip compress rotated logs
 mod 'apachelogcompressor',
-        :git => 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git',
+        :git => 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git',
         :ref => '0113d7b'
 
 mod "puppetlabs/concat", '5.2.0'

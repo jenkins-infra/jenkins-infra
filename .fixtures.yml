@@ -2,21 +2,21 @@
 fixtures:
   repositories:
     yamlfile:
-      repo: 'git://github.com/reidmv/puppet-module-yamlfile.git'
+      repo: 'https://github.com/reidmv/puppet-module-yamlfile.git'
     filemapper:
-      repo: 'git://github.com/adrienthebo/puppet-filemapper.git'
+      repo: 'https://github.com/adrienthebo/puppet-filemapper.git'
       ref: '1.1.2'
     account:
-      repo: 'git://github.com/jenkins-infra/puppet-account.git'
+      repo: 'https://github.com/jenkins-infra/puppet-account.git'
       ref: '1deebe9'
     sudo:
-      repo: 'git://github.com/saz/puppet-sudo.git'
+      repo: 'https://github.com/saz/puppet-sudo.git'
       ref: 'v3.0.6'
     irc:
-      repo: 'git://github.com/jenkins-infra/puppet-irc.git'
+      repo: 'https://github.com/jenkins-infra/puppet-irc.git'
       ref: '4e5e437'
     apachelogcompressor:
-      repo: 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git'
+      repo: 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git'
 
   forge_modules:
     stdlib:
