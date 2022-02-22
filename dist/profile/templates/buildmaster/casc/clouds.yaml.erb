@@ -174,7 +174,7 @@ jenkins:
             resourceRequestCpu: "<%= agent["cpus"] %>"
             resourceRequestMemory: "<%= agent["memory"] %>G"
             workingDir: "/home/jenkins"
-          label: "container kubernetes <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
+          label: "container kubernetes <%= k8s_name %> <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
           name: "<%= agent["name"] %>"
            <%- if agent["imagePullSecrets"] -%>
           imagePullSecrets:
