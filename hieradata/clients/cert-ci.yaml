@@ -3,10 +3,67 @@ profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
 profile::buildmaster::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::buildmaster::proxy_port: 443
 profile::buildmaster::letsencrypt: false
-profile::buildmaster::docker_image: 'jenkins/jenkins'
-profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::groovy_init_enabled: false
 profile::buildmaster::memory_limit: '14g'
+profile::buildmaster::jcasc:
+  enabled: true
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlreoLMhSaHCcZZaL1r7BQgmqUVbqWs+e2kaj0cn+r8o4N/qKZGXkkYBN9xhK+b5MRe2cTlfQ9J3gFFLFa6i1n1GrM/WwNMUm/cVYA2eGFNcV3ruUfigyriIrIaQVm7KIQZqv+RIQoZHJ1cWy+CdKg2hXi4KUBSawl1V3VXjSD4ZJEWv96KSceJZRTzVjZW66iD8i8Uq50WvHhvivMfHkaghowz626w/ejz0AettIKCVL9/j0B1iVv+ghOyd4A5kyIYJKR0BwQLpfKFoXY/0uhB7toZWSe7TUS7hzTAfYNhyTbS0aaczsa7pshiFZzxHAdvMeU7om4N1Dj+5LDUgAsDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBByyf8QkfPXbWYxJbMykP8SgCAQ5ncRq7jZddH/cFcb+xHJzKluSoRQU3fnSKJ8fnbEQA==]
+profile::buildmaster::cloud_agents:
+  azure-vm-agents:
+    azureCredentialsId: "azure-sponsorship-credentials"
+    resource_group: TODO
+    agent_definitions:
+      - name: "ubuntu-cert-jdk11"
+        description: "Ubuntu 20.04 LTS (jdk11-default)"
+        imageDefinition: jenkins-agent-ubuntu-20
+        os: "ubuntu"
+        storageAccount: TODO
+        location: "East US"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
+        architecture: amd64
+        labels:
+          - maven-11
+          - jdk11
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
+        useAsMuchAsPosible: true
+        credentialsId: "azure-login"
+        usePrivateIP: false
+      - name: "ubuntu-cert-jdk8"
+        description: "Ubuntu 20.04 LTS (jdk8-default)"
+        imageDefinition: jenkins-agent-ubuntu-20
+        os: "ubuntu"
+        storageAccount: TODO
+        location: "East US"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
+        architecture: amd64
+        labels:
+          - maven-8
+          - jdk8
+          - ubuntu-cert
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
+        useAsMuchAsPosible: true
+        credentialsId: "azure-login"
+        usePrivateIP: false
+      - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
+        description: "Windows 2019"
+        imageDefinition: jenkins-agent-windows-2019
+        os: "windows"
+        storageAccount: TODO
+        location: "East US"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
+        architecture: amd64
+        labels:
+          - docker-windows
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
+        useAsMuchAsPosible: true
+        credentialsId: "azure-login"
+        usePrivateIP: false
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
 profile::buildmaster::plugins:
   - azure-vm-agents
