@@ -13,7 +13,7 @@ profile::buildmaster::cloud_agents:
     azureCredentialsId: "azure-sponsorship-credentials"
     resource_group: "certci-agents-2"
     agent_definitions:
-      - name: "ubuntu-cert-jdk11"
+      - name: "ubuntu"
         description: "Ubuntu 20.04 LTS (jdk11-default)"
         imageDefinition: jenkins-agent-ubuntu-20
         os: "ubuntu"
