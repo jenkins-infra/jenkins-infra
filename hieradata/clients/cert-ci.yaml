@@ -7,13 +7,18 @@ profile::buildmaster::groovy_init_enabled: false
 profile::buildmaster::memory_limit: '14g'
 profile::buildmaster::jcasc:
   enabled: true
+  common_configs:
+    - buildmaster/casc/clouds.yaml.erb
+  custom_configs:
+    - cert.ci.jenkins.io/tools.yaml.erb # Instead of default
+    - cert.ci.jenkins.io/global-libraries.yaml.erb # Instead of default
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABEfs+rIJcAI0m8IKKgDjuGY7VyibX+V/uQK55ir23b8hKS1CcpWIMt048rswRyMBxoUfqssSj/VfunEc0/XJ38/ewOUOgmNesnd41Zb531OuXnRM4CGk24fcgwNAD5XuMDMTRBf76RWDmMDbG1MvTBuq2hs2OYPOvzmoitVeiaCwf2rCJJi+1O0VIBCCaGcXbJ5mxcAKe0onu3SRKeFLCUc5qNY7yaCQTYW48cWdeh8M482CDNoCs4USt/pInlEmfK3LrZsNDhCe/YHOyxJEbOrzO3zW99Gxg0MZc3wdiZp1O/aw0v05ohDbrqcQt2A/TMxsJl9xeVXnyMwMOIh4rjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAdCli//H3PvL7TwGVW6hcgCA7cdPzrqU08q6u3Mqq8C7HjlRClGlbN2W1rN/E7o5EWw==]
 profile::buildmaster::cloud_agents:
   azure-vm-agents:
     azureCredentialsId: "azure-sponsorship-credentials"
     resource_group: "certci-agents-2"
     agent_definitions:
-      - name: "ubuntu-cert-jdk11"
+      - name: "ubuntu"
         description: "Ubuntu 20.04 LTS (jdk11-default)"
         imageDefinition: jenkins-agent-ubuntu-20
         os: "ubuntu"
@@ -23,26 +28,7 @@ profile::buildmaster::cloud_agents:
         spotInstance: true
         architecture: amd64
         labels:
-          - maven-11
-          - jdk11
-        idleTerminationMinutes: 5
-        maxInstances: 7 # Quota of 56 vCPUs
-        useAsMuchAsPosible: true
-        credentialsId: "azure-login"
-        usePrivateIP: false
-      - name: "ubuntu-cert-jdk8"
-        description: "Ubuntu 20.04 LTS (jdk8-default)"
-        imageDefinition: jenkins-agent-ubuntu-20
-        os: "ubuntu"
-        storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEARi73DLUitapkTerURG6K3jj4X3dAfVPHMtOQubu9xIDp2og5XmV6TU7fdFAayCFoQ++DzuQYlDZk4PdifWMcpAyKcFjP+RNgAJYRZSFQi/xF/HP9leV/RqiWtLNT6Wj9QfDIZ+akbACth83u/m7q6DlEwR/94kY7ramrryhNPqX6BNEkZIYN7aHvWj0k1CwM0ot5hamF+nOCpEQL6KU7uSPjDEfQmyn/KN3GLtvuMOB+02A7RmWXNR9B/xqx7mVpuWUi2Qxg/Nwkoul5HAYONZzIorGJNZGQtjbBeuByJosndJU0hPhjcx/p9XhkW6f0eyCkeWR9aadp62HL4PHzCjA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBxhTZa3JKjWxVkVxt1HXG4gBDpQCzqWYmAeRIr5tWNA8o6]
-        location: "East US 2"
-        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
-        spotInstance: true
-        architecture: amd64
-        labels:
-          - maven-8
-          - jdk8
-          - ubuntu-cert
+          - linux
         idleTerminationMinutes: 5
         maxInstances: 7 # Quota of 56 vCPUs
         useAsMuchAsPosible: true
@@ -58,8 +44,6 @@ profile::buildmaster::cloud_agents:
         spotInstance: true
         architecture: amd64
         labels:
-          - windows-maven-11
-          - windows-jdk11
           - windows
         idleTerminationMinutes: 5
         maxInstances: 7 # Quota of 56 vCPUs
