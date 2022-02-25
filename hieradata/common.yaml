@@ -81,13 +81,6 @@ accounts:
     groups:
       - atlassian-admins
       - sudo
-  garethjevans:
-    ssh_keys:
-      garethjevans:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQC4ylUrdNI/+QNab9GOER69gXejALQnhGutBh1INiXA4eo/zGq8Ty5qJvd/Wi0uvaKmJU/3xfFj1bi6n+eYCYNLon3GAF7EufK+Vj3ojqgsXyHT4qrzQeEnqKUN4LVtCyN5em3Xb46lTfNC5zSYFdoFDWkYmALmhPPRD+OJVG6UYqQ51Ftqj6fQX/073RnI5zr5EAgucR9Wq9kQUZ7Rk78UGcz2VS3Rz427TS3T9+rkGpHSWx2S/96ktE83IFHh751bTs7Nqu/NlB/7UoMCGiIwPlbkkMBBpIjHoG2hjh2Bkd7QWC5BmP94oGzW9xF7bwavhr7ToiDzAeTt/Q42+3rVmQDDzKhDNOAU9M7NteEyENQqhy1TCkYJKDYd1+BPn0jcFNdSDdOhoG+qL7g2LN/pemRrh9QliRo3dTHK/KBVTTAuizFfy7+2uT7NH+Ny5gJDSQ6CFCr9/BEAnNfItjyt6jS58fgIXHAcMe2crvro4lExqs4iYJdC5Fb/Yh//CAjVfhEdnRRj/9yR6gKnj9AdHwXFxMe+VS0EbEw5BFY4XcBBBFqmoUORjzdqoGQ8SW6OWsl6+Qeo67WIRB6Arq/aWB9I8aRZwmrj9UAhU2gwhnPvwUIctSojcWxq/6va30yUktPfwzrptxDQtrXaWy+5Zw4lDuuxPfgFHimt52EB6Q==
-    groups:
-      - atlassian-admins
-      - sudo
   dduportal:
     ssh_keys:
       dduportal:
@@ -99,6 +92,13 @@ accounts:
     ssh_keys:
       hlemeur:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDfYRoLf5EYKWwhtGptl+O0sRdHxsBVjT+RTBy3qo17hl242gMvwd+ij27wLAJ95xlFrwIbN6gIdtbI47Tx+bvzK7IT+1MENZ/ToT/2OcKYmMejslDCKpCQqL5V2Irj7URfX2OrqtyI5p/43te1QnWsAEoqFap1nLTbMel8SlA/kGAuMqx0GNXvxtAq44XrzackOaPScz6QQi0S0kPi/X1zwT0mtYYv6IoXaDemOmOJER60diEq0yqG1kK8msMyG4OJxQXYkwKlH8C2bpkQSgZicvYPOjIsm7QE35VAcuOns9R7frUMUfjyUW+Z1YZTO64+TvJ4ZvlOcdGIOeHqiYITJl5v24V2YMiugmkegV9qTo7jmvfQJjFzqIrs/P38v4l61XS3hOHndEuLurCyWC2b7eIVTIn0U3fxdx5dt+WSMNiQBJvAJeSbZScqvqsla1CSPcSrDcTMwz9K5cujSs4pFCKMU4W2rKtVR4w7eTXBYIdzGplbrBjuKbSDOiznGSryJx8q8VyJMFNdPXscI5NJHKdZuq3IktXOkRhcNjXo+ezyf6P1wMmFsWHm7AI71fnWgDQ6Nv/sSr44XuwSITJvnH3BRRaENbkabILg0Ura9LK68WsR/3PUheGlHRkBOBcretdmdS7A62QbP4/vckTPdk5OUTK3fdDlN9HR58VIDw==
+    groups:
+      - atlassian-admins
+      - sudo
+  smerle:
+    ssh_keys:
+      smerle:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAAEAQDquUd7FEY8RNpqV0MgX5dV3HfIWCpOUyiWs21vmklPqIrlLFyX1O2Mt7sGPC3DGHEMIXLi+prz+YjdXHiEhcsoaA9Q0rE8nLrFLCVkmCzStNHebZrtzq2A82yQxGI0emEX4cpQqb6eQjdpWFilDQJ6wCtD3cUKZ8PPQkOyAzhEbhTD9OXA38vx71vKff0FEzdPk2R/ecHALHO8e4PqvEreXY/3OBzzPsynRxpX46CZWGLnDZ6lKXij2vTmPh/tmtLKJnhyyIx2WVWg52rUso5moX64xgkaExaW6qQpRHk82gcuygDld9g5oYa0NvvXjjO+Iwk4qOqo5MQ5Ifc089OTROL3fxUFaf2OWhRS3Fq0/vedZJEAfoVcdfyQKNTug1U7e9SIIyufMcRGMCWRoYmFty78jaqrigWHXVZVe0pi1PikZ1YKssOGp0Y66UQ8TveUQY8UzTbfhqS/GGHxy0OOd05UaaIdMoai6vei39MoMYPdXZqhuDQRrAyIJeIsjC+ymz+AIejMG1EvsothqF3TibzvAoth9lOoGdNX0zTCsIITinBGXAeqQwQA+a3Ys4LpOPNTOCZodRj6Wa965ipggfEXmdRuAEzl3Ys7EwrWZgXJ3SBCsRHMUvgd8BE+YVXKfD0cYhNHGjDGuv/lQRYIOi7fgBAuuX4Wspdb8Cgai/3ojYXHOCAgdnM2LvFM6Xd2YYkUEAwoClDiV/CDz0zaY0Pr71NETHjsP3ZZstnmYAnkWARt+6EeJImsVrBTSxA/2GxXQaDXrSxdwt3t2rBz4y4cknFj5CQtIQ6+1o9nJmBGO0utBp1qB5XaQ1Ye3Pdf031Vtkb/hOiZcFMB0krUGQAzDbImg5mrgqhbWOq5sLjw5zIEjc9vbjGrOZ+xRG+zzPv2vWpFC8fGmoiziUHc1EJ/DCXD3PWqNUhg7P3gWBUp4yAAg+cjf+EWMrCa/DnL5rDqC/c9T0UeBP8EsqmLm21ue7n4BkWrgZ5x9K+HEMnZc18ucaqB3yrviX6ePOU+CEECO7vAujqAfDnnwclztTmoc3U0cK8Ucmy1FVogK2qdLNAIZnKXmypDabChnQ3fi2bfshA8s5VpV2lCJJcI9jUeCNp28xqfXrcaJDTHlFrKwtKu2gGQafAyCDr/CCjJY4cyAuuv5hoLsV6GS4XtV28cbTzcFdLcVegqQEIDKV8O77LCIKOVVhMWEyyJQaHaIBjiiYZ1ImDeGnZw9h5uhvcYIA7Gy2GLvgd/bpJas3w3ZK24EOL2j4TFdxFAiHkfa0zOKjKiCbI+ZIU0kJdNqjxyg+jSaXhFg1ZXxTvF7RwvoHG0sXad1v+nlD0BlNzfX5os37FfJSoLbem2tXcd
     groups:
       - atlassian-admins
       - sudo
