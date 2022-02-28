@@ -44,7 +44,7 @@ targets:
     name: "Update Docker Image tag for jenkinsciinfra/openvpn:latest"
     kind: yaml
     spec:
-      file: "hieradata/common.yaml"
+      file: hieradata/common.yaml
       key: "profile::openvpn::image_tag"
     scmID: default
 
