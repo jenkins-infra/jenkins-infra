@@ -94,9 +94,9 @@ sources:
     kind: aws/ami
     depends_on:
       - packerImageVersion
-    sortBy: creationDateAsc
     spec:
       region: us-east-2
+      sortBy: creationDateAsc
       filters:
         - name: "name"
           values: "jenkins-agent-ubuntu-20-arm64-*"
