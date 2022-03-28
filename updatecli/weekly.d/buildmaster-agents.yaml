@@ -68,7 +68,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateAsc
+      sortBy: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-ubuntu-20-amd64-*"
@@ -82,7 +82,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateAsc
+      sortBy: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-windows-2019-amd64-*"
@@ -96,7 +96,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateAsc
+      sortBy: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-ubuntu-20-arm64-*"
