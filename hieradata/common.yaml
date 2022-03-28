@@ -235,7 +235,7 @@ profile::buildmaster::agent_images:
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:c42359ebbc803a88868edeb9c974025ca15a7fbde379bd0750e55aac8d6a8601
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:ba97bd3b72139a09722a3d9fd9a2a42b41e9a0bc327189055b293e8c0b43ba15
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:b840d74e9414bd1cc9881771bd31826ea44e5f677b2a472bd86b02ff0d3976fd
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:0911dc12f58b52ee728321bb9b4de13700924be87d633440844456b4051ef9de
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:bde47c146eeaf319ef5d13c8c584c466881b57afda2839ad2be79df99d9b5e32
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:73e0b56a45a306803e0cfa033804b0b440e6eae7042f380de3cdef72ca471c81'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:2d4fd06de09763b9899168bf58b1495d12802fcca3ed910e342b09d2ab884b3c'
     jnlp: jenkins/inbound-agent@sha256:40afe374d6bad8272c4e84172dd42c1b79bd36b433b2c8b1305b03d57041e81d
