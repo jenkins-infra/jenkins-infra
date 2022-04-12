@@ -233,7 +233,7 @@ profile::buildmaster::agent_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:3012d06554787ef6edbfd9453aa2a0baee78d953ae94022af0752c56c6e93242
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:ad0b66ec52abdad812ffcd0145c73b0224d56a6e08db9303576d214dce9b673a
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:7f3c8e851c3a745ce1a2210d6299aeca2f3f2259da1b5f16c0ec21dc40e90da2
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:d409cd7010cb1ba0b304e41ff93666bd9660c38ce95621313a6e653e7d1196d9
     jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:216a0e5cb00483d21ea31366d390ae85abe64f5f0e9353094d3e30eed4dcab33
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:3d3f32d295b2aee9db6ee48d800bf5c62bb2716fda972d4a21d3f06bf8d8fb94'
