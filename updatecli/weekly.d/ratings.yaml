@@ -22,7 +22,7 @@ sources:
       repository: "rating"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: semver
 
 conditions:
@@ -35,7 +35,7 @@ conditions:
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      matchPattern: "profile::rating::image_tag"
+      matchpattern: "profile::rating::image_tag"
 
 targets:
   imageTag:
@@ -44,12 +44,12 @@ targets:
     spec:
       file: "hieradata/common.yaml"
       key: "profile::rating::image_tag"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - imageTag
     spec:
