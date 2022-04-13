@@ -68,7 +68,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateDesc
+      sortby: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-ubuntu-20-amd64-*"
@@ -82,7 +82,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateDesc
+      sortby: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-windows-2019-amd64-*"
@@ -96,7 +96,7 @@ sources:
       - packerImageVersion
     spec:
       region: us-east-2
-      sortBy: creationDateDesc
+      sortby: creationDateDesc
       filters:
         - name: "name"
           values: "jenkins-agent-ubuntu-20-arm64-*"
@@ -107,15 +107,15 @@ sources:
 
 targets:
   setAzureGalleryImageVersion:
-    sourceID: packerImageVersion
+    sourceid: packerImageVersion
     name: "Bump Azure Gallery Image Version"
     kind: yaml
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.azure_vms_gallery_image.version"
-    scmID: default
+    scmid: default
   setInboundRubyContainerImage:
-    sourceID: getLatestInboundRubyContainerImage
+    sourceid: getLatestInboundRubyContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
     kind: yaml
     spec:
@@ -123,9 +123,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-ruby"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
-    scmID: default
+    scmid: default
   setInboundMaven8ContainerImage:
-    sourceID: getLatestInboundMaven8ContainerImage
+    sourceid: getLatestInboundMaven8ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK8)"
     kind: yaml
     spec:
@@ -133,9 +133,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-8"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scmID: default
+    scmid: default
   setInboundMaven11ContainerImage:
-    sourceID: getLatestInboundMaven11ContainerImage
+    sourceid: getLatestInboundMaven11ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK11)"
     kind: yaml
     spec:
@@ -143,9 +143,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-11"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scmID: default
+    scmid: default
   setInboundMaven17ContainerImage:
-    sourceID: getLatestInboundMaven17ContainerImage
+    sourceid: getLatestInboundMaven17ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK17)"
     kind: yaml
     spec:
@@ -153,9 +153,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-17"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scmID: default
+    scmid: default
   setInboundNodeContainerImage:
-    sourceID: getLatestInboundNodeContainerImage
+    sourceid: getLatestInboundNodeContainerImage
     name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
     kind: yaml
     spec:
@@ -163,9 +163,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-node"
     transformers:
       - addPrefix: "jenkinsciinfra/inbound-agent-node@sha256:"
-    scmID: default
+    scmid: default
   setInboundAlpineContainerImage:
-    sourceID: getLatestInboundAlpineContainerImage
+    sourceid: getLatestInboundAlpineContainerImage
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
     kind: yaml
     spec:
@@ -173,9 +173,9 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp-alpine"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
-    scmID: default
+    scmid: default
   setInboundJDK11ContainerImage:
-    sourceID: getLatestInboundJDK11ContainerImage
+    sourceid: getLatestInboundJDK11ContainerImage
     name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
     kind: yaml
     spec:
@@ -183,36 +183,36 @@ targets:
       key: "profile::buildmaster::agent_images.container_images.jnlp"
     transformers:
       - addPrefix: "jenkins/inbound-agent@sha256:"
-    scmID: default
+    scmid: default
   setUbuntuAgentAMIAmd64:
     name: "Bump AMI ID for Ubuntu AMD64 agents"
     kind: yaml
-    sourceID: getLatestUbuntuAgentAMIAmd64
+    sourceid: getLatestUbuntuAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-amd64"
-    scmID: default
+    scmid: default
   setUbuntuAgentAMIArm64:
     name: "Bump AMI ID for Ubuntu ARM64 agents"
     kind: yaml
-    sourceID: getLatestUbuntuAgentAMIArm64
+    sourceid: getLatestUbuntuAgentAMIArm64
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.ubuntu-arm64"
-    scmID: default
+    scmid: default
   setWindowsAgentAMIamd64:
     name: "Bump AMI ID for Windows AMD64 agents"
     kind: yaml
-    sourceID: getLatestWindowsAgentAMIAmd64
+    sourceid: getLatestWindowsAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.ec2_amis.windows-amd64"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setAzureGalleryImageVersion
       - setInboundRubyContainerImage

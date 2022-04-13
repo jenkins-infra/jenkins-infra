@@ -36,7 +36,7 @@ conditions:
       value: "jenkins/jenkins"
   testDockerImageExist:
     kind: dockerImage
-    sourceID: jenkinsLatestLTS
+    sourceid: jenkinsLatestLTS
     spec:
       image: "jenkins/jenkins"
       architecture: amd64
@@ -45,16 +45,16 @@ conditions:
 targets:
   imageTag:
     name: "Update Docker Image Digest for jenkins/jenkins:lts"
-    sourceID: jenkinsLatestLTS
+    sourceid: jenkinsLatestLTS
     kind: yaml
     spec:
       file: "hieradata/common.yaml"
       key: "profile::buildmaster::docker_tag"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - imageTag

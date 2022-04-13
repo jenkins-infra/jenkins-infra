@@ -21,7 +21,7 @@ sources:
       repository: "temurin8-binaries"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: regex
         # jdk8u302-b08 is OK, but jdk8u302-b08.1 is not
         pattern: "^jdk8u(\\d*)-b(\\d*)$"
@@ -41,11 +41,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.jdk8.version"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setJDK8Version
