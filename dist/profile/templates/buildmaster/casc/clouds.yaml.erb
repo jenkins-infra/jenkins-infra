@@ -160,6 +160,9 @@ jenkins:
         - containers:
           - alwaysPullImage: false
             image: "<%= @agent_images["container_images"][agent["name"]] %>"
+            env:
+            - name: "JENKINS_JAVA_OPTS"
+              value: "-XX:+PrintCommandLineFlags"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
