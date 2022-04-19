@@ -206,7 +206,7 @@ profile::buildslave::ssh_keys:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::buildmaster::docker_image: jenkins/jenkins
-profile::buildmaster::docker_tag: "2.332.1-jdk11"
+profile::buildmaster::docker_tag: "2.332.2-jdk11"
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
@@ -223,22 +223,22 @@ profile::buildmaster::agents_setup:
     tempDir: '/tmp'
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-0a11509f4a702d787"
-    windows-amd64: "ami-0f2792367a1687a81"
-    ubuntu-arm64: "ami-05e14994806ee6819"
+    ubuntu-amd64: "ami-03fe6e5563fe533b9"
+    windows-amd64: "ami-061db911b4a82954e"
+    ubuntu-arm64: "ami-01305c72a41c1e86d"
   azure_vms_gallery_image:
-    version: 0.15.1
+    version: 0.18.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:c42359ebbc803a88868edeb9c974025ca15a7fbde379bd0750e55aac8d6a8601
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:ba97bd3b72139a09722a3d9fd9a2a42b41e9a0bc327189055b293e8c0b43ba15
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:b840d74e9414bd1cc9881771bd31826ea44e5f677b2a472bd86b02ff0d3976fd
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:0911dc12f58b52ee728321bb9b4de13700924be87d633440844456b4051ef9de
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:73e0b56a45a306803e0cfa033804b0b440e6eae7042f380de3cdef72ca471c81'
-    jnlp-alpine: 'jenkins/inbound-agent@sha256:2d4fd06de09763b9899168bf58b1495d12802fcca3ed910e342b09d2ab884b3c'
-    jnlp: jenkins/inbound-agent@sha256:40afe374d6bad8272c4e84172dd42c1b79bd36b433b2c8b1305b03d57041e81d
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:8825346b5f140799515ee94cb0cb7369f84e8d936eaae2151e71cbf089594707
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:2687a5f81fb4b7be50d899c28999a267950f699a4266e5981279e728b489fd80
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:85af372d080c2e4d15d55f8833a6eb5a84f3f206368da002a048ccf49e302c23
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:6ee3ba157402744efdea69ee2f983967f5ad103ebc74543a39c48f37a732d773
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:7bba7e4b2159270bb258ce66df29f7b072bc91242bc180b1dac9b683e58792c8'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:53a6a7eff5053d4ac6bc6fa75b18892074bf07c33f16f401f034589fa61db1ad'
+    jnlp: jenkins/inbound-agent@sha256:536b92fa9f1fd23555e88bace4b3cbb31968a0a48b3f85bab06bf0ebabb69067
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u322-b06"
@@ -330,5 +330,5 @@ limits:
     nofile:
       soft: '65536'
       hard: '65536'
-profile::openvpn::image_tag: '1.0.45' # Tracked by updatecli
+profile::openvpn::image_tag: '1.0.63' # Tracked by updatecli
 # vim: ft=yaml ts=2 sw=2 nowrap et

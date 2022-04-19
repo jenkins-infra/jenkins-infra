@@ -21,7 +21,7 @@ sources:
       repository: "temurin17-binaries"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: regex
         # jdk-17.0.2+8(https://github.com/adoptium/temurin17-binaries/releases/tag/jdk-17.0.2%2B8) is OK
         pattern: "^jdk-17.(\\d*).(\\d*).(\\d*)+(\\d*)$"
@@ -41,11 +41,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.jdk17.version"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setJDK17Version

@@ -22,7 +22,7 @@ sources:
       repository: "docker-openvpn"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: semver
 
 conditions:
@@ -37,7 +37,7 @@ conditions:
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      matchPattern: "profile::openvpn::image"
+      matchpattern: "profile::openvpn::image"
 
 targets:
   imageTag:
@@ -46,11 +46,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::openvpn::image_tag"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - imageTag

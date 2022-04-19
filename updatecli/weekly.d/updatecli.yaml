@@ -1,7 +1,6 @@
 ---
 title: "Update updatecli version"
 
-
 scms:
   default:
     kind: github
@@ -23,7 +22,7 @@ sources:
       repository: "updatecli"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: semver
 
 conditions:
@@ -37,16 +36,16 @@ conditions:
 targets:
   setUpdatecliVersion:
     name: "Set the updatecli version in the github workflow"
-    sourceID: latestUpdatecliVersion
+    sourceid: latestUpdatecliVersion
     kind: yaml
     spec:
       file: ".github/workflows/updatecli.yaml"
       key: "jobs.updatecli.steps[1].env.UPDATECLI_VERSION"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setUpdatecliVersion
