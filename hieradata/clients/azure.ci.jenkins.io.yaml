@@ -75,7 +75,7 @@ profile::buildmaster::cloud_agents:
         BOSWYswPR4liVPS4jTNf7tQRx9u+X1YZsG74cOEfqwJEP3GmLh1x5s73yJyP
         ymjCaTi1xPZDZAoXdk7G1q7Eop0txEeDt7ePD7XMEwmahONtcbxGQ2YmoM37
         x8Z1xU]
-      max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
+      max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
       url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
       agent_definitions:
         # For puppet & docker-inbound-agent on jenkins-infra only
@@ -85,6 +85,91 @@ profile::buildmaster::cloud_agents:
           labels:
             - ruby
           imagePullSecrets: dockerhub-credential
+        - name: jnlp-maven-8
+          labels:
+            - maven
+            - maven-8
+            - jdk8
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-maven-11
+          labels:
+            - maven-11
+            - jdk11
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-maven-17
+          labels:
+            - maven-17
+            - jdk17
+          cpus: 4
+          memory: 8
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-node
+          cpus: 2
+          memory: 4
+          labels:
+            - node
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp-alpine
+          cpus: 1
+          memory: 2
+          labels:
+            - alpine
+          imagePullSecrets: dockerhub-credential
+        - name: jnlp
+          labels:
+            - default
+          cpus: 1
+          memory: 1
+          imagePullSecrets: dockerhub-credential
+    doks:
+      credentialsId: "doks-jenkins-agent-sa-token"
+      serverCertificate: >
+        ENC[PKCS7,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
+        jbvFaVW+RV5IW/]
+      max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
+      url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc6NOxZbHKCrW0RtsyuKr+nWLkQe5373QWJyENhn2potG95WHOAMXIvptK4TVmj5+AUz05uv7rnji01I+c8RYFpdu7J3dEczLsUdCY9QMTtFngz7Z/GpXAszorvEobocOQdVWzw4Rg7jncJuNI1JfiMIA9KcVYOISuyF6VEQajb/ACcyDBeYoLD7K3V6uTDIDrChCvW0FvmYDFPhxt0TheX6AxWI/9/1DzCYdz8yvOtxiSAdXOvZ87yM58OdyRotzjRCX+5E2VhxyyJdI+myfoU3DKP1H1tAuOIBdubq8OZJaZv2SQTC/BVLTIl0Wr43kKhE3kg2UOcMUypIuGcmzvDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLrMYKsCzYfbJk8jdLB+5WgFBuB88xQ38Pl6SjAdHgCJxgwm0Ty9pFtJ/5OubJ9UaKrZfQtI9HmGkzIr8wq5CWPjPQ3ZZ9r7TIJBWITnOnFQWiUODb+x79K1SXa5US343uKg==]
+      agent_definitions:
         - name: jnlp-maven-8
           labels:
             - maven
