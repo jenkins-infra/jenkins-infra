@@ -244,7 +244,7 @@ profile::buildmaster::default_tools:
     version: "8u322-b06"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
-    version: "11.0.14+9"
+    version: "11.0.15+10"
     sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   jdk17:
     version: "17.0.3+7"
