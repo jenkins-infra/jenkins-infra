@@ -6,6 +6,9 @@ unclassified:
         includeInChangesets: false
         name: "pipeline-library"
         cachingConfiguration:
+          ## Exclude pull request git reference to allow end to end testing when using annotation
+          # such as '@Library('pipeline-library@pull/333/head') _'
+          excludedVersionsStr: "pull/"
           refreshTimeMinutes: 180
         retriever:
           modernSCM:
