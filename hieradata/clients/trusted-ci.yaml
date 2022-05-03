@@ -16,7 +16,6 @@ profile::buildmaster::admin_ldap_groups:
   - trusted-admins
 profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: true
-profile::buildmaster::groovy_d_agent_security: 'present'
 profile::buildmaster::groovy_d_enable_ssh_port: 'present'
 profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
 profile::buildmaster::groovy_d_pipeline_configuration: 'present'

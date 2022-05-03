@@ -29,7 +29,6 @@ class profile::buildmaster(
   $groovy_init_enabled             = false,
   $groovy_d_enable_ssh_port        = 'absent',
   $groovy_d_set_up_git             = 'absent',
-  $groovy_d_agent_security         = 'absent',
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $groovy_d_terraform_credentials  = 'absent',
@@ -165,19 +164,6 @@ class profile::buildmaster(
       owner   => 'jenkins',
       group   => 'jenkins',
       source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
-      require => [
-          User['jenkins'],
-          File[$groovy_d],
-      ],
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
-    }
-
-    file { "${groovy_d}/agent-security.groovy":
-      ensure  => $groovy_d_agent_security,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/agent-security.groovy",
       require => [
           User['jenkins'],
           File[$groovy_d],
