@@ -50,6 +50,7 @@ class profile::buildmaster(
 -Duser.home=${container_jenkins_home} \
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
+-Djenkins.displayurl.provider=org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
 ) {
   include ::stdlib
