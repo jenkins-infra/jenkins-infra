@@ -74,8 +74,6 @@ class profile::buildmaster(
   $ldap_admin_dn = lookup('ldap_admin_dn')
   $ldap_admin_password = lookup('ldap_admin_password')
 
-  $ssh_dir = "${jenkins_home}/.ssh"
-
   $script_dir = '/usr/share/jenkins'
   $lockbox_script = "${script_dir}/lockbox.groovy"
   $groovy_d = "${jenkins_home}/init.groovy.d"
@@ -309,39 +307,6 @@ class profile::buildmaster(
         User['jenkins'],
     ],
   }
-
-  # Prepare Jenkins instance-only SSH keys for CLI usage
-  ##############################################################################
-  file { $ssh_dir :
-    ensure  => directory,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0700',
-    require => [
-        User['jenkins'],
-        File[$jenkins_home],
-    ],
-  }
-
-  file { "${ssh_dir}/azure_k8s":
-    ensure  => absent,
-    mode    => '0600',
-    content => lookup('azure::k8s::management_ssh_privkey'),
-    require => [
-        File[$ssh_dir],
-    ],
-  }
-
-  file { "${ssh_dir}/azure_k8s.pub":
-    ensure  => absent,
-    mode    => '0644',
-    content => lookup('azure::k8s::management_ssh_pubkey'),
-    require => [
-        File[$ssh_dir],
-    ],
-  }
-  ##############################################################################
-
 
   # CLI support: legacy support (ensure clean up of old resources)
   ##############################################################################

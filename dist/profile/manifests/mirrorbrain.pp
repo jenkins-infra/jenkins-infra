@@ -24,7 +24,6 @@ class profile::mirrorbrain (
   }
 
   include ::apt
-  include profile::azure
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
