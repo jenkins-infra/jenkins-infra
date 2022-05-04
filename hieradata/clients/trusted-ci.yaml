@@ -18,7 +18,6 @@ profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: true
 profile::buildmaster::groovy_d_enable_ssh_port: "present"
 profile::buildmaster::groovy_d_lock_down_jenkins: "present"
-profile::buildmaster::groovy_d_pipeline_configuration: "present"
 profile::buildmaster::groovy_d_set_up_git: "present"
 profile::buildmaster::memory_limit: "7g"
 profile::buildmaster::jcasc:
