@@ -29,10 +29,8 @@ class profile::buildmaster(
   $groovy_init_enabled             = false,
   $groovy_d_enable_ssh_port        = 'absent',
   $groovy_d_set_up_git             = 'absent',
-  $groovy_d_agent_security         = 'absent',
   $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
-  $groovy_d_terraform_credentials  = 'absent',
   $jcasc                           = {},
   $cloud_agents                    = {},
   $cloud_setups                    = {},
@@ -173,19 +171,6 @@ class profile::buildmaster(
       notify  => Service['docker-jenkins'],
     }
 
-    file { "${groovy_d}/agent-security.groovy":
-      ensure  => $groovy_d_agent_security,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/agent-security.groovy",
-      require => [
-          User['jenkins'],
-          File[$groovy_d],
-      ],
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
-    }
-
     file { "${groovy_d}/pipeline-configuration.groovy":
       ensure  => $groovy_d_pipeline_configuration,
       owner   => 'jenkins',
@@ -208,18 +193,6 @@ class profile::buildmaster(
           File[$groovy_d],
       ],
       content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
-    }
-    file { "${groovy_d}/terraform-credentials.groovy":
-      ensure  => $groovy_d_terraform_credentials,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      require => [
-          File[$groovy_d],
-          File["${ssh_dir}/azure_k8s.pub"],
-      ],
-      source  => "puppet:///modules/${module_name}/buildmaster/terraform-credentials.groovy",
       before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }

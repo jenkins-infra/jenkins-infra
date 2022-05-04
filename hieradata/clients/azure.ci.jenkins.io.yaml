@@ -27,12 +27,10 @@ profile::buildmaster::letsencrypt: true
 profile::buildmaster::docker_image: 'jenkins/jenkins'
 profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::groovy_init_enabled: true
-profile::buildmaster::groovy_d_agent_security: 'present'
 profile::buildmaster::groovy_d_enable_ssh_port: 'present'
 profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
 profile::buildmaster::groovy_d_pipeline_configuration: 'present'
 profile::buildmaster::groovy_d_set_up_git: 'present'
-profile::buildmaster::groovy_d_terraform_credentials: 'present'
 profile::buildmaster::memory_limit: '30g'
 profile::buildmaster::jcasc:
   enabled: true

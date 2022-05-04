@@ -6,9 +6,9 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQC3oj0NN9UL1dIfBP44JDsOj/bGX/DG/GIv82imhgWbCQvsKcPczb32+W+zVo+OF3mADX4EoBG681GGopjYCKLreo8D3nFSP/+kdAt0lEqbufzoLvSyyxa0RUHDwzVQIiMiNlzDiWqLRkF2TdeFDl5u+bbdPTYCGil5/qZ3Ro8sG9ayWXMxh+f+s0MAU9qFIwau838RF2R9OCMjmPodW/zf+Mcq+SqrbZyYfYha5jOWxoN8IdrGuAOQeYks7mrXC6qq5N9ojUtMKONvayFwNOsuC0U8PYUtukkHVnm2IK9KM1A38HDlV9eTF8ac7yCUHLlttmoIBdLUuLJAw72BQkK/
     groups:
       - sudo
-docker::log_opt::max-size: '100m'
+docker::log_opt::max-size: "100m"
 docker::log_opt::max-file: 2
-profile::buildmaster::ci_fqdn: 'trusted.ci.jenkins.io'
+profile::buildmaster::ci_fqdn: "trusted.ci.jenkins.io"
 profile::buildmaster::proxy_port: 1443
 profile::buildmaster::anonymous_access: false
 profile::buildmaster::admin_ldap_groups:
@@ -16,13 +16,11 @@ profile::buildmaster::admin_ldap_groups:
   - trusted-admins
 profile::buildmaster::letsencrypt: false
 profile::buildmaster::groovy_init_enabled: true
-profile::buildmaster::groovy_d_agent_security: 'present'
-profile::buildmaster::groovy_d_enable_ssh_port: 'present'
-profile::buildmaster::groovy_d_lock_down_jenkins: 'present'
-profile::buildmaster::groovy_d_pipeline_configuration: 'present'
-profile::buildmaster::groovy_d_set_up_git: 'present'
-profile::buildmaster::groovy_d_terraform_credentials: 'present'
-profile::buildmaster::memory_limit: '7g'
+profile::buildmaster::groovy_d_enable_ssh_port: "present"
+profile::buildmaster::groovy_d_lock_down_jenkins: "present"
+profile::buildmaster::groovy_d_pipeline_configuration: "present"
+profile::buildmaster::groovy_d_set_up_git: "present"
+profile::buildmaster::memory_limit: "7g"
 profile::buildmaster::jcasc:
   enabled: true
   custom_configs:
