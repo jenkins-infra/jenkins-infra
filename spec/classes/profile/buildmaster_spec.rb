@@ -43,7 +43,6 @@ describe 'profile::buildmaster' do
       context "By default: Init Groovy directory" do
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy')}
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy')}
-        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/agent-security.groovy')}
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/terraform-credentials.groovy')}
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/pipeline-configuration.groovy')}
       end
