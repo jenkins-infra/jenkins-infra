@@ -206,7 +206,7 @@ profile::buildslave::ssh_keys:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::buildmaster::docker_image: jenkins/jenkins
-profile::buildmaster::docker_tag: "2.332.2-jdk11"
+profile::buildmaster::docker_tag: "2.332.3-jdk11"
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
@@ -223,21 +223,21 @@ profile::buildmaster::agents_setup:
     tempDir: "/tmp"
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-06c6a1435899c9417"
-    windows-amd64: "ami-08e0f63d3de4c09df"
-    ubuntu-arm64: "ami-00b8422cab1a7b79a"
+    ubuntu-amd64: "ami-039869884fedd32b1"
+    windows-amd64: "ami-0c50b6e82a1efbdf9"
+    ubuntu-arm64: "ami-0c6f93ec71621c7f3"
   azure_vms_gallery_image:
-    version: 0.21.0
+    version: 0.22.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:00690b146b89f6b7deb21074f465cdaf6d2c8dda31cfa3381383ad84a1a534db
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:b7ed36d4b37641cf00e224199ec9deba68647ec48c3bb23096297bce5992e0ad
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:14e7828a800ac3801718b8b281a27d5a38e6a0ce85316353a5949d52cc3b369f
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:95ee4c4da039a7d3e464a7243a96520905e8fd6fd151e50dcbb979442f9cd7dd
-    jnlp-node: "jenkinsciinfra/inbound-agent-node@sha256:ea9fe3a9af7651d1222100e19b7bbb08d23641d45f495ea0b250b4e92e6df010"
-    jnlp-alpine: "jenkins/inbound-agent@sha256:a8a2b36124206220826e252e04de845e6fa9c7528570c65f09232efa1a5361e6"
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:c2113c49740b9ffa7c19091cff0a47d1915d5e672edf4ea4e1a9735a0f4e6184
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:bbe3ca23134ee6e8b98e3a03ecca430f09abf016686d686e91ecf94f78c20876
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:45a182e4c257823c079efc233bdc0677c800186d2e843559e1199a6ec4a7fb26
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:910e22e3c2bf78f3a5dbea05cc33f315ecdeb0e3c0bb98683a573640df85dbb7
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:15c277c5f27455b85700eaeaf8fd237005ba8f8f982a0e89eb2a253b1af64d6b'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:a8a2b36124206220826e252e04de845e6fa9c7528570c65f09232efa1a5361e6'
     jnlp: jenkins/inbound-agent@sha256:f98ae9a528e791b986f996b4278894d73e818c87bdc8326e5fa18b9b367cce25
 profile::buildmaster::default_tools:
   jdk8:
