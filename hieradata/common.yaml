@@ -2,8 +2,8 @@
 # Debian defaults to the 'worker' module which doesn't handle HackerNews hugs
 # of death as well as I would like. the mpm_event module is much less
 # resource intensive
-apache::mpm_module: 'event'
-ruby::rubygems_package: 'rubygems-integration'
+apache::mpm_module: "event"
+ruby::rubygems_package: "rubygems-integration"
 accounts:
   tyler:
     ssh_keys:
@@ -105,7 +105,7 @@ accounts:
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging.api.letsencrypt.org/directory"
-letsencrypt::renew_cron_ensure: 'present'
+letsencrypt::renew_cron_ensure: "present"
 letsencrypt::renew_cron_minute: 0
 letsencrypt::renew_cron_hour: 6
 profile::archives::rsync_hosts_allow:
@@ -117,13 +117,13 @@ profile::archives::rsync_hosts_allow:
   - get.jenkins.io
   - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
 profile::archives::ssh_authorized_keys:
-  - id: 'hudson@cucumber'
-    type: 'ssh-rsa'
-    user: 'mirrorsync'
+  - id: "hudson@cucumber"
+    type: "ssh-rsa"
+    user: "mirrorsync"
     key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAD96VJ0qA8YXsX0f1SezuhIL/TAKV6cl2jn6Had34o+jG4+POgJmG9rmdl4Jx9/NAQ/qTjjCkn/jf3j/YxuedISvg3C91N/fWNntlMG7jZn8yaizSsmgX73ucdbzQHUZcPfNeEDOS4nRtRyefrwsky6pm1ka1pVxPZW8Q2cSt1fVBGI/WYFwrIZCX6bhjMKCPXr6qQ/UwoB++Fi2muZmi2SdHX45xrAx7NZEi2MTI+a6W2hTpqro4bMRpewViHv9MdPr1qHpm6/ULGuDn61keGY4b3VO/lRB5/SxkFlvexcb+2IQN9mgVbblYs8KFo0zuwdDL1mj9l3VZHR4YovApvzCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOqV/eZ2QSNy3gqJX5OADV+AggGAUdQRzQa6u3Ir4e6rVGqgg4baQlrJtNsXUDeZC43QEChhrszCo8BcOExUe9fcRieI+lppYpSyWUeCOxYM1eF8FsTW+w6NynH1mbIvsEU3l9gf4AeZqf8luhXD7bkCf6UYclMgFjmUrOucStBpnu1t5YM+HmtVYk3L2zB6mKYSGxJZQc1hPzGKP531SG9qXU44ImfRODs0PyZ/NzJuUHokA/Fn10RXzFtMNDew8ntgrJnCmog7Wg//VOpjRLjiQgH0fHtTa7S1fks4om9sllPZB/msqblek3h1nVyzZEK2uBp0xqZvajIfIri0DO6G5JGyyGPcnqvJ7cgv1RDbMjXplkOwF4yah0F4VfZbk0scTBRjoIE0zUEEQpvSSkVRrzziEhUl0Nz1mo6lyRGsiGlw93BmNIPL8L1XP1/yYz6aufKBk2gXRQw8K+SCVRUTAOwrqPO8puvnajotdZYMzl6NUPFL5fuMgGxOZYTNlFHTS9r+iQTi2dM+efzZREf5UIYt]
-  - id: 'root@cucumber'
-    type: 'ssh-rsa'
-    user: 'mirrorsync'
+  - id: "root@cucumber"
+    type: "ssh-rsa"
+    user: "mirrorsync"
     key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAofqALmmWsVqUkK/xIGRWlV5wiPETeRHJ9DrdujE6LCZrLchaYVph9F1orC4vA9CkzoS9Nx0sMklV9eT9pxdlowjw6th+VytsT8pOXjFhXAOeVVu8HO2AADkxFiEuvo00ciGXisT+e3yvzM1gJKMeKmvpqjCnEOT+7LvnfvZu8pnR5HQMAz1VBzywx7vjkXqhQkRc/ZP/anTsDUcWWSvubcuzCKvLOP4/mFSn7DSMtKEE52vnsbmuT13KuzODz6iCdY1/u3wa8s/sKZcJOH1P3tD2+om/wR4hLK94Vvna7LoEcSXTuFcBoSPuxcY8Dwacv35NKHtBYHkyqWX2x/E0hDCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOenRinQqd71ZBdZGEMXaLqAggGAFg6JcB+g4hlzaMYb5AsM9HYH4iSNaVzL7lHpYiqi6pFbFUNpy7XsY8qqiKn/HIJNNDr365ViJcmrFBTIj5BfKNasZlXe8VSDk6YNx5MCCn/LJPZcUCLAtflDQh+Y3keOJytj/WcGXsC0MVGZ1nJmBUGH13VEZCSk8Fb7KmdhLbxIngpAIqutNaQoImRlV75pfw4TvM35+vJKoJlq7uPWEtYyONgCf3uNdJJms1URgx6rbNKbAo8kL2Y+4oWiOyqt6Wt2xC6HHWxCnm/+MdMpBUJdc7Jhz4RP3Ye4kllsL3zVryBvLK2LEHQbk6QhPDBw2kUJlEJvc3grdY3vDQEeDMQtQhoH2lTIseCIRtCjia0UOCxkE6p8UQ2icc3hWipPw0xk6Fg7iDBNBASMV+kmNzcCFghmTB+nPdl6OW9c5ZJJeqeHt3PtrT8ig43YHEGUqCgd3KnStR62afol7iY4ak+k8m/P7rUCzzKm0pGSL+PaaepfCXKe5kQF4txUvRy2]
 irc::irc_server: ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAg/IMh30AaTVOJqBSUwZ9q7ijpmxoS/rS2GyWkXZ9qnhCi2B0O1U1Ds+BSpsAszxA3Qf67tl7OkmfTyV7xDNjSfVlHuGbgJ5yRkOphndcO5tCd+ssFRXROROeHVJBhn64S11ayL4LSyx9zn6Nqk4SnUjZ9zKmS1KGGl3fjFLygI+3q8rPuv+ebSKFUiwXUUWPsPoTUPcxV9950npYiP5yaOJN9y7QJ8XqlA9cNU27cubgZJFxYRfReCa0zG12K6c+ordmc85R+Fp4ZJnPIuOVS4A6xS/x5a3EJz/qWdBZYCUjmrk+qmiMrp7mgc+EHKOAkmrdA+yZbWnYhv8PalufiDCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQYE9nAbni14xjBa6uM+gtOYBggqa4FnMWQ3eObLB5eu+Vje5vCo14q/bWY0uqio9aRO6pIEsKaBVE/DnF0VWuV9tqTcD3LInqpvS1g8cgcgLp8Z0chmQoZSGxdBGhTFkRGO0z+TJY1zXixeUedzp/K2Ly]
 irc::irc_join: true
@@ -132,31 +132,31 @@ irc::timeout: 20
 ntp::autoupdate: true
 ntp::servers:
   - pool.ntp.org iburst
-apache::keepalive: 'On'
+apache::keepalive: "On"
 apache::keepalive_timeout: 3
-apache::server_tokens: 'Prod'
-apache::server_signature: 'Off'
+apache::server_tokens: "Prod"
+apache::server_signature: "Off"
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
-profile::jenkinsadmin::github_login: 'jenkinsadmin'
+profile::jenkinsadmin::github_login: "jenkinsadmin"
 profile::jenkinsadmin::github_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPU/ayIbg0ST7GaBU1Hh5myKg9SjVJEDCNLIreZqQLr/IUiM5biFvcdE4QjhUUDPEpZNz5HLXDS75AQsWr5hS7Xy4TPIP+Y7s9T5QMYOuGME9wFCcSbitVV0Uq9NLPQxv6ZsUaNlU+IKYomHLIhPEzxVQ4N7IlgfkaBljpOC5CjoTz20oSb16icMoyZLKKiZRxbS+HisaF475l0koo+a8s1CTYjCrFwlEh/aTXHMRENDuAlk4D/ld9AxKBdKG16xN1caCfoPsbW/CchQUnER88ktvkXj/YAe+CjlJ4xqpvYzjxVT4GNTEn4ovFPkcVqHo0T9MWRq5BLJ3fNImNLylajA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCUi3iHEOPMwHw+rB78aUpxgBDaoeS26SryhDsl9/l49TeT]
 profile::jenkinsadmin::github_token: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAb+3JzNkeNT4sZIPHjkfgHjqbYafrBiqbwDZseQNR1GVPSKQBYXO5c+FL7NgBwHzBizmEpxwWxNhkdlT6RtB9YTizaZVxlBzQoryloR0MpWpE4hC+0Bi1ItQBMU9B4C1bCVbBm5et2QRpV0ix0PJ29yXnBs3TEScuLL7HuX8Mzh6gwxH9dPUUGxX9esnIpBDwuqlk/966/JgTtZ5xA4cEDVj0xJuM2l/aAMjDOaN8Pg8oOm2iWcJAQNGV4vPJ+IuhPMuGiYCB5LloEm2ZTwCYFECLJndb7ZITazWFgtGT6dRNjvHeIDMhLbs+wBEvLAbytmDJBecsTGQLOs7+B+AHuTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA2JlRj4u/qgsE8ulGI2S5HgDDfkxF7kl2x3IFZCoLath+ZsVVdOWMuyk5KvesTQkpOWTnsbfkNUFNVXjrLc/2qdIk=]
 # access to JIRA (for creating new components)
-profile::jenkinsadmin::jira_login: 'ircbot'
+profile::jenkinsadmin::jira_login: "ircbot"
 profile::jenkinsadmin::jira_password: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEATAeBkzcuvu32ZdCm7jq/zI1gRlaNroGyrBxA/kxTw1uL4OhApI8RcgbO/PinbIbva6mnde0hXSsWmIoYN9wN1SpHyk7VJvzrKUf8E4HyvXdmDQBRRvd2q5I9f0wh7nKz2kVOht8eX4A//Q+U7NcGCo//1vDYVy2zfbWSFW5JD727rFgzflF/VPjEBOx8y+bKBTF8EOtygiBAI1WDfnfgM+ogwsZjE6z2ipCHJ8zMsTs0djtH/+C86WYtA52izXs7hvKrqUWir38/f4MkLjSNgpPVrvBxufXopXmzyIMV1uvMpCqJ6x4qAlNcukBfZCEiE3h2e1+GfBHId7rsOrGqmDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBClxcblTgjZwGo3nsZGyK1HgDCPD2E9tLavlMvRuTnMfmNv6p4v9gDJYesF4k4/7AvDuyIjBCmlSGvFRjnDbzElYLM=]
 # access to freenode (for authenticating as 'jenkinsadmin')
 # TODO: nickname is hard-coded to the bot right now
 profile::jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEApcoIRvdK5ucSrPibeyrhAQactyxQGTJLdVaopQdEu8MUVQIPcsi052ib60se8E51JUSiQhus3dV9b7KTnLqPGV2eYz08jAgUJTnYcxOlSp7nRY8HXRXIAJ8uhjrYxXpw8B0pisxb4joEEMhYdlBMrFthXUxD8g3LoybOLsRVjQViFJeRfvg9cVUQ2fgqHnXKyyTCadqQCYyNXlSB9yc8J4W1/xfjpIfE3EcQ6GcHYe225tPy0aPMetUnt7v5qRzuuO5xPYO86ByBDd4rSxn6El1cokOxIIg1IAr4q55h6QwFLHoXX4GtvV05CHB9pgfxuxc0JHV7Mv9L/+cDpwyq8jA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCvd92Vb6hSA9rBlA48KfaogBDLJlf7Q+XwAU4fMZbOO7go]
 # Tag is the docker container image tag from our build process, this job:
 # <https://trusted.ci.jenkins.io:1443/job/Containers/job/ircbot>
-profile::jenkinsadmin::image_tag: '64-build32db94'
+profile::jenkinsadmin::image_tag: "64-build32db94"
 # Key that Jenkins uses to push bits into OSUOSL
 profile::jenkins::mirroring_privkey: |
   ENC[PKCS7,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]
-profile::jenkins::mirroring_pubkey: 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKfSNpGdxkoCsQBzoiw7Gjq6J/DtjbVCgpD166YKFkWh4ae8YT2sA1ozdAreXHviIJrK8WbHfcz6zG+UtyjscTMCewC6NAQpdQGsFr53/eebD7s/5IY14ZXAtJrF2raWR5cknodCPO3pfxBusK51dw5vFerp53l57ExFcrfIIOfLGf0GCt/VrexWY8OlIk2fep724IAHRMRIwUV+QIDE5Jh5MzY5cgAoVwJWfPzGZtPsiIHJZ6NVYkqOVFAfddaj6H5CUolaQsYkM63XCwefSrsLP3pJDhCAvLnPeQkkHDaybYEIaBRt6tc5jxCxdDHlG+CT8v8aPjBV0C2hG4TB3T jenkins@jenkins-on-jenkins.2016'
-profile::l10n_server::image_tag: '3a5429b'
+profile::jenkins::mirroring_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKfSNpGdxkoCsQBzoiw7Gjq6J/DtjbVCgpD166YKFkWh4ae8YT2sA1ozdAreXHviIJrK8WbHfcz6zG+UtyjscTMCewC6NAQpdQGsFr53/eebD7s/5IY14ZXAtJrF2raWR5cknodCPO3pfxBusK51dw5vFerp53l57ExFcrfIIOfLGf0GCt/VrexWY8OlIk2fep724IAHRMRIwUV+QIDE5Jh5MzY5cgAoVwJWfPzGZtPsiIHJZ6NVYkqOVFAfddaj6H5CUolaQsYkM63XCwefSrsLP3pJDhCAvLnPeQkkHDaybYEIaBRt6tc5jxCxdDHlG+CT8v8aPjBV0C2hG4TB3T jenkins@jenkins-on-jenkins.2016"
+profile::l10n_server::image_tag: "3a5429b"
 # corresponds to Git tag in https://github.com/jenkins-infra/infra-rating
-profile::rating::image_tag: '0.0.7'
+profile::rating::image_tag: "0.0.7"
 profile::rating::dbconfig: |
   ENC[PKCS7,MIICGwYJKoZIhvcNAQcDoIICDDCCAggCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAzkg6biDr6WEQub2or38ZGXUkUBlN3ccSj/2NpEZwvVW5iVVyX5QCRb4FdUePrCcZJGIv66jy04csy4c6aAJI/ZkRQK9AUYUhERdkLP6MwQtGxTnkBzCK/cuNNkYvuy3w7pp7yBZD2ZwE3Hl8aWbDDiTEqBmCllSZYFS6yy1/nWtgFac5l3F4bjoaIQrKf9DQsuvxkmoiBvZu8tQT383ni3tRh7gbNdV4wmzqLh4NZt8UhRrkMZ/tr3d+f/0L6SHrIuNP8xEeJM+Eb2T5bnRAmfvAFkaaaFxdpo4RNF3/3ar7OCDnHmQh6WfCnYCvpDbBi3vfBsC1EVszcd3rKRwyoTCB3QYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQMK7h6BgshvMmTnvbTnLwdoCBsCad1NcjzCBem4tYwp1oUc0F9iD4WDeusCHJzLtA8ubv4DbNNNQNI53CdE6SxltwScf3nH5+6/7mjI0kXQ8wX8/iFue0OqqBbFeq59P0dxiH0eLLa7+RG/k+G5gm1m5wnNpHHVPROsqEhXGEKYxGZ7PtRfvE3iP3h2M3HPYlU8245KGaPd4jhhh6AffUCWfqDOB53q7qHE+Ttdp9g8XJH2zFKmPbAKgENt9zuo9lMYz4]
 profile::robobutler::nick: robobutler
@@ -199,14 +199,14 @@ datadog_agent::process_enabled: true
 datadog_agent::logs_enabled: true
 datadog_agent::container_collect_all: true
 profile::buildslave::ssh_keys:
-  '/home/jenkins/.ssh/id_rsa':
+  "/home/jenkins/.ssh/id_rsa":
     privkey: |
       ENC[PKCS7,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]
 # place this file in ~/.docker/config.json
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::buildmaster::docker_image: jenkins/jenkins
-profile::buildmaster::docker_tag: "2.332.2-jdk11"
+profile::buildmaster::docker_tag: "2.332.3-jdk11"
 profile::buildmaster::plugins:
   - workflow-aggregator
   - pipeline-stage-view
@@ -218,25 +218,25 @@ profile::buildmaster::agents_setup:
     tempDir: 'C:\\\\temp'
     remoteAdmin: Administrator
   ubuntu:
-    agentDir: '/home/jenkins'
+    agentDir: "/home/jenkins"
     remoteAdmin: jenkins
-    tempDir: '/tmp'
+    tempDir: "/tmp"
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-06c6a1435899c9417"
-    windows-amd64: "ami-08e0f63d3de4c09df"
-    ubuntu-arm64: "ami-00b8422cab1a7b79a"
+    ubuntu-amd64: "ami-039869884fedd32b1"
+    windows-amd64: "ami-0c50b6e82a1efbdf9"
+    ubuntu-arm64: "ami-0c6f93ec71621c7f3"
   azure_vms_gallery_image:
-    version: 0.21.0
+    version: 0.22.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
     jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:00690b146b89f6b7deb21074f465cdaf6d2c8dda31cfa3381383ad84a1a534db
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:b7ed36d4b37641cf00e224199ec9deba68647ec48c3bb23096297bce5992e0ad
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:14e7828a800ac3801718b8b281a27d5a38e6a0ce85316353a5949d52cc3b369f
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:95ee4c4da039a7d3e464a7243a96520905e8fd6fd151e50dcbb979442f9cd7dd
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:ea9fe3a9af7651d1222100e19b7bbb08d23641d45f495ea0b250b4e92e6df010'
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:c2113c49740b9ffa7c19091cff0a47d1915d5e672edf4ea4e1a9735a0f4e6184
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:bbe3ca23134ee6e8b98e3a03ecca430f09abf016686d686e91ecf94f78c20876
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:45a182e4c257823c079efc233bdc0677c800186d2e843559e1199a6ec4a7fb26
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:910e22e3c2bf78f3a5dbea05cc33f315ecdeb0e3c0bb98683a573640df85dbb7
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:15c277c5f27455b85700eaeaf8fd237005ba8f8f982a0e89eb2a253b1af64d6b'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:a8a2b36124206220826e252e04de845e6fa9c7528570c65f09232efa1a5361e6'
     jnlp: jenkins/inbound-agent@sha256:f98ae9a528e791b986f996b4278894d73e818c87bdc8326e5fa18b9b367cce25
 profile::buildmaster::default_tools:
@@ -255,15 +255,15 @@ profile::buildmaster::default_tools:
   groovy:
     groovy: # Default version is named "groovy"
       version: "2.4.7"
-ldap_url: 'ldap://localhost:389'
-ldap_dn: 'dc=example,dc=com'
-ldap_admin_dn: 'cn=admin,dc=example,dc=com'
-ldap_admin_password: 'hunter2'
+ldap_url: "ldap://localhost:389"
+ldap_dn: "dc=example,dc=com"
+ldap_admin_dn: "cn=admin,dc=example,dc=com"
+ldap_admin_password: "hunter2"
 # These variables should be filled in, in production.yaml, with the legacy
 # jenkins-ci.org cert details
-ssl_legacy_cert: ''
-ssl_legacy_chain: ''
-ssl_legacy_key: ''
+ssl_legacy_cert: ""
+ssl_legacy_chain: ""
+ssl_legacy_key: ""
 ssh::server::storeconfigs_enabled: false
 ssh::server::options:
   PasswordAuthentication: no
@@ -282,53 +282,22 @@ r10k::webhook::config::protected: false
 r10k::webhook::config::use_mcollective: false
 r10k::webhook::config::enable_ssl: false
 r10k::webhook::config::github_secret: "justapassword"
-usage_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=='
-usage_ssh_privkey: 'usage_ssh_privkey'
-osuosl_mirroring_privkey: ''
-archives_mirroring_privkey: ''
+usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
+usage_ssh_privkey: "usage_ssh_privkey"
+osuosl_mirroring_privkey: ""
+archives_mirroring_privkey: ""
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: '5:20.10.14~3-0~ubuntu-bionic'
+docker::version: "5:20.10.14~3-0~ubuntu-bionic"
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
-azure::releases::account_name: 'overridewithstorageaccountname'
-azure::releases::access_key: 'overridewithaccesskey'
-# Overridden for production, non-production dummy keys sourced from:
-# https://github.com/jenkins-infra/azure/blob/master/ssh_key
-azure::k8s::management_ssh_privkey: |
-  -----BEGIN RSA PRIVATE KEY-----
-  MIIEpQIBAAKCAQEA75ct2RfZ7WF5b8P0kv7/vC8BrXp9Ah72HSI2NctTXEdkq19w
-  M7/8wz0rU2okU3DlhhAcp/OKulUch+Pojfh2N9bTKKVRqShFCbyJD+6qVvFBqTUu
-  TDzoYQnzrAcRh2egM4y8KTrB65RGoYJe7VNSVuFZ1+I0cvtpkCZKpx7T3qmGTLTW
-  cMpoafDY75csbcS8OaTbucHfLp13ri5B+98yb5PJDYI8OT9nIOFAVV10BHckSdK8
-  C8OJi1cx72NrCM+U/QDfqs9vVYDepptX2T3vrBy3wywRSuQFpb079I71/k8q368h
-  uF8J1P5METp+SiQ2tUp7gKu/CZaGTrINuDV2gQIDAQABAoIBACBTG0Jw71wRjJrB
-  q1uxv7sZ9HX9UqRYnQftN7cmSYbnsvNUGwVAX8/PjurgJSqEztK5lcQrHYpqNUE4
-  RIXzAbAi8bZIJ65U2ounvi5CGwVD44H6xNZQWWHOP+vzwC+ukXSjBjfhz4wDI0xj
-  FH+cgD1shfyUblMdDG8AW44UoK0nmzdlncmdjQ9Oqj+nmOSQ2/nNY+2MAQZHO2LM
-  POCjWl0l+uUlXhmCZRs+ioK6emRuv74cvBq9eURgl+8boweRHp1B5tevCK9/xRta
-  H225CoCHy1bXHSsEVWk1ULjpwmNb3aelJiTXbcJepjslXCKzFRkXDDLcnZ2qKjjd
-  QAK7aeECgYEA/ieQ51HrogzOZGZyi+PlWt/7Xv+j+Gg3OaOHorLGGpANrzJor0TM
-  ab/Qm282Zi71QANnhtS8mcp4yfrC/orfMAYpcrHt6zmCTUrGYTccxHMu1PI5BOBO
-  jzNBGCnzrOt3fg238snNjskSuRKBv/6jXPFiQgpKQGDrskAHw1aLrWUCgYEA8VSK
-  c0h3KZbCK9ro9/iYUInblU9IgNptX9uG122wBhTnF2QnhxS/AHVmaMGku/y79z49
-  g6JWjmssONRFGljgD0+nTahHtV8X+IOE+S+FZYuq5KabfsacKtYA3HH/TvKU8EtP
-  5ozk567atNFV62bMp5042XUy+5xW/ApHmCYnMO0CgYEAtpLntjSUJ+I5Ncieir2Y
-  2lJCenj8aos6+M3vtsHkK9rF6dA1gYrTqTfg/HfExV0AUw7fBO232manpLjd8QsD
-  z7Tte3Y0KqEyaKHJprZ3lOwFfXXP3h/gb2BrZ5djdBnmygfC18d+Qg9Rwt93k9ux
-  sSe55SUNN/gn+PGkYf++8T0CgYEA60PxnSWeFctFDB/jUirlwk5C5TJfik5mpjaL
-  I+Vo3uTtzJ308vlEoxvQdHujLyjZzdS9f2B5ZWoRuG0n2OGfvQ14GnrdPXGxGrKM
-  paiwMSiRt0q8+ECC6jeqqz3vGXXfwMqK4EWmuj56NCCH1G9pQFZDn6tjwmrNWfRj
-  i25WcpkCgYEAinfmt1EEI3mL0K8xIsaOlLd7drmTgvvdei3SoeNMiJ3MeUTJyO+I
-  s9K0xBYovtrhZKmH4+XcJaPURtn7FSfl1M9EJW41xzqEBl4bMPsQyYZuM1coQyTx
-  2AtD166eqqWAOZWcvVAax9yTR322MO+mV7yryMtIRoPUuVHw6uz/MJI=
-  -----END RSA PRIVATE KEY-----
-azure::k8s::management_ssh_pubkey: 'AAAAB3NzaC1yc2EAAAADAQABAAABAQDvly3ZF9ntYXlvw/SS/v+8LwGten0CHvYdIjY1y1NcR2SrX3Azv/zDPStTaiRTcOWGEByn84q6VRyH4+iN+HY31tMopVGpKEUJvIkP7qpW8UGpNS5MPOhhCfOsBxGHZ6AzjLwpOsHrlEahgl7tU1JW4VnX4jRy+2mQJkqnHtPeqYZMtNZwymhp8NjvlyxtxLw5pNu5wd8unXeuLkH73zJvk8kNgjw5P2cg4UBVXXQEdyRJ0rwLw4mLVzHvY2sIz5T9AN+qz29VgN6mm1fZPe+sHLfDLBFK5AWlvTv0jvX+TyrfryG4XwnU/kwROn5KJDa1SnuAq78JloZOsg24NXaB'
+azure::releases::account_name: "overridewithstorageaccountname"
+azure::releases::access_key: "overridewithaccesskey"
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
 limits:
-  '*':
+  "*":
     nofile:
-      soft: '65536'
-      hard: '65536'
-profile::openvpn::image_tag: '1.0.71' # Tracked by updatecli
+      soft: "65536"
+      hard: "65536"
+profile::openvpn::image_tag: "1.0.72" # Tracked by updatecli
 # vim: ft=yaml ts=2 sw=2 nowrap et
