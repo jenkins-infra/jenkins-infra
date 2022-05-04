@@ -54,48 +54,6 @@ node 'lettuce' {
   include role::lettuce
 }
 
-# spinach
-node 'spinach' {
-  sshkeyman::hostkey { ['spinach.jenkins.io', 'spinach.jenkins-ci.org', 'fallback.jenkins-ci.org', 'fallback.jenkins.io']: }
-  include role::spinach
-}
-
-# celery
-node 'celery' {
-  sshkeyman::hostkey { ['celery.jenkins.io', 'celery.jenkins-ci.org']: }
-  include role::celery
-}
-
-# okra
-node 'okra' {
-  sshkeyman::hostkey { ['okra.jenkins.io', 'okra.jenkins-ci.org', 'archives.jenkins-ci.org', 'archives.jenkins.io']: }
-  include role::okra
-}
-
-# cabbage
-node 'cabbage' {
-  sshkeyman::hostkey { ['cabbage.jenkins.io', 'cabbage.jenkins-ci.org']: }
-  include role::cabbage
-}
-
-# kelp
-node 'kelp' {
-  sshkeyman::hostkey { ['kelp.jenkins.io', 'kelp.jenkins-ci.org']: }
-  include role::kelp
-  include role::census::agent
-}
-
-# cucumber (legacy host)
-node 'cucumber' {
-  sshkeyman::hostkey { ['cucumber.jenkins.io', 'cucumber.jenkins-ci.org']: }
-  include role::cucumber
-}
-
-# tomato (Mac OS X 10.10 build node)
-node 'tomato' {
-  include role::jenkins::agent
-}
-
 node 'census' {
   sshkeyman::hostkey { ['census.jenkins.io']: }
   include role::census
@@ -111,19 +69,9 @@ node 'ratings' {
   include role::rating
 }
 
-node 'l10n' {
-  sshkeyman::hostkey { ['l10n.jenkins.io']: }
-  include role::l10n
-}
-
 node 'mirrorbrain' {
   sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io']: }
   include role::mirrorbrain
-}
-
-node 'ci' {
-  sshkeyman::hostkey { ['ci.jenkins.io']: }
-  include role::jenkins::master
 }
 
 node 'azure.ci.jenkins.io' {
@@ -151,7 +99,6 @@ node /^trusted-agent-\d+$/ {
   $hiera_role = 'trustedagent'
   # include role::census::agent
   include role::updatecenter
-
 }
 
 node 'vpn.jenkins.io' {
