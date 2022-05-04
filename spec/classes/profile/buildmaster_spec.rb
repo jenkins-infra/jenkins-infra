@@ -53,17 +53,7 @@ describe 'profile::buildmaster' do
       it { should contain_exec('perform-jcasc-reload') }
       it { should contain_exec('safe-restart-jenkins') }
     end
-
-
-    # Resources which ensure that we can run our local CLI scripting
-    context 'Local CLI access' do
-      it { is_expected.to contain_file('/var/lib/jenkins/.ssh') }
-    end
   end
-
-
-  # Key needed for k8s management
-  it { should contain_file('/var/lib/jenkins/.ssh/azure_k8s') }
 
   context 'JNLP' do
     it 'should open the JNLP port in the firewall' do
