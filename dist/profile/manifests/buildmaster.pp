@@ -29,7 +29,6 @@ class profile::buildmaster(
   $groovy_init_enabled             = false,
   $groovy_d_enable_ssh_port        = 'absent',
   $groovy_d_set_up_git             = 'absent',
-  $groovy_d_pipeline_configuration = 'absent',
   $groovy_d_lock_down_jenkins      = 'absent',
   $jcasc                           = {},
   $cloud_agents                    = {},
@@ -73,8 +72,6 @@ class profile::buildmaster(
   $ldap_dn     = lookup('ldap_dn')
   $ldap_admin_dn = lookup('ldap_admin_dn')
   $ldap_admin_password = lookup('ldap_admin_password')
-
-  $ssh_dir = "${jenkins_home}/.ssh"
 
   $script_dir = '/usr/share/jenkins'
   $lockbox_script = "${script_dir}/lockbox.groovy"
@@ -163,19 +160,6 @@ class profile::buildmaster(
       owner   => 'jenkins',
       group   => 'jenkins',
       source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
-      require => [
-          User['jenkins'],
-          File[$groovy_d],
-      ],
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
-    }
-
-    file { "${groovy_d}/pipeline-configuration.groovy":
-      ensure  => $groovy_d_pipeline_configuration,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/pipeline-configuration.groovy",
       require => [
           User['jenkins'],
           File[$groovy_d],
@@ -309,39 +293,6 @@ class profile::buildmaster(
         User['jenkins'],
     ],
   }
-
-  # Prepare Jenkins instance-only SSH keys for CLI usage
-  ##############################################################################
-  file { $ssh_dir :
-    ensure  => directory,
-    owner   => 'jenkins',
-    group   => 'jenkins',
-    mode    => '0700',
-    require => [
-        User['jenkins'],
-        File[$jenkins_home],
-    ],
-  }
-
-  file { "${ssh_dir}/azure_k8s":
-    ensure  => absent,
-    mode    => '0600',
-    content => lookup('azure::k8s::management_ssh_privkey'),
-    require => [
-        File[$ssh_dir],
-    ],
-  }
-
-  file { "${ssh_dir}/azure_k8s.pub":
-    ensure  => absent,
-    mode    => '0644',
-    content => lookup('azure::k8s::management_ssh_pubkey'),
-    require => [
-        File[$ssh_dir],
-    ],
-  }
-  ##############################################################################
-
 
   # CLI support: legacy support (ensure clean up of old resources)
   ##############################################################################
