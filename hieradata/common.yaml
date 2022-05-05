@@ -219,11 +219,11 @@ profile::buildmaster::agents_setup:
     tempDir: "/tmp"
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-039869884fedd32b1"
-    windows-amd64: "ami-0c50b6e82a1efbdf9"
-    ubuntu-arm64: "ami-0c6f93ec71621c7f3"
+    ubuntu-amd64: "ami-0f8e5badc89adc800"
+    windows-amd64: "ami-0aa800849ef2c5cfc"
+    ubuntu-arm64: "ami-05fd253861034fe05"
   azure_vms_gallery_image:
-    version: 0.22.0
+    version: 0.23.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
     jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
