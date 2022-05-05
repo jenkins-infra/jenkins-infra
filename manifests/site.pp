@@ -64,11 +64,6 @@ node 'usage' {
   include role::usage
 }
 
-node 'ratings' {
-  sshkeyman::hostkey { ['ratings.jenkins.io']: }
-  include role::rating
-}
-
 node 'mirrorbrain' {
   sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io']: }
   include role::mirrorbrain
