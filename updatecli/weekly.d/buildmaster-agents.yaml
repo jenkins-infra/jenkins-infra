@@ -14,50 +14,50 @@ scms:
 
 sources:
   packerImageVersion:
-    kind: githubRelease
+    kind: githubrelease
     spec:
       owner: "jenkins-infra"
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
   getLatestInboundRubyContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkinsciinfra/inbound-agent-ruby"
       tag: "latest"
       architecture: amd64
   getLatestInboundMaven8ContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk8"
       architecture: amd64
   getLatestInboundMaven11ContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk11"
       architecture: amd64
   getLatestInboundMaven17ContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk17"
       architecture: amd64
   getLatestInboundNodeContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkinsciinfra/inbound-agent-node"
       tag: "latest"
       architecture: amd64
   getLatestInboundAlpineContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkins/inbound-agent"
       tag: "alpine"
       architecture: amd64
   getLatestInboundJDK11ContainerImage:
-    kind: dockerDigest
+    kind: dockerdigest
     spec:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
@@ -122,7 +122,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-ruby"
     transformers:
-      - addPrefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
     scmid: default
   setInboundMaven8ContainerImage:
     sourceid: getLatestInboundMaven8ContainerImage
@@ -132,7 +132,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-8"
     transformers:
-      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
   setInboundMaven11ContainerImage:
     sourceid: getLatestInboundMaven11ContainerImage
@@ -142,7 +142,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-11"
     transformers:
-      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
   setInboundMaven17ContainerImage:
     sourceid: getLatestInboundMaven17ContainerImage
@@ -152,7 +152,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-maven-17"
     transformers:
-      - addPrefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
   setInboundNodeContainerImage:
     sourceid: getLatestInboundNodeContainerImage
@@ -162,7 +162,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-node"
     transformers:
-      - addPrefix: "jenkinsciinfra/inbound-agent-node@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-node@sha256:"
     scmid: default
   setInboundAlpineContainerImage:
     sourceid: getLatestInboundAlpineContainerImage
@@ -172,7 +172,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp-alpine"
     transformers:
-      - addPrefix: "jenkins/inbound-agent@sha256:"
+      - addprefix: "jenkins/inbound-agent@sha256:"
     scmid: default
   setInboundJDK11ContainerImage:
     sourceid: getLatestInboundJDK11ContainerImage
@@ -182,7 +182,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::buildmaster::agent_images.container_images.jnlp"
     transformers:
-      - addPrefix: "jenkins/inbound-agent@sha256:"
+      - addprefix: "jenkins/inbound-agent@sha256:"
     scmid: default
   setUbuntuAgentAMIAmd64:
     name: "Bump AMI ID for Ubuntu AMD64 agents"
