@@ -23,10 +23,10 @@ sources:
         username: "{{ .github.username }}"
         token: "{{ requiredEnv .github.token }}"
     transformers:
-      - addSuffix: "-jdk11"
+      - addsuffix: "-jdk11"
 
 conditions:
-  defaultCiDockerImage:
+  defaultCidockerimage:
     name: "Ensure default jenkins docker image name set to jenkins/jenkins"
     kind: yaml
     disablesourceinput: true
@@ -34,8 +34,8 @@ conditions:
       file: hieradata/common.yaml
       key: "profile::buildmaster::docker_image"
       value: "jenkins/jenkins"
-  testDockerImageExist:
-    kind: dockerImage
+  testdockerimageExist:
+    kind: dockerimage
     sourceid: jenkinsLatestLTS
     spec:
       image: "jenkins/jenkins"

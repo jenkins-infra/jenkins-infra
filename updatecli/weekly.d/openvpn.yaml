@@ -15,7 +15,7 @@ scms:
 
 sources:
   latestVersion:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest stable docker-openvpn version
     spec:
       owner: "jenkins-infra"
@@ -26,8 +26,8 @@ sources:
         kind: semver
 
 conditions:
-  testDockerImageExist:
-    kind: dockerImage
+  testdockerimageExist:
+    kind: dockerimage
     spec:
       image: "jenkinsciinfra/openvpn"
       architecture: amd64

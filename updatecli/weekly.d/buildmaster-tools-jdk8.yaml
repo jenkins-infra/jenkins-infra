@@ -14,7 +14,7 @@ scms:
 
 sources:
   getLatestJDK8Version:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest Adoptium JDK8 version
     spec:
       owner: "adoptium"
@@ -26,7 +26,7 @@ sources:
         # jdk8u302-b08 is OK, but jdk8u302-b08.1 is not
         pattern: "^jdk8u(\\d*)-b(\\d*)$"
     transformers:
-      - trimPrefix: "jdk"
+      - trimprefix: "jdk"
 
 conditions:
   checkIfReleaseIsAvailable:

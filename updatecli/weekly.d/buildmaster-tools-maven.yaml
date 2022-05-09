@@ -14,7 +14,7 @@ scms:
 
 sources:
   getLatestMavenVersion:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest Maven version
     spec:
       owner: "apache"
@@ -24,7 +24,7 @@ sources:
       versionfilter:
         kind: latest
     transformers:
-      - trimPrefix: "maven-"
+      - trimprefix: "maven-"
 
 conditions:
   checkIfReleaseIsAvailable:
