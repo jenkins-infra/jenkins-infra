@@ -13,6 +13,7 @@ describe 'profile::base' do
     it { should contain_class 'profile::ntp' }
     it { should contain_class 'profile::sudo' }
     it { should contain_class 'profile::diagnostics' }
+    it { should contain_class 'profile::rngd' }
 
     context 'basic ssh configuration' do
       it { should contain_class 'ssh::server' }
