@@ -123,7 +123,7 @@ profile::buildmaster::cloud_agents:
     agent_definitions:
       - name: "ubuntu-20"
         description: "Ubuntu 20.04 LTS"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: SuperSecretThatShouldBeEncryptedInProduction
         location: "East US 2"
@@ -144,7 +144,7 @@ profile::buildmaster::cloud_agents:
         spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: SuperSecretThatShouldBeEncryptedInProduction
         location: "East US 2"
