@@ -32,7 +32,7 @@ profile::buildmaster::cloud_agents:
     agent_definitions:
       - name: "ubuntu-20"
         description: "Ubuntu 20.04 LTS"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXhMrX6DhUDJU5Ug4nLaRGGPWFHT2u9ZnxTQuXVQTBbR3Pb8pOYr/kWxQJmZTpVoqEnanVineZn1PFTxVVkjHUirX3kKgdwu3pZTrzaklBex1C1us64SmHErbHds0KeE/EX03k+Gti/V9W1z9jcTueHSld58olNCAb5oNbyo6noqLAZehoQLS39eRvsQDb4sYmVUv9X7daZ7Zu+kCYBtBZyfDNbRFMSOYcbj9WuygCwAijVGIC6q9hJWZYe/5DKAUZnynWDdPmtzDytrc3qKDaHSQ+5nQYORcO9vTuAevUoHis5elQ8dm6VWGiyvafx7xKzqbNghu9xGz/5IA/zzC9TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBEbhkLOEK5AaKPTV2CVxhagCAx5gsM01ONtqyQ7FRhnqOtyISGBXJtdfdcJXbp2MSBtw==]
         location: "East US"

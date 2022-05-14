@@ -181,7 +181,7 @@ profile::buildmaster::cloud_agents:
     agent_definitions:
       - name: "ubuntu-20"
         description: "Ubuntu 20.04 LTS"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
         location: "East US 2"
@@ -203,7 +203,7 @@ profile::buildmaster::cloud_agents:
         spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAG/Diw4+KrBubbNNGJxe7yGXyJJUSSbhWIRXcLBYGPxo14g/jsZLqyoO7yW7mN36IUnByMnBhQemcp2gGXj7x4GXBwbrABRd4UhIJMfMoAaKjFktl2FQk1YRdgBFDmCd7+FeOSn4GsCG1w/IVSpN1ezlqBdVqiMuG3RSyEByVBHvLXBQLulGp/ZsKGoJkW2gFTLnjxSbpu3fB8Y2KtiZ6RT3IlfnGS5Yfhl9vBxTcxgzvRrjK2h6QjVFSz/r+unAhpPKZ8BPlFCQta7/HF1bzWE4G7fX+rYiNtTAH3aWdOlD/okMUlhzsByIzi74VFvHREFVOkD908Gds7kzMh3qptjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDg3jrltbTU6EQUsnrJ7+VRgCCtEzUFqD1vyGyzqY4dHdJpD1CrMKnVM/JW0AT+y6573g==]
         location: "East US 2"
