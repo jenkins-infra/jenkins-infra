@@ -11,7 +11,6 @@ profile::buildmaster::jcasc:
     - buildmaster/casc/clouds.yaml.erb
   custom_configs:
     - cert.ci.jenkins.io/tools.yaml.erb # Instead of default
-    - cert.ci.jenkins.io/global-libraries.yaml.erb # Instead of default
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABEfs+rIJcAI0m8IKKgDjuGY7VyibX+V/uQK55ir23b8hKS1CcpWIMt048rswRyMBxoUfqssSj/VfunEc0/XJ38/ewOUOgmNesnd41Zb531OuXnRM4CGk24fcgwNAD5XuMDMTRBf76RWDmMDbG1MvTBuq2hs2OYPOvzmoitVeiaCwf2rCJJi+1O0VIBCCaGcXbJ5mxcAKe0onu3SRKeFLCUc5qNY7yaCQTYW48cWdeh8M482CDNoCs4USt/pInlEmfK3LrZsNDhCe/YHOyxJEbOrzO3zW99Gxg0MZc3wdiZp1O/aw0v05ohDbrqcQt2A/TMxsJl9xeVXnyMwMOIh4rjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAdCli//H3PvL7TwGVW6hcgCA7cdPzrqU08q6u3Mqq8C7HjlRClGlbN2W1rN/E7o5EWw==]
 profile::buildmaster::cloud_agents:
   azure-vm-agents:
