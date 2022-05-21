@@ -213,10 +213,12 @@ profile::buildmaster::agents_setup:
     agentDir: 'C:\\Jenkins'
     tempDir: 'C:\\\\temp'
     remoteAdmin: Administrator
+    osDiskSize: "128"
   ubuntu:
     agentDir: "/home/jenkins"
     remoteAdmin: jenkins
     tempDir: "/tmp"
+    osDiskSize: 90
 profile::buildmaster::agent_images:
   ec2_amis:
     ubuntu-amd64: "ami-0b613ed394048f189"
