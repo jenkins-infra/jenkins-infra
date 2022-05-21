@@ -140,7 +140,6 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
-        osDiskSize: 90
         spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
@@ -158,7 +157,6 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: false
         usePrivateIP: false
-        osDiskSize: 90
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -173,7 +171,7 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: true
         useEphemeralOSDisk: false
-        osDiskSize: 90
+        osDiskSize: 130 # For testing overriding at instance level in the template engine
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"

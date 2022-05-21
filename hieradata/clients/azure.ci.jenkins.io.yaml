@@ -199,7 +199,6 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
-        osDiskSize: 90
         spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
@@ -221,7 +220,6 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
-        osDiskSize: 90
         spot: true
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
@@ -242,7 +240,6 @@ profile::buildmaster::cloud_agents:
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
-        osDiskSize: 90
         spot: true
   azure-container-agents:
     aci-windows:
