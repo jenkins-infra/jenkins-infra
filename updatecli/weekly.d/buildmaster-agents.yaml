@@ -120,6 +120,7 @@ sources:
 targets:
   setWindowsVMAgentDiskSize:
     sourceid: getWindowsVMAgentsDiskSize
+    name: "Change the Azure VM agents disk size"
     kind: yaml
     spec:
       file: hieradata/common.yaml
