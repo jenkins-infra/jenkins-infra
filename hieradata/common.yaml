@@ -213,7 +213,7 @@ profile::buildmaster::agents_setup:
     agentDir: 'C:\\Jenkins'
     tempDir: 'C:\\\\temp'
     remoteAdmin: Administrator
-    osDiskSize: 90
+    osDiskSize: "128"
   ubuntu:
     agentDir: "/home/jenkins"
     remoteAdmin: jenkins
