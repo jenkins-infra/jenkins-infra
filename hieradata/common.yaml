@@ -268,8 +268,6 @@ ssh::server::options:
   PubkeyAuthentication: yes
 ssh::client::options:
   UseRoaming: no
-# Hash of SSH keys to be used for pushing releases into the mirrorbrain host
-profile::mirrorbrain::ssh_keys:
 # Hash of SSH keys to be used for downloading encrypted usage-stats and
 # uploading decrypted/anonymized ones
 profile::usage::ssh_keys:
