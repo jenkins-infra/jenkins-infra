@@ -2,14 +2,14 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-    Array  $rsync_hosts_allow           = ['localhost'],
-    String $archives_dir                = '/srv/releases',
-    String $rsync_motd_file             = '/etc/jenkins.motd',
-    String $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
-    String $source_mirror_directory     = '/jenkins/',
-    Array  $ssh_authorized_keys         = [],
-  ) {
-  include ::stdlib
+  Array  $rsync_hosts_allow           = ['localhost'],
+  String $archives_dir                = '/srv/releases',
+  String $rsync_motd_file             = '/etc/jenkins.motd',
+  String $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
+  String $source_mirror_directory     = '/jenkins/',
+  Array  $ssh_authorized_keys         = [],
+) {
+  include stdlib
   include profile::apachemisc
   include profile::letsencrypt
 
@@ -120,13 +120,13 @@ class profile::archives (
     options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     notify          => Service['apache2'],
     require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
-                        File[$archives_dir],
-                        Apache::Mod['bw']],
+      File[$archives_dir],
+    Apache::Mod['bw']],
   }
 
   apache::vhost { 'archives.jenkins-ci.org':
     port            => '443',
-    ssl             =>  true,
+    ssl             => true,
     docroot         => $archives_dir,
     access_log      => false,
     error_log_file  => 'archives.jenkins-ci.org/error.log',
@@ -137,19 +137,18 @@ class profile::archives (
     require         => File['/var/log/apache2/archives.jenkins-ci.org'],
   }
 
-
   apache::vhost { 'archives.jenkins.io non-ssl':
     # redirect non-SSL to SSL
     servername      => 'archives.jenkins.io',
     port            => '80',
     docroot         => $archives_dir,
     redirect_status => 'temp',
-    redirect_dest   => 'https://archives.jenkins.io/'
+    redirect_dest   => 'https://archives.jenkins.io/',
   }
 
   apache::vhost { 'archives.jenkins.io':
     port            => '443',
-    ssl             =>  true,
+    ssl             => true,
     docroot         => $archives_dir,
     access_log      => false,
     error_log_file  => 'archives.jenkins.io/error.log',
@@ -164,13 +163,13 @@ class profile::archives (
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
     letsencrypt::certonly { 'archives.jenkins.io':
-        domains     => ['archives.jenkins.io','archives.jenkins-ci.org'],
-        plugin      => 'apache',
-        manage_cron => true,
+      domains     => ['archives.jenkins.io','archives.jenkins-ci.org'],
+      plugin      => 'apache',
+      manage_cron => true,
     }
     Apache::Vhost <| title == 'archives.jenkins.io' |> {
-    # When Apache is upgraded to >= 2.4.8 this should be changed to
-    # fullchain.pem
+      # When Apache is upgraded to >= 2.4.8 this should be changed to
+      # fullchain.pem
       ssl_key       => '/etc/letsencrypt/live/archives.jenkins.io/privkey.pem',
       ssl_cert      => '/etc/letsencrypt/live/archives.jenkins.io/fullchain.pem',
       ssl_chain     => '/etc/letsencrypt/live/archives.jenkins.io/chain.pem',
@@ -193,7 +192,7 @@ class profile::archives (
   }
 
   file { '/etc/rsyncd.conf':
-    ensure  => present,
+    ensure  => file,
     content => template("${module_name}/archives/rsyncd.conf.erb"),
     owner   => 'root',
     mode    => '0600',
@@ -201,7 +200,7 @@ class profile::archives (
   }
 
   file { $rsync_motd_file:
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/archives/jenkins.motd",
     owner   => 'root',
     mode    => '0644',
@@ -210,13 +209,13 @@ class profile::archives (
 
   service { 'rsync':
     ensure => running,
-    enable => true
+    enable => true,
   }
 
   firewall { '100 all inbound rsync':
     proto  => 'tcp',
     dport  => '873',
-    action => 'accept'
+    action => 'accept',
   }
 
   # Install a script to trigger mirror synchronization
@@ -226,7 +225,7 @@ class profile::archives (
     group   => 'mirrorsync',
     owner   => 'mirrorsync',
     mode    => '0770',
-    require => File['/usr/bin/mirrorsync']
+    require => File['/usr/bin/mirrorsync'],
   }
 
   file { '/usr/bin/mirrorsync':
