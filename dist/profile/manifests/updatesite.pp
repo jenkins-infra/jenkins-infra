@@ -8,8 +8,8 @@ class profile::updatesite (
   $docroot = '/var/www/updates.jenkins.io',
   $ssh_pubkey = undef,
 ) {
-  include ::stdlib
-  include ::apache
+  include stdlib
+  include apache
 
   include profile::apachemisc
   include profile::firewall
@@ -29,7 +29,7 @@ class profile::updatesite (
     mode   => '0755',
   }
 
-  file { [$apache_log_dir, $docroot, $apache_legacy_log_dir, ]:
+  file { [$apache_log_dir, $docroot, $apache_legacy_log_dir,]:
     ensure => directory,
   }
 
@@ -40,9 +40,12 @@ class profile::updatesite (
     port            => 443,
     override        => ['All'],
     ssl             => true,
+    ssl_key         => "/etc/letsencrypt/live/${update_fqdn}/privkey.pem",
+    ssl_cert        => "/etc/letsencrypt/live/${update_fqdn}/cert.pem",
+    ssl_chain       => "/etc/letsencrypt/live/${update_fqdn}/chain.pem",
     docroot         => $docroot,
     error_log_file  => "${update_fqdn}/error.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
   }
 
   apache::vhost { "${update_fqdn} unsecured":
@@ -51,48 +54,21 @@ class profile::updatesite (
     docroot         => $docroot,
     override        => ['All'],
     error_log_file  => "${update_fqdn}/error_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$update_fqdn],
-  }
-
-  # Legacy update site compatibility
-  ##################################
-  # Some versions of the JDK do not support letsencrypt ccertificates, so
-  # instead of using the new updates.jenkins.io as a redirect target, we're
-  # going to continue to service updates.jenkins-ci.org with the legacy
-  # (GoDaddy) certificate
-  ##################################
-  file { '/etc/apache2/legacy_cert.key':
-    ensure  => present,
-    content => lookup('ssl_legacy_key'),
-    require => Package['httpd'],
-  }
-
-  file { '/etc/apache2/legacy_chain.crt':
-    ensure  => present,
-    content => lookup('ssl_legacy_chain'),
-    require => Package['httpd'],
-  }
-  file { '/etc/apache2/legacy_cert.crt':
-    ensure  => present,
-    content => lookup('ssl_legacy_cert'),
-    require => Package['httpd'],
   }
 
   apache::vhost { 'updates.jenkins-ci.org':
     docroot         => $docroot,
     port            => 443,
     ssl             => true,
-    ssl_key         => '/etc/apache2/legacy_cert.key',
-    ssl_chain       => '/etc/apache2/legacy_chain.crt',
-    ssl_cert        => '/etc/apache2/legacy_cert.crt',
+    ssl_key         => '/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem',
+    ssl_cert        => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
+    ssl_chain       => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
     override        => ['All'],
     error_log_file  => 'updates.jenkins-ci.org/error.log',
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
     require         => [
-      File['/etc/apache2/legacy_cert.crt'],
-      File['/etc/apache2/legacy_cert.key'],
-      File['/etc/apache2/legacy_chain.crt'],
       File[$apache_legacy_log_dir],
     ],
   }
@@ -103,7 +79,7 @@ class profile::updatesite (
     port            => 80,
     override        => ['All'],
     error_log_file  => 'updates.jenkins-ci.org/error_nonssl.log',
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_legacy_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost['updates.jenkins-ci.org'],
   }
 
@@ -121,19 +97,19 @@ class profile::updatesite (
     }
 
     ssh_authorized_key { 'updatesite-key':
-        ensure  => present,
-        user    => 'www-data',
-        type    => 'ssh-rsa',
-        key     => $ssh_pubkey,
-        require => File['/var/www/.ssh'],
+      ensure  => present,
+      user    => 'www-data',
+      type    => 'ssh-rsa',
+      key     => $ssh_pubkey,
+      require => File['/var/www/.ssh'],
     }
 
     # If we're managing an ssh_authorized_key, then we should purge anything
     # else for safety's sake
     User <| title == 'www-data' |> {
-        managehome     => true,
-        home           => '/var/www',
-        purge_ssh_keys => true,
+      managehome     => true,
+      home           => '/var/www',
+      purge_ssh_keys => true,
     }
   }
 
