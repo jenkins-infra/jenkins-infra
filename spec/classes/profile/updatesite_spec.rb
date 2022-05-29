@@ -60,14 +60,6 @@ describe 'profile::updatesite' do
 
       it { should contain_file('/var/log/apache2/updates.jenkins-ci.org').with_ensure(:directory) }
 
-      # context 'legacy certificate' do
-      #   it 'should install the key into /etc/apache2' do
-      #     expect(subject).to contain_file('/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem').with({
-      #       :ensure => :present,
-      #     })
-      #   end
-      # end
-
       it 'should contain a vhost on port 80/HTTP for updates.jenkins-ci.org' do
         expect(subject).to contain_apache__vhost('updates.jenkins-ci.org unsecured').with({
           :servername => 'updates.jenkins-ci.org',
