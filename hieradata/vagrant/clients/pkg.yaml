@@ -1,2 +1,6 @@
 ---
-# Empty
+# For the sake of nondefault value, as in production
+apache::mod::event::serverlimit: '26' #default 25
+# https://httpd.apache.org/docs/2.4/fr/mod/mpm_common.html#maxrequestworkers
+# maxrequestworkers = ServerLimit (see value above) * ThreadsPerChild (default: 25)
+apache::mod::event::maxrequestworkers: '650'
