@@ -68,27 +68,6 @@ echo ">> move index from staging to production"
     --exclude=.htaccess --exclude=jenkins.repo \
     pkg.jenkins.io.staging/ pkg.jenkins.io/)
 
-#(cd /var/www && rsync --omit-dir-times -av \
-#    --exclude=.htaccess --exclude=\*.key --exclude=jenkins.repo \
-#    pkg.jenkins.io.staging/ pkg.jenkins.io/)
-
-# This section of the script aims to ensure that at least one of our primary mirrors has the
-# "big" archives before we complete execution. This will help prevent users from unexpectedly
-# hitting fallback mirrors when our primary mirrors *have* the data and we simply haven't updated
-# our indexes
-#
-# https://issues.jenkins-ci.org/browse/INFRA-483
-echo ">> Sleeping to allow the OSUOSL to propogate some bits"
-sleep 120
-
-echo ">> attempting to update indexes with released archive"
-for f in debian debian-stable redhat redhat-stable war war-stable opensuse opensuse-stable osx osx-stable windows windows-stable updates; do
-  echo ">>>> updating index for ${f}/"
-  mb scan -j 2 -v -d $f -e ftp-chi.osuosl.org;
-done
-
-
-
 if [ "${FLAG}" = '--full-sync' ]; then
   echo ">> Update artifacts on get.jenkins.io"
   source /srv/releases/.azure-storage-env
