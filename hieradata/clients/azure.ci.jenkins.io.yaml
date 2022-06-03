@@ -144,7 +144,6 @@ profile::buildmaster::cloud_agents:
             - docker
             - linux
           useAsMuchAsPosible: true
-          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "Windows 2019"
           maxInstances: 10
           instanceType: T3Xlarge # 4 vCPUs / 16 Gb
@@ -164,7 +163,6 @@ profile::buildmaster::cloud_agents:
             - highram
             - docker-highmem
           useAsMuchAsPosible: false
-          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
         - description: "ARM64 ubuntu 20.04"
           maxInstances: 5
           instanceType: A1Xlarge # 4 vCPUs / 8 Gb
@@ -174,7 +172,6 @@ profile::buildmaster::cloud_agents:
             - arm64docker
             - linux
           useAsMuchAsPosible: false
-          idleTerminationMinutes: 5 # Quick deallocation as Linux is billed per minute
   azure-vm-agents:
     azureCredentialsId: "azure-credentials"
     resource_group: eastus-cijenkinsio
@@ -191,7 +188,6 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 1
         maxInstances: 10
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
@@ -212,7 +208,6 @@ profile::buildmaster::cloud_agents:
           - highmem
           - highram
           - docker-highmem
-        idleTerminationMinutes: 1
         maxInstances: 20
         useAsMuchAsPosible: false
         usePrivateIP: true
@@ -231,7 +226,7 @@ profile::buildmaster::cloud_agents:
         architecture: amd64
         labels:
           - docker-windows
-        idleTerminationMinutes: 30
+        idleTerminationMinutes: 30 # Quick deallocation as Linux is billed per minute
         maxInstances: 20
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
