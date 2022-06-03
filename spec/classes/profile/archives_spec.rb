@@ -39,7 +39,7 @@ describe 'profile::archives' do
   it { should contain_package('rsync') }
   it { should contain_service('rsync').with(:ensure => 'running') }
   it { should contain_file('/etc/rsyncd.conf').with(
-    :ensure => 'present',
+    :ensure => 'file',
     :owner  => 'root',
     :mode   => '0600')}
 end

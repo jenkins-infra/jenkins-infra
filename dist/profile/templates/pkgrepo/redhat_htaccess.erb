@@ -9,5 +9,5 @@ Options -Indexes
 RewriteCond %{HTTPS} on
 RewriteCond %{REQUEST_URI} ^/<%= @name %>/RPMS/noarch/*
 
-RedirectMatch /<%= @name %>/RPMS/noarch/(.*)\.rpm$ http://mirrors.jenkins.io/<%= @name %>/$1.rpm
-RedirectMatch /<%= @name %>/(.*)\.rpm$ http://mirrors.jenkins.io/<%= @name %>/$1.rpm
+RedirectMatch /<%= @name %>/RPMS/noarch/(.*)\.rpm$ https://mirrors.jenkins.io/<%= @name %>/$1.rpm
+RedirectMatch /<%= @name %>/(.*)\.rpm$ https://mirrors.jenkins.io/<%= @name %>/$1.rpm
