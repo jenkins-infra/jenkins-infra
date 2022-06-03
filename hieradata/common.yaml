@@ -221,7 +221,7 @@ profile::buildmaster::agents_setup:
     osDiskSize: 90
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-0d326fb73c3869c74"
+    ubuntu-amd64: "ami-051a732170648bd13"
     windows-amd64: "ami-0fd9f983884cd5f9a"
     ubuntu-arm64: "ami-078af806220c2919e"
   azure_vms_gallery_image:
