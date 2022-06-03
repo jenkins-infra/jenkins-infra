@@ -99,6 +99,7 @@ profile::buildmaster::cloud_agents:
           labels:
             - docker-windows
           useAsMuchAsPosible: true
+          idleTerminationMinutes: 30
         - description: "High memory ubuntu 20.04"
           maxInstances: 20
           instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -133,7 +134,6 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 5
         maxInstances: 10
         useAsMuchAsPosible: true
         usePrivateIP: true
