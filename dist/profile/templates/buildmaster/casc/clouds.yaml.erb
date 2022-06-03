@@ -40,9 +40,13 @@ jenkins:
         osDiskSize: <%= agent["osDiskSize"] ? agent["osDiskSize"] : @agents_setup[agent["os"].to_s]["osDiskSize"] %>
         osType: "<%= agent["os"].to_s == "windows" ? 'Windows' : 'Linux' %>"
         preInstallSsh: false
+        <%- if agent["idleTerminationMinutes"] -%>
         retentionStrategy:
           azureVMCloudRetentionStrategy:
             idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
+        <%- else -%>
+        retentionStrategy: "azureVMCloudOnce"
+        <%- end -%>
         shutdownOnIdle: false
         spotInstance: <%= agent["spotInstance"] || agent["spot"] ? true : false %>
         templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
@@ -108,7 +112,9 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
+        <%- if agent["idleTerminationMinutes"] -%>
         idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
+        <%- end -%>
         instanceCapStr: "<%= agent["maxInstances"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
