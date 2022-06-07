@@ -228,8 +228,8 @@ profile::buildmaster::agent_images:
     version: 0.27.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
-    jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
-    jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
+    jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
+    jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:31e2797fc3a98062fe9aa9af50c8fcc87bc27a63eb6f271102a2d9561b2dc434
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:64b1c453a0026e47e6ccaee301dc89908eb95d60d910521cad03b54fb963461b
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:d65993514b23692cdd6edc13bb496ebc9bd4648217bccc238f9e5420653f92f9
