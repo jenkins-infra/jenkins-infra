@@ -3,10 +3,52 @@ profile::buildmaster::ci_fqdn: 'cert.ci.jenkins.io'
 profile::buildmaster::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::buildmaster::proxy_port: 443
 profile::buildmaster::letsencrypt: false
-profile::buildmaster::docker_image: 'jenkins/jenkins'
-profile::buildmaster::docker_tag: 'lts-jdk11'
 profile::buildmaster::groovy_init_enabled: false
 profile::buildmaster::memory_limit: '14g'
+profile::buildmaster::jcasc:
+  enabled: true
+  common_configs:
+    - buildmaster/casc/clouds.yaml.erb
+  custom_configs:
+    - cert.ci.jenkins.io/tools.yaml.erb # Instead of default
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABEfs+rIJcAI0m8IKKgDjuGY7VyibX+V/uQK55ir23b8hKS1CcpWIMt048rswRyMBxoUfqssSj/VfunEc0/XJ38/ewOUOgmNesnd41Zb531OuXnRM4CGk24fcgwNAD5XuMDMTRBf76RWDmMDbG1MvTBuq2hs2OYPOvzmoitVeiaCwf2rCJJi+1O0VIBCCaGcXbJ5mxcAKe0onu3SRKeFLCUc5qNY7yaCQTYW48cWdeh8M482CDNoCs4USt/pInlEmfK3LrZsNDhCe/YHOyxJEbOrzO3zW99Gxg0MZc3wdiZp1O/aw0v05ohDbrqcQt2A/TMxsJl9xeVXnyMwMOIh4rjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAdCli//H3PvL7TwGVW6hcgCA7cdPzrqU08q6u3Mqq8C7HjlRClGlbN2W1rN/E7o5EWw==]
+profile::buildmaster::cloud_agents:
+  azure-vm-agents:
+    azureCredentialsId: "azure-sponsorship-credentials"
+    resource_group: "certci-agents-2"
+    agent_definitions:
+      - name: "ubuntu"
+        description: "Ubuntu 20.04 LTS (jdk11-default)"
+        imageDefinition: jenkins-agent-ubuntu-20.04
+        os: "ubuntu"
+        storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAfJd75oC4r6/feqjOc6DCQPzqTC7wAGsA1pVwrn1j/mm0hroqM5n03vy+t+tY3pnennuPxCJhtyyDPM9bH7LHjtiGilho2F8UOHl6qrQgf5lEf4f45Oo8wMw4pdkdH6rgVdX+xRBe3bMTSNmXqNLN/o6NYF9M3H5NbS7HbwCZ4QqWZOGMMFi2AClyuOf/QVTxLYtzG462zNzYzKMozytu8ZXgiZsGEB/YXC8+opaW+jpyMsDKy23mOiQxHPbW1KFt/jsT8nGUMRvpq9JxSTJ2B4dL5JVt9llLJcuXb5hGztq9P/qRQ93yK/gJmrexsu/DM3eGR+5HdmYX/c0ueC3R4zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBArgE41Ni3oH5kkDAwhHUJOgBCKJjGeftsAOPGDV+p4dvUA]
+        location: "East US 2"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
+        architecture: amd64
+        labels:
+          - linux
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
+        useAsMuchAsPosible: true
+        credentialsId: "azure-login"
+        usePrivateIP: false
+      - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
+        description: "Windows 2019"
+        imageDefinition: jenkins-agent-windows-2019
+        os: "windows"
+        storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAYjS5rZbvhOSp/e5QLkABkH5XgzFku3L7imaagPnUFcCyIvX+cgXms14GsJ3rvRaHoiyOk8ovtiPwTQ7J4LuoBgVBOSkHcCEJLbaHHNdn74JWO3owVzfHuSojN9AzVWTd8Jf/1gKWG7tzbTjIkJQMhKsH33FTtyEN63WjGqo1wEEhqSFKlsUleyfE+D+aBe1AeDp42J8+RB7LxobINQi965vfjuFjHIS3ix7GUvir/KkRV1rshWt26TA9SabAY5KiLlEHrxjgtAGbJGdraqblmOZHjc5a/BGXJqGEQyHGMWdf2xLxUOgNXoX5O5+1lWfOMl9pBDuEpYhJ1qR00WpunTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVqd7WM6EjxJ+Fy0wn4SPUgBCrYZUZoU8TDYppNLoSnrur]
+        location: "East US 2"
+        instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+        spotInstance: true
+        architecture: amd64
+        labels:
+          - windows
+        idleTerminationMinutes: 5
+        maxInstances: 7 # Quota of 56 vCPUs
+        useAsMuchAsPosible: true
+        credentialsId: "azure-login"
+        usePrivateIP: false
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
 profile::buildmaster::plugins:
   - azure-vm-agents

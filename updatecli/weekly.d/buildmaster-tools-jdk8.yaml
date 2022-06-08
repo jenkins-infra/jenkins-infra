@@ -14,19 +14,19 @@ scms:
 
 sources:
   getLatestJDK8Version:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest Adoptium JDK8 version
     spec:
       owner: "adoptium"
       repository: "temurin8-binaries"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: regex
         # jdk8u302-b08 is OK, but jdk8u302-b08.1 is not
         pattern: "^jdk8u(\\d*)-b(\\d*)$"
     transformers:
-      - trimPrefix: "jdk"
+      - trimprefix: "jdk"
 
 conditions:
   checkIfReleaseIsAvailable:
@@ -41,11 +41,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.jdk8.version"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setJDK8Version

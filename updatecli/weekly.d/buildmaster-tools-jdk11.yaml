@@ -14,19 +14,19 @@ scms:
 
 sources:
   default:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest Adoptium JDK11 version
     spec:
       owner: "adoptium"
       repository: "temurin11-binaries"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: regex
         # jdk-11.0.12+7(https://github.com/adoptium/temurin11-binaries/releases/tag/jdk-11.0.12%2B7) is OK
         pattern: "^jdk-11.(\\d*).(\\d*).(\\d*)+(\\d*)$"
     transformers:
-      - trimPrefix: "jdk-"
+      - trimprefix: "jdk-"
 
 conditions:
   checkIfReleaseIsAvailable:
@@ -41,11 +41,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.jdk11.version"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setJDK11Version

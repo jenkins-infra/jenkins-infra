@@ -37,12 +37,16 @@ jenkins:
         labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
         location: "<%= agent["location"] %>"
         noOfParallelJobs: 1
-        osDiskSize: <%= agent["osDiskSize"] ? agent["osDiskSize"] : 0 %>
-        osType: "<%= agent["os"] == "windows" ? 'Windows' : 'Linux' %>"
+        osDiskSize: <%= agent["osDiskSize"] ? agent["osDiskSize"] : @agents_setup[agent["os"].to_s]["osDiskSize"] %>
+        osType: "<%= agent["os"].to_s == "windows" ? 'Windows' : 'Linux' %>"
         preInstallSsh: false
+        <%- if agent["idleTerminationMinutes"] -%>
         retentionStrategy:
           azureVMCloudRetentionStrategy:
             idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
+        <%- else -%>
+        retentionStrategy: "azureVMCloudOnce"
+        <%- end -%>
         shutdownOnIdle: false
         spotInstance: <%= agent["spotInstance"] || agent["spot"] ? true : false %>
         templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
@@ -108,7 +112,9 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
+        <%- if agent["idleTerminationMinutes"] -%>
         idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
+        <%- end -%>
         instanceCapStr: "<%= agent["maxInstances"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
@@ -160,6 +166,10 @@ jenkins:
         - containers:
           - alwaysPullImage: false
             image: "<%= @agent_images["container_images"][agent["name"]] %>"
+            envVars:
+              - envVar:
+                   key: "JENKINS_JAVA_OPTS"
+                   value: "-XX:+PrintCommandLineFlags"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
@@ -174,7 +184,7 @@ jenkins:
             resourceRequestCpu: "<%= agent["cpus"] %>"
             resourceRequestMemory: "<%= agent["memory"] %>G"
             workingDir: "/home/jenkins"
-          label: "container kubernetes <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
+          label: "container kubernetes <%= k8s_name %> <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
           name: "<%= agent["name"] %>"
            <%- if agent["imagePullSecrets"] -%>
           imagePullSecrets:

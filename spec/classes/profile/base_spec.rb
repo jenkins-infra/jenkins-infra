@@ -9,11 +9,11 @@ describe 'profile::base' do
   context 'on Linux' do
     it_behaves_like 'a cross platform base'
     it { should contain_class 'profile::apt' }
-    it { should contain_class 'profile::azure' }
     it { should contain_class 'profile::firewall' }
     it { should contain_class 'profile::ntp' }
     it { should contain_class 'profile::sudo' }
     it { should contain_class 'profile::diagnostics' }
+    it { should contain_class 'profile::rngd' }
 
     context 'basic ssh configuration' do
       it { should contain_class 'ssh::server' }

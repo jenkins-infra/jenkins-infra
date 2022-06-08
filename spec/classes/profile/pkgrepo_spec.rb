@@ -44,7 +44,7 @@ describe 'profile::pkgrepo' do
 
         it "should install the key for #{variant}" do
           expect(subject).to contain_file("#{variant_dir}/jenkins-ci.org.key").with({
-            :ensure => :present,
+            :ensure => :file,
           })
         end
       end
@@ -125,7 +125,7 @@ describe 'profile::pkgrepo' do
     it { should contain_class 'apache::mod::rewrite' }
 
     it 'should contain an SSL vhost' do
-      expect(subject).to contain_apache__vhost('pkg.jenkins.io').with({
+      expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io').with({
         :serveraliases => ['pkg.jenkins-ci.org'],
         :port => 443,
         :ssl => true,
@@ -136,8 +136,8 @@ describe 'profile::pkgrepo' do
     end
 
     it 'should contain a non-ssl vhost for redirecting' do
-      expect(subject).to contain_apache__vhost('pkg.jenkins.io unsecured').with({
-        :servername => 'pkg.jenkins.io',
+      expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io unsecured').with({
+        :servername => 'pkg.origin.jenkins.io',
         :port => 80,
         :docroot => params[:docroot],
       })
@@ -156,6 +156,6 @@ describe 'profile::pkgrepo' do
   context 'letsencrypt setup' do
     let(:environment) { 'production' }
 
-    it { should contain_letsencrypt__certonly('pkg.jenkins.io') }
+    it { should contain_letsencrypt__certonly('pkg.origin.jenkins.io') }
   end
 end

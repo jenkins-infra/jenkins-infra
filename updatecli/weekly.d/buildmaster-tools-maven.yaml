@@ -14,17 +14,17 @@ scms:
 
 sources:
   getLatestMavenVersion:
-    kind: githubRelease
+    kind: githubrelease
     name: Get the latest Maven version
     spec:
       owner: "apache"
       repository: "maven"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
+      versionfilter:
         kind: latest
     transformers:
-      - trimPrefix: "maven-"
+      - trimprefix: "maven-"
 
 conditions:
   checkIfReleaseIsAvailable:
@@ -40,11 +40,11 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::buildmaster::default_tools.maven.mvn.version"
-    scmID: default
+    scmid: default
 
 pullrequests:
   default:
     kind: github
-    scmID: default
+    scmid: default
     targets:
       - setMavenVersion
