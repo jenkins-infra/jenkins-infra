@@ -36,13 +36,13 @@ mod 'puppet/epel', '3.0.1'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status
-mod 'irc', :git => 'git://github.com/jenkins-infra/puppet-irc.git',
+mod 'irc', :git => 'https://github.com/jenkins-infra/puppet-irc.git',
            :ref => '4e5e437'
 
 # Needed for managing our accounts in hiera, this fork contains the pull
 # request which adds support for multiple SSH keys:
 # <https://github.com/torrancew/puppet-account/pull/18>
-mod 'account', :git => 'git://github.com/jenkins-infra/puppet-account.git',
+mod 'account', :git => 'https://github.com/jenkins-infra/puppet-account.git',
                :ref => '1deebe9'
 
 mod 'jenkins_keys',
@@ -53,7 +53,7 @@ mod 'jenkins_keys',
 mod "puppetlabs/apache", '3.5.0'
 # Used internally to gzip compress rotated logs
 mod 'apachelogcompressor',
-        :git => 'git://github.com/jenkins-infra/puppet-apachelogcompressor.git',
+        :git => 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git',
         :ref => '0113d7b'
 
 mod "puppetlabs/concat", '5.2.0'
@@ -70,7 +70,7 @@ mod 'saz/ssh', '5.0.0'
 mod 'puppetlabs-sshkeys_core', '1.0.2'
 
 mod 'puppetlabs/lvm', '0.3.2'
-mod 'datadog/datadog_agent', '3.8.0'
+mod 'datadog/datadog_agent', '3.16.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '6.0.0'
@@ -85,9 +85,6 @@ mod 'puppet/archive', '1.1.2'
 
 # Helpful for managing ulimits for users systematically
 mod 'erwbgy/limits', '0.3.1'
-
-# Needed for managing pgsql behind Mirrorbrain
-mod 'puppetlabs/postgresql', '5.12.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'

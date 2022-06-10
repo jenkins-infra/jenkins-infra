@@ -3,12 +3,12 @@
 class profile::pkgrepo (
   $docroot      = '/var/www/pkg.jenkins.io',
   $release_root = '/srv/releases/jenkins',
-  $repo_fqdn    = 'pkg.jenkins.io',
+  $repo_fqdn    = 'pkg.origin.jenkins.io',
   $mirror_fqdn  = 'mirrors.jenkins.io',
 ) {
-  include ::stdlib
-  include ::apache
-  include ::apache::mod::rewrite
+  include stdlib
+  include apache
+  include apache::mod::rewrite
 
   validate_string($docroot)
   validate_string($release_root)
@@ -57,13 +57,13 @@ class profile::pkgrepo (
   }
 
   file { suffix($repos, '/jenkins-ci.org.key'):
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
     require => File[$docroot],
   }
 
   file { suffix($repos, '/jenkins.io.key'):
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
     require => File[$docroot],
   }
@@ -102,7 +102,7 @@ class profile::pkgrepo (
     ssl             => true,
     docroot         => $docroot,
     error_log_file  => "${repo_fqdn}/error.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
     require         => File[$docroot],
   }
 
@@ -112,7 +112,7 @@ class profile::pkgrepo (
     override        => ['All'],
     docroot         => $docroot,
     error_log_file  => "${repo_fqdn}/error_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
@@ -121,10 +121,9 @@ class profile::pkgrepo (
     override        => ['All'],
     options         => 'Indexes FollowSymLinks MultiViews',
     error_log_file  => "${repo_fqdn}/legacy_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$repo_fqdn],
   }
-
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
@@ -136,11 +135,9 @@ class profile::pkgrepo (
     }
 
     Apache::Vhost <| title == $repo_fqdn |> {
-      ssl_key         => '/etc/letsencrypt/live/pkg.jenkins.io/privkey.pem',
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins.io/cert.pem',
-      ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins.io/chain.pem',
+      ssl_key         => '/etc/letsencrypt/live/pkg.origin.jenkins.io/privkey.pem',
+      ssl_cert        => '/etc/letsencrypt/live/pkg.origin.jenkins.io/cert.pem',
+      ssl_chain       => '/etc/letsencrypt/live/pkg.origin.jenkins.io/chain.pem',
     }
   }
 }

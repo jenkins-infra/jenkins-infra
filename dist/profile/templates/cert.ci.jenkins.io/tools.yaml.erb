@@ -1,0 +1,100 @@
+# Custom Override
+tool:
+  git:
+    installations:
+    - name: "jgit"
+  groovy:
+    installations:
+    - name: "groovy-3.0.6"
+      properties:
+      - installSource:
+          installers:
+          - groovyInstaller:
+              id: "3.0.6"
+  jdk:
+    installations:
+    - name: "jdk-8"
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: "echo JDK8"
+              label: "linux"
+              toolHome: "/opt/jdk-8"
+          - batchFile:
+              command: "echo JDK8"
+              label: "windows"
+              toolHome: "C:\\Tools\\jdk-8"
+          - zip:
+              subdir: "jdk8u322-b06"
+              url: "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz"
+    - name: "jdk8"
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: "echo JDK8"
+              label: "linux"
+              toolHome: "/opt/jdk-8"
+          - batchFile:
+              command: "echo JDK8"
+              label: "windows"
+              toolHome: "C:\\Tools\\jdk-8"
+          - zip:
+              subdir: "jdk8u322-b06"
+              url: "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz"
+    - name: "jdk-11"
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: "echo JDK11"
+              label: "linux"
+              toolHome: "/opt/jdk-11"
+          - batchFile:
+              command: "echo JDK11"
+              label: "windows"
+              toolHome: "C:\\Tools\\jdk-11"
+          - zip:
+              subdir: "jdk-11.0.12+7"
+              url: "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.12%2B7/OpenJDK11U-jdk_x64_linux_hotspot_11.0.12_7.tar.gz"
+    - name: "jdk11"
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: "echo JDK8"
+              label: "linux"
+              toolHome: "/opt/jdk-8"
+          - batchFile:
+              command: "echo JDK8"
+              label: "windows"
+              toolHome: "C:\\Tools\\jdk-8"
+          - zip:
+              subdir: "jdk8u322-b06"
+              url: "https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u322-b06/OpenJDK8U-jdk_x64_linux_hotspot_8u322b06.tar.gz"
+  maven:
+    installations:
+    - name: "maven-3.5"
+      properties:
+      - installSource:
+          installers:
+          - maven:
+              id: "3.5.4"
+    - name: "maven-3.6"
+      properties:
+      - installSource:
+          installers:
+          - maven:
+              id: "3.6.3"
+    - name: "maven-3.8"
+      properties:
+      - installSource:
+          installers:
+          - maven:
+              id: "3.8.1"
+    - name: "maven"
+      home: "/usr/share/apache-maven-3.8.4"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"

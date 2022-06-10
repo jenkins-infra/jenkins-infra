@@ -43,30 +43,17 @@ describe 'profile::buildmaster' do
       context "By default: Init Groovy directory" do
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy')}
         it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/set-up-git.groovy')}
-        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/agent-security.groovy')}
-        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/terraform-credentials.groovy')}
-        it { is_expected.not_to contain_file('/var/lib/jenkins/init.groovy.d/pipeline-configuration.groovy')}
       end
     end
 
     context 'JCasC' do
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d').with('ensure' => 'directory')}
-      it { is_expected.to contain_file('/var/lib/jenkins/casc.d/agents.yaml')}
+      it { is_expected.to contain_file('/var/lib/jenkins/casc.d/clouds.yaml')}
       it { should contain_exec('install-plugin-configuration-as-code') }
       it { should contain_exec('perform-jcasc-reload') }
       it { should contain_exec('safe-restart-jenkins') }
     end
-
-
-    # Resources which ensure that we can run our local CLI scripting
-    context 'Local CLI access' do
-      it { is_expected.to contain_file('/var/lib/jenkins/.ssh') }
-    end
   end
-
-
-  # Key needed for k8s management
-  it { should contain_file('/var/lib/jenkins/.ssh/azure_k8s') }
 
   context 'JNLP' do
     it 'should open the JNLP port in the firewall' do
