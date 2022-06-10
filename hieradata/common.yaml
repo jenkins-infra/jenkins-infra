@@ -237,7 +237,7 @@ profile::buildmaster::agent_images:
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:6ee91990149aa3e8d371a80f2b06dd316e9a2855f8b8f959cea825fb6f009d9f'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:4d652803b69b760472b464e3b42213da366dd5117b3ac31f0401c2340ab0ff19'
     # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-    jnlp: jenkins/inbound-agent@sha256:0860afaf66a39ef171b45dc2e06d994d97dbf5bf52ad34b1577314d60a6e2807
+    jnlp: jenkins/inbound-agent@sha256:bfb344de8cba287f8dacc246144efb0048b445144227032a5f8656bb0fdcb90c
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u332-b09"
