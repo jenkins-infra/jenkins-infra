@@ -1,6 +1,5 @@
 ## site.pp ##
 
-
 ## Active Configurations ##
 
 # PRIMARY FILEBUCKET
@@ -64,9 +63,9 @@ node 'usage' {
   include role::usage
 }
 
-node 'mirrorbrain' {
-  sshkeyman::hostkey { ['mirrors.jenkins.io', 'pkg.jenkins.io', 'updates.jenkins.io']: }
-  include role::mirrorbrain
+node 'pkg' {
+  sshkeyman::hostkey { ['pkg.jenkins.io', 'pkg.origin.jenkins.io', 'updates.jenkins.io']: }
+  include role::pkg
 }
 
 node 'azure.ci.jenkins.io' {

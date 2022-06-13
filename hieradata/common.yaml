@@ -91,7 +91,7 @@ accounts:
   hlemeur:
     ssh_keys:
       hlemeur:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDfYRoLf5EYKWwhtGptl+O0sRdHxsBVjT+RTBy3qo17hl242gMvwd+ij27wLAJ95xlFrwIbN6gIdtbI47Tx+bvzK7IT+1MENZ/ToT/2OcKYmMejslDCKpCQqL5V2Irj7URfX2OrqtyI5p/43te1QnWsAEoqFap1nLTbMel8SlA/kGAuMqx0GNXvxtAq44XrzackOaPScz6QQi0S0kPi/X1zwT0mtYYv6IoXaDemOmOJER60diEq0yqG1kK8msMyG4OJxQXYkwKlH8C2bpkQSgZicvYPOjIsm7QE35VAcuOns9R7frUMUfjyUW+Z1YZTO64+TvJ4ZvlOcdGIOeHqiYITJl5v24V2YMiugmkegV9qTo7jmvfQJjFzqIrs/P38v4l61XS3hOHndEuLurCyWC2b7eIVTIn0U3fxdx5dt+WSMNiQBJvAJeSbZScqvqsla1CSPcSrDcTMwz9K5cujSs4pFCKMU4W2rKtVR4w7eTXBYIdzGplbrBjuKbSDOiznGSryJx8q8VyJMFNdPXscI5NJHKdZuq3IktXOkRhcNjXo+ezyf6P1wMmFsWHm7AI71fnWgDQ6Nv/sSr44XuwSITJvnH3BRRaENbkabILg0Ura9LK68WsR/3PUheGlHRkBOBcretdmdS7A62QbP4/vckTPdk5OUTK3fdDlN9HR58VIDw==
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCszWjPAxVCpF2vfNzrk8viS2vxZ3wntZ3MNJ8EajbdUHpDrLJuGbkDV5XhvA/HfKyboukIgMotO66hMSqShxMdCaNW/VmkAKak5zRY+/iai4vQC03rdlF8xpgeuIZMusDgubCE0MUGsmzo7Y6xzUJcjItAJz0CHM983bD1Fq+PIg7kjoYuQuaFvkR2XEACu292GoMV0kPSng3002wEOE7S8JpIQc+KvCtr/kUMPc8goNE4hY4cTDy8oziqgAjZgjCjRpHAinzPq6+OWMHpCwCliuo1jlJqRw6ncrHuBXDsKzY6Hft/fE0eRoO9CJzKqASh3ZGfE8sXJkF2aPlJVaD7ydjyU5+tMnSVp/WwdtQ5yDPcxMrtoW/uz8iKQxeXsDQCC5s5X8UbQDJyWD+Dx6Waw5GEFOn6RdJbyXZMLcwmL5gJkUw9YsrRavVekK7axwsRBSUVG49qN0IQcq2pSEyFb3F0FqWS6TA+YwF/xNHb7lOZ+mP4/5HvXXVdvcRV35U6kx5Cq1CKe6xgyhLbgnrHaZ0ZeCWIsr0taGIducXLm6U3BP7u0OTxMVVqFZzEYxMY+72kWsxKNBtGM8aALRiUsp8p9KSbhWioNlUF1kjAF+I4xDWN39khzvyajZKF7Ij20V+CMh/PIM6zDmsp/+6DyErrNR/vm5wtv8jEjsORhQ==
     groups:
       - atlassian-admins
       - sudo
@@ -213,28 +213,31 @@ profile::buildmaster::agents_setup:
     agentDir: 'C:\\Jenkins'
     tempDir: 'C:\\\\temp'
     remoteAdmin: Administrator
+    osDiskSize: "128"
   ubuntu:
     agentDir: "/home/jenkins"
     remoteAdmin: jenkins
     tempDir: "/tmp"
+    osDiskSize: 90
 profile::buildmaster::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-0f8e5badc89adc800"
-    windows-amd64: "ami-0aa800849ef2c5cfc"
-    ubuntu-arm64: "ami-05fd253861034fe05"
+    ubuntu-amd64: "ami-084ae16bc6401a89f"
+    windows-amd64: ""
+    ubuntu-arm64: "ami-0e75a596ad7454bb3"
   azure_vms_gallery_image:
-    version: 0.23.0
+    version: 0.28.0
     subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
   container_images:
-    jnlp-maven-8-windows: jenkins/jnlp-agent-maven:windows-nanoserver
-    jnlp-maven-11-windows: jenkins/jnlp-agent-maven:windows-nanoserver-jdk11
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:c2113c49740b9ffa7c19091cff0a47d1915d5e672edf4ea4e1a9735a0f4e6184
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:bbe3ca23134ee6e8b98e3a03ecca430f09abf016686d686e91ecf94f78c20876
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:45a182e4c257823c079efc233bdc0677c800186d2e843559e1199a6ec4a7fb26
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:910e22e3c2bf78f3a5dbea05cc33f315ecdeb0e3c0bb98683a573640df85dbb7
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:15c277c5f27455b85700eaeaf8fd237005ba8f8f982a0e89eb2a253b1af64d6b'
-    jnlp-alpine: 'jenkins/inbound-agent@sha256:a8a2b36124206220826e252e04de845e6fa9c7528570c65f09232efa1a5361e6'
-    jnlp: jenkins/inbound-agent@sha256:f98ae9a528e791b986f996b4278894d73e818c87bdc8326e5fa18b9b367cce25
+    jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
+    jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:e732c70ab61bccbd8f576546f06ce55f042a4ed526428bb218cfeaafb4adec6f
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:12ef2cd726bac90dd701f0c0f2790bd29358b33d8465f14b775271855753a3d3
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:ad5332b5457fe518167f6c89c9dbbe6fa74455d4834e70b65c8cef1023f251ad
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:ec5504cde25fbf6823ad2152901d7794619effed283ab1430c16dbe664eefc8e
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:d2f404a0f3c917f319f8560dd238b89e01ed3543889a30e2f8ab7bc692f3b66a'
+    jnlp-alpine: 'jenkins/inbound-agent@sha256:d41e5a5f205412a3e7f6a1cd336d720a24762c292e452ca540d5ecd3788899b5'
+    # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
+    jnlp: jenkins/inbound-agent@sha256:bfb344de8cba287f8dacc246144efb0048b445144227032a5f8656bb0fdcb90c
 profile::buildmaster::default_tools:
   jdk8:
     version: "8u332-b09"
@@ -266,8 +269,6 @@ ssh::server::options:
   PubkeyAuthentication: yes
 ssh::client::options:
   UseRoaming: no
-# Hash of SSH keys to be used for pushing releases into the mirrorbrain host
-profile::mirrorbrain::ssh_keys:
 # Hash of SSH keys to be used for downloading encrypted usage-stats and
 # uploading decrypted/anonymized ones
 profile::usage::ssh_keys:
@@ -283,7 +284,7 @@ usage_ssh_privkey: "usage_ssh_privkey"
 osuosl_mirroring_privkey: ""
 archives_mirroring_privkey: ""
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: "5:20.10.14~3-0~ubuntu-bionic"
+docker::version: "5:20.10.17~3-0~ubuntu-bionic"
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"
@@ -295,5 +296,5 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.0.73" # Tracked by updatecli
+profile::openvpn::image_tag: "1.0.89" # Tracked by updatecli
 # vim: ft=yaml ts=2 sw=2 nowrap et

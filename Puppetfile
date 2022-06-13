@@ -70,7 +70,7 @@ mod 'saz/ssh', '5.0.0'
 mod 'puppetlabs-sshkeys_core', '1.0.2'
 
 mod 'puppetlabs/lvm', '0.3.2'
-mod 'datadog/datadog_agent', '3.8.0'
+mod 'datadog/datadog_agent', '3.16.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '6.0.0'
@@ -85,9 +85,6 @@ mod 'puppet/archive', '1.1.2'
 
 # Helpful for managing ulimits for users systematically
 mod 'erwbgy/limits', '0.3.1'
-
-# Needed for managing pgsql behind Mirrorbrain
-mod 'puppetlabs/postgresql', '5.12.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'

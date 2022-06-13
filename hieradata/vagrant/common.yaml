@@ -99,6 +99,7 @@ profile::buildmaster::cloud_agents:
           labels:
             - docker-windows
           useAsMuchAsPosible: true
+          idleTerminationMinutes: 30
         - description: "High memory ubuntu 20.04"
           maxInstances: 20
           instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -123,7 +124,7 @@ profile::buildmaster::cloud_agents:
     agent_definitions:
       - name: "ubuntu-20"
         description: "Ubuntu 20.04 LTS"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: SuperSecretThatShouldBeEncryptedInProduction
         location: "East US 2"
@@ -133,18 +134,16 @@ profile::buildmaster::cloud_agents:
           - java
           - linux
           - docker
-        idleTerminationMinutes: 5
         maxInstances: 10
         useAsMuchAsPosible: true
         usePrivateIP: true
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
-        osDiskSize: 90
         spot: true
       - name: "ubuntu-20-highmem"
         description: "Ubuntu 20.04 LTS Highmem"
-        imageDefinition: jenkins-agent-ubuntu-20
+        imageDefinition: jenkins-agent-ubuntu-20.04
         os: "ubuntu"
         storageAccount: SuperSecretThatShouldBeEncryptedInProduction
         location: "East US 2"
@@ -158,7 +157,6 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: false
         usePrivateIP: false
-        osDiskSize: 90
       - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
         description: "Windows 2019"
         imageDefinition: jenkins-agent-windows-2019
@@ -173,7 +171,7 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: true
         useEphemeralOSDisk: false
-        osDiskSize: 90
+        osDiskSize: 130 # For testing overriding at instance level in the template engine
   azure-container-agents:
     aci-windows:
       credentialsId: "azure-credentials"

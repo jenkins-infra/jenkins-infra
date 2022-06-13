@@ -13,7 +13,7 @@
 #   Enable letsencrypt configuration, for this to work the Jenkins host has to
 #   be on the public internet
 #
-class profile::buildmaster(
+class profile::buildmaster (
   $anonymous_access                = false,
   $admin_ldap_groups               = ['admins'],
   $ci_fqdn                         = 'ci.jenkins.io',
@@ -49,8 +49,8 @@ class profile::buildmaster(
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
 ) {
-  include ::stdlib
-  include ::apache
+  include stdlib
+  include apache
   include apache::mod::alias
   include apache::mod::proxy
   include apache::mod::headers
@@ -92,13 +92,13 @@ class profile::buildmaster(
   file { $jenkins_home:
     ensure => directory,
     owner  => 'jenkins',
-    group  => 'jenkins'
+    group  => 'jenkins',
   }
 
   file { "${jenkins_home}/gc":
     ensure => directory,
     owner  => 'jenkins',
-    group  => 'jenkins'
+    group  => 'jenkins',
   }
 
   file { '/etc/default/jenkins':
@@ -115,7 +115,7 @@ class profile::buildmaster(
   file { $script_dir:
     ensure => directory,
     owner  => 'jenkins',
-    group  => 'jenkins'
+    group  => 'jenkins',
   }
 
   # Jenkins custom-bootstrapping
@@ -134,18 +134,17 @@ class profile::buildmaster(
       purge   => true,
       recurse => true,
       require => [
-          File[$jenkins_home],
+        File[$jenkins_home],
       ],
     }
-
   } else {
     file { $groovy_d:
       ensure  => directory,
       owner   => 'jenkins',
       group   => 'jenkins',
       require => [
-          User['jenkins'],
-          File[$jenkins_home],
+        User['jenkins'],
+        File[$jenkins_home],
       ],
     }
 
@@ -161,8 +160,8 @@ class profile::buildmaster(
       group   => 'jenkins',
       source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
       require => [
-          User['jenkins'],
-          File[$groovy_d],
+        User['jenkins'],
+        File[$groovy_d],
       ],
       before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
@@ -173,8 +172,8 @@ class profile::buildmaster(
       owner   => 'jenkins',
       group   => 'jenkins',
       require => [
-          User['jenkins'],
-          File[$groovy_d],
+        User['jenkins'],
+        File[$groovy_d],
       ],
       content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
       before  => Docker::Run[$docker_container_name],
@@ -187,15 +186,15 @@ class profile::buildmaster(
   # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
   ##############################################################################
   $jcasc_default_config= {
-    enabled =>        false, # Disabled by default to avoid messing up with unmanaged instances
+    enabled => false, # Disabled by default to avoid messing up with unmanaged instances
     custom_configs => [],
-    reload_token =>   '',
-    common_configs => [ # Configurations shared by all Jenkins controllers. There are hieradata attribute to really fill the configs (as an additional step for opt-in)
+    reload_token => '',
+    common_configs => [# Configurations shared by all Jenkins controllers. There are hieradata attribute to really fill the configs (as an additional step for opt-in)
       'buildmaster/casc/clouds.yaml.erb',
       'buildmaster/casc/tools.yaml.erb',
       'buildmaster/casc/global-libraries.yaml.erb',
     ],
-    config_dir =>     'casc.d', # Relative to the jenkins_home
+    config_dir => 'casc.d', # Relative to the jenkins_home
   }
 
   ### Deep merge the different sources (because hieradata 3 fails at deep merge, but with hieradata 5 we will be able to delegate)
@@ -210,8 +209,8 @@ class profile::buildmaster(
       group   => 'jenkins',
       mode    => '0700',
       require => [
-          User['jenkins'],
-          File[$jenkins_home],
+        User['jenkins'],
+        File[$jenkins_home],
       ],
     }
 
@@ -238,8 +237,8 @@ class profile::buildmaster(
         group   => 'jenkins',
         content => template("${module_name}/${jcasc_config_source_file}"),
         require => [
-            User['jenkins'],
-            File["${jenkins_home}/${$jcasc_final_config["config_dir"]}"],
+          User['jenkins'],
+          File["${jenkins_home}/${$jcasc_final_config["config_dir"]}"],
         ],
         before  => Docker::Run[$docker_container_name],
         notify  => Exec['perform-jcasc-reload'],
@@ -247,16 +246,16 @@ class profile::buildmaster(
     }
 
     exec { 'perform-jcasc-reload':
-    require     => [
-      Exec['install-plugin-configuration-as-code'],
-    ],
-    command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
-    #   # Retry for 300s: jenkins might be restarting
-    tries       => 30,
-    try_sleep   => 10,
-    refreshonly => true,
-    logoutput   => true,
-  }
+      require     => [
+        Exec['install-plugin-configuration-as-code'],
+      ],
+      command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
+      #   # Retry for 300s: jenkins might be restarting
+      tries       => 30,
+      try_sleep   => 10,
+      refreshonly => true,
+      logoutput   => true,
+    }
   } else {
     $jcasc_java_opts = ''
   }
@@ -289,8 +288,8 @@ class profile::buildmaster(
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
     pull_on_start    => true,
     require          => [
-        File[$jenkins_home],
-        User['jenkins'],
+      File[$jenkins_home],
+      User['jenkins'],
     ],
   }
 
@@ -304,7 +303,6 @@ class profile::buildmaster(
     refreshonly => true,
   }
   ##############################################################################
-
 
   file { $lockbox_script :
     ensure  => absent,
