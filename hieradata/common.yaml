@@ -222,7 +222,7 @@ profile::buildmaster::agents_setup:
 profile::buildmaster::agent_images:
   ec2_amis:
     ubuntu-amd64: "ami-084ae16bc6401a89f"
-    windows-amd64: ""
+    windows-amd64: "ami-0dd4af40c365047fa"
     ubuntu-arm64: "ami-0e75a596ad7454bb3"
   azure_vms_gallery_image:
     version: 0.28.0
