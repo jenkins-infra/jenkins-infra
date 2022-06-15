@@ -222,7 +222,7 @@ profile::buildmaster::agents_setup:
 profile::buildmaster::agent_images:
   ec2_amis:
     ubuntu-amd64: "ami-084ae16bc6401a89f"
-    windows-amd64: ""
+    windows-amd64: "ami-0dd4af40c365047fa"
     ubuntu-arm64: "ami-0e75a596ad7454bb3"
   azure_vms_gallery_image:
     version: 0.28.0
@@ -230,11 +230,11 @@ profile::buildmaster::agent_images:
   container_images:
     jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
     jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
-    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:e732c70ab61bccbd8f576546f06ce55f042a4ed526428bb218cfeaafb4adec6f
-    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:12ef2cd726bac90dd701f0c0f2790bd29358b33d8465f14b775271855753a3d3
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:ad5332b5457fe518167f6c89c9dbbe6fa74455d4834e70b65c8cef1023f251ad
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:ec5504cde25fbf6823ad2152901d7794619effed283ab1430c16dbe664eefc8e
-    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:d2f404a0f3c917f319f8560dd238b89e01ed3543889a30e2f8ab7bc692f3b66a'
+    jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:1cde748963af76361ccab0c0d591a400fcf5eeeaae02dea8f6e2276b6136d030
+    jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:aeca6c58e0c13932f51b776f4c49552f8e76fc7fce0a60ba6ce46248f432401f
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:bd58a0f9cf83da78c118a1c11258e107e2e8eeca53c0cf5d562774a151c44d9d
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:d052dd22774746a007c5209bccf73760c9ac078c7b4807ad2a597693f91176e5
+    jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:005708e526a04fb2459c86fc8e99c6f9a48c220cc665f74dc3e9b458879213cc'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:d41e5a5f205412a3e7f6a1cd336d720a24762c292e452ca540d5ecd3788899b5'
     # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
     jnlp: jenkins/inbound-agent@sha256:bfb344de8cba287f8dacc246144efb0048b445144227032a5f8656bb0fdcb90c
