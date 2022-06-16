@@ -145,7 +145,7 @@ class profile::usage(
     ssl             => true,
     docroot         => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${facts['facts['networking']['ip']']}.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${::ipaddress}.log.%Y%m%d%H%M%S 86400",
     error_log_pipe  => "|/usr/bin/rotatelogs ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     require         => [
         File[$docroot],
