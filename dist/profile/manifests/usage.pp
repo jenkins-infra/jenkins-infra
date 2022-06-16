@@ -144,8 +144,9 @@ class profile::usage(
     override        => ['All'],
     ssl             => true,
     docroot         => $docroot,
-    error_log_file  => "${usage_fqdn}/error.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${::ipaddress}.log.%Y%m%d%H%M%S 86400",
+
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${facts['facts['networking']['ip']']}.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe  => "|/usr/bin/rotatelogs ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     require         => [
         File[$docroot],
         File[$apache_log_dir],
@@ -164,7 +165,8 @@ class profile::usage(
     override        => ['All'],
     docroot         => $docroot,
     error_log_file  => "${usage_fqdn}/error_nonssl.log",
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${::ipaddress}_nonssl.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${facts['facts['networking']['ip']']}_nonssl.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe  => "|/usr/bin/rotatelogs ${apache_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 86400",
     require         => [
         File[$docroot],
         File[$apache_log_dir],
