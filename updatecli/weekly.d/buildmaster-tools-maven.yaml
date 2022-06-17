@@ -11,29 +11,27 @@ scms:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       branch: "{{ .github.branch }}"
-  mavenGitHubMirror:
-    kind: git
-    spec:
-      url: "https://github.com/apache/maven.git"
-      branch: master
 
 sources:
-  getLatestMavenVersion:
-    kind: gittag
-    name: Get the latest Maven version
-    scmid: mavenGitHubMirror
+  # Retrieving Maven from packer-images to synchronize its version across our infra
+  # See https://github.com/jenkins-infra/docker-inbound-agents/issues/18
+  getMavenVersionFromPackerImages:
+    kind: file
+    name: Get the latest Maven version set in packer-images
     spec:
-      versionfilter:
-        kind: latest
+      file: https://raw.githubusercontent.com/jenkins-infra/packer-images/main/provisioning/tools-versions.yml
+      matchpattern: 'maven_version:\s"(.*)"'
     transformers:
-      - trimprefix: "maven-"
+      - findsubmatch:
+          pattern: 'maven_version:\s"(.*)"'
+          captureindex: 1
 
 conditions:
   checkIfReleaseIsAvailable:
     kind: shell
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `getLatestMavenVersion` }}/binaries/apache-maven-{{ source `getLatestMavenVersion` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `getMavenVersionFromPackerImages` }}/binaries/apache-maven-{{ source `getMavenVersionFromPackerImages` }}-bin.tar.gz
 
 targets:
   setMavenVersion:
