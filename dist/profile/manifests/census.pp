@@ -63,7 +63,7 @@ class profile::census(
     port            => '80',
     docroot         => $docroot,
     access_log_pipe => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/access.log.%Y%m%d%H%M%S 604800',
-    error_log_file  => 'census.jenkins.io/error.log',
+    error_log_pipe  => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/error.log.%Y%m%d%H%M%S 604800',
     options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     override        => ['All'],
     notify          => Service['apache2'],

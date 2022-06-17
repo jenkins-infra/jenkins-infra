@@ -350,8 +350,9 @@ class profile::buildmaster (
     override              => 'All',
     ssl                   => true,
     docroot               => $docroot,
-    error_log_file        => "${ci_fqdn}/error.log",
+
     access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
     custom_fragment       => "
@@ -404,8 +405,9 @@ ProxyPassReverse / http://localhost:8080/
     override              => 'All',
     ssl                   => true,
     docroot               => $docroot,
-    error_log_file        => "${ci_resource_domain}/error.log",
+
     access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
     custom_fragment       => "

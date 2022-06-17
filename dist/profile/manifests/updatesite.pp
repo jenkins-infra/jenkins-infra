@@ -44,8 +44,9 @@ class profile::updatesite (
     ssl_cert        => "/etc/letsencrypt/live/${update_fqdn}/cert.pem",
     ssl_chain       => "/etc/letsencrypt/live/${update_fqdn}/chain.pem",
     docroot         => $docroot,
-    error_log_file  => "${update_fqdn}/error.log",
+
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 604800",
   }
 
   apache::vhost { "${update_fqdn} unsecured":
@@ -53,8 +54,9 @@ class profile::updatesite (
     port            => 80,
     docroot         => $docroot,
     override        => ['All'],
-    error_log_file  => "${update_fqdn}/error_nonssl.log",
+
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost[$update_fqdn],
   }
 
@@ -66,8 +68,9 @@ class profile::updatesite (
     ssl_cert        => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
     ssl_chain       => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
     override        => ['All'],
-    error_log_file  => 'updates.jenkins-ci.org/error.log',
+
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/error.log.%Y%m%d%H%M%S 604800",
     require         => [
       File[$apache_legacy_log_dir],
     ],
@@ -78,8 +81,9 @@ class profile::updatesite (
     docroot         => $docroot,
     port            => 80,
     override        => ['All'],
-    error_log_file  => 'updates.jenkins-ci.org/error_nonssl.log',
+
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 604800",
     require         => Apache::Vhost['updates.jenkins-ci.org'],
   }
 
