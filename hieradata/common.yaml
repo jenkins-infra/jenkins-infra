@@ -233,7 +233,7 @@ profile::buildmaster::agent_images:
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:477ff23a5638bbf44f37a32c597f1b8f1140222c21e1f7823cf44860e13ad43c
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:684ce3124b067793807ecdce1de502cb01a8dfca72089108716bd85d5136dc69
     jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:3f833e92f4fde913164675da8e9ac14068d3aa6c8e38506c3bfc0e63fc6ee043
-    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:49424ced8b05b87deb58d72c68d0f83811b1819bdfe6a2d56d9de9d007e747ca
+    jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:6b643e85c84c89611c787c896e67a67e0a95320d310aff2df5ec0654cc9c5d04
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:cf9c53df400963754e20351b74852446a7e1e7b226c2c1695a96a9938e11489e'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:d41e5a5f205412a3e7f6a1cd336d720a24762c292e452ca540d5ecd3788899b5'
     # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
