@@ -276,7 +276,7 @@ profile::buildmaster::cloud_agents:
         maxInstances: 10
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
-        usePrivateIP: true
+        usePrivateIP: false
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
@@ -295,7 +295,7 @@ profile::buildmaster::cloud_agents:
           - docker-highmem
         maxInstances: 20
         useAsMuchAsPosible: false
-        usePrivateIP: true
+        usePrivateIP: false
         credentialsId: "jenkinsvmagents-userpass"
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
@@ -316,7 +316,7 @@ profile::buildmaster::cloud_agents:
         useAsMuchAsPosible: true
         credentialsId: "jenkinsvmagents-userpass"
         useEphemeralOSDisk: false
-        usePrivateIP: true
+        usePrivateIP: false
         virtualNetworkName: "prod-jenkins-public-prod"
         virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         subnetName: "ci.j-agents-vm"
