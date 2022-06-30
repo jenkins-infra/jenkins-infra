@@ -40,9 +40,6 @@ class profile::updatesite (
     port            => 443,
     override        => ['All'],
     ssl             => true,
-    ssl_key         => "/etc/letsencrypt/live/${update_fqdn}/privkey.pem",
-    ssl_cert        => "/etc/letsencrypt/live/${update_fqdn}/cert.pem",
-    ssl_chain       => "/etc/letsencrypt/live/${update_fqdn}/chain.pem",
     docroot         => $docroot,
 
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
@@ -64,9 +61,6 @@ class profile::updatesite (
     docroot         => $docroot,
     port            => 443,
     ssl             => true,
-    ssl_key         => '/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem',
-    ssl_cert        => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
-    ssl_chain       => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
     override        => ['All'],
 
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
@@ -120,18 +114,20 @@ class profile::updatesite (
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
-    letsencrypt::certonly { $update_fqdn:
-      domains     => [$update_fqdn],
-      plugin      => 'apache',
-      manage_cron => true,
-    }
+    [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
+      letsencrypt::certonly { $domain:
+        domains     => [$domain],
+        plugin      => 'apache',
+        manage_cron => true,
+      }
 
-    Apache::Vhost <| title == $update_fqdn |> {
-      ssl_key   => "/etc/letsencrypt/live/${update_fqdn}/privkey.pem",
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert  => "/etc/letsencrypt/live/${update_fqdn}/cert.pem",
-      ssl_chain => "/etc/letsencrypt/live/${update_fqdn}/chain.pem",
+      Apache::Vhost <| title == $domain |> {
+        ssl_key   => "/etc/letsencrypt/live/${domain}/privkey.pem",
+        # When Apache is upgraded to >= 2.4.8 this should be changed to
+        # fullchain.pem
+        ssl_cert  => "/etc/letsencrypt/live/${domain}/cert.pem",
+        ssl_chain => "/etc/letsencrypt/live/${domain}/chain.pem",
+      }
     }
   }
 }
