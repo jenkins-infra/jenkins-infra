@@ -1,21 +1,21 @@
-# Required plugins:
-#    vagrant-serverspec
-
 Vagrant.configure("2") do |config|
-
-    # prefer aws provider over virtualbox to make it the default
-    # Ubuntu 20.04
-    # config.vm.box = 'ubuntu/focal64'
-
-    # Ubuntu 18.04
-    config.vm.box = 'ubuntu/bionic64'
-
-    config.vm.provider :virtualbox do |v|
-        v.memory = 2048
-        v.cpus = 2
-        v.linked_clone = true if Vagrant::VERSION =~ /^1.8/
-        v.gui = false
+    ## Docker provider
+    config.vm.provider "docker" do |d|
+        d.build_dir = "./vagrant-docker/"
+        d.create_args = [
+            "--privileged=true",
+            "--cgroupns=host",
+        ]
+        d.volumes = [
+            "/sys/fs/cgroup:/sys/fs/cgroup:rw",
+            "/var/lib/docker",
+        ]
+        d.has_ssh = true
     end
+
+    config.vm.network "forwarded_port", guest: 80, host: 80
+    config.vm.network "forwarded_port", guest: 443, host: 443
+    config.vm.network "forwarded_port", guest: 8080, host: 8080
 
     role_dir = './dist/role/manifests/'
     Dir["#{role_dir}**/*.pp"].each do |role|
@@ -29,10 +29,6 @@ Vagrant.configure("2") do |config|
         if Dir["./spec/server/#{specfile}/*.rb"].empty?
             STDERR.write(">> no serverspec defined for #{veggie}\n")
         next
-        end
-
-        if veggie == 'jenkins::master'
-            config.vm.network "forwarded_port", guest: 8080, host: 8080
         end
 
         config.vm.define(veggie) do |node|
@@ -68,12 +64,6 @@ Vagrant.configure("2") do |config|
                 --hiera_config=spec/fixtures/hiera.yaml \
                 --execute 'include profile::vagrant\n include role::#{veggie}'
             EOF
-
-            # Commented out as serverspec is not working anymore
-            # TODO: switch to another framework
-            # node.vm.provision :serverspec do |spec|
-            #     spec.pattern = "spec/server/#{specfile}/*.rb"
-            # end
         end
     end
 end

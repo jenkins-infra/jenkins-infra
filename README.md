@@ -62,14 +62,14 @@ catalog on a VM.
 ##### Pre-requisites for Vagrant
 
 * Install [Vagrant](https://www.vagrantup.com)
-* Install Vagrant plugins: `vagrant plugin install vagrant-serverspec`
+<!-- * Install Vagrant plugins: `vagrant plugin install vagrant-serverspec` -->
 * Run the `./vagrant-bootstrap` script locally to make sure your local
   environment is prepared for Vagranting
 
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
-To just rerun serverspect without puppet, `vagrant provision --provision-with serverspec ROLE`.
-When it's all done, deprovision the instance via `vagrant destroy ROLE`.
+<!-- To just rerun serverspect without puppet, `vagrant provision --provision-with serverspec ROLE`.
+When it's all done, deprovision the instance via `vagrant destroy ROLE`. -->
 
 ### Updating dependencies
 

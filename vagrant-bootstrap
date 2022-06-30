@@ -5,3 +5,5 @@ echo "> Installing gems.."
 bundle install --path vendor/bundle
 echo "> Installing Puppet modules into modules/"
 bundle exec r10k puppetfile install
+echo "> Prebuilding the Docker image to ensure it is kept in cache (by giving a name)"
+docker build -t jenkins-infra-ubuntu:18.04 ./vagrant-docker
