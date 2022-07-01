@@ -152,28 +152,18 @@ class profile::pkgrepo (
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
-    letsencrypt::certonly { $repo_fqdn:
-      domains     => [$repo_fqdn, 'pkg.jenkins-ci.org'],
-      plugin      => 'apache',
-      manage_cron => true,
-    }
+    [$repo_fqdn, $repo_legacy_fqdn].each |String $domain| {
+      letsencrypt::certonly { $domain:
+        domains     => [$domain],
+        plugin      => 'apache',
+        manage_cron => true,
+      }
 
-    letsencrypt::certonly { 'pkg.jenkins-ci.org':
-      domains     => ['pkg.jenkins-ci.org'],
-      plugin      => 'apache',
-      manage_cron => true,
-    }
-
-    Apache::Vhost <| title == $repo_fqdn |> {
-      ssl_key         => '/etc/letsencrypt/live/pkg.origin.jenkins.io/privkey.pem',
-      ssl_cert        => '/etc/letsencrypt/live/pkg.origin.jenkins.io/cert.pem',
-      ssl_chain       => '/etc/letsencrypt/live/pkg.origin.jenkins.io/chain.pem',
-    }
-
-    Apache::Vhost <| title == 'pkg.jenkins-ci.org' |> {
-      ssl_key         => '/etc/letsencrypt/live/pkg.jenkins-ci.org/privkey.pem',
-      ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins-ci.org/cert.pem',
-      ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins-ci.org/chain.pem',
+      Apache::Vhost <| title == $domain |> {
+        ssl_key         => "/etc/letsencrypt/live/${domain}/privkey.pem",
+        ssl_cert        => "/etc/letsencrypt/live/${domain}/cert.pem",
+        ssl_chain       => "/etc/letsencrypt/live/${domain}/chain.pem",
+      }
     }
   }
 }
