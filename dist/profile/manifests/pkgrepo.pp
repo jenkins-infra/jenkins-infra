@@ -91,6 +91,9 @@ class profile::pkgrepo (
   }
 
   apache::vhost { $repo_fqdn:
+    serveraliases   => [
+      'pkg.jenkins-ci.org',
+    ],
     port            => 443,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
@@ -112,43 +115,24 @@ class profile::pkgrepo (
 
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
     error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
-  }
-
-  apache::vhost { 'pkg.jenkins-ci.org unsecured':
-    servername      => 'pkg.jenkins-ci.org',
-    port            => 80,
-    docroot         => $docroot,
-
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
-    redirect_dest   => ['https://pkg.jenkins.io/'],
-    require         => File[$docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
-    servername      => 'pkg.jenkins-ci.org',
-    port            => 443,
+    port            => 80,
     docroot         => $docroot,
-    ssl             => true,
+    override        => ['All'],
+    options         => 'Indexes FollowSymLinks MultiViews',
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy.log.%Y%m%d%H%M%S 604800",
-    redirect_dest   => ['https://pkg.jenkins.io/'],
-    require         => File[$docroot],
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => Apache::Vhost[$repo_fqdn],
   }
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
     letsencrypt::certonly { $repo_fqdn:
-      domains     => [$repo_fqdn, 'pkg.jenkins-ci.org'],
-      plugin      => 'apache',
-      manage_cron => true,
-    }
-
-    letsencrypt::certonly { 'pkg.jenkins-ci.org':
-      domains     => ['pkg.jenkins-ci.org'],
+      domains     => [$repo_fqdn],
       plugin      => 'apache',
       manage_cron => true,
     }
@@ -157,12 +141,6 @@ class profile::pkgrepo (
       ssl_key         => '/etc/letsencrypt/live/pkg.origin.jenkins.io/privkey.pem',
       ssl_cert        => '/etc/letsencrypt/live/pkg.origin.jenkins.io/cert.pem',
       ssl_chain       => '/etc/letsencrypt/live/pkg.origin.jenkins.io/chain.pem',
-    }
-
-    Apache::Vhost <| title == 'pkg.jenkins-ci.org' |> {
-      ssl_key         => '/etc/letsencrypt/live/pkg.jenkins-ci.org/privkey.pem',
-      ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins-ci.org/cert.pem',
-      ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins-ci.org/chain.pem',
     }
   }
 }
