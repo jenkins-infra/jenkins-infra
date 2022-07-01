@@ -57,7 +57,6 @@ describe 'profile::updatesite' do
         })
       end
 
-
       it { should contain_file('/var/log/apache2/updates.jenkins-ci.org').with_ensure(:directory) }
 
       it 'should contain a vhost on port 80/HTTP for updates.jenkins-ci.org' do
@@ -71,13 +70,10 @@ describe 'profile::updatesite' do
         })
       end
 
-      it 'should contain a vhost on port 443/HTTPs for updates.jenkins-ci.org' do
+      it 'should contain a vhost with ssl on port 443/HTTPs for updates.jenkins-ci.org' do
         expect(subject).to contain_apache__vhost('updates.jenkins-ci.org').with({
           :servername => 'updates.jenkins-ci.org',
           :port => 443,
-          :ssl_key => '/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem',
-          :ssl_chain => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
-          :ssl_cert => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
           :ssl => true,
           :docroot => "/var/www/#{fqdn}",
           :override  => ['All'],
@@ -90,13 +86,23 @@ describe 'profile::updatesite' do
     let(:environment) { 'production' }
     it { should contain_letsencrypt__certonly(fqdn) }
 
-    it 'should configure the letsencrypt ssl keys on the vhost' do
+    it 'should configure the letsencrypt ssl keys on the main vhost' do
       expect(subject).to contain_apache__vhost(fqdn).with({
         :servername => fqdn,
         :port => 443,
         :ssl_key => "/etc/letsencrypt/live/#{fqdn}/privkey.pem",
         :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/cert.pem",
         :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
+      })
+    end
+
+    it 'should configure the letsencrypt ssl keys on the updates.jenkins-ci.org vhost' do
+      expect(subject).to contain_apache__vhost('updates.jenkins-ci.org').with({
+        :servername => 'updates.jenkins-ci.org',
+        :port => 443,
+        :ssl_key => '/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem',
+        :ssl_chain => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
+        :ssl_cert => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
       })
     end
   end
