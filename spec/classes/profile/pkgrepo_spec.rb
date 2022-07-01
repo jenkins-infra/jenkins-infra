@@ -124,14 +124,22 @@ describe 'profile::pkgrepo' do
   context 'apache setup' do
     it { should contain_class 'apache::mod::rewrite' }
 
-    it 'should contain an SSL vhost' do
+    it 'should contain an SSL vhost for pkg.origin.jenkins.io' do
       expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io').with({
-        :serveraliases => ['pkg.jenkins-ci.org'],
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
         :options => 'Indexes FollowSymLinks MultiViews',
         :override => ['All'],
+      })
+    end
+
+    it 'should contain an SSL vhost for pkg.jenkins-ci.org with redirection' do
+      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
+        :port => 443,
+        :ssl => true,
+        :docroot => params[:docroot],
+        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
 
@@ -144,11 +152,11 @@ describe 'profile::pkgrepo' do
     end
 
     it "should contain a non-ssl pkg.jenkins-ci.org vhost which doesn't upgrade" do
-      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
+      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org unsecured').with({
+        :servername => 'pkg.jenkins-ci.org',
         :port => 80,
-        :options => 'Indexes FollowSymLinks MultiViews',
-        :override => ['All'],
         :docroot => params[:docroot],
+        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
   end
@@ -157,5 +165,6 @@ describe 'profile::pkgrepo' do
     let(:environment) { 'production' }
 
     it { should contain_letsencrypt__certonly('pkg.origin.jenkins.io') }
+    it { should contain_letsencrypt__certonly('pkg.jenkins-ci.org') }
   end
 end
