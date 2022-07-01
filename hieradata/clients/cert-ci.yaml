@@ -51,11 +51,32 @@ profile::buildmaster::cloud_agents:
         usePrivateIP: false
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
 profile::buildmaster::plugins:
+  # System configuration
   - azure-vm-agents
   - configuration-as-code
-  - github
-  - github-checks
-  - github-branch-source
   - ldap
-  - workflow-aggregator
-  - workflow-multibranch
+  - matrix-auth
+
+  # Basic Pipeline configuration
+  - basic-branch-build-strategies
+  - github-branch-source
+  - inline-pipeline
+  - pipeline-groovy-lib
+
+  # Pipeline steps
+  - build-timeout
+  - config-file-provider
+  - groovy # Provides groovy tool in some pipelines
+  - junit-realtime-test-reporter
+  - pipeline-stage-step # Used in mavenBuild
+  - timestamper
+  - workflow-basic-steps
+
+  # Utility
+  - compact-columns
+
+  # Unused detached (disabled)
+  - bouncycastle-api
+  - command-launcher
+  - jdk-tool
+  - sshd
