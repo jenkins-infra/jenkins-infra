@@ -124,6 +124,13 @@ describe 'profile::pkgrepo' do
   context 'apache setup' do
     it { should contain_class 'apache::mod::rewrite' }
 
+    ## Domain pkg.origin.jenkins.io
+    it 'should have a logs directory for pkg.origin.jenkins.io' do
+      expect(subject).to contain_file('/var/log/apache2/pkg.origin.jenkins.io').with({
+        :ensure => :directory,
+      })
+    end
+
     it 'should contain an SSL vhost for pkg.origin.jenkins.io' do
       expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io').with({
         :port => 443,
@@ -131,17 +138,8 @@ describe 'profile::pkgrepo' do
         :docroot => params[:docroot],
         :options => 'Indexes FollowSymLinks MultiViews',
         :override => ['All'],
-      })
-    end
-
-    it 'should contain an SSL vhost for pkg.jenkins-ci.org with redirection' do
-      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
-        :port => 443,
-        :ssl => true,
-        :docroot => params[:docroot],
-        :redirect_status => 'permanent',
-        :redirect_dest => ['https://pkg.jenkins.io/'],
-        :custom_fragment => 'Protocols http/1.1',
+        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/access.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/error.log.%Y%m%d%H%M%S 604800",
       })
     end
 
@@ -150,10 +148,32 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.origin.jenkins.io',
         :port => 80,
         :docroot => params[:docroot],
+        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/access_nonssl.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/error_nonssl.log.%Y%m%d%H%M%S 604800",
       })
     end
 
-    it "should contain a non-ssl pkg.jenkins-ci.org vhost which doesn't upgrade" do
+    ## Domain pkg.jenkins-ci.org
+    it 'should have a logs directory for pkg.jenkins-ci.org' do
+      expect(subject).to contain_file('/var/log/apache2/pkg.jenkins-ci.org').with({
+        :ensure => :directory,
+      })
+    end
+
+    it 'should contain an SSL vhost for pkg.jenkins-ci.org redirecting to pkg.jenkins.io' do
+      expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
+        :port => 443,
+        :ssl => true,
+        :docroot => params[:docroot],
+        :redirect_status => 'permanent',
+        :redirect_dest => ['https://pkg.jenkins.io/'],
+        :custom_fragment => 'Protocols http/1.1',
+        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/access.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/error.log.%Y%m%d%H%M%S 604800",
+      })
+    end
+
+    it 'should contain a non-ssl pkg.jenkins-ci.org vhost redirecting to pkg.jenkins.io' do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org unsecured').with({
         :servername => 'pkg.jenkins-ci.org',
         :port => 80,
@@ -161,6 +181,8 @@ describe 'profile::pkgrepo' do
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
         :custom_fragment => 'Protocols http/1.1',
+        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/access_nonssl.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/error_nonssl.log.%Y%m%d%H%M%S 604800",
       })
     end
   end
