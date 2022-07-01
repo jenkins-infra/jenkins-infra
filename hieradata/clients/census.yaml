@@ -5,5 +5,5 @@ lvm::volume_groups:
       - /dev/xvdb
     logical_volumes:
       census:
-        size: 30G
+        size: 64G
         mountpath: /srv/census
