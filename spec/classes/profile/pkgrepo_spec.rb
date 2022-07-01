@@ -139,7 +139,7 @@ describe 'profile::pkgrepo' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :redirect_dest => ['https://pkg.jenkins.io'],
+        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
 
@@ -156,7 +156,7 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.jenkins-ci.org',
         :port => 80,
         :docroot => params[:docroot],
-        :redirect_dest => ['https://pkg.jenkins.io'],
+        :redirect_dest => ['https://pkg.jenkins.io/'],
       })
     end
   end
