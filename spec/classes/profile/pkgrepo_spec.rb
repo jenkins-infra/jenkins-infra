@@ -139,7 +139,9 @@ describe 'profile::pkgrepo' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
+        :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
+        :custom_fragment => 'Protocols http/1.1',
       })
     end
 
@@ -156,7 +158,9 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.jenkins-ci.org',
         :port => 80,
         :docroot => params[:docroot],
+        :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
+        :custom_fragment => 'Protocols http/1.1',
       })
     end
   end

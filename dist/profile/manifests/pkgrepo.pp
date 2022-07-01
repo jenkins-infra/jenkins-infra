@@ -122,7 +122,10 @@ class profile::pkgrepo (
 
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
     error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
+    redirect_status => 'permanent',
     redirect_dest   => ['https://pkg.jenkins.io/'],
+    # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
+    custom_fragment => 'Protocols http/1.1',
     require         => File[$docroot],
   }
 
@@ -134,7 +137,10 @@ class profile::pkgrepo (
 
     access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy.log.%Y%m%d%H%M%S 604800",
     error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy.log.%Y%m%d%H%M%S 604800",
+    redirect_status => 'permanent',
     redirect_dest   => ['https://pkg.jenkins.io/'],
+    # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
+    custom_fragment => 'Protocols http/1.1',
     require         => File[$docroot],
   }
 
