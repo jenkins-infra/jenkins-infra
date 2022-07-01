@@ -4,6 +4,7 @@ class profile::pkgrepo (
   $docroot      = '/var/www/pkg.jenkins.io',
   $release_root = '/srv/releases/jenkins',
   $repo_fqdn    = 'pkg.origin.jenkins.io',
+  $repo_legacy_fqdn    = 'pkg.jenkins-ci.org',
   $mirror_fqdn  = 'mirrors.jenkins.io',
 ) {
   include stdlib
@@ -22,10 +23,14 @@ class profile::pkgrepo (
     ensure => present,
   }
 
-  $apache_log_dir = "/var/log/apache2/${repo_fqdn}"
+  $apache_log_dir_fqdn = "/var/log/apache2/${repo_fqdn}"
+  $apache_log_dir_legacy_fqdn = "/var/log/apache2/${repo_legacy_fqdn}"
 
-  file { $apache_log_dir:
-    ensure => directory,
+  # Create apache dirs
+  [$apache_log_dir_fqdn,$apache_log_dir_legacy_fqdn].each |String $dir| {
+    file { $dir:
+      ensure => directory,
+    }
   }
 
   file { $docroot:
@@ -33,7 +38,7 @@ class profile::pkgrepo (
     owner   => 'www-data',
     # We need group writes on this directory for pushing a release
     mode    => '0775',
-    require => File[$apache_log_dir],
+    require => [File[$apache_log_dir_fqdn], File[$apache_log_dir_legacy_fqdn]],
   }
 
   $repos = [
@@ -91,9 +96,6 @@ class profile::pkgrepo (
   }
 
   apache::vhost { $repo_fqdn:
-    serveraliases   => [
-      'pkg.jenkins-ci.org',
-    ],
     port            => 443,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
@@ -102,8 +104,8 @@ class profile::pkgrepo (
     ssl             => true,
     docroot         => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
     require         => File[$docroot],
   }
 
@@ -113,26 +115,51 @@ class profile::pkgrepo (
     override        => ['All'],
     docroot         => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_nonssl.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error_nonssl.log.%Y%m%d%H%M%S 604800",
+    require         => File[$docroot],
+  }
+
+  apache::vhost { 'pkg.jenkins-ci.org unsecured':
+    servername      => 'pkg.jenkins-ci.org',
+    port            => 80,
+    docroot         => $docroot,
+
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access_nonssl.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error_nonssl.log.%Y%m%d%H%M%S 604800",
+    redirect_status => 'permanent',
+    redirect_dest   => ['https://pkg.jenkins.io/'],
+    # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
+    custom_fragment => 'Protocols http/1.1',
+    require         => File[$docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
-    port            => 80,
+    servername      => 'pkg.jenkins-ci.org',
+    port            => 443,
     docroot         => $docroot,
-    override        => ['All'],
-    options         => 'Indexes FollowSymLinks MultiViews',
+    ssl             => true,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_legacy_nonssl.log.%Y%m%d%H%M%S 604800",
-    require         => Apache::Vhost[$repo_fqdn],
+    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
+    redirect_status => 'permanent',
+    redirect_dest   => ['https://pkg.jenkins.io/'],
+    # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
+    custom_fragment => 'Protocols http/1.1',
+    require         => File[$docroot],
   }
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($::environment == 'production') and ($::vagrant != '1')) {
     letsencrypt::certonly { $repo_fqdn:
-      domains     => [$repo_fqdn],
+      domains     => [$repo_fqdn, 'pkg.jenkins-ci.org'],
+      plugin      => 'apache',
+      manage_cron => true,
+    }
+
+    letsencrypt::certonly { 'pkg.jenkins-ci.org':
+      domains     => ['pkg.jenkins-ci.org'],
       plugin      => 'apache',
       manage_cron => true,
     }
@@ -141,6 +168,12 @@ class profile::pkgrepo (
       ssl_key         => '/etc/letsencrypt/live/pkg.origin.jenkins.io/privkey.pem',
       ssl_cert        => '/etc/letsencrypt/live/pkg.origin.jenkins.io/cert.pem',
       ssl_chain       => '/etc/letsencrypt/live/pkg.origin.jenkins.io/chain.pem',
+    }
+
+    Apache::Vhost <| title == 'pkg.jenkins-ci.org' |> {
+      ssl_key         => '/etc/letsencrypt/live/pkg.jenkins-ci.org/privkey.pem',
+      ssl_cert        => '/etc/letsencrypt/live/pkg.jenkins-ci.org/cert.pem',
+      ssl_chain       => '/etc/letsencrypt/live/pkg.jenkins-ci.org/chain.pem',
     }
   }
 }
