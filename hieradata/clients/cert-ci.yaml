@@ -59,15 +59,18 @@ profile::buildmaster::plugins:
 
   # Basic Pipeline configuration
   - basic-branch-build-strategies
-  - pipeline-model-definition # TODO check how much is needed
-  - inline-pipeline # https://cert.ci.jenkins.io/job/jenkins-merge-data/
+  - github-branch-source
+  - inline-pipeline
+  - pipeline-groovy-lib
 
   # Pipeline steps
   - build-timeout
   - config-file-provider
   - groovy # Provides groovy tool in some pipelines
   - junit-realtime-test-reporter
+  - pipeline-stage-step # Used in mavenBuild
   - timestamper
+  - workflow-basic-steps
 
   # Utility
   - compact-columns
