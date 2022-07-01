@@ -108,55 +108,65 @@ class profile::archives (
     require => Package['libapache2-mod-bw'],
   }
 
-  apache::vhost { 'archives.jenkins-ci.org non-ssl':
-    servername      => 'archives.jenkins-ci.org',
-    vhost_name      => '*',
-    port            => '80',
-    docroot         => $archives_dir,
-    access_log      => false,
-    error_log_file  => 'archives.jenkins-ci.org/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/archives/vhost.conf"),
-    options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
-    notify          => Service['apache2'],
-    require         => [File['/var/log/apache2/archives.jenkins-ci.org'],
+  apache::vhost { 'archives.jenkins-ci.org unsecure':
+    servername                   => 'archives.jenkins-ci.org',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    vhost_name                   => '*',
+    port                         => '80',
+    docroot                      => $archives_dir,
+    access_log                   => false,
+    error_log_file               => 'archives.jenkins-ci.org/error.log',
+    log_level                    => 'warn',
+    custom_fragment              => template("${module_name}/archives/vhost.conf"),
+    options                      => ['FollowSymLinks', 'MultiViews', 'Indexes'],
+    notify                       => Service['apache2'],
+    require                      => [File['/var/log/apache2/archives.jenkins-ci.org'],
       File[$archives_dir],
     Apache::Mod['bw']],
   }
 
   apache::vhost { 'archives.jenkins-ci.org':
-    port            => '443',
-    ssl             => true,
-    docroot         => $archives_dir,
-    access_log      => false,
-    error_log_file  => 'archives.jenkins-ci.org/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/archives/vhost.conf"),
+    servername                   => 'archives.jenkins-ci.org',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => '443',
+    ssl                          => true,
+    docroot                      => $archives_dir,
+    access_log                   => false,
+    error_log_file               => 'archives.jenkins-ci.org/error.log',
+    log_level                    => 'warn',
+    custom_fragment              => template("${module_name}/archives/vhost.conf"),
 
-    notify          => Service['apache2'],
-    require         => File['/var/log/apache2/archives.jenkins-ci.org'],
+    notify                       => Service['apache2'],
+    require                      => File['/var/log/apache2/archives.jenkins-ci.org'],
   }
 
-  apache::vhost { 'archives.jenkins.io non-ssl':
+  apache::vhost { 'archives.jenkins.io unsecured':
     # redirect non-SSL to SSL
-    servername      => 'archives.jenkins.io',
-    port            => '80',
-    docroot         => $archives_dir,
-    redirect_status => 'temp',
-    redirect_dest   => 'https://archives.jenkins.io/',
+    servername                   => 'archives.jenkins.io',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => '80',
+    docroot                      => $archives_dir,
+    redirect_status              => 'temp',
+    redirect_dest                => 'https://archives.jenkins.io/',
   }
 
   apache::vhost { 'archives.jenkins.io':
-    port            => '443',
-    ssl             => true,
-    docroot         => $archives_dir,
-    access_log      => false,
-    error_log_file  => 'archives.jenkins.io/error.log',
-    log_level       => 'warn',
-    custom_fragment => template("${module_name}/archives/vhost.conf"),
+    servername                   => 'archives.jenkins.io',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => '443',
+    ssl                          => true,
+    docroot                      => $archives_dir,
+    access_log                   => false,
+    error_log_file               => 'archives.jenkins.io/error.log',
+    log_level                    => 'warn',
+    custom_fragment              => template("${module_name}/archives/vhost.conf"),
 
-    notify          => Service['apache2'],
-    require         => File['/var/log/apache2/archives.jenkins-ci.org'],
+    notify                       => Service['apache2'],
+    require                      => File['/var/log/apache2/archives.jenkins-ci.org'],
   }
 
   # We can only acquire certs in production due to the way the letsencrypt

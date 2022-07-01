@@ -6,17 +6,17 @@
 #
 # This usage information is then processed and ultimately finds its way into
 # our "census" data
-class profile::usage(
+class profile::usage (
   $docroot    = '/var/www/usage.jenkins.io',
   $usage_fqdn = 'usage.jenkins.io',
   $user       = 'usagestats',
   $group      = 'usagestats',
   $ssh_keys   = undef,
 ) {
-  include ::stdlib
-  include ::apache
+  include stdlib
+  include apache
   # volume configuration is in hiera
-  include ::lvm
+  include lvm
   include profile::accounts
   include profile::apachemisc
   include profile::firewall
@@ -60,7 +60,6 @@ class profile::usage(
     mode   => '0755',
   }
   ############################
-
 
   ## Download/Upload usage data permissions
   ############################
@@ -137,55 +136,60 @@ class profile::usage(
   ############################
 
   apache::vhost { $usage_fqdn:
-    port            => 443,
+    servername                   => $usage_fqdn,
+    port                         => 443,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options         => 'Indexes FollowSymLinks MultiViews',
-    override        => ['All'],
-    ssl             => true,
-    docroot         => $docroot,
+    options                      => 'Indexes FollowSymLinks MultiViews',
+    override                     => ['All'],
+    ssl                          => true,
+    docroot                      => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${::ipaddress}.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe  => "|/usr/bin/rotatelogs ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
-    require         => [
-        File[$docroot],
-        File[$apache_log_dir],
+    access_log_pipe              => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs ${apache_log_dir}/error_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
+    require                      => [
+      File[$docroot],
+      File[$apache_log_dir],
     ],
   }
 
   apache::vhost { "${usage_fqdn} unsecured":
-    servername      => $usage_fqdn,
-    serveraliases   => [
+    servername                   => $usage_fqdn,
+    serveraliases                => [
       'usage.jenkins-ci.org',
     ],
-    port            => 80,
+    port                         => 80,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options         => 'Indexes FollowSymLinks MultiViews',
-    override        => ['All'],
-    docroot         => $docroot,
-    access_log_pipe => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${::ipaddress}_nonssl.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe  => "|/usr/bin/rotatelogs ${apache_log_dir}/error_nonssl.log.%Y%m%d%H%M%S 86400",
-    require         => [
-        File[$docroot],
-        File[$apache_log_dir],
+    options                      => 'Indexes FollowSymLinks MultiViews',
+    override                     => ['All'],
+    docroot                      => $docroot,
+    access_log_pipe              => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs ${apache_log_dir}/error_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
+    require                      => [
+      File[$docroot],
+      File[$apache_log_dir],
     ],
   }
 
   # Legacy (usage.jenkins-ci.org) SSL host with the legacy SSL key
   file { '/etc/apache2/legacy_cert.key':
-    ensure  => present,
+    ensure  => file,
     content => lookup('ssl_legacy_key'),
     require => Package['httpd'],
   }
 
   file { '/etc/apache2/legacy_chain.crt':
-    ensure  => present,
+    ensure  => file,
     content => lookup('ssl_legacy_chain'),
     require => Package['httpd'],
   }
   file { '/etc/apache2/legacy_cert.crt':
-    ensure  => present,
+    ensure  => file,
     content => lookup('ssl_legacy_cert'),
     require => Package['httpd'],
   }
@@ -195,26 +199,28 @@ class profile::usage(
   # usage.jenkins.io and let usage.jenkins.io log the access
   # https://github.com/jenkinsci/jenkins/blob/5416411/core/src/main/resources/hudson/model/UsageStatistics/footer.jelly
   apache::vhost { 'usage.jenkins-ci.org':
-    docroot         => $docroot,
-    port            => 443,
-    ssl             => true,
-    ssl_key         => '/etc/apache2/legacy_cert.key',
-    ssl_chain       => '/etc/apache2/legacy_chain.crt',
-    ssl_cert        => '/etc/apache2/legacy_cert.crt',
-    override        => ['All'],
-    redirect_status => 'permanent',
-    redirect_dest   => 'https://usage.jenkins.io/',
+    servername                   => 'usage.jenkins-ci.org',
+    docroot                      => $docroot,
+    port                         => 443,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    ssl                          => true,
+    ssl_key                      => '/etc/apache2/legacy_cert.key',
+    ssl_chain                    => '/etc/apache2/legacy_chain.crt',
+    ssl_cert                     => '/etc/apache2/legacy_cert.crt',
+    override                     => ['All'],
+    redirect_status              => 'permanent',
+    redirect_dest                => 'https://usage.jenkins.io/',
     # Blackhole all these redirect logs https://issues.jenkins-ci.org/browse/INFRA-739
 
-    access_log_file => '/dev/null',
-    require         => [
+    access_log_file              => '/dev/null',
+    require                      => [
       File['/etc/apache2/legacy_cert.crt'],
       File['/etc/apache2/legacy_cert.key'],
       File['/etc/apache2/legacy_chain.crt'],
       Apache::Vhost[$usage_fqdn],
     ],
   }
-
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
