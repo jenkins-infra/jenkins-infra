@@ -1,12 +1,12 @@
 # Assemble fragments into datadog checker configuration files
 #
-define profile::datadog_check(
+define profile::datadog_check (
   $ensure    = present,
   $checker   = undef,
   $source    = undef,
   $content   = undef,
 ) {
-  $target ="${datadog_agent::params::conf6_dir}/${checker}.yaml"
+  $target ="${datadog_agent::params::conf_dir}/${checker}.yaml"
 
   include datadog_agent
 
@@ -16,14 +16,14 @@ define profile::datadog_check(
       ensure => $ensure,
       owner  => 'root',
       group  => 'root',
-      notify => Service[$datadog_agent::params::service_name]
+      notify => Service[$datadog_agent::params::service_name],
     }
 
     concat::fragment { "${target}-header":
       target  => $target,
       content => "init_config:\n\ninstances:\n",
       order   => '00',
-      notify  => Service[$datadog_agent::params::service_name]
+      notify  => Service[$datadog_agent::params::service_name],
     }
   }
 
@@ -31,6 +31,6 @@ define profile::datadog_check(
     target  => $target,
     source  => $source,
     content => $content,
-    notify  => Service[$datadog_agent::params::service_name]
+    notify  => Service[$datadog_agent::params::service_name],
   }
 }
