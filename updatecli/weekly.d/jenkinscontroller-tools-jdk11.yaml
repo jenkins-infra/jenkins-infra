@@ -40,7 +40,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::default_tools.jdk11.version"
+      key: "profile::jenkinscontroller::default_tools.jdk11.version"
     scmid: default
 
 pullrequests:

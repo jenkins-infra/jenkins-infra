@@ -2,19 +2,19 @@
 profile::robobutler::nick: hobobutler
 profile::robobutler::password: ''
 
-profile::buildmaster::docker_image: 'jenkins/jenkins'
-profile::buildmaster::docker_tag: 'lts-jdk11'
-profile::buildmaster::memory_limit: '1536m'
+profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
+profile::jenkinscontroller::docker_tag: 'lts-jdk11'
+profile::jenkinscontroller::memory_limit: '1536m'
 
-profile::buildmaster::jcasc:
+profile::jenkinscontroller::jcasc:
   enabled: true
   common_configs:
-    - buildmaster/casc/clouds.yaml.erb
+    - jenkinscontroller/casc/clouds.yaml.erb
   custom_configs:
     - cert.ci.jenkins.io/tools.yaml.erb # Instead of default
     - cert.ci.jenkins.io/global-libraries.yaml.erb # Instead of default
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
-profile::buildmaster::cloud_agents:
+profile::jenkinscontroller::cloud_agents:
   kubernetes:
     cik8s:
       max_capacity: 100 # Max 50 workers (8 CPU / 32 G) with 2 pods (4 CPU / 8G) each
@@ -195,7 +195,7 @@ profile::buildmaster::cloud_agents:
           memory: 8
           labels:
             - maven-11-windows
-profile::buildmaster::default_tools:
+profile::jenkinscontroller::default_tools:
   jdk:
     installations:
     - name: "jdk8"
@@ -238,7 +238,7 @@ profile::buildmaster::default_tools:
       version: "3.6.3"
     maven-3.8:
       version: "3.8.1"
-profile::buildmaster::plugins:
+profile::jenkinscontroller::plugins:
   - ansicolor
   - azure-container-agents
   - azure-vm-agents

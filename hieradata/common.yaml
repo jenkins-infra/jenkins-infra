@@ -201,14 +201,14 @@ profile::buildslave::ssh_keys:
 # place this file in ~/.docker/config.json
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
-profile::buildmaster::docker_image: jenkins/jenkins
-profile::buildmaster::docker_tag: "2.346.1-jdk11"
-profile::buildmaster::plugins:
+profile::jenkinscontroller::docker_image: jenkins/jenkins
+profile::jenkinscontroller::docker_tag: "2.346.1-jdk11"
+profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - pipeline-stage-view
   - ldap
   - beer
-profile::buildmaster::agents_setup:
+profile::jenkinscontroller::agents_setup:
   windows:
     agentDir: 'C:\\Jenkins'
     tempDir: 'C:\\\\temp'
@@ -219,7 +219,7 @@ profile::buildmaster::agents_setup:
     remoteAdmin: jenkins
     tempDir: "/tmp"
     osDiskSize: 90
-profile::buildmaster::agent_images:
+profile::jenkinscontroller::agent_images:
   ec2_amis:
     ubuntu-amd64: "ami-016b93bd506a408ad"
     windows-amd64: "ami-0efffd189242ef7e4"
@@ -238,7 +238,7 @@ profile::buildmaster::agent_images:
     jnlp-alpine: 'jenkins/inbound-agent@sha256:799099300d147de3890de0078d28ad9804a37852f8e21eb6d73101f0aca23cdb'
     # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
     jnlp: jenkins/inbound-agent@sha256:4997dc69963f1a4f723994e18f8083281429017bfdf864bedadcda79d751b292
-profile::buildmaster::default_tools:
+profile::jenkinscontroller::default_tools:
   jdk8:
     version: "8u332-b09"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
