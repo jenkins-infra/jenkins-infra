@@ -28,11 +28,10 @@ mod 'reidmv/yamlfile'
 # Needed by `yamlfile`
 mod 'adrien/filemapper'
 
-mod 'puppetlabs-docker', '4.4.0'
+mod 'puppetlabs/docker', '4.4.0'
 
 # Deps for docker
-mod 'puppetlabs/apt', '8.0.2'
-mod 'puppet/epel', '3.0.1'
+mod 'puppetlabs/apt', '8.4.1'
 
 # Dependencies for the Puppet IRC report processor, using our forked version
 # which updates on any changed status

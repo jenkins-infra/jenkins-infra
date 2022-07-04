@@ -3,8 +3,8 @@
 # i.e. that it's updated daily
 class profile::apt {
   class { 'apt':
-  update => {
-    frequency => 'daily',
-  },
-}
+    update => {
+      frequency => 'daily',
+    },
+  }
 }

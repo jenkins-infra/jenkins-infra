@@ -1,5 +1,5 @@
 ---
-title: Bump the Docker Puppet Module
+title: Bump the APT Puppet Module
 
 scms:
   default:
@@ -16,10 +16,10 @@ scms:
 sources:
   latestVersion:
     kind: githubrelease
-    name: Get the latest puppetlabe/docker module version
+    name: Get the latest puppetlabe/apt module version
     spec:
       owner: puppetlabs
-      repository: puppetlabs-docker
+      repository: puppetlabs-apt
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionfilter:
@@ -30,19 +30,19 @@ conditions:
     kind: shell
     disablesourceinput: true
     spec:
-      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-docker-{{ source "latestVersion" }}.tar.gz
+      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-apt-{{ source "latestVersion" }}.tar.gz
 
 targets:
   puppetfile:
-    name: "Update Puppetfile with the latest docker module version"
+    name: "Update Puppetfile with the latest APT module version"
     kind: file
     sourceid: latestVersion
     spec:
       file: Puppetfile
       matchpattern: >
-        mod 'puppetlabs/docker'(.*)
+        mod 'puppetlabs/apt'(.*)
       replacepattern: >
-        mod 'puppetlabs/docker', '{{ source "latestVersion" }}'
+        mod 'puppetlabs/apt', '{{ source "latestVersion" }}'
     scmid: default
 
 pullrequests:

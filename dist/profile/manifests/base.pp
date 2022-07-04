@@ -1,7 +1,6 @@
 #
 # Basic profile included in each node
 class profile::base {
-
   include profile::accounts
   include profile::compliance
 
@@ -15,7 +14,10 @@ class profile::base {
     include profile::puppetagent
     include profile::rngd
 
-    include ssh::server
+    # Applying the production SSH would break the Vagrant SSH system
+    if $::vagrant != '1' {
+      include ssh::server
+    }
     include ssh::client
   }
 
