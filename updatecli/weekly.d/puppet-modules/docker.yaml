@@ -40,9 +40,9 @@ targets:
     spec:
       file: Puppetfile
       matchpattern: >
-        mod 'puppetlabs-docker'(.*)
+        mod 'puppetlabs/docker'(.*)
       replacepattern: >
-        mod 'puppetlabs-docker', '{{ source "latestVersion" }}'
+        mod 'puppetlabs/docker', '{{ source "latestVersion" }}'
     scmid: default
 
 pullrequests:
