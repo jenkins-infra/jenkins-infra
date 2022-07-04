@@ -50,26 +50,49 @@ The amount of testing that can be done locally is as follows:
   the rspec-puppet over and over, use `rake spec_standalone` to avoid
   re-initializing the Puppet module fixtures every time.
 
+### Pre-requisites for local development
+
+* Ruby 2.6.x is required.
+  * Please note that Ruby 2.7.x and 3.x have never been tested.
+* Bundler 1.17.x is required with the command line `bundle` installed and present in your `PATH`.
+  * Please note that Bundler 2.x had never been tested
+* A bash-compliant shell is required.
+  * `sh` has never been tested, neither Windows Cygwin Shell (but WSL is ok).
+
+You can **always** check the Docker image that ci.jenkins.io uses to run the test harness for this project at <https://github.com/jenkins-infra/docker-inbound-agents/blob/main/ruby/Dockerfile> (Jenkins agent labelled with `ruby`).
+
 ### Vagrant-based testing
 
-#### Running server spec tests
+#### Running Acceptance Tests
 
-We're using [serverspec](http://serverspec.org) for on-machine acceptance
-testing. Combined with Vagrant, this allows us to create an acceptance test
-[per-role](dist/role/manifests) which provisions and tests an entire Puppet
-catalog on a VM.
+TL;DR: As for today, there are no automated acceptance tests. Contributions are welcome.
+
+A long time ago, this repository used [serverspec](http://serverspec.org) for on-machine acceptance testing.
+Combined with Vagrant, it allowed to execute acceptance tests [per-role](dist/role/manifests).
+
+But this serverspec with Vagrant uses deprecated (and not maintained anymore) components.
+
+Proposal for the future:
+
+* Switch to [Goss](https://github.com/aelsabbahy/goss) as it can also be used for [Docker with the `dgoss` wrapper](https://github.com/aelsabbahy/goss/tree/master/extras/dgoss) and provides automatic adding tests
+* ServerSpec V2 executed through `vagrant ssh` (but requires updating ruby dependencies + find a way to run serverspec within the VM instead of outside)
 
 ##### Pre-requisites for Vagrant
 
-* Install [Vagrant](https://www.vagrantup.com)
-* Install Vagrant plugins: `vagrant plugin install vagrant-serverspec`
-* Run the `./vagrant-bootstrap` script locally to make sure your local
-  environment is prepared for Vagranting
+* Make sure that you have set up all the [Pre-requisites for local development](#pre-requisites-for-local-development) above
+* Install [Vagrant](https://www.vagrantup.com) version 2.x.
+* Install [Docker](https://www.docker.com/)
+  * Docker Desktop is recommended but any other Docker Engine installation should work.
+  * Only Linux containers are supported, with Cgroups v2. (CGroups v1 *might* work).
+  * The command line `docker` must be present in your `PATH`.
+  * You must be able to share a local directory and to use the flag `--privileged`.
+* Run the `./vagrant-bootstrap` script locally to make sure your local environment is prepared.
+  * Should use `bundle` to install ruby gem dependencies
+  * It also pre-builds the Docker image(s) required?
 
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
-To just rerun serverspect without puppet, `vagrant provision --provision-with serverspec ROLE`.
-When it's all done, deprovision the instance via `vagrant destroy ROLE`.
+When it's all done, remove the instance the instance via `vagrant destroy ROLE`.
 
 ### Updating dependencies
 
@@ -80,8 +103,7 @@ reflect changes by running `bundle exec rake resolve`.
 
 ## Branching model
 
-The default branch of this repository is `staging` which is where pull requests
-should be applied to by default.
+The default branch of this repository is `production` which is where pull requests should be applied to by default.
 
 ```text
 
@@ -89,23 +111,12 @@ should be applied to by default.
 | pull-request-1 |
 +-----------x----+
              \
-              \ (review and merge, runs acceptance tests)
-staging        \
+              \ (review and merge, runs tests)
+production     \
 |---------------o--x--x--x---------------->
-                          \
-                           \ (manual merge, auto-deploys to prod hosts)
-production                  \
-|----------------------------o------------->
 ```
 
-The branching model is a little different than what you might be familiar with.
-We merge pull requests into a special branch called `staging` where we can run
-Puppet acceptance tests from. Once somebody has code reviewed a pull request it
-can be merged into `staging`.
-
-When a infra project team member is happy with the code in `staging` they can
-create a merge from `staging` to `production`. Once something has been merged
-to production, it will be automatically deployed to production hosts.
+When a infra project team member is happy with the code in your pull request, they can merge it to production, which will be automatically deployed to production hosts.
 
 ## Installing agents
 
