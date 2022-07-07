@@ -229,6 +229,7 @@ profile::buildmaster::cloud_agents:
             - docker
             - linux
           useAsMuchAsPosible: true
+          spot: true
         - description: "Windows 2019"
           maxInstances: 10
           instanceType: T3Xlarge # 4 vCPUs / 16 Gb
@@ -237,6 +238,7 @@ profile::buildmaster::cloud_agents:
           labels:
             - docker-windows
           useAsMuchAsPosible: true
+          spot: true
           idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
         - description: "High memory ubuntu 20.04"
           maxInstances: 50
@@ -248,6 +250,7 @@ profile::buildmaster::cloud_agents:
             - highram
             - docker-highmem
           useAsMuchAsPosible: false
+          spot: false
         - description: "ARM64 ubuntu 20.04"
           maxInstances: 5
           instanceType: A1Xlarge # 4 vCPUs / 8 Gb
@@ -257,6 +260,7 @@ profile::buildmaster::cloud_agents:
             - arm64docker
             - arm64linux
           useAsMuchAsPosible: false
+          spot: true
   azure-vm-agents:
     azureCredentialsId: "azure-credentials"
     resource_group: eastus-cijenkinsio

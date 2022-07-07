@@ -127,9 +127,11 @@ jenkins:
         remoteAdmin: "<%= @agents_setup[agent["os"].to_s]["remoteAdmin"] %>"
         remoteFS: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
         securityGroups: "ci-agents"
+        <%- if agent["spot"] -%>
         spotConfig:
           fallbackToOndemand: true
           useBidPrice: false
+        <%- end -%>
         stopOnTerminate: false
         t2Unlimited: false
         tags:
