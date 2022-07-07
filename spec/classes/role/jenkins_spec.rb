@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe 'role::jenkins::master' do
+describe 'role::jenkins::controller' do
   it { should contain_class 'profile::base' }
   it { should contain_class 'profile::diagnostics' }
-  it { should contain_class 'profile::buildmaster' }
+  it { should contain_class 'profile::jenkinscontroller' }
   it { should contain_class 'firewall' }
 end
 

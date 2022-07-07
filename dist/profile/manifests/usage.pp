@@ -191,7 +191,7 @@ class profile::usage(
   }
 
   # Since usage stats are reported via the browser instead of the Jenkins
-  # master itself, we can just redirect from usage.jenkins-ci.org to
+  # controller itself, we can just redirect from usage.jenkins-ci.org to
   # usage.jenkins.io and let usage.jenkins.io log the access
   # https://github.com/jenkinsci/jenkins/blob/5416411/core/src/main/resources/hudson/model/UsageStatistics/footer.jelly
   apache::vhost { 'usage.jenkins-ci.org':

@@ -8,24 +8,24 @@ accounts:
       - sudo
 docker::log_opt::max-size: "100m"
 docker::log_opt::max-file: 2
-profile::buildmaster::ci_fqdn: "trusted.ci.jenkins.io"
-profile::buildmaster::proxy_port: 1443
-profile::buildmaster::anonymous_access: false
-profile::buildmaster::admin_ldap_groups:
+profile::jenkinscontroller::ci_fqdn: "trusted.ci.jenkins.io"
+profile::jenkinscontroller::proxy_port: 1443
+profile::jenkinscontroller::anonymous_access: false
+profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - trusted-admins
-profile::buildmaster::letsencrypt: false
-profile::buildmaster::groovy_init_enabled: true
-profile::buildmaster::groovy_d_enable_ssh_port: "present"
-profile::buildmaster::groovy_d_lock_down_jenkins: "present"
-profile::buildmaster::groovy_d_set_up_git: "present"
-profile::buildmaster::memory_limit: "7g"
-profile::buildmaster::jcasc:
+profile::jenkinscontroller::letsencrypt: false
+profile::jenkinscontroller::groovy_init_enabled: true
+profile::jenkinscontroller::groovy_d_enable_ssh_port: "present"
+profile::jenkinscontroller::groovy_d_lock_down_jenkins: "present"
+profile::jenkinscontroller::groovy_d_set_up_git: "present"
+profile::jenkinscontroller::memory_limit: "7g"
+profile::jenkinscontroller::jcasc:
   enabled: true
   custom_configs:
     - trusted.ci.jenkins.io/agents.yaml.erb
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlreoLMhSaHCcZZaL1r7BQgmqUVbqWs+e2kaj0cn+r8o4N/qKZGXkkYBN9xhK+b5MRe2cTlfQ9J3gFFLFa6i1n1GrM/WwNMUm/cVYA2eGFNcV3ruUfigyriIrIaQVm7KIQZqv+RIQoZHJ1cWy+CdKg2hXi4KUBSawl1V3VXjSD4ZJEWv96KSceJZRTzVjZW66iD8i8Uq50WvHhvivMfHkaghowz626w/ejz0AettIKCVL9/j0B1iVv+ghOyd4A5kyIYJKR0BwQLpfKFoXY/0uhB7toZWSe7TUS7hzTAfYNhyTbS0aaczsa7pshiFZzxHAdvMeU7om4N1Dj+5LDUgAsDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBByyf8QkfPXbWYxJbMykP8SgCAQ5ncRq7jZddH/cFcb+xHJzKluSoRQU3fnSKJ8fnbEQA==]
-profile::buildmaster::cloud_agents:
+profile::jenkinscontroller::cloud_agents:
   azure-vm-agents:
     azureCredentialsId: "azure-sponsorship-credentials"
     resource_group: jenkinsinfra-trustedvmagents
@@ -67,7 +67,7 @@ profile::buildmaster::cloud_agents:
         credentialsId: "azure-jenkins-user"
         usePrivateIP: false
 # These are plugins we need only in our trusted-ci environment
-profile::buildmaster::plugins:
+profile::jenkinscontroller::plugins:
   - ansicolor
   - azure-vm-agents
   - blueocean

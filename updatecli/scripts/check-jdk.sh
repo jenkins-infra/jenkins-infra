@@ -2,7 +2,7 @@
 # This script checks that the provided JDK version has all the required binaries available for downloads
 # as sometimes, the tag for adoptium is published immeidatly while binaries are published later.
 ##
-# The source of truth is the ERB template stored at the location dist/profile/templates/buildmaster/casc/tools.yaml.erb
+# The source of truth is the ERB template stored at the location dist/profile/templates/jenkinscontroller/casc/tools.yaml.erb
 # It lists all the installations used as "Jenkins Tools" by the Jenkins controllers of the infrastructure
 ##
 set -eu -o pipefail

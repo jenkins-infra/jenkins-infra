@@ -3,6 +3,8 @@
 
 echo "> Installing gems.."
 bundle install --path vendor/bundle
+echo "> Cleaning up Puppet modules"
+rm -rf ./modules
 echo "> Installing Puppet modules into modules/"
 bundle exec r10k puppetfile install
 echo "> Prebuilding the Docker image to ensure it is kept in cache (by giving a name)"

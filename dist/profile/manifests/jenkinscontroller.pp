@@ -1,11 +1,11 @@
 #
-# Profile for configuring the bare necessities to running a Jenkins master
+# Profile for configuring the bare necessities to run a Jenkins controller
 #
 # Parameters
 # ----------
 #
 # ci_fqdn = 'ci.jenkins.io' (Default)
-#   Define the fully-qualified domain name for this Jenkins master. This value
+#   Define the fully-qualified domain name for this Jenkins controller. This value
 #   will be used for Jenkins' own configuration as well as Apache virtual hosts
 #   and certificates
 #
@@ -13,7 +13,7 @@
 #   Enable letsencrypt configuration, for this to work the Jenkins host has to
 #   be on the public internet
 #
-class profile::buildmaster (
+class profile::jenkinscontroller (
   $anonymous_access                = false,
   $admin_ldap_groups               = ['admins'],
   $ci_fqdn                         = 'ci.jenkins.io',
@@ -158,7 +158,7 @@ class profile::buildmaster (
       ensure  => $groovy_d_set_up_git,
       owner   => 'jenkins',
       group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/buildmaster/set-up-git.groovy",
+      source  => "puppet:///modules/${module_name}/jenkinscontroller/set-up-git.groovy",
       require => [
         User['jenkins'],
         File[$groovy_d],
@@ -175,7 +175,7 @@ class profile::buildmaster (
         User['jenkins'],
         File[$groovy_d],
       ],
-      content => template("${module_name}/buildmaster/lockbox.groovy.erb"),
+      content => template("${module_name}/jenkinscontroller/lockbox.groovy.erb"),
       before  => Docker::Run[$docker_container_name],
       notify  => Service['docker-jenkins'],
     }
@@ -190,9 +190,9 @@ class profile::buildmaster (
     custom_configs => [],
     reload_token => '',
     common_configs => [# Configurations shared by all Jenkins controllers. There are hieradata attribute to really fill the configs (as an additional step for opt-in)
-      'buildmaster/casc/clouds.yaml.erb',
-      'buildmaster/casc/tools.yaml.erb',
-      'buildmaster/casc/global-libraries.yaml.erb',
+      'jenkinscontroller/casc/clouds.yaml.erb',
+      'jenkinscontroller/casc/tools.yaml.erb',
+      'jenkinscontroller/casc/global-libraries.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
   }
@@ -336,7 +336,7 @@ class profile::buildmaster (
 
   apache::vhost { $ci_fqdn:
     serveraliases         => [
-      # Give all our buildmaster profiles this server alias; it's easier than
+      # Give all our jenkinscontroller profiles this server alias; it's easier than
       # parameterizing it for compatibility's sake
       'ci.jenkins-ci.org', $ci_resource_domain,
     ],
@@ -451,7 +451,7 @@ ProxyPassReverse / http://localhost:8080/
 
   apache::vhost { "${ci_fqdn} unsecured":
     serveraliases   => [
-      # Give all our buildmaster profiles this server alias; it's easier than
+      # Give all our jenkinscontroller profiles this server alias; it's easier than
       # parameterizing it for compatibility's sake
       'ci.jenkins-ci.org',
     ],

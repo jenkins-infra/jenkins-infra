@@ -1,6 +1,6 @@
 require_relative './../spec_helper'
 
-describe 'jenkins_master' do
+describe 'jenkins_controller' do
   it_behaves_like 'a standard Linux machine'
   it_behaves_like 'an Apache webserver'
 

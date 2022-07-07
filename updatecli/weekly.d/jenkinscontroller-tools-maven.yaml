@@ -39,7 +39,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::default_tools.maven.mvn.version"
+      key: "profile::jenkinscontroller::default_tools.maven.mvn.version"
     scmid: default
 
 pullrequests:

@@ -70,7 +70,7 @@ node 'pkg' {
 
 node 'azure.ci.jenkins.io' {
   sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
-  include role::jenkins::master
+  include role::jenkins::controller
 }
 
 node /^agent-\d+$/ {
@@ -80,18 +80,17 @@ node /^agent-\d+$/ {
 node 'trusted-ci' {
   $hiera_role = 'trustedci'
   sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
-  include role::jenkins::master
+  include role::jenkins::controller
 }
 
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
-  include role::jenkins::master
+  include role::jenkins::controller
 }
 
 node /^trusted-agent-\d+$/ {
   notice('This agent is trusted!')
   $hiera_role = 'trustedagent'
-  # include role::census::agent
   include role::updatecenter
 }
 

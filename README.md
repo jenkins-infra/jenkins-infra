@@ -23,7 +23,7 @@ A non exhaustive list of services is available [here](https://jenkins.io/project
   Configuration options are defined by Hiera and stored in [hieradata](./hieradata).
   See [hieradata/common.yaml](./hieradata/common.yaml) for the most of the settings.
 * Not all services are fully configured with Configuration-as-Code.
-  For example, Jenkins masters ([buildmaster template](./dist/profile/manifests/buildmaster.pp)) rely on configurations being supplied from Jenkins home directories.
+  For example, Jenkins controllers ([jenkinscontroller profile](./dist/profile/manifests/jenkinscontroller.pp)) rely on configurations being supplied from Jenkins home directories.
 
 ### Containerized services
 

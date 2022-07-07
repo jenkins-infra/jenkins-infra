@@ -32,7 +32,7 @@ conditions:
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      key: "profile::buildmaster::docker_image"
+      key: "profile::jenkinscontroller::docker_image"
       value: "jenkins/jenkins"
   testdockerimageExist:
     kind: dockerimage
@@ -49,7 +49,7 @@ targets:
     kind: yaml
     spec:
       file: "hieradata/common.yaml"
-      key: "profile::buildmaster::docker_tag"
+      key: "profile::jenkinscontroller::docker_tag"
     scmid: default
 
 pullrequests:

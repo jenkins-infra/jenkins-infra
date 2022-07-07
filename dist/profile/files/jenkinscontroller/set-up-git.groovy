@@ -1,7 +1,7 @@
 #!/usr/bin/env groovy
 
 /*
- * This script is meant to be executed by a Jenkins master.
+ * This script is meant to be executed by a Jenkins controller.
  *
  * This script sets up some bare configuration for the Git plugin to properly
  * execute some git commands.

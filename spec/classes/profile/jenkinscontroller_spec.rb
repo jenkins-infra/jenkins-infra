@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'profile::buildmaster' do
+describe 'profile::jenkinscontroller' do
   let(:fqdn) { 'rspec.jenkins.io' }
   let(:params) do
     {
