@@ -260,7 +260,7 @@ profile::buildmaster::cloud_agents:
             - arm64docker
             - linux
           useAsMuchAsPosible: false
-          spot: false
+          spot: true
   azure-vm-agents:
     azureCredentialsId: "azure-credentials"
     resource_group: eastus-cijenkinsio
