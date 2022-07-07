@@ -102,7 +102,7 @@ profile::buildmaster::cloud_agents:
           useAsMuchAsPosible: true
           spot: true
           idleTerminationMinutes: 30
-        - description: "High memory ubuntu 20.04"
+        - description: "High memory ubuntu 20.04 (spot)"
           maxInstances: 20
           instanceType: M54xlarge # 16 vCPUS / 64 Gb
           os: "ubuntu"
@@ -111,6 +111,17 @@ profile::buildmaster::cloud_agents:
             - highmem
             - highram
             - docker-highmem
+          useAsMuchAsPosible: false
+          spot: true
+        - description: "High memory ubuntu 20.04 (ondemand)"
+          maxInstances: 50
+          instanceType: M54xlarge # 16 vCPUS / 64 Gb
+          os: "ubuntu"
+          architecture: "amd64"
+          labels:
+            - highmem-ondemand
+            - highram-ondemand
+            - docker-highmem-ondemand
           useAsMuchAsPosible: false
           spot: false
         - description: "ARM64 ubuntu 20.04"
