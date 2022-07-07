@@ -21,7 +21,9 @@ RSpec.configure do |c|
   c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
 
   c.default_facts = {
-    :architecture => 'amd64',
+    :os => {
+      :architecture => 'amd64',
+    },
     :osfamily => 'Debian',
     :kernel => 'Linux',
     :lsbdistid => 'Ubuntu',
