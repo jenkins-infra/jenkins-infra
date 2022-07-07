@@ -269,7 +269,7 @@ profile::buildmaster::cloud_agents:
           architecture: "arm64"
           labels:
             - arm64docker
-            - linux
+            - arm64linux
           useAsMuchAsPosible: false
           spot: true
   azure-vm-agents:
