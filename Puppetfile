@@ -33,27 +33,8 @@ mod 'puppetlabs/docker', '4.4.0'
 # Deps for docker
 mod 'puppetlabs/apt', '8.4.1'
 
-# Dependencies for the Puppet IRC report processor, using our forked version
-# which updates on any changed status
-mod 'irc', :git => 'https://github.com/jenkins-infra/puppet-irc.git',
-           :ref => '4e5e437'
-
-# Needed for managing our accounts in hiera, this fork contains the pull
-# request which adds support for multiple SSH keys:
-# <https://github.com/torrancew/puppet-account/pull/18>
-mod 'account', :git => 'https://github.com/jenkins-infra/puppet-account.git',
-               :ref => '1deebe9'
-
-mod 'jenkins_keys',
-  :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
-  :ref => 'eeb7db7'
-
 # Apache and its dependencies
 mod "puppetlabs/apache", '3.5.0'
-# Used internally to gzip compress rotated logs
-mod 'apachelogcompressor',
-        :git => 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git',
-        :ref => '0113d7b'
 
 mod "puppetlabs/concat", '5.2.0'
 
@@ -87,3 +68,29 @@ mod 'erwbgy/limits', '0.3.1'
 
 # For managing sysctl configuration
 mod 'herculesteam-augeasproviders_sysctl', '2.2.1'
+
+##### The following custom puppet modules must be specified with 1 attribute per line
+# Example:
+#  mod 'modulename'
+#    :git => <git URL>,
+#    :ref => <git ref>,
+#####
+
+# Dependencies for the Puppet IRC report processor, using our forked version
+# which updates on any changed status
+mod 'irc',
+  :git => 'https://github.com/jenkins-infra/puppet-irc.git',
+  :ref => '4e5e437'
+# Needed for managing our accounts in hiera, this fork contains the pull
+# request which adds support for multiple SSH keys:
+# <https://github.com/torrancew/puppet-account/pull/18>
+mod 'account',
+  :git => 'https://github.com/jenkins-infra/puppet-account.git',
+  :ref => '1deebe9'
+mod 'jenkins_keys',
+  :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
+  :ref => 'eeb7db7'
+# Used internally to gzip compress rotated logs
+mod 'apachelogcompressor',
+  :git => 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git',
+  :ref => '0113d7b'

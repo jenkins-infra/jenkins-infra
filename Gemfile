@@ -15,6 +15,7 @@ gem 'puppetlabs_spec_helper'
 gem 'pry'
 gem 'serverspec'
 gem 'hiera-eyaml', '~>3.2.2'
+gem 'generate-puppetfile'
 
 group :development do
   gem 'debugger', :platform => :mri_19

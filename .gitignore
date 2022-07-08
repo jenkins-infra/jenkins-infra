@@ -13,3 +13,4 @@ log/
 tmp/
 vendor/
 *.log
+.fixtures.yml
