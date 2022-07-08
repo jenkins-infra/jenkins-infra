@@ -59,7 +59,8 @@ RSpec.configure do |c|
     :is_pe => true,
     # Needed for conditionals like:
     # <https://github.com/saz/puppet-sudo/blob/v3.0.6/manifests/init.pp#L147>
-    :puppetversion => '6.0.4',
+    :puppetversion => '6.0.4', # 6.23.0 on some machines
+    :facterversion => '3.12.1', # 3.14.18 on some machines
     :pe_version => '6.0.4',
     :pe_server_version => '2019.0.1',
   }
