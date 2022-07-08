@@ -41,13 +41,7 @@ describe 'profile::apachemisc' do
 
 
   context 'mod_status support' do
-    it 'should enable mod_status for datadog' do
-      expect(subject).to contain_class('apache::mod::status').with({
-        :allow_from => ['127.0.0.1', '::1'],
-        :extended_status => 'On',
-      })
-    end
-
+    it { should contain_class 'apache::mod::status' }
     it { should contain_class 'datadog_agent::integrations::apache' }
   end
 end
