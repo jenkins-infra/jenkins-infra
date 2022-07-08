@@ -20,10 +20,33 @@ RSpec.configure do |c|
 
   c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
 
+  # Use the command `facter` on any production node to see real-life values
   c.default_facts = {
     :os => {
       :architecture => 'amd64',
+      :distro => {
+        :codename => "bionic",
+        :description => "Ubuntu 18.04.6 LTS",
+        :id => "Ubuntu",
+        :release => {
+          :full => "18.04",
+          :major => "18.04"
+        },
+      },
+      :family => "Debian",
+      :hardware => "x86_64",
+      :name => "Ubuntu",
+      :release => {
+        :full => "18.04",
+        :major => "18.04"
+      },
+      :selinux => {
+        :enabled => false
+      }
     },
+    ####
+    # Legacy facts, hidden by default from default facter output.
+    # Call the `facter` command with the fact name as argument to view it: 'facter operatingsystemrelease'
     :osfamily => 'Debian',
     :kernel => 'Linux',
     :lsbdistid => 'Ubuntu',
@@ -31,6 +54,7 @@ RSpec.configure do |c|
     :lsbdistcodename => 'bionic',
     :operatingsystem => 'Ubuntu',
     :operatingsystemrelease => '18.04',
+    ####
     :concat_basedir => '/tmp',
     :is_pe => true,
     # Needed for conditionals like:
