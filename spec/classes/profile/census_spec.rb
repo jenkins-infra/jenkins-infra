@@ -61,12 +61,10 @@ describe 'profile::census::agent' do
     })
 
     expect(subject).to contain_concat__fragment('usage-key concat').with({
-      :ensure => :present,
       :target => "#{home_dir}/.ssh/config",
     })
 
     expect(subject).to contain_concat__fragment('census-key concat').with({
-      :ensure => :present,
       :target => "#{home_dir}/.ssh/config",
     })
 
