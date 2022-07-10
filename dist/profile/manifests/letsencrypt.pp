@@ -1,7 +1,7 @@
 #
 # This profile configures letsencrypt on the host it's applied to
 class profile::letsencrypt {
-  class { '::letsencrypt':
+  class { 'letsencrypt':
     config         => {
       email  => lookup('letsencrypt::config::email'),
       server => lookup('letsencrypt::config::server'),
@@ -11,7 +11,7 @@ class profile::letsencrypt {
   }
 
   package { 'python3-certbot-apache':
-    ensure => present
+    ensure => present,
   }
 
   # This definition is removed in favor of "renew_cron_ensure" set to present

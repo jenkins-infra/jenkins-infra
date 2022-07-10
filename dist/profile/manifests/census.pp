@@ -13,7 +13,7 @@ class profile::census (
 
   $docroot = "${home_dir}/census"
 
-  if str2bool($::vagrant) {
+  if str2bool($facts['vagrant']) {
     # during serverspec test, fake /dev/xvdb by a loopback device
     exec { 'create /tmp/xvdb':
       command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
@@ -70,8 +70,10 @@ class profile::census (
     options                      => ['FollowSymLinks', 'MultiViews', 'Indexes'],
     override                     => ['All'],
     notify                       => Service['apache2'],
-    require                      => [File['/var/log/apache2/census.jenkins.io'],
+    require                      => [
+      File['/var/log/apache2/census.jenkins.io'],
       File[$docroot],
-    Mount[$home_dir]],
+      Class['lvm']
+    ],
   }
 }

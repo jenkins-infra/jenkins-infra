@@ -1,13 +1,13 @@
 require 'spec_helper'
 
 describe 'profile::usage' do
-  it { should contain_class 'profile::usage' }
+  it { expect(subject).to contain_class 'profile::usage' }
 
   context 'mounted volume setup' do
     let(:volume) { '/srv/usage' }
-    it { should contain_class 'lvm' }
-    it { should contain_class 'stdlib' }
-    it { should contain_package 'lvm2' }
+    it { expect(subject).to contain_class 'lvm' }
+    it { expect(subject).to contain_class 'stdlib' }
+    it { expect(subject).to contain_package 'lvm2' }
   end
 
   context 'apache setup' do
@@ -17,11 +17,11 @@ describe 'profile::usage' do
       }
     end
 
-    it { should contain_class 'apache' }
-    it { should contain_class 'profile::accounts' }
-    it { should contain_class 'profile::apachemisc' }
-    it { should contain_class 'profile::firewall' }
-    it { should contain_class 'profile::letsencrypt' }
+    it { expect(subject).to contain_class 'apache' }
+    it { expect(subject).to contain_class 'profile::accounts' }
+    it { expect(subject).to contain_class 'profile::apachemisc' }
+    it { expect(subject).to contain_class 'profile::firewall' }
+    it { expect(subject).to contain_class 'profile::letsencrypt' }
 
     it 'should contain File[$docroot]' do
       expect(subject).to contain_file(params[:docroot]).with({
@@ -82,7 +82,7 @@ describe 'profile::usage' do
       let(:fqdn) { 'usage.jenkins.io' }
       let(:environment) { 'production' }
 
-      it { should contain_letsencrypt__certonly(fqdn) }
+      it { expect(subject).to contain_letsencrypt__certonly(fqdn) }
 
       it 'should configure the letsencrypt ssl keys on the vhost' do
         expect(subject).to contain_apache__vhost(fqdn).with({
@@ -113,8 +113,8 @@ describe 'profile::usage' do
       })
     end
 
-    it { should contain_user(params[:user]) }
-    it { should contain_group(params[:user]) }
+    it { expect(subject).to contain_user(params[:user]) }
+    it { expect(subject).to contain_group(params[:user]) }
 
     it 'should have the usage public key in authorized keys' do
       expect(subject).to contain_ssh_authorized_key('usage').with({
@@ -145,7 +145,6 @@ describe 'profile::usage' do
       })
     end
 
-    it { should contain_user('kohsuke') }
+    it { expect(subject).to contain_user('kohsuke') }
   end
 end
-

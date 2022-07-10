@@ -3,8 +3,8 @@
 # where ever this profile is applied
 #
 class profile::diagnostics {
-  include ::stdlib
-  include ::datadog_agent
+  include stdlib
+  include datadog_agent
 
   ensure_packages(['htop', 'strace'])
 }

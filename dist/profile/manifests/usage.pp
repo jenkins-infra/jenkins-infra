@@ -36,7 +36,7 @@ class profile::usage (
 
   ## Volume setup
   ############################
-  if str2bool($::vagrant) {
+  if str2bool($facts['vagrant']) {
     # during serverspec test, fake /dev/xvdb by a loopback device
     exec { 'create /tmp/xvdb':
       command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
@@ -224,7 +224,7 @@ class profile::usage (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($::environment == 'production') and ($::vagrant != '1')) {
+  if (($facts['environment'] == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { $usage_fqdn:
       domains     => [$usage_fqdn],
       plugin      => 'apache',

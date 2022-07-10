@@ -2,7 +2,7 @@
 # Class containing basic profile information for setting up the basic firewall
 # rules that every role should contain
 class profile::firewall {
-  include ::firewall
+  include firewall
 
   firewall { '000 accept icmp traffic':
     proto  => 'icmp',

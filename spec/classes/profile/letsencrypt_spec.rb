@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'profile::letsencrypt' do
-  it { should contain_class 'letsencrypt' }
+  it { expect(subject).to contain_class 'letsencrypt' }
 
   it 'should use a staging host for letsencrypt' do
     expect(subject).to contain_class('letsencrypt').with({

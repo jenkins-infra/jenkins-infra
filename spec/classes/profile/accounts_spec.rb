@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe 'profile::accounts' do
-  it { should contain_account 'tyler' }
-  it { should contain_account 'kohsuke' }
-  it { should contain_account 'abayer' }
+  it { expect(subject).to contain_account 'tyler' }
+  it { expect(subject).to contain_account 'kohsuke' }
+  it { expect(subject).to contain_account 'abayer' }
 
-  it { should contain_group('atlassian-admins') }
+  it { expect(subject).to contain_group('atlassian-admins') }
 end

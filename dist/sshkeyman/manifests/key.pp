@@ -1,6 +1,6 @@
 #
 #
-define sshkeyman::key(
+define sshkeyman::key (
   $type,
   $privkey,
   $owner,
@@ -22,7 +22,7 @@ define sshkeyman::key(
       path    => "${path}.pub",
       owner   => $owner,
       group   => $group,
-      content => "${type} ${key}"
+      content => "${type} ${key}",
     }
   }
 
@@ -34,7 +34,6 @@ define sshkeyman::key(
     mode    => '0600',
     content => $privkey,
   }
-
 
   if $for_host {
     ssh::client::config::user { $owner:

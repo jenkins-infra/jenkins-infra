@@ -7,6 +7,7 @@ class role::census::agent {
   class { 'profile::census::agent':
     user     => 'jenkins',
     home_dir => '/home/jenkins',
+    # Ensure that the jenkins user account (and its .ssh config dir) exist
     require  => Class['role::jenkins::agent'],
   }
 }

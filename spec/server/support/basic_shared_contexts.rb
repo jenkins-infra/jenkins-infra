@@ -2,40 +2,40 @@ require 'rspec'
 
 shared_examples "a standard Linux machine" do
   describe port(22) do
-    it { should be_listening }
+    it { expect(subject).to be_listening }
   end
 
   # Make sure all our usual users are in place
   %w(abayer tyler kohsuke).each do |username|
     describe user(username) do
-      it { should exist }
-      it { should have_home_directory "/home/#{username}" }
+      it { expect(subject).to exist }
+      it { expect(subject).to have_home_directory "/home/#{username}" }
     end
   end
 
   describe file('/etc/sudoers.d') do
-    it { should be_directory }
+    it { expect(subject).to be_directory }
   end
 
   describe cron do
     # apt auto updating malarky
-    it { should have_entry('20 2 * * * apt-get update') }
+    it { expect(subject).to have_entry('20 2 * * * apt-get update') }
   end
 
 
   describe file('/etc/ssh/sshd_config') do
-    it { should contain 'PasswordAuthentication no' }
+    it { expect(subject).to contain 'PasswordAuthentication no' }
   end
 
   describe file('/etc/ssh/ssh_config') do
     # https://issues.jenkins-ci.org/browse/INFRA-546
-    it { should contain 'UseRoaming no' }
+    it { expect(subject).to contain 'UseRoaming no' }
   end
 
   # We should always have the agent running
   describe service('datadog-agent') do
-    it { should be_enabled }
-    it { should be_running }
+    it { expect(subject).to be_enabled }
+    it { expect(subject).to be_running }
   end
 end
 

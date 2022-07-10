@@ -20,7 +20,10 @@ class profile::buildagent (
   if $docker {
     include profile::docker
     $groups = [$user, 'docker']
-    $account_requires = Package['docker']
+
+    Account <| title == $user |> {
+      require  => Package['docker']
+    }
   }
   else {
     $groups = [$user]
@@ -38,7 +41,6 @@ class profile::buildagent (
       },
     },
     comment  => 'Jenkins build node user',
-    require  => $account_requires,
   }
 
   if $docker {
@@ -79,7 +81,7 @@ class profile::buildagent (
     ])
   }
 
-  if $::kernel == 'Linux' {
+  if $facts['kernel'] == 'Linux' {
     ensure_packages([
         'subversion',
         'make',

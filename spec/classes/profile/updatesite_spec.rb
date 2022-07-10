@@ -4,8 +4,8 @@ require 'spec_helper'
 describe 'profile::updatesite' do
   let(:fqdn) { 'updates.jenkins.io' }
 
-  it { should contain_class 'profile::updatesite' }
-  it { should contain_class 'profile::firewall' }
+  it { expect(subject).to contain_class 'profile::updatesite' }
+  it { expect(subject).to contain_class 'profile::firewall' }
 
   it 'should give www-data a shell' do
     expect(subject).to contain_user('www-data').with({
@@ -20,8 +20,8 @@ describe 'profile::updatesite' do
       }
     end
 
-    it { should contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
-    it { should contain_user('www-data').with_purge_ssh_keys(true) }
+    it { expect(subject).to contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
+    it { expect(subject).to contain_user('www-data').with_purge_ssh_keys(true) }
 
     it 'should ensure the /var/www permissions are correct for SSH auth' do
       expect(subject).to contain_file('/var/www').with({
@@ -32,9 +32,9 @@ describe 'profile::updatesite' do
   end
 
   context 'apache setup' do
-    it { should contain_class 'apache' }
-    it { should contain_class 'profile::apachemisc' }
-    it { should contain_class 'profile::letsencrypt' }
+    it { expect(subject).to contain_class 'apache' }
+    it { expect(subject).to contain_class 'profile::apachemisc' }
+    it { expect(subject).to contain_class 'profile::letsencrypt' }
 
     context 'virtual hosts' do
       it 'should contain a vhost with ssl' do
@@ -57,7 +57,7 @@ describe 'profile::updatesite' do
         })
       end
 
-      it { should contain_file('/var/log/apache2/updates.jenkins-ci.org').with_ensure(:directory) }
+      it { expect(subject).to contain_file('/var/log/apache2/updates.jenkins-ci.org').with_ensure(:directory) }
 
       it 'should contain a vhost on port 80/HTTP for updates.jenkins-ci.org' do
         expect(subject).to contain_apache__vhost('updates.jenkins-ci.org unsecured').with({
@@ -84,7 +84,7 @@ describe 'profile::updatesite' do
 
   context 'when running in production' do
     let(:environment) { 'production' }
-    it { should contain_letsencrypt__certonly(fqdn) }
+    it { expect(subject).to contain_letsencrypt__certonly(fqdn) }
 
     it 'should configure the letsencrypt ssl keys on the main vhost' do
       expect(subject).to contain_apache__vhost(fqdn).with({

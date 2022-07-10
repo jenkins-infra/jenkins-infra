@@ -2,10 +2,9 @@
 # Basic profile included in each node
 class profile::base {
   include profile::accounts
-  include profile::compliance
 
-  if $::kernel == 'Linux' {
-    include profile::apt
+  if $facts['kernel'] == 'Linux' {
+    include apt
     # None of these modules support anything other than Linux (apparently)
     include profile::firewall
     include profile::ntp
@@ -15,7 +14,7 @@ class profile::base {
     include profile::rngd
 
     # Applying the production SSH would break the Vagrant SSH system
-    if $::vagrant != '1' {
+    if $facts['vagrant'] != '1' {
       include ssh::server
     }
     include ssh::client

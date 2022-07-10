@@ -13,8 +13,8 @@ describe 'profile::buildagent' do
   end
 
   # Provided by the `git` module
-  it { should contain_package 'git' }
-  it { should contain_package 'unzip' }
+  it { expect(subject).to contain_package 'git' }
+  it { expect(subject).to contain_package 'unzip' }
 
   context 'managing a `jenkins` user' do
     it 'should provision the "jenkins" account properly' do
@@ -27,16 +27,16 @@ describe 'profile::buildagent' do
     end
 
     # Keeping these two examples here to make sure a user and group are created
-    it { should contain_user 'jenkins' }
-    it { should contain_group 'jenkins' }
+    it { expect(subject).to contain_user 'jenkins' }
+    it { expect(subject).to contain_group 'jenkins' }
 
     # Needed for updating ulimits
-    it { should contain_class 'limits' }
+    it { expect(subject).to contain_class 'limits' }
   end
 
   context 'with docker => true' do
-    it { should contain_class 'docker' }
-    it { should contain_package 'docker' }
+    it { expect(subject).to contain_class 'docker' }
+    it { expect(subject).to contain_package 'docker' }
 
     it 'the `jenkins` user should be in the `docker` group' do
       expect(subject).to contain_user('jenkins').with({
@@ -54,7 +54,7 @@ describe 'profile::buildagent' do
 
     context 'with trusted_agent => false' do
       let(:params) { { :trusted_agent => false } }
-      it { should contain_file('/home/jenkins/.docker/config.json').with_ensure('absent') }
+      it { expect(subject).to contain_file('/home/jenkins/.docker/config.json').with_ensure('absent') }
     end
   end
 
@@ -87,9 +87,9 @@ describe 'profile::buildagent' do
   end
 
   context 'with ruby => true' do
-    it { should contain_class 'ruby' }
-    it { should contain_package 'bundler' }
-    it { should contain_package 'libruby' }
+    it { expect(subject).to contain_class 'ruby' }
+    it { expect(subject).to contain_package 'bundler' }
+    it { expect(subject).to contain_package 'libruby' }
   end
 
   context 'with ruby => false' do
@@ -106,9 +106,9 @@ describe 'profile::buildagent' do
 
 
   context 'on Linux' do
-    it { should contain_package 'subversion' }
-    it { should contain_package 'make' }
-    it { should contain_package 'build-essential' }
+    it { expect(subject).to contain_package 'subversion' }
+    it { expect(subject).to contain_package 'make' }
+    it { expect(subject).to contain_package 'build-essential' }
   end
 
   context 'on Darwin' do

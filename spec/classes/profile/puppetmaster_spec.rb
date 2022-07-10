@@ -7,8 +7,8 @@ describe 'profile::puppetmaster' do
     ['class jenkins_keys { }']
   end
 
-  it { should contain_class 'jenkins_keys' }
-  it { should contain_class 'profile::r10k' }
+  it { expect(subject).to contain_class 'jenkins_keys' }
+  it { expect(subject).to contain_class 'profile::r10k' }
 
   context 'puppet.conf' do
     let(:path) { '/etc/puppetlabs/puppet/puppet.conf' }
@@ -24,19 +24,19 @@ describe 'profile::puppetmaster' do
     end
   end
 
-  it { should contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
-  it { should contain_firewall('010 allow dashboard traffic').with_action('accept').with_dport(443) }
-  it { should contain_firewall('012 allow puppet agents').with_action('accept').with_dport(8140) }
-  it { should contain_firewall('013 allow mcollective').with_action('accept').with_dport(61613) }
+  it { expect(subject).to contain_file('/etc/puppetlabs/puppet/hiera.yaml') }
+  it { expect(subject).to contain_firewall('010 allow dashboard traffic').with_action('accept').with_dport(443) }
+  it { expect(subject).to contain_firewall('012 allow puppet agents').with_action('accept').with_dport(8140) }
+  it { expect(subject).to contain_firewall('013 allow mcollective').with_action('accept').with_dport(61613) }
 
   # Disable this test until [INFRA-2006] is addressed
   #context 'setting up the irc reporter' do
-  #  it { should contain_class 'irc' }
+  #  it { expect(subject).to contain_class 'irc' }
   #end
 
   context 'the datadog_agent module' do
-    it { should contain_class 'datadog_agent' }
+    it { expect(subject).to contain_class 'datadog_agent' }
   end
 
-  it { should contain_package 'deep_merge' }
+  it { expect(subject).to contain_package 'deep_merge' }
 end

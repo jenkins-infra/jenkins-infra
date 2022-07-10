@@ -6,27 +6,27 @@ describe 'jenkins_controller' do
 
   context 'the jenkins service' do
     describe service('docker-jenkins') do
-      it { should be_enabled }
-      it { should be_running }
+      it { expect(subject).to be_enabled }
+      it { expect(subject).to be_running }
     end
 
     describe port(8080) do
-      it { should be_listening }
+      it { expect(subject).to be_listening }
     end
   end
 
   context 'apache' do
     describe service('apache2') do
-      it { should be_enabled }
-      it { should be_running }
+      it { expect(subject).to be_enabled }
+      it { expect(subject).to be_running }
     end
 
     describe port(80) do
-      it { should be_listening }
+      it { expect(subject).to be_listening }
     end
 
     describe port(443) do
-      it { should be_listening }
+      it { expect(subject).to be_listening }
     end
 
     context 'HTTP redirects' do

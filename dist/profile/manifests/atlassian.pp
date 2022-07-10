@@ -2,7 +2,6 @@
 # Profile containing the basics to support an Atlassian product in our
 # infrastructure
 #
-
 class profile::atlassian {
   include apache
   include firewall

@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe 'profile::census' do
-  it { should contain_class 'profile::apachemisc' }
-  it { should contain_class 'lvm' }
-  it { should contain_class 'apache' }
+  it { expect(subject).to contain_class 'profile::apachemisc' }
+  it { expect(subject).to contain_class 'lvm' }
+  it { expect(subject).to contain_class 'apache' }
 
   it_behaves_like 'it has webserver firewall rules'
 
-  it { should contain_package('httpd').with(:name => 'apache2') }
-  it { should contain_apache__vhost 'census.jenkins.io' }
+  it { expect(subject).to contain_package('httpd').with(:name => 'apache2') }
+  it { expect(subject).to contain_apache__vhost 'census.jenkins.io' }
 
   it 'should have the usage public key in authorized keys' do
     expect(subject).to contain_ssh_authorized_key('usage').with({
@@ -36,8 +36,8 @@ describe 'profile::census::agent' do
     }
   end
 
-  it { should contain_class 'profile::census::agent' }
-  it { should contain_class 'stdlib' }
+  it { expect(subject).to contain_class 'profile::census::agent' }
+  it { expect(subject).to contain_class 'stdlib' }
 
   it 'should have the usage private key' do
     expect(subject).to contain_file("#{home_dir}/.ssh/usage").with({

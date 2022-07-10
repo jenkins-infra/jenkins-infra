@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'profile::r10k' do
   context 'r10k.yaml' do
-    it { should contain_file('/etc/puppetlabs/r10k/r10k.yaml') }
+    it { expect(subject).to contain_file('/etc/puppetlabs/r10k/r10k.yaml') }
   end
 
   context 'r10k webhook' do

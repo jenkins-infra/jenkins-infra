@@ -1,7 +1,11 @@
 require 'rubygems'
 require 'rspec'
-require 'puppetlabs_spec_helper/module_spec_helper'
 require 'pry'
+
+RSpec.configure do |c|
+  c.mock_with :rspec
+end
+require 'puppetlabs_spec_helper/module_spec_helper'
 
 FIXTURES_PATH = File.expand_path(File.dirname(__FILE__) + '/fixtures')
 # Set up our $LOAD_PATH to properly include custom provider code from modules
@@ -63,13 +67,8 @@ RSpec.configure do |c|
     :facterversion => '3.12.1', # 3.14.18 on some machines
     :pe_version => '6.0.4',
     :pe_server_version => '2019.0.1',
+    :apt_update_last_success => '1657469796',
+    :vagrant => false,
+    :staging_http_get => 'curl',
   }
-  c.before(:each) do
-    # Workaround until this is fixed:
-    #   <https://tickets.puppetlabs.com/browse/PUP-1547>
-    require 'puppet/confine/exists'
-    Puppet::Confine::Exists.any_instance.stubs(:which => '')
-  end
-
-
 end
