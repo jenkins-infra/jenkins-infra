@@ -1,10 +1,6 @@
 # Jenkins Infra
 
-[![Build Status](https://ci.jenkins.io/buildStatus/icon?job=Infra/jenkins-infra/production)](https://ci.jenkins.io/job/Infra/job/jenkins-infra/job/production/)
-
-This repository is the [r10k](https://github.com/adrienthebo/r10k) control
-repository for the [Jenkins](https://jenkins.io) project's own
-infrastructure.
+This repository hosts the Puppet code for the [Jenkins](https://jenkins.io) project's own infrastructure.
 
 ## Structure
 
@@ -39,18 +35,7 @@ This repo just manages and configures the deployments.
 
 ## Local development
 
-The amount of testing that can be done locally is as follows:
-
-* `bundle install` - To get the necessary gems to run tests locally, if you're
-  unfamiliar with Ruby development you may want to use [RVM](http://rvm.io/)
-  to create an isolated Ruby environment
-* `./check` - Will run the
-  [rspec-puppet](http://rspec-puppet) unit tests and the
-  [puppet-lint](http://puppet-lint.com) style validation. If you intend to run
-  the rspec-puppet over and over, use `rake spec_standalone` to avoid
-  re-initializing the Puppet module fixtures every time.
-
-### Pre-requisites for local development
+### Pre-requisites for Local Development
 
 * Ruby 2.6.x is required.
   * Please note that Ruby 2.7.x and 3.x have never been tested.
@@ -58,8 +43,17 @@ The amount of testing that can be done locally is as follows:
   * Please note that Bundler 2.x had never been tested
 * A bash-compliant shell is required.
   * `sh` has never been tested, neither Windows Cygwin Shell (but WSL is ok).
+* The command line `yq` in version 4.x is needed
 
 You can **always** check the Docker image that ci.jenkins.io uses to run the test harness for this project at <https://github.com/jenkins-infra/docker-inbound-agents/blob/main/ruby/Dockerfile> (Jenkins agent labelled with `ruby`).
+
+### Install Local Dependencies
+
+Run the script `./ci/00_setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
+
+* Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands, installed to `vendor/gems`
+* Puppet modules retrieved from `./Puppetfile` and installed to `./modules`
+* Unit Tests fixtures generated from  `./Puppetfile` into `.fixtures.yml` but also other locations in `./spec/`
 
 ### Vagrant-based testing
 
@@ -93,13 +87,6 @@ Proposal for the future:
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
 When it's all done, remove the instance the instance via `vagrant destroy ROLE`.
-
-### Updating dependencies
-
-For reasons that Tyler will hopefully clarify at some point, this module maintains
-the list of Puppet module dependencies in `Puppetfile` and `.fixtures.yml`. They
-need to be kept in sync. When you modify them, you can have the local environment
-reflect changes by running `bundle exec rake resolve`.
 
 ## Branching model
 
@@ -146,6 +133,6 @@ See [this page](https://github.com/jenkins-infra/.github/blob/master/CONTRIBUTIN
 
 Channels:
 
-* `#jenkins-infra` on the [Freenode](http://freenode.net) IRC network
-* [INFRA project](https://issues.jenkins-ci.org/browse/INFRA) in JIRA.
-* [infra@lists.jenkins-ci.org](http://lists.jenkins-ci.org/mailman/listinfo/jenkins-infra)
+* `#jenkins-infra` on the [Libera Chat](https://libera.chat/guides) IRC network - see <https://www.jenkins.io/chat/>
+* [jenkins-infra/helpdesk Issue Tracker](https://github.com/jenkins-infra/helpdesk) in GitHub.
+* [jenkins-infra@groups.google.com](https://groups.google.com/g/jenkins-infra) mailing list
