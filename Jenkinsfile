@@ -14,7 +14,7 @@ pipeline {
             steps {
                 // Install Dependencies once for all
                 sh 'bash ./ci/00_setupgems.sh'
-                // For auditing purposes: if test are failing with "module not found" or "object not found" for instance
+                // For auditing purposes: if tests are failing with "module not found" or "object not found" for instance
                 archiveArtifacts '.fixtures.yml'
             }
         }
