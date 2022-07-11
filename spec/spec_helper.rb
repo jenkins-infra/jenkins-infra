@@ -20,7 +20,7 @@ RSpec.configure do |c|
 
   c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
 
-  # Use the command `facter` on any production node to see real-life values
+  # Use the `facter` command on any production node to see real-life values
   c.default_facts = {
     :os => {
       :architecture => 'amd64',

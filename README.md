@@ -53,7 +53,7 @@ Run the script `./ci/00_setupgems.sh` to ensure that all the local dependencies 
 
 * Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands, installed to `vendor/gems`
 * Puppet modules retrieved from `./Puppetfile` and installed to `./modules`
-* Unit Tests fixtures generated from  `./Puppetfile` into `.fixtures.yml` but also other locations in `./spec/`
+* Unit Tests fixtures generated from `./Puppetfile` into `.fixtures.yml` but also other locations in `./spec/`
 
 ### Vagrant-based testing
 
