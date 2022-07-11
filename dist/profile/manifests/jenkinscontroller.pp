@@ -48,6 +48,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
+  $block_api_json_path             = false,
 ) {
   include stdlib
   include apache
@@ -394,23 +395,7 @@ ProxyPassReverse / http://localhost:8080/
 ",
   }
 
-  apache::vhost { $ci_resource_domain:
-    require               => [
-      Docker::Run[$docker_container_name],
-      File[$docroot],
-      # We need our installation to be secure before we allow access
-      File[$groovy_d],
-    ],
-    port                  => 443,
-    override              => 'All',
-    ssl                   => true,
-    docroot               => $docroot,
-
-    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
-    proxy_preserve_host   => true,
-    allow_encoded_slashes => 'on',
-    custom_fragment       => "
+  $custom_fragment = "
 RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
 RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
@@ -430,6 +415,16 @@ RewriteRule \".?\" \"-\" [F]
 RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
 RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
 
+# Loading our Proxy rules ourselves from a custom fragment since the
+# puppetlabs/apache module doesn't support ordering of both proxy_pass and
+# proxy_pass_match configurations
+ProxyRequests Off
+ProxyPreserveHost On
+ProxyPass / http://localhost:8080/ nocanon
+ProxyPassReverse / http://localhost:8080/
+"
+  if $block_api_json_path {
+    $custom_fragment = "${custom_fragment}
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
@@ -438,15 +433,26 @@ RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
 # Analogously for XML.
 RewriteCond \"%{HTTP:Authorization}\" !^Basic
 RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
+"
+  }
 
-# Loading our Proxy rules ourselves from a custom fragment since the
-# puppetlabs/apache module doesn't support ordering of both proxy_pass and
-# proxy_pass_match configurations
-ProxyRequests Off
-ProxyPreserveHost On
-ProxyPass / http://localhost:8080/ nocanon
-ProxyPassReverse / http://localhost:8080/
-",
+  apache::vhost { $ci_resource_domain:
+    require               => [
+      Docker::Run[$docker_container_name],
+      File[$docroot],
+      # We need our installation to be secure before we allow access
+      File[$groovy_d],
+    ],
+    port                  => 443,
+    override              => 'All',
+    ssl                   => true,
+    docroot               => $docroot,
+
+    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+    proxy_preserve_host   => true,
+    allow_encoded_slashes => 'on',
+    custom_fragment       => $custom_fragment,
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
