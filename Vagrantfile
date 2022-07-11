@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
             export DEBIAN_FRONTEND=noninteractive
             if [ ! -f "/apt-cached" ]; then
                 ubuntu_codename="$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2)"
-                package_name="puppet-release-${ubuntu_codename}.deb"
+                package_name="puppet6-release-${ubuntu_codename}.deb"
                 wget -q "http://apt.puppetlabs.com/${package_name}"
                 dpkg -i "${package_name}"
                 rm -f "${package_name}"
