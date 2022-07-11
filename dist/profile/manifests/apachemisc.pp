@@ -1,10 +1,10 @@
 #
 # Misc. apache settings
 #
-class profile::apachemisc(
+class profile::apachemisc (
   $ssh_enabled = false,
 ) {
-  include ::apache
+  include apache
   # log rotation setting lives in another module
   include apachelogcompressor
 
@@ -29,7 +29,7 @@ class profile::apachemisc(
   }
 
   file { '/etc/apache2/conf.d/00-reverseproxy_combined':
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/apache/00-reverseproxy_combined.conf",
     mode    => '0444',
     require => Package['apache2-utils'],
@@ -37,7 +37,7 @@ class profile::apachemisc(
   }
 
   file { '/etc/apache2/conf.d/other-vhosts-access-log':
-    ensure  => present,
+    ensure  => file,
     source  => "puppet:///modules/${module_name}/apache/other-vhosts-access-log.conf",
     mode    => '0444',
     require => Package['apache2-utils'],

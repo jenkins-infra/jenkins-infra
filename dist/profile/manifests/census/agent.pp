@@ -1,11 +1,11 @@
 #
 
 # A machine capable of processing census information
-class profile::census::agent(
+class profile::census::agent (
   $user = undef,
   $home_dir = undef,
 ) {
-  include ::stdlib
+  include stdlib
 
   validate_string($user)
   validate_string($home_dir)
@@ -21,17 +21,16 @@ class profile::census::agent(
 
   ensure_resources('concat', {
       $ssh_config => {
-          ensure  => present,
-          mode    => '0644',
-          owner   => $user,
-          group   => $user,
-          require => File["${home_dir}/.ssh"],
+        ensure  => present,
+        mode    => '0644',
+        owner   => $user,
+        group   => $user,
+        require => File["${home_dir}/.ssh"],
       },
     }
   )
 
   concat::fragment { 'census-key concat':
-    ensure  => present,
     target  => $ssh_config,
     order   => '10',
     content => "
@@ -42,7 +41,6 @@ Host census.jenkins.io
   }
 
   concat::fragment { 'usage-key concat':
-    ensure  => present,
     target  => $ssh_config,
     order   => '11',
     content => "

@@ -1,10 +1,13 @@
 #!/bin/sh -xe
 
-gem install bundler --no-ri --no-rdoc
+# Show version to help debugging (or fail fast)
+yq --version
+ruby -v
+bundle -v
 
+# Install Unit Test Dependencies
 mkdir -p vendor/gems
+bundle install --without development plugins --path=vendor/gems
 
-bundle install --verbose --without development plugins --path=vendor/gems
-
-# clean out old fixtures just in case they were left there by a previous build
-bundle exec rake spec_clean || true
+# Resolve Test Fixtures and Puppet modules
+bundle exec rake resolve

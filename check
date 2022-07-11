@@ -1,6 +1,0 @@
-#!/bin/bash -ex
-bundle exec rake lint test-zonefile
-
-# this assumes that you have run `bundle exec rake spec_prep` at least once
-# to set up fixtures
-bundle exec parallel_rspec spec/classes
