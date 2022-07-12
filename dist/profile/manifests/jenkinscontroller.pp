@@ -48,7 +48,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
-  $block_api_paths             = false,
+  $block_remote_access_api             = false,
 ) {
   include stdlib
   include apache
@@ -370,7 +370,7 @@ ProxyPreserveHost On
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 "
-  if $block_api_paths {
+  if $block_remote_access_api {
     $custom_fragment_api_paths = "
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting

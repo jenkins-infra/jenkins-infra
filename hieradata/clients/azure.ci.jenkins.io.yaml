@@ -27,7 +27,7 @@ profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk11'
 profile::jenkinscontroller::groovy_init_enabled: true
-profile::jenkinscontroller::block_api_paths: true
+profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_enable_ssh_port: 'present'
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
 profile::jenkinscontroller::groovy_d_set_up_git: 'present'
