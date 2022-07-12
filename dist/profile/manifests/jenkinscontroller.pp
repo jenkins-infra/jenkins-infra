@@ -48,7 +48,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
-  $block_api_json_path             = false,
+  $block_api_paths             = false,
 ) {
   include stdlib
   include apache
@@ -335,10 +335,17 @@ class profile::jenkinscontroller (
     require => File[$docroot],
   }
 
+  $ci_fqdn_x_forwarded_host = "
+RequestHeader set X-Forwarded-Host \"${ci_fqdn}\"
+"
+
+  $ci_resource_domain_x_forwarded_host = "
+RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
+"
+
   $base_custom_fragment = "
 RequestHeader set X-Forwarded-Proto \"https\"
 RequestHeader set X-Forwarded-Port \"${proxy_port}\"
-RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
 
 RewriteEngine on
 
@@ -363,8 +370,8 @@ ProxyPreserveHost On
 ProxyPass / http://localhost:8080/ nocanon
 ProxyPassReverse / http://localhost:8080/
 "
-  if $block_api_json_path {
-    $custom_fragment = "${base_custom_fragment}
+  if $block_api_paths {
+    $custom_fragment_api_paths = "
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
@@ -375,7 +382,7 @@ RewriteCond \"%{HTTP:Authorization}\" !^Basic
 RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
 "
   } else {
-    $custom_fragment = $base_custom_fragment
+    $custom_fragment_api_paths = ''
   }
 
   apache::vhost { $ci_fqdn:
@@ -399,7 +406,10 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
-    custom_fragment       => $custom_fragment,
+    custom_fragment       => "${ci_fqdn_x_forwarded_host}
+${base_custom_fragment}
+${custom_fragment_api_paths}
+",
   }
 
   apache::vhost { $ci_resource_domain:
@@ -418,7 +428,10 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host   => true,
     allow_encoded_slashes => 'on',
-    custom_fragment       => $custom_fragment,
+    custom_fragment       => "${ci_resource_domain_x_forwarded_host}
+${base_custom_fragment}
+${custom_fragment_api_paths}
+",
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
