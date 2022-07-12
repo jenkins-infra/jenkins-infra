@@ -48,7 +48,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
-  $block_remote_access_api             = false,
+  $block_remote_access_api         = false,
 ) {
   include stdlib
   include apache
