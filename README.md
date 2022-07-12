@@ -74,6 +74,7 @@ Proposal for the future:
 ##### Pre-requisites for Vagrant
 
 * Make sure that you have set up all the [Pre-requisites for local development](#pre-requisites-for-local-development) above
+* Make sure that you have [an SSH key configured in GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), and access to https://github.com/jenkins-infra/jenkins-keys via SSH (test: `ssh -vT git@github.com`)
 * Install [Vagrant](https://www.vagrantup.com) version 2.x.
 * Install [Docker](https://www.docker.com/)
   * Docker Desktop is recommended but any other Docker Engine installation should work.
@@ -85,6 +86,9 @@ Proposal for the future:
   * It also pre-builds the Docker image(s) required?
 
 To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
+
+Ex: `vagrant up jenkins::controller`
+
 You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
 When it's all done, remove the instance the instance via `vagrant destroy ROLE`.
 
