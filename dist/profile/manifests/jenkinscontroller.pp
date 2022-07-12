@@ -349,9 +349,6 @@ RequestHeader set X-Forwarded-Port \"${proxy_port}\"
 
 RewriteEngine on
 
-RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
 # Abusive Chinese bot that ignores robots.txt
 RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
 RewriteRule \".?\" \"-\" [F]
@@ -372,6 +369,9 @@ ProxyPassReverse / http://localhost:8080/
 "
   if $block_remote_access_api {
     $custom_fragment_api_paths = "
+RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
+RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
+
 # Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
 # (checkman) from receiving an invalid JSON response and repeatedly attempting
 # to hammer us to get a better response. Works for Python API as well.
