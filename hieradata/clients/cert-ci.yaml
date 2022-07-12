@@ -54,6 +54,7 @@ profile::jenkinscontroller::plugins:
   # System configuration
   - azure-vm-agents
   - configuration-as-code
+  - generic-tool
   - ldap
   - matrix-auth
 
