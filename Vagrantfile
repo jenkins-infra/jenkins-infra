@@ -35,7 +35,7 @@ Vagrant.configure("2") do |config|
 
         # This is a Vagrant-local hack to make sure we have properly updated apt
         # caches since AWS machines are definitely going to have stale ones. It
-        # also makes sure we're pulling in the latest Puppet 4 from Puppet. This
+        # also makes sure we're pulling in the latest Puppet 6 from Puppet. This
         # doesn't quite work with the built-in puppet apply provisioner anymore,
         # so we're manually invoking Puppet too!
         node.vm.provision 'shell', :inline => <<-EOF
