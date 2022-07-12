@@ -6,6 +6,8 @@ profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk11'
 profile::jenkinscontroller::memory_limit: '1536m'
 
+# azure.ci.jenkins.io is true, other are false by default
+profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::jcasc:
   enabled: true
   common_configs:
