@@ -2,7 +2,7 @@
 lvm::volume_groups:
   data:
     physical_volumes:
-      - /dev/oracleoci/oraclevdb
+      - /dev/loop0
     logical_volumes:
       updates_logs:
         size: 600G

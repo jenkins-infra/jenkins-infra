@@ -6,3 +6,14 @@ apache::mod::event::serverlimit: '30' #default 25
 # https://httpd.apache.org/docs/2.4/fr/mod/mpm_common.html#maxrequestworkers
 # maxrequestworkers = ServerLimit (see value above) * ThreadsPerChild (default: 25)
 apache::mod::event::maxrequestworkers: '750'
+lvm::volume_groups:
+  data:
+    physical_volumes:
+      - /dev/oracleoci/oraclevdb
+    logical_volumes:
+      updates_logs:
+        size: 600G
+        mountpath: /var/log
+      updates_www:
+        size: 600G
+        mountpath: /var/www
