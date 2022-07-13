@@ -1,7 +1,7 @@
 #
 # Run a demo instance of Jenkins in a Docker container
-class profile::demo(
-$image_tag = '2.23'
+class profile::demo (
+  $image_tag = '2.23'
 ) {
   include profile::docker
   include profile::apachemisc
@@ -22,7 +22,7 @@ $image_tag = '2.23'
     ports           => ['8080:8080'],
     restart_service => true,
     require         => [
-      Class['::docker'],
+      Class['docker'],
       Docker::Image[$image],
       File['/srv/demo/passwd'],
       User[$user],
@@ -40,7 +40,7 @@ $image_tag = '2.23'
   }
 
   file { '/srv/demo/passwd':
-    ensure  => present,
+    ensure  => file,
     content => template("${module_name}/demo/passwd.erb"),
   }
 
@@ -55,7 +55,7 @@ $image_tag = '2.23'
 
     notify          => Service['apache2'],
     require         => [File["/var/log/apache2/${site}.jenkins-ci.org"],
-                        Docker::Run[$site]
+      Docker::Run[$site]
     ],
   }
 

@@ -386,79 +386,89 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
   }
 
   apache::vhost { $ci_fqdn:
-    serveraliases         => [
+    servername                   => $ci_fqdn,
+    serveraliases                => [
       # Give all our jenkinscontroller profiles this server alias; it's easier than
       # parameterizing it for compatibility's sake
       'ci.jenkins-ci.org', $ci_resource_domain,
     ],
-    require               => [
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    require                      => [
       Docker::Run[$docker_container_name],
       File[$docroot],
       # We need our installation to be secure before we allow access
       File[$groovy_d],
     ],
-    port                  => 443,
-    override              => 'All',
-    ssl                   => true,
-    docroot               => $docroot,
+    port                         => 443,
+    override                     => 'All',
+    ssl                          => true,
+    docroot                      => $docroot,
 
-    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
-    proxy_preserve_host   => true,
-    allow_encoded_slashes => 'on',
-    custom_fragment       => "${ci_fqdn_x_forwarded_host}
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+    proxy_preserve_host          => true,
+    allow_encoded_slashes        => 'on',
+    custom_fragment              => "${ci_fqdn_x_forwarded_host}
 ${base_custom_fragment}
 ${custom_fragment_api_paths}
 ",
   }
 
   apache::vhost { $ci_resource_domain:
-    require               => [
+    servername                   => $ci_resource_domain,
+    require                      => [
       Docker::Run[$docker_container_name],
       File[$docroot],
       # We need our installation to be secure before we allow access
       File[$groovy_d],
     ],
-    port                  => 443,
-    override              => 'All',
-    ssl                   => true,
-    docroot               => $docroot,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => 443,
+    override                     => 'All',
+    ssl                          => true,
+    docroot                      => $docroot,
 
-    access_log_pipe       => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe        => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
-    proxy_preserve_host   => true,
-    allow_encoded_slashes => 'on',
-    custom_fragment       => "${ci_resource_domain_x_forwarded_host}
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+    proxy_preserve_host          => true,
+    allow_encoded_slashes        => 'on',
+    custom_fragment              => "${ci_resource_domain_x_forwarded_host}
 ${base_custom_fragment}
 ${custom_fragment_api_paths}
 ",
   }
 
   apache::vhost { "${ci_fqdn} unsecured":
-    serveraliases   => [
+    serveraliases                => [
       # Give all our jenkinscontroller profiles this server alias; it's easier than
       # parameterizing it for compatibility's sake
       'ci.jenkins-ci.org',
     ],
-    servername      => $ci_fqdn,
-    port            => 80,
-    docroot         => $docroot,
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${ci_fqdn}/",
-    error_log_file  => "${ci_fqdn}/error_nonssl.log",
-    access_log_pipe => '/dev/null',
-    require         => Apache::Vhost[$ci_fqdn],
+    servername                   => $ci_fqdn,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => 80,
+    docroot                      => $docroot,
+    redirect_status              => 'permanent',
+    redirect_dest                => "https://${ci_fqdn}/",
+    error_log_file               => "${ci_fqdn}/error_unsecured.log",
+    access_log_pipe              => '/dev/null',
+    require                      => Apache::Vhost[$ci_fqdn],
   }
 
   apache::vhost { "${ci_resource_domain} unsecured":
-    servername      => $ci_resource_domain,
-    port            => 80,
-    docroot         => $docroot,
-    redirect_status => 'permanent',
-    redirect_dest   => "https://${ci_resource_domain}/",
-    error_log_file  => "${ci_resource_domain}/error_nonssl.log",
-    access_log_pipe => '/dev/null',
-    require         => Apache::Vhost[$ci_resource_domain],
+    servername                   => $ci_resource_domain,
+    port                         => 80,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    docroot                      => $docroot,
+    redirect_status              => 'permanent',
+    redirect_dest                => "https://${ci_resource_domain}/",
+    error_log_file               => "${ci_resource_domain}/error_unsecured.log",
+    access_log_pipe              => '/dev/null',
+    require                      => Apache::Vhost[$ci_resource_domain],
   }
 
   firewall { '801 Allow Jenkins web access only on localhost':

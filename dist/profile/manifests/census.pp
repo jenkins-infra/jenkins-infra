@@ -1,14 +1,14 @@
 #
 # Defines an census server for serving census datasets
 #
-class profile::census(
+class profile::census (
   $home_dir = '/srv/census',
   $user     = 'census',
   $group    = 'census',
 ) {
-  include ::stdlib
+  include stdlib
   # volume configuration is in hiera
-  include ::lvm
+  include lvm
   include profile::apachemisc
 
   $docroot = "${home_dir}/census"
@@ -59,16 +59,19 @@ class profile::census(
   }
 
   apache::vhost { 'census.jenkins.io':
-    vhost_name      => '*',
-    port            => '80',
-    docroot         => $docroot,
-    access_log_pipe => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/access.log.%Y%m%d%H%M%S 604800',
-    error_log_pipe  => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/error.log.%Y%m%d%H%M%S 604800',
-    options         => ['FollowSymLinks', 'MultiViews', 'Indexes'],
-    override        => ['All'],
-    notify          => Service['apache2'],
-    require         => [File['/var/log/apache2/census.jenkins.io'],
-                        File[$docroot],
-                        Mount[$home_dir]],
+    servername                   => 'census.jenkins.io',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    vhost_name                   => '*',
+    port                         => '80',
+    docroot                      => $docroot,
+    access_log_pipe              => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/access.log.%Y%m%d%H%M%S 604800',
+    error_log_pipe               => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/error.log.%Y%m%d%H%M%S 604800',
+    options                      => ['FollowSymLinks', 'MultiViews', 'Indexes'],
+    override                     => ['All'],
+    notify                       => Service['apache2'],
+    require                      => [File['/var/log/apache2/census.jenkins.io'],
+      File[$docroot],
+    Mount[$home_dir]],
   }
 }

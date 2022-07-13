@@ -96,57 +96,66 @@ class profile::pkgrepo (
   }
 
   apache::vhost { $repo_fqdn:
-    port            => 443,
+    servername                   => $repo_fqdn,
+    port                         => 443,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options         => 'Indexes FollowSymLinks MultiViews',
-    override        => ['All'],
-    ssl             => true,
-    docroot         => $docroot,
+    options                      => 'Indexes FollowSymLinks MultiViews',
+    override                     => ['All'],
+    ssl                          => true,
+    docroot                      => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
+    require                      => File[$docroot],
   }
 
   apache::vhost { "${repo_fqdn} unsecured":
-    servername      => $repo_fqdn,
-    port            => 80,
-    override        => ['All'],
-    docroot         => $docroot,
+    servername                   => $repo_fqdn,
+    port                         => 80,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    override                     => ['All'],
+    docroot                      => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access_nonssl.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error_nonssl.log.%Y%m%d%H%M%S 604800",
-    require         => File[$docroot],
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    require                      => File[$docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org unsecured':
-    servername      => 'pkg.jenkins-ci.org',
-    port            => 80,
-    docroot         => $docroot,
+    servername                   => 'pkg.jenkins-ci.org',
+    port                         => 80,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    docroot                      => $docroot,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access_nonssl.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error_nonssl.log.%Y%m%d%H%M%S 604800",
-    redirect_status => 'permanent',
-    redirect_dest   => ['https://pkg.jenkins.io/'],
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    redirect_status              => 'permanent',
+    redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
-    custom_fragment => 'Protocols http/1.1',
-    require         => File[$docroot],
+    custom_fragment              => 'Protocols http/1.1',
+    require                      => File[$docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
-    servername      => 'pkg.jenkins-ci.org',
-    port            => 443,
-    docroot         => $docroot,
-    ssl             => true,
+    servername                   => 'pkg.jenkins-ci.org',
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => 443,
+    docroot                      => $docroot,
+    ssl                          => true,
 
-    access_log_pipe => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe  => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
-    redirect_status => 'permanent',
-    redirect_dest   => ['https://pkg.jenkins.io/'],
+    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
+    redirect_status              => 'permanent',
+    redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
-    custom_fragment => 'Protocols http/1.1',
-    require         => File[$docroot],
+    custom_fragment              => 'Protocols http/1.1',
+    require                      => File[$docroot],
   }
 
   # We can only acquire certs in production due to the way the letsencrypt
