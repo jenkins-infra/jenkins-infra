@@ -409,42 +409,9 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host          => true,
     allow_encoded_slashes        => 'on',
-    custom_fragment              => "
-RequestHeader set X-Forwarded-Proto \"https\"
-RequestHeader set X-Forwarded-Port \"${proxy_port}\"
-RequestHeader set X-Forwarded-Host \"${ci_fqdn}\"
-
-RewriteEngine on
-
-RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-# Abusive Chinese bot that ignores robots.txt
-RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
-RewriteRule \".?\" \"-\" [F]
-
-# Black hole all traffic to routes like /view/All/people/ which is pretty much
-# hit illegitimately used anyways
-# See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
-RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-# Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
-# (checkman) from receiving an invalid JSON response and repeatedly attempting
-# to hammer us to get a better response. Works for Python API as well.
-RewriteCond \"%{HTTP:Authorization}\" !^Basic
-RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
-# Analogously for XML.
-RewriteCond \"%{HTTP:Authorization}\" !^Basic
-RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
-
-# Loading our Proxy rules ourselves from a custom fragment since the
-# puppetlabs/apache module doesn't support ordering of both proxy_pass and
-# proxy_pass_match configurations
-ProxyRequests Off
-ProxyPreserveHost On
-ProxyPass / http://localhost:8080/ nocanon
-ProxyPassReverse / http://localhost:8080/
+    custom_fragment       => "${ci_fqdn_x_forwarded_host}
+${base_custom_fragment}
+${custom_fragment_api_paths}
 ",
   }
 
@@ -467,42 +434,9 @@ ProxyPassReverse / http://localhost:8080/
     error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host          => true,
     allow_encoded_slashes        => 'on',
-    custom_fragment              => "
-RequestHeader set X-Forwarded-Proto \"https\"
-RequestHeader set X-Forwarded-Port \"${proxy_port}\"
-RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
-
-RewriteEngine on
-
-RewriteCond %{REQUEST_FILENAME} ^(.*)api/xml(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-# Abusive Chinese bot that ignores robots.txt
-RewriteCond %{HTTP_USER_AGENT}  Sogou [NC]
-RewriteRule \".?\" \"-\" [F]
-
-# Black hole all traffic to routes like /view/All/people/ which is pretty much
-# hit illegitimately used anyways
-# See thread dump here: https://gist.github.com/rtyler/f8d02e0c5ff11e03da4e331a0f2ca280
-RewriteCond %{REQUEST_FILENAME} ^(.*)people(.*)$ [NC]
-RewriteRule ^.* \"https://jenkins.io/infra/ci-redirects/\"  [L]
-
-# Send unauthenticated api/json or api/python requests to `empty.json` to prevent abusive clients
-# (checkman) from receiving an invalid JSON response and repeatedly attempting
-# to hammer us to get a better response. Works for Python API as well.
-RewriteCond \"%{HTTP:Authorization}\" !^Basic
-RewriteRule (.*)/api/(json|python)(/|$)(.*) /empty.json
-# Analogously for XML.
-RewriteCond \"%{HTTP:Authorization}\" !^Basic
-RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
-
-# Loading our Proxy rules ourselves from a custom fragment since the
-# puppetlabs/apache module doesn't support ordering of both proxy_pass and
-# proxy_pass_match configurations
-ProxyRequests Off
-ProxyPreserveHost On
-ProxyPass / http://localhost:8080/ nocanon
-ProxyPassReverse / http://localhost:8080/
+    custom_fragment              => "${ci_resource_domain_x_forwarded_host}
+${base_custom_fragment}
+${custom_fragment_api_paths}
 ",
   }
 
