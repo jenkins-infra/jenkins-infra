@@ -18,7 +18,7 @@ mod 'puppetlabs-ntp', '7.3.0'
 
 # https://puppet.com/docs/puppet/6/type.html#supported-type-modules-in-puppet-agent
 mod 'puppetlabs-mount_core', '1.1.0'
-mod 'puppetlabs-cron_core', '1.1.0'
+mod 'puppetlabs-cron_core', '1.1.1'
 
 # Module for managing sudoers across all machines
 mod 'saz-sudo', '5.0.0'
