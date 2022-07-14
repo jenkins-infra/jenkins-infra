@@ -16,6 +16,10 @@ mod 'puppetlabs-vcsrepo', '1.1.0'
 # Used for setting up ntp daemons on all machines to have a correct time
 mod 'puppetlabs-ntp', '7.3.0'
 
+# https://puppet.com/docs/puppet/6/type.html#supported-type-modules-in-puppet-agent
+mod 'puppetlabs-mount_core', '1.1.0'
+mod 'puppetlabs-cron_core', '1.1.0'
+
 # Module for managing sudoers across all machines
 mod 'saz-sudo', '5.0.0'
 
@@ -37,11 +41,9 @@ mod 'puppetlabs-apache', '7.0.0'
 
 mod 'puppetlabs-concat', '5.2.0'
 
-
 mod 'rtyler-groovy', '1.0.3'
 # Dependency of `groovy
 mod 'nanliu-staging', '0.4.0'
-
 
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
@@ -55,6 +57,7 @@ mod 'datadog-datadog_agent', '3.16.0'
 mod 'puppet-letsencrypt', '6.0.0'
 
 # For managing dependencies
+mod 'puppetlabs-augeas_core', '1.2.0'
 mod 'herculesteam-augeasproviders_shellvar', '2.2.1'
 mod 'herculesteam-augeasproviders_core', '2.1.2'
 
