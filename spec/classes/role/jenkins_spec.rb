@@ -9,7 +9,7 @@ end
 
 describe 'role::jenkins::agent' do
   it { should contain_class 'profile::base' }
-  it { should contain_class 'profile::buildslave' }
+  it { should contain_class 'profile::buildagent' }
 
   context 'on Mac OS X' do
     let(:facts) do
@@ -18,8 +18,8 @@ describe 'role::jenkins::agent' do
       }
     end
 
-    it 'should contain a modified buildslave profile' do
-      expect(subject).to contain_class('profile::buildslave').with({
+    it 'should contain a modified buildagent profile' do
+      expect(subject).to contain_class('profile::buildagent').with({
         :ruby => false,
         :docker => false,
       })

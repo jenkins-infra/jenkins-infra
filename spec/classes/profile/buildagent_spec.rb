@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'profile::buildslave' do
+describe 'profile::buildagent' do
 
   context 'SSH host keys' do
     it "should include GitHub's host keys" do

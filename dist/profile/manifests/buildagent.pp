@@ -1,5 +1,5 @@
-# Jenkins build slave connectable via SSH
-class profile::buildslave(
+# Jenkins build agent connectable via SSH
+class profile::buildagent(
   $home_dir         = '/home/jenkins',
   $docker           = true,
   $ruby             = true,
