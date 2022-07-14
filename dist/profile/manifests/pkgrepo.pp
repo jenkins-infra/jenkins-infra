@@ -160,7 +160,7 @@ class profile::pkgrepo (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($facts['environment'] == 'production') and ($facts['vagrant'] != '1')) {
+  if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$repo_fqdn, $repo_legacy_fqdn].each |String $domain| {
       letsencrypt::certonly { $domain:
         domains     => [$domain],
