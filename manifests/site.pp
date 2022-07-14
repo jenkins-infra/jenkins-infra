@@ -68,27 +68,26 @@ node 'pkg' {
   include role::pkg
 }
 
+# Jenkins controller for ci.jenkins.io
 node 'azure.ci.jenkins.io' {
   sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
   include role::jenkins::controller
 }
 
-node /^agent-\d+$/ {
-  include role::jenkins::agent
-}
-
+# Jenkins controller for trusted.ci.jenkins.io
 node 'trusted-ci' {
   $hiera_role = 'trustedci'
   sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
   include role::jenkins::controller
 }
 
+# Jenkins controller for cert.ci.jenkins.io
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
   include role::jenkins::controller
 }
 
-node /^trusted-agent-\d+$/ {
+node 'trusted-agent-1' {
   notice('This agent is trusted!')
   $hiera_role = 'trustedagent'
   include role::updatecenter
@@ -99,6 +98,7 @@ node 'vpn.jenkins.io' {
   include role::openvpn
 }
 
+# SSH Bastion used to reach trusted.ci and its trusted-agent-1
 node 'bounce' {
   include role::bounce
 }
