@@ -115,7 +115,7 @@ GEM
     pry-byebug (3.8.0)
       byebug (~> 11.0)
       pry (~> 0.10)
-    puppet (6.23.0)
+    puppet (6.25.1)
       concurrent-ruby (~> 1.0)
       deep_merge (~> 1.0)
       facter (> 2.0.1, < 5)
@@ -207,7 +207,7 @@ DEPENDENCIES
   hiera-eyaml
   parallel_tests
   pry
-  puppet (~> 6.23.0)
+  puppet (~> 6.25.1)
   puppet-lint
   puppetlabs_spec_helper
   r10k
