@@ -16,7 +16,7 @@ scms:
 sources:
   latestVersion:
     kind: githubrelease
-    name: Get the latest puppetlab/cron module version
+    name: Get the latest puppetlabs-cron module version
     spec:
       owner: voxpupuli
       repository: puppet-cron
@@ -40,18 +40,18 @@ targets:
     spec:
       file: Puppetfile
       matchpattern: >
-        mod 'puppetlabs-cron'(.*)
+        mod 'puppetlabs-cron_core'(.*)
       replacepattern: >
-        mod 'puppetlabs-cron', '{{ source "latestVersion" }}'
-#     scmid: default
+        mod 'puppetlabs-cron_core', '{{ source "latestVersion" }}'
+    scmid: default
 
-# pullrequests:
-#   default:
-#     kind: github
-#     scmid: default
-#     targets:
-#       - puppetfile
-#     spec:
-#       labels:
-#         - puppet-module
-#         - dependencies
+pullrequests:
+  default:
+    kind: github
+    scmid: default
+    targets:
+      - puppetfile
+    spec:
+      labels:
+        - puppet-module
+        - dependencies
