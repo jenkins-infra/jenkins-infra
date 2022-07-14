@@ -41,10 +41,6 @@ mod 'puppetlabs-apache', '7.0.0'
 
 mod 'puppetlabs-concat', '5.2.0'
 
-mod 'rtyler-groovy', '1.0.3'
-# Dependency of `groovy
-mod 'nanliu-staging', '0.4.0'
-
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
 # Dependency
