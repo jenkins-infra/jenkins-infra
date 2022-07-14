@@ -16,7 +16,7 @@ scms:
 sources:
   latestVersion:
     kind: githubrelease
-    name: Get the latest puppetlab/docker module version
+    name: Get the latest puppetlabs-docker module version
     spec:
       owner: puppetlabs
       repository: puppetlabs-docker
@@ -40,9 +40,9 @@ targets:
     spec:
       file: Puppetfile
       matchpattern: >
-        mod 'puppetlabs/docker'(.*)
+        mod 'puppetlabs-docker'(.*)
       replacepattern: >
-        mod 'puppetlabs/docker', '{{ source "latestVersion" }}'
+        mod 'puppetlabs-docker', '{{ source "latestVersion" }}'
     scmid: default
 
 pullrequests:
