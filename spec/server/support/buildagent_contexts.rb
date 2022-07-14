@@ -1,6 +1,6 @@
 require 'rspec'
 
-shared_examples "a Jenkins build slave" do
+shared_examples "a Jenkins build agent" do
   it_behaves_like 'a Docker host'
 
   describe user('jenkins') do

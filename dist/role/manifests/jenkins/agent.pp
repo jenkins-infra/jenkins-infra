@@ -4,12 +4,12 @@ class role::jenkins::agent {
   include profile::base
 
   if $::kernel == 'Darwin' {
-    class { 'profile::buildslave':
+    class { 'profile::buildagent':
       docker => false,
       ruby   => false,
     }
   }
   else {
-    include profile::buildslave
+    include profile::buildagent
   }
 }
