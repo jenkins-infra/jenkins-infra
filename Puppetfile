@@ -1,21 +1,21 @@
-forge "http://forge.puppetlabs.com"
+forge 'http://forge.puppetlabs.com'
 
 # Install and manage r10k
-mod "puppet/r10k", '6.8.0'
+mod 'puppet/r10k', '6.8.0'
 
 # Deps for zack/r10k
-mod "puppetlabs/stdlib", '5.2.0'
+mod 'puppetlabs/stdlib', '5.2.0'
 
 mod 'puppetlabs/ruby', '1.0.1'
-mod "puppetlabs/gcc", '0.3.0'
+mod 'puppetlabs/gcc', '0.3.0'
 # Used for installing gems for the puppetserver, like with hiera-eyaml
-mod "puppetlabs/puppetserver_gem", '1.1.0'
-mod "puppetlabs/inifile", '1.4.3'
-mod "puppetlabs/vcsrepo", '1.1.0'
-#mod "gentoo/portage", '2.2.0-rc1'
+mod 'puppetlabs/puppetserver_gem', '1.1.0'
+mod 'puppetlabs/inifile', '1.4.3'
+mod 'puppetlabs/vcsrepo', '1.1.0'
+#mod 'gentoo/portage', '2.2.0-rc1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
-mod "puppetlabs/ntp", '7.3.0'
+mod 'puppetlabs/ntp', '7.3.0'
 
 # Module for managing sudoers across all machines
 mod 'saz/sudo', '5.0.0'
@@ -34,9 +34,9 @@ mod 'puppetlabs/docker', '4.4.0'
 mod 'puppetlabs/apt', '8.4.1'
 
 # Apache and its dependencies
-mod "puppetlabs/apache", '7.0.0'
+mod 'puppetlabs/apache', '7.0.0'
 
-mod "puppetlabs/concat", '5.2.0'
+mod 'puppetlabs/concat', '5.2.0'
 
 
 mod 'rtyler/groovy', '1.0.3'
