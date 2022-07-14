@@ -7,9 +7,9 @@ describe 'role::bounce' do
     }
   end
 
-  it { should contain_class 'role::bounce' }
-  it { should contain_class 'profile::base' }
+  it { expect(subject).to contain_class 'role::bounce' }
+  it { expect(subject).to contain_class 'profile::base' }
 
   # https://issues.jenkins-ci.org/browse/INFRA-909
-  it { should contain_user 'ogondza' }
+  it { expect(subject).to contain_user 'ogondza' }
 end

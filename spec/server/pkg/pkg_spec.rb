@@ -11,8 +11,8 @@ describe 'pkg' do
     ## TODO: find a way to "mock" letsencrypt certificate
 
     describe service('apache2') do
-      it { should be_enabled }
-      it { should be_running }
+      it { expect(subject).to be_enabled }
+      it { expect(subject).to be_running }
     end
   end
 end

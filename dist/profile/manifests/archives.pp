@@ -171,7 +171,7 @@ class profile::archives (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($::environment == 'production') and ($::vagrant != '1')) {
+  if (($facts['environment'] == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { 'archives.jenkins.io':
       domains     => ['archives.jenkins.io','archives.jenkins-ci.org'],
       plugin      => 'apache',

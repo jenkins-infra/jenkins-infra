@@ -16,8 +16,8 @@ describe 'profile::pkgrepo' do
     })
   end
 
-  it { should contain_class 'profile::pkgrepo' }
-  it { should contain_class 'apache' }
+  it { expect(subject).to contain_class 'profile::pkgrepo' }
+  it { expect(subject).to contain_class 'apache' }
 
   it 'needs createrepo(8) so we can generate repodata' do
     expect(subject).to contain_package('createrepo').with({
@@ -122,7 +122,7 @@ describe 'profile::pkgrepo' do
   end
 
   context 'apache setup' do
-    it { should contain_class 'apache::mod::rewrite' }
+    it { expect(subject).to contain_class 'apache::mod::rewrite' }
 
     ## Domain pkg.origin.jenkins.io
     it 'should have a logs directory for pkg.origin.jenkins.io' do
@@ -190,7 +190,7 @@ describe 'profile::pkgrepo' do
   context 'letsencrypt setup' do
     let(:environment) { 'production' }
 
-    it { should contain_letsencrypt__certonly('pkg.origin.jenkins.io') }
-    it { should contain_letsencrypt__certonly('pkg.jenkins-ci.org') }
+    it { expect(subject).to contain_letsencrypt__certonly('pkg.origin.jenkins.io') }
+    it { expect(subject).to contain_letsencrypt__certonly('pkg.jenkins-ci.org') }
   end
 end

@@ -5,17 +5,17 @@ describe 'openvpn' do
 
   context 'openvpn' do
     describe service('docker') do
-      it { should be_enabled }
-      it { should be_running }
+      it { expect(subject).to be_enabled }
+      it { expect(subject).to be_running }
     end
 
     describe service('docker-openvpn') do
-      it { should be_enabled }
-      it { should be_running }
+      it { expect(subject).to be_enabled }
+      it { expect(subject).to be_running }
     end
 
     describe port(443) do
-      it { should be_listening }
+      it { expect(subject).to be_listening }
     end
   end
 end

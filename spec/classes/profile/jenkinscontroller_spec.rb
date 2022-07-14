@@ -22,8 +22,8 @@ describe 'profile::jenkinscontroller' do
 
     # https://issues.jenkins-ci.org/browse/INFRA-916
     context 'as a Docker container' do
-      it { should contain_file('/var/lib/jenkins').with_ensure('directory') }
-      it { should contain_class 'profile::docker' }
+      it { expect(subject).to contain_file('/var/lib/jenkins').with_ensure('directory') }
+      it { expect(subject).to contain_class 'profile::docker' }
 
       it 'should define a suitable docker::run' do
         expect(subject).to contain_docker__run('jenkins').with({
@@ -49,9 +49,9 @@ describe 'profile::jenkinscontroller' do
     context 'JCasC' do
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d').with('ensure' => 'directory')}
       it { is_expected.to contain_file('/var/lib/jenkins/casc.d/clouds.yaml')}
-      it { should contain_exec('install-plugin-configuration-as-code') }
-      it { should contain_exec('perform-jcasc-reload') }
-      it { should contain_exec('safe-restart-jenkins') }
+      it { expect(subject).to contain_exec('install-plugin-configuration-as-code') }
+      it { expect(subject).to contain_exec('perform-jcasc-reload') }
+      it { expect(subject).to contain_exec('safe-restart-jenkins') }
     end
   end
 
@@ -81,11 +81,11 @@ describe 'profile::jenkinscontroller' do
 
 
   context 'apache configuration' do
-    it { should contain_class 'apache' }
-    it { should contain_class 'profile::apachemisc' }
-    it { should contain_class 'profile::letsencrypt' }
-    it { should contain_class 'apache::mod::proxy' }
-    it { should contain_class 'apache::mod::headers' }
+    it { expect(subject).to contain_class 'apache' }
+    it { expect(subject).to contain_class 'profile::apachemisc' }
+    it { expect(subject).to contain_class 'profile::letsencrypt' }
+    it { expect(subject).to contain_class 'apache::mod::proxy' }
+    it { expect(subject).to contain_class 'apache::mod::headers' }
 
     context 'vhosts' do
       it 'should contain a vhost with ssl' do
@@ -108,7 +108,7 @@ describe 'profile::jenkinscontroller' do
     context 'when running in production' do
       let(:environment) { 'production' }
 
-      it { should contain_letsencrypt__certonly(fqdn) }
+      it { expect(subject).to contain_letsencrypt__certonly(fqdn) }
 
       it 'should configure the letsencrypt ssl keys on the vhost' do
         expect(subject).to contain_apache__vhost(fqdn).with({
@@ -129,12 +129,12 @@ describe 'profile::jenkinscontroller' do
       }
     end
 
-    it { should contain_profile__jenkinsplugin('workflow-aggregator') }
-    it { should contain_exec('install-plugin-workflow-aggregator') }
+    it { expect(subject).to contain_profile__jenkinsplugin('workflow-aggregator') }
+    it { expect(subject).to contain_exec('install-plugin-workflow-aggregator') }
   end
 
   context 'firewall rules' do
-    it { should contain_class 'profile::firewall' }
+    it { expect(subject).to contain_class 'profile::firewall' }
 
     it 'should ensure nothing talks directly to Jenkins' do
       expect(subject).to contain_firewall('801 Allow Jenkins web access only on localhost').with({

@@ -2,8 +2,8 @@ require 'rspec'
 
 shared_examples 'an Apache webserver' do
   describe service('apache2') do
-    it { should be_enabled }
-    it { should be_running }
+    it { expect(subject).to be_enabled }
+    it { expect(subject).to be_running }
   end
 
   describe iptables do
@@ -19,7 +19,7 @@ shared_examples 'an Apache webserver with SSL' do
 
   context 'ssl.conf' do
     describe file('/etc/apache2/conf.d/ssl.conf') do
-      it { should be_file }
+      it { expect(subject).to be_file }
       its(:content) { should match /-SSLv2 -SSLv3/ }
     end
   end
@@ -36,15 +36,15 @@ shared_examples 'a static site host' do
   it_behaves_like 'an Apache webserver'
 
   describe file('/srv/jenkins.io') do
-    it { should exist }
-    it { should be_directory }
+    it { expect(subject).to exist }
+    it { expect(subject).to be_directory }
   end
 
   describe file('/srv/jenkins.io/archives') do
-    it { should be_directory }
+    it { expect(subject).to be_directory }
   end
 
   describe file('/srv/jenkins.io/current') do
-    it { should be_symlink }
+    it { expect(subject).to be_symlink }
   end
 end

@@ -32,7 +32,7 @@ class profile::openvpn (
   }
 
   docker::image { $image:
-    image_tag => $image_tag
+    image_tag => $image_tag,
   }
 
   docker::run { 'openvpn':
@@ -45,21 +45,19 @@ class profile::openvpn (
       "OPENVPN_CA_PEM=${openvpn_ca_pem}",
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
-      "OPENVPN_DH_PEM=${openvpn_dh_pem}"
+      "OPENVPN_DH_PEM=${openvpn_dh_pem}",
     ],
-    extra_parameters => [ '--restart=always --cap-add=NET_ADMIN' ],
+    extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',
-    require          => [Docker::Image[$image]]
+    require          => [Docker::Image[$image]],
   }
-
 
   file { '/etc/cloud/cloud.cfg.d':
     ensure  => 'directory',
     owner   => 'root',
     group   => 'root',
-    recurse => true
+    recurse => true,
   }
-
 
   # Ensure cloud-init doesn't manage network (netplan config + netplan apply + systemd, in Ubuntu Bionic)
   file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
@@ -76,7 +74,7 @@ class profile::openvpn (
     ensure  => 'directory',
     owner   => 'root',
     group   => 'root',
-    recurse => true
+    recurse => true,
   }
 
   # Define eth interfaces with the correct mac addresses
@@ -88,7 +86,7 @@ class profile::openvpn (
     require => [
       File['/etc/netplan/'],
     ],
-    content => template("${module_name}/openvpn/90-network-config.yaml.erb")
+    content => template("${module_name}/openvpn/90-network-config.yaml.erb"),
   }
 
   ## Custom routes for peered networks
@@ -101,7 +99,7 @@ class profile::openvpn (
   firewall { '107 accept incoming 443 connections':
     proto  => 'tcp',
     port   => 443,
-    action => 'accept'
+    action => 'accept',
   }
 
   # Following firewall rules authorizes different network accesses as defined in https://github.com/jenkins-infra/openvpn

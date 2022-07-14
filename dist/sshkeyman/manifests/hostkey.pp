@@ -1,33 +1,32 @@
 #
 # Export the hostkeys with the specified FQDN
-define sshkeyman::hostkey(
+define sshkeyman::hostkey (
 ) {
-
-  if $::sshecdsakey {
+  if $facts['ssh']['ecdsa']['key'] {
     @@sshkey { $title:
       ensure => present,
-      key    => $::sshecdsakey,
+      key    => $facts['ssh']['ecdsa']['key'],
       type   => 'ecdsa-sha2-nistp256',
     }
   }
-  elsif $::sshrsakey {
+  elsif $facts['ssh']['rsa']['key'] {
     @@sshkey { $title:
       ensure => present,
-      key    => $::sshrsakey,
+      key    => $facts['ssh']['rsa']['key'],
       type   => rsa,
     }
   }
-  elsif $::sshdsakey {
+  elsif $facts['ssh']['dsa']['key'] {
     @@sshkey { $title:
       ensure => present,
-      key    => $::sshdsakey,
+      key    => $facts['ssh']['dsa']['key'],
       type   => dsa,
     }
   }
-  elsif $::sshed25519key {
+  elsif $facts['ssh']['ed25519']['key'] {
     @@sshkey { $title:
       ensure => present,
-      key    => $::sshed25519key,
+      key    => $facts['ssh']['ed25519']['key'],
       type   => ed25519,
     }
   }

@@ -4,8 +4,7 @@
 define profile::redhat_repo (
   $ensure,
   $docroot,
-  $repo_fqdn) {
-
+$repo_fqdn) {
   file { "${docroot}/${name}/jenkins.repo":
     ensure  => $ensure,
     content => template("${module_name}/pkgrepo/jenkins.repo.erb"),

@@ -247,9 +247,6 @@ class profile::jenkinscontroller (
     }
 
     exec { 'perform-jcasc-reload':
-      require     => [
-        Exec['install-plugin-configuration-as-code'],
-      ],
       command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
       #   # Retry for 300s: jenkins might be restarting
       tries       => 30,
@@ -492,7 +489,7 @@ ${custom_fragment_api_paths}
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($letsencrypt == true) and ($::environment == 'production') and ($::vagrant != '1')) {
+  if (($letsencrypt == true) and ($facts['environment'] == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { $ci_fqdn:
       domains     => [$ci_fqdn, $ci_resource_domain],
       plugin      => 'apache',

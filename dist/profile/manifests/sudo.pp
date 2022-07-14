@@ -1,7 +1,7 @@
 #
 # Main sudo management profile
 class profile::sudo {
-  include ::sudo
+  include sudo
 
   sudo::conf { 'env-defaults':
     content => 'Defaults        env_reset',

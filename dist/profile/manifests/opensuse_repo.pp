@@ -4,8 +4,7 @@
 define profile::opensuse_repo (
   $ensure,
   $docroot,
-  $mirror_fqdn) {
-
+$mirror_fqdn) {
   file { "${docroot}/${name}/repodata":
     ensure  => directory,
   }

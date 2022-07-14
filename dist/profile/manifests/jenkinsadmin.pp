@@ -36,13 +36,13 @@ class profile::jenkinsadmin (
     ensure   => 'absent',
     command  => $nick_password,
     volumes  => ['/home/ircbot/.github:/home/ircbot/.github',
-                '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
+      '/home/ircbot/.jenkins-ci.org:/home/ircbot/.jenkins-ci.org',
     ],
     username => 'ircbot',
     image    => "jenkinsciinfra/ircbot:${image_tag}",
     require  => [Docker::Image['jenkinsciinfra/ircbot'],
-                File['/home/ircbot/.github'],
-                File['/home/ircbot/.jenkins-ci.org'],
+      File['/home/ircbot/.github'],
+      File['/home/ircbot/.jenkins-ci.org'],
     ],
   }
 

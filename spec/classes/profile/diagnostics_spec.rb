@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'profile::diagnostics' do
-  it { should contain_package 'htop' }
-  it { should contain_package 'strace' }
+  it { expect(subject).to contain_package 'htop' }
+  it { expect(subject).to contain_package 'strace' }
 
-  it { should contain_class 'datadog_agent' }
+  it { expect(subject).to contain_class 'datadog_agent' }
 end

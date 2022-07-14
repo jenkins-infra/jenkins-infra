@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe 'profile::ntp' do
-  it { should contain_class 'ntp' }
+  it { expect(subject).to contain_class 'ntp' }
 end

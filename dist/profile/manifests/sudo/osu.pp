@@ -5,6 +5,6 @@ class profile::sudo::osu {
   include profile::sudo
 
   sudo::conf { 'osuadmin':
-      content => 'osuadmin  ALL=(ALL) ALL',
+    content => 'osuadmin  ALL=(ALL) ALL',
   }
 }

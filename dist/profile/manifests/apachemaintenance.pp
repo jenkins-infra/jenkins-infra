@@ -11,12 +11,12 @@ define profile::apachemaintenance {
   }
 
   file { '/var/www/maintenance/maintenance.html':
-    ensure => present,
+    ensure => file,
     source => "puppet:///modules/${module_name}/apachemaintenance/maintenance.html",
   }
 
   file { "/etc/apache2/sites-available/${name}.maintenance.conf":
-    ensure  => present,
+    ensure  => file,
     content => template("${module_name}/apachemaintenance/maintenance.conf.erb"),
   }
 }

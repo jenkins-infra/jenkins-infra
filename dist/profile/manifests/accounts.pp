@@ -6,11 +6,11 @@ class profile::accounts {
     ensure => present,
   }
 
-  $accounts = lookup({
-    'name'  => 'accounts',
-    'merge' => {
-      'strategy' => 'deep',
-    }
+  $accounts = lookup( {
+      'name'  => 'accounts',
+      'merge' => {
+        'strategy' => 'deep',
+      },
   })
 
   create_resources('account', $accounts)

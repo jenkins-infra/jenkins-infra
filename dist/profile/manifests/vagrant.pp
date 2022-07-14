@@ -4,12 +4,7 @@
 class profile::vagrant {
   include sudo
 
-  # AWS Ubuntu images have an `ubuntu` default user which Vagrant will use for
-  # provisioning
-  sudo::conf { 'ubuntu':
-    priority => '10',
-    content  => 'ubuntu ALL=(ALL) NOPASSWD: ALL',
-  }
+  # Vagrant defines a default user `vagrant` which should have passwordless sudo permission
   sudo::conf { 'vagrant':
     priority => '10',
     content  => 'vagrant ALL=(ALL) NOPASSWD: ALL',

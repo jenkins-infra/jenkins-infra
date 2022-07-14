@@ -2,19 +2,17 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'rspec-puppet'
+gem 'rspec-mocks'
 gem 'parallel_tests'
 # Needed for integration tests
 gem 'beaker'
-# This gem is like, never released
-gem 'puppet-lint', '~>2.3.0'
-gem 'puppet', '~> 4.8'
-# Needed to make sure we can install modules and then run a `puppet apply` in
-# vagrant
+gem 'puppet-lint'
+gem 'puppet', '~> 6.23.0' # Version of the puppetmaster in production
 gem 'r10k'
 gem 'puppetlabs_spec_helper'
 gem 'pry'
 gem 'serverspec'
-gem 'hiera-eyaml', '~>3.2.2'
+gem 'hiera-eyaml'
 gem 'generate-puppetfile'
 
 group :development do

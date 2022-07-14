@@ -1,5 +1,4 @@
 #
-
 # A machine capable of processing census information
 class profile::census::agent (
   $user = undef,
@@ -13,10 +12,9 @@ class profile::census::agent (
   $ssh_config = "${home_dir}/.ssh/config"
 
   ssh_authorized_key { 'usage':
-    type    => 'ssh-rsa',
-    user    => $user,
-    key     => lookup('usage_ssh_pubkey'),
-    require => File["${home_dir}/.ssh"],
+    type => 'ssh-rsa',
+    user => $user,
+    key  => lookup('usage_ssh_pubkey'),
   }
 
   ensure_resources('concat', {
@@ -25,7 +23,6 @@ class profile::census::agent (
         mode    => '0644',
         owner   => $user,
         group   => $user,
-        require => File["${home_dir}/.ssh"],
       },
     }
   )
@@ -55,6 +52,5 @@ Host usage.jenkins.io
     owner   => $user,
     mode    => '0600',
     content => lookup('usage_ssh_privkey'),
-    require => File["${home_dir}/.ssh"],
   }
 }
