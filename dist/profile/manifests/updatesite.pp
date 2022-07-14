@@ -123,7 +123,7 @@ class profile::updatesite (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($facts['environment'] == 'production') and ($facts['vagrant'] != '1')) {
+  if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
       letsencrypt::certonly { $domain:
         domains     => [$domain],
