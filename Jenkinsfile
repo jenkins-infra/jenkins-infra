@@ -29,7 +29,7 @@ pipeline {
                 '''
 
                 // Install Dependencies once for all
-                sh 'bash ./ci/00_setupgems.sh'
+                sh 'bash ./scripts/setupgems.sh'
                 // For auditing purposes: if tests are failing with "module not found" or "object not found" for instance
                 archiveArtifacts '.fixtures.yml'
             }
