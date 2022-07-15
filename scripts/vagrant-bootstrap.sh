@@ -18,7 +18,5 @@ rm -rf "./modules"
 ln -s  "./spec/fixtures/modules" "./modules" # Reuse modules from rpsec tests
 popd
 
-# echo "> Installing Puppet modules into modules/"
-# bundle exec r10k puppetfile install
 echo "> Prebuilding the Docker image to ensure it is kept in cache (by giving a name)"
 docker build -t jenkins-infra-ubuntu:18.04 "${repo_dir}/vagrant-docker/"

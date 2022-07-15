@@ -49,7 +49,7 @@ You can **always** check the Docker image that ci.jenkins.io uses to run the tes
 
 ### Install Local Dependencies
 
-Run the script `./script/setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
+Run the script `./scripts/setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
 
 * Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands, installed to `vendor/gems`
 * Puppet modules retrieved from `./Puppetfile` and installed to `./modules`
@@ -82,7 +82,7 @@ Proposal for the future:
   * You must be able to share a local directory and to use the flag `--privileged`.
 * Run the `./scripts/vagrant-bootstrap.sh` script to prepare your local environment.
 
-To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles in "dist/role/manifests"/](dist/role/manifests").
+To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles in "dist/role/manifests/"](dist/role/manifests).
 
 Ex: `vagrant up jenkins::controller`
 
