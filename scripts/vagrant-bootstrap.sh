@@ -11,8 +11,6 @@ docker -v
 
 echo "> Installing Development Dependencies (Gems, etc.)..."
 bash "${current_dir}/setupgems.sh"
-
-echo "> WiP..."
 pushd "${repo_dir}/"
 rm -rf "./modules"
 ln -s  "./spec/fixtures/modules" "./modules" # Reuse modules from rpsec tests
