@@ -49,7 +49,7 @@ You can **always** check the Docker image that ci.jenkins.io uses to run the tes
 
 ### Install Local Dependencies
 
-Run the script `./ci/00_setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
+Run the script `./scripts/setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
 
 * Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands, installed to `vendor/gems`
 * Puppet modules retrieved from `./Puppetfile` and installed to `./modules`
@@ -74,22 +74,19 @@ Proposal for the future:
 ##### Pre-requisites for Vagrant
 
 * Make sure that you have set up all the [Pre-requisites for local development](#pre-requisites-for-local-development) above
-* Make sure that you have [an SSH key configured in GitHub](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), and access to https://github.com/jenkins-infra/jenkins-keys via SSH (test: `ssh -vT git@github.com`)
 * Install [Vagrant](https://www.vagrantup.com) version 2.x.
 * Install [Docker](https://www.docker.com/)
   * Docker Desktop is recommended but any other Docker Engine installation should work.
   * Only Linux containers are supported, with Cgroups v2. (CGroups v1 *might* work).
   * The command line `docker` must be present in your `PATH`.
   * You must be able to share a local directory and to use the flag `--privileged`.
-* Run the `./vagrant-bootstrap` script locally to make sure your local environment is prepared.
-  * Should use `bundle` to install ruby gem dependencies
-  * It also pre-builds the Docker image(s) required?
+* Run the `./scripts/vagrant-bootstrap.sh` script to prepare your local environment.
 
-To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles](dist/role/manifests).
+To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined roles in "dist/role/manifests/"](dist/role/manifests).
 
 Ex: `vagrant up jenkins::controller`
 
-You can rerun puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
+You can re-run puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
 When it's all done, remove the instance the instance via `vagrant destroy ROLE`.
 
 ## Branching model

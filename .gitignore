@@ -3,12 +3,8 @@
 .ruby-*
 spec/fixtures/
 .bundle
-vagrant2014*
-d2014*
+modules
 modules/
-.kube/
-# hieradata/roles/kubernetes.yaml is used for local testing
-hieradata/roles/kubernetes.yaml
 log/
 tmp/
 vendor/
