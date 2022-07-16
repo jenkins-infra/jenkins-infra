@@ -16,7 +16,7 @@ class profile::vagrant {
   # Challenge comes from LVM requiring `udev` to discover and manage devices. But udev is not working inside a docker container (other than sharing the host udev).
   # The trick is to run the custom lv commands and then delegate to the lvm the missing part
   # Main point is the "lvcreate" that should use the flag `--zero n` but the puppet module does not allow it alas.
-  lookup('lvm::volume_groups').each | $vg_name, $vg_config| {
+  lookup('lvm::volume_groups', undef, undef, {}).each | $vg_name, $vg_config| {
     # Create an array with the list of specified logicial volumes sizes in bytes
     # Ref. https://puppet.com/docs/puppet/6/function.html#reduce
     $lv_sizes_in_byte = $vg_config['logical_volumes'].reduce([]) |$memo, $value| {
