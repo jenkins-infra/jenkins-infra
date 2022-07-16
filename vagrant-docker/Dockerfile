@@ -14,6 +14,7 @@ RUN apt-get update \
   curl \
   iproute2 \
   locales \
+  lvm2 \
   openssh-server \
   passwd \
   rsyslog \
