@@ -70,6 +70,11 @@ node 'pkg' {
 
 node 'oracle.updates.jenkins.io' {
   sshkeyman::hostkey { ['oracle.updates.jenkins.io']: }
+  # volume configuration is in hiera
+  include lvm
+  package { 'lvm2':
+    ensure => present,
+  }
   include role::updates
 }
 
