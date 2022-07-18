@@ -1,0 +1,12 @@
+---
+lvm::volume_groups:
+  data:
+    physical_volumes:
+      - /dev/loop0
+    logical_volumes:
+      updates_var:
+        size: 15M
+        mountpath: /var
+      updates_srv:
+        size: 15M
+        mountpath: /srv
