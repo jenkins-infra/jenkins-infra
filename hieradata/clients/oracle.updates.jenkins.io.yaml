@@ -11,9 +11,9 @@ lvm::volume_groups:
     physical_volumes:
       - /dev/oracleoci/oraclevdb
     logical_volumes:
-      updates_logs:
-        size: 15G
-        mountpath: /var/log
-      updates_www:
-        size: 15G
-        mountpath: /var/www
+      updates_var:
+        size: 470G
+        mountpath: /var/
+      updates_srv:
+        size: 700G
+        mountpath: /srv
