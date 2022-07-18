@@ -13,16 +13,6 @@ class profile::census (
 
   $docroot = "${home_dir}/census"
 
-  if str2bool($facts['vagrant']) {
-    # during serverspec test, fake /dev/xvdb by a loopback device
-    exec { 'create /tmp/xvdb':
-      command => 'dd if=/dev/zero of=/tmp/xvdb bs=1M count=16; losetup /dev/loop0; losetup /dev/loop0 /tmp/xvdb',
-      unless  => 'test -f /tmp/xvdb',
-      path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-      before  => Physical_volume['/dev/loop0'],
-    }
-  }
-
   package { 'lvm2':
     ensure => present,
   }
