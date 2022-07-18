@@ -78,7 +78,6 @@ node 'oracle.updates.jenkins.io' {
   include role::updates
 }
 
-
 node 'azure.ci.jenkins.io' {
   sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
   include role::jenkins::controller
