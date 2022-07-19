@@ -9,7 +9,7 @@ lvm::volume_groups:
     logical_volumes:
       updates_var:
         size: 470G
-        mountpath: /var
+        mountpath: /var/log/apache2
       updates_srv:
         size: 700G
         mountpath: /srv

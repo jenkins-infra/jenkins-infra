@@ -5,8 +5,8 @@ lvm::volume_groups:
       - /dev/loop0
     logical_volumes:
       updates_var:
-        size: 15M
-        mountpath: /var
+        size: 150M
+        mountpath: /var/log/apache2
       updates_srv:
         size: 15M
         mountpath: /srv
