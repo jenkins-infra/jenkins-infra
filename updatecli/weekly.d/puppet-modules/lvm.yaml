@@ -1,0 +1,57 @@
+---
+title: Bump the LVM Puppet Module
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubrelease
+    name: Get the latest puppetlabs-lvm module version
+    spec:
+      owner: puppetlabs
+      repository: puppetlabs-lvm
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: semver
+
+conditions:
+  testPuppetModuleExists:
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-lvm-{{ source "latestVersion" }}.tar.gz
+
+targets:
+  puppetfile:
+    name: "Update Puppetfile with the latest lvm module version"
+    kind: file
+    sourceid: latestVersion
+    spec:
+      file: Puppetfile
+      matchpattern: >
+        mod 'puppetlabs-lvm'(.*)
+      replacepattern: >
+        mod 'puppetlabs-lvm', '{{ source "latestVersion" }}'
+    scmid: default
+
+pullrequests:
+  default:
+    kind: github
+    scmid: default
+    targets:
+      - puppetfile
+    spec:
+      labels:
+        - puppet-module
+        - dependencies
