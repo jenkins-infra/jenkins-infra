@@ -1,5 +1,5 @@
 ---
-title: Bump the Cron Puppet Module
+title: Bump the LVM Puppet Module
 
 scms:
   default:
@@ -16,10 +16,10 @@ scms:
 sources:
   latestVersion:
     kind: githubrelease
-    name: Get the latest puppetlabs-cron module version
+    name: Get the latest puppetlabs-lvm module version
     spec:
       owner: puppetlabs
-      repository: puppetlabs-cron_core
+      repository: puppetlabs-lvm
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionfilter:
@@ -30,19 +30,19 @@ conditions:
     kind: shell
     disablesourceinput: true
     spec:
-      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppet-cron-{{ source "latestVersion" }}.tar.gz
+      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-lvm-{{ source "latestVersion" }}.tar.gz
 
 targets:
   puppetfile:
-    name: "Update Puppetfile with the latest Cron module version"
+    name: "Update Puppetfile with the latest lvm module version"
     kind: file
     sourceid: latestVersion
     spec:
       file: Puppetfile
       matchpattern: >
-        mod 'puppetlabs-cron_core'(.*)
+        mod 'puppetlabs-lvm'(.*)
       replacepattern: >
-        mod 'puppetlabs-cron_core', '{{ source "latestVersion" }}'
+        mod 'puppetlabs-lvm', '{{ source "latestVersion" }}'
     scmid: default
 
 pullrequests:
