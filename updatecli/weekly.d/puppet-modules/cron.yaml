@@ -18,8 +18,8 @@ sources:
     kind: githubrelease
     name: Get the latest puppetlabs-cron module version
     spec:
-      owner: voxpupuli
-      repository: puppet-cron
+      owner: puppetlabs
+      repository: puppetlabs-cron_core
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionfilter:
