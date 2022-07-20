@@ -62,7 +62,7 @@ Vagrant.configure("2") do |config|
             exec /opt/puppetlabs/bin/puppet apply \
                 --modulepath=dist:modules \
                 --hiera_config=spec/fixtures/hiera.yaml \
-                --execute 'include profile::vagrant\n include role::#{veggie}'
+                --execute 'require profile::vagrant\n include role::#{veggie}'
             EOF
         end
     end

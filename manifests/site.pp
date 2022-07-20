@@ -68,7 +68,11 @@ node 'pkg' {
   include role::pkg
 }
 
-# Jenkins controller for ci.jenkins.io
+node 'oracle.updates.jenkins.io' {
+  sshkeyman::hostkey { ['oracle.updates.jenkins.io']: }
+  include role::updates
+}
+
 node 'azure.ci.jenkins.io' {
   sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
   include role::jenkins::controller
