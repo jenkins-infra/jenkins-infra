@@ -5,7 +5,8 @@ apache::mod::event::maxrequestworkers: '625'
 lvm::volume_groups:
   data:
     physical_volumes:
-      - /dev/oracleoci/oraclevdb
+      # /dev/oracleoci/oraclevdb is only a symlink whichs fails the 2nd LVM run
+      - /dev/sdb 
     logical_volumes:
       updates_var:
         size: 470G
