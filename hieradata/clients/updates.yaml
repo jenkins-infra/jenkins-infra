@@ -6,7 +6,7 @@ lvm::volume_groups:
   data:
     physical_volumes:
       # /dev/oracleoci/oraclevdb is only a symlink whichs fails the 2nd LVM run
-      - /dev/sdb 
+      - /dev/sdb
     logical_volumes:
       updates_var:
         size: 470G
@@ -14,3 +14,5 @@ lvm::volume_groups:
       updates_srv:
         size: 700G
         mountpath: /srv
+profile::updatesite::update_fqdn: 'oracle.updates.jenkins.io'
+profile::updatesite::legacy_update_fqdn: 'oracle.updates.jenkins-ci.org'

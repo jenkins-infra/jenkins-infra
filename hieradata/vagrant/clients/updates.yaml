@@ -10,3 +10,5 @@ lvm::volume_groups:
       updates_srv:
         size: 15M
         mountpath: /srv
+profile::updatesite::update_fqdn: 'oracle.updates.jenkins.io'
+profile::updatesite::legacy_update_fqdn: 'oracle.updates.jenkins-ci.org'

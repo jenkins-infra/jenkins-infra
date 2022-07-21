@@ -7,6 +7,8 @@
 class profile::updatesite (
   $docroot = '/var/www/updates.jenkins.io',
   $ssh_pubkey = undef,
+  $update_fqdn = 'updates.jenkins.io',
+  $legacy_update_fqdn = 'updates.jenkins-ci.org',
 ) {
   include stdlib
   include apache
@@ -15,9 +17,10 @@ class profile::updatesite (
   include profile::firewall
   include profile::letsencrypt
 
-  $update_fqdn = 'updates.jenkins.io'
+  validate_string($update_fqdn)
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
-  $apache_legacy_log_dir = '/var/log/apache2/updates.jenkins-ci.org'
+  validate_string($legacy_update_fqdn)
+  $apache_legacy_log_dir = "/var/log/apache2/${legacy_update_fqdn}"
 
   # We need a shell for now
   # https://issues.jenkins-ci.org/browse/INFRA-657
@@ -62,8 +65,8 @@ class profile::updatesite (
     require                      => Apache::Vhost[$update_fqdn],
   }
 
-  apache::vhost { 'updates.jenkins-ci.org':
-    servername                   => 'updates.jenkins-ci.org',
+  apache::vhost { $legacy_update_fqdn:
+    servername                   => $legacy_update_fqdn,
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     docroot                      => $docroot,
@@ -78,8 +81,8 @@ class profile::updatesite (
     ],
   }
 
-  apache::vhost { 'updates.jenkins-ci.org unsecured':
-    servername                   => 'updates.jenkins-ci.org',
+  apache::vhost { "${legacy_update_fqdn} unsecured":
+    servername                   => $legacy_update_fqdn,
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     docroot                      => $docroot,
@@ -88,7 +91,7 @@ class profile::updatesite (
 
     access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
-    require                      => Apache::Vhost['updates.jenkins-ci.org'],
+    require                      => Apache::Vhost[$legacy_update_fqdn],
   }
 
   ##################################
@@ -124,7 +127,7 @@ class profile::updatesite (
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
-    [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
+    [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
       letsencrypt::certonly { $domain:
         domains     => [$domain],
         plugin      => 'apache',
