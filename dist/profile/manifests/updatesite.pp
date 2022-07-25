@@ -9,6 +9,7 @@ class profile::updatesite (
   $ssh_pubkey = undef,
   $update_fqdn = 'updates.jenkins.io',
   $legacy_update_fqdn = 'updates.jenkins-ci.org',
+  $certificates = {},
 ) {
   include stdlib
   include apache
@@ -128,18 +129,58 @@ class profile::updatesite (
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
-      letsencrypt::certonly { $domain:
-        domains     => [$domain],
-        plugin      => 'apache',
-        manage_cron => true,
-      }
+      if ($certificates[$domain]) {
+        # We're using manual certs, so we need to make sure the certificates are written as files
+        file { "/etc/apache2/ssl/${domain}/privkey.pem":
+          ensure => file,
+          mode   => '0777',
+          owner  => 'root',
+          group  => 'root',
+          content => $certificates[$domain]['privkey'],
+        }
+        file { "/etc/apache2/ssl/${domain}/cert.pem":
+          ensure => file,
+          mode   => '0777',
+          owner  => 'root',
+          group  => 'root',
+          content => $certificates[$domain]['cert'],
+        }
+        file { "/etc/apache2/ssl/${domain}/chain.pem":
+          ensure => file,
+          mode   => '0777',
+          owner  => 'root',
+          group  => 'root',
+          content => $certificates[$domain]['chain'],
+        }
+        file { "/etc/apache2/ssl/${domain}/fullchain.pem":
+          ensure => file,
+          mode   => '0777',
+          owner  => 'root',
+          group  => 'root',
+          content => $certificates[$domain]['fullchain'],
+        }
 
-      Apache::Vhost <| title == $domain |> {
-        ssl_key   => "/etc/letsencrypt/live/${domain}/privkey.pem",
-        # When Apache is upgraded to >= 2.4.8 this should be changed to
-        # fullchain.pem
-        ssl_cert  => "/etc/letsencrypt/live/${domain}/cert.pem",
-        ssl_chain => "/etc/letsencrypt/live/${domain}/chain.pem",
+        Apache::Vhost <| title == $domain |> {
+          ssl_key   => "/etc/apache2/ssl/${domain}/privkey.pem",
+          # When Apache is upgraded to >= 2.4.8 this should be changed to
+          # fullchain.pem
+          ssl_cert  => "/etc/apache2/ssl/${domain}/cert.pem",
+          ssl_chain => "/etc/apache2/ssl/${domain}/chain.pem",
+        }
+      } else {
+        letsencrypt::certonly { $domain:
+          domains     => [$domain],
+          plugin      => 'apache',
+          manage_cron => true,
+        }
+
+        Apache::Vhost <| title == $domain |> {
+          ssl_key   => "/etc/letsencrypt/live/${domain}/privkey.pem",
+          # When Apache is upgraded to >= 2.4.8 this should be changed to
+          # fullchain.pem
+          ssl_cert  => "/etc/letsencrypt/live/${domain}/cert.pem",
+          ssl_chain => "/etc/letsencrypt/live/${domain}/chain.pem",
+        }
       }
     }
   }
