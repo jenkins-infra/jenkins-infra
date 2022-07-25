@@ -83,8 +83,9 @@ describe 'profile::updatesite' do
     end
   end
 
-  context 'when running in production' do
+  context 'when running in production with letsencrypt' do
     let(:environment) { 'production' }
+
     it { expect(subject).to contain_letsencrypt__certonly(fqdn) }
 
     it 'should configure the letsencrypt ssl keys on the main vhost' do
@@ -97,6 +98,8 @@ describe 'profile::updatesite' do
       })
     end
 
+    it { expect(subject).to contain_letsencrypt__certonly(legacy_fqdn) }
+
     it 'should configure the letsencrypt ssl keys on the legacy_fqdn vhost' do
       expect(subject).to contain_apache__vhost(legacy_fqdn).with({
         :servername => legacy_fqdn,
@@ -104,6 +107,46 @@ describe 'profile::updatesite' do
         :ssl_key => "/etc/letsencrypt/live/#{legacy_fqdn}/privkey.pem",
         :ssl_chain => "/etc/letsencrypt/live/#{legacy_fqdn}/chain.pem",
         :ssl_cert => "/etc/letsencrypt/live/#{legacy_fqdn}/cert.pem",
+      })
+    end
+  end
+
+  context 'when running in production with manual certificates' do
+    let(:environment) { 'production' }
+    let(:params) {
+      {
+        :certificates => {
+          'updates.jenkins.io' => {
+            'privkey' => 'update private key',
+            'cert'  => 'updates certificate',
+            'chain' => 'update chain',
+          },
+          'updates.jenkins-ci.org' => {
+            'privkey' => 'legacy private key',
+            'cert'  => 'legacy certificate',
+            'chain' => 'legacy chain',
+          },
+        }
+      }
+    }
+
+    it 'should configure the manual ssl keys on the main vhost' do
+      expect(subject).to contain_apache__vhost(fqdn).with({
+        :servername => fqdn,
+        :port => 443,
+        :ssl_key => "/etc/apache2/ssl/#{fqdn}/privkey.pem",
+        :ssl_cert => "/etc/apache2/ssl/#{fqdn}/cert.pem",
+        :ssl_chain => "/etc/apache2/ssl/#{fqdn}/chain.pem",
+      })
+    end
+
+    it 'should configure the manual ssl keys on the legacy_fqdn vhost' do
+      expect(subject).to contain_apache__vhost(legacy_fqdn).with({
+        :servername => legacy_fqdn,
+        :port => 443,
+        :ssl_key => "/etc/apache2/ssl/#{legacy_fqdn}/privkey.pem",
+        :ssl_chain => "/etc/apache2/ssl/#{legacy_fqdn}/chain.pem",
+        :ssl_cert => "/etc/apache2/ssl/#{legacy_fqdn}/cert.pem",
       })
     end
   end
