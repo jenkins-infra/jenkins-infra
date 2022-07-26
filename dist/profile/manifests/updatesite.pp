@@ -124,50 +124,53 @@ class profile::updatesite (
       purge_ssh_keys => true,
     }
   }
+  notice "certificates : ${certificates}"
+  [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
+    notice "domain : ${domain}"
+    notice "certificates[${domain}] : ${certificates[$domain]}"
+    if ($certificates[$domain]) {
 
-  # We can only acquire certs in production due to the way the letsencrypt
-  # challenge process works
-  if (($environment == 'production')) {
-    [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
-      if ($certificates[$domain]) {
-        # We're using manual certs, so we need to make sure the certificates are written as files
-        file { "/etc/apache2/ssl/${domain}/privkey.pem":
-          ensure  => file,
-          mode    => '0777',
-          owner   => 'root',
-          group   => 'root',
-          content => $certificates[$domain]['privkey'],
-        }
-        file { "/etc/apache2/ssl/${domain}/cert.pem":
-          ensure  => file,
-          mode    => '0777',
-          owner   => 'root',
-          group   => 'root',
-          content => $certificates[$domain]['cert'],
-        }
-        file { "/etc/apache2/ssl/${domain}/chain.pem":
-          ensure  => file,
-          mode    => '0777',
-          owner   => 'root',
-          group   => 'root',
-          content => $certificates[$domain]['chain'],
-        }
-        file { "/etc/apache2/ssl/${domain}/fullchain.pem":
-          ensure  => file,
-          mode    => '0777',
-          owner   => 'root',
-          group   => 'root',
-          content => $certificates[$domain]['fullchain'],
-        }
+      # We're using manual certs, so we need to make sure the certificates are written as files
+      file { "/etc/apache2/ssl/${domain}/privkey.pem":
+        ensure  => file,
+        mode    => '0777',
+        owner   => 'root',
+        group   => 'root',
+        content => $certificates[$domain]['privkey'],
+      }
+      file { "/etc/apache2/ssl/${domain}/cert.pem":
+        ensure  => file,
+        mode    => '0777',
+        owner   => 'root',
+        group   => 'root',
+        content => $certificates[$domain]['cert'],
+      }
+      file { "/etc/apache2/ssl/${domain}/chain.pem":
+        ensure  => file,
+        mode    => '0777',
+        owner   => 'root',
+        group   => 'root',
+        content => $certificates[$domain]['chain'],
+      }
+      file { "/etc/apache2/ssl/${domain}/fullchain.pem":
+        ensure  => file,
+        mode    => '0777',
+        owner   => 'root',
+        group   => 'root',
+        content => $certificates[$domain]['fullchain'],
+      }
 
-        Apache::Vhost <| title == $domain |> {
-          ssl_key   => "/etc/apache2/ssl/${domain}/privkey.pem",
-          # When Apache is upgraded to >= 2.4.8 this should be changed to
-          # fullchain.pem
-          ssl_cert  => "/etc/apache2/ssl/${domain}/cert.pem",
-          ssl_chain => "/etc/apache2/ssl/${domain}/chain.pem",
-        }
-      } elsif ($facts['vagrant'] != '1'){
+      Apache::Vhost <| title == $domain |> {
+        ssl_key   => "/etc/apache2/ssl/${domain}/privkey.pem",
+        # When Apache is upgraded to >= 2.4.8 this should be changed to
+        # fullchain.pem
+        ssl_cert  => "/etc/apache2/ssl/${domain}/cert.pem",
+        ssl_chain => "/etc/apache2/ssl/${domain}/chain.pem",
+      }
+    } else {
+      if (($environment == 'production') and $facts['vagrant'] != '1'){
+        # We can only acquire certs in production due to the way the letsencrypt
+        # challenge process works
         letsencrypt::certonly { $domain:
           domains     => [$domain],
           plugin      => 'apache',

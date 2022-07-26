@@ -112,16 +112,15 @@ describe 'profile::updatesite' do
   end
 
   context 'when running in production with manual certificates' do
-    let(:environment) { 'production' }
     let(:params) {
       {
         :certificates => {
-          'updates.jenkins.io' => {
+          "#{fqdn}" => {
             'privkey' => 'update private key',
             'cert'  => 'updates certificate',
             'chain' => 'update chain',
           },
-          'updates.jenkins-ci.org' => {
+          "#{legacy_fqdn}" => {
             'privkey' => 'legacy private key',
             'cert'  => 'legacy certificate',
             'chain' => 'legacy chain',
