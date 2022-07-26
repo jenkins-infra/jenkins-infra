@@ -132,31 +132,31 @@ class profile::updatesite (
       if ($certificates[$domain]) {
         # We're using manual certs, so we need to make sure the certificates are written as files
         file { "/etc/apache2/ssl/${domain}/privkey.pem":
-          ensure => file,
-          mode   => '0777',
-          owner  => 'root',
-          group  => 'root',
+          ensure  => file,
+          mode    => '0777',
+          owner   => 'root',
+          group   => 'root',
           content => $certificates[$domain]['privkey'],
         }
         file { "/etc/apache2/ssl/${domain}/cert.pem":
-          ensure => file,
-          mode   => '0777',
-          owner  => 'root',
-          group  => 'root',
+          ensure  => file,
+          mode    => '0777',
+          owner   => 'root',
+          group   => 'root',
           content => $certificates[$domain]['cert'],
         }
         file { "/etc/apache2/ssl/${domain}/chain.pem":
-          ensure => file,
-          mode   => '0777',
-          owner  => 'root',
-          group  => 'root',
+          ensure  => file,
+          mode    => '0777',
+          owner   => 'root',
+          group   => 'root',
           content => $certificates[$domain]['chain'],
         }
         file { "/etc/apache2/ssl/${domain}/fullchain.pem":
-          ensure => file,
-          mode   => '0777',
-          owner  => 'root',
-          group  => 'root',
+          ensure  => file,
+          mode    => '0777',
+          owner   => 'root',
+          group   => 'root',
           content => $certificates[$domain]['fullchain'],
         }
 
