@@ -127,7 +127,7 @@ class profile::updatesite (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($environment == 'production') and ($facts['vagrant'] != '1')) {
+  if (($environment == 'production')) {
     [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
       if ($certificates[$domain]) {
         # We're using manual certs, so we need to make sure the certificates are written as files
@@ -167,7 +167,7 @@ class profile::updatesite (
           ssl_cert  => "/etc/apache2/ssl/${domain}/cert.pem",
           ssl_chain => "/etc/apache2/ssl/${domain}/chain.pem",
         }
-      } else {
+      } elsif ($facts['vagrant'] != '1'){
         letsencrypt::certonly { $domain:
           domains     => [$domain],
           plugin      => 'apache',
