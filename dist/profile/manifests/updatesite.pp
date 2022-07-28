@@ -126,12 +126,10 @@ class profile::updatesite (
   }
 
   [$update_fqdn, $legacy_update_fqdn].each |String $domain| {
-    notice "domain : ${domain}"
     if ($certificates[$domain]) {
 
-      notice "manual certificate"
       # We're using manual certs, so we need to make sure the certificates are written as files
-      if ! defined(File['/etc/apache2/ssl']) {
+      if (! defined(File['/etc/apache2/ssl'])) {
         file { '/etc/apache2/ssl':
           ensure => 'directory',
           owner  => 'root',
@@ -139,12 +137,14 @@ class profile::updatesite (
           mode   => '0755',
         }
       }
-      file { "/etc/apache2/ssl/${domain}":
-        ensure => 'directory',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
-        require => File["/etc/apache2/ssl"],
+      if (! defined(File["/etc/apache2/ssl/${domain}"])) {
+        file { "/etc/apache2/ssl/${domain}":
+          ensure => 'directory',
+          owner  => 'root',
+          group  => 'root',
+          mode   => '0755',
+          require => File["/etc/apache2/ssl"],
+        }
       }
       file { "/etc/apache2/ssl/${domain}/privkey.pem":
         ensure  => file,
@@ -187,8 +187,7 @@ class profile::updatesite (
         ssl_chain => "/etc/apache2/ssl/${domain}/chain.pem",
       }
     } else {
-      
-      notice "automatic certificate"
+
       if (($environment == 'production') and $facts['vagrant'] != '1'){
         # We can only acquire certs in production due to the way the letsencrypt
         # challenge process works
