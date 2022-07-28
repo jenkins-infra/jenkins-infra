@@ -139,11 +139,11 @@ class profile::updatesite (
       }
       if (! defined(File["/etc/apache2/ssl/${domain}"])) {
         file { "/etc/apache2/ssl/${domain}":
-          ensure => 'directory',
-          owner  => 'root',
-          group  => 'root',
-          mode   => '0755',
-          require => File["/etc/apache2/ssl"],
+          ensure  => 'directory',
+          owner   => 'root',
+          group   => 'root',
+          mode    => '0755',
+          require => File['/etc/apache2/ssl'],
         }
       }
       file { "/etc/apache2/ssl/${domain}/privkey.pem":
