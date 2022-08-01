@@ -3,6 +3,7 @@
 class role::updates {
   include profile::base
   include profile::updatesite
+  include profile::updatesoracle
 
   package { 'lvm2':
     ensure => present,
