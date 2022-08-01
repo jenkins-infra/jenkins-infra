@@ -207,7 +207,7 @@ profile::jenkinscontroller::agent_images:
     jnlp: jenkins/inbound-agent@sha256:31200aaf8dda54da4641654686966a7ebd1bf8d8b20774d62806d2f50de159e6
 profile::jenkinscontroller::default_tools:
   jdk8:
-    version: "8u332-b09"
+    version: "8u342-b07"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
     version: "11.0.15+10"
