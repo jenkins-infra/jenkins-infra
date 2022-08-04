@@ -59,7 +59,6 @@ profile::jenkinscontroller::plugins:
   - matrix-auth
 
   # Basic Pipeline configuration
-  - basic-branch-build-strategies
   - github-branch-source
   - inline-pipeline
   - pipeline-groovy-lib
