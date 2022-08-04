@@ -34,7 +34,7 @@ mod 'adrien-filemapper'
 mod 'puppetlabs-docker', '4.4.0'
 
 # Deps for docker
-mod 'puppetlabs-apt', '8.4.1'
+mod 'puppetlabs-apt', '8.5.0'
 
 # Apache and its dependencies
 mod 'puppetlabs-apache', '7.0.0'
