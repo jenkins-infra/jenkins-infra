@@ -207,13 +207,13 @@ profile::jenkinscontroller::agent_images:
     jnlp: jenkins/inbound-agent@sha256:01525a26271080cb43be457fd3f89e4d2a759a961f2bd3f4fec96b8f1ad4ca87
 profile::jenkinscontroller::default_tools:
   jdk8:
-    version: "8u332-b09"
+    version: "8u342-b07"
     sourceURL: https://github.com/adoptium/temurin8-binaries/releases/download
   jdk11:
-    version: "11.0.15+10"
+    version: "11.0.16+8"
     sourceURL: https://github.com/adoptium/temurin11-binaries/releases/download
   jdk17:
-    version: "17.0.3+7"
+    version: "17.0.4+8"
     sourceURL: https://github.com/adoptium/temurin17-binaries/releases/download
   maven:
     mvn:
@@ -263,6 +263,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.0.101" # Tracked by updatecli
+profile::openvpn::image_tag: "1.0.102" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
