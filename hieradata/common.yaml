@@ -189,7 +189,7 @@ profile::jenkinscontroller::agents_setup:
 profile::jenkinscontroller::agent_images:
   ec2_amis:
     ubuntu-amd64: "ami-0e521d1aa9fc25871"
-    windows-amd64: "ami-0af9e5c790573e23f"
+    windows-amd64: "ami-01832a2bdc9da6c7a"
     ubuntu-arm64: "ami-0cf96f07846552709"
   azure_vms_gallery_image:
     version: 0.36.2
