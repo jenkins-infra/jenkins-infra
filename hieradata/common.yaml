@@ -199,7 +199,7 @@ profile::jenkinscontroller::agent_images:
     jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
     jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:882c92791cc667e8ab351436fa09ab4f7d5cf6e242c19775693cc25598e64e6e
     jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:7bce4ca41504b1a4b6ec341e26feca2cad069b567935e37adfd22d3c6312e066
-    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:648569de94fd5e5234cd248be1b7ea8da2bf5da01adbfaa738a0510bae24a8e8
+    jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:c6ee840f919265cec14807a1d33bcf2d7d864cdb63522daf2b729372689a0e5a
     jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:7241f2924b2c4ca293d09c8a0f08e14e569e51c3805b6a5fe95b38e34d707c7e
     jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:559f66a2beb71c9c3fd9d1b1d46dc63dbe91dc1cd81e2b7f1dbb50b238d7c7c5'
     jnlp-alpine: 'jenkins/inbound-agent@sha256:cdc27d9c24d834566ccb4b560671d547a5b2f3146444c4447575788d72ff39d5'
