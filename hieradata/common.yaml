@@ -188,7 +188,7 @@ profile::jenkinscontroller::agents_setup:
     osDiskSize: 90
 profile::jenkinscontroller::agent_images:
   ec2_amis:
-    ubuntu-amd64: "ami-0176886c392727c04"
+    ubuntu-amd64: "ami-0e521d1aa9fc25871"
     windows-amd64: "ami-0af9e5c790573e23f"
     ubuntu-arm64: "ami-0cf96f07846552709"
   azure_vms_gallery_image:
