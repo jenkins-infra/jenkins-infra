@@ -263,6 +263,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.0.103" # Tracked by updatecli
+profile::openvpn::image_tag: "1.0.104" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
