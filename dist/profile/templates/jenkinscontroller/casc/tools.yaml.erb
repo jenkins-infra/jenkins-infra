@@ -1,111 +1,92 @@
-<%- if @tools && !@tools.empty? -%>
+<%- if @jcasc['tools'] && @jcasc['tools']['disabled'].to_s != "true" -%>
 tool:
+  <%- if @jcasc['tools']['generic'] -%>
+  generic:
+    installations:
+    <%- @jcasc['tools']['generic'].each do |name, setup| -%>
+    - name: "<%= name %>"
+      properties:
+      - installSource:
+          installers:
+          - zip:
+              subdir: "<%= name %>"
+              url: "<%= setup['url'] %>"
+              <%- if setup['label'] -%>
+              label: "<%= setup['label'] %>"
+          <%- end -%>
+    <%- end -%>
+  <%- end -%>
   git:
     installations:
     - name: "jgit"
+  <%- if @jcasc['tools']['groovy'] -%>
   groovy:
     installations:
-    <%- @tools["groovy"].each do |name, setup| %>
+    <%- @jcasc['tools']['groovy'].each do |name, setup| -%>
     - name: "<%= name %>"
       properties:
       - installSource:
           installers:
           - groovyInstaller:
-              id: "<%= setup["version"] %>"
+              id: "<%= setup['version'] %>"
     <%- end -%>
+  <%- end -%>
+  <%- if @jcasc['tools']['jdk'] -%>
   jdk:
     installations:
-    - name: "jdk8-linux-static"
-      home: "/opt/jdk-8"
-    - name: "jdk8-windows-static"
-      home: "C:\\Tools\\jdk-8"
-    - name: "jdk11-linux-static"
-      home: "/opt/jdk-11"
-    - name: "jdk11-windows-static"
-      home: "C:\\Tools\\jdk-11"
-    - name: "jdk17-linux-static"
-      home: "/opt/jdk-17"
-    - name: "jdk17-windows-static"
-      home: "C:\\Tools\\jdk-17"
-    - name: "jdk8"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "(linux && amd64) || updatecenter || census"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_x64_windows_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_aarch64_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk<%= @tools["jdk8"]["version"] %>"
-              url: "<%= @tools["jdk8"]["sourceURL"] %>/jdk<%= @tools["jdk8"]["version"] %>/OpenJDK8U-jdk_ppc64le_linux_hotspot_<%= @tools["jdk8"]["version"].gsub('-', '') %>.tar.gz"
-    - name: "jdk11"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "linux && amd64"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_x64_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_x64_windows_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_aarch64_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_ppc64le_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "s390x"
-              subdir: "jdk-<%= @tools["jdk11"]["version"] %>"
-              url: "<%= @tools["jdk11"]["sourceURL"] %>/jdk-<%= @tools["jdk11"]["version"] %>/OpenJDK11U-jdk_s390x_linux_hotspot_<%= @tools["jdk11"]["version"].gsub('+', '_') %>.tar.gz"
-    - name: "jdk17"
-      properties:
-      - installSource:
-          installers:
-          - zip:
-              label: "linux && amd64"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_x64_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "windows"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_x64_windows_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.zip"
-          - zip:
-              label: "linux && arm64"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_aarch64_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "ppc64le"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_ppc64le_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-          - zip:
-              label: "s390x"
-              subdir: "jdk-<%= @tools["jdk17"]["version"] %>"
-              url: "<%= @tools["jdk17"]["sourceURL"] %>/jdk-<%= @tools["jdk17"]["version"] %>/OpenJDK17-jdk_s390x_linux_hotspot_<%= @tools["jdk17"]["version"].gsub('+', '_') %>.tar.gz"
-  maven:
-    installations:
-    <%- @tools["maven"].each do |name, setup| -%>
+    <%- @jcasc['tools']['jdk'].each do |name, setup| -%>
+      <%- unless setup['disabled'] -%>
     - name: "<%= name %>"
       properties:
       - installSource:
           installers:
+        <%- setup['installers'].each do |installer_name, installer_setup| -%>
+          - <%= installer_setup['type'] %>:
+          <%- if installer_setup['label'] -%>
+              label: "<%= installer_setup['label'] %>"
+          <%- end -%>
+          <%- if installer_setup['type'] == 'zip' -%>
+            <%- $jdk_major_version = name.gsub('jdk-','').gsub('jdk_','').gsub('jdk','') # Remove eventual prefix
+            $jdk = {
+              'name' => name,
+              'major_version' => $jdk_major_version,
+              'version' => installer_setup['version'] ? installer_setup['version'] : @jcasc['tools_default_versions']["jdk" + $jdk_major_version],
+              'cpu_arch' => installer_setup['cpu_arch'] ? installer_setup['cpu_arch'] : 'x64',
+              'os' => installer_setup['os'] ? installer_setup['os'] : 'linux',
+            }
+            -%>
+              subdir: "<%= name %>-<%= $jdk['version'] %>"
+              url: "<%= scope.call_function('template', ["profile/jdk-adoptium-url.erb"]).chop() %>"
+          <%- elsif installer_setup['type'] == 'command' -%>
+              command: "<%= installer_setup['command'] %>"
+              toolHome: "<%= installer_setup['toolHome'] %>"
+          <%- elsif installer_setup['type'] == 'batchFile' -%>
+              command: "<%= installer_setup['command'] %>"
+              toolHome: "<%= installer_setup['toolHome'] %>"
+          <%- end -%>
+        <%- end -%>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+  <%- if @jcasc['tools']['maven'] -%>
+  maven:
+    installations:
+    <%- @jcasc['tools']['maven'].each do |name, setup| -%>
+      <%- unless setup['disabled'] -%>
+    - name: "<%= name %>"
+        <%- if setup['version'] || setup['default_version'] -%>
+      properties:
+      - installSource:
+          installers:
           - maven:
-              id: "<%= setup["version"] %>"
+              id: "<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
+        <%- elsif setup['home'] -%>
+      home: "<%= setup['home'] %>"
+        <%- end -%>
+      <%- end -%>
     <%- end -%>
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
+  <%- end -%>
 <%- end -%>

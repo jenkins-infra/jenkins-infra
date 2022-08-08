@@ -81,6 +81,13 @@ describe 'profile::jenkinscontroller' do
 
 
   context 'apache configuration' do
+    let(:environment) { 'production' }
+    let(:params) do
+      {
+        :ci_fqdn => fqdn,
+        :letsencrypt => true,
+      }
+    end
     it { expect(subject).to contain_class 'apache' }
     it { expect(subject).to contain_class 'profile::apachemisc' }
     it { expect(subject).to contain_class 'profile::letsencrypt' }

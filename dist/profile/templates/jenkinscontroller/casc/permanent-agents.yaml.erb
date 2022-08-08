@@ -1,0 +1,42 @@
+<%- if @jcasc['permanent_agents'] && @jcasc['permanent_agents']['disabled'].to_s != "true" -%>
+jenkins:
+  nodes:
+  <%- @jcasc['permanent_agents'].each do |agentName, agent| -%>
+  - permanent:
+      name: "<%= agentName %>"
+      remoteFS: "<%= agent['remoteFS'] ? agent['remoteFS'] : '/home/jenkins/agent' %>"
+      numExecutors: "<%= agent['numExecutors'] ? agent['numExecutors'] : '1' %>"
+      retentionStrategy: "always"
+      labelString: "<%= agent['labels'].join(' ') %>"
+      mode: "<%= agent['mode'] %>"
+      launcher:
+    <%- if agent['ssh'] -%>
+        ssh:
+          credentialsId: "<%= agent['ssh']['credentialsId'] %>"
+          host: "<%= agent['ssh']['host'] %>"
+          javaPath: "<%= agent['ssh']['javaPath'] ? agent['ssh']['javaPath'] : '/opt/jdk-11/bin/java' %>"
+          launchTimeoutSeconds: "<%= agent['ssh']['timeout'] ? agent['ssh']['timeout'] : '60' %>"
+          port: "<%= agent['ssh']['port'] ? agent['ssh']['port'] : '22' %>"
+          retryWaitTime: "<%= agent['ssh']['retryWaitTime'] ? agent['ssh']['retryWaitTime'] : '60' %>"
+          maxNumRetries: "<%= agent['ssh']['maxNumRetries'] ? agent['ssh']['maxNumRetries'] : '3' %>"
+          sshHostKeyVerificationStrategy:
+            manuallyProvidedKeyVerificationStrategy:
+              key: "<%= agent['ssh']['hostKey'] %>"
+    <%- end -%>
+    <%- if agent['envVars'] || agent['toolLocation'] -%>
+      nodeProperties:
+      <%- agent['envVars'].each do |envKey, envValue| -%>
+      - envVars:
+          env:
+          - key: "<%= envKey %>"
+            value: "<%= envValue %>"
+      <%- end -%>
+      <%- agent['toolLocation'].each do |tool| -%>
+      - toolLocation:
+          locations:
+          - home: "<%= tool['home'] %>"
+            key: "<%= tool['key'] %>"
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>

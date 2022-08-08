@@ -1,21 +1,29 @@
+<%- if @jcasc['global_libraries'] && @jcasc['global_libraries']['disabled'].to_s != "true" -%>
 unclassified:
   globalLibraries:
     libraries:
-      - defaultVersion: "master"
-        implicit: true
-        includeInChangesets: false
-        name: "pipeline-library"
+  <%-  @jcasc['global_libraries'].each do |name, setup| -%>
+      - defaultVersion: "<%= setup['defaultVersion'] ? setup['defaultVersion'] : 'main' %>"
+        implicit: <%= setup['implicit'] ? setup['implicit'] : 'true' %>
+        includeInChangesets: <%= setup['includeInChangesets'] ? setup['includeInChangesets'] : 'false' %>
+        name: "<%= name %>"
+    <%- if setup['cache-ttl'] -%>
         cachingConfiguration:
-          refreshTimeMinutes: 180
+          refreshTimeMinutes: <%= setup['cache-ttl'] %>
+    <%- end -%>
         retriever:
           modernSCM:
             scm:
               git:
-                id: "pipeline-library"
-                remote: "https://github.com/jenkins-infra/pipeline-library.git"
+                id: "<%= name %>"
+                remote: "<%= setup['remote'] %>"
                 traits:
                 - "gitBranchDiscovery"
+    <%- if setup['allow-pull-requests'] -%>
                 - discoverOtherRefsTrait:
                     ref: "pull/*"
+    <%- end -%>
                 - headWildcardFilter:
                     includes: "*"
+  <%- end -%>
+<%- end -%>

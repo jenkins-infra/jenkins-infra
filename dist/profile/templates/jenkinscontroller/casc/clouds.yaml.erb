@@ -1,145 +1,146 @@
----
+<%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" -%>
 jenkins:
   clouds:
-<%- if @cloud_agents["azure-vm-agents"] && !@cloud_agents["azure-vm-agents"].empty? -%>
-<%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
-  <%- @cloud_agents["azure-vm-agents"]["agent_definitions"].each do |agent| -%>
+  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
+    <%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
+    <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
   - azureVM:
-      azureCredentialsId: "<%= @cloud_agents["azure-vm-agents"]["azureCredentialsId"] %>"
-      cloudName: "azure-<%= agent["name"] %>"
+      azureCredentialsId: "<%= @jcasc['cloud_agents']['azure-vm-agents']['azureCredentialsId'] %>"
+      cloudName: "azure-<%= agent['name'] %>"
       deploymentTimeout: 1200
-      maxVirtualMachinesLimit: <%= agent["maxInstances"] %>
+      existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
+      maxVirtualMachinesLimit: <%= agent['maxInstances'] %>
       resourceGroupReferenceType: "existing"
-      existingResourceGroupName: "<%= @cloud_agents["azure-vm-agents"]["resource_group"] %>"
       vmTemplates:
       - agentLaunchMethod: "SSH"
-        agentWorkspace: "<%= @agents_setup[agent["os"]]["agentDir"] %>"
-        credentialsId: "<%= agent["credentialsId"] %>"
+        agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
+        credentialsId: "<%= agent['credentialsId'] %>"
         diskType: "managed"
         doNotUseMachineIfInitFails: true
         enableMSI: false
         enableUAMI: false
-        ephemeralOSDisk: <%= agent["useEphemeralOSDisk"].nil? ? true : agent["useEphemeralOSDisk"] %>
-        existingStorageAccountName: "<%= agent["storageAccount"] %>"
+        ephemeralOSDisk: <%= agent['useEphemeralOSDisk'].nil? ? true : agent['useEphemeralOSDisk'] %>
+        executeInitScriptAsRoot: false
+        existingStorageAccountName: "<%= agent['storageAccount'] %>"
         storageAccountNameReferenceType: "existing"
         storageAccountType: "Standard_LRS"
         imageReference:
-          galleryImageDefinition: "<%= agent["imageDefinition"] %>"
-          galleryImageVersion: "<%= @agent_images["azure_vms_gallery_image"]["version"] %>"
+          galleryImageDefinition: "<%= agent['imageDefinition'] %>"
+          galleryImageVersion: "<%= @jcasc['agent_images']['azure_vms_gallery_image']['version'] %>"
           galleryName: "prod_packer_images"
           galleryResourceGroup: "prod-packer-images"
-          gallerySubscriptionId: "<%= @agent_images["azure_vms_gallery_image"]["subscription_id"] %>"
+          gallerySubscriptionId: "<%= @jcasc['agent_images']['azure_vms_gallery_image']['subscription_id'] %>"
         imageTopLevelType: "advanced"
         installDocker: false
         installGit: false
         installMaven: false
-        javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
-        jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
-        labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
-        location: "<%= agent["location"] %>"
+        javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
+        jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
+        labels: "<%= agent['os'] %> <%= agent['architecture'] %> azure vm <%= agent['labels'].join(' ') %>"
+        location: "<%= agent['location'] %>"
         noOfParallelJobs: 1
-        osDiskSize: <%= agent["osDiskSize"] ? agent["osDiskSize"] : @agents_setup[agent["os"].to_s]["osDiskSize"] %>
-        osType: "<%= agent["os"].to_s == "windows" ? 'Windows' : 'Linux' %>"
+        osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskSize'] %>
+        osType: "<%= agent['os'].to_s == "windows" ? 'Windows' : 'Linux' %>"
         preInstallSsh: false
-        <%- if agent["idleTerminationMinutes"] -%>
+      <%- if agent['idleTerminationMinutes'] -%>
         retentionStrategy:
           azureVMCloudRetentionStrategy:
-            idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
-        <%- else -%>
+            idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] %>"
+      <%- else -%>
         retentionStrategy: "azureVMCloudOnce"
-        <%- end -%>
+      <%- end -%>
         shutdownOnIdle: false
-        spotInstance: <%= agent["spotInstance"] || agent["spot"] ? true : false %>
-        templateDesc: "Dynamically provisioned <%= agent["description"] %> machine"
+        spotInstance: <%= agent['spotInstance'] || agent['spot'] ? true : false %>
+        templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
-        templateName: "<%= agent["name"] %>"
-        usageMode: "<%= agent["useAsMuchAsPosible"] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
-        virtualMachineSize: "<%= agent["instanceType"] %>"
-        <%- if agent["usePrivateIP"] -%>
+        templateName: "<%= agent['name'] %>"
+        usageMode: "<%= agent['useAsMuchAsPosible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
+        virtualMachineSize: "<%= agent['instanceType'] %>"
+      <%- if agent['usePrivateIP'] -%>
         usePrivateIP: true
-        virtualNetworkName: "<%= agent["virtualNetworkName"] %>"
-        virtualNetworkResourceGroupName: "<%= agent["virtualNetworkResourceGroupName"] %>"
-        subnetName: "<%= agent["subnetName"] %>"
-        <%- else -%>
+        virtualNetworkName: "<%= agent['virtualNetworkName'] %>"
+        virtualNetworkResourceGroupName: "<%= agent['virtualNetworkResourceGroupName'] %>"
+        subnetName: "<%= agent['subnetName'] %>"
+      <%- else -%>
         usePrivateIP: false
-        <%- end -%>
+      <%- end -%>
     <%- end -%>
-<%- end -%>
-<%- if @cloud_agents["azure-container-agents"] && !@cloud_agents["azure-container-agents"].empty? -%>
-  <%- @cloud_agents["azure-container-agents"].each do |aci_cloud_name, aci_cloud_setup| -%>
+  <%- end -%>
+  <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? -%>
+    <%- @jcasc['cloud_agents']['azure-container-agents'].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
-      credentialsId: "<%= aci_cloud_setup["credentialsId"] %>"
+      credentialsId: "<%= aci_cloud_setup['credentialsId'] %>"
       name: "<%= aci_cloud_name %>"
-      resourceGroup: "<%= aci_cloud_setup["resource_group"] %>"
+      resourceGroup: "<%= aci_cloud_setup['resource_group'] %>"
       templates:
-      <%- aci_cloud_setup["agent_definitions"].each do |agent| -%>
-      - command: "<%= agent["command"] %>"
-        cpu: "<%= agent["cpus"] %>"
-        image: "<%= @agent_images["container_images"]['jnlp-' + agent["name"].to_s] %>"
-        label: "<%= agent["os"] %> azure aci container <%= agent["labels"].join(' ') %>"
-        memory: "<%= agent["memory"] %>"
-        name: "aci-<%= agent["name"] %>"
-        osType: "<%= agent["os"] == "windows" ? 'Windows' : 'Linux' %>"
+      <%- aci_cloud_setup['agent_definitions'].each do |agent| -%>
+      - command: "<%= agent['command'] %>"
+        cpu: "<%= agent['cpus'] %>"
+        image: "<%= @jcasc['agent_images']['container_images']['jnlp-' + agent['name'].to_s] %>"
+        label: "<%= agent['os'] %> azure aci container <%= agent['labels'].join(' ') %>"
+        memory: "<%= agent['memory'] %>"
+        name: "aci-<%= agent['name'] %>"
+        osType: "<%= agent['os'] == "windows" ? 'Windows' : 'Linux' %>"
         retentionStrategy: "containerOnce"
-        rootFs: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
+        rootFs: "<%= @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
         timeout: 60
         # Please note that envVars are specified differently than permanent or Kubernetes agents
         envVars:
           - key: "JENKINS_JAVA_OPTS"
-            value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
+            value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
           - key: "JENKINS_JAVA_BIN"
-            value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
+            value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
       <%- end -%>
+    <%- end -%>
   <%- end -%>
-<%- end -%>
-<%- if @cloud_agents["ec2"] && !@cloud_agents["ec2"].empty? -%>
-  <%- @cloud_agents["ec2"].each do |ec2_cloud_name, ec2_cloud_setup| -%>
+  <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
+    <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       cloudName: <%= ec2_cloud_name %>
-      credentialsId: "<%= ec2_cloud_setup["credentialsId"] %>"
-      <%- $maxEC2Vms = 0; ec2_cloud_setup["agent_definitions"].each do |agent| -%>
-        <%- $maxEC2Vms = agent["maxInstances"] + $maxEC2Vms -%>
+      credentialsId: "<%= ec2_cloud_setup['credentialsId'] %>"
+      <%- $maxEC2Vms = 0; ec2_cloud_setup['agent_definitions'].each do |agent| -%>
+        <%- $maxEC2Vms = agent['maxInstances'] + $maxEC2Vms -%>
       <%- end -%>
       instanceCapStr: "<%= $maxEC2Vms %>"
-      region: "<%= ec2_cloud_setup["region"] %>"
-      sshKeysCredentialsId: "<%= ec2_cloud_setup["sshKeysCredentialsId"] %>"
+      region: "<%= ec2_cloud_setup['region'] %>"
+      sshKeysCredentialsId: "<%= ec2_cloud_setup['sshKeysCredentialsId'] %>"
       useInstanceProfileForCredentials: false
       templates:
-      <%- ec2_cloud_setup["agent_definitions"].each do |agent| -%>
-      - ami: "<%= @agent_images["ec2_amis"][agent["os"].to_s + "-" + agent["architecture"].to_s] %>"
+      <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
+      - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['architecture'].to_s] %>"
         amiOwners: "200564066411"
         amiType:
           unixData:
             <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
-            <%- if agent["os"].to_s != 'windows' -%>
-            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup['ubuntu']['agentJavaBin']]) %>:^${PATH}"
+            <%- if agent['os'].to_s != 'windows' -%>
+            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin']]) %>:^${PATH}"
             <%- end -%>
             sshPort: "22"
         associatePublicIp: true
         connectBySSHProcess: false
         connectionStrategy: PUBLIC_DNS
         deleteRootOnTermination: true
-        description: "<%= agent["description"] %>"
+        description: "<%= agent['description'] %>"
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
-        <%- if agent["idleTerminationMinutes"] -%>
-        idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
+        <%- if agent['idleTerminationMinutes'] -%>
+        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] %>"
         <%- end -%>
-        instanceCapStr: "<%= agent["maxInstances"] %>"
-        jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
-        labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
+        instanceCapStr: "<%= agent['maxInstances'] %>"
+        jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
+        labelString: "<%= agent['os'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
-        mode: <%= agent["useAsMuchAsPosible"] == true ? 'NORMAL' : 'EXCLUSIVE' %>
+        mode: <%= agent['useAsMuchAsPosible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>
         monitoring: false
         numExecutors: 1
-        remoteAdmin: "<%= @agents_setup[agent["os"].to_s]["remoteAdmin"] %>"
-        remoteFS: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
+        remoteAdmin: "<%= @jcasc['agents_setup'][agent['os'].to_s]['remoteAdmin'] %>"
+        remoteFS: "<%= @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
         securityGroups: "ci-agents"
-        <%- if agent["spot"] -%>
+        <%- if agent['spot'] -%>
         spotConfig:
           fallbackToOndemand: true
           useBidPrice: false
@@ -148,46 +149,46 @@ jenkins:
         t2Unlimited: false
         tags:
         - name: "architecture"
-          value: "<%= agent["architecture"] %>"
+          value: "<%= agent['architecture'] %>"
         - name: "os"
-          value: "<%= agent["os"] %>"
+          value: "<%= agent['os'] %>"
         - name: "jenkins"
           value: "ci.jenkins.io"
         tenancy: Default
-        type: <%= agent["instanceType"] %>
-        tmpDir: "<%= @agents_setup[agent["os"]]["tempDir"] %>"
+        type: <%= agent['instanceType'] %>
+        tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
         useEphemeralDevices: true
       <%- end -%>
+    <%- end -%>
   <%- end -%>
-<%- end -%>
-<%- if @cloud_agents["kubernetes"] && !@cloud_agents["kubernetes"].empty? -%>
-  <%- @cloud_agents["kubernetes"].each do |k8s_name, k8s_setup| -%>
+  <%- if @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
+    <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
   - kubernetes:
       name: "<%= k8s_name %>"
-      containerCap: <%= k8s_setup["max_capacity"] %>
-      credentialsId: "<%= k8s_setup["credentialsId"] %>"
+      containerCap: <%= k8s_setup['max_capacity'] %>
+      credentialsId: "<%= k8s_setup['credentialsId'] %>"
       directConnection: true
       namespace: "jenkins-agents"
-      serverUrl: "<%= k8s_setup["url"] %>"
-      <%- if k8s_setup["serverCertificate"] -%>
+      serverUrl: "<%= k8s_setup['url'] %>"
+      <%- if k8s_setup['serverCertificate'] -%>
       serverCertificate: |
-        <%- k8s_setup["serverCertificate"].split("\n").each do |line| -%>
+        <%- k8s_setup['serverCertificate'].split("\n").each do |line| -%>
           <%= line %>
         <%- end -%>
       <%- end -%>
       templates:
-      <%- k8s_setup["agent_definitions"].each do |agent| -%>
+      <%- k8s_setup['agent_definitions'].each do |agent| -%>
         - containers:
           - alwaysPullImage: false
-            image: "<%= @agent_images["container_images"][agent["name"]] %>"
+            image: "<%= @jcasc['agent_images']['container_images'][agent['name']] %>"
             # Please note that envVars are specified differently than permanent or ACI agents
             envVars:
               - envVar:
                   key: "JENKINS_JAVA_OPTS"
-                  value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup["ubuntu"]["agentJavaOpts"] %>"
+                  value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup']['ubuntu']['agentJavaOpts'] %>"
               - envVar:
                   key: "JENKINS_JAVA_BIN"
-                  value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup["ubuntu"]["agentJavaBin"] %>"
+                  value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin'] %>"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
@@ -197,19 +198,20 @@ jenkins:
             name: "jnlp"
             command: "/usr/local/bin/jenkins-agent"
             args: ""
-            resourceLimitCpu: "<%= agent["cpus"] %>"
-            resourceLimitMemory: "<%= agent["memory"] %>G"
-            resourceRequestCpu: "<%= agent["cpus"] %>"
-            resourceRequestMemory: "<%= agent["memory"] %>G"
+            resourceLimitCpu: "<%= agent['cpus'] %>"
+            resourceLimitMemory: "<%= agent['memory'] %>G"
+            resourceRequestCpu: "<%= agent['cpus'] %>"
+            resourceRequestMemory: "<%= agent['memory'] %>G"
             workingDir: "/home/jenkins"
-          label: "container kubernetes <%= k8s_name %> <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
-          name: "<%= agent["name"] %>"
-          <%- if agent["imagePullSecrets"] -%>
+          label: "container kubernetes <%= k8s_name %> <%= agent['labels'] ? agent['labels'].join(' ') : '' %>"
+          name: "<%= agent['name'] %>"
+        <%- if agent['imagePullSecrets'] -%>
           imagePullSecrets:
-          - name: "<%= agent["imagePullSecrets"] %>"
-          <%- end -%>
+          - name: "<%= agent['imagePullSecrets'] %>"
+        <%- end -%>
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
       <%- end -%>
+    <%- end -%>
   <%- end -%>
 <%- end -%>

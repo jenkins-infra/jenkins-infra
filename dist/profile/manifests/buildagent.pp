@@ -72,29 +72,18 @@ class profile::buildagent (
         'zip',
     ])
 
-    lookup('profile::jenkinscontroller::default_tools').filter |$items| { $items[0] =~ /^jdk/ }.each |$tool, $tool_config| {
-      $jdk_major_version = $tool[3,6] # support for major version from 1 up to 3 digits. Goal is to remove the 3 leading characters.
-      $java_dir = "/opt/jdk-${$jdk_major_version}"
-      case $jdk_major_version {
-        '8': {
-          $uri_separator = ''
-          $stripped_version = inline_template("<%= @tool_config['version'].gsub('-', '') %>")
-        }
-        '11': {
-          $uri_separator = '-'
-          $stripped_version = inline_template("<%= @tool_config['version'].gsub('+', '_') %>")
-        }
-        '17': {
-          $uri_separator = '-'
-          $stripped_version = inline_template("<%= @tool_config['version'].gsub('+', '_') %>")
-        }
-        default: {
-        }
+    lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_version| {
+      $jdk = {
+        name => $jdk_name,
+        major_version => regsubst($jdk_name, 'jdk', '').regsubst($jdk_name, 'jdk-', ''),
+        version => $jdk_version,
       }
+      $java_dir = "/opt/jdk-${$jdk['major_version']}"
 
-      $archive_url = "${tool_config['sourceURL']}/jdk${uri_separator}${$tool_config['version']}/OpenJDK${jdk_major_version}U-jdk_x64_linux_hotspot_${stripped_version}.tar.gz"
+      # Use this reusable template to retrieve the URL of the adoptium binary (requires the variable $jdk to be set)
+      $archive_url = chop(template("${module_name}/jdk-adoptium-url.erb"))
 
-      notice("Installing Adoptium JDK ${$jdk_major_version} to ${java_dir} from ${archive_url}")
+      notice("Installing Adoptium JDK ${$jdk['major_version']} to ${java_dir} from ${archive_url}")
 
       file { $java_dir:
         ensure  => directory,
@@ -102,7 +91,7 @@ class profile::buildagent (
         recurse => true,
       }
 
-      Archive { "/tmp/jdk${jdk_major_version}.tgz":
+      Archive { "/tmp/jdk${$jdk['major_version']}.tgz":
         provider      => 'curl',
         require       => [Package['curl', 'tar'],File[$java_dir]],
         source        => $archive_url,
