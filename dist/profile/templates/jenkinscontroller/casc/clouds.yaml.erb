@@ -33,7 +33,8 @@ jenkins:
         installDocker: false
         installGit: false
         installMaven: false
-        javaPath: "java"
+        javaPath: "<%= @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
+        jvmOptions: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
         labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
         location: "<%= agent["location"] %>"
         noOfParallelJobs: 1
@@ -82,6 +83,12 @@ jenkins:
         retentionStrategy: "containerOnce"
         rootFs: "<%= @agents_setup[agent["os"].to_s]["agentDir"] %>"
         timeout: 60
+        # Please note that envVars are specified differently than permanent or Kubernetes agents
+        envVars:
+          - key: "JENKINS_JAVA_OPTS"
+            value: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
+          - key: "JENKINS_JAVA_BIN"
+            value: "<%= @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
       <%- end -%>
   <%- end -%>
 <%- end -%>
@@ -103,6 +110,10 @@ jenkins:
         amiOwners: "200564066411"
         amiType:
           unixData:
+            <%# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 %>
+            <%- if agent["os"].to_s != 'windows' -%>
+            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [@agents_setup["ubuntu"]["agentJavaBin"]]) %>:${PATH}"
+            <%- end -%>
             sshPort: "22"
         associatePublicIp: true
         connectBySSHProcess: false
@@ -116,6 +127,7 @@ jenkins:
         idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
         <%- end -%>
         instanceCapStr: "<%= agent["maxInstances"] %>"
+        jvmopts: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build
@@ -168,10 +180,14 @@ jenkins:
         - containers:
           - alwaysPullImage: false
             image: "<%= @agent_images["container_images"][agent["name"]] %>"
+            # Please note that envVars are specified differently than permanent or ACI agents
             envVars:
               - envVar:
-                   key: "JENKINS_JAVA_OPTS"
-                   value: "-XX:+PrintCommandLineFlags"
+                  key: "JENKINS_JAVA_OPTS"
+                  value: "<%= @agents_setup["ubuntu"]["agentJavaOpts"] %>"
+              - envVar:
+                  key: "JENKINS_JAVA_BIN"
+                  value: "<%= @agents_setup["ubuntu"]["agentJavaBin"] %>"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
@@ -188,7 +204,7 @@ jenkins:
             workingDir: "/home/jenkins"
           label: "container kubernetes <%= k8s_name %> <%= agent["labels"] ? agent["labels"].join(' ') : '' %>"
           name: "<%= agent["name"] %>"
-           <%- if agent["imagePullSecrets"] -%>
+          <%- if agent["imagePullSecrets"] -%>
           imagePullSecrets:
           - name: "<%= agent["imagePullSecrets"] %>"
           <%- end -%>
