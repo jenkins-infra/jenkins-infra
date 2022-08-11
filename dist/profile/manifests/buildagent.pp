@@ -88,6 +88,8 @@ class profile::buildagent (
           $uri_separator = '-'
           $stripped_version = inline_template("<%= @tool_config['version'].gsub('+', '_') %>")
         }
+        default: {
+        }
       }
 
       $archive_url = "${tool_config['sourceURL']}/jdk${uri_separator}${$tool_config['version']}/OpenJDK${jdk_major_version}U-jdk_x64_linux_hotspot_${stripped_version}.tar.gz"
