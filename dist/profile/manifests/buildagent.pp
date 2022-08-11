@@ -67,8 +67,51 @@ class profile::buildagent (
         'git',
         'openssl',
         'subversion',
+        'tar',
         'unzip',
+        'zip',
     ])
+
+    lookup('profile::jenkinscontroller::default_tools').filter |$items| { $items[0] =~ /^jdk/ }.each |$tool, $tool_config| {
+      $jdk_major_version = $tool[3,6] # support for major version from 1 up to 3 digits. Goal is to remove the 3 leading characters.
+      $java_dir = "/opt/jdk-${$jdk_major_version}"
+      case $jdk_major_version {
+        '8': {
+          $uri_separator = ''
+          $stripped_version = inline_template("<%= @tool_config['version'].gsub('-', '') %>")
+        }
+        '11': {
+          $uri_separator = '-'
+          $stripped_version = inline_template("<%= @tool_config['version'].gsub('+', '_') %>")
+        }
+        '17': {
+          $uri_separator = '-'
+          $stripped_version = inline_template("<%= @tool_config['version'].gsub('+', '_') %>")
+        }
+      }
+
+      $archive_url = "${tool_config['sourceURL']}/jdk${uri_separator}${$tool_config['version']}/OpenJDK${jdk_major_version}U-jdk_x64_linux_hotspot_${stripped_version}.tar.gz"
+
+      notice("Installing Adoptium JDK ${$jdk_major_version} to ${java_dir} from ${archive_url}")
+
+      file { $java_dir:
+        ensure  => directory,
+        owner   => 'root',
+        mode    => '0755',
+        recurse => true,
+      }
+
+      Archive { "/tmp/jdk${jdk_major_version}.tgz":
+        provider      => 'curl',
+        require       => [Package['curl', 'tar'],File[$java_dir]],
+        source        => $archive_url,
+        extract       => true,
+        extract_path  => $java_dir,
+        extract_flags => '--extract --strip-components=1 --gunzip -f',
+        creates       => "${java_dir}/bin/java",
+        cleanup       => true,
+      }
+    }
   }
 
   # https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/

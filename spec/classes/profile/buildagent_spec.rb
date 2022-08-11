@@ -12,10 +12,6 @@ describe 'profile::buildagent' do
     end
   end
 
-  # Provided by the `git` module
-  it { expect(subject).to contain_package 'git' }
-  it { expect(subject).to contain_package 'unzip' }
-
   context 'managing a `jenkins` user' do
     it 'should provision the "jenkins" account properly' do
       expect(subject).to contain_account('jenkins').with({
@@ -90,32 +86,29 @@ describe 'profile::buildagent' do
     it { expect(subject).to contain_package 'subversion' }
     it { expect(subject).to contain_package 'make' }
     it { expect(subject).to contain_package 'build-essential' }
+    it { expect(subject).to contain_package 'tar' }
+    it { expect(subject).to contain_package 'git' }
+    it { expect(subject).to contain_package 'unzip' }
+
+    # All JDKs
+    it { expect(subject).to contain_file '/opt/jdk-8' }
+    it { expect(subject).to contain_file '/opt/jdk-11' }
+    it { expect(subject).to contain_file '/opt/jdk-17' }
   end
-
-  context 'on Darwin' do
-    let(:facts) do
-      {
-        :kernel => 'Darwin',
-      }
-    end
-
-    it { should_not contain_package 'build-essential' }
-  end
-
 
   context 'with ssh_private_keys' do
     let(:home) { '/tmp/rspec' }
     let(:private_keys) do
       {
-         "#{home}/.ssh/id_rsa" => {
-          'type' => 'ssh-rsa',
-          'key'  => 'publickey',
-          'privkey' => 'privatekey',
-          },
-          "#{home}/.ssh/special" => {
-            'privkey'  => 'specialprivatekey',
-            'for_host' => 'updates.jenkins.io',
-          },
+        "#{home}/.ssh/id_rsa" => {
+        'type' => 'ssh-rsa',
+        'key'  => 'publickey',
+        'privkey' => 'privatekey',
+        },
+        "#{home}/.ssh/special" => {
+          'privkey'  => 'specialprivatekey',
+          'for_host' => 'updates.jenkins.io',
+        },
       }
     end
     let(:params) do
