@@ -2,7 +2,6 @@
 class profile::buildagent (
   $home_dir         = '/home/jenkins',
   $docker           = true,
-  $ruby             = true,
   $trusted_agent    = false,
   $ssh_keys         = undef,
 ) {
@@ -10,12 +9,6 @@ class profile::buildagent (
   include limits
 
   $user = 'jenkins'
-
-  if $ruby {
-    # Make sure our Ruby class is properly contained so we can require it in a
-    # Package resource
-    contain('ruby')
-  }
 
   if $docker {
     include profile::docker
@@ -65,27 +58,15 @@ class profile::buildagent (
     }
   }
 
-  if $ruby {
-    package { 'bundler':
-      ensure   => installed,
-      provider => 'gem',
-      require  => Class['ruby'],
-    }
-
-    ensure_packages([
-        'git',
-        'libxml2-dev',          # for Ruby apps that require nokogiri
-        'libxslt1-dev',         # for Ruby apps that require nokogiri
-        'libcurl4-openssl-dev', # for curb gem
-        'libruby',              # for net/https
-    ])
-  }
-
   if $facts['kernel'] == 'Linux' {
     ensure_packages([
-        'subversion',
-        'make',
         'build-essential',
+        'curl',
+        'ca-certificates',
+        'make',
+        'git',
+        'openssl',
+        'subversion',
         'unzip',
     ])
   }

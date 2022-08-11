@@ -86,25 +86,6 @@ describe 'profile::buildagent' do
     end
   end
 
-  context 'with ruby => true' do
-    it { expect(subject).to contain_class 'ruby' }
-    it { expect(subject).to contain_package 'bundler' }
-    it { expect(subject).to contain_package 'libruby' }
-  end
-
-  context 'with ruby => false' do
-    let(:params) do
-      {
-        :ruby => false,
-      }
-    end
-
-    it { should_not contain_class 'ruby' }
-    it { should_not contain_package 'bundler' }
-    it { should_not contain_package 'libruby' }
-  end
-
-
   context 'on Linux' do
     it { expect(subject).to contain_package 'subversion' }
     it { expect(subject).to contain_package 'make' }
