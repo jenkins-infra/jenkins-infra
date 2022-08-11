@@ -6,6 +6,7 @@ mod 'puppet-r10k', '6.8.0'
 # Deps for zack/r10k
 mod 'puppetlabs-stdlib', '5.2.0'
 
+# Deps for apachelogcompressor
 mod 'puppetlabs-ruby', '1.0.1'
 mod 'puppetlabs-gcc', '0.3.0'
 # Used for installing gems for the puppetserver, like with hiera-eyaml
