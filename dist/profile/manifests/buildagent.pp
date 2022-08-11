@@ -99,7 +99,6 @@ class profile::buildagent (
       file { $java_dir:
         ensure  => directory,
         owner   => 'root',
-        mode    => '0644',
         recurse => true,
       }
 
