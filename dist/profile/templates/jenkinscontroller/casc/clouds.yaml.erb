@@ -110,9 +110,9 @@ jenkins:
         amiOwners: "200564066411"
         amiType:
           unixData:
-            <%# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 %>
+            <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
             <%- if agent["os"].to_s != 'windows' -%>
-            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [@agents_setup["ubuntu"]["agentJavaBin"]]) %>:${PATH}"
+            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [@agents_setup["ubuntu"]["agentJavaBin"]]) %>:^${PATH}"
             <%- end -%>
             sshPort: "22"
         associatePublicIp: true
