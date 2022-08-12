@@ -51,7 +51,7 @@ You can **always** check the Docker image that ci.jenkins.io uses to run the tes
 
 Run the script `./scripts/setupgems.sh` to ensure that all the local dependencies are ready for local development, including:
 
-* Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands, installed to `vendor/gems`
+* Ruby Gems managed by `bundler` (through `Gemfile` and `Gemfile.lock`) to ensure development tools are available through `bundle exec <tool>` commands
 * Puppet modules retrieved from `./Puppetfile` and installed to `./modules`
 * Unit Tests fixtures generated from `./Puppetfile` into `.fixtures.yml` but also other locations in `./spec/`
 
