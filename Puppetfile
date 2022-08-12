@@ -4,7 +4,7 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppet-r10k', '6.8.0'
 
 # Deps for zack/r10k
-mod 'puppetlabs-stdlib', '5.2.0'
+mod 'puppetlabs-stdlib', '8.4.0'
 
 # Deps for apachelogcompressor
 mod 'puppetlabs-ruby', '1.0.1'
