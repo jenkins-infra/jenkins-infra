@@ -103,6 +103,7 @@ profile::jenkinscontroller::cloud_agents:
             - jdk11
           cpus: 4
           memory: 8
+          agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
           imagePullSecrets: dockerhub-credential
         - name: jnlp-maven-17
           labels:
@@ -188,6 +189,7 @@ profile::jenkinscontroller::cloud_agents:
             - jdk11
           cpus: 4
           memory: 8
+          agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
           imagePullSecrets: dockerhub-credential
         - name: jnlp-maven-17
           labels:
@@ -343,6 +345,7 @@ profile::jenkinscontroller::cloud_agents:
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
           cpus: 4
           memory: 8
+          agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
           labels:
             - maven-11-windows
 # These are plugins we need in our ci environment

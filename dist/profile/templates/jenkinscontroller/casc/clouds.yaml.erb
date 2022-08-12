@@ -184,10 +184,10 @@ jenkins:
             envVars:
               - envVar:
                   key: "JENKINS_JAVA_OPTS"
-                  value: "<%= @agents_setup["ubuntu"]["agentJavaOpts"] %>"
+                  value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup["ubuntu"]["agentJavaOpts"] %>"
               - envVar:
                   key: "JENKINS_JAVA_BIN"
-                  value: "<%= @agents_setup["ubuntu"]["agentJavaBin"] %>"
+                  value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup["ubuntu"]["agentJavaBin"] %>"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
