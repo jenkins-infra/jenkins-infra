@@ -63,10 +63,11 @@ RSpec.configure do |c|
     :is_pe => true,
     # Needed for conditionals like:
     # <https://github.com/saz/puppet-sudo/blob/v3.0.6/manifests/init.pp#L147>
-    :puppetversion => '6.0.4', # 6.23.0 on some machines
-    :facterversion => '3.12.1', # 3.14.18 on some machines
-    :pe_version => '6.0.4',
-    :pe_server_version => '2019.0.1',
+    # Get versions matrix at https://puppet.com/docs/puppet/7/platform_lifecycle.html#about_agent-platform-releases
+    :puppetversion => '6.28.0',
+    :facterversion => '3.14.24', # Must be the version installed with the puppet-agent package
+    :pe_version => '6.27.1',
+    :pe_server_version => '2019.8.11',
     :apt_update_last_success => '1657469796',
     :vagrant => false,
     :staging_http_get => 'curl',
