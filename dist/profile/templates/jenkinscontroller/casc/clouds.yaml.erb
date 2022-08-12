@@ -33,8 +33,8 @@ jenkins:
         installDocker: false
         installGit: false
         installMaven: false
-        javaPath: "<%= @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
-        jvmOptions: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
+        javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
+        jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
         labels: "<%= agent["os"] %> <%= agent["architecture"] %> azure vm <%= agent["labels"].join(' ') %>"
         location: "<%= agent["location"] %>"
         noOfParallelJobs: 1
@@ -86,9 +86,9 @@ jenkins:
         # Please note that envVars are specified differently than permanent or Kubernetes agents
         envVars:
           - key: "JENKINS_JAVA_OPTS"
-            value: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
+            value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
           - key: "JENKINS_JAVA_BIN"
-            value: "<%= @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
+            value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup[agent["os"].to_s]["agentJavaBin"] %>"
       <%- end -%>
   <%- end -%>
 <%- end -%>
@@ -112,7 +112,7 @@ jenkins:
           unixData:
             <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
             <%- if agent["os"].to_s != 'windows' -%>
-            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [@agents_setup["ubuntu"]["agentJavaBin"]]) %>:^${PATH}"
+            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @agents_setup['ubuntu']['agentJavaBin']]) %>:^${PATH}"
             <%- end -%>
             sshPort: "22"
         associatePublicIp: true
@@ -127,7 +127,7 @@ jenkins:
         idleTerminationMinutes: "<%= agent["idleTerminationMinutes"] %>"
         <%- end -%>
         instanceCapStr: "<%= agent["maxInstances"] %>"
-        jvmopts: "<%= @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
+        jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @agents_setup[agent["os"].to_s]["agentJavaOpts"] %>"
         labelString: "<%= agent["os"] %> <%= agent["architecture"] %> aws ec2 vm <%= agent["labels"].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build
