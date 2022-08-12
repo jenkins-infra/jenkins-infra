@@ -1,0 +1,16 @@
+---
+version: 5
+defaults:
+  datadir: hieradata
+  data_hash: yaml_data
+hierarchy:
+  - name: "YAML Hierarchy Levels"
+    paths:
+      # The kind fact is used by testing systems such as vagrant
+      - "%{kind}/clients/%{veggie}.yaml"
+      - "%{kind}/roles/%{hiera_role}.yaml"
+      - "%{kind}/common.yaml"
+      - "clients/%{clientcert}.yaml"
+      - "roles/%{hiera_role}.yaml"
+      - "env/%{environment}.yaml"
+      - "common.yaml"

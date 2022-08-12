@@ -48,20 +48,19 @@ Vagrant.configure("2") do |config|
                 rm -f "${package_name}"
                 apt-get update --quiet
                 apt-get install --no-install-recommends --yes --quiet puppet-agent
-                /opt/puppetlabs/puppet/bin/gem install --no-document deep_merge
                 touch /apt-cached
             fi
 
             cd /vagrant
             set -xe
 
-            export FACTER_vagrant=1
+            export FACTER_kind=vagrant
             export FACTER_veggie=#{veggie}
             export FACTER_clientcert=#{veggie}
             export FACTER_hiera_role=#{veggie}
             exec /opt/puppetlabs/bin/puppet apply \
                 --modulepath=dist:modules \
-                --hiera_config=spec/fixtures/hiera.yaml \
+                --hiera_config=hiera.yaml \
                 --execute 'require profile::vagrant\n include role::#{veggie}'
             EOF
         end

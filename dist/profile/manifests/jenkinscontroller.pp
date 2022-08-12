@@ -489,7 +489,7 @@ ${custom_fragment_api_paths}
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($letsencrypt == true) and ($environment == 'production') and ($facts['vagrant'] != '1')) {
+  if (($letsencrypt == true) and ($environment == 'production') and ($facts['kind'] != 'vagrant')) {
     letsencrypt::certonly { $ci_fqdn:
       domains     => [$ci_fqdn, $ci_resource_domain],
       plugin      => 'apache',

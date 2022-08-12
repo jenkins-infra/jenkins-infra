@@ -212,7 +212,7 @@ class profile::usage (
 
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
-  if (($environment == 'production') and ($facts['vagrant'] != '1')) {
+  if (($environment == 'production') and ($facts['kind'] != 'vagrant')) {
     letsencrypt::certonly { $usage_fqdn:
       domains     => [$usage_fqdn],
       plugin      => 'apache',

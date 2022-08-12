@@ -13,7 +13,7 @@ class profile::puppetmaster {
   # If we're inside of Vagrant we don't have the Service[pe-puppetserver]
   # resource defined since that comes with Puppet Enterprise. We'll define a
   # simple one just to make things 'work'
-  if str2bool($facts['vagrant']) {
+  if ($facts['kind'] == 'vagrant') {
     service {
       'pe-puppetserver':
     }

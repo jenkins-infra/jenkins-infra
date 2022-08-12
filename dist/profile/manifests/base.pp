@@ -14,7 +14,7 @@ class profile::base {
     include profile::rngd
 
     # Applying the production SSH would break the Vagrant SSH system
-    if $facts['vagrant'] != '1' {
+    if $facts['kind'] != 'vagrant' {
       include ssh::server
     }
     include ssh::client

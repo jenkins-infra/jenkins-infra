@@ -22,7 +22,7 @@ RSpec.configure do |c|
 
   c.manifest = File.join(File.dirname(__FILE__), '..',  'manifests', 'site.pp')
 
-  c.hiera_config = File.join(FIXTURES_PATH, 'hiera.yaml')
+  c.hiera_config = File.join(File.dirname(__FILE__), '..', 'hiera.yaml')
 
   # Use the `facter` command on any production node to see real-life values
   c.default_facts = {
