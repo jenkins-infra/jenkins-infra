@@ -6,6 +6,9 @@ sources:
   infra:
     remote: 'https://github.com/jenkins-infra/jenkins-infra.git'
     basedir: '/etc/puppetlabs/code/environments'
+    ignore_branch_prefixes:
+      # Ignore branches created by updatecli
+      - 'updatecli_'
 
 git:
   provider: 'shellgit'
