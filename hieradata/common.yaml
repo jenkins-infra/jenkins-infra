@@ -13,7 +13,6 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDTU0s5OKCC6VpKZGL9NJD4mNLY0AtujkVB1JkkuQ4OkMi2YGUHJtGhTbTwEVhNxpm0x2dM5KSzse6MLDYuGBW0qkE/VVuD9+9I73hbq461KqP0+WlupNh+Qc86kbiLBDv64+vWc+50mp1dbINpoM5xvaPYxgjnemydPv7vu5bhCHBugW7aN8VcLgfFgcp8vZCEanMtd3hIRjRU8v8Skk233ZGu1bXkG8iIOBQPabvEtZ0VDMg9pT3Q1R6lnnKqfCwHXd6zP6uAtejFSxvKRGKpu3OLGQMHwk7NlImVuhkVdaEFBq7pQtpOaGuP2eLKcN1wy5jsTYE+ZB6pvHCi2ecb
     groups:
       - sudo
-      - atlassian-admins
   kohsuke:
     ssh_keys:
       giffon:
@@ -24,14 +23,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5tp6PrxFN9ecF2si/d+Vk5fqlXdXCCynNMObJwXMXAcqtqIKdVtRE2D4WR+q+IgkZAePaQGI2zojHjqUTRGgv3Jk8MUg8Vi/AgZaE4pWljrayYyw7qiEnx3sjmm3/CMOD4okCkQ32P1adoPVLrBSwDQTRomS40BnYlSjPqrU2khqyx/UzrPB6KB+PN6KEyDaKBQwwyJh8gceFN5TkMi+h6ZL2K7m1CPTBv/VaxiEBZ7PLJscOJJB/hIxPnvjnfKBxaszT6l8SObT3wyrHiN57BCKULAYnGge+GLtVqcjd0BoDl/FpEMbynGve5b3CQtqaw2yGYGBEeOe8eV4MSgL+Q==
     groups:
       - sudo
-      - atlassian-admins
   abayer:
     ssh_keys:
       abayer_laptop:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
     groups:
       - sudo
-      - atlassian-admins
   danielbeck:
     ssh_keys:
       servus14:
@@ -40,67 +37,47 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDAUdJCbGRdioMnSD1gnHSMhTTX3vOpuVIv7R3fzHU0HXXyjbnOeskkFOLl4vt4GgL4Tf3DRZkxFqqFWAlOvR+WwkLQdfPikg+O1vxNY3hzvimYOe+L8UguhuDwoSLdYnl86ZdB/sz+CxQcQNSXCDlSEsEbJwkS8IFnWUQqvOfNiBn5z+PQ8f3XS0FjXedc2rb30Zy6mAzSi4PPTZj8xVE9TMBpX1qHg3Ln/YOIGDt9Fg+1insupfXYInPq6RxUfHANRRJOjrqO6sM4fHa/KVFnjzZxQBjVGrBFIhVaRfnNTUkFlUC2R5fhi5vaxzCGA/W/rHPvPQZ7uS0XL9ix7umT
     groups:
       - sudo
-      - atlassian-admins
   aheritier:
     ssh_keys:
       aheritier:
         key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
     groups:
       - sudo
-      - atlassian-admins
-  orrc:
-    ssh_keys:
-      rebigulator:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCY9lv6Wt78pcKz+t048dIYvafeXtVok1vse4E3fTDueFNQY/JtP2kBNOEeP+lvLLQcetfVUeHZhStz7mbAQyyXN9c3m0F85CReJaQVppxOTzbXCWOInYuI4q8MvIK0NfTHEkC8HxRjaUI0uspdAG2Hh6R9N9DlS23oS9TVWtmvrv6QtbbOSBAZ4JwcZG7ybRFPD9m115BYcR17iliHxGcd/npTgDlbeaYXFrYcfg8n8GFWxpKyMgciaFbcB2YUmtOZJbPfVUqvamyLh7kzmukrfwsK7pkROFoiAyt87w/gzI7vzb2TGBpmJ5i5g67tS8TdvIxkBIpGRXlixziAVktL
-    groups:
-      - atlassian-admins
-  lshatzer:
-    ssh_keys:
-      lshatzer:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCt3ib6HIrn+sTERJW4/OI7VocQYDKSelZH76y7CKQjcOGK/Lsoo/31Gie0bRSJqgXMLXJxTfLmp1Bkx2QRiDVBixAZjUrVfzaIdCy2qnVPHjUaf4xkXXqoLsM0Av1xei8eSBq1zHLIN+AJH7VlJOt3XqNapG6iYSm1cH9yWcwgu5dX0urlhYybIIEfCwPth89v3+EqgMgEaV9Q7eTtpFwqv8omKO1vDuiH6/ez9npL60soLlj8hqVS9RoLZGtf1DYTxUka8tNLThnCH6DRToWCk9t3cghL+vyygc02fgve9oiVsLk9+QmdtuLCJMcm2Ah/VJqjOLFQdBn8xPscpzS1
-    groups:
-      - atlassian-admins
   olblak:
     ssh_keys:
       oros:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3fajdGhdouy07qdycSZ39z9vADHV1TI04p3E6So4+47xR5bsi4Xylw8Xbd5mmrcFaEFJWXrzF3ryE2ufq7XlRxQk163qn8F+aWO434ENq7Ra3UyV9J2YWYQlYFC0v/Z1/N7gNZLADUP7g4E8+1lAJlTia6Pd8Z1a59jFArnl03MRBbo3yPosDoAXb7N5+Ad19FkjFnfYX13AK86NRkoY34JNfkPaA6n2u1iVX0GUeh8IV86+6q3WTU5nSwPJlYTMl4lzdO11VPoC3EupPYkBV8Rn1O1N6VDwCUGp8d/Tk1/kJhs9gP40kh5JeggHd+cP1X4rCellSnl9qhq5u1q5
     groups:
-      - atlassian-admins
       - sudo
   markewaite:
     ssh_keys:
       markewaite:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABgQCjfyyHgIygnhF/eRoeOwmHZ8VkmjNllLOCstF1+70BoKC+guy/itLQ5dDwS9phbwpI1oYO2v86ngzKkbXvJv642n1J7ydAhTL/DSdPkKfcmJLtmLtT0U+umo4S+ALeuqcLTByIVCe3BF45ILH3ky11gsAbSLJ2+Rptv0kt6NC7f+t/W8PblsWTaps4tQv7HHIMhPbXEs8Sri9QCxkqfnWP2ww5VcNr8g7CStBMYz7jrBdZuk+M0ov3fGrIqxAtBL29wDpgKt7LQIGYQYVu4pk4yh6TcLAOhruz9jdfvwmgzFsk5WMQOwvQ3zoJBGfXVLbAvmRWIGz1IGs5XytPmBSUooj3r3cuRbSPykWsV/IOd9YH1pi8oB5inT6g9LUDaTG50xJhhw3dLY6ZHkSl726EzqzAs5JKLeWK1CHSBsEmX7r81TzsVW0BtWZxH4RBK0HlKkGbv4bkW5iNSuHMthyxPDnvjkvo1sUqJJYyczfwuYUht1OjlJpl/cm/DABxV7c=
     groups:
-      - atlassian-admins
       - sudo
   timja:
     ssh_keys:
       timja:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3+OVLBXvHTHUdvNqi2LCibfBM7y3vMr0baRSj6UVPmSj4ypo9A11dCIR9wy+tytPG+Ty67RTPPsvMs5G2cvZO/V/044KIwQPVn47QNW9EhJSl7Ht0yLeqwm/ZKq/1+qHiZYDGM3l+yjibeGkwuqM1AWzHYP5JavdkvxancAL+ixCvwiWycwhPTAt5wMP6OVGYyDmyQQEVSCBGO0aEdE1WvA/9/et/SraE6f/rrR0fOhhDz537wlz3DoZoWTvz3CMFrtjfz/YRMZtvJoKFLhdsM0gSKoTLiknMC139kTFrNqPQoErrznoEF2rWRIERFj44EbeJtZQcE02mLbUwFkJ
     groups:
-      - atlassian-admins
       - sudo
   dduportal:
     ssh_keys:
       dduportal:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCraaCref/TCw2mLwQI+DSXYu8iqGhx8fmWOhkKz9qwptzcQlpMauKgMp4fUw6GmalsHxhPU42XCIcVD39iIjDLAnaqwbRGn7vevCE2JsegxKvIe0Xu+CuTYyYRgRa5d+n92ZndoeYB9afcGZsod9ZVu3FgWoTMOPEsKPQOAtcPKhyj88ELijSMluelgCASPc1hcB0vcXB5s6r61uHR5pk+27mBw34wsGOiUEkAW5qMWkwraO9fuUfZDQN1nKWH0f6ctn/3DxxNM7kuzOczp+yg+hsCGdu5Xmh2/gQACq7ti5SO+TkELPpZwoJg0eOzX3Qh1lB1qorawTRet+9k1xGHlS3gjgY95qV8G4qh5NHFGQMGHhUpRaHg7BexDWVgjH20QhbYLZTD4+kdNPPJom1+ZZOKjFxrsrY3VgTYqAIIEHX1gP/4cHSIUMAX1atVLFL1qJK5C+LVKbnTg6P2nxlLWz78lc0AwwhPTgTgRtjlxbOFgDxgdRNkcCklU40sDyQ8ELBIbPM+2bDaa0IZIt4krUfOFSgBJ+vVZGyWIHPBZYxIXXM1YlNM/SFf7ZG6hhMjLYz8Gy2yb79MQ0bQ5d6xgk5KZO1FCRSGRBEKFYZzhfNIC/cSJADzlo77KDlmvvLZCzDfHGPNxfjPbBzXWE5tYz3yGu1V8cTYCTycHipJAw==
     groups:
-      - atlassian-admins
       - sudo
   hlemeur:
     ssh_keys:
       hlemeur:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCszWjPAxVCpF2vfNzrk8viS2vxZ3wntZ3MNJ8EajbdUHpDrLJuGbkDV5XhvA/HfKyboukIgMotO66hMSqShxMdCaNW/VmkAKak5zRY+/iai4vQC03rdlF8xpgeuIZMusDgubCE0MUGsmzo7Y6xzUJcjItAJz0CHM983bD1Fq+PIg7kjoYuQuaFvkR2XEACu292GoMV0kPSng3002wEOE7S8JpIQc+KvCtr/kUMPc8goNE4hY4cTDy8oziqgAjZgjCjRpHAinzPq6+OWMHpCwCliuo1jlJqRw6ncrHuBXDsKzY6Hft/fE0eRoO9CJzKqASh3ZGfE8sXJkF2aPlJVaD7ydjyU5+tMnSVp/WwdtQ5yDPcxMrtoW/uz8iKQxeXsDQCC5s5X8UbQDJyWD+Dx6Waw5GEFOn6RdJbyXZMLcwmL5gJkUw9YsrRavVekK7axwsRBSUVG49qN0IQcq2pSEyFb3F0FqWS6TA+YwF/xNHb7lOZ+mP4/5HvXXVdvcRV35U6kx5Cq1CKe6xgyhLbgnrHaZ0ZeCWIsr0taGIducXLm6U3BP7u0OTxMVVqFZzEYxMY+72kWsxKNBtGM8aALRiUsp8p9KSbhWioNlUF1kjAF+I4xDWN39khzvyajZKF7Ij20V+CMh/PIM6zDmsp/+6DyErrNR/vm5wtv8jEjsORhQ==
     groups:
-      - atlassian-admins
       - sudo
   smerle:
     ssh_keys:
       smerle:
         key: AAAAB3NzaC1yc2EAAAADAQABAAAEAQDquUd7FEY8RNpqV0MgX5dV3HfIWCpOUyiWs21vmklPqIrlLFyX1O2Mt7sGPC3DGHEMIXLi+prz+YjdXHiEhcsoaA9Q0rE8nLrFLCVkmCzStNHebZrtzq2A82yQxGI0emEX4cpQqb6eQjdpWFilDQJ6wCtD3cUKZ8PPQkOyAzhEbhTD9OXA38vx71vKff0FEzdPk2R/ecHALHO8e4PqvEreXY/3OBzzPsynRxpX46CZWGLnDZ6lKXij2vTmPh/tmtLKJnhyyIx2WVWg52rUso5moX64xgkaExaW6qQpRHk82gcuygDld9g5oYa0NvvXjjO+Iwk4qOqo5MQ5Ifc089OTROL3fxUFaf2OWhRS3Fq0/vedZJEAfoVcdfyQKNTug1U7e9SIIyufMcRGMCWRoYmFty78jaqrigWHXVZVe0pi1PikZ1YKssOGp0Y66UQ8TveUQY8UzTbfhqS/GGHxy0OOd05UaaIdMoai6vei39MoMYPdXZqhuDQRrAyIJeIsjC+ymz+AIejMG1EvsothqF3TibzvAoth9lOoGdNX0zTCsIITinBGXAeqQwQA+a3Ys4LpOPNTOCZodRj6Wa965ipggfEXmdRuAEzl3Ys7EwrWZgXJ3SBCsRHMUvgd8BE+YVXKfD0cYhNHGjDGuv/lQRYIOi7fgBAuuX4Wspdb8Cgai/3ojYXHOCAgdnM2LvFM6Xd2YYkUEAwoClDiV/CDz0zaY0Pr71NETHjsP3ZZstnmYAnkWARt+6EeJImsVrBTSxA/2GxXQaDXrSxdwt3t2rBz4y4cknFj5CQtIQ6+1o9nJmBGO0utBp1qB5XaQ1Ye3Pdf031Vtkb/hOiZcFMB0krUGQAzDbImg5mrgqhbWOq5sLjw5zIEjc9vbjGrOZ+xRG+zzPv2vWpFC8fGmoiziUHc1EJ/DCXD3PWqNUhg7P3gWBUp4yAAg+cjf+EWMrCa/DnL5rDqC/c9T0UeBP8EsqmLm21ue7n4BkWrgZ5x9K+HEMnZc18ucaqB3yrviX6ePOU+CEECO7vAujqAfDnnwclztTmoc3U0cK8Ucmy1FVogK2qdLNAIZnKXmypDabChnQ3fi2bfshA8s5VpV2lCJJcI9jUeCNp28xqfXrcaJDTHlFrKwtKu2gGQafAyCDr/CCjJY4cyAuuv5hoLsV6GS4XtV28cbTzcFdLcVegqQEIDKV8O77LCIKOVVhMWEyyJQaHaIBjiiYZ1ImDeGnZw9h5uhvcYIA7Gy2GLvgd/bpJas3w3ZK24EOL2j4TFdxFAiHkfa0zOKjKiCbI+ZIU0kJdNqjxyg+jSaXhFg1ZXxTvF7RwvoHG0sXad1v+nlD0BlNzfX5os37FfJSoLbem2tXcd
     groups:
-      - atlassian-admins
       - sudo
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
