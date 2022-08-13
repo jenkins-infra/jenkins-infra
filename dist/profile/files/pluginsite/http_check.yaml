@@ -1,5 +1,0 @@
-  - name: pluginsite
-    url: https://plugins.jenkins.io/
-    timeout: 1
-    threshold: 3
-    window: 5

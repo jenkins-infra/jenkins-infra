@@ -238,11 +238,6 @@ profile::jenkinscontroller::plugins:
 docker::log_opt::max-size: '100m'
 docker::log_opt::max-file: 2
 
-accounts:
-  atlassian:
-    groups:
-      - atlassian-admins
-
 letsencrypt::config::server: "https://acme-staging.api.letsencrypt.org/directory"
 
 ssl_legacy_key: |
