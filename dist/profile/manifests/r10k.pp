@@ -21,6 +21,7 @@ class profile::r10k {
     user            => 'root',
     group           => '0',
     require         => Class['r10k::webhook::config'],
+    ruby_bin        => '/opt/puppetlabs/puppet/bin/ruby', # Defaults to /opt/puppet/bin/ruby which does not exists on PE 2019
   }
 
   firewall { '011 allow r10k webhooks':
