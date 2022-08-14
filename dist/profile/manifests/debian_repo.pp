@@ -2,10 +2,13 @@
 # see also:
 # https://ask.puppet.com/question/3216/passing-parameters-to-templates/
 define profile::debian_repo (
-  $ensure,
-  $docroot,
-  $direct_root,
-$mirror_fqdn) {
+  String               $ensure,
+  Stdlib::Absolutepath $docroot,
+  Stdlib::Absolutepath $direct_root,
+  Stdlib::Fqdn         $mirror_fqdn,
+) {
+  include stdlib # Required to allow using stlib methods and custom datatypes
+
   file { "${docroot}/${name}/.htaccess":
     ensure  => $ensure,
     content => template("${module_name}/pkgrepo/debian_htaccess.erb"),

@@ -100,11 +100,6 @@ describe 'profile::buildagent' do
     let(:home) { '/tmp/rspec' }
     let(:private_keys) do
       {
-        "#{home}/.ssh/id_rsa" => {
-        'type' => 'ssh-rsa',
-        'key'  => 'publickey',
-        'privkey' => 'privatekey',
-        },
         "#{home}/.ssh/special" => {
           'privkey'  => 'specialprivatekey',
           'for_host' => 'updates.jenkins.io',
@@ -116,21 +111,6 @@ describe 'profile::buildagent' do
         :home_dir => home,
         :ssh_keys => private_keys,
       }
-    end
-
-    it 'should install the public key' do
-      expect(subject).to contain_file("#{home}/.ssh/id_rsa.pub").with({
-        :ensure => :present,
-        :owner => 'jenkins',
-      })
-    end
-
-    it 'should install the private key' do
-      expect(subject).to contain_file("#{home}/.ssh/id_rsa").with({
-        :ensure => :present,
-        :owner  => 'jenkins',
-        :content => 'privatekey',
-      })
     end
 
     it 'should install the special private key' do

@@ -4,7 +4,7 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppet-r10k', '6.8.0'
 
 # Deps for zack/r10k
-mod 'puppetlabs-stdlib', '5.2.0'
+mod 'puppetlabs-stdlib', '8.4.0'
 
 # Deps for apachelogcompressor
 mod 'puppetlabs-ruby', '1.0.1'
@@ -40,7 +40,7 @@ mod 'puppetlabs-apt', '8.5.0'
 # Apache and its dependencies
 mod 'puppetlabs-apache', '7.0.0'
 
-mod 'puppetlabs-concat', '5.2.0'
+mod 'puppetlabs-concat', '7.2.0'
 
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'

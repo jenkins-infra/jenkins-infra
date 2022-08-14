@@ -2,9 +2,10 @@
 # see also:
 # https://ask.puppet.com/question/3216/passing-parameters-to-templates/
 define profile::redhat_repo (
-  $ensure,
-  $docroot,
-$repo_fqdn) {
+  String $ensure,
+  Stdlib::Absolutepath $docroot,
+  Stdlib::Fqdn $repo_fqdn,
+) {
   file { "${docroot}/${name}/jenkins.repo":
     ensure  => $ensure,
     content => template("${module_name}/pkgrepo/jenkins.repo.erb"),

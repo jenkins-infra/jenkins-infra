@@ -1,11 +1,11 @@
 # Jenkins build agent connectable via SSH
 class profile::buildagent (
-  $home_dir         = '/home/jenkins',
-  $docker           = true,
-  $trusted_agent    = false,
-  $ssh_keys         = undef,
+  Stdlib::Absolutepath $home_dir         = '/home/jenkins',
+  Boolean              $docker           = true,
+  Boolean              $trusted_agent    = false,
+  Hash                 $ssh_keys         = undef,
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
 
   $user = 'jenkins'
@@ -128,7 +128,6 @@ class profile::buildagent (
   }
 
   if $ssh_keys {
-    validate_hash($ssh_keys)
     $private_keys_defaults = {
       'type'  => 'ssh-rsa',
       'owner' => $user,

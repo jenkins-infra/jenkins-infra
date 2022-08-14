@@ -11,16 +11,16 @@
 
 class profile::jenkinsadmin (
   # Parameters supplied by Hiera
-  $github_login,
-  $github_password,
-  $jira_login,
-  $jira_password,
-  $nick_password,
-  $image_tag = undef,
+  String $github_login,
+  String $github_password,
+  String $jira_login,
+  String $jira_password,
+  String $nick_password,
+  String $image_tag = undef,
 ) {
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::docker
 
-  validate_string($image_tag)
   $user = 'ircbot'
 
   docker::image { 'jenkinsciinfra/ircbot':

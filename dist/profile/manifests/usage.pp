@@ -7,13 +7,14 @@
 # This usage information is then processed and ultimately finds its way into
 # our "census" data
 class profile::usage (
-  $docroot    = '/var/www/usage.jenkins.io',
-  $usage_fqdn = 'usage.jenkins.io',
-  $user       = 'usagestats',
-  $group      = 'usagestats',
-  $ssh_keys   = undef,
+  Stdlib::Absolutepath $docroot    = '/var/www/usage.jenkins.io',
+  Stdlib::Absolutepath $home_dir   = '/srv/bigger-usage',
+  Stdlib::Fqdn         $usage_fqdn = 'usage.jenkins.io',
+  String               $user       = 'usagestats',
+  String               $group      = 'usagestats',
+  Hash                 $ssh_keys   = undef,
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
   # volume configuration is in hiera
   include lvm
@@ -21,18 +22,6 @@ class profile::usage (
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt
-
-  validate_string($docroot)
-  validate_string($usage_fqdn)
-  validate_string($user)
-  validate_string($group)
-
-  if $ssh_keys != undef {
-    validate_hash($ssh_keys)
-  }
-
-  # This path hard-coded in hiera
-  $home_dir = '/srv/bigger-usage'
 
   package { 'lvm2':
     ensure => present,

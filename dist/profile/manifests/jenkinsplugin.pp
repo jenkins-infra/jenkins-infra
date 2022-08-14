@@ -4,8 +4,6 @@
 #
 define profile::jenkinsplugin (
 ) {
-  validate_string($name)
-
   exec { "install-plugin-${name}":
     ## Check for plugin presence on the HOST (e.g. with the jenkins home in "/var/lib/jenkins" on the filesystem)
     unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${name}.jpi || /usr/bin/test -f /var/lib/jenkins/plugins/${name}.hpi",

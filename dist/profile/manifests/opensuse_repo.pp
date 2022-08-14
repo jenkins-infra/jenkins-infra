@@ -2,9 +2,10 @@
 # see also:
 # https://ask.puppet.com/question/3216/passing-parameters-to-templates/
 define profile::opensuse_repo (
-  $ensure,
-  $docroot,
-$mirror_fqdn) {
+  String $ensure,
+  Stdlib::Absolutepath $docroot,
+  Stdlib::Fqdn $mirror_fqdn,
+) {
   file { "${docroot}/${name}/repodata":
     ensure  => directory,
   }

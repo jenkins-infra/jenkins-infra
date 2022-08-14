@@ -1,13 +1,10 @@
 #
 # A machine capable of processing census information
 class profile::census::agent (
-  $user = undef,
-  $home_dir = undef,
+  String $user = undef,
+  String $home_dir = undef,
 ) {
-  include stdlib
-
-  validate_string($user)
-  validate_string($home_dir)
+  include stdlib # Required to allow using stlib methods and custom datatypes
 
   $ssh_config = "${home_dir}/.ssh/config"
 

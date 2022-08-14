@@ -4,10 +4,11 @@
 #
 class profile::robobutler (
   # all injected from hiera
-  $nick,
-  $password,
-  $logdir = '/var/www/meetings.jenkins-ci.org'
+  String $nick,
+  String $password,
+  Stdlib::Absolutepath $logdir = '/var/www/meetings.jenkins-ci.org'
 ) {
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::apachemisc
   include profile::docker
 

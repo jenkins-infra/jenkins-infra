@@ -1,20 +1,15 @@
 #
 #
 define sshkeyman::key (
-  $type,
-  $privkey,
-  $owner,
-  $group    = $owner,
-  $key      = undef,
-  $ensure   = present,
-  $path     = $title,
-  $for_host = undef,
+  String $type,
+  String $privkey,
+  String $owner,
+  String $key      = '',
+  String $for_host = '',
+  String $ensure   = 'present',
+  String $group    = $owner,
+  Stdlib::Absolutepath $path     = $title,
 ) {
-  validate_string($owner)
-  validate_string($type)
-  validate_string($key)
-  validate_string($privkey)
-
   if $key {
     #  Install our public key for completeness' sake
     file { "${title}.pub":
