@@ -1,3 +1,0 @@
-#!/bin/bash
-# see https://github.com/rtyler/jenkins-keys for how to set up eyaml and key files
-exec bundle exec eyaml edit common.yaml
