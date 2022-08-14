@@ -24,7 +24,6 @@ Vagrant.configure("2") do |config|
             veggie = role.gsub(role_dir, '').gsub('/', '::').gsub('.pp', '')
             specfile = veggie.gsub('::', '_')
 
-
         # If there are no serverspec files, we needn't provision a machine!
         if Dir["./spec/server/#{specfile}/*.rb"].empty?
             STDERR.write(">> no serverspec defined for #{veggie}\n")
@@ -32,37 +31,22 @@ Vagrant.configure("2") do |config|
         end
 
         config.vm.define(veggie) do |node|
+            # https://www.vagrantup.com/docs/provisioning/puppet_apply
+            node.vm.provision "puppet" do |puppet|
+                puppet.binary_path = "/opt/puppetlabs/bin"
+                puppet.module_path = ["dist","modules"]
+                puppet.facter = {
+                    "vagrant"    => "1",
+                    "veggie"     => veggie,
+                    "clientcert" => veggie,
+                    "hiera_role" => veggie,
 
-        # This is a Vagrant-local hack to make sure we have properly updated apt
-        # caches since AWS machines are definitely going to have stale ones. It
-        # also makes sure we're pulling in the latest Puppet 6 from Puppet. This
-        # doesn't quite work with the built-in puppet apply provisioner anymore,
-        # so we're manually invoking Puppet too!
-        node.vm.provision 'shell', :inline => <<-EOF
-            export DEBIAN_FRONTEND=noninteractive
-            if [ ! -f "/apt-cached" ]; then
-                ubuntu_codename="$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2)"
-                package_name="puppet6-release-${ubuntu_codename}.deb"
-                wget -q "http://apt.puppetlabs.com/${package_name}"
-                dpkg -i "${package_name}"
-                rm -f "${package_name}"
-                apt-get update --quiet
-                apt-get install --no-install-recommends --yes --quiet puppet-agent
-                touch /apt-cached
-            fi
-
-            cd /vagrant
-            set -xe
-
-            export FACTER_vagrant=1
-            export FACTER_veggie=#{veggie}
-            export FACTER_clientcert=#{veggie}
-            export FACTER_hiera_role=#{veggie}
-            exec /opt/puppetlabs/bin/puppet apply \
-                --modulepath=dist:modules \
-                --hiera_config=spec/fixtures/hiera.yaml \
-                --execute 'require profile::vagrant\n include role::#{veggie}'
-            EOF
+                }
+                puppet.working_directory = "/vagrant"
+                puppet.manifests_path = "manifests"
+                puppet.manifest_file = "site.pp"
+                puppet.options = "--hiera_config=/vagrant/spec/fixtures/hiera.yaml --execute 'require profile::vagrant\n include role::#{veggie}'"
+            end
         end
     end
 end

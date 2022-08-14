@@ -56,6 +56,17 @@ ADD https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub 
 RUN chmod 600 /home/vagrant/.ssh/authorized_keys \
   && chown -R vagrant:vagrant /home/vagrant/.ssh
 
+# Install the puppet agent
+# hadolint ignore=DL3008,DL3059
+RUN package_path=/tmp/puppetrelease.deb \
+  && curl --silent --show-error --location --output "${package_path}" "http://apt.puppetlabs.com/puppet6-release-$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2).deb" \
+  && dpkg -i "${package_path}" \
+  && rm -f /tmp/puppetrelease.deb \
+  && apt-get update --quiet \
+  && apt-get install --no-install-recommends --yes --quiet puppet-agent \
+  && apt-get clean \
+  && rm -Rf /var/lib/apt/lists/*
+
 # /sys/fs/cgroup must be a volume to ensure cgroup hierarchy is not on the overlayfs (and should be mounted by user from the host cgroup)
 # /tmp and /run are temp. filesystem so at least a data volume outside the container
 # /var/lib/docker must be outside the overlay root filesystem
