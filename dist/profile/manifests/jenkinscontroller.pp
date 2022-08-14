@@ -14,31 +14,32 @@
 #   be on the public internet
 #
 class profile::jenkinscontroller (
-  $anonymous_access                = false,
-  $admin_ldap_groups               = ['admins'],
-  $ci_fqdn                         = 'ci.jenkins.io',
-  $ci_resource_domain              = 'assets.ci.jenkins.io',
-  $docker_image                    = 'jenkins/jenkins',
-  $docker_tag                      = 'lts-jdk11',
-  $docker_container_name           = 'jenkins',
-  $letsencrypt                     = true,
-  $plugins                         = undef,
-  $proxy_port                      = 443,
-  $jenkins_home                    = '/var/lib/jenkins',
-  $container_jenkins_home          = '/var/jenkins_home',
-  $groovy_init_enabled             = false,
-  $groovy_d_enable_ssh_port        = 'absent',
-  $groovy_d_set_up_git             = 'absent',
-  $groovy_d_lock_down_jenkins      = 'absent',
-  $jcasc                           = {},
-  $cloud_agents                    = {},
-  $cloud_setups                    = {},
-  $agents_setup                    = {},
-  $agent_images                    = {},
-  $additional_tools                = {},
-  $default_tools                   = {},
-  $memory_limit                    = '1g',
-  $java_opts = "-server \
+  Boolean $anonymous_access                    = false,
+  Array $admin_ldap_groups                     = ['admins'],
+  Stdlib::Fqdn $ci_fqdn                        = 'ci.jenkins.io',
+  Stdlib::Fqdn $ci_resource_domain             = 'assets.ci.jenkins.io',
+  String $docker_image                         = 'jenkins/jenkins',
+  String $docker_tag                           = 'lts-jdk11',
+  String $docker_container_name                = 'jenkins',
+  Boolean $letsencrypt                         = true,
+  Optional[Array] $plugins                     = undef,
+  Stdlib::Port $proxy_port                     = 443,
+  Stdlib::Absolutepath $jenkins_home           = '/var/lib/jenkins',
+  Stdlib::Absolutepath $container_jenkins_home = '/var/jenkins_home',
+  Boolean $groovy_init_enabled                 = false,
+  String $groovy_d_enable_ssh_port             = 'absent',
+  String $groovy_d_set_up_git                  = 'absent',
+  String $groovy_d_lock_down_jenkins           = 'absent',
+  Hash $jcasc                                  = {},
+  Hash $cloud_agents                           = {},
+  Hash $cloud_setups                           = {},
+  Hash $agents_setup                           = {},
+  Hash $agent_images                           = {},
+  Hash $additional_tools                       = {},
+  Hash $default_tools                          = {},
+  Boolean $block_remote_access_api             = false,
+  String $memory_limit                         = '1g',
+  String $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
 -XX:+UnlockExperimentalVMOptions \
 -XX:+UseG1GC \
@@ -48,19 +49,13 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
-  $block_remote_access_api         = false,
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
   include apache::mod::alias
   include apache::mod::proxy
   include apache::mod::headers
   include apache::mod::rewrite
-
-  validate_string($ci_fqdn)
-  validate_bool($letsencrypt)
-  validate_array($plugins)
-
   include profile::apachemisc
   include profile::docker
   include profile::firewall

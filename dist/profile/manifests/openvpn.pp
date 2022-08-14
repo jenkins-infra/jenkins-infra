@@ -1,30 +1,20 @@
 # This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
-  $image_tag              = 'latest',
-  $image                  = 'jenkinsciinfra/openvpn',
-  $auth_ldap_password     = undef,
-  $auth_ldap_binddn       = 'cn=admin,dc=jenkins-ci,dc=org',
-  $auth_ldap_url          = 'ldaps://ldap.jenkins.io',
-  $auth_ldap_group_member = 'cn=all',
-  $openvpn_ca_pem         = undef,
-  $openvpn_server_pem     = undef,
-  $openvpn_server_key     = undef,
-  $openvpn_dh_pem         = undef,
-  $networks               = {}
+  String $image_tag                    = 'latest',
+  String $image                        = 'jenkinsciinfra/openvpn',
+  Optional[String] $auth_ldap_password = undef,
+  String $auth_ldap_binddn             = 'cn=admin,dc=jenkins-ci,dc=org',
+  String $auth_ldap_url                = 'ldaps://ldap.jenkins.io',
+  String $auth_ldap_group_member       = 'cn=all',
+  Optional[String] $openvpn_ca_pem     = undef,
+  Optional[String] $openvpn_server_pem = undef,
+  Optional[String] $openvpn_server_key = undef,
+  Optional[String] $openvpn_dh_pem     = undef,
+  Hash $networks                       = {}
 ) {
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::docker
-
-  validate_string($image_tag)
-  validate_string($image)
-  validate_string($auth_ldap_password)
-  validate_string($auth_ldap_binddn)
-  validate_string($auth_ldap_url)
-  validate_string($auth_ldap_group_member)
-  validate_string($openvpn_ca_pem)
-  validate_string($openvpn_server_pem)
-  validate_string($openvpn_server_key)
-  validate_string($openvpn_dh_pem)
 
   sysctl { 'net.ipv4.ip_forward':
     ensure => present,

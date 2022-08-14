@@ -5,10 +5,10 @@
 # <https://github.com/jenkinsci/backend-update-center2>
 #
 class profile::updatesite (
-  $docroot = '/var/www/updates.jenkins.io',
-  $ssh_pubkey = undef,
+  Stdlib::Absolutepath $docroot    = '/var/www/updates.jenkins.io',
+  Optional[String]     $ssh_pubkey = '',
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
 
   include profile::apachemisc
@@ -95,8 +95,6 @@ class profile::updatesite (
   ##################################
 
   if $ssh_pubkey {
-    validate_string($ssh_pubkey)
-
     file { '/var/www/.ssh':
       ensure => directory,
       mode   => '0700',

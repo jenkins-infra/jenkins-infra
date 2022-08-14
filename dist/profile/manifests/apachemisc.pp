@@ -2,8 +2,9 @@
 # Misc. apache settings
 #
 class profile::apachemisc (
-  $ssh_enabled = false,
+  Boolean $ssh_enabled = false,
 ) {
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
   # log rotation setting lives in another module
   include apachelogcompressor

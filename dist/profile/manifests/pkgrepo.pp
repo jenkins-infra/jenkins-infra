@@ -1,19 +1,15 @@
 #
 # Manage yum and apt repositories for Jenkins
 class profile::pkgrepo (
-  $docroot      = '/var/www/pkg.jenkins.io',
-  $release_root = '/srv/releases/jenkins',
-  $repo_fqdn    = 'pkg.origin.jenkins.io',
-  $repo_legacy_fqdn    = 'pkg.jenkins-ci.org',
-  $mirror_fqdn  = 'mirrors.jenkins.io',
+  Stdlib::Absolutepath $docroot      = '/var/www/pkg.jenkins.io',
+  Stdlib::Absolutepath $release_root = '/srv/releases/jenkins',
+  Stdlib::Fqdn $repo_fqdn            = 'pkg.origin.jenkins.io',
+  Stdlib::Fqdn $repo_legacy_fqdn     = 'pkg.jenkins-ci.org',
+  Stdlib::Fqdn $mirror_fqdn          = 'mirrors.jenkins.io',
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
   include apache::mod::rewrite
-
-  validate_string($docroot)
-  validate_string($release_root)
-
   include profile::apachemisc
   include profile::firewall
   include profile::letsencrypt

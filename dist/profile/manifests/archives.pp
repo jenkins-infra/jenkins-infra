@@ -2,14 +2,14 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-  Array  $rsync_hosts_allow           = ['localhost'],
-  String $archives_dir                = '/srv/releases',
-  String $rsync_motd_file             = '/etc/jenkins.motd',
-  String $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
-  String $source_mirror_directory     = '/jenkins/',
-  Array  $ssh_authorized_keys         = [],
+  Array                $rsync_hosts_allow           = ['localhost'],
+  Stdlib::Absolutepath $archives_dir                = '/srv/releases',
+  Stdlib::Absolutepath $rsync_motd_file             = '/etc/jenkins.motd',
+  Stdlib::Host         $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
+  Stdlib::Absolutepath $source_mirror_directory     = '/jenkins/',
+  Array                $ssh_authorized_keys         = [],
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::apachemisc
   include profile::letsencrypt
 
@@ -48,8 +48,6 @@ class profile::archives (
 
   if $ssh_authorized_keys.size > 0 {
     $ssh_authorized_keys.each | Hash $ssh_authorized_key | {
-      validate_hash($ssh_authorized_key)
-
       unless 'id' in $ssh_authorized_key {
         notice('"id" is required for the authorized key')
       }

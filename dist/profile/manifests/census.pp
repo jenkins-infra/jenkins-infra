@@ -2,11 +2,11 @@
 # Defines an census server for serving census datasets
 #
 class profile::census (
-  $home_dir = '/srv/census',
-  $user     = 'census',
-  $group    = 'census',
+  Stdlib::Absolutepath $home_dir = '/srv/census',
+  String               $user     = 'census',
+  String               $group    = 'census',
 ) {
-  include stdlib
+  include stdlib # Required to allow using stlib methods and custom datatypes
   # volume configuration is in hiera
   include lvm
   include profile::apachemisc
