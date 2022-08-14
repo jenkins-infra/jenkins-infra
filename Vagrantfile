@@ -48,7 +48,6 @@ Vagrant.configure("2") do |config|
                 rm -f "${package_name}"
                 apt-get update --quiet
                 apt-get install --no-install-recommends --yes --quiet puppet-agent
-                /opt/puppetlabs/puppet/bin/gem install --no-document deep_merge
                 touch /apt-cached
             fi
 

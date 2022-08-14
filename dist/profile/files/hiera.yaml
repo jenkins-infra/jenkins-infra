@@ -8,23 +8,23 @@ hierarchy:
       path: "clients/%{clientcert}.yaml"
       lookup_key: eyaml_lookup_key
       options:
-          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
-          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+        pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+        pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
     - name: "Environment Data"
       path: "env/%{environment}.yaml"
       lookup_key: eyaml_lookup_key
       options:
-          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
-          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+        pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+        pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
     - name: "Role Data"
       path: "roles/%{hiera_role}.yaml"
       lookup_key: eyaml_lookup_key
       options:
-          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
-          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+        pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+        pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
     - name: "Common Data"
       path: "common.yaml"
       lookup_key: eyaml_lookup_key
       options:
-          :pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
-          :pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
+        pkcs7_private_key: /var/lib/puppet/keys/private_key.pkcs7.pem
+        pkcs7_public_key: /var/lib/puppet/keys/public_key.pkcs7.pem
