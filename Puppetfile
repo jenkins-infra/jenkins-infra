@@ -1,7 +1,7 @@
 forge 'http://forge.puppetlabs.com'
 
 # Install and manage r10k
-mod 'puppet-r10k', '6.8.0'
+mod 'puppet-r10k', '10.2.0'
 
 # Deps for zack/r10k
 mod 'puppetlabs-stdlib', '8.4.0'
