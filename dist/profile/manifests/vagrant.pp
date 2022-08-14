@@ -2,6 +2,7 @@
 # Vagrant profile for capturing some of the spceifics we need for Vagrant boxes
 # to pvoision cleanly
 class profile::vagrant {
+  include apt # trigger an apt update
   include sudo
 
   # Vagrant defines a default user `vagrant` which should have passwordless sudo permission
