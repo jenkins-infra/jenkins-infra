@@ -1,17 +1,18 @@
 ---
-:backends:
-  - yaml
-
-:hierarchy:
-  - "vagrant/clients/%{::veggie}"
-  - "vagrant/roles/%{hiera_role}"
-  - vagrant/common
-  - "clients/%{clientcert}"
-  - "roles/%{hiera_role}"
-  - "env/%{environment}"
-  - common
-
-:yaml:
-  :datadir: "hieradata"
-
-:merge_behavior: deeper
+version: 5
+defaults:
+  # Relative path to the current file
+  datadir: ../../hieradata
+  data_hash: yaml_data
+hierarchy:
+  - name: "YAML Hierarchy Levels"
+    paths:
+      # Tests (rspec) and Vagrant additional hierarchy
+      - "vagrant/clients/%{veggie}.yaml"
+      - "vagrant/roles/%{hiera_role}.yaml"
+      - "vagrant/common.yaml"
+      # Same hierarchy as production (dist/profile/files/hiera.yaml is the reference)
+      - "clients/%{clientcert}.yaml"
+      - "roles/%{hiera_role}.yaml"
+      - "env/%{environment}.yaml"
+      - "common.yaml"
