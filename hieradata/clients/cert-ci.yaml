@@ -1,4 +1,10 @@
 ---
+lookup_options:
+  "^profile::jenkinscontroller::jcasc$":
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::jenkinscontroller::proxy_port: 443
