@@ -39,7 +39,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::default_tools.maven.mvn.version"
+      key: "profile::jenkinscontroller::jcasc.tools_default_versions.maven"
     scmid: default
 
 pullrequests:

@@ -124,7 +124,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agents_setup.windows.osDiskSize"
+      key: "profile::jenkinscontroller::jcasc.agents_setup.windows.osDiskSize"
     scmid: default
   setAzureGalleryImageVersion:
     sourceid: packerImageVersion
@@ -132,7 +132,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.azure_vms_gallery_image.version"
+      key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
     scmid: default
   setInboundRubyContainerImage:
     sourceid: getLatestInboundRubyContainerImage
@@ -140,7 +140,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-ruby"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-ruby"
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
     scmid: default
@@ -150,7 +150,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-maven-8"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-8"
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
@@ -160,7 +160,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-maven-11"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-11"
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
@@ -170,7 +170,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-maven-17"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-17"
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
     scmid: default
@@ -180,7 +180,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-node"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-node"
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-node@sha256:"
     scmid: default
@@ -190,7 +190,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp-alpine"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-alpine"
     transformers:
       - addprefix: "jenkins/inbound-agent@sha256:"
     scmid: default
@@ -200,7 +200,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.container_images.jnlp"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp"
     transformers:
       - addprefix: "jenkins/inbound-agent@sha256:"
     scmid: default
@@ -210,7 +210,7 @@ targets:
     sourceid: getLatestUbuntuAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.ec2_amis.ubuntu-amd64"
+      key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-amd64"
     scmid: default
   setUbuntuAgentAMIArm64:
     name: "Bump AMI ID for Ubuntu ARM64 agents"
@@ -218,7 +218,7 @@ targets:
     sourceid: getLatestUbuntuAgentAMIArm64
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.ec2_amis.ubuntu-arm64"
+      key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-arm64"
     scmid: default
   setWindowsAgentAMIamd64:
     name: "Bump AMI ID for Windows AMD64 agents"
@@ -226,7 +226,7 @@ targets:
     sourceid: getLatestWindowsAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::agent_images.ec2_amis.windows-amd64"
+      key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-amd64"
     scmid: default
 
 pullrequests:

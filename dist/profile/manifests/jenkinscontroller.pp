@@ -31,12 +31,6 @@ class profile::jenkinscontroller (
   String $groovy_d_set_up_git                  = 'absent',
   String $groovy_d_lock_down_jenkins           = 'absent',
   Hash $jcasc                                  = {},
-  Hash $cloud_agents                           = {},
-  Hash $cloud_setups                           = {},
-  Hash $agents_setup                           = {},
-  Hash $agent_images                           = {},
-  Hash $additional_tools                       = {},
-  Hash $default_tools                          = {},
   Boolean $block_remote_access_api             = false,
   String $memory_limit                         = '1g',
   String $java_opts = "-server \
@@ -185,16 +179,22 @@ class profile::jenkinscontroller (
     enabled => false, # Disabled by default to avoid messing up with unmanaged instances
     custom_configs => [],
     reload_token => '',
-    common_configs => [# Configurations shared by all Jenkins controllers. There are hieradata attribute to really fill the configs (as an additional step for opt-in)
+    # Default JCasc templates shared by all Jenkins controllers.
+    # Use hieradata attribute to opt-out (see below), or override with an additional file (lexicographic).
+    common_configs => [
+      # Opt-out with `profile::jenkinscontroller::jcasc.cloud_agents: {}`
       'jenkinscontroller/casc/clouds.yaml.erb',
-      'jenkinscontroller/casc/tools.yaml.erb',
+      # Opt-out with `profile::jenkinscontroller::jcasc.global_libraries: false`
       'jenkinscontroller/casc/global-libraries.yaml.erb',
+      # Opt-out with `profile::jenkinscontroller::jcasc.jenkins_global: false`
+      'jenkinscontroller/casc/jenkins.yaml.erb',
+      # Opt-out with `profile::jenkinscontroller::jcasc.cloud_agents: {}`
+      'jenkinscontroller/casc/permanent-agents.yaml.erb',
+      # Opt-out with `profile::jenkinscontroller::jcasc.tools: {}`
+      'jenkinscontroller/casc/tools.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
   }
-
-  ### Deep merge the different sources (because hieradata 3 fails at deep merge, but with hieradata 5 we will be able to delegate)
-  $tools = deep_merge($default_tools, $additional_tools)
 
   $jcasc_final_config = $jcasc_default_config + $jcasc
 
