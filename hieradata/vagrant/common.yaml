@@ -14,12 +14,6 @@ profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
-  global_libraries:
-    pipeline-library:
-      remote: https://github.com/jenkins-infra/pipeline-library.git
-      defaultVersion: master # https://github.com/jenkins-infra/helpdesk/issues/2671
-      cache-ttl: 180
-      allow-pull-requests: true
   tools:
     groovy:
       groovy: # Default version is named "groovy"

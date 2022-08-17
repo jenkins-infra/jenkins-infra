@@ -153,13 +153,13 @@ profile::jenkinscontroller::plugins:
   - ldap
   - beer
 profile::jenkinscontroller::jcasc:
+  global_libraries:
+    pipeline-library:
+      remote: https://github.com/jenkins-infra/pipeline-library.git
+      defaultVersion: master # https://github.com/jenkins-infra/helpdesk/issues/2671
+      cache-ttl: 180
+      allow-pull-requests: true
   tools:
-    global_libraries:
-      pipeline-library:
-        remote: https://github.com/jenkins-infra/pipeline-library.git
-        defaultVersion: master # https://github.com/jenkins-infra/helpdesk/issues/2671
-        cache-ttl: 180
-        allow-pull-requests: true
     maven:
       mvn:
         default_version: true
