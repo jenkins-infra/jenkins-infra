@@ -56,8 +56,8 @@ tool:
             }
             -%>
               # subdir is the top-level directory in the archive: depends on the how the JDK is packaged. Defaults to adoptium convention unless a customized version is specified
-              # Example of subdirs for adoptium 8: jdk8-8u345-b01, adoptium 11: jdk11-11.0.16+8 and aoptium 17: jdk-17.0.4+8
-              subdir: "<%= installer_setup['subdir'] ? installer_setup['subdir'] : ("jdk" + ($jdk_major_version.to_i < 17 ? $jdk_major_version : '') + "-" + $jdk['version']) %>"
+              # Example of subdirs for adoptium 8: jdk8u345-b01, adoptium 11: jdk-11.0.16+8 and aoptium 17: jdk-17.0.4+8
+              subdir: "<%= installer_setup['subdir'] ? installer_setup['subdir'] : ("jdk" + ($jdk_major_version.to_i == 8 ? '' : '-') + $jdk['version']) %>"
               url: "<%= scope.call_function('template', ["profile/jdk-adoptium-url.erb"]).chop() %>"
           <%- elsif installer_setup['type'] == 'command' -%>
               command: "<%= installer_setup['command'] %>"
