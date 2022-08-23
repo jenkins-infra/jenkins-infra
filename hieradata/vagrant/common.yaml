@@ -69,7 +69,7 @@ profile::jenkinscontroller::jcasc:
         credentialsId: "ppc64le-ed25519-2021-12-03"
         launchTimeoutSeconds: 713
         retryWaitTime: 175
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDz7R0AF0ftz0C0ZTcmTho83gXsf093aU88/lJS52l69"
+        hostKey: "ssh-ed25519 whatever"
         javaPath: "/opt/jdk-11/bin/java"
       envVars:
         PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
