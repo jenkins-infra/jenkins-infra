@@ -284,6 +284,52 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
+        - agentLaunchMethod: "SSH"
+          agentWorkspace: "/home/jenkins"
+          builtInImage: "Ubuntu 20.04 LTS"
+          credentialsId: "jenkinsvmagents-userpass"
+          diskType: "managed"
+          doNotUseMachineIfInitFails: true
+          ephemeralOSDisk: true
+          executeInitScriptAsRoot: true
+          existingStorageAccountName: "cijenkinsiovmagents"
+          imageReference:
+            galleryImageDefinition: "jenkins-agent-ubuntu-20.04"
+            galleryImageVersion: "0.39.0"
+            galleryName: "prod_packer_images"
+            galleryResourceGroup: "prod-packer-images"
+            gallerySubscriptionId: "dff2ec18-6a8e-405c-8e45-b7df7465acf0"
+          imageTopLevelType: "advanced"
+          initScript: |
+            sh -c "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAv+orgkY/3s/VRqoKyFpnbO6g8UZ4YEpl5v4cSAzAeDiy7pWfkHFpF04WNEuyy9/4UYtD4rdot6gk88ePhyH40PkUdsIz5P2otZmpGTqtulGPZ0vFnRkPBVTi60UfOVppjQ7k4tV3Zn4k1mchV86G4YZXjXEQ252HyM8+s7A5xa+2D2hjmMtOUX5P+V2ZyhiR2StXJ5GRUQ7Ei1TAvuNoqLlDYTnve358FYZfcs4Sl0rF8RgtSNjo4bO6tPWJ1D7DvGJRb3QlJg7R87pDM6Fs0lOlSMMSQfR6At4oseJX9/V7c7DFFwqOJnK+WO+NjeiYSWIT82/V/FIDfOC7zHw5ojBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDtF2UCzucpiTkTYtfvSFpTgDCBHkvYmHdX0NrriKbj/sXojJJIwunkhJ8J0ZEXzSQrhYsr5JxZgdGJ0SE/C/jTr4A=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+            sh -c "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+            sh -c "mkdir /var/log/datadog"
+            sh -c "chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml && chmod 640 /etc/datadog-agent/datadog.yaml"
+            sh -c "chown dd-agent:dd-agent /var/log/datadog && chmod 770 /var/log/datadog"
+            systemctl restart datadog-agent.service
+            #remove sudo
+            rm -f /etc/sudoers.d/90-cloud-init-users
+          javaPath: "/opt/jdk-11/bin/java"
+          jvmOptions: "-XX:+PrintCommandLineFlags"
+          labels: "test-datadog"
+          location: "East US 2"
+          maximumDeploymentSize: 10
+          noOfParallelJobs: 1
+          osDiskSize: 90
+          osType: "Linux"
+          retentionStrategy: "azureVMCloudOnce"
+          spotInstance: true
+          storageAccountNameReferenceType: "existing"
+          storageAccountType: "Standard_LRS"
+          subnetName: "ci.j-agents-vm"
+          templateDesc: "Dynamically provisioned Ubuntu 20.04 LTS machine to test azure\
+            \ vm with datadog"
+          templateName: "ubuntu-20-test"
+          usageMode: EXCLUSIVE
+          usePrivateIP: true
+          virtualMachineSize: "Standard_D4s_v3"
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
