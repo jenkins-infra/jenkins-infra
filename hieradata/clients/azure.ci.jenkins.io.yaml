@@ -284,6 +284,35 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
+        - name: "ubuntu-20-test"
+          description: "Ubuntu 20.04 LTS test"
+          imageDefinition: jenkins-agent-ubuntu-20.04
+          os: "ubuntu"
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
+          location: "East US 2"
+          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          architecture: amd64
+          labels:
+            - test-datadog
+          maxInstances: 1
+          useAsMuchAsPosible: false
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+          subnetName: "ci.j-agents-vm"
+          spot: true
+          executeInitScriptAsRoot: true
+          initScript:
+            - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiiTWRyFEQbPaJ8OHohWOhICF/mxCHioTCk7QhxEXZ+PD6hFmKvhZFjPb5qG52MKHA1hHZtC5NnXp+BSpmoE2TK9DLQstzZxA3xsuoBcLiz5o3J3HqV4Vz9SKNC2gUtCnBFN2IQLbKQvnHeHFzPyltzWIJ4+ZWtH5RymSqDpkxBEw8IeIwX8Ps9Ryhmip3DJrWmtogpAdhfwlTzHbwDJvQkl7GjMzdPAEEISy0rtI2nj+HSFgiG7iCfAVIy+DcEFcgFrEX3xmA+IeurOT3Q1ayt1KJCgtTtO27GcJDOydeFJIIZluwnx4OnkmvZPCYcXh1KGiDvm+8sw3eklMSeswZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCJDjHErg9iT8ltw26SaB8TgDD2TVMoUmvWfiwUEz0hJsTJUsW4cg2iavGCJk2x4+m4BhljtPM5W5dfMJjgGtRe0Nc=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+            - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+            - mkdir /var/log/datadog
+            - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+            - chmod 640 /etc/datadog-agent/datadog.yaml
+            - chown dd-agent:dd-agent /var/log/datadog
+            - chmod 770 /var/log/datadog
+            - systemctl restart datadog-agent.service
+            - rm -f /etc/sudoers.d/90-cloud-init-users
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
