@@ -304,7 +304,7 @@ profile::jenkinscontroller::jcasc:
           spot: true
           executeInitScriptAsRoot: true
           initScript:
-            - "sed 's/api_key:.*/api_key: supersecretapikey/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+            - "sed 's/api_key:.*/api_key: busted/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
             - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
             - mkdir /var/log/datadog
             - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
