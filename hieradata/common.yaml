@@ -219,6 +219,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
       jnlp-maven-8: jenkinsciinfra/inbound-agent-maven@sha256:4082d59973b7686af97dd4847c46b8affb57e1742820cc1fc238f847efc85f3a
+      jnlp-maven-8-aio: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:3a490163d60ff134481964b816ecac919b7b8699189d86e0db634b8d36678306
       jnlp-maven-11: jenkinsciinfra/inbound-agent-maven@sha256:254a2bbbfaaa63e289395f518b582e68ead24a531da6ba8409cb444f3c801b52
       jnlp-maven-17: jenkinsciinfra/inbound-agent-maven@sha256:cb6b27a8f22d6e2b104f85975372a7d3bc49a3274f43f6752a9a6e4695dcb9bf
       jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:c0a80d288f8d7450d35b103a1db0a7177c302b13c47b20823d464fced68abcfe'
