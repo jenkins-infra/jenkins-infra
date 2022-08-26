@@ -90,6 +90,8 @@ jenkins:
             value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
+          - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+            value: "azure"
       <%- end -%>
     <%- end -%>
   <%- end -%>
@@ -158,6 +160,11 @@ jenkins:
         type: <%= agent['instanceType'] %>
         tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
         useEphemeralDevices: true
+        nodeProperties:
+        - envVars:
+            env:
+            - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+              value: "aws"
       <%- end -%>
     <%- end -%>
   <%- end -%>
@@ -189,6 +196,9 @@ jenkins:
               - envVar:
                   key: "JENKINS_JAVA_BIN"
                   value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin'] %>"
+              - envVar:
+                  key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+                  value: "<%= k8s_setup['provider'] %>"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
