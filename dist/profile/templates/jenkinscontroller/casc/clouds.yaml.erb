@@ -20,7 +20,15 @@ jenkins:
         enableMSI: false
         enableUAMI: false
         ephemeralOSDisk: <%= agent['useEphemeralOSDisk'].nil? ? true : agent['useEphemeralOSDisk'] %>
+      <%- if agent['initScript'] && !agent['initScript'].empty? -%>
+        executeInitScriptAsRoot: true
+        initScript: |
+        <%- agent['initScript'].each do |line| -%>
+          <%= line %>
+        <%- end -%>
+      <%- else -%>
         executeInitScriptAsRoot: false
+      <%- end -%>
         existingStorageAccountName: "<%= agent['storageAccount'] %>"
         storageAccountNameReferenceType: "existing"
         storageAccountType: "Standard_LRS"
