@@ -1,7 +1,7 @@
 <%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" -%>
 jenkins:
   clouds:
-  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? && (@jcasc['cloud_agents']['azure-vm-agents']['enabled'].to_s == 'true') -%>
+  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
     <%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
   - azureVM:
@@ -74,7 +74,7 @@ jenkins:
       <%- end -%>
     <%- end -%>
   <%- end -%>
-  <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? && (@jcasc['cloud_agents']['azure-container-agents']['enabled'].to_s == 'true') -%>
+  <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? -%>
     <%- @jcasc['cloud_agents']['azure-container-agents'].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
       credentialsId: "<%= aci_cloud_setup['credentialsId'] %>"
@@ -103,7 +103,7 @@ jenkins:
       <%- end -%>
     <%- end -%>
   <%- end -%>
-  <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? && (@jcasc['cloud_agents']['ec2']['enabled'].to_s == 'true') -%>
+  <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
     <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       cloudName: <%= ec2_cloud_name %>
