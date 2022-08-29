@@ -126,6 +126,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s:
+        enabled: true
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
