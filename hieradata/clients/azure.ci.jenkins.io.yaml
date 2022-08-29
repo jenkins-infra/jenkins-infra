@@ -167,7 +167,7 @@ profile::jenkinscontroller::jcasc:
           BOSWYswPR4liVPS4jTNf7tQRx9u+X1YZsG74cOEfqwJEP3GmLh1x5s73yJyP
           ymjCaTi1xPZDZAoXdk7G1q7Eop0txEeDt7ePD7XMEwmahONtcbxGQ2YmoM37
           x8Z1xU]
-        max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
+        max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
         agent_definitions:
           # For puppet & docker-inbound-agent on jenkins-infra only
@@ -213,7 +213,7 @@ profile::jenkinscontroller::jcasc:
             memory: 1
             imagePullSecrets: dockerhub-credential
       doks:
-        enabled: false
+        enabled: true
         provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
