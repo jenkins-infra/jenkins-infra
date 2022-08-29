@@ -169,6 +169,12 @@ profile::jenkinscontroller::jcasc:
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
         agent_definitions:
           # For puppet & docker-inbound-agent on jenkins-infra only
+          - name: jnlp-ruby
+            cpus: 2
+            memory: 4
+            labels:
+              - ruby
+            imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-8
             labels:
               - maven
