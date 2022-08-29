@@ -178,6 +178,7 @@ jenkins:
   <%- end -%>
   <%- if @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
     <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
+    <%- if k8s_setup['enabled'].to_s == "true" -%>
   - kubernetes:
       name: "<%= k8s_name %>"
       containerCap: <%= k8s_setup['max_capacity'] %>
@@ -230,6 +231,7 @@ jenkins:
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
       <%- end -%>
+    <%- end -%>
     <%- end -%>
   <%- end -%>
 <%- end -%>
