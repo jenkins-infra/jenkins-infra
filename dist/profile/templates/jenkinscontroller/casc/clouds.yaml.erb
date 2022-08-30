@@ -98,6 +98,8 @@ jenkins:
             value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
+          - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+            value: "azure"
       <%- end -%>
     <%- end -%>
   <%- end -%>
@@ -166,11 +168,17 @@ jenkins:
         type: <%= agent['instanceType'] %>
         tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
         useEphemeralDevices: true
+        nodeProperties:
+        - envVars:
+            env:
+            - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+              value: "aws"
       <%- end -%>
     <%- end -%>
   <%- end -%>
   <%- if @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
     <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
+    <%- if k8s_setup['enabled'].to_s == "true" -%>
   - kubernetes:
       name: "<%= k8s_name %>"
       containerCap: <%= k8s_setup['max_capacity'] %>
@@ -205,6 +213,9 @@ jenkins:
                   key: "PATH+JAVAPATH"
                   value: "<%= agent['javahome'] %>/bin"
             <%- end -%>
+              - envVar:
+                  key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+                  value: "<%= k8s_setup['provider'] %>"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
@@ -228,6 +239,7 @@ jenkins:
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
       <%- end -%>
+    <%- end -%>
     <%- end -%>
   <%- end -%>
 <%- end -%>
