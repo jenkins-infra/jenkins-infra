@@ -208,10 +208,10 @@ jenkins:
             <%- if agent['javahome'] -%>
               - envVar:
                   key: "JAVA_HOME"
-                  value: "<%= agent['javahome'] %>"
+                  value: "<%= agent['javaHome'] %>"
               - envVar:
                   key: "PATH+JAVA_HOME"
-                  value: "<%= agent['javahome'] %>/bin"
+                  value: "<%= agent['javaHome'] %>/bin"
             <%- end -%>
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_PROVIDER"
