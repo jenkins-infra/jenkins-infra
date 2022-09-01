@@ -210,7 +210,7 @@ jenkins:
                   key: "JAVA_HOME"
                   value: "<%= agent['javaHome'] %>"
               - envVar:
-                  key: "PATH+JAVA_HOME"
+                  key: "PATH.JAVA_HOME"
                   value: "<%= agent['javaHome'] %>/bin"
             <%- end -%>
               - envVar:
