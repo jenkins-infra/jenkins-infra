@@ -267,9 +267,9 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-8-aio
+          - name: jnlp-maven-8-all-in-one
             labels:
-              - maven-8-aio
+              - maven-8-all-in-one
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
