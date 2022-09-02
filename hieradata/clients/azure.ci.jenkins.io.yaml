@@ -324,6 +324,15 @@ profile::jenkinscontroller::jcasc:
               - linux
             useAsMuchAsPosible: true
             spot: true
+          - description: "Ubuntu 20.04 LTS test"
+            maxInstances: 1
+            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            architecture: "amd64"
+            labels:
+              - ec2_test_datadog
+            useAsMuchAsPosible: false
+            spot: true
           - description: "Windows 2019"
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
