@@ -210,8 +210,8 @@ jenkins:
                   key: "JAVA_HOME"
                   value: "<%= agent['javaHome'] %>"
               - envVar:
-                  key: "PATH.JAVA_HOME"
-                  value: "<%= agent['javaHome'] %>/bin"
+                  key: "PATH"
+                  value: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:<%= agent['javaHome'] %>/bin"
             <%- end -%>
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_PROVIDER"
