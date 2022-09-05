@@ -178,6 +178,7 @@ jenkins:
   <%- end -%>
   <%- if @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
     <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
+    <%- if k8s_setup['enabled'].to_s == "true" -%>
   - kubernetes:
       name: "<%= k8s_name %>"
       containerCap: <%= k8s_setup['max_capacity'] %>
@@ -204,6 +205,14 @@ jenkins:
               - envVar:
                   key: "JENKINS_JAVA_BIN"
                   value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin'] %>"
+            <%- if agent['javaHome'] -%>
+              - envVar:
+                  key: "JAVA_HOME"
+                  value: "<%= agent['javaHome'] %>"
+              - envVar:
+                  key: "Path"
+                  value: "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:<%= agent['javaHome'] %>/bin"
+            <%- end -%>
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_PROVIDER"
                   value: "<%= k8s_setup['provider'] %>"
@@ -230,6 +239,7 @@ jenkins:
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
       <%- end -%>
+    <%- end -%>
     <%- end -%>
   <%- end -%>
 <%- end -%>
