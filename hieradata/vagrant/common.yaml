@@ -192,6 +192,22 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
             imagePullSecrets: dockerhub-credential
+          - name: jnlp-maven-11-all-in-one
+            imageName: jnlp-maven-all-in-one
+            labels:
+              - maven-11-all-in-one
+            cpus: 1
+            memory: 1
+            imagePullSecrets: dockerhub-credential
+            javaHome: /opt/jdk-11
+          - name: jnlp-maven-17-all-in-one
+            imageName: jnlp-maven-all-in-one
+            labels:
+              - maven-17-all-in-one
+            cpus: 1
+            memory: 1
+            imagePullSecrets: dockerhub-credential
+            javaHome: /opt/jdk-17
     ec2:
       aws-us-east-2:
         region: us-east-2
