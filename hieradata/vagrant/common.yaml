@@ -94,18 +94,14 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s:
+        enabled: true
+        provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
           # For puppet & docker-inbound-agent on jenkins-infra only
-          - name: jnlp-ruby
-            cpus: 2
-            memory: 4
-            labels:
-              - ruby
-            imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-8
             labels:
               - maven
@@ -148,6 +144,8 @@ profile::jenkinscontroller::jcasc:
             memory: 1
             imagePullSecrets: dockerhub-credential
       doks:
+        enabled: true
+        provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
         max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
