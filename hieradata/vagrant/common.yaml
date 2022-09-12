@@ -256,6 +256,25 @@ profile::jenkinscontroller::jcasc:
               - arm64linux
             useAsMuchAsPosible: false
             spot: true
+          - description: "Ubuntu 20.04 LTS test"
+            maxInstances: 1
+            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            architecture: "amd64"
+            labels:
+              - ec2_test_datadog
+            useAsMuchAsPosible: false
+            userData:
+              - "#!/bin/bash"
+              - "sed 's/api_key:.*/api_key: ToKeepSecret/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+              - mkdir /var/log/datadog
+              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+              - chmod 640 /etc/datadog-agent/datadog.yaml
+              - chown dd-agent:dd-agent /var/log/datadog
+              - chmod 770 /var/log/datadog
+              - systemctl restart datadog-agent.service
+              - rm -f /etc/sudoers.d/90-cloud-init-users
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
