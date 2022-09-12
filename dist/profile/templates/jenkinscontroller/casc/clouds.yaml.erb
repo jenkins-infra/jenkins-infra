@@ -168,6 +168,12 @@ jenkins:
         type: <%= agent['instanceType'] %>
         tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
         useEphemeralDevices: true
+        <%- if agent['userData'] && !agent['userData'].empty? -%>
+        userData: |
+          <%- agent['userData'].each do |line| -%>
+            <%= line %>
+          <%- end -%>
+        <%- end -%>
         nodeProperties:
         - envVars:
             env:
