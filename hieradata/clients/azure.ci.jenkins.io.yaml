@@ -350,7 +350,7 @@ profile::jenkinscontroller::jcasc:
               - ec2_test_datadog
             useAsMuchAsPosible: false
             userData:
-              - \#!/bin/bash
+              - "#!/bin/bash"
               - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
               - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
               - mkdir /var/log/datadog
