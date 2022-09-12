@@ -261,7 +261,7 @@ usage_ssh_privkey: "usage_ssh_privkey"
 osuosl_mirroring_privkey: ""
 archives_mirroring_privkey: ""
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: "5:20.10.17~3-0~ubuntu-bionic"
+docker::version: "5:20.10.18~3-0~ubuntu-bionic"
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"
@@ -273,6 +273,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.0.112" # Tracked by updatecli
+profile::openvpn::image_tag: "1.0.113" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
