@@ -202,7 +202,7 @@ jenkins:
       <%- k8s_setup['agent_definitions'].each do |agent| -%>
         - containers:
           - alwaysPullImage: false
-            image: "<%= agent['imageName'] && !agent['imageName'].empty? ? agent['imageName'] : @jcasc['agent_images']['container_images'][agent['name']] %>"
+            image: "<%= agent['imageName'] && !agent['imageName'].empty? ?  @jcasc['agent_images']['container_images'][agent['imageName']] : @jcasc['agent_images']['container_images'][agent['name']] %>"
             # Please note that envVars are specified differently than permanent or ACI agents
             envVars:
               - envVar:
