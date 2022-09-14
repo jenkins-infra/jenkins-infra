@@ -194,6 +194,31 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
+          - name: jnlp-maven-8-all-in-one
+            imageName: jnlp-maven-all-in-one
+            labels:
+              - maven-8-all-in-one
+            cpus: 4
+            memory: 8
+            imagePullSecrets: dockerhub-credential
+            javaHome: /opt/jdk-8
+          - name: jnlp-maven-11-all-in-one
+            imageName: jnlp-maven-all-in-one
+            labels:
+              - maven-11-all-in-one
+            cpus: 4
+            memory: 8
+            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            imagePullSecrets: dockerhub-credential
+            javaHome: /opt/jdk-11
+          - name: jnlp-maven-17-all-in-one
+            imageName: jnlp-maven-all-in-one
+            labels:
+              - maven-17-all-in-one
+            cpus: 4
+            memory: 8
+            imagePullSecrets: dockerhub-credential
+            javaHome: /opt/jdk-17
           - name: jnlp-node
             cpus: 2
             memory: 4
