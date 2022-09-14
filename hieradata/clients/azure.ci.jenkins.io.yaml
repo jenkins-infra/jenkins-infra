@@ -365,6 +365,17 @@ profile::jenkinscontroller::jcasc:
               - linux
             useAsMuchAsPosible: true
             spot: true
+            userData:
+              - "#!/bin/bash"
+              - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+              - mkdir /var/log/datadog
+              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+              - chmod 640 /etc/datadog-agent/datadog.yaml
+              - chown dd-agent:dd-agent /var/log/datadog
+              - chmod 770 /var/log/datadog
+              - systemctl restart datadog-agent.service
+              - rm -f /etc/sudoers.d/90-cloud-init-users
           - description: "Ubuntu 20.04 LTS test"
             maxInstances: 1
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
@@ -405,6 +416,17 @@ profile::jenkinscontroller::jcasc:
               - docker-highmem
             useAsMuchAsPosible: false
             spot: false
+            userData:
+              - "#!/bin/bash"
+              - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+              - mkdir /var/log/datadog
+              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+              - chmod 640 /etc/datadog-agent/datadog.yaml
+              - chown dd-agent:dd-agent /var/log/datadog
+              - chmod 770 /var/log/datadog
+              - systemctl restart datadog-agent.service
+              - rm -f /etc/sudoers.d/90-cloud-init-users
           - description: "ARM64 ubuntu 20.04"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
@@ -415,6 +437,17 @@ profile::jenkinscontroller::jcasc:
               - arm64linux
             useAsMuchAsPosible: false
             spot: true
+            userData:
+              - "#!/bin/bash"
+              - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+              - mkdir /var/log/datadog
+              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+              - chmod 640 /etc/datadog-agent/datadog.yaml
+              - chown dd-agent:dd-agent /var/log/datadog
+              - chmod 770 /var/log/datadog
+              - systemctl restart datadog-agent.service
+              - rm -f /etc/sudoers.d/90-cloud-init-users
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
@@ -439,6 +472,16 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
+          initScript:
+            - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiiTWRyFEQbPaJ8OHohWOhICF/mxCHioTCk7QhxEXZ+PD6hFmKvhZFjPb5qG52MKHA1hHZtC5NnXp+BSpmoE2TK9DLQstzZxA3xsuoBcLiz5o3J3HqV4Vz9SKNC2gUtCnBFN2IQLbKQvnHeHFzPyltzWIJ4+ZWtH5RymSqDpkxBEw8IeIwX8Ps9Ryhmip3DJrWmtogpAdhfwlTzHbwDJvQkl7GjMzdPAEEISy0rtI2nj+HSFgiG7iCfAVIy+DcEFcgFrEX3xmA+IeurOT3Q1ayt1KJCgtTtO27GcJDOydeFJIIZluwnx4OnkmvZPCYcXh1KGiDvm+8sw3eklMSeswZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCJDjHErg9iT8ltw26SaB8TgDD2TVMoUmvWfiwUEz0hJsTJUsW4cg2iavGCJk2x4+m4BhljtPM5W5dfMJjgGtRe0Nc=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+            - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+            - mkdir /var/log/datadog
+            - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+            - chmod 640 /etc/datadog-agent/datadog.yaml
+            - chown dd-agent:dd-agent /var/log/datadog
+            - chmod 770 /var/log/datadog
+            - systemctl restart datadog-agent.service
+            - rm -f /etc/sudoers.d/90-cloud-init-users
         - name: "ubuntu-20-test"
           description: "Ubuntu 20.04 LTS test"
           imageDefinition: jenkins-agent-ubuntu-20.04
@@ -487,6 +530,16 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: false
+          initScript:
+            - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiiTWRyFEQbPaJ8OHohWOhICF/mxCHioTCk7QhxEXZ+PD6hFmKvhZFjPb5qG52MKHA1hHZtC5NnXp+BSpmoE2TK9DLQstzZxA3xsuoBcLiz5o3J3HqV4Vz9SKNC2gUtCnBFN2IQLbKQvnHeHFzPyltzWIJ4+ZWtH5RymSqDpkxBEw8IeIwX8Ps9Ryhmip3DJrWmtogpAdhfwlTzHbwDJvQkl7GjMzdPAEEISy0rtI2nj+HSFgiG7iCfAVIy+DcEFcgFrEX3xmA+IeurOT3Q1ayt1KJCgtTtO27GcJDOydeFJIIZluwnx4OnkmvZPCYcXh1KGiDvm+8sw3eklMSeswZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCJDjHErg9iT8ltw26SaB8TgDD2TVMoUmvWfiwUEz0hJsTJUsW4cg2iavGCJk2x4+m4BhljtPM5W5dfMJjgGtRe0Nc=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+            - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+            - mkdir /var/log/datadog
+            - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+            - chmod 640 /etc/datadog-agent/datadog.yaml
+            - chown dd-agent:dd-agent /var/log/datadog
+            - chmod 770 /var/log/datadog
+            - systemctl restart datadog-agent.service
+            - rm -f /etc/sudoers.d/90-cloud-init-users
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
