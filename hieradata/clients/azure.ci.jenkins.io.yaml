@@ -208,7 +208,6 @@ profile::jenkinscontroller::jcasc:
               - maven-11-all-in-one
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
             javaHome: /opt/jdk-11
           - name: jnlp-maven-17-all-in-one
