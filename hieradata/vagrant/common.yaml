@@ -101,8 +101,9 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
-          # For puppet & docker-inbound-agent on jenkins-infra only
           - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
             labels:
               - maven
               - maven-8
@@ -111,14 +112,17 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
             labels:
               - maven-17
               - jdk17
