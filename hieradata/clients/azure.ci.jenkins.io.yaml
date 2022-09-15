@@ -395,25 +395,6 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: true
           initScript: *BootstrapDatadogScript
-        - name: "ubuntu-20-test"
-          description: "Ubuntu 20.04 LTS test"
-          imageDefinition: jenkins-agent-ubuntu-20.04
-          os: "ubuntu"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
-          location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
-          architecture: amd64
-          labels:
-            - test-datadog
-          maxInstances: 1
-          useAsMuchAsPosible: false
-          credentialsId: "jenkinsvmagents-userpass"
-          usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
-          spot: true
-          initScript: *BootstrapDatadogScript
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
