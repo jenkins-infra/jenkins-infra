@@ -170,8 +170,9 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
         agent_definitions:
-          # For puppet & docker-inbound-agent on jenkins-infra only
           - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
             labels:
               - maven
               - maven-8
@@ -180,44 +181,23 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
             labels:
               - maven-17
               - jdk17
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-8-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-8-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-8
-          - name: jnlp-maven-11-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-11-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-11
-          - name: jnlp-maven-17-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-17-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-17
           - name: jnlp-node
             cpus: 2
             memory: 4
@@ -284,6 +264,8 @@ profile::jenkinscontroller::jcasc:
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc6NOxZbHKCrW0RtsyuKr+nWLkQe5373QWJyENhn2potG95WHOAMXIvptK4TVmj5+AUz05uv7rnji01I+c8RYFpdu7J3dEczLsUdCY9QMTtFngz7Z/GpXAszorvEobocOQdVWzw4Rg7jncJuNI1JfiMIA9KcVYOISuyF6VEQajb/ACcyDBeYoLD7K3V6uTDIDrChCvW0FvmYDFPhxt0TheX6AxWI/9/1DzCYdz8yvOtxiSAdXOvZ87yM58OdyRotzjRCX+5E2VhxyyJdI+myfoU3DKP1H1tAuOIBdubq8OZJaZv2SQTC/BVLTIl0Wr43kKhE3kg2UOcMUypIuGcmzvDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLrMYKsCzYfbJk8jdLB+5WgFBuB88xQ38Pl6SjAdHgCJxgwm0Ty9pFtJ/5OubJ9UaKrZfQtI9HmGkzIr8wq5CWPjPQ3ZZ9r7TIJBWITnOnFQWiUODb+x79K1SXa5US343uKg==]
         agent_definitions:
           - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
             labels:
               - maven
               - maven-8
@@ -292,44 +274,23 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
             labels:
               - maven-17
               - jdk17
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-8-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-8-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-8
-          - name: jnlp-maven-11-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-11-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-11
-          - name: jnlp-maven-17-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-17-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-17
           - name: jnlp-node
             cpus: 2
             memory: 4
