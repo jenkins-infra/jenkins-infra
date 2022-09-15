@@ -376,15 +376,6 @@ profile::jenkinscontroller::jcasc:
               - chmod 770 /var/log/datadog
               - systemctl restart datadog-agent.service
               - rm -f /etc/sudoers.d/90-cloud-init-users
-          - description: "Ubuntu 20.04 LTS test"
-            maxInstances: 1
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            architecture: "amd64"
-            labels:
-              - ec2_test_datadog
-            useAsMuchAsPosible: false
-            userData: *userData
           - description: "Windows 2019"
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
