@@ -170,8 +170,9 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
         agent_definitions:
-          # For puppet & docker-inbound-agent on jenkins-infra only
           - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
             labels:
               - maven
               - maven-8
@@ -180,44 +181,23 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
             labels:
               - maven-17
               - jdk17
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-8-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-8-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-8
-          - name: jnlp-maven-11-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-11-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-11
-          - name: jnlp-maven-17-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-17-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-17
           - name: jnlp-node
             cpus: 2
             memory: 4
@@ -284,6 +264,8 @@ profile::jenkinscontroller::jcasc:
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc6NOxZbHKCrW0RtsyuKr+nWLkQe5373QWJyENhn2potG95WHOAMXIvptK4TVmj5+AUz05uv7rnji01I+c8RYFpdu7J3dEczLsUdCY9QMTtFngz7Z/GpXAszorvEobocOQdVWzw4Rg7jncJuNI1JfiMIA9KcVYOISuyF6VEQajb/ACcyDBeYoLD7K3V6uTDIDrChCvW0FvmYDFPhxt0TheX6AxWI/9/1DzCYdz8yvOtxiSAdXOvZ87yM58OdyRotzjRCX+5E2VhxyyJdI+myfoU3DKP1H1tAuOIBdubq8OZJaZv2SQTC/BVLTIl0Wr43kKhE3kg2UOcMUypIuGcmzvDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLrMYKsCzYfbJk8jdLB+5WgFBuB88xQ38Pl6SjAdHgCJxgwm0Ty9pFtJ/5OubJ9UaKrZfQtI9HmGkzIr8wq5CWPjPQ3ZZ9r7TIJBWITnOnFQWiUODb+x79K1SXa5US343uKg==]
         agent_definitions:
           - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
             labels:
               - maven
               - maven-8
@@ -292,44 +274,23 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             imagePullSecrets: dockerhub-credential
           - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
             labels:
               - maven-17
               - jdk17
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-8-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-8-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-8
-          - name: jnlp-maven-11-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-11-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-11
-          - name: jnlp-maven-17-all-in-one
-            imageName: jnlp-maven-all-in-one
-            labels:
-              - maven-17-all-in-one
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-            javaHome: /opt/jdk-17
           - name: jnlp-node
             cpus: 2
             memory: 4
@@ -365,15 +326,7 @@ profile::jenkinscontroller::jcasc:
               - linux
             useAsMuchAsPosible: true
             spot: true
-          - description: "Ubuntu 20.04 LTS test"
-            maxInstances: 1
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            architecture: "amd64"
-            labels:
-              - ec2_test_datadog
-            useAsMuchAsPosible: false
-            userData:
+            userData: &BootstrapDatadogScript
               - "#!/bin/bash"
               - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
               - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
@@ -405,6 +358,7 @@ profile::jenkinscontroller::jcasc:
               - docker-highmem
             useAsMuchAsPosible: false
             spot: false
+            userData: *BootstrapDatadogScript
           - description: "ARM64 ubuntu 20.04"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
@@ -415,6 +369,7 @@ profile::jenkinscontroller::jcasc:
               - arm64linux
             useAsMuchAsPosible: false
             spot: true
+            userData: *BootstrapDatadogScript
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
@@ -439,34 +394,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
-        - name: "ubuntu-20-test"
-          description: "Ubuntu 20.04 LTS test"
-          imageDefinition: jenkins-agent-ubuntu-20.04
-          os: "ubuntu"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
-          location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
-          architecture: amd64
-          labels:
-            - test-datadog
-          maxInstances: 1
-          useAsMuchAsPosible: false
-          credentialsId: "jenkinsvmagents-userpass"
-          usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
-          spot: true
-          initScript:
-            - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAiiTWRyFEQbPaJ8OHohWOhICF/mxCHioTCk7QhxEXZ+PD6hFmKvhZFjPb5qG52MKHA1hHZtC5NnXp+BSpmoE2TK9DLQstzZxA3xsuoBcLiz5o3J3HqV4Vz9SKNC2gUtCnBFN2IQLbKQvnHeHFzPyltzWIJ4+ZWtH5RymSqDpkxBEw8IeIwX8Ps9Ryhmip3DJrWmtogpAdhfwlTzHbwDJvQkl7GjMzdPAEEISy0rtI2nj+HSFgiG7iCfAVIy+DcEFcgFrEX3xmA+IeurOT3Q1ayt1KJCgtTtO27GcJDOydeFJIIZluwnx4OnkmvZPCYcXh1KGiDvm+8sw3eklMSeswZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCJDjHErg9iT8ltw26SaB8TgDD2TVMoUmvWfiwUEz0hJsTJUsW4cg2iavGCJk2x4+m4BhljtPM5W5dfMJjgGtRe0Nc=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
-            - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
-            - mkdir /var/log/datadog
-            - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
-            - chmod 640 /etc/datadog-agent/datadog.yaml
-            - chown dd-agent:dd-agent /var/log/datadog
-            - chmod 770 /var/log/datadog
-            - systemctl restart datadog-agent.service
-            - rm -f /etc/sudoers.d/90-cloud-init-users
+          initScript: *BootstrapDatadogScript
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
@@ -487,6 +415,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: false
+          initScript: *BootstrapDatadogScript
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
