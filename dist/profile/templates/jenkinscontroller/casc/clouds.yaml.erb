@@ -222,12 +222,6 @@ jenkins:
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_PROVIDER"
                   value: "<%= k8s_setup['provider'] %>"
-              - envVar:
-                  key: "LC_ALL"
-                  value: "C.UTF-8"
-              - envVar:
-                  key: "LANG"
-                  value: "C.UTF-8"
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
