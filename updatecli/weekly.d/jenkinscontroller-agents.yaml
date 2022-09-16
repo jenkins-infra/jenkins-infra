@@ -26,12 +26,6 @@ sources:
       image: "jenkinsciinfra/jenkins-agent-ubuntu-20.04"
       tag: "latest"
       architecture: amd64
-  getLatestInboundRubyContainerImage:
-    kind: dockerdigest
-    spec:
-      image: "jenkinsciinfra/inbound-agent-ruby"
-      tag: "latest"
-      architecture: amd64
   getLatestInboundMaven8ContainerImage:
     kind: dockerdigest
     spec:
@@ -142,7 +136,7 @@ targets:
     scmid: default
   setInboundAllInOneContainerImage:
     sourceid: getLatestInboundAllInOneContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/jenkins-agent-ubuntu-20.04 (AllInOne)"
+    name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-20.04 (AllInOne)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -150,19 +144,9 @@ targets:
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:"
     scmid: default
-  setInboundRubyContainerImage:
-    sourceid: getLatestInboundRubyContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-ruby"
-    transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
-    scmid: default
   setInboundNodeContainerImage:
     sourceid: getLatestInboundNodeContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-node"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -172,7 +156,7 @@ targets:
     scmid: default
   setInboundAlpineContainerImage:
     sourceid: getLatestInboundAlpineContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
+    name: "Bump container agent image jenkins/inbound-agent (Alpine)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -182,7 +166,7 @@ targets:
     scmid: default
   setInboundJDK11ContainerImage:
     sourceid: getLatestInboundJDK11ContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
+    name: "Bump container agent image jenkins/inbound-agent (JDK11)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -221,7 +205,6 @@ pullrequests:
     scmid: default
     targets:
       - setAzureGalleryImageVersion
-      - setInboundRubyContainerImage
       - setInboundAllInOneContainerImage
       - setInboundNodeContainerImage
       - setInboundAlpineContainerImage
