@@ -208,17 +208,17 @@ profile::jenkinscontroller::jcasc:
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-02a26de2f00cefac0"
-      windows-amd64: "ami-04d64d49294907aed"
-      ubuntu-arm64: "ami-023995fe053b6ae00"
+      ubuntu-amd64: "ami-0a15ad8528897469a"
+      windows-amd64: "ami-0ac2b2de482911e13"
+      ubuntu-arm64: "ami-018da4656d79e476d"
     azure_vms_gallery_image:
-      version: 0.42.0
+      version: 0.42.1
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:01724bc2b03a724dac63eca808f54bfe5c97a0b64a3550cd8316fa1601ada6a3
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:5b2213581b480ef9d1113bc2b6b2635f61fd69bbe0b09d0396ebc8ed8d9b7cdc
       jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:4f7070d6f9f2155699bec4a599ce1d2d95519638626708f9c533ddb6e8677015'
       jnlp-alpine: 'jenkins/inbound-agent@sha256:dd6d453e08e5e36ff1c9d4cd033b90d10b7458a83495b4651e06f051b185e204'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
