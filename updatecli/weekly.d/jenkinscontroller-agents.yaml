@@ -20,10 +20,10 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-  getLatestInboundRubyContainerImage:
+  getLatestInboundAllInOneContainerImage:
     kind: dockerdigest
     spec:
-      image: "jenkinsciinfra/inbound-agent-ruby"
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-20.04"
       tag: "latest"
       architecture: amd64
   getLatestInboundMaven8ContainerImage:
@@ -134,49 +134,19 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
     scmid: default
-  setInboundRubyContainerImage:
-    sourceid: getLatestInboundRubyContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-ruby"
+  setInboundAllInOneContainerImage:
+    sourceid: getLatestInboundAllInOneContainerImage
+    name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-20.04 (AllInOne)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-ruby"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one"
     transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-ruby@sha256:"
-    scmid: default
-  setInboundMaven8ContainerImage:
-    sourceid: getLatestInboundMaven8ContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK8)"
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-8"
-    transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scmid: default
-  setInboundMaven11ContainerImage:
-    sourceid: getLatestInboundMaven11ContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK11)"
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-11"
-    transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
-    scmid: default
-  setInboundMaven17ContainerImage:
-    sourceid: getLatestInboundMaven17ContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-maven (JDK17)"
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-17"
-    transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-maven@sha256:"
+      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:"
     scmid: default
   setInboundNodeContainerImage:
     sourceid: getLatestInboundNodeContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkinsciinfra/inbound-agent-node"
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-node"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -186,7 +156,7 @@ targets:
     scmid: default
   setInboundAlpineContainerImage:
     sourceid: getLatestInboundAlpineContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (Alpine)"
+    name: "Bump container agent image jenkins/inbound-agent (Alpine)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -196,7 +166,7 @@ targets:
     scmid: default
   setInboundJDK11ContainerImage:
     sourceid: getLatestInboundJDK11ContainerImage
-    name: "Bump ci.jenkins.io container agent image jenkins/inbound-agent (JDK11)"
+    name: "Bump container agent image jenkins/inbound-agent (JDK11)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -235,10 +205,7 @@ pullrequests:
     scmid: default
     targets:
       - setAzureGalleryImageVersion
-      - setInboundRubyContainerImage
-      - setInboundMaven8ContainerImage
-      - setInboundMaven11ContainerImage
-      - setInboundMaven17ContainerImage
+      - setInboundAllInOneContainerImage
       - setInboundNodeContainerImage
       - setInboundAlpineContainerImage
       - setInboundJDK11ContainerImage
