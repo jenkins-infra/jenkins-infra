@@ -324,7 +324,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows
-          idleTerminationMinutes: 30 # Quick deallocation as Linux is billed per minute
           maxInstances: 20
           useAsMuchAsPosible: true
           credentialsId: "jenkinsvmagents-userpass"
