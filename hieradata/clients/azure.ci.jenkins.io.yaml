@@ -346,7 +346,16 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
             useAsMuchAsPosible: true
             spot: true
-            idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
+          - description: "Windows 2019 datadog test"
+            maxInstances: 10
+            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            architecture: "amd64"
+            labels:
+              - docker-windows-datadog-test
+            useAsMuchAsPosible: false
+            spot: true
+            #initScript: *BootstrapDatadogScriptWindows #wait until manual testing
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -445,7 +454,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-test-datadog
-          idleTerminationMinutes: 30 # Quick deallocation as Linux is billed per minute
           maxInstances: 20
           useAsMuchAsPosible: false
           credentialsId: "jenkinsvmagents-userpass"
@@ -454,7 +462,10 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: false
+          spot: true
+          initScript: &BootstrapDatadogScriptWindows
+            #this script is ran before the agent service startup so no need to restart it
+            - (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\ProgramData\Datadog\datadog.yaml
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
