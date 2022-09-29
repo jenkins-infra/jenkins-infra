@@ -227,7 +227,6 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
             useAsMuchAsPosible: true
             spot: true
-            idleTerminationMinutes: 30 # Windows is billed per hour: let's wait half of this period since most of the builds are less than 30 min on Windows
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -333,6 +332,27 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
+        - name: "win-2019-datadog-test" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2019 test datadog"
+          imageDefinition: jenkins-agent-windows-2019
+          os: "windows"
+          storageAccount: SuperSecretThatShouldBeEncryptedInProduction
+          location: "East US 2"
+          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          architecture: amd64
+          labels:
+            - docker-windows-test-datadog
+          maxInstances: 20
+          useAsMuchAsPosible: false
+          credentialsId: "jenkinsvmagents-userpass"
+          useEphemeralOSDisk: false
+          usePrivateIP: true
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+          subnetName: "ci.j-agents-vm"
+          spot: false
+          initScript: &BootstrapDatadogScriptWindowsVagrant
+            - (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\ProgramData\Datadog\datadog.yaml
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
