@@ -355,7 +355,7 @@ profile::jenkinscontroller::jcasc:
               - docker-windows-datadog-test
             useAsMuchAsPosible: false
             spot: true
-            initScript: *BootstrapDatadogScriptWindows
+            #initScript: *BootstrapDatadogScriptWindows #wait until manual testing
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
