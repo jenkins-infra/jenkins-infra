@@ -64,8 +64,7 @@ accounts:
   dduportal:
     ssh_keys:
       dduportal:
-        # ecdsa-sha2-nistp256 
-        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
+        key: "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc="
     groups:
       - sudo
   hlemeur:
