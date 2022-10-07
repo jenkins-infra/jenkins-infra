@@ -352,7 +352,9 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: false
           initScript: &BootstrapDatadogScriptWindowsVagrant
-            - (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+            - <powershell>
+            - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
+            - </powershell>
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
