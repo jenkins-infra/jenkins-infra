@@ -352,7 +352,7 @@ profile::jenkinscontroller::jcasc:
             os: "windows"
             architecture: "amd64"
             labels:
-              - docker-windows-datadog-test
+              - docker-windows-test-datadog-ec2
             useAsMuchAsPosible: false
             spot: true
             userData: *BootstrapDatadogScriptWindows
@@ -453,7 +453,7 @@ profile::jenkinscontroller::jcasc:
           instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
           architecture: amd64
           labels:
-            - docker-windows-test-datadog
+            - docker-windows-test-datadog-azure
           maxInstances: 20
           useAsMuchAsPosible: false
           credentialsId: "jenkinsvmagents-userpass"
