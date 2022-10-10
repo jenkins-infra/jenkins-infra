@@ -1,4 +1,5 @@
-title: Bump agent templates version on all controllers
+---
+name: Bump agent templates version on all controllers
 
 scms:
   default:
@@ -64,7 +65,7 @@ sources:
       architecture: amd64
   getLatestUbuntuAgentAMIAmd64:
     kind: aws/ami
-    depends_on:
+    dependson:
       - packerImageVersion
     spec:
       region: us-east-2
@@ -78,7 +79,7 @@ sources:
           values: '{{ source "packerImageVersion" }}'
   getLatestWindowsAgentAMIAmd64:
     kind: aws/ami
-    depends_on:
+    dependson:
       - packerImageVersion
     spec:
       region: us-east-2
@@ -92,7 +93,7 @@ sources:
           values: '{{ source "packerImageVersion" }}'
   getLatestUbuntuAgentAMIArm64:
     kind: aws/ami
-    depends_on:
+    dependson:
       - packerImageVersion
     spec:
       region: us-east-2
@@ -106,7 +107,7 @@ sources:
           values: '{{ source "packerImageVersion" }}'
   getWindowsVMAgentsDiskSize:
     kind: file
-    depends_on:
+    dependson:
       - packerImageVersion
     spec:
       file: 'https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source `packerImageVersion` }}/locals.pkr.hcl'
@@ -203,12 +204,6 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - setAzureGalleryImageVersion
-      - setInboundAllInOneContainerImage
-      - setInboundNodeContainerImage
-      - setInboundAlpineContainerImage
-      - setInboundJDK11ContainerImage
-      - setUbuntuAgentAMIAmd64
-      - setUbuntuAgentAMIArm64
-      - setWindowsAgentAMIamd64
+    spec:
+      labels:
+        - dependencies
