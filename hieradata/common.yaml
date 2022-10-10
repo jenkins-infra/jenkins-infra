@@ -63,9 +63,7 @@ accounts:
       - sudo
   dduportal:
     ssh_keys:
-      dduportal-old-rsa:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCraaCref/TCw2mLwQI+DSXYu8iqGhx8fmWOhkKz9qwptzcQlpMauKgMp4fUw6GmalsHxhPU42XCIcVD39iIjDLAnaqwbRGn7vevCE2JsegxKvIe0Xu+CuTYyYRgRa5d+n92ZndoeYB9afcGZsod9ZVu3FgWoTMOPEsKPQOAtcPKhyj88ELijSMluelgCASPc1hcB0vcXB5s6r61uHR5pk+27mBw34wsGOiUEkAW5qMWkwraO9fuUfZDQN1nKWH0f6ctn/3DxxNM7kuzOczp+yg+hsCGdu5Xmh2/gQACq7ti5SO+TkELPpZwoJg0eOzX3Qh1lB1qorawTRet+9k1xGHlS3gjgY95qV8G4qh5NHFGQMGHhUpRaHg7BexDWVgjH20QhbYLZTD4+kdNPPJom1+ZZOKjFxrsrY3VgTYqAIIEHX1gP/4cHSIUMAX1atVLFL1qJK5C+LVKbnTg6P2nxlLWz78lc0AwwhPTgTgRtjlxbOFgDxgdRNkcCklU40sDyQ8ELBIbPM+2bDaa0IZIt4krUfOFSgBJ+vVZGyWIHPBZYxIXXM1YlNM/SFf7ZG6hhMjLYz8Gy2yb79MQ0bQ5d6xgk5KZO1FCRSGRBEKFYZzhfNIC/cSJADzlo77KDlmvvLZCzDfHGPNxfjPbBzXWE5tYz3yGu1V8cTYCTycHipJAw==
-      dduportal-new:
+      dduportal:
         type: ecdsa-sha2-nistp256
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
     groups:
