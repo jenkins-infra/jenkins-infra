@@ -346,15 +346,6 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
             useAsMuchAsPosible: true
             spot: true
-          - description: "Windows 2019 datadog test"
-            maxInstances: 10
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "windows"
-            architecture: "amd64"
-            labels:
-              - docker-windows-test-datadog-ec2
-            useAsMuchAsPosible: false
-            spot: true
             userData: &BootstrapDatadogScriptWindows
               #this script is ran before the agent service startup so no need to restart it
               - <powershell>
@@ -441,25 +432,6 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
           maxInstances: 20
           useAsMuchAsPosible: true
-          credentialsId: "jenkinsvmagents-userpass"
-          useEphemeralOSDisk: false
-          usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
-          spot: true
-        - name: "win-2019-datadog-test" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019 test datadog"
-          imageDefinition: jenkins-agent-windows-2019
-          os: "windows"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
-          location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
-          architecture: amd64
-          labels:
-            - docker-windows-test-datadog-azure
-          maxInstances: 20
-          useAsMuchAsPosible: false
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true
