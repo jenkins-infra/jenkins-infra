@@ -1,5 +1,5 @@
 ---
-title: Bump Jenkins LTS version
+name: Bump Jenkins LTS version
 
 scms:
   default:
@@ -19,9 +19,6 @@ sources:
     name: Get latest stable jenkins version
     spec:
       release: stable
-      github:
-        username: "{{ .github.username }}"
-        token: "{{ requiredEnv .github.token }}"
     transformers:
       - addsuffix: "-jdk11"
 
@@ -56,5 +53,6 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - imageTag
+    spec:
+      labels:
+        - dependencies

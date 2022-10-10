@@ -1,5 +1,5 @@
 ---
-title: "Update updatecli version"
+name: "Update updatecli version"
 
 scms:
   default:
@@ -31,7 +31,7 @@ conditions:
     disablesourceinput: true
     kind: shell
     spec:
-      command: curl --location --head --fail --silent --show-error https://github.com/updatecli/updatecli/releases/download/v{{ source `latestUpdatecliVersion`}}/updatecli_Linux_x86_64.tar.gz
+      command: curl --location --head --fail --silent --show-error https://github.com/updatecli/updatecli/releases/download/{{ source `latestUpdatecliVersion`}}/updatecli_Linux_x86_64.tar.gz
 
 targets:
   setUpdatecliVersion:
@@ -47,5 +47,6 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - setUpdatecliVersion
+    spec:
+      labels:
+        - dependencies
