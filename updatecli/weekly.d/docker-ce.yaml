@@ -1,5 +1,5 @@
 ---
-title: Bump docker-ce version
+name: Bump docker-ce version
 
 scms:
   default:
@@ -41,5 +41,6 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - default
+    spec:
+      labels:
+        - dependencies

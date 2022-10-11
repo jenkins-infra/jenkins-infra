@@ -1,5 +1,5 @@
 ---
-title: Bump OpenVPN Docker image version
+name: Bump OpenVPN Docker image version
 
 scms:
   default:
@@ -52,5 +52,6 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    targets:
-      - imageTag
+    spec:
+      labels:
+        - dependencies
