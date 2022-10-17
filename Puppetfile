@@ -4,7 +4,7 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppet-r10k', '10.2.0'
 mod 'puppet-systemd', '3.10.0'
 
-mod 'puppetlabs-stdlib', '8.4.0'
+mod 'puppetlabs-stdlib', '8.5.0'
 
 # Deps for apachelogcompressor
 mod 'puppetlabs-ruby', '1.0.1'
@@ -48,7 +48,7 @@ mod 'saz-ssh', '5.0.0'
 mod 'puppetlabs-sshkeys_core', '1.0.2'
 
 mod 'puppetlabs-lvm', '1.4.0'
-mod 'datadog-datadog_agent', '3.17.0'
+mod 'datadog-datadog_agent', '3.18.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '6.0.0'
