@@ -40,7 +40,7 @@ mod 'puppetlabs-apt', '9.0.0'
 # Apache and its dependencies
 mod 'puppetlabs-apache', '7.0.0'
 
-mod 'puppetlabs-concat', '7.2.0'
+mod 'puppetlabs-concat', '7.3.0'
 
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
