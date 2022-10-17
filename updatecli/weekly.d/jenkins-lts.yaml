@@ -53,6 +53,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump Jenkins LTS version to {{ source "jenkinsLatestLTS" }}
     spec:
       labels:
         - dependencies

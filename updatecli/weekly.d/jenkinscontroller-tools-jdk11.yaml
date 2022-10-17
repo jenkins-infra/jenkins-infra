@@ -14,7 +14,7 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  default:
+  getLatestJDK11Version:
     kind: githubrelease
     name: Get the latest Adoptium JDK11 version
     spec:
@@ -48,6 +48,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump JDK11 version (Jenkins tools) on all controllers to {{ source "getLatestJDK11Version" }}
     spec:
       labels:
         - dependencies

@@ -47,6 +47,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Update updatecli version to {{ source "latestUpdatecliVersion" }}
     spec:
       labels:
         - dependencies
