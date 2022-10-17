@@ -52,6 +52,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump OpenVPN Docker image version to {{ source "latestVersion" }}
     spec:
       labels:
         - dependencies

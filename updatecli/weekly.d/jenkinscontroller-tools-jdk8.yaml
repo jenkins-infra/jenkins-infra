@@ -48,6 +48,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump JDK8 version (Jenkins tools) on all controllers to {{ source "getLatestJDK8Version" }}
     spec:
       labels:
         - dependencies

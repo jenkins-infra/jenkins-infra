@@ -51,6 +51,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump the LVM Puppet Module to {{ source "latestVersion" }}
     spec:
       labels:
         - puppet-module

@@ -47,6 +47,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump Maven version (Jenkins tools) on all controllers to {{ source "getMavenVersionFromPackerImages" }}
     spec:
       labels:
         - dependencies

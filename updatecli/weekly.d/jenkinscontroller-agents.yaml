@@ -204,6 +204,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump agent templates version on all controllers
     spec:
       labels:
         - dependencies

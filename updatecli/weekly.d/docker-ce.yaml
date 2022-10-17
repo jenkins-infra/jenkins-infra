@@ -41,6 +41,7 @@ pullrequests:
   default:
     kind: github
     scmid: default
+    title: Bump docker-ce version to {{ source "lastDockerCePackageVersion" }}
     spec:
       labels:
         - dependencies
