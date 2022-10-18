@@ -350,7 +350,7 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
             useAsMuchAsPosible: true
             spot: true
-            userData: &BootstrapDatadogScriptWindows
+            userData:
               #this script is ran before the agent service startup so no need to restart it
               - <powershell>
               - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
@@ -443,7 +443,8 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
-          initScript: *BootstrapDatadogScriptWindows
+          initScript: 
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
