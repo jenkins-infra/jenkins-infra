@@ -143,7 +143,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one"
     transformers:
-      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:"
+      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@"
     scmid: default
   setInboundNodeContainerImage:
     sourceid: getLatestInboundNodeContainerImage
@@ -153,7 +153,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-node"
     transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-node@sha256:"
+      - addprefix: "jenkinsciinfra/inbound-agent-node@"
     scmid: default
   setInboundAlpineContainerImage:
     sourceid: getLatestInboundAlpineContainerImage
@@ -163,7 +163,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-alpine"
     transformers:
-      - addprefix: "jenkins/inbound-agent@sha256:"
+      - addprefix: "jenkins/inbound-agent@"
     scmid: default
   setInboundJDK11ContainerImage:
     sourceid: getLatestInboundJDK11ContainerImage
@@ -173,7 +173,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp"
     transformers:
-      - addprefix: "jenkins/inbound-agent@sha256:"
+      - addprefix: "jenkins/inbound-agent@"
     scmid: default
   setUbuntuAgentAMIAmd64:
     name: "Bump AMI ID for Ubuntu AMD64 agents"
