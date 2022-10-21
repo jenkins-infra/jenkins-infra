@@ -233,6 +233,15 @@ profile::jenkinscontroller::jcasc:
     jdk11: "11.0.16+8"
     jdk17: "17.0.4+8"
     maven: "3.8.6"
+  artifact_caching_proxy:
+    providers:
+    - id: aws
+      name: AWS
+    - id: azure
+      name: Azure
+    - id: do
+      name: DigitalOcean
+    credentialsId: artifact-caching-proxy-credentials
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
 ldap_admin_dn: "cn=admin,dc=example,dc=com"
