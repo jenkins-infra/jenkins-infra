@@ -465,6 +465,8 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             labels:
               - maven-11-windows
+  artifact_caching_proxy:
+    disabled: false
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor

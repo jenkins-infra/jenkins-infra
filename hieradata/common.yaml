@@ -243,6 +243,7 @@ profile::jenkinscontroller::jcasc:
       do:
         name: DigitalOcean
     credentialsId: artifact-caching-proxy-credentials
+    disabled: true
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
 ldap_admin_dn: "cn=admin,dc=example,dc=com"
