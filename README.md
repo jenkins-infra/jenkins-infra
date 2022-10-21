@@ -132,6 +132,8 @@ manifest = ./manifests/site.pp
 
 See [this page](https://github.com/jenkins-infra/.github/blob/master/CONTRIBUTING.md) for the overview and links.
 
+And this [local page](./CONTRIBUTING.md) for tips.
+
 Channels:
 
 * `#jenkins-infra` on the [Libera Chat](https://libera.chat/guides) IRC network - see <https://www.jenkins.io/chat/>
