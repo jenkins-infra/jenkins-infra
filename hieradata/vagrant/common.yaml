@@ -387,6 +387,7 @@ profile::jenkinscontroller::plugins:
   - buildtriggerbadge
   - cloudbees-folder
   - code-coverage-api
+  - config-file-provider
   - configuration-as-code
   - credentials
   - credentials-binding
