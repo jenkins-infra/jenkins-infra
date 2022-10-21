@@ -154,6 +154,7 @@ profile::jenkinscontroller::docker_tag: "2.361.2-jdk11"
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - pipeline-stage-view
+  - config-file-provider
   - ldap
   - beer
 profile::jenkinscontroller::jcasc:
@@ -235,12 +236,12 @@ profile::jenkinscontroller::jcasc:
     maven: "3.8.6"
   artifact_caching_proxy:
     providers:
-    - id: aws
-      name: AWS
-    - id: azure
-      name: Azure
-    - id: do
-      name: DigitalOcean
+      aws:
+        name: AWS
+      azure:
+        name: Azure
+      do:
+        name: DigitalOcean
     credentialsId: artifact-caching-proxy-credentials
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"

@@ -2,32 +2,32 @@
 unclassified:
   globalConfigFiles:
     configs:
-    <%-  @jcasc['artifact_caching_proxy']['providers'].each do |provider| -%>
+    <%-  @jcasc['artifact_caching_proxy']['providers'].each do |providerId, provider| -%>
     - mavenSettings:
-        comment: "Artifact caching proxy settings for the <%= provider['id'] %> provider"
+        comment: "Artifact caching proxy settings for the <%= providerId %> provider"
         content: |
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
             <mirrors>
               <mirror>
-                  <id><%= provider['id'] %>-proxy</id>
-                  <url>https://repo.<%= provider['id'] %>.jenkins.io/public/</url>
+                  <id><%= providerId %>-proxy</id>
+                  <url>https://repo.<%= providerId %>.jenkins.io/public/</url>
                   <mirrorOf>repo.jenkins-ci.org</mirrorOf>
               </mirror>
               <mirror>
-                  <id><%= provider['id'] %>-proxy-incrementals</id>
-                  <url>https://repo.<%= provider['id'] %>.jenkins.io/incrementals/</url>
+                  <id><%= providerId %>-proxy-incrementals</id>
+                  <url>https://repo.<%= providerId %>.jenkins.io/incrementals/</url>
                   <mirrorOf>incrementals</mirrorOf>
               </mirror>
             </mirrors>
           </settings>
-        id: "artifact-caching-proxy-<%= provider['id'] %>"
+        id: "artifact-caching-proxy-<%= providerId %>"
         isReplaceAll: true
         name: "<%= provider['name'] %> Artifact Caching Proxy"
         providerId: "org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig"
         serverCredentialMappings:
         - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
-          serverId: "<%= provider['id'] %>-proxy"
+          serverId: "<%= providerId %>-proxy"
         - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
-          serverId: "<%= provider['id'] %>-proxy-incrementals"
+          serverId: "<%= providerId %>-proxy-incrementals"
       <%- end -%>
 <%- end -%>
