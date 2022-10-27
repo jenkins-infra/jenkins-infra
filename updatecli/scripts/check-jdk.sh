@@ -34,11 +34,11 @@ function get_jdk_download_url() {
 case "${1}" in
   8u*)
     # No s390x support for JDK8: $platforms is kept as default
-    platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux");;
+    platforms=("x64_linux" "x64_windows" "aarch64_linux");;
   11.*)
-    platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux" "s390x_linux");;
+    platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
   17.*+*)
-    platforms=("x64_linux" "x64_windows" "aarch64_linux" "ppc64le_linux" "s390x_linux");;
+    platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
   *)
     echo "ERROR: unsupported JDK version (${1}).";
     exit 1;;

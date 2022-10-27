@@ -25,20 +25,12 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
       jdk11:
         installers:
           linux-arm64:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
           s390x:
             type: "zip"
             label: "s390x"
@@ -49,33 +41,11 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
           s390x:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
   permanent_agents:
-    ppc64le-agent:
-      remoteFS: /home/jenkins/ci.jenkins.io-agent
-      labels:
-        - ppc64le
-        - ppc64ledocker
-      mode: EXCLUSIVE
-      ssh:
-        host: "158.175.161.173"
-        credentialsId: "ppc64le-ed25519-2021-12-03"
-        launchTimeoutSeconds: 713
-        retryWaitTime: 175
-        hostKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYwX3Fu4fWEb9hPlan3FsiUsZoCsMD7CMqFNT/+Uh11HhvKU5ZFiF3sGNI7FrhNNbqBFd0HnS1t3zIkP3FFlKToSTrkcXPUyw+svFf5YbPbDxQUNE0kclTUsERzC3GNB5eXUlyNxCiGksqGtinXgknF2Z5cOO8osODP7ddRc6L3H4gvDi0/smz9QukZB2N0FqBJ3EZGbv0X9V3iwRu6Cu9lhcl/ue5fuIjKAgGzGQgWgCEg0k9xkK0OmxyJalI0eiqBRbdES/bXkkxp+4TQNOsxN/ZrZqxtlN7o9Fq9y+dp7xQFEoivSAjn6WQ6izjkMGKon7rcFJ4t4g6FJoQYv2P"
-        javaPath: "/opt/jdk-11/bin/java"
-      envVars:
-        PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
-      toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.8.4"
-          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
     s390x-agent:
       remoteFS: /home/jenkins/agent
       labels:
