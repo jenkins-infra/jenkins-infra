@@ -38,7 +38,7 @@ mod 'puppetlabs-docker', '5.0.0'
 mod 'puppetlabs-apt', '9.0.0'
 
 # Apache and its dependencies
-mod 'puppetlabs-apache', '8.2.1'
+mod 'puppetlabs-apache', '8.3.0'
 
 mod 'puppetlabs-concat', '7.3.0'
 
