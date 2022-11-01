@@ -53,20 +53,12 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
       jdk11:
         installers:
           linux-arm64:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
           s390x:
             type: "zip"
             label: "s390x"
@@ -77,35 +69,11 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
-          ppc64le:
-            type: "zip"
-            label: "ppc64le"
-            cpu_arch: "ppc64le"
           s390x:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
   permanent_agents:
-    ppc64le-agent:
-      remoteFS: /home/jenkins/ci.jenkins.io-agent
-      labels:
-        - ppc64le
-        - ppc64ledocker
-      mode: EXCLUSIVE
-      ssh:
-        host: "158.175.161.173"
-        credentialsId: "ppc64le-ed25519-2021-12-03"
-        launchTimeoutSeconds: 713
-        retryWaitTime: 175
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDz7R0AF0ftz0C0ZTcmTho83gXsf093aU88/lJS52l69"
-        javaPath: "/opt/jdk-11/bin/java"
-      envVars:
-        PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
-        # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
-        ARTIFACT_CACHING_PROXY_PROVIDER: "do"
-      toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.8.4"
-          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
     s390x-agent:
       remoteFS: /home/jenkins/agent
       labels:
