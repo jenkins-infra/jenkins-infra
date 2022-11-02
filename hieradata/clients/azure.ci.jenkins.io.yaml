@@ -166,17 +166,13 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-node
+          - name: jnlp-webbuilder
             cpus: 2
             memory: 4
             labels:
               - node
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-alpine
-            cpus: 1
-            memory: 2
-            labels:
-              - alpine
+              - ruby
+              - webbuilder
             imagePullSecrets: dockerhub-credential
           - name: jnlp
             labels:
