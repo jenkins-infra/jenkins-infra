@@ -71,45 +71,41 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
-          - name: jnlp-maven-8
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-8
-            labels:
-              - maven
-              - maven-8
-              - jdk8
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-11
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
-            labels:
-              - maven-11
-              - jdk11
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-17
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
-            labels:
-              - maven-17
-              - jdk17
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-node
+          # - name: jnlp-maven-8
+          #   imageName: jnlp-maven-all-in-one
+          #   javaHome: /opt/jdk-8
+          #   labels:
+          #     - maven
+          #     - maven-8
+          #     - jdk8
+          #   cpus: 4
+          #   memory: 8
+          #   imagePullSecrets: dockerhub-credential
+          # - name: jnlp-maven-11
+          #   imageName: jnlp-maven-all-in-one
+          #   javaHome: /opt/jdk-11
+          #   labels:
+          #     - maven-11
+          #     - jdk11
+          #   cpus: 4
+          #   memory: 8
+          #   imagePullSecrets: dockerhub-credential
+          # - name: jnlp-maven-17
+          #   imageName: jnlp-maven-all-in-one
+          #   javaHome: /opt/jdk-17
+          #   labels:
+          #     - maven-17
+          #     - jdk17
+          #   cpus: 4
+          #   memory: 8
+          #   imagePullSecrets: dockerhub-credential
+          - name: jnlp-webbuilder
             cpus: 2
             memory: 4
             labels:
               - node
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-alpine
-            cpus: 1
-            memory: 2
-            labels:
-              - alpine
+              - webbuilder
+              - ruby
             imagePullSecrets: dockerhub-credential
           - name: jnlp
             labels:
@@ -153,17 +149,13 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
-          - name: jnlp-node
+          - name: jnlp-webbuilder
             cpus: 2
             memory: 4
             labels:
               - node
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-alpine
-            cpus: 1
-            memory: 2
-            labels:
-              - alpine
+              - webbuilder
+              - ruby
             imagePullSecrets: dockerhub-credential
           - name: jnlp
             labels:
@@ -325,26 +317,26 @@ profile::jenkinscontroller::jcasc:
             - <powershell>
             - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
             - </powershell>
-    azure-container-agents:
-      aci-windows:
-        credentialsId: "azure-credentials"
-        resource_group: eastus-cijenkinsio
-        agent_definitions:
-          - name: maven-8-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            labels:
-              - maven-windows
-          - name: maven-11-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
-            labels:
-              - maven-11-windows
+    # azure-container-agents:
+    #   aci-windows:
+    #     credentialsId: "azure-credentials"
+    #     resource_group: eastus-cijenkinsio
+    #     agent_definitions:
+    #       - name: maven-8-windows
+    #         os: windows
+    #         command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+    #         cpus: 4
+    #         memory: 8
+    #         labels:
+    #           - maven-windows
+    #       - name: maven-11-windows
+    #         os: windows
+    #         command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+    #         cpus: 4
+    #         memory: 8
+    #         agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+    #         labels:
+    #           - maven-11-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment

@@ -45,17 +45,11 @@ sources:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk17"
       architecture: amd64
-  getLatestInboundNodeContainerImage:
+  getLatestInboundWebBuilderContainerImage:
     kind: dockerdigest
     spec:
-      image: "jenkinsciinfra/inbound-agent-node"
+      image: "jenkinsciinfra/builder"
       tag: "latest"
-      architecture: amd64
-  getLatestInboundAlpineContainerImage:
-    kind: dockerdigest
-    spec:
-      image: "jenkins/inbound-agent"
-      tag: "alpine"
       architecture: amd64
   getLatestInboundJDK11ContainerImage:
     kind: dockerdigest
@@ -145,25 +139,15 @@ targets:
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@"
     scmid: default
-  setInboundNodeContainerImage:
-    sourceid: getLatestInboundNodeContainerImage
-    name: "Bump container agent image jenkinsciinfra/inbound-agent-node"
+  setInboundWebBuilderContainerImage:
+    sourceid: getLatestInboundWebBuilderContainerImage
+    name: "Bump container agent image jenkinsciinfra/builder"
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-node"
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-webbuilder"
     transformers:
-      - addprefix: "jenkinsciinfra/inbound-agent-node@"
-    scmid: default
-  setInboundAlpineContainerImage:
-    sourceid: getLatestInboundAlpineContainerImage
-    name: "Bump container agent image jenkins/inbound-agent (Alpine)"
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-alpine"
-    transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkinsciinfra/builder@"
     scmid: default
   setInboundJDK11ContainerImage:
     sourceid: getLatestInboundJDK11ContainerImage
