@@ -150,7 +150,7 @@ profile::buildagent::ssh_keys:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: "2.361.2-jdk11"
+profile::jenkinscontroller::docker_tag: "2.361.3-jdk11"
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -226,7 +226,8 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:cec36d389def1132b441d3bff0cdf8ffd07f6d53b13c54bd67d59b4101445626
-      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:0dfa634a05d8d6094ff64fb4e4578f5ee2d4c4a110061d358bb5189dbbbfbdff'
+      jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:a5680cf7cb49f30d5c9a9afbddd7b40c60a0cbc8d802c2a210aa1f6e36c130f5'
+      jnlp-alpine: 'jenkins/inbound-agent@sha256:69877a2d1f2531f4618688541e67f13ea2a36df5259b215d62ce2a45e8927849'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:67319e589495d5beb11cfa17eeb6711b1a9155d8a2d2b6bade8c47f51bbee08f
   tools_default_versions:
