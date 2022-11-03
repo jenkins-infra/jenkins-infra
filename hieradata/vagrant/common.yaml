@@ -317,26 +317,26 @@ profile::jenkinscontroller::jcasc:
             - <powershell>
             - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
             - </powershell>
-    # azure-container-agents:
-    #   aci-windows:
-    #     credentialsId: "azure-credentials"
-    #     resource_group: eastus-cijenkinsio
-    #     agent_definitions:
-    #       - name: maven-8-windows
-    #         os: windows
-    #         command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-    #         cpus: 4
-    #         memory: 8
-    #         labels:
-    #           - maven-windows
-    #       - name: maven-11-windows
-    #         os: windows
-    #         command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-    #         cpus: 4
-    #         memory: 8
-    #         agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
-    #         labels:
-    #           - maven-11-windows
+    azure-container-agents:
+      aci-windows:
+        credentialsId: "azure-credentials"
+        resource_group: eastus-cijenkinsio
+        agent_definitions:
+          - name: maven-8-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            labels:
+              - maven-windows
+          - name: maven-11-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            labels:
+              - maven-11-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
