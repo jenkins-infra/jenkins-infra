@@ -215,17 +215,17 @@ profile::jenkinscontroller::jcasc:
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-082ee8cbf0342f2c6"
-      windows-amd64: "ami-017468623be03f9af"
-      ubuntu-arm64: "ami-055b20099f9cedc5f"
+      ubuntu-amd64: "ami-06925de952894563d"
+      windows-amd64: "ami-0aaca5657e3e21b65"
+      ubuntu-arm64: "ami-0cf8e564933ca66a6"
     azure_vms_gallery_image:
-      version: 0.46.0
+      version: 0.47.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:cec36d389def1132b441d3bff0cdf8ffd07f6d53b13c54bd67d59b4101445626
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:166b8cf505c4b55879a6d466c929f98c312cd9c2415389bfd55991e805852e6a
       jnlp-node: 'jenkinsciinfra/inbound-agent-node@sha256:41d114feccaa6f6b0b24a7f01a3b1e06fe444f5435c6642a7fadcb0239e3fd9b'
       jnlp-alpine: 'jenkins/inbound-agent@sha256:69877a2d1f2531f4618688541e67f13ea2a36df5259b215d62ce2a45e8927849'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
