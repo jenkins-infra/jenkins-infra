@@ -215,7 +215,7 @@ profile::jenkinscontroller::jcasc:
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-082ee8cbf0342f2c6"
+      ubuntu-amd64: "ami-06925de952894563d"
       windows-amd64: "ami-0aaca5657e3e21b65"
       ubuntu-arm64: "ami-0cf8e564933ca66a6"
     azure_vms_gallery_image:
