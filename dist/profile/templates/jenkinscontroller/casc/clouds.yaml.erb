@@ -212,14 +212,13 @@ jenkins:
                   key: "JENKINS_JAVA_BIN"
                   value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin'] %>"
             <%- if agent['javaHome'] -%>
-            <>
               - envVar:
                   key: "JAVA_HOME"
                   value: "<%= agent['javaHome'] %>"
               - envVar:
                   key: "PATH"
                   value: "<%= agent['javaHome'] %>/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
-            <%- else %>
+            <%- else -%>
               - envVar:
                   key: "PATH"
                   value: "<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
