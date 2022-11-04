@@ -213,6 +213,7 @@ profile::jenkinscontroller::jcasc:
       osDiskSize: 90
       agentJavaBin: '/opt/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      path: '~/.asdf/shims:~/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
       ubuntu-amd64: "ami-06925de952894563d"
