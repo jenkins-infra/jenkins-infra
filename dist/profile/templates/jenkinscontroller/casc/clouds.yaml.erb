@@ -123,7 +123,7 @@ jenkins:
           unixData:
             <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
             <%- if agent['os'].to_s != 'windows' -%>
-            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin']]) %>:~/.asdf/shims:~/.asdf/bin:^${PATH}"
+            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin']]) %>:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
             <%- end -%>
             sshPort: "22"
         associatePublicIp: true
@@ -212,12 +212,17 @@ jenkins:
                   key: "JENKINS_JAVA_BIN"
                   value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin'] %>"
             <%- if agent['javaHome'] -%>
+            <>
               - envVar:
                   key: "JAVA_HOME"
                   value: "<%= agent['javaHome'] %>"
               - envVar:
                   key: "PATH"
-                  value: "<%= agent['javaHome'] %>/bin:~/.asdf/shims:~/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+                  value: "<%= agent['javaHome'] %>/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
+            <%- else %>
+              - envVar:
+                  key: "PATH"
+                  value: "<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
             <%- end -%>
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_PROVIDER"
