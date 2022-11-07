@@ -431,45 +431,38 @@ profile::jenkinscontroller::jcasc:
     disabled: false
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
-  - ansicolor
-  - azure-container-agents
-  - azure-vm-agents
-  - blueocean
-  - build-timeout
-  - buildtriggerbadge
-  - cloudbees-folder
-  - code-coverage-api
-  - config-file-provider
-  - configuration-as-code
-  - credentials
-  - credentials-binding
-  - docker-workflow
-  - ec2
-  - embeddable-build-status
-  - git-client
-  - git
-  - github
-  - github-checks
-  - github-branch-source
-  - groovy
-  - kubernetes
-  - jobConfigHistory
-  - junit-attachments
-  - junit-realtime-test-reporter
-  - ldap
-  - lockable-resources
-  - mailer
-  - matrix-auth
-  - parallel-test-executor
-  - pipeline-githubnotify-step
-  - pipeline-graph-view
-  - pipeline-stage-view
-  - pipeline-utility-steps
+  - ansicolor # Provides ANSI color in the UI when checking log outputs
+  - azure-container-agents # ACI agents
+  - azure-vm-agents # Azure VM Agents
+  - blueocean # A nice view for pipelines
+  - buildtriggerbadge # Add an icon with the build cause in the build history
+  - cloudbees-folder # Provides a job type "Folder"
+  - code-coverage-api # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
+  - config-file-provider # Used to provide Maven settings for proxies
+  - configuration-as-code # Required for CasC
+  - credentials # Provides Jenkins Credentials management
+  - credentials-binding # Bind Jenbkins credentials to variables in jobs
+  - docker-workflow # Provides the "withDockerContainer" pipelie keyword
+  - ec2 # AWS EC2 VM agents
+  - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
+  - git # Used for... git
+  - github # Provides basic GitHub integration for jobs
+  - github-checks # Allows GitHub Jobs to create checks in GitHub API
+  - github-branch-source # Provides Job integration to get code from GitHub
+  - generic-tool # Ligthweight tool definition (should replace 'groovy' plugin and tools)
+  - groovy # TODO: remove in favor of generic-tool
+  - kubernetes # Kubernetes Container Agents
+  - jobConfigHistory # TODO: remove in favor of a configuration as code job definition (JobDSL?)
+  - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
+  - ldap # Required for authentication/authorization
+  - lockable-resources # Provides the pipelie keyword 'lock'
+  - mailer # Provides build notification by email
+  - matrix-auth # Required for specifying authorization schemes for RBAC
+  - parallel-test-executor # Provides the pipleine keyword "splitTest" used byt the Jenkins "ATH" - https://github.com/jenkinsci/acceptance-test-harness/blob/54adf0da5605e2caa4afc3f0b00fbc6191991e9a/Jenkinsfile#L32
+  - pipeline-graph-view # Candidate for replacing Blue Ocean use cases
+  - pipeline-stage-view # Old but classic pipeline view
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
-  - throttle-concurrents
-  - timestamper
-  - toolenv
-  - warnings-ng
-  - workflow-aggregator
-  - workflow-multibranch
+  - timestamper # Allow showing timestamp on build logs
+  - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
+  - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
