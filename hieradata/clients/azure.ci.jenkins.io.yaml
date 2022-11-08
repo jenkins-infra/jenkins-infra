@@ -455,7 +455,7 @@ profile::jenkinscontroller::plugins:
   - jobConfigHistory # TODO: remove in favor of a configuration as code job definition (JobDSL?)
   - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
   - ldap # Required for authentication/authorization
-  - lockable-resources # Provides the pipelie keyword 'lock'
+  - lockable-resources # Provides the pipeline keyword 'lock'
   - mailer # Provides build notification by email
   - matrix-auth # Required for specifying authorization schemes for RBAC
   - parallel-test-executor # Provides the pipleine keyword "splitTest" used byt the Jenkins "ATH" - https://github.com/jenkinsci/acceptance-test-harness/blob/54adf0da5605e2caa4afc3f0b00fbc6191991e9a/Jenkinsfile#L32
