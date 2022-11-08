@@ -216,20 +216,20 @@ profile::jenkinscontroller::jcasc:
       path: '~/.asdf/shims:~/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-06925de952894563d"
-      windows-amd64: "ami-0aaca5657e3e21b65"
-      ubuntu-arm64: "ami-0cf8e564933ca66a6"
+      ubuntu-amd64: "ami-0acd241bffe75e661"
+      windows-amd64: "ami-08b2a317b5c827308"
+      ubuntu-arm64: "ami-000a6ed19d7e79163"
     azure_vms_gallery_image:
-      version: 0.47.0
+      version: 0.49.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:166b8cf505c4b55879a6d466c929f98c312cd9c2415389bfd55991e805852e6a
-      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:e237c83fd0d3d7c937ce9291377c18de962a961145d79b029568cf59165d6248'
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:56f85c2dc7d93d49a3ede72c49f23275a88b6cd634ea421c0c40297f47b57438
+      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:230919e6a856373c43ed01c4f967cab6274599f6457cd1ea49850ea759e67aa4'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent@sha256:67319e589495d5beb11cfa17eeb6711b1a9155d8a2d2b6bade8c47f51bbee08f
+      jnlp: jenkins/inbound-agent@sha256:0b4c7ba7718c3eb6b53afc2f2ad5b5149af3e51adc76434ba03d4dc26e796504
   tools_default_versions:
     jdk8: "8u352-b08"
     jdk11: "11.0.17+8"
