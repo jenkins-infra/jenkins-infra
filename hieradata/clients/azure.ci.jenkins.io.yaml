@@ -453,6 +453,7 @@ profile::jenkinscontroller::plugins:
   - groovy # TODO: remove in favor of generic-tool
   - kubernetes # Kubernetes Container Agents
   - jobConfigHistory # TODO: remove in favor of a configuration as code job definition (JobDSL?)
+  - junit-attachments # Used by ATH
   - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
   - ldap # Required for authentication/authorization
   - lockable-resources # Provides the pipeline keyword 'lock'
