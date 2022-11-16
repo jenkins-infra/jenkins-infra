@@ -460,6 +460,7 @@ profile::jenkinscontroller::plugins:
   - mailer # Provides build notification by email
   - matrix-auth # Required for specifying authorization schemes for RBAC
   - parallel-test-executor # Provides the pipleine keyword "splitTest" used byt the Jenkins "ATH" - https://github.com/jenkinsci/acceptance-test-harness/blob/54adf0da5605e2caa4afc3f0b00fbc6191991e9a/Jenkinsfile#L32
+  - pipeline-github # This plugin adds the following pipeline triggers: issueCommentTrigger, pullRequestReview
   - pipeline-graph-view # Candidate for replacing Blue Ocean use cases
   - pipeline-stage-view # Old but classic pipeline view
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
