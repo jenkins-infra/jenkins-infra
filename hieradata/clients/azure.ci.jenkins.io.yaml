@@ -167,7 +167,7 @@ profile::jenkinscontroller::jcasc:
             memory: 8
             imagePullSecrets: dockerhub-credential
           - name: jnlp-webbuilder
-            agentJavaBin: /opt/java/openjdk/bin/java            
+            agentJavaBin: /opt/java/openjdk/bin/java
             cpus: 2
             memory: 4
             labels:
@@ -427,6 +427,14 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             labels:
               - maven-11-windows
+          - name: maven-17-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            labels:
+              - maven-17-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
