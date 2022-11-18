@@ -168,8 +168,8 @@ profile::jenkinscontroller::jcasc:
             imagePullSecrets: dockerhub-credential
           - name: jnlp-webbuilder
             agentJavaBin: /opt/java/openjdk/bin/java
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 8
             labels:
               - node
               - ruby
@@ -258,8 +258,8 @@ profile::jenkinscontroller::jcasc:
             imagePullSecrets: dockerhub-credential
           - name: jnlp-webbuilder
             agentJavaBin: /opt/java/openjdk/bin/java
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 8
             labels:
               - node
               - ruby
