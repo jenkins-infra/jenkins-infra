@@ -326,6 +326,7 @@ profile::jenkinscontroller::jcasc:
               - highmem
               - highram
               - docker-highmem
+              - linux-amd64-big
             useAsMuchAsPosible: false
             spot: false
             userData: *BootstrapDatadogScript
