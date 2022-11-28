@@ -216,7 +216,7 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-0acd241bffe75e661"
+      ubuntu-amd64: "ami-0b0076de2872ebc68"
       windows-amd64: "ami-0775712f8def5a692"
       ubuntu-arm64: "ami-01cfcaa2b363db9dc"
     azure_vms_gallery_image:
