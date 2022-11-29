@@ -286,6 +286,7 @@ profile::jenkinscontroller::jcasc:
               - java
               - docker
               - linux
+              - linux-amd64
             useAsMuchAsPosible: true
             spot: true
             userData: &BootstrapDatadogScript
@@ -357,6 +358,7 @@ profile::jenkinscontroller::jcasc:
             - java
             - linux
             - docker
+            - linux-amd64
           maxInstances: 10
           useAsMuchAsPosible: true
           credentialsId: "jenkinsvmagents-userpass"
@@ -378,6 +380,7 @@ profile::jenkinscontroller::jcasc:
             - highmem
             - highram
             - docker-highmem
+            - linux-amd64-big
           maxInstances: 20
           useAsMuchAsPosible: false
           usePrivateIP: true
