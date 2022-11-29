@@ -154,7 +154,7 @@ datadog_agent::integrations:
           - overlay
           - shm
           - nsfs # netns
-        include_all_devices: true
+        include_all_devices: false
 profile::buildagent::ssh_keys:
   "/home/jenkins/.ssh/id_rsa":
     privkey: |
