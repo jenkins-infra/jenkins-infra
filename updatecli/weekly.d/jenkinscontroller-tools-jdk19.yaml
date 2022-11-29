@@ -1,0 +1,54 @@
+---
+name: Bump JDK19 version (Jenkins tools) on all controllers
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  getLatestJDK19Version:
+    kind: githubrelease
+    name: Get the latest Adoptium JDK19 version
+    spec:
+      owner: "adoptium"
+      repository: "temurin19-binaries"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: regex
+        # jdk-19.0.1+10(https://github.com/adoptium/temurin19-binaries/releases/tag/jdk-19.0.1%2B10) is OK
+        pattern: "^jdk-19.(\\d*).(\\d*).(\\d*)+(\\d*)$"
+    transformers:
+      - trimprefix: "jdk-"
+
+conditions:
+  checkIfReleaseIsAvailable:
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
+
+targets:
+  setJDK19Version:
+    name: "Bump JDK19 version on tools"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk19"
+    scmid: default
+
+pullrequests:
+  default:
+    kind: github
+    scmid: default
+    title: Bump JDK19 version (Jenkins tools) on all controllers to {{ source "getLatestJDK19Version" }}
+    spec:
+      labels:
+        - dependencies
