@@ -142,6 +142,19 @@ datadog_agent::api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQ
 datadog_agent::process_enabled: true
 datadog_agent::logs_enabled: true
 datadog_agent::container_collect_all: true
+datadog_agent::integrations:
+  disk:
+    init_config: {}
+    instances:
+      - use_mount: false
+        # Disable filesystem checks Ref. https://github.com/DataDog/dd-agent/issues/2932 and https://github.com/jenkins-infra/helpdesk/issues/1746
+        file_system_exclude:
+          - tmpfs
+          - none
+          - overlay
+          - shm
+          - nsfs # netns
+        include_all_devices: false
 profile::buildagent::ssh_keys:
   "/home/jenkins/.ssh/id_rsa":
     privkey: |
