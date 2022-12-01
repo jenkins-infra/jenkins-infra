@@ -449,6 +449,14 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             labels:
               - maven-17-windows
+          - name: maven-19-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            agentJavaBin: "C:/openjdk-11/bin/java" # From image maven:3.8.6-eclipse-temurin-11
+            labels:
+              - maven-19-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
