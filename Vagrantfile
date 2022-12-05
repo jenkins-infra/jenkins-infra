@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
                 puppet.working_directory = "/vagrant"
                 puppet.manifests_path = "manifests"
                 puppet.manifest_file = "site.pp"
-                puppet.options = "--hiera_config=/vagrant/spec/fixtures/hiera.yaml --execute 'require profile::vagrant\n include role::#{veggie}'"
+                puppet.options = "--hiera_config=/vagrant/vagrant-docker/hiera.yaml --execute 'require profile::vagrant\n include role::#{veggie}'"
             end
         end
     end
