@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG="en_US.UTF-8"
@@ -13,6 +13,7 @@ RUN apt-get update \
   build-essential \
   curl \
   iproute2 \
+  iptables \
   locales \
   lvm2 \
   openssh-server \
