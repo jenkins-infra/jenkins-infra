@@ -42,11 +42,21 @@ class profile::openvpn (
     require          => [Docker::Image[$image]],
   }
 
+  file { '/etc/cloud':
+    ensure  => 'directory',
+    owner   => 'root',
+    group   => 'root',
+    recurse => true,
+  }
+
   file { '/etc/cloud/cloud.cfg.d':
     ensure  => 'directory',
     owner   => 'root',
     group   => 'root',
     recurse => true,
+    require => [
+      File['/etc/cloud'],
+    ],
   }
 
   # Ensure cloud-init doesn't manage network (netplan config + netplan apply + systemd, in Ubuntu Bionic)
