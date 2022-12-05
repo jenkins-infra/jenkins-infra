@@ -94,82 +94,72 @@ class profile::openvpn (
     ensure => present,
   }
 
-  ## Custom routes for peered networks
-  exec { 'addroute-10.240.0.0':
-    command => 'ip route add 10.240.0.0/14 via 10.0.2.1 dev eth1',
-    unless  => 'route | grep 10.240.0.0',
-    path    => '/usr/bin:/usr/sbin:/bin:/sbin',
-    require => [
-      Package['net-tools'],
-    ],
-  }
-
+  # Allow openvpn clients (incoming 443)
   firewall { '107 accept incoming 443 connections':
-    proto  => 'tcp',
-    port   => 443,
-    action => 'accept',
+    proto   => 'tcp',
+    dport   => 443,
+    action  => 'accept',
+    iniface => 'eth0',
   }
 
-  # Following firewall rules authorizes different network accesses as defined in https://github.com/jenkins-infra/openvpn
-  firewall { '100 snat for network public data tier from default vpn network to port 80/443':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'tcp',
-    outiface    => 'eth1',
-    source      => '10.8.0.0/24',
-    dport       => [80,443],
-    destination => '10.0.2.0/24',
-    table       => 'nat',
+  # Allow SSH clients (incoming 2)
+  firewall { '107 accept incoming 22 connections':
+    proto   => 'tcp',
+    dport   => 22,
+    action  => 'accept',
+    iniface => 'eth0',
   }
 
-  # Admin Rules
-  firewall { '100 snat for network public dmz tier from admin vpn network':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth0',
-    source      => '10.8.1.0/24',
-    destination => '10.0.99.0/24',
-    table       => 'nat',
-  }
+  # Create firewall rules and route for each specified NIC to allow routing from VPN virtual networks to different networks
+  lookup('profile::openvpn::networks').each |$network_nic, $network_setup| {
+    # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
+    $network_first_ip = split($network_setup['network_cidr'], '/')[1]
+    # Only get the 3 first digits of the IPv4 (`10.0.0.0` returns `10.0.0`)
+    $network_prefix = join(split($network_setup['network_cidr'], '[.]')[0,3], '.')
 
-  firewall { '100 snat for network public data tier from admin vpn network':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth1',
-    source      => '10.8.1.0/24',
-    destination => '10.0.2.0/24',
-    table       => 'nat',
-  }
+    # A given NIC has a "main" CIDR (its network) but may also be used for routes to peered networks
+    # If there are any peered network, then add a manual route
+    if $network_setup['peered_network_cidrs'] and $network_setup['peered_network_cidrs'].length > 0 {
+      $network_setup['peered_network_cidrs'].each | $peered_net_cidr | {
+        # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
+        $peered_network_ip  = split($peered_net_cidr, '/')[0]
+        # Only get the 3 first digits of the IPv4 (`10.0.0.0` returns `10.0.0`)
+        $peered_network_prefix = join(split($peered_network_ip, '[.]')[0,3], '.')
 
-  firewall { '100 snat for network public app tier from admin vpn network':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth2',
-    source      => '10.8.1.0/24',
-    destination => '10.0.1.0/24',
-    table       => 'nat',
-  }
+        ## Custom routes for peered networks
+        $gateway = "${network_prefix}.1"
+        exec { "addroute ${peered_network_prefix}.0 through ${gateway} (NIC ${network_nic})":
+          command => "ip route add ${peered_net_cidr} via ${gateway} dev ${network_nic}",
+          unless  => "route | grep ${peered_network_prefix}.0",
+          require => [
+            # The CLI command 'route' is needed
+            Package['net-tools'],
+          ],
+          path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+        }
+      }
+    }
 
-  firewall { '100 snat for network private-vnet default tier from default vpn network (peered with public network)':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth1',
-    source      => '10.8.0.0/24',
-    destination => '10.240.0.0/14',
-    table       => 'nat',
-  }
+    # The lambda filter is used to cleanup the array from empty element (when $network_setup['peered_network_cidrs'] is undefined)
+    $destinations_cidrs = ([$network_setup['network_cidr']] + $network_setup['peered_network_cidrs']).filter |$item| {
+      $item and $item.length > 0
+    }
 
-  firewall { '100 snat for network private-vnet default tier from admin vpn network (peered with public network)':
-    chain       => 'POSTROUTING',
-    jump        => 'MASQUERADE',
-    proto       => 'all',
-    outiface    => 'eth1',
-    source      => '10.8.1.0/24',
-    destination => '10.240.0.0/14',
-    table       => 'nat',
+    # For each VPN network, add all the destinations per interface
+    lookup('profile::openvpn::vpn_networks_cidr').each |$vpn_network_cidr| {
+      $destinations_cidrs.each |$destination_cidr| {
+        # Then add firewall rules to allow routing through networks using masquerading
+        firewall { "100 allow routing from ${vpn_network_cidr} to ${destination_cidr} on ports 80/443":
+          chain       => 'POSTROUTING',
+          jump        => 'MASQUERADE',
+          proto       => 'tcp',
+          outiface    => $network_nic,
+          source      => $vpn_network_cidr,
+          dport       => [80,443],
+          destination => $destination_cidr,
+          table       => 'nat',
+        }
+      }
+    }
   }
 }
