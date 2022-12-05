@@ -431,6 +431,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -438,7 +439,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -446,7 +447,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
             labels:
               - maven-17-windows
           - name: maven-19-windows
