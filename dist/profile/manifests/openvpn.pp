@@ -89,11 +89,19 @@ class profile::openvpn (
     content => template("${module_name}/openvpn/90-network-config.yaml.erb"),
   }
 
+  # The CLI '/sbin/route' is required to create custom routes for peered networks
+  package { 'net-tools':
+    ensure => present,
+  }
+
   ## Custom routes for peered networks
   exec { 'addroute-10.240.0.0':
     command => 'ip route add 10.240.0.0/14 via 10.0.2.1 dev eth1',
     unless  => 'route | grep 10.240.0.0',
     path    => '/usr/bin:/usr/sbin:/bin:/sbin',
+    require => [
+      Package['net-tools'],
+    ],
   }
 
   firewall { '107 accept incoming 443 connections':
