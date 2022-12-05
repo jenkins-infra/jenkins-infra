@@ -191,7 +191,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-8-windows"
     transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@"
     scmid: default
   setInboundJDK11WindowsContainerImage:
     sourceid: getLatestInboundMaven11WindowsContainerImage
@@ -201,7 +201,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-11-windows"
     transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@"
     scmid: default
   setInboundJDK17WindowsContainerImage:
     sourceid: getLatestInboundMaven17WindowsContainerImage
@@ -211,7 +211,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-17-windows"
     transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@"
     scmid: default
   setInboundJDK19WindowsContainerImage:
     sourceid: getLatestInboundMaven19WindowsContainerImage
@@ -221,7 +221,7 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-19-windows"
     transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@"
     scmid: default
   setUbuntuAgentAMIAmd64:
     name: "Bump AMI ID for Ubuntu AMD64 agents"
