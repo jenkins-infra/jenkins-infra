@@ -45,6 +45,30 @@ sources:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk17"
       architecture: amd64
+  getLatestInboundMaven8WindowsContainerImage:
+    kind: dockerdigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk8-nanoserver"
+      architecture: amd64
+  getLatestInboundMaven11WindowsContainerImage:
+    kind: dockerdigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk11-nanoserver"
+      architecture: amd64
+  getLatestInboundMaven17WindowsContainerImage:
+    kind: dockerdigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk17-nanoserver"
+      architecture: amd64
+  getLatestInboundMaven19WindowsContainerImage:
+    kind: dockerdigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk19-nanoserver"
+      architecture: amd64
   getLatestInboundWebBuilderContainerImage:
     kind: dockerdigest
     spec:
@@ -156,6 +180,46 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp"
+    transformers:
+      - addprefix: "jenkins/inbound-agent@"
+    scmid: default
+  setInboundJDK8WindowsContainerImage:
+    sourceid: getLatestInboundMaven8WindowsContainerImage
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-maven (jdk8-nanoserver)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-8-windows"
+    transformers:
+      - addprefix: "jenkins/inbound-agent@"
+    scmid: default
+  setInboundJDK11WindowsContainerImage:
+    sourceid: getLatestInboundMaven11WindowsContainerImage
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-maven (jdk11-nanoserver)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-11-windows"
+    transformers:
+      - addprefix: "jenkins/inbound-agent@"
+    scmid: default
+  setInboundJDK17WindowsContainerImage:
+    sourceid: getLatestInboundMaven17WindowsContainerImage
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-maven (jdk17-nanoserver)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-17-windows"
+    transformers:
+      - addprefix: "jenkins/inbound-agent@"
+    scmid: default
+  setInboundJDK19WindowsContainerImage:
+    sourceid: getLatestInboundMaven19WindowsContainerImage
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-maven (jdk19-nanoserver)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-19-windows"
     transformers:
       - addprefix: "jenkins/inbound-agent@"
     scmid: default
