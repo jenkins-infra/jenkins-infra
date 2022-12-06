@@ -95,7 +95,11 @@ jenkins:
         # Please note that envVars are specified differently than permanent or Kubernetes agents
         envVars:
           - key: "JENKINS_JAVA_OPTS"
+          <%- if !agent['agentJavaOpts'] && @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] && !@jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'].empty? && agent['os'].to_s == 'windows' -%>
+            value: "\"<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>\""
+          <%- else -%>
             value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
+          <%- end -%>
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
           - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
