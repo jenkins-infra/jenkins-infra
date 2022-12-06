@@ -1,7 +1,8 @@
 *.sw*
 .vagrant*
 .ruby-*
-spec/fixtures/
+spec/fixtures/manifests
+spec/fixtures/modules
 .bundle
 modules
 modules/

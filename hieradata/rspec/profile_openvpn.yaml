@@ -1,0 +1,15 @@
+---
+profile::openvpn::networks:
+  eth0:
+    name: Public network
+    # route-metric: 100
+    # macaddress: 00:0d:3a:0e:4b:1c
+    network_cidr: 192.168.0.0/24
+  eth1:
+    name: Private Network
+    network_cidr: 192.168.100.0/24
+    peered_network_cidrs:
+      - 10.0.0.0/16
+profile::openvpn::vpn_networks_cidr:
+  - 127.0.10.0/24
+  - 172.19.0.0/24

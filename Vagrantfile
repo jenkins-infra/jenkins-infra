@@ -13,6 +13,9 @@ Vagrant.configure("2") do |config|
         d.has_ssh = true
     end
 
+    # Add a secondary NIC ("private" network simulation for roles such as openvpn)
+    config.vm.network "private_network", ip: "192.168.0.10", netmask: 24, docker_network__internal: true, docker_network__gateway: "192.168.0.1"
+
     config.vm.network "forwarded_port", guest: 80, host: 80
     config.vm.network "forwarded_port", guest: 443, host: 443
     config.vm.network "forwarded_port", guest: 8080, host: 8080
@@ -45,7 +48,7 @@ Vagrant.configure("2") do |config|
                 puppet.working_directory = "/vagrant"
                 puppet.manifests_path = "manifests"
                 puppet.manifest_file = "site.pp"
-                puppet.options = "--hiera_config=/vagrant/spec/fixtures/hiera.yaml --execute 'require profile::vagrant\n include role::#{veggie}'"
+                puppet.options = "--hiera_config=/vagrant/vagrant-docker/hiera.yaml --execute 'require profile::vagrant\n include role::#{veggie}'"
             end
         end
     end

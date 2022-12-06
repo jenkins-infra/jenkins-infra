@@ -7,6 +7,11 @@ describe 'profile::jenkinscontroller' do
       :ci_fqdn => fqdn,
     }
   end
+  let(:facts) do
+    {
+      :rspec_hieradata_fixture => 'profile_jenkinscontroller',
+    }
+  end
 
   context 'Jenkins configuration' do
     it { is_expected.to contain_user('jenkins').with(
