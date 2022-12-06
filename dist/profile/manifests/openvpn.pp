@@ -89,7 +89,7 @@ class profile::openvpn (
     content => template("${module_name}/openvpn/90-network-config.yaml.erb"),
   }
 
-  # The CLI '/sbin/route' is required to create custom routes for peered networks
+  # The CLI '/sbin/route' included in net-tools is required to create custom routes for peered networks
   package { 'net-tools':
     ensure => present,
   }

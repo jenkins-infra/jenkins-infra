@@ -1,5 +1,5 @@
 ---
-name: Bump the Firewall Puppet Module
+name: Bump the puppetlabs-firewall module
 
 scms:
   default:
@@ -32,12 +32,11 @@ conditions:
     kind: shell
     disablesourceinput: true
     spec:
-    # https://forge.puppet.com/v3/files/puppetlabs-firewall-4.0.0.tar.gz
       command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-firewall-{{ source "latestVersion" }}.tar.gz
 
 targets:
   puppetfile:
-    name: "Update Puppetfile with the latest Firewall module version"
+    name: "Update Puppetfile with the latest puppetlabs-firewall module version"
     kind: file
     sourceid: latestVersion
     spec:
@@ -52,8 +51,9 @@ pullrequests:
   default:
     kind: github
     scmid: default
-    title: Bump the Firewall Puppet Module to {{ source "latestVersion" }}
+    title: Bump `puppetlabs-firewall` module to {{ source "latestVersion" }}
     spec:
       labels:
         - puppet-module
+        - puppetlabs-firewall
         - dependencies
