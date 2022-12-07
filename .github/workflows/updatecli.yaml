@@ -12,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Install updatecli CLI
         env:
-          UPDATECLI_VERSION: "v0.38.1"
+          UPDATECLI_VERSION: "v0.39.0"
         run: |
           curl --silent --location --show-error --output /tmp/updatecli.tgz \
             "https://github.com/updatecli/updatecli/releases/download/${UPDATECLI_VERSION}/updatecli_$(uname -s)_$(uname -m).tar.gz"

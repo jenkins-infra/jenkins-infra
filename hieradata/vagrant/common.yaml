@@ -5,6 +5,9 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
+## Vagrant uses Ubuntu 20.04: docker-ce package version is different than the default for 18.04 in common.yaml
+docker::version: "5:20.10.21~3-0~ubuntu-focal"
+
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::jenkinscontroller::proxy_port: 443
@@ -157,6 +160,15 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-17
               - jdk17
+            cpus: 4
+            memory: 8
+            imagePullSecrets: dockerhub-credential
+          - name: jnlp-maven-19
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-19
+            labels:
+              - maven-19
+              - jdk19
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
@@ -339,6 +351,9 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaOpts: >-
+              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -346,7 +361,9 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaOpts: >-
+              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -354,9 +371,21 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaOpts: >-
+              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-17-windows
+          - name: maven-19-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaOpts: >-
+              \"-XX:+PrintCommandLineFlags\"
+            labels:
+              - maven-19-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
