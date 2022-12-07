@@ -163,6 +163,15 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
+          - name: jnlp-maven-19
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-19
+            labels:
+              - maven-19
+              - jdk19
+            cpus: 4
+            memory: 8
+            imagePullSecrets: dockerhub-credential
           - name: jnlp-webbuilder
             agentJavaBin: java
             cpus: 2
