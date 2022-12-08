@@ -94,8 +94,20 @@ jenkins:
         timeout: 60
         # Please note that envVars are specified differently than permanent or Kubernetes agents
         envVars:
+          <%- agentJavaOpts = agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] -%>
+          <%- jenkinsJavaOpts = "" -%>
+          <%- if agent['os'] == "windows" -%>
+            <%-# On Windows, due to https://github.com/jenkinsci/docker-inbound-agent/pull/227, each flag of the java opts string is wrapped with litteral double quote to avoid powershell interpolation  -%>
+            <%- agentJavaOpts.split(' ').each do |optFlag| -%>
+              <%- jenkinsJavaOpts += '\"' + optFlag + '\"' -%>
+            <%- end -%>
+          <%- else -%>
+            <%-# On Linux, we can pass the java opts string "as it" to the shell -%>
+            <%- jenkinsJavaOpts = agentJavaOpts -%>
+          <%- end -%>
           - key: "JENKINS_JAVA_OPTS"
-            value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
+            value: >-
+              <%= jenkinsJavaOpts %>
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
           - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
