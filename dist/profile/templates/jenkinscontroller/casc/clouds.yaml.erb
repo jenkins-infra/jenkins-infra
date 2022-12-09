@@ -99,7 +99,7 @@ jenkins:
           <%- if agent['os'] == "windows" -%>
             <%-# On Windows, due to https://github.com/jenkinsci/docker-inbound-agent/pull/227, each flag of the java opts string is wrapped with litteral double quote to avoid powershell interpolation  -%>
             <%- agentJavaOpts.split(' ').each do |optFlag| -%>
-              <%- jenkinsJavaOpts += '\"' + optFlag + '\"' -%>
+              <%- jenkinsJavaOpts += '"' + optFlag + '"' -%>
             <%- end -%>
           <%- else -%>
             <%-# On Linux, we can pass the java opts string "as it" to the shell -%>
