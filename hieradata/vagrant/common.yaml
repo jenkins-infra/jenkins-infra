@@ -5,9 +5,6 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
-## Vagrant uses Ubuntu 20.04: docker-ce package version is different than the default for 18.04 in common.yaml
-docker::version: "5:20.10.21~3-0~ubuntu-focal"
-
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 profile::jenkinscontroller::proxy_port: 443
@@ -352,8 +349,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -362,8 +357,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -372,8 +365,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-17-windows
           - name: maven-19-windows
@@ -382,8 +373,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-19-windows
   artifact_caching_proxy:

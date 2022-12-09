@@ -450,8 +450,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -460,8 +458,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -470,8 +466,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-17-windows
           - name: maven-19-windows
@@ -480,8 +474,6 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
-            agentJavaOpts: >-
-              \"-XX:+PrintCommandLineFlags\"
             labels:
               - maven-19-windows
   artifact_caching_proxy:
