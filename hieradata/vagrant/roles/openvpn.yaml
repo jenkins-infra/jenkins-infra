@@ -107,3 +107,5 @@ profile::openvpn::openvpn_dh_pem: |
   M/5EwDFZREQ3tx2xol8uTbnfuIm/OQKW1OqmFKvNCwF8I7SdK9pIHHAyPBNe37vw
   KylZSP3kLe6g3qpUb82MTsYNIDUz5XQ7UwIBAg==
   -----END DH PARAMETERS-----
+
+profile::openvpn::openvpn_network: default
