@@ -44,9 +44,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk8"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump JDK8 version (Jenkins tools) on all controllers to {{ source "getLatestJDK8Version" }}
     spec:

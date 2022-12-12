@@ -44,9 +44,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk11"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump JDK11 version (Jenkins tools) on all controllers to {{ source "getLatestJDK11Version" }}
     spec:

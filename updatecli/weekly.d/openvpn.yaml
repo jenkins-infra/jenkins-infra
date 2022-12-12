@@ -48,9 +48,9 @@ targets:
       key: "profile::openvpn::image_tag"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump OpenVPN Docker image version to {{ source "latestVersion" }}
     spec:

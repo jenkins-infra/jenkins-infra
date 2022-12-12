@@ -37,9 +37,9 @@ targets:
       key: "docker::version"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump docker-ce version to {{ source "lastDockerCePackageVersion" }}
     spec:

@@ -248,9 +248,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-amd64"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump agent templates version on all controllers
     spec:

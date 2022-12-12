@@ -44,9 +44,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk19"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump JDK19 version (Jenkins tools) on all controllers to {{ source "getLatestJDK19Version" }}
     spec:
