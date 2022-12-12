@@ -11,6 +11,7 @@ class profile::openvpn (
   Optional[String] $openvpn_server_pem = undef,
   Optional[String] $openvpn_server_key = undef,
   Optional[String] $openvpn_dh_pem     = undef,
+  Optional[String] $openvpn_network    = undef,
   Hash $networks                       = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
@@ -36,6 +37,7 @@ class profile::openvpn (
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}",
+      "OPENVPN_NETWORK=${openvpn_network}",
     ],
     extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',
