@@ -43,9 +43,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.maven"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Maven version (Jenkins tools) on all controllers to {{ source "getMavenVersionFromPackerImages" }}
     spec:

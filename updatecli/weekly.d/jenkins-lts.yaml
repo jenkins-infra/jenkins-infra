@@ -49,9 +49,9 @@ targets:
       key: "profile::jenkinscontroller::docker_tag"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump Jenkins LTS version to {{ source "jenkinsLatestLTS" }}
     spec:

@@ -47,9 +47,9 @@ targets:
         mod 'puppetlabs-concat', '{{ source "latestVersion" }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump the Concat Puppet Module to {{ source "latestVersion" }}
     spec:

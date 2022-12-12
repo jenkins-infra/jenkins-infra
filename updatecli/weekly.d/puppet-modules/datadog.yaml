@@ -47,9 +47,9 @@ targets:
         mod 'datadog-datadog_agent', '{{ source "latestVersion" }}'
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump the Datadog Puppet Module to {{ source "latestVersion" }}
     spec:

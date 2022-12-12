@@ -44,9 +44,9 @@ targets:
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk17"
     scmid: default
 
-pullrequests:
+actions:
   default:
-    kind: github
+    kind: github/pullrequest
     scmid: default
     title: Bump JDK17 version (Jenkins tools) on all controllers to {{ source "getLatestJDK17Version" }}
     spec:
