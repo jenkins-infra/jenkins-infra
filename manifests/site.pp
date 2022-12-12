@@ -102,6 +102,11 @@ node 'vpn.jenkins.io' {
   include role::openvpn
 }
 
+node 'private.vpn.jenkins.io' {
+  sshkeyman::hostkey { ['private.vpn.jenkins.io']: }
+  include role::openvpn
+}
+
 # SSH Bastion used to reach trusted.ci and its trusted-agent-1
 node 'bounce' {
   include role::bounce
