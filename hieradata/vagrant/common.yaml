@@ -194,6 +194,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 20
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - java
@@ -205,6 +206,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "windows"
+            os_version: "2019"
             architecture: "amd64"
             labels:
               - docker-windows
@@ -213,7 +215,8 @@ profile::jenkinscontroller::jcasc:
           - description: "Windows 2022"
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "windows-2022"
+            os: "windows"
+            os_version: "2022"
             architecture: "amd64"
             labels:
               - docker-windows-2022
@@ -223,6 +226,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - highmem
@@ -253,6 +257,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "arm64"
             labels:
               - arm64docker

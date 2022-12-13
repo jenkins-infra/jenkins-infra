@@ -219,14 +219,6 @@ profile::jenkinscontroller::jcasc:
       osDiskSize: 128
       agentJavaBin: 'C:/tools/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
-    windows-2022:
-      agentDir: 'C:/Jenkins'
-      # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
-      tempDir: 'C:\\\\Temp'
-      remoteAdmin: Administrator
-      osDiskSize: 128
-      agentJavaBin: 'C:/tools/jdk-11/bin/java'
-      agentJavaOpts: '-XX:+PrintCommandLineFlags'
     ubuntu:
       agentDir: "/home/jenkins"
       remoteAdmin: jenkins
@@ -237,9 +229,9 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-amd64: "ami-0379f8a145c548384"
-      windows-amd64: "ami-0342fba4cd8bae2da"
-      ubuntu-arm64: "ami-07275ab5d2e1fe7f7"
+      ubuntu-20.04-amd64: "ami-0379f8a145c548384"
+      windows-2019-amd64: "ami-0342fba4cd8bae2da"
+      ubuntu-20.04-arm64: "ami-07275ab5d2e1fe7f7"
       windows-2022-amd64: "ami-0ccedc505fa0d89c5"
     azure_vms_gallery_image:
       version: 0.51.0

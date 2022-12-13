@@ -129,7 +129,7 @@ jenkins:
       useInstanceProfileForCredentials: false
       templates:
       <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
-      - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['architecture'].to_s] %>"
+      - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiOwners: "200564066411"
         amiType:
           unixData:
