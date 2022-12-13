@@ -62,7 +62,7 @@ jenkins:
         templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
         templateName: "<%= agent['name'] %>"
-        usageMode: "<%= agent['useAsMuchAsPosible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
+        usageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
         virtualMachineSize: "<%= agent['instanceType'] %>"
       <%- if agent['usePrivateIP'] -%>
         usePrivateIP: true
@@ -156,7 +156,7 @@ jenkins:
         maxTotalUses: 1 # Throw away the VMs after a build
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
-        mode: <%= agent['useAsMuchAsPosible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>
+        mode: <%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>
         monitoring: false
         numExecutors: 1
         remoteAdmin: "<%= @jcasc['agents_setup'][agent['os'].to_s]['remoteAdmin'] %>"

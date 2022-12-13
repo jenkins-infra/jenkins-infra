@@ -201,7 +201,7 @@ profile::jenkinscontroller::jcasc:
               - docker
               - linux
               - linux-amd64
-            useAsMuchAsPosible: true
+            useAsMuchAsPossible: true
             spot: true
             userData: &BootstrapDatadogScript
               - "#!/bin/bash"
@@ -226,7 +226,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             labels:
               - docker-windows
-            useAsMuchAsPosible: true
+            useAsMuchAsPossible: true
             spot: true
             userData:
               #this script is ran before the agent service startup so no need to restart it
@@ -241,7 +241,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             labels:
               - windows-2022
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: false
             userData:
               #this script is ran before the agent service startup so no need to restart it
@@ -259,7 +259,7 @@ profile::jenkinscontroller::jcasc:
               - highram
               - docker-highmem
               - linux-amd64-big
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: false
             userData: *BootstrapDatadogScript
           - description: "ARM64 ubuntu 20.04"
@@ -271,7 +271,7 @@ profile::jenkinscontroller::jcasc:
             labels:
               - arm64docker
               - arm64linux
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: true
             userData: *BootstrapDatadogScript
     azure-vm-agents:
@@ -292,7 +292,7 @@ profile::jenkinscontroller::jcasc:
             - docker
             - linux-amd64
           maxInstances: 10
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
@@ -314,7 +314,7 @@ profile::jenkinscontroller::jcasc:
             - docker-highmem
             - linux-amd64-big
           maxInstances: 20
-          useAsMuchAsPosible: false
+          useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
           virtualNetworkName: "prod-jenkins-public-prod"
@@ -333,7 +333,7 @@ profile::jenkinscontroller::jcasc:
           labels:
             - docker-windows
           maxInstances: 20
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true
