@@ -18,34 +18,7 @@ profile::jenkinscontroller::jcasc:
     groovy:
       groovy: # Default version is named "groovy"
         version: "2.4.7"
-    jdk:
-      jdk8:
-        installers:
-          linux-arm64:
-            type: "zip"
-            label: "linux && arm64"
-            cpu_arch: "aarch64"
       jdk11:
-        installers:
-          linux-arm64:
-            type: "zip"
-            label: "linux && arm64"
-            cpu_arch: "aarch64"
-          s390x:
-            type: "zip"
-            label: "s390x"
-            cpu_arch: "s390x"
-      jdk17:
-        installers:
-          linux-arm64:
-            type: "zip"
-            label: "linux && arm64"
-            cpu_arch: "aarch64"
-          s390x:
-            type: "zip"
-            label: "s390x"
-            cpu_arch: "s390x"
-      jdk19:
         installers:
           linux-arm64:
             type: "zip"
@@ -81,99 +54,15 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
-          - name: jnlp-maven-8
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-8
-            labels:
-              - maven
-              - maven-8
-              - jdk8
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-11
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
-            labels:
-              - maven-11
-              - jdk11
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-17
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
-            labels:
-              - maven-17
-              - jdk17
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
           - name: jnlp-webbuilder
             agentJavaBin: java
+            javaHome: /opt/jdk-11
             cpus: 2
             memory: 4
             labels:
               - node
               - webbuilder
               - ruby
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp
-            labels:
-              - default
-            cpus: 1
-            memory: 1
-            imagePullSecrets: dockerhub-credential
-      doks:
-        enabled: true
-        provider: do
-        credentialsId: "doks-jenkins-agent-sa-token"
-        serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
-        max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
-        url: SuperSecretThatShouldBeEncryptedInProduction
-        agent_definitions:
-          - name: jnlp-maven-8
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-8
-            labels:
-              - maven
-              - maven-8
-              - jdk8
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-11
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
-            labels:
-              - maven-11
-              - jdk11
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-17
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
-            labels:
-              - maven-17
-              - jdk17
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-webbuilder
-            agentJavaBin: java
-            cpus: 2
-            memory: 4
-            labels:
-              - node
-              - webbuilder
-              - ruby
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp
-            labels:
-              - default
-            cpus: 1
-            memory: 1
             imagePullSecrets: dockerhub-credential
     ec2:
       aws-us-east-2:
@@ -181,50 +70,11 @@ profile::jenkinscontroller::jcasc:
         credentialsId: "aws-credentials-jenkins-ci"
         sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
         agent_definitions:
-          - description: "Ubuntu 20.04 LTS"
-            maxInstances: 20
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            architecture: "amd64"
-            labels:
-              - java
-              - docker
-              - linux
-            useAsMuchAsPosible: true
-            spot: true
-          - description: "Windows 2019"
-            maxInstances: 10
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "windows"
-            architecture: "amd64"
-            labels:
-              - docker-windows
-            useAsMuchAsPosible: true
-            spot: true
-          - description: "Windows 2022"
-            maxInstances: 10
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "windows-2022"
-            architecture: "amd64"
-            labels:
-              - docker-windows-2022
-            useAsMuchAsPosible: true
-            spot: true
-          - description: "High memory ubuntu 20.04 (ondemand)"
-            maxInstances: 50
-            instanceType: M54xlarge # 16 vCPUS / 64 Gb
-            os: "ubuntu"
-            architecture: "amd64"
-            labels:
-              - highmem
-              - highram
-              - docker-highmem
-            useAsMuchAsPosible: false
-            spot: false
           - description: "Ubuntu 20.04 LTS datadog"
             maxInstances: 1
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - ec2_datadog
@@ -240,15 +90,15 @@ profile::jenkinscontroller::jcasc:
               - chmod 770 /var/log/datadog
               - systemctl restart datadog-agent.service
               - rm -f /etc/sudoers.d/90-cloud-init-users
-          - description: "ARM64 ubuntu 20.04"
+          - description: "Windows 2022"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
-            os: "ubuntu"
+            os: "windows"
+            os_version: "2022"
             architecture: "arm64"
             labels:
-              - arm64docker
-              - arm64linux
-            useAsMuchAsPosible: false
+              - windows
+            useAsMuchAsPossible: false
             spot: true
             userData: *datadogInitUserData
     azure-vm-agents:
@@ -276,26 +126,6 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: true
           initScript: *datadogInitUserData
-        - name: "ubuntu-20-highmem"
-          description: "Ubuntu 20.04 LTS Highmem"
-          imageDefinition: jenkins-agent-ubuntu-20.04
-          os: "ubuntu"
-          storageAccount: SuperSecretThatShouldBeEncryptedInProduction
-          location: "East US 2"
-          instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
-          architecture: amd64
-          labels:
-            - highmem
-            - highram
-            - docker-highmem
-          maxInstances: 20
-          useAsMuchAsPosible: false
-          usePrivateIP: true
-          credentialsId: "jenkinsvmagents-userpass"
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
-          spot: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
@@ -315,25 +145,6 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
-        - name: "win-2019-datadog-test" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019 test datadog"
-          imageDefinition: jenkins-agent-windows-2019
-          os: "windows"
-          storageAccount: SuperSecretThatShouldBeEncryptedInProduction
-          location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
-          architecture: amd64
-          labels:
-            - docker-windows-test-datadog
-          maxInstances: 20
-          useAsMuchAsPosible: false
-          credentialsId: "jenkinsvmagents-userpass"
-          useEphemeralOSDisk: false
-          usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
-          spot: false
           initScript:
             - <powershell>
             - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
@@ -343,13 +154,6 @@ profile::jenkinscontroller::jcasc:
         credentialsId: "azure-credentials"
         resource_group: eastus-cijenkinsio
         agent_definitions:
-          - name: maven-8-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            labels:
-              - maven-windows
           - name: maven-11-windows
             os: windows
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
@@ -358,57 +162,26 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
             labels:
               - maven-11-windows
-          - name: maven-17-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
-            labels:
-              - maven-17-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
-  - ansicolor
   - azure-container-agents
   - azure-vm-agents
   - blueocean
-  - build-timeout
-  - buildtriggerbadge
   - cloudbees-folder
-  - code-coverage-api
   - config-file-provider
   - configuration-as-code
   - credentials
   - credentials-binding
-  - docker-workflow
   - ec2
-  - embeddable-build-status
-  - git-client
-  - git
-  - github
-  - github-checks
   - github-branch-source
-  - groovy
   - kubernetes
-  - jobConfigHistory
-  - junit-attachments
-  - junit-realtime-test-reporter
   - ldap
-  - lockable-resources
-  - mailer
   - matrix-auth
-  - parallel-test-executor
-  - pipeline-githubnotify-step
   - pipeline-graph-view
-  - pipeline-stage-view
-  - pipeline-utility-steps
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
-  - throttle-concurrents
-  - timestamper
   - toolenv
-  - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
