@@ -201,6 +201,15 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
             useAsMuchAsPosible: true
             spot: true
+          - description: "Windows 2022"
+            maxInstances: 10
+            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
+            os: "windows-2022"
+            architecture: "amd64"
+            labels:
+              - docker-windows-2022
+            useAsMuchAsPosible: true
+            spot: true
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
