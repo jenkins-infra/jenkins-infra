@@ -10,12 +10,7 @@ profile::openvpn::networks:
     network_cidr: 192.168.100.0/24
     peered_network_cidrs:
       - 10.0.0.0/16
-  eth2:
-    name: Another Network
-    network_cidr: 192.168.200.0/24
-    peered_network_cidrs:
-      - 11.0.0.0/16
 profile::openvpn::vpn_networks_cidr:
   - 127.0.10.0/24
   - 172.19.0.0/24
-profile::openvpn::openvpn_network: default
+profile::openvpn::openvpn_network: private
