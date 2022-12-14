@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe 'profile::openvpn' do
-
   let(:facts) do
     {
       :rspec_hieradata_fixture => 'profile_openvpn',
