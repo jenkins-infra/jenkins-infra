@@ -2,6 +2,12 @@ require 'spec_helper'
 
 describe 'profile::openvpn' do
 
+  let(:facts) do
+    {
+      :rspec_hieradata_fixture => 'profile_openvpn',
+    }
+  end
+
   it { expect(subject).to contain_class 'stdlib' }
   it { expect(subject).to contain_class 'profile::docker' }
 
@@ -41,11 +47,5 @@ describe 'profile::openvpn' do
     end
 
     it { expect(subject).not_to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
-  end
-  
-  let(:facts) do
-    {
-      :rspec_hieradata_fixture => 'profile_openvpn',
-    }
   end
 end
