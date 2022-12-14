@@ -233,21 +233,6 @@ profile::jenkinscontroller::jcasc:
               - <powershell>
               - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
               - </powershell>
-          - description: "Windows 2022"
-            maxInstances: 1
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "windows"
-            os_version: "2022"
-            architecture: "amd64"
-            labels:
-              - windows-2022
-            useAsMuchAsPossible: false
-            spot: false
-            userData:
-              #this script is ran before the agent service startup so no need to restart it
-              - <powershell>
-              - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
-              - </powershell>
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
@@ -334,6 +319,28 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
           maxInstances: 20
           useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          useEphemeralOSDisk: false
+          usePrivateIP: true
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+          subnetName: "ci.j-agents-vm"
+          spot: true
+          initScript:
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022"
+          imageDefinition: jenkins-agent-windows-2022
+          os: "windows"
+          os_version: "2022"
+          storageAccount: SuperSecretThatShouldBeEncryptedInProduction
+          location: "East US 2"
+          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          architecture: amd64
+          labels:
+            - docker-windows-2022
+          maxInstances: 20
+          useAsMuchAsPossible: false
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true
