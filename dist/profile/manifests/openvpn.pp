@@ -62,16 +62,18 @@ class profile::openvpn (
   }
 
   # Ensure cloud-init doesn't manage network to ensure the order of eth1 and eth2 if this last one is defined (ie 3 interfaces) (netplan config + netplan apply + systemd, in Ubuntu Bionic)
+  $content = ''
   if $networks.length > 2 {
-    file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
-      ensure  => 'file',
-      owner   => 'root',
-      group   => 'root',
-      require => [
-        File['/etc/cloud/cloud.cfg.d'],
-      ],
-      content => 'network: {config: disabled}',
-    }
+    $content = 'network: {config: disabled}'
+  }
+  file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
+    ensure  => 'file',
+    owner   => 'root',
+    group   => 'root',
+    require => [
+      File['/etc/cloud/cloud.cfg.d'],
+    ],
+    content => $content,
   }
 
   file { '/etc/netplan/':
