@@ -38,5 +38,5 @@ describe 'profile::openvpn' do
     }
   end
 
-  it { expect(subject).to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' without_mode }
+  it { should_not contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
 end
