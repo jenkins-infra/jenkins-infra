@@ -309,6 +309,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 20
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - java
@@ -336,9 +337,11 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "windows"
+            os_version: "2019"
             architecture: "amd64"
             labels:
               - docker-windows
+              - docker-windows-2019
             useAsMuchAsPossible: true
             spot: true
             userData:
@@ -433,6 +436,8 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows
+            - docker-windows-2019
+            - windows
           maxInstances: 20
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
