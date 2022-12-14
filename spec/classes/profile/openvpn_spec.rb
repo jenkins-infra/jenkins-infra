@@ -31,12 +31,12 @@ describe 'profile::openvpn' do
 end
 
 
-describe 'profile::openvpn' do
+describe 'profile::openvpn with 2 interfaces' do
   let(:facts) do
     {
       :rspec_hieradata_fixture => 'profile_openvpn_two_interfaces',
     }
   end
 
-  it { should_not contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
+  it { expect(subject).not_to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
 end
