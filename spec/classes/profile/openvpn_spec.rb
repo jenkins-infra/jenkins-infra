@@ -1,6 +1,27 @@
 require 'spec_helper'
 
 describe 'profile::openvpn' do
+
+  context 'with 3 network interfaces' do
+    let(:facts) do
+      {
+        :rspec_hieradata_fixture => 'profile_openvpn',
+      }
+    end
+
+    it { expect(subject).to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
+  end
+
+  context 'with 2 network interfaces' do
+    let(:facts) do
+      {
+        :rspec_hieradata_fixture => 'profile_openvpn_two_interfaces',
+      }
+    end
+
+    it { expect(subject).not_to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
+  end
+  
   let(:facts) do
     {
       :rspec_hieradata_fixture => 'profile_openvpn',
@@ -11,8 +32,6 @@ describe 'profile::openvpn' do
   it { expect(subject).to contain_class 'profile::docker' }
 
   it { expect(subject).to contain_package 'net-tools' }
-
-  it { expect(subject).to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
 
   it { expect(subject).to contain_firewall '107 accept incoming 443 connections' }
 
@@ -28,15 +47,4 @@ describe 'profile::openvpn' do
   it { expect(subject).to contain_firewall "100 allow routing from 127.0.10.0/24 to 10.0.0.0/16 on ports 80/443" }
   it { expect(subject).to contain_firewall "100 allow routing from 172.19.0.0/24 to 10.0.0.0/16 on ports 80/443" }
   it { expect(subject).to contain_exec "addroute 10.0.0.0 through 192.168.100.1 (NIC eth1)" }
-end
-
-
-describe 'profile::openvpn with 2 interfaces' do
-  let(:facts) do
-    {
-      :rspec_hieradata_fixture => 'profile_openvpn_two_interfaces',
-    }
-  end
-
-  it { expect(subject).not_to contain_file '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg' }
 end
