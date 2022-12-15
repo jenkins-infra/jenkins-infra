@@ -13,5 +13,5 @@ profile::openvpn::networks:
 profile::openvpn::vpn_network:
   name: private
   cidr: 127.0.10.0/24
-  # TODO: replace by a conversion from vpn_network_cidr
+  # TODO: replace by a conversion from cidr
   netmask: 255.255.255.240

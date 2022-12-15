@@ -15,7 +15,7 @@ profile::openvpn::networks:
 profile::openvpn::vpn_network:
   name: default
   cidr: 10.8.0.0/24
-  # TODO: replace by a conversion from vpn_network_cidr
+  # TODO: replace by a conversion from cidr
   netmask: 255.255.254.0
 
 profile::openvpn::auth_ldap_password: 's3cr3t'
