@@ -12,9 +12,11 @@ profile::openvpn::networks:
     network_cidr: 192.168.0.10/24
     peered_network_cidrs:
       - 10.1.0.0/16
-profile::openvpn::vpn_networks_cidr:
-  - 10.8.0.0/24
-  - 10.8.1.0/24
+profile::openvpn::vpn_network:
+  name: default
+  cidr: 10.8.0.0/24
+  # TODO: replace by a conversion from cidr
+  netmask: 255.255.254.0
 
 profile::openvpn::auth_ldap_password: 's3cr3t'
 profile::openvpn::auth_ldap_url: 'ldaps://ldap'
@@ -107,5 +109,3 @@ profile::openvpn::openvpn_dh_pem: |
   M/5EwDFZREQ3tx2xol8uTbnfuIm/OQKW1OqmFKvNCwF8I7SdK9pIHHAyPBNe37vw
   KylZSP3kLe6g3qpUb82MTsYNIDUz5XQ7UwIBAg==
   -----END DH PARAMETERS-----
-
-profile::openvpn::openvpn_network: default

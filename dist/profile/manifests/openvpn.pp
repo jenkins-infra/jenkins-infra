@@ -11,7 +11,7 @@ class profile::openvpn (
   Optional[String] $openvpn_server_pem = undef,
   Optional[String] $openvpn_server_key = undef,
   Optional[String] $openvpn_dh_pem     = undef,
-  Optional[String] $openvpn_network    = undef,
+  Hash $vpn_network                    = {},
   Hash $networks                       = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
@@ -37,7 +37,10 @@ class profile::openvpn (
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}",
-      "OPENVPN_NETWORK=${openvpn_network}",
+      "OPENVPN_NETWORK_NAME=${vpn_network['name']}",
+      "OPENVPN_SERVER_SUBNET=${split($vpn_network['cidr'], '/')[0]}",
+      # TODO: replace by a conversion from profile network cidr
+      "OPENVPN_SERVER_NETMASK=${vpn_network['netmask']}",
     ],
     extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',
@@ -116,9 +119,7 @@ class profile::openvpn (
 
   # Create firewall rules and route for each specified NIC to allow routing from VPN virtual networks to different networks
   lookup('profile::openvpn::networks').each |$network_nic, $network_setup| {
-    # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
-    $network_first_ip = split($network_setup['network_cidr'], '/')[1]
-    # Only get the 3 first digits of the IPv4 (`10.0.0.0` returns `10.0.0`)
+    # Only get the 3 first digits of the CIDR (`10.0.0.0/24` returns `10.0.0`)
     $network_prefix = join(split($network_setup['network_cidr'], '[.]')[0,3], '.')
 
     # A given NIC has a "main" CIDR (its network) but may also be used for routes to peered networks
@@ -149,20 +150,18 @@ class profile::openvpn (
       $item and $item.length > 0
     }
 
-    # For each VPN network, add all the destinations per interface
-    lookup('profile::openvpn::vpn_networks_cidr').each |$vpn_network_cidr| {
-      $destinations_cidrs.each |$destination_cidr| {
-        # Then add firewall rules to allow routing through networks using masquerading
-        firewall { "100 allow routing from ${vpn_network_cidr} to ${destination_cidr} on ports 80/443":
-          chain       => 'POSTROUTING',
-          jump        => 'MASQUERADE',
-          proto       => 'tcp',
-          outiface    => $network_nic,
-          source      => $vpn_network_cidr,
-          dport       => [80,443],
-          destination => $destination_cidr,
-          table       => 'nat',
-        }
+    # Add all the destinations per interface
+    $destinations_cidrs.each |$destination_cidr| {
+      # Then add firewall rules to allow routing through networks using masquerading
+      firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 80/443":
+        chain       => 'POSTROUTING',
+        jump        => 'MASQUERADE',
+        proto       => 'tcp',
+        outiface    => $network_nic,
+        source      => $vpn_network['cidr'],
+        dport       => [80,443],
+        destination => $destination_cidr,
+        table       => 'nat',
       }
     }
   }
