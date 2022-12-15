@@ -108,4 +108,6 @@ profile::openvpn::openvpn_dh_pem: |
   KylZSP3kLe6g3qpUb82MTsYNIDUz5XQ7UwIBAg==
   -----END DH PARAMETERS-----
 
-profile::openvpn::openvpn_network_name: default
+profile::openvpn::vpn_network_name: default
+# TODO: replace by a conversion from vpn_networks_cidr
+profile::openvpn::vpn_network_netmask: 255.255.254.0

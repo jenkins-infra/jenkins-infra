@@ -1,18 +1,19 @@
 # This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
-  String $image_tag                      = 'latest',
-  String $image                          = 'jenkinsciinfra/openvpn',
-  Optional[String] $auth_ldap_password   = undef,
-  String $auth_ldap_binddn               = 'cn=admin,dc=jenkins-ci,dc=org',
-  String $auth_ldap_url                  = 'ldaps://ldap.jenkins.io',
-  String $auth_ldap_group_member         = 'cn=all',
-  Optional[String] $openvpn_ca_pem       = undef,
-  Optional[String] $openvpn_server_pem   = undef,
-  Optional[String] $openvpn_server_key   = undef,
-  Optional[String] $openvpn_dh_pem       = undef,
-  Optional[String] $openvpn_network_name = undef,
-  Hash $networks                         = {}
+  String $image_tag                     = 'latest',
+  String $image                         = 'jenkinsciinfra/openvpn',
+  Optional[String] $auth_ldap_password  = undef,
+  String $auth_ldap_binddn              = 'cn=admin,dc=jenkins-ci,dc=org',
+  String $auth_ldap_url                 = 'ldaps://ldap.jenkins.io',
+  String $auth_ldap_group_member        = 'cn=all',
+  Optional[String] $openvpn_ca_pem      = undef,
+  Optional[String] $openvpn_server_pem  = undef,
+  Optional[String] $openvpn_server_key  = undef,
+  Optional[String] $openvpn_dh_pem      = undef,
+  Optional[String] $vpn_network_name    = undef,
+  Optional[String] $vpn_network_netmask = undef,
+  Hash $networks                        = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::docker
@@ -26,6 +27,11 @@ class profile::openvpn (
     image_tag => $image_tag,
   }
 
+  lookup('profile::openvpn::vpn_networks_cidr').each |$vpn_networks_cidr| {
+    # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
+    $vpn_network_first_ip = split($vpn_networks_cidr, '/')[0]
+  }
+
   docker::run { 'openvpn':
     image            => "${image}:${image_tag}",
     env              => [
@@ -37,7 +43,10 @@ class profile::openvpn (
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}",
-      "OPENVPN_NETWORK_NAME=${openvpn_network_name}",
+      "OPENVPN_NETWORK_NAME=${vpn_network_name}",
+      "OPENVPN_SERVER_SUBNET=${vpn_network_first_ip}",
+      # TODO: replace by a conversion from profile network cidr
+      "OPENVPN_SERVER_MASK=${vpn_network_netmask}",
     ],
     extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',

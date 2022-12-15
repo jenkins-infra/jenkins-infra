@@ -18,4 +18,6 @@ profile::openvpn::networks:
 profile::openvpn::vpn_networks_cidr:
   - 127.0.10.0/24
   - 172.19.0.0/24
-profile::openvpn::openvpn_network_name: default
+profile::openvpn::vpn_network_name: default
+# TODO: replace by a conversion from vpn_networks_cidr
+profile::openvpn::vpn_server_netmask: 255.255.254.0
