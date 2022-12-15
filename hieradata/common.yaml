@@ -229,7 +229,7 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-20.04-amd64: "ami-0379f8a145c548384"
+      ubuntu-20.04-amd64: "ami-0aa8f0f375246878a"
       windows-2019-amd64: "ami-0d48810aa8c599e44"
       ubuntu-20.04-arm64: "ami-02c1bfde3862ec504"
       windows-2022-amd64: ""
