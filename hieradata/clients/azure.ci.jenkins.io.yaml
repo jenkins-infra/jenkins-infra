@@ -316,6 +316,7 @@ profile::jenkinscontroller::jcasc:
               - docker
               - linux
               - linux-amd64
+              - ubuntu
             useAsMuchAsPossible: true
             spot: true
             userData: &BootstrapDatadogScript
@@ -342,6 +343,8 @@ profile::jenkinscontroller::jcasc:
             labels:
               - docker-windows
               - docker-windows-2019
+              - windows
+              - windows-2019
             useAsMuchAsPossible: true
             spot: true
             userData:
@@ -389,6 +392,7 @@ profile::jenkinscontroller::jcasc:
           instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
           architecture: amd64
           labels:
+            - ubuntu
             - java
             - linux
             - docker
@@ -438,6 +442,7 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
             - docker-windows-2019
             - windows
+            - windows-2019
           maxInstances: 20
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
