@@ -1,18 +1,18 @@
 # This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
-  String $image_tag                     = 'latest',
-  String $image                         = 'jenkinsciinfra/openvpn',
-  Optional[String] $auth_ldap_password  = undef,
-  String $auth_ldap_binddn              = 'cn=admin,dc=jenkins-ci,dc=org',
-  String $auth_ldap_url                 = 'ldaps://ldap.jenkins.io',
-  String $auth_ldap_group_member        = 'cn=all',
-  Optional[String] $openvpn_ca_pem      = undef,
-  Optional[String] $openvpn_server_pem  = undef,
-  Optional[String] $openvpn_server_key  = undef,
-  Optional[String] $openvpn_dh_pem      = undef,
-  Optional[Hash] $vpn_network    = {},
-  Hash $networks                        = {}
+  String $image_tag                    = 'latest',
+  String $image                        = 'jenkinsciinfra/openvpn',
+  Optional[String] $auth_ldap_password = undef,
+  String $auth_ldap_binddn             = 'cn=admin,dc=jenkins-ci,dc=org',
+  String $auth_ldap_url                = 'ldaps://ldap.jenkins.io',
+  String $auth_ldap_group_member       = 'cn=all',
+  Optional[String] $openvpn_ca_pem     = undef,
+  Optional[String] $openvpn_server_pem = undef,
+  Optional[String] $openvpn_server_key = undef,
+  Optional[String] $openvpn_dh_pem     = undef,
+  Optional[Hash] $vpn_network          = {},
+  Hash $networks                       = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::docker

@@ -32,7 +32,7 @@ profile::openvpn::networks:
     # macaddress: 00:0d:3a:0e:4e:7e
     # # network_cidr: 10.0.1.0/24
     # network_cidr: 10.244.0.0/14
-profile::openvpn::vpn_network
+profile::openvpn::vpn_network:
   name: private
   # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
   cidr: 10.248.0.0/28

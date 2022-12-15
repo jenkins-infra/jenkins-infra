@@ -18,7 +18,7 @@ profile::openvpn::networks:
     route-metric: 300
     macaddress: 00:0d:3a:0e:4e:7e
     network_cidr: 10.0.1.0/24
-profile::openvpn::vpn_network
+profile::openvpn::vpn_network:
   name: default
   cidr: 10.8.0.0/24 # Normal VPN
   # TODO: replace by a conversion from vpn_network_cidr
