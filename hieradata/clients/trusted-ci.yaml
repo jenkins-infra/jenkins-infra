@@ -80,7 +80,7 @@ profile::jenkinscontroller::jcasc:
             - jdk11
           idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -96,7 +96,7 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
           idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: false
 # These are plugins we need only in our trusted-ci environment
