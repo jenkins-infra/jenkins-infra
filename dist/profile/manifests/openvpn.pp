@@ -12,6 +12,7 @@ class profile::openvpn (
   Optional[String] $openvpn_server_key  = undef,
   Optional[String] $openvpn_dh_pem      = undef,
   Optional[String] $vpn_network_name    = undef,
+  Optional[String] $vpn_network_cidr    = undef,
   Optional[String] $vpn_network_netmask = undef,
   Hash $networks                        = {}
 ) {
@@ -27,11 +28,6 @@ class profile::openvpn (
     image_tag => $image_tag,
   }
 
-  lookup('profile::openvpn::vpn_networks_cidr').each |$vpn_networks_cidr| {
-    # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
-    $vpn_network_first_ip = split($vpn_networks_cidr, '/')[0]
-  }
-
   docker::run { 'openvpn':
     image            => "${image}:${image_tag}",
     env              => [
@@ -44,7 +40,7 @@ class profile::openvpn (
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}",
       "OPENVPN_NETWORK_NAME=${vpn_network_name}",
-      "OPENVPN_SERVER_SUBNET=${vpn_network_first_ip}",
+      "OPENVPN_SERVER_SUBNET=${split($vpn_network_cidr, '/')[0]}",
       # TODO: replace by a conversion from profile network cidr
       "OPENVPN_SERVER_MASK=${vpn_network_netmask}",
     ],
@@ -158,20 +154,18 @@ class profile::openvpn (
       $item and $item.length > 0
     }
 
-    # For each VPN network, add all the destinations per interface
-    lookup('profile::openvpn::vpn_networks_cidr').each |$vpn_network_cidr| {
-      $destinations_cidrs.each |$destination_cidr| {
-        # Then add firewall rules to allow routing through networks using masquerading
-        firewall { "100 allow routing from ${vpn_network_cidr} to ${destination_cidr} on ports 80/443":
-          chain       => 'POSTROUTING',
-          jump        => 'MASQUERADE',
-          proto       => 'tcp',
-          outiface    => $network_nic,
-          source      => $vpn_network_cidr,
-          dport       => [80,443],
-          destination => $destination_cidr,
-          table       => 'nat',
-        }
+    # Add all the destinations per interface
+    $destinations_cidrs.each |$destination_cidr| {
+      # Then add firewall rules to allow routing through networks using masquerading
+      firewall { "100 allow routing from ${vpn_network_cidr} to ${destination_cidr} on ports 80/443":
+        chain       => 'POSTROUTING',
+        jump        => 'MASQUERADE',
+        proto       => 'tcp',
+        outiface    => $network_nic,
+        source      => $vpn_network_cidr,
+        dport       => [80,443],
+        destination => $destination_cidr,
+        table       => 'nat',
       }
     }
   }
