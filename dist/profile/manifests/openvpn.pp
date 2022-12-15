@@ -42,7 +42,7 @@ class profile::openvpn (
       "OPENVPN_NETWORK_NAME=${vpn_network_name}",
       "OPENVPN_SERVER_SUBNET=${split($vpn_network_cidr, '/')[0]}",
       # TODO: replace by a conversion from profile network cidr
-      "OPENVPN_SERVER_MASK=${vpn_network_netmask}",
+      "OPENVPN_SERVER_NETMASK=${vpn_network_netmask}",
     ],
     extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',
