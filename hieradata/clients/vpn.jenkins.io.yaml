@@ -18,10 +18,11 @@ profile::openvpn::networks:
     route-metric: 300
     macaddress: 00:0d:3a:0e:4e:7e
     network_cidr: 10.0.1.0/24
-profile::openvpn::vpn_network_name: default
-profile::openvpn::vpn_network_cidr: 10.8.0.0/24 # Normal VPN
-# TODO: replace by a conversion from vpn_network_cidr
-profile::openvpn::vpn_server_netmask: 255.255.254.0
+profile::openvpn::vpn_network
+  name: default
+  cidr: 10.8.0.0/24 # Normal VPN
+  # TODO: replace by a conversion from vpn_network_cidr
+  netmask: 255.255.254.0
 profile::openvpn::auth_ldap_binddn: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAUnLHzSYfhy9wQ622F9qg27p80NMo+5M1I0XJUM3vQ6+XhcmG8OeFN0lksZJMD1p2tp8vZTAbq+BtdCfy9e9iaZudQvL2XHqlGFSrssz25FfpfKny5/QvKRZJqOW7K/7gfwnj+kIO7kVMFkO0XhcqRKsCjO2hBIaWBw/3BtIpE0MB/pPw/vLI3aERnj/YBRg6iHQUuBiYOZc5WJ6CJiVPiiCcfz1YhzvsdjeE/6PLCXSWVzR6fXJaIv8AeLOJ/T/KrulWZbQ2C3fE/hWYCznIEzmsHHnd/td8/gTOyetl8CbPeeVWnl3z4cjD3dhpRc80hDB912Wpp7p3U6QeM2qlszBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDTNSew0xsPvYG7UiPm3rC2gDBdODpfNj9Y+ihtpKsm67MmN88nbQZ2LPfg2ClMVFQOYtKs+3nQoT8LupqIDGMIRYo=]
 profile::openvpn::auth_ldap_password: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHnkX82SuWKYuW/ROAxQX3fw+HrN/AQf3BpbeUdSwCe9+ljLni05W4ZypQkRNgEksUfD0bBgK2RA7PF+KYSnTpA5v+GkqjUn8iAZg9whEpQaK7wfidp8rSL+nlsJFNE8mPHLCoO+6xHMFmm6XCCsFnQ2qYNQAjWeecngdp3IIZi2Vs8NBYJbOEovsRgdksNu7gO516C9DBrWKaTOf7j9x28g22XFQ3kxefxq89QGquvwc3Lyl8iNInJNUQ8wmCk54+m2CvTKzbqnO53QgHbw2VUwN+6JnmN+HgxzSM9o+VO8x2S8o8dzS0v45fWwLM4sKuwUPeAxfVGpfb2J46ab3tzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAidRxKsLYgBugid4s3KGq+gCBhpSsRd85sDKxC3m6l5ys56qg96hfUV7BRqeygYAztiw==]
 # CA comes from https://github.com/jenkins-infra/docker-openvpn

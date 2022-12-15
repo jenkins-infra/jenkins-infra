@@ -11,9 +11,7 @@ class profile::openvpn (
   Optional[String] $openvpn_server_pem  = undef,
   Optional[String] $openvpn_server_key  = undef,
   Optional[String] $openvpn_dh_pem      = undef,
-  Optional[String] $vpn_network_name    = undef,
-  Optional[String] $vpn_network_cidr    = undef,
-  Optional[String] $vpn_network_netmask = undef,
+  Optional[Hash] $vpn_network    = {},
   Hash $networks                        = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
@@ -39,10 +37,10 @@ class profile::openvpn (
       "OPENVPN_SERVER_PEM=${openvpn_server_pem}",
       "OPENVPN_SERVER_KEY=${openvpn_server_key}",
       "OPENVPN_DH_PEM=${openvpn_dh_pem}",
-      "OPENVPN_NETWORK_NAME=${vpn_network_name}",
-      "OPENVPN_SERVER_SUBNET=${split($vpn_network_cidr, '/')[0]}",
+      "OPENVPN_NETWORK_NAME=${vpn_network['name']}",
+      "OPENVPN_SERVER_SUBNET=${split($vpn_network['cidr'], '/')[0]}",
       # TODO: replace by a conversion from profile network cidr
-      "OPENVPN_SERVER_NETMASK=${vpn_network_netmask}",
+      "OPENVPN_SERVER_NETMASK=${vpn_network['netmask']}",
     ],
     extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
     net              => 'host',
