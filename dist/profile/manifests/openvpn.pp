@@ -11,7 +11,7 @@ class profile::openvpn (
   Optional[String] $openvpn_server_pem = undef,
   Optional[String] $openvpn_server_key = undef,
   Optional[String] $openvpn_dh_pem     = undef,
-  Optional[Hash] $vpn_network          = {},
+  Hash $vpn_network                 = {},
   Hash $networks                       = {}
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
