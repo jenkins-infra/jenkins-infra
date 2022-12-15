@@ -359,6 +359,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "20.04"
             architecture: "amd64"
             labels:
+              - ubuntu
               - highmem
               - highram
               - docker-highmem
@@ -373,6 +374,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "20.04"
             architecture: "arm64"
             labels:
+              - ubuntu
               - arm64docker
               - arm64linux
             useAsMuchAsPossible: false
@@ -416,6 +418,7 @@ profile::jenkinscontroller::jcasc:
           instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
           architecture: amd64
           labels:
+            - ubuntu
             - highmem
             - highram
             - docker-highmem
