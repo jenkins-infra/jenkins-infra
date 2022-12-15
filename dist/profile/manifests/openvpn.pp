@@ -121,9 +121,7 @@ class profile::openvpn (
 
   # Create firewall rules and route for each specified NIC to allow routing from VPN virtual networks to different networks
   lookup('profile::openvpn::networks').each |$network_nic, $network_setup| {
-    # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
-    $network_first_ip = split($network_setup['network_cidr'], '/')[1]
-    # Only get the 3 first digits of the IPv4 (`10.0.0.0` returns `10.0.0`)
+    # Only get the 3 first digits of the CIDR (`10.0.0.0/24` returns `10.0.0`)
     $network_prefix = join(split($network_setup['network_cidr'], '[.]')[0,3], '.')
 
     # A given NIC has a "main" CIDR (its network) but may also be used for routes to peered networks
