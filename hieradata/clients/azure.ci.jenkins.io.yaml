@@ -309,13 +309,14 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 20
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - java
               - docker
               - linux
               - linux-amd64
-            useAsMuchAsPosible: true
+            useAsMuchAsPossible: true
             spot: true
             userData: &BootstrapDatadogScript
               - "#!/bin/bash"
@@ -336,10 +337,12 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "windows"
+            os_version: "2019"
             architecture: "amd64"
             labels:
               - docker-windows
-            useAsMuchAsPosible: true
+              - docker-windows-2019
+            useAsMuchAsPossible: true
             spot: true
             userData:
               #this script is ran before the agent service startup so no need to restart it
@@ -350,24 +353,26 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - highmem
               - highram
               - docker-highmem
               - linux-amd64-big
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: false
             userData: *BootstrapDatadogScript
           - description: "ARM64 ubuntu 20.04"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "arm64"
             labels:
               - arm64docker
               - arm64linux
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: true
             userData: *BootstrapDatadogScript
     azure-vm-agents:
@@ -378,6 +383,7 @@ profile::jenkinscontroller::jcasc:
           description: "Ubuntu 20.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-20.04
           os: "ubuntu"
+          os_version: "20.04"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
           location: "East US 2"
           instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
@@ -388,7 +394,7 @@ profile::jenkinscontroller::jcasc:
             - docker
             - linux-amd64
           maxInstances: 10
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
@@ -400,6 +406,7 @@ profile::jenkinscontroller::jcasc:
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
           os: "ubuntu"
+          os_version: "20.04"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAG/Diw4+KrBubbNNGJxe7yGXyJJUSSbhWIRXcLBYGPxo14g/jsZLqyoO7yW7mN36IUnByMnBhQemcp2gGXj7x4GXBwbrABRd4UhIJMfMoAaKjFktl2FQk1YRdgBFDmCd7+FeOSn4GsCG1w/IVSpN1ezlqBdVqiMuG3RSyEByVBHvLXBQLulGp/ZsKGoJkW2gFTLnjxSbpu3fB8Y2KtiZ6RT3IlfnGS5Yfhl9vBxTcxgzvRrjK2h6QjVFSz/r+unAhpPKZ8BPlFCQta7/HF1bzWE4G7fX+rYiNtTAH3aWdOlD/okMUlhzsByIzi74VFvHREFVOkD908Gds7kzMh3qptjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDg3jrltbTU6EQUsnrJ7+VRgCCtEzUFqD1vyGyzqY4dHdJpD1CrMKnVM/JW0AT+y6573g==]
           location: "East US 2"
           instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
@@ -410,7 +417,7 @@ profile::jenkinscontroller::jcasc:
             - docker-highmem
             - linux-amd64-big
           maxInstances: 20
-          useAsMuchAsPosible: false
+          useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
           virtualNetworkName: "prod-jenkins-public-prod"
@@ -422,14 +429,39 @@ profile::jenkinscontroller::jcasc:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
           os: "windows"
+          os_version: "2019"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
           location: "East US 2"
           instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
           architecture: amd64
           labels:
             - docker-windows
+            - docker-windows-2019
+            - windows
           maxInstances: 20
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          useEphemeralOSDisk: false
+          usePrivateIP: true
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+          subnetName: "ci.j-agents-vm"
+          spot: true
+          initScript:
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022"
+          imageDefinition: jenkins-agent-windows-2022
+          os: "windows"
+          os_version: "2022"
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
+          location: "East US 2"
+          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          architecture: amd64
+          labels:
+            - docker-windows-2022
+          maxInstances: 1
+          useAsMuchAsPossible: false
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true

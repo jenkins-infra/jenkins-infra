@@ -194,63 +194,71 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 20
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - java
               - docker
               - linux
-            useAsMuchAsPosible: true
+              - linux-amd64
+            useAsMuchAsPossible: true
             spot: true
+            userData: &BootstrapDatadogScript
+              - "#!/bin/bash"
+              - "set -eux"
+              - echo "START CLOUDINIT"
+              - "sed 's/api_key:.*/api_key: SuperSecretThatShouldBeEncryptedInProduction/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+              - systemctl stop datadog-agent.service
+              - mkdir -p /var/log/datadog /etc/datadog-agent
+              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+              - chmod 640 /etc/datadog-agent/datadog.yaml
+              - chown dd-agent:dd-agent /var/log/datadog
+              - chmod 770 /var/log/datadog
+              - systemctl start datadog-agent.service
+              - rm -f /etc/sudoers.d/90-cloud-init-users
+              - echo "END CLOUDINIT"
           - description: "Windows 2019"
             maxInstances: 10
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "windows"
+            os_version: "2019"
             architecture: "amd64"
             labels:
               - docker-windows
-            useAsMuchAsPosible: true
+            useAsMuchAsPossible: true
             spot: true
+            userData:
+              #this script is ran before the agent service startup so no need to restart it
+              - <powershell>
+              - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+              - </powershell>
           - description: "High memory ubuntu 20.04 (ondemand)"
             maxInstances: 50
             instanceType: M54xlarge # 16 vCPUS / 64 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "amd64"
             labels:
               - highmem
               - highram
               - docker-highmem
-            useAsMuchAsPosible: false
+              - linux-amd64-big
+            useAsMuchAsPossible: false
             spot: false
-          - description: "Ubuntu 20.04 LTS datadog"
-            maxInstances: 1
-            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            architecture: "amd64"
-            labels:
-              - ec2_datadog
-            useAsMuchAsPosible: false
-            userData: &datadogInitUserData
-              - "#!/bin/bash"
-              - "sed 's/api_key:.*/api_key: tokeepsecret' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
-              - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
-              - mkdir /var/log/datadog
-              - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
-              - chmod 640 /etc/datadog-agent/datadog.yaml
-              - chown dd-agent:dd-agent /var/log/datadog
-              - chmod 770 /var/log/datadog
-              - systemctl restart datadog-agent.service
-              - rm -f /etc/sudoers.d/90-cloud-init-users
+            userData: *BootstrapDatadogScript
           - description: "ARM64 ubuntu 20.04"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
             os: "ubuntu"
+            os_version: "20.04"
             architecture: "arm64"
             labels:
               - arm64docker
               - arm64linux
-            useAsMuchAsPosible: false
+            useAsMuchAsPossible: false
             spot: true
-            userData: *datadogInitUserData
+            userData: *BootstrapDatadogScript
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
@@ -267,15 +275,16 @@ profile::jenkinscontroller::jcasc:
             - java
             - linux
             - docker
+            - linux-amd64
           maxInstances: 10
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
-          initScript: *datadogInitUserData
+          initScript: *BootstrapDatadogScript
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-20.04
@@ -288,14 +297,16 @@ profile::jenkinscontroller::jcasc:
             - highmem
             - highram
             - docker-highmem
+            - linux-amd64-big
           maxInstances: 20
-          useAsMuchAsPosible: false
+          useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: false
+          initScript: *BootstrapDatadogScript
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
@@ -307,7 +318,7 @@ profile::jenkinscontroller::jcasc:
           labels:
             - docker-windows
           maxInstances: 20
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true
@@ -315,29 +326,30 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
           spot: true
-        - name: "win-2019-datadog-test" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019 test datadog"
-          imageDefinition: jenkins-agent-windows-2019
+          initScript:
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022"
+          imageDefinition: jenkins-agent-windows-2022
           os: "windows"
+          os_version: "2022"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
           architecture: amd64
           labels:
-            - docker-windows-test-datadog
+            - docker-windows-2022
           maxInstances: 20
-          useAsMuchAsPosible: false
+          useAsMuchAsPossible: false
           credentialsId: "jenkinsvmagents-userpass"
           useEphemeralOSDisk: false
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: false
+          spot: true
           initScript:
-            - <powershell>
-            - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
-            - </powershell>
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"

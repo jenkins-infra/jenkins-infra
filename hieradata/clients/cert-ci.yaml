@@ -86,7 +86,7 @@ profile::jenkinscontroller::jcasc:
             - linux
           idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "azure-login"
           usePrivateIP: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -102,7 +102,7 @@ profile::jenkinscontroller::jcasc:
             - windows
           idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
-          useAsMuchAsPosible: true
+          useAsMuchAsPossible: true
           credentialsId: "azure-login"
           usePrivateIP: false
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
