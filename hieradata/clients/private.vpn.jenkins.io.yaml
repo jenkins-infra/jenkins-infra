@@ -1,37 +1,15 @@
 ---
 profile::openvpn::networks:
   eth0:
-    name: Subnet 'app-tier' of network 'public-vnet'
+    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
+    name: 'private-vnet-vpn' subnet from 'private-vnet' virtual network
     route-metric: 100
-    # macaddress: 00:0d:3a:0e:4e:7e
-    # network_cidr: 10.0.1.0/24
-    network_cidr: 10.244.0.0/14
-  # eth0:
-  #   # name: Subnet 'dmz' of network 'prod-jenkins-public-prod'
-  #   name: Subnet 'dmz' of network 'prod-jenkins-public-prod'
-  #   route-metric: 100
-  #   macaddress: 00:0d:3a:0e:4b:1c
-  #   # network_cidr: 10.0.99.0/24
-  #   network_cidr: 10.0.99.0/24
-  # eth1:
-  #   # name: Subnet 'data-tier' of network 'prod-jenkins-public-prod'
-  #   name: Subnet 'data-tier' of network 'prod-jenkins-public-prod'
-  #   route-metric: 200
-  #   macaddress: 00:0d:3a:0e:4f:89
-  #   # network_cidr: 10.0.2.0/24
-  #   network_cidr: 10.0.2.0/24
-  #   peered_network_cidrs:
-  #     # # Network 'prod-jenkins-private-prod-vnet' through peering
-  #     # Network 'prod-jenkins-private-prod-vnet' through peering
-  #     # - 10.240.0.0/14
-  #     - 10.240.0.0/14
-  # eth2:
-    # name: Subnet 'app-tier' of network 'prod-jenkins-public-prod'
-    # name: Subnet 'app-tier' of network 'public-vnet'
-    # route-metric: 300
-    # macaddress: 00:0d:3a:0e:4e:7e
-    # # network_cidr: 10.0.1.0/24
-    # network_cidr: 10.244.0.0/14
+    network_cidr: 10.248.0.0/28
+  eth1:
+    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vnet.tf
+    name: 'private-vnet' virtual network
+    route-metric: 200
+    network_cidr: 10.248.0.0/14
 profile::openvpn::vpn_network:
   name: private
   # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
