@@ -152,18 +152,20 @@ class profile::openvpn (
       $item and $item.length > 0
     }
 
-    # Add all the destinations per interface
-    $destinations_cidrs.each |$destination_cidr| {
-      # Then add firewall rules to allow routing through networks using masquerading
-      firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 80/443":
-        chain       => 'POSTROUTING',
-        jump        => 'MASQUERADE',
-        proto       => 'tcp',
-        outiface    => $network_nic,
-        source      => $vpn_network['cidr'],
-        dport       => [80,443],
-        destination => $destination_cidr,
-        table       => 'nat',
+    # Allow routing from the VPN vnet to all the internal networks (excluding the main eth0 network)
+    if $network_nic != 'eth0' {
+      $destinations_cidrs.each |$destination_cidr| {
+        # Then add firewall rules to allow routing through networks using masquerading
+        firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 80/443":
+          chain       => 'POSTROUTING',
+          jump        => 'MASQUERADE',
+          proto       => 'tcp',
+          outiface    => $network_nic,
+          source      => $vpn_network['cidr'],
+          dport       => [80,443],
+          destination => $destination_cidr,
+          table       => 'nat',
+        }
       }
     }
   }
