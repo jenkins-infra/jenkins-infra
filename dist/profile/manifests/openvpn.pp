@@ -64,8 +64,10 @@ class profile::openvpn (
     ],
   }
 
-  # Ensure cloud-init doesn't manage network to ensure the order of eth1 and eth2 if this last one is defined (ie 3 interfaces) (netplan config + netplan apply + systemd, in Ubuntu Bionic)
+  # When the VM has more than 2 interfaces (1 external and 1 internal) then it's a more complex setup where network interfaces
+  # must be managed by us instead of the usual cloud-init netplan generated configuration to keep the interface order
   if $networks.length > 2 {
+    # Ensure cloud-init doesn't manage network at all
     file { '/etc/cloud/cloud.cfg.d/99-disable-network-config.cfg':
       ensure  => 'file',
       owner   => 'root',
@@ -75,28 +77,28 @@ class profile::openvpn (
       ],
       content => 'network: {config: disabled}',
     }
+
+    # Ensure the required directory exists
+    file { '/etc/netplan/':
+      ensure  => 'directory',
+      owner   => 'root',
+      group   => 'root',
+      recurse => true,
+    }
+
+    # Set up network interfaces ourselves from hieradata values
+    file { '/etc/netplan/90-network-config.yaml':
+      ensure  => 'file',
+      owner   => 'root',
+      group   => 'root',
+      require => [
+        File['/etc/netplan/'],
+      ],
+      content => template("${module_name}/openvpn/90-network-config.yaml.erb"),
+    }
   }
 
-  file { '/etc/netplan/':
-    ensure  => 'directory',
-    owner   => 'root',
-    group   => 'root',
-    recurse => true,
-  }
-
-  # Define eth interfaces with the correct mac addresses
-  # We assume the parent folder already exists
-  file { '/etc/netplan/90-network-config.yaml':
-    ensure  => 'file',
-    owner   => 'root',
-    group   => 'root',
-    require => [
-      File['/etc/netplan/'],
-    ],
-    content => template("${module_name}/openvpn/90-network-config.yaml.erb"),
-  }
-
-  # The CLI '/sbin/route' included in net-tools is required to create custom routes for peered networks
+  # The CLI '/sbin/route' is provided by the net-tools package
   package { 'net-tools':
     ensure => present,
   }
