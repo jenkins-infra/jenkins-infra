@@ -2,12 +2,12 @@
 profile::openvpn::networks:
   eth0:
     # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
-    name: 'private-vnet-vpn' subnet from 'private-vnet' virtual network
+    name: "'private-vnet-vpn' subnet from 'private-vnet' virtual network"
     route-metric: 100
     network_cidr: 10.248.0.0/28
   eth1:
     # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vnet.tf
-    name: 'private-vnet' virtual network
+    name: "'private-vnet' virtual network"
     route-metric: 200
     network_cidr: 10.248.0.0/14
 profile::openvpn::vpn_network:
