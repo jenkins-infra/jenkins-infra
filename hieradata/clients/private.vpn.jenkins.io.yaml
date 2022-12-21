@@ -6,13 +6,10 @@ profile::openvpn::networks:
     route-metric: 100
     network_cidr: 10.244.0.0/14
   eth1:
-    # Defined in https://github.com/jenkins-infra/azure/blob/main/privatek8s.tf
-    name: Subnet 'privatek8s-tier' of network 'private-vnet'
+    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vnet.tf
+    name: 'private-vnet'
     route-metric: 200
-    network_cidr: 10.249.0.0/16
-    peered_network_cidrs:
-      # Network 'private-vnet' through peering
-      - 10.248.0.0/14
+    network_cidr: 10.248.0.0/14
 profile::openvpn::vpn_network:
   name: private
   # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
