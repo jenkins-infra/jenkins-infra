@@ -14,9 +14,6 @@ describe 'profile::openvpn' do
 
   it { expect(subject).to contain_firewall '107 accept incoming 443 connections' }
 
-  # Routing from VPN networks to eth0 network
-  it { expect(subject).to contain_firewall "100 allow routing from 127.0.10.0/24 to 192.168.0.0/24 on ports 80/443" } #.with('outiface' => 'eth0') }
-
   # Routing from VPN networks to eth1 network
   it { expect(subject).to contain_firewall "100 allow routing from 127.0.10.0/24 to 192.168.100.0/24 on ports 80/443" }
 
