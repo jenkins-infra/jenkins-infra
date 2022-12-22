@@ -12,15 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-      - name: Install updatecli CLI
-        env:
-          UPDATECLI_VERSION: "v0.40.2"
-        run: |
-          curl --silent --location --show-error --output /tmp/updatecli.tgz \
-            "https://github.com/updatecli/updatecli/releases/download/${UPDATECLI_VERSION}/updatecli_$(uname -s)_$(uname -m).tar.gz"
-          tar xzf /tmp/updatecli.tgz -C /usr/local/bin/ updatecli
-          rm -f /tmp/updatecli.tgz
+        uses: actions/checkout@v3.2.0
+      - name: "Setup updatecli"
+        uses: "updatecli/updatecli-action@v2.16.2"
       - name: Diff
         continue-on-error: true
         run: |
@@ -29,7 +23,7 @@ jobs:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Configure AWS Credentials
         if: github.ref == 'refs/heads/production'
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1.7.0
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
