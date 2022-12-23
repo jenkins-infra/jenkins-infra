@@ -11,8 +11,8 @@ profile::openvpn::networks:
     network_cidr: 10.248.0.0/14
 profile::openvpn::vpn_network:
   name: private
-  # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
-  cidr: 10.248.1.0/24
+  # Abstract network
+  cidr: 10.9.0.0/24
   # TODO: replace by a conversion from cidr
   netmask: 255.255.255.0
 
