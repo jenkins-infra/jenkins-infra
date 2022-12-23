@@ -1,23 +1,20 @@
----
 profile::openvpn::networks:
   eth0:
-    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vnets.tf
-    name: Subnet 'app-tier' of network 'public-vnet'
+    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
+    name: "'dmz' subnet from 'private-vnet' virtual network"
     route-metric: 100
-    network_cidr: 10.244.0.0/14
+    network_cidr: 10.248.0.0/28
   eth1:
-    # Defined in https://github.com/jenkins-infra/azure/blob/main/privatek8s.tf
-    name: Subnet 'privatek8s-tier' of network 'private-vnet'
+    # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vnet.tf
+    name: "'private-vnet-data-tier' subnet from 'private-vnet' virtual network"
     route-metric: 200
-    network_cidr: 10.249.0.0/16
-    peered_network_cidrs:
-      # Network 'private-vnet' through peering
-      - 10.248.0.0/14
+    network_cidr: 10.248.1.0/24
 profile::openvpn::vpn_network:
   name: private
-  cidr: 10.248.0.0/28
+  # Abstract network
+  cidr: 10.9.0.0/24
   # TODO: replace by a conversion from cidr
-  netmask: 255.255.255.240
+  netmask: 255.255.255.0
 
 profile::openvpn::auth_ldap_password: 's3cr3t'
 profile::openvpn::auth_ldap_url: 'ldaps://ldap'
