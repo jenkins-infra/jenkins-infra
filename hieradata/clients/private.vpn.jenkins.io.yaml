@@ -12,8 +12,8 @@ profile::openvpn::networks:
     network_cidr: 10.248.0.0/14
 profile::openvpn::vpn_network:
   name: private
-  # Defined in https://github.com/jenkins-infra/azure-net/blob/main/vpn.tf
-  cidr: 10.248.1.0/24
+  # Abstract network
+  cidr: 10.9.0.0/24
   # TODO: replace by a conversion from cidr
   netmask: 255.255.255.0
 profile::openvpn::auth_ldap_binddn: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAUnLHzSYfhy9wQ622F9qg27p80NMo+5M1I0XJUM3vQ6+XhcmG8OeFN0lksZJMD1p2tp8vZTAbq+BtdCfy9e9iaZudQvL2XHqlGFSrssz25FfpfKny5/QvKRZJqOW7K/7gfwnj+kIO7kVMFkO0XhcqRKsCjO2hBIaWBw/3BtIpE0MB/pPw/vLI3aERnj/YBRg6iHQUuBiYOZc5WJ6CJiVPiiCcfz1YhzvsdjeE/6PLCXSWVzR6fXJaIv8AeLOJ/T/KrulWZbQ2C3fE/hWYCznIEzmsHHnd/td8/gTOyetl8CbPeeVWnl3z4cjD3dhpRc80hDB912Wpp7p3U6QeM2qlszBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDTNSew0xsPvYG7UiPm3rC2gDBdODpfNj9Y+ihtpKsm67MmN88nbQZ2LPfg2ClMVFQOYtKs+3nQoT8LupqIDGMIRYo=]
