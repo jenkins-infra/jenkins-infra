@@ -226,6 +226,23 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             labels:
               - docker-windows
+              - docker-windows-2019
+            useAsMuchAsPossible: true
+            spot: true
+            userData:
+              #this script is ran before the agent service startup so no need to restart it
+              - <powershell>
+              - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+              - </powershell>
+          - description: "Windows 2022"
+            maxInstances: 10
+            instanceType: T3Xlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2022"
+            architecture: "amd64"
+            labels:
+              - docker-windows-2022
+              - windows-2022
             useAsMuchAsPossible: true
             spot: true
             userData:
