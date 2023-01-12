@@ -82,13 +82,13 @@ node 'azure.ci.jenkins.io' {
 node 'trusted-ci' {
   $hiera_role = 'trustedci'
   sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
-  include role::jenkins::controller
+  include role::privateci
 }
 
 # Jenkins controller for cert.ci.jenkins.io
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
-  include role::jenkins::controller
+  include role::privateci
 }
 
 node 'trusted-agent-1' {
