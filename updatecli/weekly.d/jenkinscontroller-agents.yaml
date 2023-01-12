@@ -150,6 +150,145 @@ sources:
       - findsubmatch:
           pattern: 'windows_disk_size_gb = (\d*)'
           captureindex: 1
+
+conditions:
+  LatestInboundAllInOneContainerImage:
+    name: 'Test if LatestInboundAllInOneContainerImage : jenkinsciinfra/jenkins-agent-ubuntu-20.04:{{ source `getLatestInboundAllInOneContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundAllInOneContainerImage
+    spec:
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-20.04"
+      tag: "latest"
+      architecture: amd64
+  LatestInboundMaven8ContainerImage:
+    name: 'Test if LatestInboundMaven8ContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven8ContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven8ContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk8"
+      architecture: amd64
+  LatestInboundMaven11ContainerImage:
+    name: 'Test if LatestInboundMaven11ContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven11ContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven11ContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk11"
+      architecture: amd64
+  LatestInboundMaven17ContainerImage:
+    name: 'Test if LatestInboundMaven17ContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven17ContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven17ContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk17"
+      architecture: amd64
+  LatestInboundMaven8WindowsContainerImage:
+    name: 'Test if LatestInboundMaven8WindowsContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven8WindowsContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven8WindowsContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk8-nanoserver"
+      architecture: amd64
+  LatestInboundMaven11WindowsContainerImage:
+    name: 'Test if LatestInboundMaven11WindowsContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven11WindowsContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven11WindowsContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk11-nanoserver"
+      architecture: amd64
+  LatestInboundMaven17WindowsContainerImage:
+    name: 'Test if LatestInboundMaven17WindowsContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven17WindowsContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven17WindowsContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk17-nanoserver"
+      architecture: amd64
+  LatestInboundMaven19WindowsContainerImage:
+    name: 'Test if LatestInboundMaven19indowsContainerImage : jenkinsciinfra/inbound-agent-maven:{{ source `getLatestInboundMaven19WindowsContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundMaven19WindowsContainerImage
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk19-nanoserver"
+      architecture: amd64
+  LatestInboundWebBuilderContainerImage:
+    name: 'Test if LatestInboundWebBuilderContainerImage : jenkinsciinfra/builder:{{ source `getLatestInboundWebBuilderContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundWebBuilderContainerImage
+    spec:
+      image: "jenkinsciinfra/builder"
+      tag: "latest"
+      architecture: amd64
+  LatestInboundJDK11ContainerImage:
+    name: 'Test if LatestInboundJDK11ContainerImage : jenkins/inbound-agent:{{ source `getLatestInboundJDK11ContainerImage` }} published on the registry'
+    kind: dockerimage
+    sourceid: getLatestInboundJDK11ContainerImage
+    spec:
+      image: "jenkins/inbound-agent"
+      tag: "latest-jdk11"
+      architecture: amd64
+  LatestUbuntuAgentAMIAmd64:
+    name: "Test if getLatestUbuntuAgentAMIAmd64 Image Published on AWS"
+    kind: aws/ami
+    sourceid: getLatestUbuntuAgentAMIAmd64
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-20.04-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  LatestWindows2019AgentAMIAmd64:
+    name: "Test if getLatestWindows2019AgentAMIAmd64 Image Published on AWS"
+    kind: aws/ami
+    sourceid: getLatestWindows2019AgentAMIAmd64
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-windows-2019-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  LatestWindows2022AgentAMIAmd64:
+    name: "Test if getLatestWindows2022AgentAMIAmd64 Image Published on AWS"
+    kind: aws/ami
+    sourceid: getLatestWindows2022AgentAMIAmd64
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-windows-2022-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  LatestUbuntuAgentAMIArm64:
+    name: "Test if getLatestUbuntuAgentAMIArm64 Image Published on AWS"
+    kind: aws/ami
+    sourceid: getLatestUbuntuAgentAMIArm64
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-20.04-arm64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+
 targets:
   setWindowsVMAgentDiskSize:
     sourceid: getWindowsVMAgentsDiskSize
