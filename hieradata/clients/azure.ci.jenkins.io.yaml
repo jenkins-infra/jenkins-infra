@@ -91,15 +91,15 @@ profile::jenkinscontroller::jcasc:
         - s390xdocker
       mode: EXCLUSIVE
       ssh:
-        host: "148.100.113.105"
+        host: "148.100.84.76"
         credentialsId: "jenkins-s390x"
-        hostKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYwX3Fu4fWEb9hPlan3FsiUsZoCsMD7CMqFNT/+Uh11HhvKU5ZFiF3sGNI7FrhNNbqBFd0HnS1t3zIkP3FFlKToSTrkcXPUyw+svFf5YbPbDxQUNE0kclTUsERzC3GNB5eXUlyNxCiGksqGtinXgknF2Z5cOO8osODP7ddRc6L3H4gvDi0/smz9QukZB2N0FqBJ3EZGbv0X9V3iwRu6Cu9lhcl/ue5fuIjKAgGzGQgWgCEg0k9xkK0OmxyJalI0eiqBRbdES/bXkkxp+4TQNOsxN/ZrZqxtlN7o9Fq9y+dp7xQFEoivSAjn6WQ6izjkMGKon7rcFJ4t4g6FJoQYv2Z"
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
         # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
         ARTIFACT_CACHING_PROXY_PROVIDER: "do"
       toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.8.4"
+        - home: "/home/jenkins/tools/apache-maven-3.8.7"
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
