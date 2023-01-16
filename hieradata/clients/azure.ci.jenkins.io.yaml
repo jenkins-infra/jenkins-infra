@@ -91,16 +91,15 @@ profile::jenkinscontroller::jcasc:
         - s390xdocker
       mode: EXCLUSIVE
       ssh:
-        host: "148.100.84.76"
+        host: "148.100.113.105"
         credentialsId: "jenkins-s390x"
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
+        hostKey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCYwX3Fu4fWEb9hPlan3FsiUsZoCsMD7CMqFNT/+Uh11HhvKU5ZFiF3sGNI7FrhNNbqBFd0HnS1t3zIkP3FFlKToSTrkcXPUyw+svFf5YbPbDxQUNE0kclTUsERzC3GNB5eXUlyNxCiGksqGtinXgknF2Z5cOO8osODP7ddRc6L3H4gvDi0/smz9QukZB2N0FqBJ3EZGbv0X9V3iwRu6Cu9lhcl/ue5fuIjKAgGzGQgWgCEg0k9xkK0OmxyJalI0eiqBRbdES/bXkkxp+4TQNOsxN/ZrZqxtlN7o9Fq9y+dp7xQFEoivSAjn6WQ6izjkMGKon7rcFJ4t4g6FJoQYv2Z"
       envVars:
-        PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.7/bin"
-        JAVA_HOME: "/opt/jdk-11"
+        PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
         # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
         ARTIFACT_CACHING_PROXY_PROVIDER: "do"
       toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.8.7"
+        - home: "/home/jenkins/tools/apache-maven-3.8.4"
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
@@ -347,7 +346,7 @@ profile::jenkinscontroller::jcasc:
               - windows
               - windows-2019
             useAsMuchAsPossible: true
-            spot: true
+            spot: false
             userData:
               #this script is ran before the agent service startup so no need to restart it
               - <powershell>
@@ -455,7 +454,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: true
+          spot: false
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -477,7 +476,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: true
+          spot: false
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
