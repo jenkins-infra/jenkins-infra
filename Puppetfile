@@ -51,7 +51,7 @@ mod 'puppetlabs-lvm', '1.4.0'
 mod 'datadog-datadog_agent', '3.20.0'
 
 # Used for grabbing certificates for jenkins.io
-mod 'puppet-letsencrypt', '6.0.0'
+mod 'puppet-letsencrypt', '9.1.0'
 
 # For managing dependencies
 mod 'puppetlabs-augeas_core', '1.2.0'
