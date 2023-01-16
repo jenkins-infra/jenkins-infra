@@ -228,7 +228,7 @@ profile::jenkinscontroller::jcasc:
             labels:
               - docker-windows
             useAsMuchAsPossible: true
-            spot: true
+            spot: false
             userData:
               #this script is ran before the agent service startup so no need to restart it
               - <powershell>
@@ -326,7 +326,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: true
+          spot: false
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -348,7 +348,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: true
+          spot: false
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
