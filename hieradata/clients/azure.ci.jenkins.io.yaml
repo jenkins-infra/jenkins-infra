@@ -345,7 +345,6 @@ profile::jenkinscontroller::jcasc:
               - docker-windows
               - docker-windows-2019
               - windows
-              - windows-2019
             useAsMuchAsPossible: true
             spot: false
             userData:
@@ -361,7 +360,6 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             labels:
               - docker-windows-2022
-              - windows-2022
             useAsMuchAsPossible: true
             spot: false
             userData:
@@ -462,7 +460,6 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
             - docker-windows-2019
             - windows
-            - windows-2019
           maxInstances: 20
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
@@ -485,7 +482,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-2022
-            - windows-2022
           maxInstances: 20
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
