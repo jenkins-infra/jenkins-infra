@@ -1,0 +1,58 @@
+---
+name: Bump the Let's Encrypt Puppet Module
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubrelease
+    name: Get the latest puppetlabs-letsencrypt module version
+    spec:
+      owner: voxpupuli
+      repository: puppet-letsencrypt
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: latest # Avoid semver because https://github.com/voxpupuli/puppet-letsencrypt/releases/tag/v999.999.999 exists :'(
+    transformers:
+      - trimprefix: v
+
+conditions:
+  testPuppetModuleExists:
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppet-letsencrypt-{{ source "latestVersion" }}.tar.gz
+
+targets:
+  puppetfile:
+    name: "Update Puppetfile with the latest puppetlabs-letsencrypt module version"
+    kind: file
+    sourceid: latestVersion
+    spec:
+      file: Puppetfile
+      matchpattern: >
+        mod 'puppet-letsencrypt'(.*)
+      replacepattern: >
+        mod 'puppet-letsencrypt', '{{ source "latestVersion" }}'
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump the Let's Encrypt Puppet Module to {{ source "latestVersion" }}
+    spec:
+      labels:
+        - puppet-module
+        - dependencies
