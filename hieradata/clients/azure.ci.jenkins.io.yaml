@@ -363,7 +363,7 @@ profile::jenkinscontroller::jcasc:
               - docker-windows-2022
               - windows-2022
             useAsMuchAsPossible: true
-            spot: true
+            spot: false
             userData:
               #this script is ran before the agent service startup so no need to restart it
               - <powershell>
