@@ -99,7 +99,7 @@ profile::jenkinscontroller::jcasc:
             labels:
               - windows
             useAsMuchAsPossible: false
-            spot: true
+            spot: false
             userData: *datadogInitUserData
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
@@ -144,7 +144,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: true
+          spot: false
           initScript:
             - <powershell>
             - (Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: keytokeepsecret' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml
