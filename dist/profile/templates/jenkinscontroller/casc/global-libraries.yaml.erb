@@ -20,7 +20,7 @@ unclassified:
                 traits:
                 - "gitBranchDiscovery"
     <%- if setup['allow-pull-requests'] -%>
-                - discoverOtherRefsTrait:
+                - discoverOtherRefs:
                     ref: "pull/*"
     <%- end -%>
                 - headWildcardFilter:
