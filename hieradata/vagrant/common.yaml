@@ -4,11 +4,15 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
+  "^letsencrypt":
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
 
-profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
-profile::jenkinscontroller::ci_resource_domain: 'assets.cert.ci.jenkins.io'
-profile::jenkinscontroller::proxy_port: 443
 profile::jenkinscontroller::letsencrypt: false
+profile::jenkinscontroller::ci_fqdn: 'localhost'
+profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
+profile::jenkinscontroller::proxy_port: 443
 profile::jenkinscontroller::groovy_init_enabled: false
 profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::jcasc:

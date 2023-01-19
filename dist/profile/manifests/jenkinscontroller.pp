@@ -485,7 +485,7 @@ ${custom_fragment_api_paths}
   }
 
   # Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
-  if ($letsencrypt == true) and ($facts['vagrant'] != '1') {
+  if ($letsencrypt == true) and ($environment == 'production') {
     # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $ci_fqdn:
       domains     => [$ci_fqdn, $ci_resource_domain],
@@ -503,5 +503,4 @@ ${custom_fragment_api_paths}
       ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/fullchain.pem",
     }
   }
-}
 }
