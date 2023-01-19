@@ -484,9 +484,9 @@ ${custom_fragment_api_paths}
     action => 'accept',
   }
 
-  # We can only acquire certs in production due to the way the letsencrypt
-  # challenge process works
-  if (($letsencrypt == true) and ($environment == 'production') and ($facts['vagrant'] != '1')) {
+  # Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
+  if ($letsencrypt == true) and ($facts['vagrant'] != '1') {
+    # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $ci_fqdn:
       domains     => [$ci_fqdn, $ci_resource_domain],
       plugin      => 'apache',
@@ -495,24 +495,13 @@ ${custom_fragment_api_paths}
 
     Apache::Vhost <| title == $ci_fqdn |> {
       ssl_key       => "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/cert.pem",
-      ssl_chain     => "/etc/letsencrypt/live/${ci_fqdn}/chain.pem",
-    }
-
-    letsencrypt::certonly { $ci_resource_domain:
-      domains     => [$ci_resource_domain],
-      plugin      => 'apache',
-      manage_cron => true,
+      ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/fullchain.pem",
     }
 
     Apache::Vhost <| title == $ci_resource_domain |> {
-      ssl_key       => "/etc/letsencrypt/live/${ci_resource_domain}/privkey.pem",
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert      => "/etc/letsencrypt/live/${ci_resource_domain}/cert.pem",
-      ssl_chain     => "/etc/letsencrypt/live/${ci_resource_domain}/chain.pem",
+      ssl_key       => "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
+      ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/fullchain.pem",
     }
   }
+}
 }

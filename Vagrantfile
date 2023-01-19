@@ -43,7 +43,6 @@ Vagrant.configure("2") do |config|
                     "veggie"     => veggie,
                     "clientcert" => veggie,
                     "hiera_role" => veggie,
-
                 }
                 puppet.working_directory = "/vagrant"
                 puppet.manifests_path = "manifests"
