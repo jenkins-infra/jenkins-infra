@@ -165,8 +165,7 @@ class profile::pkgrepo (
 
       Apache::Vhost <| title == $domain |> {
         ssl_key         => "/etc/letsencrypt/live/${domain}/privkey.pem",
-        ssl_cert        => "/etc/letsencrypt/live/${domain}/cert.pem",
-        ssl_chain       => "/etc/letsencrypt/live/${domain}/chain.pem",
+        ssl_cert        => "/etc/letsencrypt/live/${domain}/fullchain.pem",
       }
     }
   }

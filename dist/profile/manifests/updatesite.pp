@@ -130,10 +130,7 @@ class profile::updatesite (
 
       Apache::Vhost <| title == $domain |> {
         ssl_key   => "/etc/letsencrypt/live/${domain}/privkey.pem",
-        # When Apache is upgraded to >= 2.4.8 this should be changed to
-        # fullchain.pem
-        ssl_cert  => "/etc/letsencrypt/live/${domain}/cert.pem",
-        ssl_chain => "/etc/letsencrypt/live/${domain}/chain.pem",
+        ssl_cert  => "/etc/letsencrypt/live/${domain}/fullchain.pem",
       }
     }
   }
