@@ -248,7 +248,7 @@ profile::jenkinscontroller::jcasc:
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:30954837f68aa4e363529f0177ef9ba1ddc0c830f4274c7370a37760818745f0
   tools_default_versions:
-    jdk8: "8u352-b08"
+    jdk8: "8u362-b09"
     jdk11: "11.0.17+8"
     jdk17: "17.0.5+8"
     jdk19: "19.0.1+10"
