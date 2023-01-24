@@ -13,8 +13,10 @@ describe 'profile::letsencrypt' do
         :source  => '/snap/bin/certbot',
         })
       expect(subject).to contain_class('letsencrypt').with_config({
-        'email' => 'tyler@monkeypox.org',
-        'server' => 'https://acme-staging-v02.api.letsencrypt.org/directory',
+        'email'                => 'tyler@monkeypox.org',
+        'server'               => 'https://acme-staging-v02.api.letsencrypt.org/directory',
+        'authenticator'        => 'apache',
+        'preferred-challenges' => 'http',
       }).with_package_ensure('absent').with_configure_epel(false)
       expect(subject).to contain_package('certbot-dns-azure').with({
         :ensure  => 'absent',
@@ -23,17 +25,6 @@ describe 'profile::letsencrypt' do
         :ensure  => 'absent',
       })
     }
-
-    it 'should use the ACME v2 staging host for letsencrypt' do
-      expect(subject).to contain_class('letsencrypt').with({
-          :config => {
-            "email" => 'tyler@monkeypox.org',
-            "server" => "https://acme-staging-v02.api.letsencrypt.org/directory",
-          },
-          :package_ensure => 'absent',
-          :configure_epel => false, # Who uses RHEL anyway :troll:
-      })
-    end
   end
 
   context 'custom setup with Azure DNS-01 challenge and production environment' do

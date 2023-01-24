@@ -26,7 +26,10 @@ class profile::letsencrypt (
 
   if $dns_azure == {} {
     # Case of HTTP-01 challenge
-    $_additional_config = {}
+    $_additional_config = {
+      'authenticator'        => 'apache',
+      'preferred-challenges' => 'http',
+    }
 
     package { 'certbot-dns-azure':
       ensure   => 'absent',
@@ -39,7 +42,7 @@ class profile::letsencrypt (
   } else {
     # Case of DNS-01 challenge (with Azure DNS)
     $_additional_config = {
-      'authenticator'          => 'dns-azure',
+      'authenticator'        => 'dns-azure',
       'preferred-challenges' => 'dns',
       'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
     }
