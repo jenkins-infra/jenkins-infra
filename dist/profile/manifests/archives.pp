@@ -171,9 +171,8 @@ class profile::archives (
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { 'archives.jenkins.io':
-      domains     => ['archives.jenkins.io','archives.jenkins-ci.org'],
-      plugin      => 'apache',
-      manage_cron => true,
+      domains => ['archives.jenkins.io','archives.jenkins-ci.org'],
+      plugin  => 'apache',
     }
     Apache::Vhost <| title == 'archives.jenkins.io' |> {
       # When Apache is upgraded to >= 2.4.8 this should be changed to

@@ -203,9 +203,8 @@ class profile::usage (
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { $usage_fqdn:
-      domains     => [$usage_fqdn],
-      plugin      => 'apache',
-      manage_cron => true,
+      domains => [$usage_fqdn],
+      plugin  => 'apache',
     }
 
     Apache::Vhost <| title == $usage_fqdn |> {

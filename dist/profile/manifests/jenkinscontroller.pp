@@ -472,9 +472,8 @@ ${custom_fragment_api_paths}
 
     if ($ci_resource_domain != '') {
       letsencrypt::certonly { $ci_resource_domain:
-        domains     => [$ci_resource_domain],
-        plugin      => 'apache',
-        manage_cron => false,
+        domains => [$ci_resource_domain],
+        plugin  => 'apache',
       }
 
       Apache::Vhost <| title == $ci_resource_domain |> {

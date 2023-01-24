@@ -159,9 +159,8 @@ class profile::pkgrepo (
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$repo_fqdn, $repo_legacy_fqdn].each |String $domain| {
       letsencrypt::certonly { $domain:
-        domains     => [$domain],
-        plugin      => 'apache',
-        manage_cron => true,
+        domains => [$domain],
+        plugin  => 'apache',
       }
 
       Apache::Vhost <| title == $domain |> {

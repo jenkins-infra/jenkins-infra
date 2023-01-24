@@ -124,9 +124,8 @@ class profile::updatesite (
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
       letsencrypt::certonly { $domain:
-        domains     => [$domain],
-        plugin      => 'apache',
-        manage_cron => true,
+        domains => [$domain],
+        plugin  => 'apache',
       }
 
       Apache::Vhost <| title == $domain |> {
