@@ -38,12 +38,12 @@ Vagrant.configure("2") do |config|
             node.vm.provision "puppet" do |puppet|
                 puppet.binary_path = "/opt/puppetlabs/bin"
                 puppet.module_path = ["dist","modules"]
+                puppet.environment = "vagrant"
                 puppet.facter = {
                     "vagrant"    => "1",
-                    "veggie"     => veggie,
-                    "clientcert" => veggie,
-                    "hiera_role" => veggie,
-
+                    "veggie"     => "veggie",
+                    "clientcert" => "veggie",
+                    "hiera_role" => "veggie",
                 }
                 puppet.working_directory = "/vagrant"
                 puppet.manifests_path = "manifests"

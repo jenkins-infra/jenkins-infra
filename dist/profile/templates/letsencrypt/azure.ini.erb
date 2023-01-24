@@ -1,0 +1,9 @@
+dns_azure_sp_client_id = "<%= @dns_azure['sp_client_id'] %>" # application_id
+dns_azure_sp_client_secret = "<%= @dns_azure['sp_client_secret'] %>" # application_password.value
+dns_azure_tenant_id = "<%= @dns_azure['tenant_id'] %>" # subscription id
+dns_azure_environment = "AzurePublicCloud"
+<%- $counter = 1 -%>
+<%-  @dns_azure['zones'].each do |zone_dns, zone_id| -%>
+dns_azure_zone<%= $counter %> = "<%= zone_dns %>:<%= zone_id %>"
+  <%- $counter = $counter + 1 -%>
+<%- end -%>
