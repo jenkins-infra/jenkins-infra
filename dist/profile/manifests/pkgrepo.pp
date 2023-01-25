@@ -159,15 +159,13 @@ class profile::pkgrepo (
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$repo_fqdn, $repo_legacy_fqdn].each |String $domain| {
       letsencrypt::certonly { $domain:
-        domains     => [$domain],
-        plugin      => 'apache',
-        manage_cron => true,
+        domains => [$domain],
+        plugin  => 'apache',
       }
 
       Apache::Vhost <| title == $domain |> {
         ssl_key         => "/etc/letsencrypt/live/${domain}/privkey.pem",
-        ssl_cert        => "/etc/letsencrypt/live/${domain}/cert.pem",
-        ssl_chain       => "/etc/letsencrypt/live/${domain}/chain.pem",
+        ssl_cert        => "/etc/letsencrypt/live/${domain}/fullchain.pem",
       }
     }
   }

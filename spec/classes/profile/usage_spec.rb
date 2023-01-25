@@ -89,8 +89,7 @@ describe 'profile::usage' do
           :servername => fqdn,
           :port => 443,
           :ssl_key => "/etc/letsencrypt/live/#{fqdn}/privkey.pem",
-          :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/cert.pem",
-          :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
+          :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/fullchain.pem",
         })
       end
     end
