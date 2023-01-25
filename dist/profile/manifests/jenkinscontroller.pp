@@ -16,8 +16,8 @@
 class profile::jenkinscontroller (
   Boolean $anonymous_access                    = false,
   Array $admin_ldap_groups                     = ['admins'],
-  Stdlib::Fqdn $ci_fqdn                        = 'ci.jenkins.io',
-  Stdlib::Fqdn $ci_resource_domain             = 'assets.ci.jenkins.io',
+  Stdlib::Fqdn $ci_fqdn                        = '',
+  String $ci_resource_domain                   = '',
   String $docker_image                         = 'jenkins/jenkins',
   String $docker_tag                           = 'lts-jdk11',
   String $docker_container_name                = 'jenkins',
@@ -27,7 +27,6 @@ class profile::jenkinscontroller (
   Stdlib::Absolutepath $jenkins_home           = '/var/lib/jenkins',
   Stdlib::Absolutepath $container_jenkins_home = '/var/jenkins_home',
   Boolean $groovy_init_enabled                 = false,
-  String $groovy_d_enable_ssh_port             = 'absent',
   String $groovy_d_set_up_git                  = 'absent',
   String $groovy_d_lock_down_jenkins           = 'absent',
   Hash $jcasc                                  = {},
@@ -64,11 +63,9 @@ class profile::jenkinscontroller (
   $ldap_admin_password = lookup('ldap_admin_password')
 
   $script_dir = '/usr/share/jenkins'
-  $lockbox_script = "${script_dir}/lockbox.groovy"
   $groovy_d = "${jenkins_home}/init.groovy.d"
   $docroot = "/var/www/${ci_fqdn}"
   $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
-  $apache_log_dir_assets = "/var/log/apache2/${ci_resource_domain}"
 
   group { 'jenkins':
     ensure => present,
@@ -89,17 +86,6 @@ class profile::jenkinscontroller (
     ensure => directory,
     owner  => 'jenkins',
     group  => 'jenkins',
-  }
-
-  file { '/etc/default/jenkins':
-    ensure  => absent,
-  }
-  # Make sure the old init script is gone, since the package removal won't
-  # handle it
-  # https://issues.jenkins-ci.org/browse/INFRA-916
-  # No-op, just to make puppet-jenkins STFU
-  file { '/etc/init.d/jenkins' :
-    ensure  => absent,
   }
 
   file { $script_dir:
@@ -136,12 +122,6 @@ class profile::jenkinscontroller (
         User['jenkins'],
         File[$jenkins_home],
       ],
-    }
-
-    file { "${groovy_d}/enable-ssh-port.groovy":
-      ensure => absent,
-      before => Docker::Run[$docker_container_name],
-      notify => Service['docker-jenkins'],
     }
 
     file { "${groovy_d}/set-up-git.groovy":
@@ -290,18 +270,11 @@ class profile::jenkinscontroller (
 
   # CLI support: legacy support (ensure clean up of old resources)
   ##############################################################################
-  file { "${script_dir}/idempotent-cli":
-    ensure  => absent,
-  }
   exec { 'safe-restart-jenkins':
     command     => "/usr/bin/docker restart ${docker_container_name}",
     refreshonly => true,
   }
   ##############################################################################
-
-  file { $lockbox_script :
-    ensure  => absent,
-  }
 
   profile::jenkinsplugin { $plugins:
     # Only install plugins after we've secured Jenkins, that seems reasonable
@@ -310,7 +283,7 @@ class profile::jenkinscontroller (
     ],
   }
 
-  file { [$apache_log_dir, $docroot, $apache_log_dir_assets]:
+  file { [$apache_log_dir, $docroot]:
     ensure  => directory,
     require => Package['httpd'],
   }
@@ -331,10 +304,6 @@ class profile::jenkinscontroller (
 
   $ci_fqdn_x_forwarded_host = "
 RequestHeader set X-Forwarded-Host \"${ci_fqdn}\"
-"
-
-  $ci_resource_domain_x_forwarded_host = "
-RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
 "
 
   $base_custom_fragment = "
@@ -381,11 +350,6 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
 
   apache::vhost { $ci_fqdn:
     servername                   => $ci_fqdn,
-    serveraliases                => [
-      # Give all our jenkinscontroller profiles this server alias; it's easier than
-      # parameterizing it for compatibility's sake
-      'ci.jenkins-ci.org', $ci_resource_domain,
-    ],
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     require                      => [
@@ -409,37 +373,7 @@ ${custom_fragment_api_paths}
 ",
   }
 
-  apache::vhost { $ci_resource_domain:
-    servername                   => $ci_resource_domain,
-    require                      => [
-      Docker::Run[$docker_container_name],
-      File[$docroot],
-      # We need our installation to be secure before we allow access
-      File[$groovy_d],
-    ],
-    use_servername_for_filenames => true,
-    use_port_for_filenames       => true,
-    port                         => 443,
-    override                     => 'All',
-    ssl                          => true,
-    docroot                      => $docroot,
-
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
-    proxy_preserve_host          => true,
-    allow_encoded_slashes        => 'on',
-    custom_fragment              => "${ci_resource_domain_x_forwarded_host}
-${base_custom_fragment}
-${custom_fragment_api_paths}
-",
-  }
-
   apache::vhost { "${ci_fqdn} unsecured":
-    serveraliases                => [
-      # Give all our jenkinscontroller profiles this server alias; it's easier than
-      # parameterizing it for compatibility's sake
-      'ci.jenkins-ci.org',
-    ],
     servername                   => $ci_fqdn,
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
@@ -450,19 +384,6 @@ ${custom_fragment_api_paths}
     error_log_file               => "${ci_fqdn}/error_unsecured.log",
     access_log_pipe              => '/dev/null',
     require                      => Apache::Vhost[$ci_fqdn],
-  }
-
-  apache::vhost { "${ci_resource_domain} unsecured":
-    servername                   => $ci_resource_domain,
-    port                         => 80,
-    use_servername_for_filenames => true,
-    use_port_for_filenames       => true,
-    docroot                      => $docroot,
-    redirect_status              => 'permanent',
-    redirect_dest                => "https://${ci_resource_domain}/",
-    error_log_file               => "${ci_resource_domain}/error_unsecured.log",
-    access_log_pipe              => '/dev/null',
-    require                      => Apache::Vhost[$ci_resource_domain],
   }
 
   firewall { '801 Allow Jenkins web access only on localhost':
@@ -484,13 +405,64 @@ ${custom_fragment_api_paths}
     action => 'accept',
   }
 
+  # If a custom resource "assets" domain is set (to serve static resources)
+  if ($ci_resource_domain != '') {
+    $ci_resource_domain_x_forwarded_host = "
+RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
+"
+    $apache_log_dir_assets = "/var/log/apache2/${ci_resource_domain}"
+
+    file { $apache_log_dir_assets:
+      ensure  => directory,
+      require => Package['httpd'],
+    }
+
+    apache::vhost { "${ci_resource_domain} unsecured":
+      servername                   => $ci_resource_domain,
+      port                         => 80,
+      use_servername_for_filenames => true,
+      use_port_for_filenames       => true,
+      docroot                      => $docroot,
+      redirect_status              => 'permanent',
+      redirect_dest                => "https://${ci_resource_domain}/",
+      error_log_file               => "${ci_resource_domain}/error_unsecured.log",
+      access_log_pipe              => '/dev/null',
+      require                      => Apache::Vhost[$ci_resource_domain],
+    }
+
+    apache::vhost { $ci_resource_domain:
+      servername                   => $ci_resource_domain,
+      require                      => [
+        Docker::Run[$docker_container_name],
+        File[$docroot],
+        # We need our installation to be secure before we allow access
+        File[$groovy_d],
+      ],
+      use_servername_for_filenames => true,
+      use_port_for_filenames       => true,
+      port                         => 443,
+      override                     => 'All',
+      ssl                          => true,
+      docroot                      => $docroot,
+
+      access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+      error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+      proxy_preserve_host          => true,
+      allow_encoded_slashes        => 'on',
+      custom_fragment              => "${ci_resource_domain_x_forwarded_host}
+${base_custom_fragment}
+${custom_fragment_api_paths}
+",
+    }
+  }
+
   # Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
   if ($letsencrypt == true) and ($environment == 'production') {
     # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $ci_fqdn:
-      domains     => [$ci_fqdn, $ci_resource_domain],
+      domains     => [$ci_fqdn],
       plugin      => 'apache',
-      manage_cron => true,
+      manage_cron => false,
     }
 
     Apache::Vhost <| title == $ci_fqdn |> {
@@ -498,9 +470,16 @@ ${custom_fragment_api_paths}
       ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/fullchain.pem",
     }
 
-    Apache::Vhost <| title == $ci_resource_domain |> {
-      ssl_key       => "/etc/letsencrypt/live/${ci_fqdn}/privkey.pem",
-      ssl_cert      => "/etc/letsencrypt/live/${ci_fqdn}/fullchain.pem",
+    if ($ci_resource_domain != '') {
+      letsencrypt::certonly { $ci_resource_domain:
+        domains => [$ci_resource_domain],
+        plugin  => 'apache',
+      }
+
+      Apache::Vhost <| title == $ci_resource_domain |> {
+        ssl_key       => "/etc/letsencrypt/live/${ci_resource_domain}/privkey.pem",
+        ssl_cert      => "/etc/letsencrypt/live/${ci_resource_domain}/fullchain.pem",
+      }
     }
   }
 }
