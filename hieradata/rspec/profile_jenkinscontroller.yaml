@@ -5,7 +5,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
-profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
+profile::jenkinscontroller::ci_fqdn: 'jenkinscontroller.profile.rspec.test.local'
 profile::jenkinscontroller::proxy_port: 443
 profile::jenkinscontroller::letsencrypt: false
 profile::jenkinscontroller::groovy_init_enabled: false
