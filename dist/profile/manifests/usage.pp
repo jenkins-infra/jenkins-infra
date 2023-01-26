@@ -203,17 +203,13 @@ class profile::usage (
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     letsencrypt::certonly { $usage_fqdn:
-      domains     => [$usage_fqdn],
-      plugin      => 'apache',
-      manage_cron => true,
+      domains => [$usage_fqdn],
+      plugin  => 'apache',
     }
 
     Apache::Vhost <| title == $usage_fqdn |> {
       ssl_key   => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
-      # When Apache is upgraded to >= 2.4.8 this should be changed to
-      # fullchain.pem
-      ssl_cert  => "/etc/letsencrypt/live/${usage_fqdn}/cert.pem",
-      ssl_chain => "/etc/letsencrypt/live/${usage_fqdn}/chain.pem",
+      ssl_cert  => "/etc/letsencrypt/live/${usage_fqdn}/fullchain.pem",
     }
   }
 }

@@ -124,17 +124,13 @@ class profile::updatesite (
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
     [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
       letsencrypt::certonly { $domain:
-        domains     => [$domain],
-        plugin      => 'apache',
-        manage_cron => true,
+        domains => [$domain],
+        plugin  => 'apache',
       }
 
       Apache::Vhost <| title == $domain |> {
         ssl_key   => "/etc/letsencrypt/live/${domain}/privkey.pem",
-        # When Apache is upgraded to >= 2.4.8 this should be changed to
-        # fullchain.pem
-        ssl_cert  => "/etc/letsencrypt/live/${domain}/cert.pem",
-        ssl_chain => "/etc/letsencrypt/live/${domain}/chain.pem",
+        ssl_cert  => "/etc/letsencrypt/live/${domain}/fullchain.pem",
       }
     }
   }

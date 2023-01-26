@@ -91,8 +91,7 @@ describe 'profile::updatesite' do
         :servername => fqdn,
         :port => 443,
         :ssl_key => "/etc/letsencrypt/live/#{fqdn}/privkey.pem",
-        :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/cert.pem",
-        :ssl_chain => "/etc/letsencrypt/live/#{fqdn}/chain.pem",
+        :ssl_cert => "/etc/letsencrypt/live/#{fqdn}/fullchain.pem",
       })
     end
 
@@ -101,8 +100,7 @@ describe 'profile::updatesite' do
         :servername => 'updates.jenkins-ci.org',
         :port => 443,
         :ssl_key => '/etc/letsencrypt/live/updates.jenkins-ci.org/privkey.pem',
-        :ssl_chain => '/etc/letsencrypt/live/updates.jenkins-ci.org/chain.pem',
-        :ssl_cert => '/etc/letsencrypt/live/updates.jenkins-ci.org/cert.pem',
+        :ssl_cert => '/etc/letsencrypt/live/updates.jenkins-ci.org/fullchain.pem',
       })
     end
   end
