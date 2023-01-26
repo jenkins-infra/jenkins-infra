@@ -5,4 +5,4 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
-profile::jenkinscontroller::ci_fqdn: 'jenkins.role.respec.test.local'
+profile::jenkinscontroller::ci_fqdn: 'jenkins.role.rspec.test.local'
