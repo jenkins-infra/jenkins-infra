@@ -249,7 +249,7 @@ profile::jenkinscontroller::jcasc:
       jnlp: jenkins/inbound-agent@sha256:30954837f68aa4e363529f0177ef9ba1ddc0c830f4274c7370a37760818745f0
   tools_default_versions:
     jdk8: "8u362-b09"
-    jdk11: "11.0.17+8"
+    jdk11: "11.0.18+10"
     jdk17: "17.0.6+10"
     jdk19: "19.0.2+7"
     maven: "3.8.7"
