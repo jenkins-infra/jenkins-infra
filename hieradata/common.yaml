@@ -85,7 +85,7 @@ accounts:
       - sudo
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
-letsencrypt::config::server: "https://acme-staging.api.letsencrypt.org/directory"
+letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
 letsencrypt::renew_cron_ensure: "present"
 letsencrypt::renew_cron_minute: 0
 letsencrypt::renew_cron_hour: 6
@@ -305,6 +305,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.2.5" # Tracked by updatecli
+profile::openvpn::image_tag: "1.2.6" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
