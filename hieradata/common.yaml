@@ -230,7 +230,7 @@ profile::jenkinscontroller::jcasc:
   agent_images:
     ec2_amis:
       ubuntu-20.04-amd64: "ami-0287d0efe8f16434a"
-      windows-2019-amd64: "ami-0f4cb89487ab522f4"
+      windows-2019-amd64: "ami-0b9c34942fe8c54b6"
       ubuntu-20.04-arm64: "ami-0bc2b2d8357c2bd14"
       # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
       windows-2022-amd64: "ami-0cbb4bae0023dd094"
