@@ -96,8 +96,8 @@ profile::jenkinscontroller::jcasc:
       envVars:
         PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.7/bin"
         JAVA_HOME: "/opt/jdk-11"
-        # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
-        ARTIFACT_CACHING_PROXY_PROVIDER: "do"
+        # For the permanent agents, we're using the closest artifact caching proxy available
+        ARTIFACT_CACHING_PROXY_PROVIDER: "aws"
       toolLocation:
         - home: "/home/jenkins/tools/apache-maven-3.8.7"
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
@@ -105,7 +105,7 @@ profile::jenkinscontroller::jcasc:
     kubernetes:
       cik8s:
         enabled: true
-        provider: "aws"
+        provider: "aws" # must be one of "aws","do", "azure"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIGTQYJKoZIhvcNAQcDoIIGPjCCBjoCAQAxggEhMIIBHQIBAD
@@ -202,7 +202,7 @@ profile::jenkinscontroller::jcasc:
             imagePullSecrets: dockerhub-credential
       doks:
         enabled: true
-        provider: do
+        provider: do # must be one of "aws","do", "azure"
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIGrQYJKoZIhvcNAQcDoIIGnjCCBpoCAQAxggEhMIIBHQIBAD
