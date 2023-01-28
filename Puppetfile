@@ -2,7 +2,7 @@ forge 'http://forge.puppetlabs.com'
 
 # Install and manage r10k
 mod 'puppet-r10k', '10.2.0'
-mod 'puppet-systemd', '3.10.0'
+mod 'puppet-systemd', '4.0.0'
 
 mod 'puppetlabs-stdlib', '8.5.0'
 
