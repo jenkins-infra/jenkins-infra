@@ -11,7 +11,7 @@ unclassified:
               <mirror>
                   <id><%= providerId %>-proxy</id>
                   <url>https://repo.<%= providerId %>.jenkins.io/public/</url>
-                  <mirrorOf>repo.jenkins-ci.org,central</mirrorOf>
+                  <mirrorOf>*,!incrementals</mirrorOf>
               </mirror>
               <mirror>
                   <id><%= providerId %>-proxy-incrementals</id>
