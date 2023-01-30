@@ -111,9 +111,7 @@ jenkins:
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
           - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
-            value: "aws"
-            ## TODO: switch back to Azure once Azure ACP is working as expected
-            # value: "azure"
+            value: "azure"
       <%- end -%>
     <%- end -%>
   <%- end -%>
