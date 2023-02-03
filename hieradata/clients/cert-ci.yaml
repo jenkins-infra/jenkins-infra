@@ -129,8 +129,6 @@ profile::jenkinscontroller::plugins:
   # Utility
   - compact-columns
 
-  # Unused detached (disabled)
-  - bouncycastle-api
-  - command-launcher
-  - jdk-tool
-  - sshd
+  # (Likely unused) detached
+  - sshd # split after 2.281
+  - javax-mail-api # split after 2.330
