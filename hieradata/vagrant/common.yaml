@@ -342,7 +342,6 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 20
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
-          useEphemeralOSDisk: false
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
@@ -364,7 +363,6 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 20
           useAsMuchAsPossible: false
           credentialsId: "jenkinsvmagents-userpass"
-          useEphemeralOSDisk: false
           usePrivateIP: true
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
