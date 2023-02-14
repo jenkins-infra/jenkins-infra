@@ -87,7 +87,6 @@ profile::jenkinscontroller::jcasc:
             - docker
             - maven-11
             - jdk11
-          idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
@@ -103,7 +102,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows
-          idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
