@@ -83,7 +83,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - linux
-          idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
@@ -99,7 +98,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - windows
-          idleTerminationMinutes: 5
           maxInstances: 7 # Quota of 56 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"

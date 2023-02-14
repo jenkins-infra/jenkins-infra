@@ -216,14 +216,16 @@ profile::jenkinscontroller::jcasc:
       # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
       tempDir: 'C:\\\\Temp'
       remoteAdmin: Administrator
-      osDiskSize: 128
+      osDiskSize: 150
+      osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: 'C:/tools/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
     ubuntu:
       agentDir: "/home/jenkins"
       remoteAdmin: jenkins
       tempDir: "/tmp"
-      osDiskSize: 90
+      osDiskSize: 150
+      osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: '/opt/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
