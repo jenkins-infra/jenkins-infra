@@ -19,7 +19,7 @@ jenkins:
         doNotUseMachineIfInitFails: true
         enableMSI: false
         enableUAMI: false
-        ephemeralOSDisk: <%= agent['useEphemeralOSDisk'].nil? ? true : agent['useEphemeralOSDisk'] %>
+        ephemeralOSDisk: false
       <%- if agent['initScript'] && !agent['initScript'].empty? -%>
         executeInitScriptAsRoot: true
         initScript: |
