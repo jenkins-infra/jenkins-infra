@@ -10,6 +10,7 @@ unclassified:
     <%- if setup['cache-ttl'] -%>
         cachingConfiguration:
           refreshTimeMinutes: <%= setup['cache-ttl'] %>
+          excludedVersionsStr: "pull/"
     <%- end -%>
         retriever:
           modernSCM:
