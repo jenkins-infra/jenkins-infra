@@ -2,7 +2,7 @@ forge 'http://forge.puppetlabs.com'
 
 # Install and manage r10k
 mod 'puppet-r10k', '10.2.0'
-mod 'puppet-systemd', '3.10.0'
+mod 'puppet-systemd', '4.0.1'
 
 mod 'puppetlabs-stdlib', '8.5.0'
 
@@ -19,7 +19,7 @@ mod 'puppetlabs-ntp', '7.3.0'
 
 # https://puppet.com/docs/puppet/6/type.html#supported-type-modules-in-puppet-agent
 mod 'puppetlabs-mount_core', '1.1.0'
-mod 'puppetlabs-cron_core', '1.1.0'
+mod 'puppetlabs-cron_core', '1.2.0'
 
 # Module for managing sudoers across all machines
 mod 'saz-sudo', '5.0.0'
@@ -41,7 +41,7 @@ mod 'rootexpert-snap', '1.1.0'
 # Apache and its dependencies
 mod 'puppetlabs-apache', '7.0.0'
 
-mod 'puppetlabs-concat', '7.3.0'
+mod 'puppetlabs-concat', '7.3.1'
 
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
