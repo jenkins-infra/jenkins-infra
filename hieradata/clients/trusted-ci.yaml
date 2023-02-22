@@ -134,6 +134,7 @@ profile::jenkinscontroller::plugins:
   - lockable-resources
   - mailer
   - parallel-test-executor
+  - pipeline-graph-view
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
