@@ -98,7 +98,7 @@ class profile::pkgrepo (
     use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options                      => 'Indexes FollowSymLinks MultiViews',
+    options                      => ['Indexes', 'FollowSymLinks', 'MultiViews'],
     override                     => ['All'],
     ssl                          => true,
     docroot                      => $docroot,

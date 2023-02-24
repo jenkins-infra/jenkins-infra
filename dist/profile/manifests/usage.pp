@@ -119,7 +119,7 @@ class profile::usage (
     use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options                      => 'Indexes FollowSymLinks MultiViews',
+    options                      => ['Indexes', 'FollowSymLinks', 'MultiViews'],
     override                     => ['All'],
     ssl                          => true,
     docroot                      => $docroot,
@@ -142,7 +142,7 @@ class profile::usage (
     use_port_for_filenames       => true,
     # We need FollowSymLinks to ensure our fallback for old APT clients works
     # properly, see debian's htaccess file for more
-    options                      => 'Indexes FollowSymLinks MultiViews',
+    options                      => ['Indexes', 'FollowSymLinks', 'MultiViews'],
     override                     => ['All'],
     docroot                      => $docroot,
     access_log_pipe              => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
