@@ -9,7 +9,6 @@ class profile::robobutler (
   Stdlib::Absolutepath $logdir = '/var/www/meetings.jenkins-ci.org'
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
-  include profile::apachemisc
   include profile::docker
 
   # Tag is the docker container image tag from our build process
@@ -50,23 +49,5 @@ class profile::robobutler (
     image   => "jenkinsciinfra/butlerbot:${tag}",
     volumes => ["${logdir}:${logdir}", '/etc/butlerbot:/etc/butlerbot'],
     require => File['/etc/butlerbot/main.conf'],
-  }
-
-  file { '/var/log/apache2/meetings.jenkins-ci.org':
-    ensure => directory,
-  }
-
-  apache::vhost { 'meetings.jenkins-ci.org':
-    servername                   => 'meetings.jenkins-ci.org',
-    docroot                      => $logdir,
-    port                         => '80',
-    use_servername_for_filenames => true,
-    use_port_for_filenames       => true,
-    access_log                   => false,
-    error_log_file               => 'meetings.jenkins-ci.org/error.log',
-    log_level                    => 'warn',
-    custom_fragment              => 'CustomLog "|/usr/bin/rotatelogs /var/log/apache2/meetings.jenkins-ci.org/access.log.%Y%m%d%H%M%S 604800" reverseproxy_combined',
-    notify                       => Service['apache2'],
-    require                      => File['/var/log/apache2/meetings.jenkins-ci.org'],
   }
 }
