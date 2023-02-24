@@ -35,7 +35,7 @@ describe 'profile::apachemisc' do
 
   it 'restrict SSL versions by default' do
     expect(subject).to contain_class('apache::mod::ssl').with({
-      :ssl_protocol => ['all', '-SSLv2', '-SSLv3'],
+      :ssl_protocol => ['all', '-SSLv3'],
     })
   end
 
