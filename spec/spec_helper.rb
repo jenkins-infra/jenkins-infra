@@ -48,6 +48,14 @@ RSpec.configure do |c|
         :enabled => false
       }
     },
+    #####
+    # Mocked facts required by the r10k puppet module
+    :processors => {
+      :count => 2,
+    },
+    :ruby => {
+      :version => '2.6.10',
+    },
     ####
     # Legacy facts, hidden by default from default facter output.
     # Call the `facter` command with the fact name as argument to view it: 'facter operatingsystemrelease'
