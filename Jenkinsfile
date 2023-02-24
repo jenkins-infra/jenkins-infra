@@ -35,7 +35,6 @@ pipeline {
             }
         }
         stage('Verify') {
-            failFast true
             parallel {
                 stage('Syntax') {
                     steps {
