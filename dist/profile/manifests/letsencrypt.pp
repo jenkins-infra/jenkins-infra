@@ -18,7 +18,14 @@ class profile::letsencrypt (
     ensure => 'absent',
   }
 
-  $python_base_version = '3.8'
+  case $facts['os']['distro']['codename'] {
+    'bionic', 'focal':  {
+      $python_base_version = '3.8'
+    }
+    default:  {
+      $python_base_version = '3.10'
+    }
+  }
   $python_weight       = regsubst($python_base_version, '\.','')
   $certbot_version     = '1.32.0'
 
