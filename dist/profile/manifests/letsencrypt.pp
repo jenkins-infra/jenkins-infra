@@ -50,14 +50,14 @@ class profile::letsencrypt (
     unless  => "/usr/bin/python${python_base_version} -m pip list | /bin/grep --quiet setuptools_rust",
   }
 
-  exec { 'Install certbot 1.x':
+  exec { 'Install certbot':
     require => [Package["python${python_base_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
     command => "/usr/bin/python${python_base_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
     creates => '/usr/local/bin/certbot',
   }
 
   exec { 'Install certbot-dns-azure plugin':
-    require => Exec['Install certbot 1.x'],
+    require => Exec['Install certbot'],
     command => "/usr/bin/python${python_base_version} -m pip install --upgrade certbot-dns-azure",
     unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
   }
