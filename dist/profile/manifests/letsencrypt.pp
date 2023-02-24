@@ -14,14 +14,13 @@ class profile::letsencrypt (
       provider => 'snap',
     }
   }
-  ['/snap/bin/certbot', '/usr/local/bin/certbot'].each | $snap_created_file | {
-    file { $snap_created_file:
-      ensure => 'absent',
-    }
+  file { '/snap/bin/certbot':
+    ensure => 'absent',
   }
 
   $python_base_version = '3.8'
   $python_weight       = regsubst($python_base_version, '\.','')
+  $certbot_version     = '1.32.0'
 
   ['python3', 'python3-pip', "python${python_base_version}"].each | $package_name | {
     package { $package_name:
@@ -40,13 +39,13 @@ class profile::letsencrypt (
 
   exec { 'Ensure pip is initialized for certbot':
     require => [Package["python${python_base_version}"],Package['python3-pip']],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools",
-    unless  => "/usr/bin/python${python_base_version} -m pip list | /bin/grep --quiet setuptools",
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools setuptools_rust",
+    unless  => "/usr/bin/python${python_base_version} -m pip list | /bin/grep --quiet setuptools_rust",
   }
 
   exec { 'Install certbot 1.x':
     require => [Package["python${python_base_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade certbot==1.32.0 acme==1.32.0 pyopenssl",
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
     creates => '/usr/local/bin/certbot',
   }
 
