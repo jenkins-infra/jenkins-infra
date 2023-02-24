@@ -46,8 +46,8 @@ class profile::letsencrypt (
 
   exec { 'Ensure pip is initialized for certbot':
     require => [Package["python${python_base_version}"],Package['python3-pip']],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools setuptools_rust",
-    unless  => "/usr/bin/python${python_base_version} -m pip list --format=columns | /bin/grep --quiet setuptools_rust",
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools setuptools-rust",
+    unless  => "/usr/bin/python${python_base_version} -m pip list --format=json | /bin/grep --quiet setuptools-rust",
   }
 
   exec { 'Install certbot':
