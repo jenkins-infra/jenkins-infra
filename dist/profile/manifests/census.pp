@@ -53,7 +53,7 @@ class profile::census (
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     vhost_name                   => '*',
-    port                         => '80',
+    port                         => 80,
     docroot                      => $docroot,
     access_log_pipe              => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/access.log.%Y%m%d%H%M%S 604800',
     error_log_pipe               => '|/usr/bin/rotatelogs /var/log/apache2/census.jenkins.io/error.log.%Y%m%d%H%M%S 604800',
