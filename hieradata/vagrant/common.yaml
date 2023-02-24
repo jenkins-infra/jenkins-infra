@@ -9,7 +9,13 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
-profile::jenkinscontroller::letsencrypt: false
+profile::jenkinscontroller::letsencrypt: true
+profile::letsencrypt::dns_azure:
+  sp_client_id: "<application_id>" # application_id
+  sp_client_secret: "<application_password>" # application_password.
+  tenant_id: "<subscription id>" # subscription id
+  zones:
+    trusted.ci.jenkins.io: "/subscriptions/xxx/dnszone/yyyy"
 profile::jenkinscontroller::ci_fqdn: 'localhost'
 profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
 profile::jenkinscontroller::proxy_port: 443
