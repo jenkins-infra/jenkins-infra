@@ -3,20 +3,57 @@
 class profile::letsencrypt (
   Hash $dns_azure                  = {},
 ) {
-  # Use snap package for certbot: safer packaging and maintained certbot version
-  # Ref. https://github.com/voxpupuli/puppet-letsencrypt/pull/298
-  include snap
+  # Snap package is broken (despite being really helpfull) until https://github.com/terrycain/certbot-dns-azure/issues/28 is fixed
+  # So let's use Python (3.8 required) with pinned (and old) versions for both certbot and certbot azure-dns plugin
 
-  package { 'certbot':
-    ensure          => 'installed',
-    provider        => 'snap',
-    install_options => ['classic'],
+  ## Ensure that any pre-existing snap and/or apt installation of certbot are removed
+  include snap
+  ['certbot', 'certbot-dns-azure'].each | $snap_package | {
+    package { $snap_package:
+      ensure   => 'absent',
+      provider => 'snap',
+    }
+  }
+  ['/snap/bin/certbot', '/usr/local/bin/certbot'].each | $snap_created_file | {
+    file { $snap_created_file:
+      ensure => 'absent',
+    }
   }
 
-  file { '/usr/bin/certbot':
-    ensure  => 'link',
-    source  => '/snap/bin/certbot',
-    require => Package['certbot'],
+  $python_base_version = '3.8'
+  $python_weight       = regsubst($python_base_version, '\.','')
+
+  ['python3', 'python3-pip', "python${python_base_version}"].each | $package_name | {
+    package { $package_name:
+      ensure => 'installed',
+    }
+  }
+
+  ['python3', 'python'].each | $alternative_name | {
+    exec { "Define python${python_base_version} as the default system ${alternative_name}":
+      require => Package["python${python_base_version}"],
+      # Last argument is the weight. Bigger weight wins
+      command => "/usr/bin/update-alternatives --install /usr/bin/${alternative_name} ${alternative_name} /usr/bin/python${python_base_version} ${python_weight}",
+      unless  => "/usr/bin/update-alternatives --list ${alternative_name} | /usr/bin/tail --lines=1 | grep --quiet python${python_base_version}",
+    }
+  }
+
+  exec { 'Ensure pip is initialized for certbot':
+    require => [Package["python${python_base_version}"],Package['python3-pip']],
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools",
+    unless  => "/usr/bin/python${python_base_version} -m pip list | /bin/grep --quiet setuptools",
+  }
+
+  exec { 'Install certbot 1.x':
+    require => [Package["python${python_base_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade certbot==1.32.0 acme==1.32.0 pyopenssl",
+    creates => '/usr/local/bin/certbot',
+  }
+
+  exec { 'Install certbot-dns-azure plugin':
+    require => Exec['Install certbot 1.x'],
+    command => "/usr/bin/python${python_base_version} -m pip install --upgrade certbot-dns-azure",
+    unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
   }
 
   $default_config = {
@@ -31,11 +68,6 @@ class profile::letsencrypt (
       'preferred-challenges' => 'http',
     }
 
-    package { 'certbot-dns-azure':
-      ensure   => 'absent',
-      provider => 'snap',
-    }
-
     file { '/etc/letsencrypt/azure.ini':
       ensure  => 'absent',
     }
@@ -45,25 +77,6 @@ class profile::letsencrypt (
       'authenticator'        => 'dns-azure',
       'preferred-challenges' => 'dns',
       'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
-    }
-
-    package { 'certbot-dns-azure':
-      ensure          => 'installed',
-      provider        => 'snap',
-      install_options => ['channel=edge'],
-      require         => Package['certbot'],
-    }
-
-    snap_conf { 'trust plugin with root dns-azure':
-      ensure => present,
-      conf   => 'trust-plugin-with-root',
-      value  => 'ok',
-      snap   => 'certbot',
-    }
-
-    exec { 'Connect certbot with certbot-dns-azure plugin':
-      command => '/usr/bin/snap connect certbot:plugin certbot-dns-azure',
-      unless  => '/snap/bin/certbot plugins --text | /bin/grep "dns-azure" 2>/dev/null',
     }
 
     file { '/etc/letsencrypt/azure.ini':
@@ -79,7 +92,7 @@ class profile::letsencrypt (
 
   class { 'letsencrypt':
     config         => $final_config,
-    package_ensure => 'absent', # We use snap package instead
+    package_ensure => 'absent', # We use snap or pip packages instead of the virtual apt package
     configure_epel => false,
   }
 }

@@ -3,24 +3,19 @@ require 'spec_helper'
 describe 'profile::letsencrypt' do
   context 'default setup uses HTTP-01 with staging' do
     it {
-      expect(subject).to contain_class 'snap'
-      expect(subject).to contain_package('certbot').with({
-        :provider => 'snap',
-        :install_options => ['classic'],
+      expect(subject).to contain_package('python3.8')
+      expect(subject).to contain_package('python3-pip')
+      expect(subject).to contain_exec('Install certbot-dns-azure plugin').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-dns-azure',
+        :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
       })
-      expect(subject).to contain_file('/usr/bin/certbot').with({
-        :ensure => 'link',
-        :source  => '/snap/bin/certbot',
-        })
+
       expect(subject).to contain_class('letsencrypt').with_config({
         'email'                => 'tyler@monkeypox.org',
         'server'               => 'https://acme-staging-v02.api.letsencrypt.org/directory',
         'authenticator'        => 'apache',
         'preferred-challenges' => 'http',
       }).with_package_ensure('absent').with_configure_epel(false)
-      expect(subject).to contain_package('certbot-dns-azure').with({
-        :ensure  => 'absent',
-      })
       expect(subject).to contain_file('/etc/letsencrypt/azure.ini').with({
         :ensure  => 'absent',
       })
@@ -44,28 +39,13 @@ describe 'profile::letsencrypt' do
     end
 
     it {
-      expect(subject).to contain_class 'snap'
-      expect(subject).to contain_package('certbot').with({
-        :provider => 'snap',
-        :install_options => ['classic'],
+      expect(subject).to contain_package('python3.8')
+      expect(subject).to contain_package('python3-pip')
+      expect(subject).to contain_exec('Install certbot-dns-azure plugin').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-dns-azure',
+        :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
       })
-      expect(subject).to contain_package('certbot-dns-azure').with({
-        :provider => 'snap',
-      })
-      expect(subject).to contain_snap_conf('trust plugin with root dns-azure').with({
-        :ensure => 'present',
-        :conf   => 'trust-plugin-with-root',
-        :value  => 'ok',
-        :snap   => 'certbot',
-      })
-      expect(subject).to contain_file('/usr/bin/certbot').with({
-        :ensure => 'link',
-        :source  => '/snap/bin/certbot',
-      })
-      expect(subject).to contain_exec('Connect certbot with certbot-dns-azure plugin').with({
-        :command => '/usr/bin/snap connect certbot:plugin certbot-dns-azure',
-        :unless  => '/snap/bin/certbot plugins --text | /bin/grep "dns-azure" 2>/dev/null',
-      })
+
       expect(subject).to contain_file('/etc/letsencrypt/azure.ini').with({
         :ensure  => 'file',
         :owner   => 'root',
