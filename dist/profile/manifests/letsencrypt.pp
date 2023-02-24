@@ -19,7 +19,7 @@ class profile::letsencrypt (
   }
 
   case $facts['os']['distro']['codename'] {
-    'bionic', 'focal':  {
+    'bionic', 'focal': {
       $python_base_version = '3.8'
     }
     default:  {
@@ -47,7 +47,7 @@ class profile::letsencrypt (
   exec { 'Ensure pip is initialized for certbot':
     require => [Package["python${python_base_version}"],Package['python3-pip']],
     command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools setuptools_rust",
-    unless  => "/usr/bin/python${python_base_version} -m pip list | /bin/grep --quiet setuptools_rust",
+    unless  => "/usr/bin/python${python_base_version} -m pip list --format=columns | /bin/grep --quiet setuptools_rust",
   }
 
   exec { 'Install certbot':
