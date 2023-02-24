@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.3.0
       - name: "Setup updatecli"
-        uses: "updatecli/updatecli-action@v2.21.0"
+        uses: "updatecli/updatecli-action@e616220e571d67e7f98a3bd63f59ab0d8eb4e124" # v2.21.0
       - name: Diff
         continue-on-error: true
         run: |
@@ -23,14 +23,14 @@ jobs:
           UPDATECLI_GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Configure AWS Credentials
         if: github.ref == 'refs/heads/production'
-        uses: aws-actions/configure-aws-credentials@v1-node16
+        uses: aws-actions/configure-aws-credentials@5f641521a3878b25d04da89cfd0c9ba02229efc6 # v1-node16
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-2
       ## This step allows to generate a short-lived token which is allowed to modify GitHub Workflow files (that the default GITHUB_TOKEN cannot)
       ## Please make sure that the 2 secrets are defined (usually at organization level, with a per-repository access)
-      - uses: tibdex/github-app-token@v1.8
+      - uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # v1.8
         id: generate_token
         if: github.ref == 'refs/heads/production'
         with:
