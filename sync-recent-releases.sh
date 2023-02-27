@@ -16,6 +16,7 @@ RECENT_RELEASES_JSON="$1"
 
 echo ">> Update artifacts on get.jenkins.io"
 
+source /srv/releases/.venv-blobxfer/bin/activate
 source /srv/releases/.azure-storage-env
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "$RECENT_RELEASES_JSON" )
 if [[ -z "$RECENT_RELEASES" ]] ; then
