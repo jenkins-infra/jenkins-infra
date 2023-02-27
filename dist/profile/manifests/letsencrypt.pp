@@ -19,46 +19,55 @@ class profile::letsencrypt (
   }
 
   case $facts['os']['distro']['codename'] {
-    'bionic', 'focal': {
-      $python_base_version = '3.8'
+    'bionic': {
+      $python_certbot_version = '3.8'
+      $python_system_version = '3.6' # Required to be the default to avoid breaking apt
     }
-    default:  {
-      $python_base_version = '3.10'
+    'focal': {
+      $python_certbot_version = '3.8'
+      $python_system_version = '3.8' # Required to be the default to avoid breaking apt
+    }
+    'jammy':  {
+      $python_certbot_version = '3.10'
+      $python_system_version = '3.10' # Required to be the default to avoid breaking apt
+    }
+    default: {
+      fail('[profile::letsencrypt] Unsupported Ubuntu distribution.')
     }
   }
-  $python_weight       = regsubst($python_base_version, '\.','')
+  $python_weight       = regsubst($python_certbot_version, '\.','')
   $certbot_version     = '1.32.0'
 
-  ['python3', 'python3-pip', "python${python_base_version}"].each | $package_name | {
+  ['python3', 'python3-pip', "python${python_certbot_version}"].each | $package_name | {
     package { $package_name:
       ensure => 'installed',
     }
   }
 
   ['python3', 'python'].each | $alternative_name | {
-    exec { "Define python${python_base_version} as the default system ${alternative_name}":
-      require => Package["python${python_base_version}"],
+    exec { "Define python${python_system_version} as the default system ${alternative_name}":
+      require => Package['python3'],
       # Last argument is the weight. Bigger weight wins
-      command => "/usr/bin/update-alternatives --install /usr/bin/${alternative_name} ${alternative_name} /usr/bin/python${python_base_version} ${python_weight}",
-      unless  => "/usr/bin/update-alternatives --list ${alternative_name} | /usr/bin/tail --lines=1 | grep --quiet python${python_base_version}",
+      command => "/usr/bin/update-alternatives --install /usr/bin/${alternative_name} ${alternative_name} /usr/bin/python${python_system_version} 1000",
+      unless  => "/usr/bin/update-alternatives --list ${alternative_name} | /usr/bin/tail --lines=1 | grep --quiet python${python_system_version}",
     }
   }
 
   exec { 'Ensure pip is initialized for certbot':
-    require => [Package["python${python_base_version}"],Package['python3-pip']],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pip setuptools setuptools-rust",
-    unless  => "/usr/bin/python${python_base_version} -m pip list --format=json | /bin/grep --quiet setuptools-rust",
+    require => [Package["python${python_certbot_version}"],Package['python3-pip']],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pip setuptools setuptools-rust",
+    unless  => "/usr/bin/python${python_certbot_version} -m pip list --format=json | /bin/grep --quiet setuptools-rust",
   }
 
   exec { 'Install certbot':
-    require => [Package["python${python_base_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
+    require => [Package["python${python_certbot_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
     creates => '/usr/local/bin/certbot',
   }
 
   exec { 'Install certbot-dns-azure plugin':
     require => Exec['Install certbot'],
-    command => "/usr/bin/python${python_base_version} -m pip install --upgrade certbot-dns-azure",
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
     unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
   }
 
