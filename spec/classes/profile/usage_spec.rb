@@ -51,7 +51,7 @@ describe 'profile::usage' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :options => 'Indexes FollowSymLinks MultiViews',
+        :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
         :override => ['All'],
       })
     end
@@ -61,7 +61,7 @@ describe 'profile::usage' do
         :port => 80,
         :ssl => false,
         :docroot => params[:docroot],
-        :options => 'Indexes FollowSymLinks MultiViews',
+        :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
         :override => ['All'],
       })
     end

@@ -136,7 +136,7 @@ describe 'profile::pkgrepo' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :options => 'Indexes FollowSymLinks MultiViews',
+        :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
         :override => ['All'],
         :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/access.log.%Y%m%d%H%M%S 604800",
         :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/error.log.%Y%m%d%H%M%S 604800",

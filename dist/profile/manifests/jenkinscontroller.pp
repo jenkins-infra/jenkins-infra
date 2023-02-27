@@ -359,7 +359,7 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
       File[$groovy_d],
     ],
     port                         => 443,
-    override                     => 'All',
+    override                     => ['All'],
     ssl                          => true,
     docroot                      => $docroot,
 
@@ -441,7 +441,7 @@ RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
       use_servername_for_filenames => true,
       use_port_for_filenames       => true,
       port                         => 443,
-      override                     => 'All',
+      override                     => ['All'],
       ssl                          => true,
       docroot                      => $docroot,
 
