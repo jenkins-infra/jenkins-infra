@@ -2,6 +2,12 @@ require 'spec_helper'
 
 
 describe 'profile::apachemisc' do
+  let(:facts) do
+    {
+      :rspec_hieradata_fixture => 'profile_apachemisc',
+    }
+  end
+
   shared_examples 'apachemisc' do
     it { expect(subject).to contain_class 'apache' }
     it { expect(subject).to contain_class 'apachelogcompressor' }

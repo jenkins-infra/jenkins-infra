@@ -1,12 +1,12 @@
 ---
 # https://httpd.apache.org/docs/2.4/fr/mod/mpm_common.html#maxrequestworkers
 # maxrequestworkers = ServerLimit (default: 25) * ThreadsPerChild (default: 25)
-apache::mod::event::maxrequestworkers: '625'
+apache::mod::event::maxrequestworkers: 625
 lvm::volume_groups:
   data:
     physical_volumes:
       # /dev/oracleoci/oraclevdb is only a symlink whichs fails the 2nd LVM run
-      - /dev/sdb 
+      - /dev/sdb
     logical_volumes:
       updates_var:
         size: 470G
