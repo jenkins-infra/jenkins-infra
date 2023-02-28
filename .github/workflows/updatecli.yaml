@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3.3.0
       - name: "Setup updatecli"
-        uses: "updatecli/updatecli-action@e616220e571d67e7f98a3bd63f59ab0d8eb4e124" # v2.21.0
+        uses: "updatecli/updatecli-action@4d60eae29ec2cff9bd989e542600398fe2dcd404" # v2.21.0
       - name: Diff
         continue-on-error: true
         run: |
