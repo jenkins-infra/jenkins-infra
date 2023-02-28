@@ -49,7 +49,7 @@ class profile::letsencrypt (
       require => Package['python3'],
       # Last argument is the weight. Bigger weight wins
       command => "/usr/bin/update-alternatives --install /usr/bin/${alternative_name} ${alternative_name} /usr/bin/python${python_system_version} 1000",
-      unless  => "/usr/bin/update-alternatives --list ${alternative_name} | /usr/bin/tail --lines=1 | grep --quiet python${python_system_version}",
+      unless  => "/usr/bin/${alternative_name} --version | grep --quiet '${python_system_version}.'",
     }
   }
 
