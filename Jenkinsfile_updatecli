@@ -1,0 +1,45 @@
+def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
+
+pipeline {
+  agent {
+    kubernetes {
+      yamlFile 'PodTemplates.yaml'
+    }
+  }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timeout(time: 30, unit: 'MINUTES')
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    cron (cronExpr)
+  }
+
+  environment {
+    AWS_ACCESS_KEY_ID     = credentials('packer-aws-access-key-id')
+    AWS_SECRET_ACCESS_KEY = credentials('packer-aws-secret-access-key')
+    AWS_DEFAULT_REGION    = 'us-east-2'
+  }
+  stages {
+    stage('Check Configuration Update') {
+      // Run updatecli's diff on both push and pull requests (in case a configuration change breaks updatecli)
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          updatecli(action: 'diff', cronTriggerExpression: cronExpr)
+        }
+      }
+    } // stage
+    stage('Apply Configuration Update') {
+      when {
+        expression { env.BRANCH_IS_PRIMARY }
+      }
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          updatecli(action: 'apply', cronTriggerExpression: cronExpr)
+        }
+      }
+    }
+  }
+}
