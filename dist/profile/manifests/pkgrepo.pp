@@ -14,9 +14,27 @@ class profile::pkgrepo (
   include profile::firewall
   include profile::letsencrypt
 
-  # Needed so we can generate repodata on the machine
-  package { 'createrepo':
-    ensure => present,
+  # 'Ubuntu 20.04+ are not supported (createrepo package absent).'
+  case $facts['os']['distro']['codename'] {
+    'bionic': {
+      # Needed so we can generate repodata on the machine
+      ['createrepo','python2.7'].each |$pkg| {
+        package { $pkg:
+          ensure => present,
+        }
+      }
+
+      exec { 'Define python2.7 as the default system python':
+        require => Package['python2.7'],
+        # Last argument is the weight. Bigger weight wins
+        command => '/usr/bin/update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1000',
+        unless  => '/usr/bin/python --version 2>&1 | grep --quiet "2\.7\."',
+      }
+    }
+    # TODO: add support of Ubuntu 22.04 Jammy with the createrepo-c package instead
+    default: {
+      fail('[profile::pkgrepo] Unsupported Ubuntu distribution (ref. "createrepo" package).')
+    }
   }
 
   $apache_log_dir_fqdn = "/var/log/apache2/${repo_fqdn}"

@@ -19,11 +19,31 @@ describe 'profile::pkgrepo' do
   it { expect(subject).to contain_class 'profile::pkgrepo' }
   it { expect(subject).to contain_class 'apache' }
 
-  it 'needs createrepo(8) so we can generate repodata' do
-    expect(subject).to contain_package('createrepo').with({
-      :ensure => :present,
-    })
+  context 'Ubuntu 18.04 Bionic' do
+    # let(:facts) {
+    #   :os => {
+    #     :distro => {
+    #       :codename => 'bionic'
+    #     },
+    #   },
+    # }
+
+    it 'installs the createrepo(8) package on Ubuntu bionic with python set to 2.7' do
+      expect(subject).to contain_package('createrepo').with({
+        :ensure => :present,
+      })
+
+      expect(subject).to contain_package('python2.7').with({
+        :ensure => :present,
+      })
+
+      expect(subject).to contain_exec('Define python2.7 as the default system python').with({
+        :command => '/usr/bin/update-alternatives --install /usr/bin/python python /usr/bin/python2.7 1000',
+        :unless  => '/usr/bin/python --version 2>&1 | grep --quiet "2\.7\."',
+      })
+    end
   end
+
 
   context 'repository directories' do
     platforms = ['debian', 'opensuse', 'redhat']

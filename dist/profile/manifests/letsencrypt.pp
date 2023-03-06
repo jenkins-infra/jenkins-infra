@@ -44,15 +44,6 @@ class profile::letsencrypt (
     }
   }
 
-  ['python3', 'python'].each | $alternative_name | {
-    exec { "Define python${python_system_version} as the default system ${alternative_name}":
-      require => Package['python3'],
-      # Last argument is the weight. Bigger weight wins
-      command => "/usr/bin/update-alternatives --install /usr/bin/${alternative_name} ${alternative_name} /usr/bin/python${python_system_version} 1000",
-      unless  => "/usr/bin/${alternative_name} --version | grep --quiet '${python_system_version}.'",
-    }
-  }
-
   exec { 'Ensure pip is initialized for certbot':
     require => [Package["python${python_certbot_version}"],Package['python3-pip']],
     command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pip setuptools setuptools-rust",
