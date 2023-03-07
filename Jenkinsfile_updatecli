@@ -49,7 +49,6 @@ pipeline {
             passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
             )
           ]) {
-            sh 'updatecli version'
             sh 'updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
           }
         }
