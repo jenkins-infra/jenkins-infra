@@ -14,7 +14,7 @@ class profile::pkgrepo (
   include profile::firewall
   include profile::letsencrypt
 
-  # 'Ubuntu 20.04+ are not supported (createrepo package absent).'
+  # Ubuntu 20.04+ are not supported (createrepo package absent).
   case $facts['os']['distro']['codename'] {
     'bionic': {
       # Needed so we can generate repodata on the machine
@@ -31,7 +31,7 @@ class profile::pkgrepo (
         unless  => '/usr/bin/python --version 2>&1 | grep --quiet "2\.7\."',
       }
     }
-    # TODO: add support of Ubuntu 22.04 Jammy with the createrepo-c package instead
+    # TODO: add support of Ubuntu 22.04 Jammy with the createrepo-c package instead. Ref. https://github.com/jenkins-infra/release/issues/202.
     default: {
       fail('[profile::pkgrepo] Unsupported Ubuntu distribution (ref. "createrepo" package).')
     }

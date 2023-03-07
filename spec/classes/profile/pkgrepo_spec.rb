@@ -36,7 +36,6 @@ describe 'profile::pkgrepo' do
     end
   end
 
-
   context 'repository directories' do
     platforms = ['debian', 'opensuse', 'redhat']
     variants = [nil, 'stable', 'rc', 'stable-rc']
