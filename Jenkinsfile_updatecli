@@ -25,7 +25,7 @@ pipeline {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           // updatecli(action: 'diff',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
           sh 'updatecli version'
-          sh 'updatecli diff --action diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
+          sh 'updatecli diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
         }
       }
     } // stage
@@ -37,7 +37,7 @@ pipeline {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           // updatecli(action: 'apply',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
           sh 'updatecli version'
-          sh 'updatecli apply --action diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
+          sh 'updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
         }
       }
     }
