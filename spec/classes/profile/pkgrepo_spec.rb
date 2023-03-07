@@ -20,14 +20,6 @@ describe 'profile::pkgrepo' do
   it { expect(subject).to contain_class 'apache' }
 
   context 'Ubuntu 18.04 Bionic' do
-    # let(:facts) {
-    #   :os => {
-    #     :distro => {
-    #       :codename => 'bionic'
-    #     },
-    #   },
-    # }
-
     it 'installs the createrepo(8) package on Ubuntu bionic with python set to 2.7' do
       expect(subject).to contain_package('createrepo').with({
         :ensure => :present,
