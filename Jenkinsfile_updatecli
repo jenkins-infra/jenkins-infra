@@ -23,7 +23,9 @@ pipeline {
       // Run updatecli's diff on both push and pull requests (in case a configuration change breaks updatecli)
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-          updatecli(action: 'diff',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
+          // updatecli(action: 'diff',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
+          sh 'updatecli version'
+          sh 'updatecli diff --action diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
         }
       }
     } // stage
@@ -33,7 +35,9 @@ pipeline {
       }
       steps {
         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-          updatecli(action: 'apply',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
+          // updatecli(action: 'apply',  config: './updatecli/weekly.d', cronTriggerExpression: cronExpr)
+          sh 'updatecli version'
+          sh 'updatecli apply --action diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
         }
       }
     }
