@@ -244,7 +244,7 @@ profile::jenkinscontroller::jcasc:
           96xw/pJ0oAMBH7Tt2wUpZozZ+XVF4urj6oh3WkggSHH3vbo2ooPYfcTWkqh0
           sDd6xAYpzxtCpXKnBDv1W5cMXyjdxMf2knvSO9UEVLhpT3FUtL5apoYAgbqo
           jbvFaVW+RV5IW/]
-        max_capacity: 66 # Max 22 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
+        max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc6NOxZbHKCrW0RtsyuKr+nWLkQe5373QWJyENhn2potG95WHOAMXIvptK4TVmj5+AUz05uv7rnji01I+c8RYFpdu7J3dEczLsUdCY9QMTtFngz7Z/GpXAszorvEobocOQdVWzw4Rg7jncJuNI1JfiMIA9KcVYOISuyF6VEQajb/ACcyDBeYoLD7K3V6uTDIDrChCvW0FvmYDFPhxt0TheX6AxWI/9/1DzCYdz8yvOtxiSAdXOvZ87yM58OdyRotzjRCX+5E2VhxyyJdI+myfoU3DKP1H1tAuOIBdubq8OZJaZv2SQTC/BVLTIl0Wr43kKhE3kg2UOcMUypIuGcmzvDB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCLrMYKsCzYfbJk8jdLB+5WgFBuB88xQ38Pl6SjAdHgCJxgwm0Ty9pFtJ/5OubJ9UaKrZfQtI9HmGkzIr8wq5CWPjPQ3ZZ9r7TIJBWITnOnFQWiUODb+x79K1SXa5US343uKg==]
         agent_definitions:
           - name: jnlp-maven-8
