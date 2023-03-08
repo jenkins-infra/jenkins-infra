@@ -1,0 +1,57 @@
+def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
+
+pipeline {
+  // `docker` and `updatecli` are required
+  agent { label 'linux-amd64-docker' }
+
+  options {
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+    timeout(time: 30, unit: 'MINUTES')
+    disableConcurrentBuilds()
+  }
+
+  triggers {
+    cron (cronExpr)
+  }
+
+  environment {
+    AWS_ACCESS_KEY_ID     = credentials('packer-aws-access-key-id')
+    AWS_SECRET_ACCESS_KEY = credentials('packer-aws-secret-access-key')
+    AWS_DEFAULT_REGION    = 'us-east-2'
+  }
+  stages {
+    stage('Check Configuration Update') {
+      // Run updatecli's diff on both push and pull requests (in case a configuration change breaks updatecli)
+      steps {
+        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+          withCredentials([
+            usernamePassword(
+            credentialsId: 'github-app-updatecli-on-jenkins-infra',
+            usernameVariable: 'USERNAME_VALUE', // Setting this variable is mandatory, even if of not used when the credentials is a githubApp one
+            passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
+            )
+          ]) {
+            sh 'updatecli version'
+            sh 'updatecli diff --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
+          }
+        }
+      }
+    } // stage
+    stage('Apply Configuration Update') {
+      when {
+        expression { env.BRANCH_IS_PRIMARY }
+      }
+      steps {
+          withCredentials([
+            usernamePassword(
+            credentialsId: 'github-app-updatecli-on-jenkins-infra',
+            usernameVariable: 'USERNAME_VALUE', // Setting this variable is mandatory, even if of not used when the credentials is a githubApp one
+            passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
+            )
+          ]) {
+            sh 'updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
+          }
+      }
+    }
+  }
+}
