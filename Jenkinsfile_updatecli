@@ -1,6 +1,7 @@
 def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
 
 pipeline {
+  // `docker` and `updatecli` are required
   agent { label 'linux-amd64-docker' }
 
   options {
