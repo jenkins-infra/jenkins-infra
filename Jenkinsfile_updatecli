@@ -42,7 +42,6 @@ pipeline {
         expression { env.BRANCH_IS_PRIMARY }
       }
       steps {
-        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
           withCredentials([
             usernamePassword(
             credentialsId: 'github-app-updatecli-on-jenkins-infra',
