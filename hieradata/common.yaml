@@ -242,7 +242,7 @@ profile::jenkinscontroller::jcasc:
         container_images:
             jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c44cd49b4ae652b71c8ee2cbac934e8bcf3d30d88206d90d38d037241f997734
             jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:a8705d53643fd94974ec9f8ebf279e28b23b4c93b8d98999026b97b27fd35b99
-            jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:9bedb1b142cf2f5e87797703ddb9cfe5177696fda8c4412a305552782773850c
+            jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:b25db08e7a02a9306797d3f081517381a41ccd117a545f6827b04c90a2e488f4
             jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:0fd20ae822e37cfecbf4ba6d62028b29b4610fcae43f73f2ccf815d8b9a24d57
             jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
             jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:907d39ed0d2684db1fb93fcdbc209b90ff92c5b74913bdb5bbfab93eeb5b3e2c
