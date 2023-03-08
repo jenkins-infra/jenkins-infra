@@ -51,7 +51,6 @@ pipeline {
           ]) {
             sh 'updatecli apply --config ./updatecli/weekly.d --values ./updatecli/values.yaml'
           }
-        }
       }
     }
   }
