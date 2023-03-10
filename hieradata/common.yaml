@@ -5,84 +5,84 @@
 apache::mpm_module: "event"
 ruby::rubygems_package: "rubygems-integration"
 accounts:
-    tyler:
-        ssh_keys:
-            kiwi:
-                key: AAAAB3NzaC1yc2EAAAABIwAAAQEAueiy12T5bvFhsc9YjfLc3aVIxgySd3gDxQWy/bletIoZL8omKmzocBYJ7F58U1asoyfWsy2ToTOY8jJp1eToXmbD6L5+xvHba0A7djYh9aQRrFam7doKQ0zp0ZSUF6+R1v0OM4nnWqK4n2ECIYd+Bdzrp+xA5+XlW3ZSNzlnW2BeWznzmgRMcp6wI+zQ9GMHWviR1cxpml5Z6wrxTZ0aX91btvnNPqoOGva976B6e6403FOEkkIFTk6CC1TFKwc/VjbqxYBg4kU0JhiTP+iEZibcQrYjWdYUgAotYbFVe5/DneHMLNsMPdeihba4PUwt62rXyNegenuCRmCntLcaFQ==
-            grape:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDTU0s5OKCC6VpKZGL9NJD4mNLY0AtujkVB1JkkuQ4OkMi2YGUHJtGhTbTwEVhNxpm0x2dM5KSzse6MLDYuGBW0qkE/VVuD9+9I73hbq461KqP0+WlupNh+Qc86kbiLBDv64+vWc+50mp1dbINpoM5xvaPYxgjnemydPv7vu5bhCHBugW7aN8VcLgfFgcp8vZCEanMtd3hIRjRU8v8Skk233ZGu1bXkG8iIOBQPabvEtZ0VDMg9pT3Q1R6lnnKqfCwHXd6zP6uAtejFSxvKRGKpu3OLGQMHwk7NlImVuhkVdaEFBq7pQtpOaGuP2eLKcN1wy5jsTYE+ZB6pvHCi2ecb
-        groups:
-            - sudo
-    kohsuke:
-        ssh_keys:
-            giffon:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCzBy1GEihAxSgrsEANgCxYwxS8Yy0U7cKq/1MMtr4/IrW2m2rzDcr4a7ZG/p/XrchCMn5eIekq1dYHsB0hY81iJr7jMZi7XbQx/LohF833YhIRctALpNzPunqBxZvOUVDib/dfX6LuoZTOojI/W5UPYrzAjyrjKMQvF5Mo0LaZ6eN1LElVaGzWExqO7mNkOrJY3IVurPu81mK4E+59FHTuB/oIawHUlxjMgBFPGKZBmb0cyVyViEmY6E78bNcN+frdSxZ72gcK/J7l1gfGz6YNQX6hKA+3v2O+/6pHf282W2hy0u4nw2DTs5NrsTnG8koiivilXC3VbhgVmQnUFKx5
-            sol:
-                key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
-            cucumber:
-                key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5tp6PrxFN9ecF2si/d+Vk5fqlXdXCCynNMObJwXMXAcqtqIKdVtRE2D4WR+q+IgkZAePaQGI2zojHjqUTRGgv3Jk8MUg8Vi/AgZaE4pWljrayYyw7qiEnx3sjmm3/CMOD4okCkQ32P1adoPVLrBSwDQTRomS40BnYlSjPqrU2khqyx/UzrPB6KB+PN6KEyDaKBQwwyJh8gceFN5TkMi+h6ZL2K7m1CPTBv/VaxiEBZ7PLJscOJJB/hIxPnvjnfKBxaszT6l8SObT3wyrHiN57BCKULAYnGge+GLtVqcjd0BoDl/FpEMbynGve5b3CQtqaw2yGYGBEeOe8eV4MSgL+Q==
-        groups:
-            - sudo
-    abayer:
-        ssh_keys:
-            abayer_laptop:
-                key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
-        groups:
-            - sudo
-    danielbeck:
-        ssh_keys:
-            servus14:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDb/Y8wjTRSo58wKuhqI54zpWan/tOX9auQGAMyTpjVG7OKyncSRRZkEtI7YVc3RCUdso+APuYN3W362nPm1dlocA46FYvRpDibSqP1XuknTvSLkA7smrM76fEFXonmnGcrfSZDCZfBsazK2xd8aFDpi1eYlDfJ/SNZOHIALAvzeBfalsrjs768w80XFzz9hZN+PYWgmH3t/tZZOz5dlrTJDQjo19egGwMu4HqgdZgYEglNYIVoJbbuGr+xvZ2TZosHQ0/CJtQcW9DCCSFaz1YNJwriJCv0gUbIX7V1+0rb8RXfZbhPXdh/AFn35HQlP1z4AmAsu9GW0/7kHWaNChxT
-            servus19:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDAUdJCbGRdioMnSD1gnHSMhTTX3vOpuVIv7R3fzHU0HXXyjbnOeskkFOLl4vt4GgL4Tf3DRZkxFqqFWAlOvR+WwkLQdfPikg+O1vxNY3hzvimYOe+L8UguhuDwoSLdYnl86ZdB/sz+CxQcQNSXCDlSEsEbJwkS8IFnWUQqvOfNiBn5z+PQ8f3XS0FjXedc2rb30Zy6mAzSi4PPTZj8xVE9TMBpX1qHg3Ln/YOIGDt9Fg+1insupfXYInPq6RxUfHANRRJOjrqO6sM4fHa/KVFnjzZxQBjVGrBFIhVaRfnNTUkFlUC2R5fhi5vaxzCGA/W/rHPvPQZ7uS0XL9ix7umT
-        groups:
-            - sudo
-    aheritier:
-        ssh_keys:
-            aheritier:
-                key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
-        groups:
-            - sudo
-    olblak:
-        ssh_keys:
-            oros:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3fajdGhdouy07qdycSZ39z9vADHV1TI04p3E6So4+47xR5bsi4Xylw8Xbd5mmrcFaEFJWXrzF3ryE2ufq7XlRxQk163qn8F+aWO434ENq7Ra3UyV9J2YWYQlYFC0v/Z1/N7gNZLADUP7g4E8+1lAJlTia6Pd8Z1a59jFArnl03MRBbo3yPosDoAXb7N5+Ad19FkjFnfYX13AK86NRkoY34JNfkPaA6n2u1iVX0GUeh8IV86+6q3WTU5nSwPJlYTMl4lzdO11VPoC3EupPYkBV8Rn1O1N6VDwCUGp8d/Tk1/kJhs9gP40kh5JeggHd+cP1X4rCellSnl9qhq5u1q5
-        groups:
-            - sudo
-    markewaite:
-        ssh_keys:
-            markewaite:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABgQCjfyyHgIygnhF/eRoeOwmHZ8VkmjNllLOCstF1+70BoKC+guy/itLQ5dDwS9phbwpI1oYO2v86ngzKkbXvJv642n1J7ydAhTL/DSdPkKfcmJLtmLtT0U+umo4S+ALeuqcLTByIVCe3BF45ILH3ky11gsAbSLJ2+Rptv0kt6NC7f+t/W8PblsWTaps4tQv7HHIMhPbXEs8Sri9QCxkqfnWP2ww5VcNr8g7CStBMYz7jrBdZuk+M0ov3fGrIqxAtBL29wDpgKt7LQIGYQYVu4pk4yh6TcLAOhruz9jdfvwmgzFsk5WMQOwvQ3zoJBGfXVLbAvmRWIGz1IGs5XytPmBSUooj3r3cuRbSPykWsV/IOd9YH1pi8oB5inT6g9LUDaTG50xJhhw3dLY6ZHkSl726EzqzAs5JKLeWK1CHSBsEmX7r81TzsVW0BtWZxH4RBK0HlKkGbv4bkW5iNSuHMthyxPDnvjkvo1sUqJJYyczfwuYUht1OjlJpl/cm/DABxV7c=
-        groups:
-            - sudo
-    timja:
-        ssh_keys:
-            timja:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3+OVLBXvHTHUdvNqi2LCibfBM7y3vMr0baRSj6UVPmSj4ypo9A11dCIR9wy+tytPG+Ty67RTPPsvMs5G2cvZO/V/044KIwQPVn47QNW9EhJSl7Ht0yLeqwm/ZKq/1+qHiZYDGM3l+yjibeGkwuqM1AWzHYP5JavdkvxancAL+ixCvwiWycwhPTAt5wMP6OVGYyDmyQQEVSCBGO0aEdE1WvA/9/et/SraE6f/rrR0fOhhDz537wlz3DoZoWTvz3CMFrtjfz/YRMZtvJoKFLhdsM0gSKoTLiknMC139kTFrNqPQoErrznoEF2rWRIERFj44EbeJtZQcE02mLbUwFkJ
-        groups:
-            - sudo
-    dduportal:
-        ssh_keys:
-            dduportal:
-                type: ecdsa-sha2-nistp256
-                key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
-        groups:
-            - sudo
-    hlemeur:
-        ssh_keys:
-            hlemeur:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCszWjPAxVCpF2vfNzrk8viS2vxZ3wntZ3MNJ8EajbdUHpDrLJuGbkDV5XhvA/HfKyboukIgMotO66hMSqShxMdCaNW/VmkAKak5zRY+/iai4vQC03rdlF8xpgeuIZMusDgubCE0MUGsmzo7Y6xzUJcjItAJz0CHM983bD1Fq+PIg7kjoYuQuaFvkR2XEACu292GoMV0kPSng3002wEOE7S8JpIQc+KvCtr/kUMPc8goNE4hY4cTDy8oziqgAjZgjCjRpHAinzPq6+OWMHpCwCliuo1jlJqRw6ncrHuBXDsKzY6Hft/fE0eRoO9CJzKqASh3ZGfE8sXJkF2aPlJVaD7ydjyU5+tMnSVp/WwdtQ5yDPcxMrtoW/uz8iKQxeXsDQCC5s5X8UbQDJyWD+Dx6Waw5GEFOn6RdJbyXZMLcwmL5gJkUw9YsrRavVekK7axwsRBSUVG49qN0IQcq2pSEyFb3F0FqWS6TA+YwF/xNHb7lOZ+mP4/5HvXXVdvcRV35U6kx5Cq1CKe6xgyhLbgnrHaZ0ZeCWIsr0taGIducXLm6U3BP7u0OTxMVVqFZzEYxMY+72kWsxKNBtGM8aALRiUsp8p9KSbhWioNlUF1kjAF+I4xDWN39khzvyajZKF7Ij20V+CMh/PIM6zDmsp/+6DyErrNR/vm5wtv8jEjsORhQ==
-        groups:
-            - sudo
-    smerle:
-        ssh_keys:
-            smerle:
-                key: AAAAB3NzaC1yc2EAAAADAQABAAAEAQDquUd7FEY8RNpqV0MgX5dV3HfIWCpOUyiWs21vmklPqIrlLFyX1O2Mt7sGPC3DGHEMIXLi+prz+YjdXHiEhcsoaA9Q0rE8nLrFLCVkmCzStNHebZrtzq2A82yQxGI0emEX4cpQqb6eQjdpWFilDQJ6wCtD3cUKZ8PPQkOyAzhEbhTD9OXA38vx71vKff0FEzdPk2R/ecHALHO8e4PqvEreXY/3OBzzPsynRxpX46CZWGLnDZ6lKXij2vTmPh/tmtLKJnhyyIx2WVWg52rUso5moX64xgkaExaW6qQpRHk82gcuygDld9g5oYa0NvvXjjO+Iwk4qOqo5MQ5Ifc089OTROL3fxUFaf2OWhRS3Fq0/vedZJEAfoVcdfyQKNTug1U7e9SIIyufMcRGMCWRoYmFty78jaqrigWHXVZVe0pi1PikZ1YKssOGp0Y66UQ8TveUQY8UzTbfhqS/GGHxy0OOd05UaaIdMoai6vei39MoMYPdXZqhuDQRrAyIJeIsjC+ymz+AIejMG1EvsothqF3TibzvAoth9lOoGdNX0zTCsIITinBGXAeqQwQA+a3Ys4LpOPNTOCZodRj6Wa965ipggfEXmdRuAEzl3Ys7EwrWZgXJ3SBCsRHMUvgd8BE+YVXKfD0cYhNHGjDGuv/lQRYIOi7fgBAuuX4Wspdb8Cgai/3ojYXHOCAgdnM2LvFM6Xd2YYkUEAwoClDiV/CDz0zaY0Pr71NETHjsP3ZZstnmYAnkWARt+6EeJImsVrBTSxA/2GxXQaDXrSxdwt3t2rBz4y4cknFj5CQtIQ6+1o9nJmBGO0utBp1qB5XaQ1Ye3Pdf031Vtkb/hOiZcFMB0krUGQAzDbImg5mrgqhbWOq5sLjw5zIEjc9vbjGrOZ+xRG+zzPv2vWpFC8fGmoiziUHc1EJ/DCXD3PWqNUhg7P3gWBUp4yAAg+cjf+EWMrCa/DnL5rDqC/c9T0UeBP8EsqmLm21ue7n4BkWrgZ5x9K+HEMnZc18ucaqB3yrviX6ePOU+CEECO7vAujqAfDnnwclztTmoc3U0cK8Ucmy1FVogK2qdLNAIZnKXmypDabChnQ3fi2bfshA8s5VpV2lCJJcI9jUeCNp28xqfXrcaJDTHlFrKwtKu2gGQafAyCDr/CCjJY4cyAuuv5hoLsV6GS4XtV28cbTzcFdLcVegqQEIDKV8O77LCIKOVVhMWEyyJQaHaIBjiiYZ1ImDeGnZw9h5uhvcYIA7Gy2GLvgd/bpJas3w3ZK24EOL2j4TFdxFAiHkfa0zOKjKiCbI+ZIU0kJdNqjxyg+jSaXhFg1ZXxTvF7RwvoHG0sXad1v+nlD0BlNzfX5os37FfJSoLbem2tXcd
-            smerle-secretive:
-                type: ecdsa-sha2-nistp256
-                key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC4F10XloU9fqyO2L+U+TAOfUCeaQBG6FaUylIdMl2IwJehK3lS+Ut81/SPmBeiuNN3sPdXDOX5Ycii7L88AVT4=
-        groups:
-            - sudo
+  tyler:
+    ssh_keys:
+      kiwi:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAQEAueiy12T5bvFhsc9YjfLc3aVIxgySd3gDxQWy/bletIoZL8omKmzocBYJ7F58U1asoyfWsy2ToTOY8jJp1eToXmbD6L5+xvHba0A7djYh9aQRrFam7doKQ0zp0ZSUF6+R1v0OM4nnWqK4n2ECIYd+Bdzrp+xA5+XlW3ZSNzlnW2BeWznzmgRMcp6wI+zQ9GMHWviR1cxpml5Z6wrxTZ0aX91btvnNPqoOGva976B6e6403FOEkkIFTk6CC1TFKwc/VjbqxYBg4kU0JhiTP+iEZibcQrYjWdYUgAotYbFVe5/DneHMLNsMPdeihba4PUwt62rXyNegenuCRmCntLcaFQ==
+      grape:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDTU0s5OKCC6VpKZGL9NJD4mNLY0AtujkVB1JkkuQ4OkMi2YGUHJtGhTbTwEVhNxpm0x2dM5KSzse6MLDYuGBW0qkE/VVuD9+9I73hbq461KqP0+WlupNh+Qc86kbiLBDv64+vWc+50mp1dbINpoM5xvaPYxgjnemydPv7vu5bhCHBugW7aN8VcLgfFgcp8vZCEanMtd3hIRjRU8v8Skk233ZGu1bXkG8iIOBQPabvEtZ0VDMg9pT3Q1R6lnnKqfCwHXd6zP6uAtejFSxvKRGKpu3OLGQMHwk7NlImVuhkVdaEFBq7pQtpOaGuP2eLKcN1wy5jsTYE+ZB6pvHCi2ecb
+    groups:
+      - sudo
+  kohsuke:
+    ssh_keys:
+      giffon:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCzBy1GEihAxSgrsEANgCxYwxS8Yy0U7cKq/1MMtr4/IrW2m2rzDcr4a7ZG/p/XrchCMn5eIekq1dYHsB0hY81iJr7jMZi7XbQx/LohF833YhIRctALpNzPunqBxZvOUVDib/dfX6LuoZTOojI/W5UPYrzAjyrjKMQvF5Mo0LaZ6eN1LElVaGzWExqO7mNkOrJY3IVurPu81mK4E+59FHTuB/oIawHUlxjMgBFPGKZBmb0cyVyViEmY6E78bNcN+frdSxZ72gcK/J7l1gfGz6YNQX6hKA+3v2O+/6pHf282W2hy0u4nw2DTs5NrsTnG8koiivilXC3VbhgVmQnUFKx5
+      sol:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
+      cucumber:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAQEA5tp6PrxFN9ecF2si/d+Vk5fqlXdXCCynNMObJwXMXAcqtqIKdVtRE2D4WR+q+IgkZAePaQGI2zojHjqUTRGgv3Jk8MUg8Vi/AgZaE4pWljrayYyw7qiEnx3sjmm3/CMOD4okCkQ32P1adoPVLrBSwDQTRomS40BnYlSjPqrU2khqyx/UzrPB6KB+PN6KEyDaKBQwwyJh8gceFN5TkMi+h6ZL2K7m1CPTBv/VaxiEBZ7PLJscOJJB/hIxPnvjnfKBxaszT6l8SObT3wyrHiN57BCKULAYnGge+GLtVqcjd0BoDl/FpEMbynGve5b3CQtqaw2yGYGBEeOe8eV4MSgL+Q==
+    groups:
+      - sudo
+  abayer:
+    ssh_keys:
+      abayer_laptop:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
+    groups:
+      - sudo
+  danielbeck:
+    ssh_keys:
+      servus14:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDb/Y8wjTRSo58wKuhqI54zpWan/tOX9auQGAMyTpjVG7OKyncSRRZkEtI7YVc3RCUdso+APuYN3W362nPm1dlocA46FYvRpDibSqP1XuknTvSLkA7smrM76fEFXonmnGcrfSZDCZfBsazK2xd8aFDpi1eYlDfJ/SNZOHIALAvzeBfalsrjs768w80XFzz9hZN+PYWgmH3t/tZZOz5dlrTJDQjo19egGwMu4HqgdZgYEglNYIVoJbbuGr+xvZ2TZosHQ0/CJtQcW9DCCSFaz1YNJwriJCv0gUbIX7V1+0rb8RXfZbhPXdh/AFn35HQlP1z4AmAsu9GW0/7kHWaNChxT
+      servus19:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDAUdJCbGRdioMnSD1gnHSMhTTX3vOpuVIv7R3fzHU0HXXyjbnOeskkFOLl4vt4GgL4Tf3DRZkxFqqFWAlOvR+WwkLQdfPikg+O1vxNY3hzvimYOe+L8UguhuDwoSLdYnl86ZdB/sz+CxQcQNSXCDlSEsEbJwkS8IFnWUQqvOfNiBn5z+PQ8f3XS0FjXedc2rb30Zy6mAzSi4PPTZj8xVE9TMBpX1qHg3Ln/YOIGDt9Fg+1insupfXYInPq6RxUfHANRRJOjrqO6sM4fHa/KVFnjzZxQBjVGrBFIhVaRfnNTUkFlUC2R5fhi5vaxzCGA/W/rHPvPQZ7uS0XL9ix7umT
+    groups:
+      - sudo
+  aheritier:
+    ssh_keys:
+      aheritier:
+        key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
+    groups:
+      - sudo
+  olblak:
+    ssh_keys:
+      oros:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDD3fajdGhdouy07qdycSZ39z9vADHV1TI04p3E6So4+47xR5bsi4Xylw8Xbd5mmrcFaEFJWXrzF3ryE2ufq7XlRxQk163qn8F+aWO434ENq7Ra3UyV9J2YWYQlYFC0v/Z1/N7gNZLADUP7g4E8+1lAJlTia6Pd8Z1a59jFArnl03MRBbo3yPosDoAXb7N5+Ad19FkjFnfYX13AK86NRkoY34JNfkPaA6n2u1iVX0GUeh8IV86+6q3WTU5nSwPJlYTMl4lzdO11VPoC3EupPYkBV8Rn1O1N6VDwCUGp8d/Tk1/kJhs9gP40kh5JeggHd+cP1X4rCellSnl9qhq5u1q5
+    groups:
+      - sudo
+  markewaite:
+    ssh_keys:
+      markewaite:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABgQCjfyyHgIygnhF/eRoeOwmHZ8VkmjNllLOCstF1+70BoKC+guy/itLQ5dDwS9phbwpI1oYO2v86ngzKkbXvJv642n1J7ydAhTL/DSdPkKfcmJLtmLtT0U+umo4S+ALeuqcLTByIVCe3BF45ILH3ky11gsAbSLJ2+Rptv0kt6NC7f+t/W8PblsWTaps4tQv7HHIMhPbXEs8Sri9QCxkqfnWP2ww5VcNr8g7CStBMYz7jrBdZuk+M0ov3fGrIqxAtBL29wDpgKt7LQIGYQYVu4pk4yh6TcLAOhruz9jdfvwmgzFsk5WMQOwvQ3zoJBGfXVLbAvmRWIGz1IGs5XytPmBSUooj3r3cuRbSPykWsV/IOd9YH1pi8oB5inT6g9LUDaTG50xJhhw3dLY6ZHkSl726EzqzAs5JKLeWK1CHSBsEmX7r81TzsVW0BtWZxH4RBK0HlKkGbv4bkW5iNSuHMthyxPDnvjkvo1sUqJJYyczfwuYUht1OjlJpl/cm/DABxV7c=
+    groups:
+      - sudo
+  timja:
+    ssh_keys:
+      timja:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3+OVLBXvHTHUdvNqi2LCibfBM7y3vMr0baRSj6UVPmSj4ypo9A11dCIR9wy+tytPG+Ty67RTPPsvMs5G2cvZO/V/044KIwQPVn47QNW9EhJSl7Ht0yLeqwm/ZKq/1+qHiZYDGM3l+yjibeGkwuqM1AWzHYP5JavdkvxancAL+ixCvwiWycwhPTAt5wMP6OVGYyDmyQQEVSCBGO0aEdE1WvA/9/et/SraE6f/rrR0fOhhDz537wlz3DoZoWTvz3CMFrtjfz/YRMZtvJoKFLhdsM0gSKoTLiknMC139kTFrNqPQoErrznoEF2rWRIERFj44EbeJtZQcE02mLbUwFkJ
+    groups:
+      - sudo
+  dduportal:
+    ssh_keys:
+      dduportal:
+        type: ecdsa-sha2-nistp256
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
+    groups:
+      - sudo
+  hlemeur:
+    ssh_keys:
+      hlemeur:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCszWjPAxVCpF2vfNzrk8viS2vxZ3wntZ3MNJ8EajbdUHpDrLJuGbkDV5XhvA/HfKyboukIgMotO66hMSqShxMdCaNW/VmkAKak5zRY+/iai4vQC03rdlF8xpgeuIZMusDgubCE0MUGsmzo7Y6xzUJcjItAJz0CHM983bD1Fq+PIg7kjoYuQuaFvkR2XEACu292GoMV0kPSng3002wEOE7S8JpIQc+KvCtr/kUMPc8goNE4hY4cTDy8oziqgAjZgjCjRpHAinzPq6+OWMHpCwCliuo1jlJqRw6ncrHuBXDsKzY6Hft/fE0eRoO9CJzKqASh3ZGfE8sXJkF2aPlJVaD7ydjyU5+tMnSVp/WwdtQ5yDPcxMrtoW/uz8iKQxeXsDQCC5s5X8UbQDJyWD+Dx6Waw5GEFOn6RdJbyXZMLcwmL5gJkUw9YsrRavVekK7axwsRBSUVG49qN0IQcq2pSEyFb3F0FqWS6TA+YwF/xNHb7lOZ+mP4/5HvXXVdvcRV35U6kx5Cq1CKe6xgyhLbgnrHaZ0ZeCWIsr0taGIducXLm6U3BP7u0OTxMVVqFZzEYxMY+72kWsxKNBtGM8aALRiUsp8p9KSbhWioNlUF1kjAF+I4xDWN39khzvyajZKF7Ij20V+CMh/PIM6zDmsp/+6DyErrNR/vm5wtv8jEjsORhQ==
+    groups:
+      - sudo
+  smerle:
+    ssh_keys:
+      smerle:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAAEAQDquUd7FEY8RNpqV0MgX5dV3HfIWCpOUyiWs21vmklPqIrlLFyX1O2Mt7sGPC3DGHEMIXLi+prz+YjdXHiEhcsoaA9Q0rE8nLrFLCVkmCzStNHebZrtzq2A82yQxGI0emEX4cpQqb6eQjdpWFilDQJ6wCtD3cUKZ8PPQkOyAzhEbhTD9OXA38vx71vKff0FEzdPk2R/ecHALHO8e4PqvEreXY/3OBzzPsynRxpX46CZWGLnDZ6lKXij2vTmPh/tmtLKJnhyyIx2WVWg52rUso5moX64xgkaExaW6qQpRHk82gcuygDld9g5oYa0NvvXjjO+Iwk4qOqo5MQ5Ifc089OTROL3fxUFaf2OWhRS3Fq0/vedZJEAfoVcdfyQKNTug1U7e9SIIyufMcRGMCWRoYmFty78jaqrigWHXVZVe0pi1PikZ1YKssOGp0Y66UQ8TveUQY8UzTbfhqS/GGHxy0OOd05UaaIdMoai6vei39MoMYPdXZqhuDQRrAyIJeIsjC+ymz+AIejMG1EvsothqF3TibzvAoth9lOoGdNX0zTCsIITinBGXAeqQwQA+a3Ys4LpOPNTOCZodRj6Wa965ipggfEXmdRuAEzl3Ys7EwrWZgXJ3SBCsRHMUvgd8BE+YVXKfD0cYhNHGjDGuv/lQRYIOi7fgBAuuX4Wspdb8Cgai/3ojYXHOCAgdnM2LvFM6Xd2YYkUEAwoClDiV/CDz0zaY0Pr71NETHjsP3ZZstnmYAnkWARt+6EeJImsVrBTSxA/2GxXQaDXrSxdwt3t2rBz4y4cknFj5CQtIQ6+1o9nJmBGO0utBp1qB5XaQ1Ye3Pdf031Vtkb/hOiZcFMB0krUGQAzDbImg5mrgqhbWOq5sLjw5zIEjc9vbjGrOZ+xRG+zzPv2vWpFC8fGmoiziUHc1EJ/DCXD3PWqNUhg7P3gWBUp4yAAg+cjf+EWMrCa/DnL5rDqC/c9T0UeBP8EsqmLm21ue7n4BkWrgZ5x9K+HEMnZc18ucaqB3yrviX6ePOU+CEECO7vAujqAfDnnwclztTmoc3U0cK8Ucmy1FVogK2qdLNAIZnKXmypDabChnQ3fi2bfshA8s5VpV2lCJJcI9jUeCNp28xqfXrcaJDTHlFrKwtKu2gGQafAyCDr/CCjJY4cyAuuv5hoLsV6GS4XtV28cbTzcFdLcVegqQEIDKV8O77LCIKOVVhMWEyyJQaHaIBjiiYZ1ImDeGnZw9h5uhvcYIA7Gy2GLvgd/bpJas3w3ZK24EOL2j4TFdxFAiHkfa0zOKjKiCbI+ZIU0kJdNqjxyg+jSaXhFg1ZXxTvF7RwvoHG0sXad1v+nlD0BlNzfX5os37FfJSoLbem2tXcd
+      smerle-secretive:
+        type: ecdsa-sha2-nistp256
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC4F10XloU9fqyO2L+U+TAOfUCeaQBG6FaUylIdMl2IwJehK3lS+Ut81/SPmBeiuNN3sPdXDOX5Ycii7L88AVT4=
+    groups:
+      - sudo
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
@@ -90,29 +90,29 @@ letsencrypt::renew_cron_ensure: "present"
 letsencrypt::renew_cron_minute: 0
 letsencrypt::renew_cron_hour: 6
 profile::archives::rsync_hosts_allow:
-    - localhost
-    - archives.jenkins.io
-    - 52.177.88.13 # publick8s outbound IP
-    - 20.75.10.224/29 # publick8s additionnal outboun IP range
-    - pkg.origin.jenkins.io
-    - get.jenkins.io
-    - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
+  - localhost
+  - archives.jenkins.io
+  - 52.177.88.13 # publick8s outbound IP
+  - 20.75.10.224/29 # publick8s additionnal outboun IP range
+  - pkg.origin.jenkins.io
+  - get.jenkins.io
+  - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
 profile::archives::ssh_authorized_keys:
-    - id: "hudson@cucumber"
-      type: "ssh-rsa"
-      user: "mirrorsync"
-      key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAD96VJ0qA8YXsX0f1SezuhIL/TAKV6cl2jn6Had34o+jG4+POgJmG9rmdl4Jx9/NAQ/qTjjCkn/jf3j/YxuedISvg3C91N/fWNntlMG7jZn8yaizSsmgX73ucdbzQHUZcPfNeEDOS4nRtRyefrwsky6pm1ka1pVxPZW8Q2cSt1fVBGI/WYFwrIZCX6bhjMKCPXr6qQ/UwoB++Fi2muZmi2SdHX45xrAx7NZEi2MTI+a6W2hTpqro4bMRpewViHv9MdPr1qHpm6/ULGuDn61keGY4b3VO/lRB5/SxkFlvexcb+2IQN9mgVbblYs8KFo0zuwdDL1mj9l3VZHR4YovApvzCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOqV/eZ2QSNy3gqJX5OADV+AggGAUdQRzQa6u3Ir4e6rVGqgg4baQlrJtNsXUDeZC43QEChhrszCo8BcOExUe9fcRieI+lppYpSyWUeCOxYM1eF8FsTW+w6NynH1mbIvsEU3l9gf4AeZqf8luhXD7bkCf6UYclMgFjmUrOucStBpnu1t5YM+HmtVYk3L2zB6mKYSGxJZQc1hPzGKP531SG9qXU44ImfRODs0PyZ/NzJuUHokA/Fn10RXzFtMNDew8ntgrJnCmog7Wg//VOpjRLjiQgH0fHtTa7S1fks4om9sllPZB/msqblek3h1nVyzZEK2uBp0xqZvajIfIri0DO6G5JGyyGPcnqvJ7cgv1RDbMjXplkOwF4yah0F4VfZbk0scTBRjoIE0zUEEQpvSSkVRrzziEhUl0Nz1mo6lyRGsiGlw93BmNIPL8L1XP1/yYz6aufKBk2gXRQw8K+SCVRUTAOwrqPO8puvnajotdZYMzl6NUPFL5fuMgGxOZYTNlFHTS9r+iQTi2dM+efzZREf5UIYt]
-    - id: "root@cucumber"
-      type: "ssh-rsa"
-      user: "mirrorsync"
-      key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAofqALmmWsVqUkK/xIGRWlV5wiPETeRHJ9DrdujE6LCZrLchaYVph9F1orC4vA9CkzoS9Nx0sMklV9eT9pxdlowjw6th+VytsT8pOXjFhXAOeVVu8HO2AADkxFiEuvo00ciGXisT+e3yvzM1gJKMeKmvpqjCnEOT+7LvnfvZu8pnR5HQMAz1VBzywx7vjkXqhQkRc/ZP/anTsDUcWWSvubcuzCKvLOP4/mFSn7DSMtKEE52vnsbmuT13KuzODz6iCdY1/u3wa8s/sKZcJOH1P3tD2+om/wR4hLK94Vvna7LoEcSXTuFcBoSPuxcY8Dwacv35NKHtBYHkyqWX2x/E0hDCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOenRinQqd71ZBdZGEMXaLqAggGAFg6JcB+g4hlzaMYb5AsM9HYH4iSNaVzL7lHpYiqi6pFbFUNpy7XsY8qqiKn/HIJNNDr365ViJcmrFBTIj5BfKNasZlXe8VSDk6YNx5MCCn/LJPZcUCLAtflDQh+Y3keOJytj/WcGXsC0MVGZ1nJmBUGH13VEZCSk8Fb7KmdhLbxIngpAIqutNaQoImRlV75pfw4TvM35+vJKoJlq7uPWEtYyONgCf3uNdJJms1URgx6rbNKbAo8kL2Y+4oWiOyqt6Wt2xC6HHWxCnm/+MdMpBUJdc7Jhz4RP3Ye4kllsL3zVryBvLK2LEHQbk6QhPDBw2kUJlEJvc3grdY3vDQEeDMQtQhoH2lTIseCIRtCjia0UOCxkE6p8UQ2icc3hWipPw0xk6Fg7iDBNBASMV+kmNzcCFghmTB+nPdl6OW9c5ZJJeqeHt3PtrT8ig43YHEGUqCgd3KnStR62afol7iY4ak+k8m/P7rUCzzKm0pGSL+PaaepfCXKe5kQF4txUvRy2]
+  - id: "hudson@cucumber"
+    type: "ssh-rsa"
+    user: "mirrorsync"
+    key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAD96VJ0qA8YXsX0f1SezuhIL/TAKV6cl2jn6Had34o+jG4+POgJmG9rmdl4Jx9/NAQ/qTjjCkn/jf3j/YxuedISvg3C91N/fWNntlMG7jZn8yaizSsmgX73ucdbzQHUZcPfNeEDOS4nRtRyefrwsky6pm1ka1pVxPZW8Q2cSt1fVBGI/WYFwrIZCX6bhjMKCPXr6qQ/UwoB++Fi2muZmi2SdHX45xrAx7NZEi2MTI+a6W2hTpqro4bMRpewViHv9MdPr1qHpm6/ULGuDn61keGY4b3VO/lRB5/SxkFlvexcb+2IQN9mgVbblYs8KFo0zuwdDL1mj9l3VZHR4YovApvzCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOqV/eZ2QSNy3gqJX5OADV+AggGAUdQRzQa6u3Ir4e6rVGqgg4baQlrJtNsXUDeZC43QEChhrszCo8BcOExUe9fcRieI+lppYpSyWUeCOxYM1eF8FsTW+w6NynH1mbIvsEU3l9gf4AeZqf8luhXD7bkCf6UYclMgFjmUrOucStBpnu1t5YM+HmtVYk3L2zB6mKYSGxJZQc1hPzGKP531SG9qXU44ImfRODs0PyZ/NzJuUHokA/Fn10RXzFtMNDew8ntgrJnCmog7Wg//VOpjRLjiQgH0fHtTa7S1fks4om9sllPZB/msqblek3h1nVyzZEK2uBp0xqZvajIfIri0DO6G5JGyyGPcnqvJ7cgv1RDbMjXplkOwF4yah0F4VfZbk0scTBRjoIE0zUEEQpvSSkVRrzziEhUl0Nz1mo6lyRGsiGlw93BmNIPL8L1XP1/yYz6aufKBk2gXRQw8K+SCVRUTAOwrqPO8puvnajotdZYMzl6NUPFL5fuMgGxOZYTNlFHTS9r+iQTi2dM+efzZREf5UIYt]
+  - id: "root@cucumber"
+    type: "ssh-rsa"
+    user: "mirrorsync"
+    key: ENC[PKCS7,MIIC7QYJKoZIhvcNAQcDoIIC3jCCAtoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAofqALmmWsVqUkK/xIGRWlV5wiPETeRHJ9DrdujE6LCZrLchaYVph9F1orC4vA9CkzoS9Nx0sMklV9eT9pxdlowjw6th+VytsT8pOXjFhXAOeVVu8HO2AADkxFiEuvo00ciGXisT+e3yvzM1gJKMeKmvpqjCnEOT+7LvnfvZu8pnR5HQMAz1VBzywx7vjkXqhQkRc/ZP/anTsDUcWWSvubcuzCKvLOP4/mFSn7DSMtKEE52vnsbmuT13KuzODz6iCdY1/u3wa8s/sKZcJOH1P3tD2+om/wR4hLK94Vvna7LoEcSXTuFcBoSPuxcY8Dwacv35NKHtBYHkyqWX2x/E0hDCCAa4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEEOenRinQqd71ZBdZGEMXaLqAggGAFg6JcB+g4hlzaMYb5AsM9HYH4iSNaVzL7lHpYiqi6pFbFUNpy7XsY8qqiKn/HIJNNDr365ViJcmrFBTIj5BfKNasZlXe8VSDk6YNx5MCCn/LJPZcUCLAtflDQh+Y3keOJytj/WcGXsC0MVGZ1nJmBUGH13VEZCSk8Fb7KmdhLbxIngpAIqutNaQoImRlV75pfw4TvM35+vJKoJlq7uPWEtYyONgCf3uNdJJms1URgx6rbNKbAo8kL2Y+4oWiOyqt6Wt2xC6HHWxCnm/+MdMpBUJdc7Jhz4RP3Ye4kllsL3zVryBvLK2LEHQbk6QhPDBw2kUJlEJvc3grdY3vDQEeDMQtQhoH2lTIseCIRtCjia0UOCxkE6p8UQ2icc3hWipPw0xk6Fg7iDBNBASMV+kmNzcCFghmTB+nPdl6OW9c5ZJJeqeHt3PtrT8ig43YHEGUqCgd3KnStR62afol7iY4ak+k8m/P7rUCzzKm0pGSL+PaaepfCXKe5kQF4txUvRy2]
 irc::irc_server: ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAg/IMh30AaTVOJqBSUwZ9q7ijpmxoS/rS2GyWkXZ9qnhCi2B0O1U1Ds+BSpsAszxA3Qf67tl7OkmfTyV7xDNjSfVlHuGbgJ5yRkOphndcO5tCd+ssFRXROROeHVJBhn64S11ayL4LSyx9zn6Nqk4SnUjZ9zKmS1KGGl3fjFLygI+3q8rPuv+ebSKFUiwXUUWPsPoTUPcxV9950npYiP5yaOJN9y7QJ8XqlA9cNU27cubgZJFxYRfReCa0zG12K6c+ordmc85R+Fp4ZJnPIuOVS4A6xS/x5a3EJz/qWdBZYCUjmrk+qmiMrp7mgc+EHKOAkmrdA+yZbWnYhv8PalufiDCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQYE9nAbni14xjBa6uM+gtOYBggqa4FnMWQ3eObLB5eu+Vje5vCo14q/bWY0uqio9aRO6pIEsKaBVE/DnF0VWuV9tqTcD3LInqpvS1g8cgcgLp8Z0chmQoZSGxdBGhTFkRGO0z+TJY1zXixeUedzp/K2Ly]
 irc::irc_join: true
 irc::use_ssl: true
 irc::timeout: 20
 ntp::autoupdate: true
 ntp::servers:
-    - pool.ntp.org iburst
+  - pool.ntp.org iburst
 apache::keepalive: "On"
 apache::keepalive_timeout: 3
 apache::server_tokens: "Prod"
@@ -133,7 +133,7 @@ profile::jenkinsadmin::nick_password: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYC
 profile::jenkinsadmin::image_tag: "64-build32db94"
 # Key that Jenkins uses to push bits into OSUOSL
 profile::jenkins::mirroring_privkey: |
-    ENC[PKCS7,MIIIPQYJKoZIhvcNAQcDoIIILjCCCCoCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAFPo9oXU0G0VBmnMY3Sr9Zlxq4wiYmoCSyyLha79mzjgcSccPrnN7U/CEUjYtvJO5DmpAz+COkLWdMteF3oapZd5GYOejH94VS4UnsRXTekCZHjADxi7gQDBoTPu3NoHUV2hETDTNRZrqiTj4FZsndAnHQpzDQB2lXt3pQBwBvKBjzDwv7nwynC8OqPpIWrQto2eyoj64K6pw2XEpdXE3I/a73soQt9Pc7mPFlV88knm+wJWUzUAfwiTA2GQEWC5Ar5VpClflVOYgFtbhqLN795xb4+1e89EW9aX5hozsZS1jIvm8ul+IGNjv/7gCSh8bTeyiS1FpCwp9dxnFNhaVcTCCBv4GCSqGSIb3DQEHATAdBglghkgBZQMEASoEENE515lcS6WDFC7bgddJJAaAggbQFDf2I4H9VtcgI/zmXUkv40pdrWXBm5n55/TzKkoXTzJ/t1oobAZ2g5C/u0xhYed7BoMp9yyWCeatf9DtC2Hcn6IDHzb2fc7GWZsOLSeODi3L1UIqcqBk21JXOVqiBZGztfdXc3DMc9MAG1LR+MjLCoNbBgcljfj83e/iYC06fJkK55uTbCVQKeKVIfqq0JdX5fpGYOVho4p/as9C+1TiCFPfeWF9qVgOcPB2UgqUNC/Ip/oSAED5e4RK91xPEWGtpKqdjelG6BZ2uggukhijnbQhNXWyslPpaRLev/miB6QGUKseT9RD7awgS4rViMcVuHj9pJys8Pq6gV8Q623zjJ392OUbMtC6wd4K8FYT51yjLs/IZ6RfRFHQ4+e76L0x5pYVjPxjUkg4qQ2R1LR/Fx9sJ56CzPwZVLZMwR/lCySH2N1qWkuvRoUwbjOuUZPtHNlScuENLx42oc3sRmTTvowC2byWR4xHg/GNBla5l/uHszpO29ttbKzgZGworoUkHfFzIsms4PX2t8NscJZNki74B1Yq0Gnb+2ZakJf/ZEc/6lHlYsydSXfjG9SJT1+3JupxBu7sPKwhoWKRnNsiVvA3OCjZC1j1bXjv/iO9hzPhZqmSMV1cAXSnwYh9zZ57asSsn9Rj6o4VRVr9snEvvj6xIxQ+ge43r2K6q/dqLB6VV4q2IYti3nO8Cm60cajAWiMM44X3H/eOB3IIUhVNerwQ2rNA1krzq531FWEUEhKT7p0dxbstKh3scv/y0W5JBax+uQHPIzk25CT01NQG8r+xBlf+oLnLBLbXSqKmvbtbR+ttJUiP2+Gk6YoP18tka7ohNt0l5oBEIsckAu9e6J71bk/WSIJuf2wryiSIlaQFGO4vA75KfrP5czTeb2/P22R5bhNIwjFEu1txNvAlcsamRw3WHvesp9nG56f507zEw5YbnJvhQz15WBMEFrDrSIOtUmFVt4dnK39KOXiZKfhIaxS7SQXH4y57bhyXSML3GvC6qTbCfRm7n91iNueZ7Fp21G7SZwFe7T4iXuGLkTIpUYfKUVOAF6UJUWMgZh28oaxiJxV2IRl3VQARO2laqVEuc/FlGnPlGGt5cysvzPfUyLCpP8GfJAZwZOzZ626BAN9yY/1NDrvsak/Y26E91deuN1VUiamlTSijlSTzVgFKzNcvXjsXlAskFfBStSUkKff67HAYsh9uqgqf3LPm++fHl9B8hWNoMOc2QOOiQUliTD66Rsq51Ai9QwIpwA392tF4g8k9xLIPN+sBWMbFVC+xvwRCAClmy2dbG4h52BS4oW7K0FOgqZHw14jxG0vQAAIx2KlPZtar3tUD3b8q9u62GdzD+pEEpxsVHdQSxBYyeQbMQQ+5ZZWIRTCAmMCbE3F+DZVdpdDWFiS4DjwKr9A6hVsDsxWKmA0hBwKH3pwpCjmJx6dU5wXS6/EUOK+wd2xZHYykw944wS2JTv1X0TJamkf1oE9+q/j4XF39flsYMMydJiNNHoHwUgv2aj0eCTkwhAM2+rBqB6SFF30JER2qBfVGBPdrCIKKp/KU+opfWoU/8MjUJsQGblOlK9iPSlbOd5CJNr261kV4KF0zJ7rguW28bh7E6UmzOSSzjO3erXUIzALszVhcK0rTxFG54lkKe7WpfBXFOnoji5a0A0dOr92R6B7eF5UQYQNFLaw+dRIneUQ+R/xW3e82OM/06bj3OUKFkK0b0yqkW3a9mNMS0lzaEo8DV0W0NWzo7xc4tqDZOdaYeXzRyLX07+R4fVX/KpCOrB36Ys2UVnuSV/8vHjEZL09ImKqj9N97+bmCX6OqokySHQtmhJhgb6yjcd+lOYq6NOkJLD7SlyjhRsC2qhwnKmd+rjgTN9DdZowu2xFXHVW1IP0JmDsJZyEtdn6cAM7QW3DxKhRivDnqyDoiLYlqOgofzpKu/UHZRcFwY+kUXQA0Sb0mX1c57IFwQ3zbT9lA06euiHq2PUBv60k/3BSGk7kMPVTzhram9SvRLzkCXGWeksv0KOmZR71puX/hMLWiC2qpDQAVBIZ7h8IJNSQ5o/cazKYJTQznEX+fK6PW8TZyoHzYJvJU+bCUlMBv8F+Xvu8gpLj4gwpgNZDJ3J+aFzaj0kgBMYLIWUdkLSBRVR/yMALmDiM0LfCFx9pJNB1nPS8FX/NyFpx4S3VbjDuD6wWOgXUqRPVjAvGcaeTUwfZjj44CcF4S6rYZAH3zT/2P4kzK5BcitrsZ788rJ9GHdpiE7o2t0t5YbK3jRBc5Hsj5JzPeWnOfWDAx8Wd53ExleQ7KHGhFLyns9faQ7BiXCgMiKg317j4lNw==]
+  ENC[PKCS7,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]
 profile::jenkins::mirroring_pubkey: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKfSNpGdxkoCsQBzoiw7Gjq6J/DtjbVCgpD166YKFkWh4ae8YT2sA1ozdAreXHviIJrK8WbHfcz6zG+UtyjscTMCewC6NAQpdQGsFr53/eebD7s/5IY14ZXAtJrF2raWR5cknodCPO3pfxBusK51dw5vFerp53l57ExFcrfIIOfLGf0GCt/VrexWY8OlIk2fep724IAHRMRIwUV+QIDE5Jh5MzY5cgAoVwJWfPzGZtPsiIHJZ6NVYkqOVFAfddaj6H5CUolaQsYkM63XCwefSrsLP3pJDhCAvLnPeQkkHDaybYEIaBRt6tc5jxCxdDHlG+CT8v8aPjBV0C2hG4TB3T jenkins@jenkins-on-jenkins.2016"
 profile::l10n_server::image_tag: "3a5429b"
 profile::robobutler::nick: robobutler
@@ -143,128 +143,128 @@ datadog_agent::process_enabled: true
 datadog_agent::logs_enabled: true
 datadog_agent::container_collect_all: true
 datadog_agent::integrations:
-    disk:
-        init_config: {}
-        instances:
-            - use_mount: false
-              # Disable filesystem checks Ref. https://github.com/DataDog/dd-agent/issues/2932 and https://github.com/jenkins-infra/helpdesk/issues/1746
-              file_system_exclude:
-                - tmpfs
-                - none
-                - overlay
-                - shm
-                - nsfs # netns
-              include_all_devices: false
+  disk:
+    init_config: {}
+    instances:
+      - use_mount: false
+        # Disable filesystem checks Ref. https://github.com/DataDog/dd-agent/issues/2932 and https://github.com/jenkins-infra/helpdesk/issues/1746
+        file_system_exclude:
+          - tmpfs
+          - none
+          - overlay
+          - shm
+          - nsfs # netns
+        include_all_devices: false
 profile::buildagent::ssh_keys:
-    "/home/jenkins/.ssh/id_rsa":
-        privkey: |
-            ENC[PKCS7,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]
+  "/home/jenkins/.ssh/id_rsa":
+    privkey: |
+      ENC[PKCS7,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]
 # place this file in ~/.docker/config.json
 docker_hub_key: |
-    ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
+  ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
 profile::jenkinscontroller::docker_tag: "2.387.1-jdk11"
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
-    - workflow-aggregator
-    - pipeline-stage-view
-    - config-file-provider
-    - ldap
-    - beer
+  - workflow-aggregator
+  - pipeline-stage-view
+  - config-file-provider
+  - ldap
+  - beer
 profile::jenkinscontroller::jcasc:
-    global_libraries:
-        pipeline-library:
-            remote: https://github.com/jenkins-infra/pipeline-library.git
-            defaultVersion: master # https://github.com/jenkins-infra/helpdesk/issues/2671
-            cache-ttl: 180
-            allow-pull-requests: true
-    tools:
-        maven:
-            mvn:
-                default_version: true
-        jdk:
-            jdk8:
-                installers:
-                    linux-amd64:
-                        type: "zip"
-                        label: "linux && amd64"
-                    windows-amd64:
-                        type: "zip"
-                        label: "windows"
-                        os: "windows"
-            jdk11:
-                installers:
-                    linux-amd64:
-                        type: "zip"
-                        label: "linux && amd64"
-                    windows-amd64:
-                        type: "zip"
-                        label: "windows"
-                        os: "windows"
-            jdk17:
-                installers:
-                    linux-amd64:
-                        type: "zip"
-                        label: "linux && amd64"
-                    windows-amd64:
-                        type: "zip"
-                        label: "windows"
-                        os: "windows"
-    agents_setup:
-        windows:
-            agentDir: 'C:/Jenkins'
-            # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
-            tempDir: 'C:\\\\Temp'
-            remoteAdmin: Administrator
-            osDiskSize: 150
-            osDiskStorageAccountType: 'Premium_LRS'
-            agentJavaBin: 'C:/tools/jdk-11/bin/java'
-            agentJavaOpts: '-XX:+PrintCommandLineFlags'
-        ubuntu:
-            agentDir: "/home/jenkins"
-            remoteAdmin: jenkins
-            tempDir: "/tmp"
-            osDiskSize: 150
-            osDiskStorageAccountType: 'Premium_LRS'
-            agentJavaBin: '/opt/jdk-11/bin/java'
-            agentJavaOpts: '-XX:+PrintCommandLineFlags'
-            path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
-    agent_images:
-        ec2_amis:
-            ubuntu-20.04-amd64: "ami-07f78bf0df584b26c"
-            windows-2019-amd64: "ami-0df2b1a450d5cd08d"
-            ubuntu-20.04-arm64: "ami-02549db38a8f04a54"
-            # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
-            windows-2022-amd64: "ami-0f2f9156a04210bb8"
-        azure_vms_gallery_image:
-            version: 0.62.0
-            subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
-        container_images:
-            jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c44cd49b4ae652b71c8ee2cbac934e8bcf3d30d88206d90d38d037241f997734
-            jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:a8705d53643fd94974ec9f8ebf279e28b23b4c93b8d98999026b97b27fd35b99
-            jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:b25db08e7a02a9306797d3f081517381a41ccd117a545f6827b04c90a2e488f4
-            jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:8e398e92e4ab8153853debfe6b7b59ce36681dc92e97d7d1b7d06b8fcef37dd2
-            jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-            jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:a0bf172aeff984742675312f58a3656738c2bdbe78848a360698e5954f656c6f
-            jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:d14ff961962f007130bdd1d9a4384abc981abab28dc1503f1a4d17f1e29ddcb8'
-            # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-            jnlp: jenkins/inbound-agent@sha256:c1be7443b2e2d577a1a7a4631c23df305756f8b5207ee2b4fe4b1d15c26b252c
-    tools_default_versions:
-        jdk8: "8u362-b09"
-        jdk11: "11.0.18+10"
-        jdk17: "17.0.6+10"
-        jdk19: "19.0.2+7"
-        maven: "3.9.0"
-    artifact_caching_proxy:
-        providers:
-            aws:
-                name: AWS
-            azure:
-                name: Azure
-            do:
-                name: DigitalOcean
-        credentialsId: artifact-caching-proxy-credentials
-        disabled: true
+  global_libraries:
+    pipeline-library:
+      remote: https://github.com/jenkins-infra/pipeline-library.git
+      defaultVersion: master # https://github.com/jenkins-infra/helpdesk/issues/2671
+      cache-ttl: 180
+      allow-pull-requests: true
+  tools:
+    maven:
+      mvn:
+        default_version: true
+    jdk:
+      jdk8:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "linux && amd64"
+          windows-amd64:
+            type: "zip"
+            label: "windows"
+            os: "windows"
+      jdk11:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "linux && amd64"
+          windows-amd64:
+            type: "zip"
+            label: "windows"
+            os: "windows"
+      jdk17:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "linux && amd64"
+          windows-amd64:
+            type: "zip"
+            label: "windows"
+            os: "windows"
+  agents_setup:
+    windows:
+      agentDir: 'C:/Jenkins'
+      # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
+      tempDir: 'C:\\\\Temp'
+      remoteAdmin: Administrator
+      osDiskSize: 150
+      osDiskStorageAccountType: 'Premium_LRS'
+      agentJavaBin: 'C:/tools/jdk-11/bin/java'
+      agentJavaOpts: '-XX:+PrintCommandLineFlags'
+    ubuntu:
+      agentDir: "/home/jenkins"
+      remoteAdmin: jenkins
+      tempDir: "/tmp"
+      osDiskSize: 150
+      osDiskStorageAccountType: 'Premium_LRS'
+      agentJavaBin: '/opt/jdk-11/bin/java'
+      agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
+  agent_images:
+    ec2_amis:
+      ubuntu-20.04-amd64: "ami-07f78bf0df584b26c"
+      windows-2019-amd64: "ami-0df2b1a450d5cd08d"
+      ubuntu-20.04-arm64: "ami-02549db38a8f04a54"
+      # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
+      windows-2022-amd64: "ami-0f2f9156a04210bb8"
+    azure_vms_gallery_image:
+      version: 0.62.0
+      subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
+    container_images:
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c44cd49b4ae652b71c8ee2cbac934e8bcf3d30d88206d90d38d037241f997734
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:a8705d53643fd94974ec9f8ebf279e28b23b4c93b8d98999026b97b27fd35b99
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:b25db08e7a02a9306797d3f081517381a41ccd117a545f6827b04c90a2e488f4
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:8e398e92e4ab8153853debfe6b7b59ce36681dc92e97d7d1b7d06b8fcef37dd2
+      jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:a0bf172aeff984742675312f58a3656738c2bdbe78848a360698e5954f656c6f
+      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:bff151c6004cab45ab2b437af148e27ee1f42ae6b46767ecf12ae96b3a0d8ead'
+      # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
+      jnlp: jenkins/inbound-agent@sha256:c1be7443b2e2d577a1a7a4631c23df305756f8b5207ee2b4fe4b1d15c26b252c
+  tools_default_versions:
+    jdk8: "8u362-b09"
+    jdk11: "11.0.18+10"
+    jdk17: "17.0.6+10"
+    jdk19: "19.0.2+7"
+    maven: "3.9.0"
+  artifact_caching_proxy:
+    providers:
+      aws:
+        name: AWS
+      azure:
+        name: Azure
+      do:
+        name: DigitalOcean
+    credentialsId: artifact-caching-proxy-credentials
+    disabled: true
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
 ldap_admin_dn: "cn=admin,dc=example,dc=com"
@@ -276,15 +276,15 @@ ssl_legacy_chain: ""
 ssl_legacy_key: ""
 ssh::server::storeconfigs_enabled: false
 ssh::server::options:
-    PasswordAuthentication: no
-    PubkeyAuthentication: yes
+  PasswordAuthentication: no
+  PubkeyAuthentication: yes
 ssh::client::options:
-    UseRoaming: no
+  UseRoaming: no
 # Hash of SSH keys to be used for downloading encrypted usage-stats and
 # uploading decrypted/anonymized ones
 profile::usage::ssh_keys:
-    sol:
-        key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
+  sol:
+    key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
 # Pre-shared key for configuring the r10k webhook server
 r10k::webhook::config::protected: false
 r10k::webhook::config::use_mcollective: false
@@ -301,12 +301,12 @@ docker::version: "5:23.0.1-1~ubuntu.18.04~bionic"
 azure::releases::account_name: "overridewithstorageaccountname"
 azure::releases::access_key: "overridewithaccesskey"
 profile::datadog_pluginsite_check::sites:
-    - plugins.jenkins.io
+  - plugins.jenkins.io
 limits:
-    "*":
-        nofile:
-            soft: "65536"
-            hard: "65536"
+  "*":
+    nofile:
+      soft: "65536"
+      hard: "65536"
 profile::openvpn::image_tag: "1.2.21" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
