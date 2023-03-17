@@ -6,13 +6,13 @@ describe 'profile::letsencrypt' do
       expect(subject).to contain_package('python3.8')
       expect(subject).to contain_package('python3-pip')
 
-      expect(subject).to contain_exec('Install certbot-dns-azure plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-dns-azure',
-        :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
+      expect(subject).to contain_exec('Install certbot').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
       })
 
-      expect(subject).to contain_exec('Install certbot and certbot-apache plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 certbot-apache==1.32.0 acme==1.32.0',
+      expect(subject).to contain_exec('Install certbot-apache plugin').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-apache==1.32.0',
+        :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
       })
 
       expect(subject).to contain_class('letsencrypt').with_config({
@@ -47,8 +47,13 @@ describe 'profile::letsencrypt' do
       expect(subject).to contain_package('python3.8')
       expect(subject).to contain_package('python3-pip')
 
-      expect(subject).to contain_exec('Install certbot and certbot-apache plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 certbot-apache==1.32.0 acme==1.32.0',
+      expect(subject).to contain_exec('Install certbot').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
+      })
+
+      expect(subject).to contain_exec('Install certbot-apache plugin').with({
+        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-apache==1.32.0',
+        :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
       })
 
       expect(subject).to contain_exec('Install certbot-dns-azure plugin').with({
