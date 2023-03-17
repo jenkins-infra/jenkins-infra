@@ -56,6 +56,12 @@ class profile::letsencrypt (
     creates => '/usr/local/bin/certbot',
   }
 
+  exec { 'Install certbot-apache plugin':
+    require => Exec['Install certbot'],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
+    unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
+  }
+
   exec { 'Install certbot-dns-azure plugin':
     require => Exec['Install certbot'],
     command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
