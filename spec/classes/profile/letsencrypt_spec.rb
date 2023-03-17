@@ -5,6 +5,7 @@ describe 'profile::letsencrypt' do
     it {
       expect(subject).to contain_package('python3.8')
       expect(subject).to contain_package('python3-pip')
+      expect(subject).to contain_package('libaugeas0')
 
       expect(subject).to contain_exec('Install certbot').with({
         :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
