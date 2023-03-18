@@ -38,7 +38,7 @@ class profile::letsencrypt (
   $python_weight       = regsubst($python_certbot_version, '\.','')
   $certbot_version     = '1.32.0'
 
-  ['python3', 'python3-pip', "python${python_certbot_version}"].each | $package_name | {
+  ['python3', 'python3-pip', "python${python_certbot_version}", 'libaugeas0'].each | $package_name | {
     package { $package_name:
       ensure => 'installed',
     }
@@ -54,6 +54,12 @@ class profile::letsencrypt (
     require => [Package["python${python_certbot_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
     command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
     creates => '/usr/local/bin/certbot',
+  }
+
+  exec { 'Install certbot-apache plugin':
+    require => Exec['Install certbot'],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
+    unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
   }
 
   exec { 'Install certbot-dns-azure plugin':
