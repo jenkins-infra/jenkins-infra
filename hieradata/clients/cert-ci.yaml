@@ -69,7 +69,7 @@ profile::jenkinscontroller::jcasc:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
   cloud_agents:
     azure-vm-agents:
-      azureCredentialsId: "azure-sp-agents-2023-02"
+      azureCredentialsId: "azure-sp-agents"
       resource_group: "certci-agents-2"
       agent_definitions:
         - name: "ubuntu"
