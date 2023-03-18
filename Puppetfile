@@ -35,7 +35,7 @@ mod 'adrien-filemapper'
 mod 'puppetlabs-docker', '6.0.2'
 
 # Package Managers
-mod 'puppetlabs-apt', '9.0.1'
+mod 'puppetlabs-apt', '9.0.2'
 mod 'rootexpert-snap', '1.1.0'
 
 # Apache and its dependencies
