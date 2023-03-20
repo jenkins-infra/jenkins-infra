@@ -43,7 +43,7 @@ conditions:
       command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `getMavenVersionFromPackerImages` }}/binaries/apache-maven-{{ source `getMavenVersionFromPackerImages` }}-bin.tar.gz
 
 targets:
-  setMavenVersion:
+  setMavenToolVersion:
     name: "Bump Maven version on tools"
     kind: yaml
     sourceid: getMavenVersionFromPackerImages
@@ -51,6 +51,28 @@ targets:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.tools_default_versions.maven"
     scmid: default
+  setMavenPathFors390x:
+    name: "Bump Maven path on s390x permanent agent setup"
+    kind: yaml
+    sourceid: getMavenVersionFromPackerImages
+    transformers:
+      - addprefix: /home/jenkins/tools/apache-maven-
+      - addsuffix: /bin
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.envVars.PATH+MAVEN"
+    scmid: default
+  setMavenToolVersionFors390x:
+    name: "Bump Maven path on s390x permanent agent setup"
+    kind: yaml
+    sourceid: getMavenVersionFromPackerImages
+    transformers:
+      - addprefix: /home/jenkins/tools/apache-maven-
+    spec:
+      file: hieradata/clients/azure.ci.jenkins.io.yaml
+      key: "profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.toolLocation[0].home"
+    scmid: default
+
 
 actions:
   default:
