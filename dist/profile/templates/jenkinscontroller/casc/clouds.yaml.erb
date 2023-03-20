@@ -147,9 +147,7 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
-        <%- if agent['idleTerminationMinutes'] -%>
-        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] %>"
-        <%- end -%>
+        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : 1 %>"
         instanceCapStr: "<%= agent['maxInstances'] %>"
         jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
         labelString: "<%= agent['os'] + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['labels'].join(' ') %>"
