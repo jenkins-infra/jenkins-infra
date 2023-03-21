@@ -299,6 +299,25 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
             imagePullSecrets: dockerhub-credential
+    ec2:
+      aws-us-east-2:
+        region: us-east-2
+        credentialsId: "aws-credentials-jenkins-ci"
+        sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+        agent_definitions:
+          - description: "ARM64 ubuntu 20.04"
+            maxInstances: 5
+            instanceType: A1Xlarge # 4 vCPUs / 8 Gb
+            os: "ubuntu"
+            os_version: "20.04"
+            architecture: "arm64"
+            labels:
+              - ubuntu
+              - arm64docker
+              - arm64linux
+            useAsMuchAsPossible: false
+            spot: true
+            userData: *BootstrapDatadogScript
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
