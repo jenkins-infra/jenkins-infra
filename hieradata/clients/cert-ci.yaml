@@ -99,7 +99,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - windows
-            - docker
+            - docker-windows
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
