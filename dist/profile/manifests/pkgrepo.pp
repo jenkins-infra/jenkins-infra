@@ -1,11 +1,17 @@
 #
 # Manage yum and apt repositories for Jenkins
 class profile::pkgrepo (
-  Stdlib::Absolutepath $docroot      = '/var/www/pkg.jenkins.io',
-  Stdlib::Absolutepath $release_root = '/srv/releases/jenkins',
-  Stdlib::Fqdn $repo_fqdn            = 'pkg.origin.jenkins.io',
-  Stdlib::Fqdn $repo_legacy_fqdn     = 'pkg.jenkins-ci.org',
-  Stdlib::Fqdn $mirror_fqdn          = 'mirrors.jenkins.io',
+  Stdlib::Absolutepath $docroot         = '/var/www/pkg.jenkins.io',
+  Stdlib::Absolutepath $release_root    = '/srv/releases/jenkins',
+  Stdlib::Absolutepath $mirror_scripts  = '/srv/releases/mirror-scripts',
+  Stdlib::Fqdn $repo_fqdn               = 'pkg.origin.jenkins.io',
+  Stdlib::Fqdn $repo_legacy_fqdn        = 'pkg.jenkins-ci.org',
+  Stdlib::Fqdn $mirror_fqdn             = 'mirrors.jenkins.io',
+  Stdlib::Absolutepath $mirror_home_dir = '/srv/releases',
+  String $mirror_git_remote             = 'https://github.com/jenkins-infra/mirror-scripts.git',
+  String $mirror_user                   = 'mirrorbrain',
+  String $mirror_group                  = 'mirrorbrain',
+  Array[String] $mirror_other_groups    = ['www-data'],
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -14,6 +20,9 @@ class profile::pkgrepo (
   include profile::firewall
   include profile::letsencrypt
 
+  ################################################################################################
+  ###### Tooling / scripts required for pkg and update site (used to be manually managed)
+  ###### Some of this code is retrieved from the former profile 'mirrorbrain' to un-tangle pkg and mirrorbrain services - https://github.com/jenkins-infra/jenkins-infra/pull/2185/files
   # Ubuntu 20.04+ are not supported (createrepo package absent).
   case $facts['os']['distro']['codename'] {
     'bionic': {
@@ -36,6 +45,97 @@ class profile::pkgrepo (
       fail('[profile::pkgrepo] Unsupported Ubuntu distribution (ref. "createrepo" package).')
     }
   }
+
+  package { 'git':
+    ensure => 'installed',
+  }
+
+  group { $mirror_group:
+    ensure => present,
+  }
+
+  ## We use the "mirror" user for all the plugin/core/package sync tasks from/to this machine
+  account { $mirror_user:
+    manage_home    => true,
+    # Ensure that our homedir is world-readable, since it's full of public files :)
+    home_dir_perms => '0755',
+    create_group   => false,
+    home_dir       => $mirror_home_dir,
+    gid            => $mirror_group,
+    # Allow apache user to read some of the files in this directory, through the "read" permission for groups
+    groups         => $mirror_other_groups,
+    require        => Group[$mirror_group],
+  }
+
+  exec { "Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}":
+    require => [Account[$mirror_user],Package['git']],
+    user    => $mirror_user,
+    command => "/usr/bin/git clone ${mirror_git_remote} ${mirror_scripts}",
+    creates => "${mirror_scripts}/.git/config",
+  }
+
+  [
+    'azure-sync.sh',
+    'batch-upload.bash',
+    'populate-archives.sh',
+    'populate-fallback.sh',
+    'sync-recent-releases.sh',
+    'sync.sh', 'update-latest-symlink.sh',
+    'release-blob-sync',
+    'release-blob-sync-new',
+    'requirements.txt',
+    'rsync.filter'
+  ].each | $mirror_file | {
+    file { "${mirror_home_dir}/${mirror_file}":
+      ensure  => 'link',
+      require => [
+        Exec["Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}"],
+        Account[$mirror_user],
+      ],
+      target  => "${mirror_scripts}/${mirror_file}",
+      owner   => $mirror_user,
+      group   => $mirror_group,
+    }
+  }
+
+  ## Blobxfer
+  $venv_blobxfer_path = "${mirror_home_dir}/.venv-blobxfer"
+  $venv_blobxfer_script = "${venv_blobxfer_path}/bin/activate"
+  $venv_blobxfer_python = 'python3.8'
+
+  # Install dependencies for blobxfer
+  [
+    'virtualenv',
+    "${venv_blobxfer_python}-venv",
+    "${venv_blobxfer_python}-dev",
+    'libffi-dev',
+  ].each |$pkg| {
+    package { $pkg:
+      ensure => present,
+    }
+  }
+
+  exec { 'Define a virtualenv for blobxfer':
+    require => [
+      Package["${venv_blobxfer_python}-venv"],
+      Package['virtualenv'],
+      Account[$mirror_user],
+    ],
+    command => "/usr/bin/${venv_blobxfer_python} -m venv ${venv_blobxfer_path}",
+    creates => $venv_blobxfer_script,
+  }
+  exec { 'Install mirror script python requirements':
+    require => [
+      Exec['Define a virtualenv for blobxfer'],
+      File["${mirror_home_dir}/requirements.txt"],
+    ],
+    cwd     => $mirror_home_dir,
+    command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --requirement=${mirror_home_dir}/requirements.txt'",
+    creates => "${venv_blobxfer_path}/bin/blobxfer",
+  }
+
+
+  ################################################################################################
 
   $apache_log_dir_fqdn = "/var/log/apache2/${repo_fqdn}"
   $apache_log_dir_legacy_fqdn = "/var/log/apache2/${repo_legacy_fqdn}"
