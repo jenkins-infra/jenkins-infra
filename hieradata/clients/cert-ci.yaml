@@ -76,6 +76,7 @@ profile::jenkinscontroller::jcasc:
           description: "Ubuntu 20.04 LTS (jdk11-default)"
           imageDefinition: jenkins-agent-ubuntu-20.04
           os: "ubuntu"
+          os_version: "20.04"
           storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAfJd75oC4r6/feqjOc6DCQPzqTC7wAGsA1pVwrn1j/mm0hroqM5n03vy+t+tY3pnennuPxCJhtyyDPM9bH7LHjtiGilho2F8UOHl6qrQgf5lEf4f45Oo8wMw4pdkdH6rgVdX+xRBe3bMTSNmXqNLN/o6NYF9M3H5NbS7HbwCZ4QqWZOGMMFi2AClyuOf/QVTxLYtzG462zNzYzKMozytu8ZXgiZsGEB/YXC8+opaW+jpyMsDKy23mOiQxHPbW1KFt/jsT8nGUMRvpq9JxSTJ2B4dL5JVt9llLJcuXb5hGztq9P/qRQ93yK/gJmrexsu/DM3eGR+5HdmYX/c0ueC3R4zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBArgE41Ni3oH5kkDAwhHUJOgBCKJjGeftsAOPGDV+p4dvUA]
           location: "East US 2"
           instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
@@ -92,6 +93,7 @@ profile::jenkinscontroller::jcasc:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019
           os: "windows"
+          os_version: "2019"
           storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAYjS5rZbvhOSp/e5QLkABkH5XgzFku3L7imaagPnUFcCyIvX+cgXms14GsJ3rvRaHoiyOk8ovtiPwTQ7J4LuoBgVBOSkHcCEJLbaHHNdn74JWO3owVzfHuSojN9AzVWTd8Jf/1gKWG7tzbTjIkJQMhKsH33FTtyEN63WjGqo1wEEhqSFKlsUleyfE+D+aBe1AeDp42J8+RB7LxobINQi965vfjuFjHIS3ix7GUvir/KkRV1rshWt26TA9SabAY5KiLlEHrxjgtAGbJGdraqblmOZHjc5a/BGXJqGEQyHGMWdf2xLxUOgNXoX5O5+1lWfOMl9pBDuEpYhJ1qR00WpunTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVqd7WM6EjxJ+Fy0wn4SPUgBCrYZUZoU8TDYppNLoSnrur]
           location: "East US 2"
           instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
