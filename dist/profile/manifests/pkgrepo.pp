@@ -124,14 +124,19 @@ class profile::pkgrepo (
     command => "/usr/bin/${venv_blobxfer_python} -m venv ${venv_blobxfer_path}",
     creates => $venv_blobxfer_script,
   }
+  exec { 'Ensure that virtualenv for blobxfer has base requirements':
+    require => Exec['Define a virtualenv for blobxfer'],
+    command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --upgrade pip setuptools setuptools-rust'",
+    unless  => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip list --format=json | /bin/grep --quiet setuptools-rust'",
+  }
   exec { 'Install mirror script python requirements':
     require => [
-      Exec['Define a virtualenv for blobxfer'],
+      Exec['Ensure that virtualenv for blobxfer has base requirements'],
       File["${mirror_home_dir}/requirements.txt"],
     ],
     cwd     => $mirror_home_dir,
     command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --requirement=${mirror_home_dir}/requirements.txt'",
-    creates => "${venv_blobxfer_path}/bin/blobxfer",
+    unless  => "/bin/bash -c 'source ${venv_blobxfer_script} && for pip_dep in $(cat ${mirror_home_dir}/requirements.txt); do pip freeze | grep \$pip_dep;done'",
   }
 
 
