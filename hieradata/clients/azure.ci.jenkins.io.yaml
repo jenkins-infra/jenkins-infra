@@ -323,7 +323,7 @@ profile::jenkinscontroller::jcasc:
               - "#!/bin/bash"
               - "set -eux"
               - echo "START CLOUDINIT"
-              - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAW9BiXpCNMlAH54d0IZ1/gXtl3GE0h5EiwhaIweCD4fXb9EPE7K5BAhBX2U531nOZ/sbMemXv15WTk36bJa1cjSCj798+w2pYGwHCje1LDjrtIsTdJ7Dw7bb+yOf4hGy+ftTecStAlel+yTL0YHRvIoiCDUCq7WtsjeYgQQa7lG/B3ZuFMlecCXP+/l42/VXmxUJUwheHKplKT4pPDCjAVk71zftJ0LKJtyQl0sSb0s3KBh25Xm8FbLb7ivMzRl3HSuwg+KHugU2dl1wi4jB/bEmDnIlaCNaIeVoXPKT6ncpB/hRR0UHAt8SEylUPoUq8Zv93dhakANb08702gq2o4TBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA9W77G8ItivOxMmWZ59Sd+gDDQBGi6BayDGIx9W72gXXr+vcUgWt++jt7LqxQvGqr4lP0jb+gFdnRmeDmltPm/dWo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+              - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAp1EN//8Rqd5PGR3qbiLEQcU7VjkMclipg9nIMG5YNafcma1VOu1DJX1laH3pGdJHwYOqVOGsiMBZDojWhgd1IEHCI9P+9MrU9a7gog+aEsZFKi2fSpw/o/U0+tA7yDhMhSireOwi+E9rXOOojHOlVPXCOsas3V0PT9tvr7zHadSZj10d10L5uX/oNaLQXGwDnAU3AT7TRlGETEI+FP50P/IyoN5SOb+UDECfsJnQkvQAux20UaRXUXT35ECDQmULnf3BR0Zzmpbqji1Mn+aEV/8NIBAfTUfTRbzFEsVDznfB/qIOt7YBKKQwiiOy8tjIFXQN4nSNFOuJ/v8f95TDZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjHiqfdYeWfOw5ydrp6+AFgDBLVhQVC2dqv5nYd9QJjxoJkoPoUARsf1J3Wycg+ZH9Daf3EGDuhoaEp79z0+ksKoo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
               - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
               - systemctl stop datadog-agent.service
               - mkdir -p /var/log/datadog /etc/datadog-agent
@@ -408,7 +408,7 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: false
           initScript:
-            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAwauZAjJ4q+FlbVZP/oph6SieLs4uV84UsFXGSTZ6Jqss1+54QUo5CE0yewkAWdS7NPieofhFVLGZ80ctY1hMJKFyEm1I28tfTSO+sTl8y/viw9Osw7SjlkoJnSyjyC6Zz1y1Zcvt0hRvTYhrx1e/4xvQT8hyvS/l1YpPTwZeMIlZfcE/kwbQb//t5sOOQN/t16gIczUIs1GoCl/AxqPDugUDp4ywQpowqDdn66PjISyvdzSoFq+K9jKn77cQmO6mR6X1taQL7LG7/SZSjR971wUFJzB0AA+gOgTlsC6meoEOuufDDaO+GKNZkY5ECnFh5/WMwdUSyZ8eLN6EyHIegzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA37mrATOdrzzAq7YzIvTiogDAQ9lBBTveYMxpwbfdP9rY2qom/AIqvgraMdmde8zJ2w4ilVeR1aj0IHF80Kh++jNg=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
           imageDefinition: jenkins-agent-windows-2022
@@ -429,7 +429,7 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: false
           initScript:
-            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqyumVXNZAJylM6NiC/zKT+FKHqGnSwfUMWBupxumSJWL8GHEYFPB/Irr+sRiCPkRWW88bYg7Mp3Rv3qbxc0Aw/cU3XcQZB8RrAOsODBMjOJpHTvoB5aDtSYqygCjffPgwXK0DKguR2ADtsNkMcK7BOT02uaXgZOwo2S5UKkuDn6DsQBq9m1Ho8SwKw/E/+rwsUow+o5JVvPF9//8BIb53Y+wHYm2tOSe5dHFzBIP/+mJMHMpYiE5/q5LBELM9ZXhtBx2zeagEzbriDdlnDkMZk5AMWYz3+omDIX1MO2Fmg9Ak6O4dcNl4hhGJ5KtmPgLGzuhvfh018gi3NVhMBXv9zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBltum5EYpT8EqN+vY0wudsgDBX++BA5bC+DpDxuqoANdKkUZdPyBo2cwxq8W4FfUtKE6ZReUIXxvARdR/Z2c5gYY4=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+            - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgpgVYZ4sEtsRHFfQ/08BnGI0W94lNVS0IuzpyDq9NC1vtb8uJqF3H3pm2B9nKik+cu0z8XAQfbgED+sbz9Aia5PmEibBfAcufblETKPEoQMwYtkCLUjkHGmQZXxSTfmFRumgRWWjm4tguG/3ouVoUEcZIJVviPkacejwgcXBC543AmEFvLmLxmX1m8mNGIi9yl9S6SGyAC+1VuW3E+oN36sXm1jzL0b5NHuJFF/Iso3lYa9EhYBfudyn7OwJN26CrNcQcOY9jilu1zwHAzIUDXGmCyhpfdU2AFUVDnEKpJ9blA78AWjm3w9u/SLtdgV0qsfSG47lY5nsMs9q1EqyZzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBnnHwSeC2exXv3gY4Zm2VRgDC3wSNm8xRReG3fcUMBFdX2HYo2HD8yUWXzSTq9yTZg9yGFEAfp0YDAhyWQK0LdkHY=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
