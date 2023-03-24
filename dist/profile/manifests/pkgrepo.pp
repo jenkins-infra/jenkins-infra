@@ -136,7 +136,7 @@ class profile::pkgrepo (
     ],
     cwd     => $mirror_home_dir,
     command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --requirement=${mirror_home_dir}/requirements.txt'",
-    unless => "/bin/bash -c 'source ${venv_blobxfer_script} && for pip_dep in $(cat ${mirror_home_dir}/requirements.txt); do pip freeze | grep $pip_dep;done'",
+    unless => "/bin/bash -c 'source ${venv_blobxfer_script} && for pip_dep in $(cat ${mirror_home_dir}/requirements.txt); do pip freeze | grep \$pip_dep;done'",
   }
 
 
