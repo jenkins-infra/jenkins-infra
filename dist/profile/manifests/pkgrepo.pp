@@ -192,6 +192,18 @@ class profile::pkgrepo (
     require => File[$docroot],
   }
 
+  file { suffix($repos, '/jenkins-ci.org-2023.key'):
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/pkgrepo/jenkins.io-2023.key",
+    require => File[$docroot],
+  }
+
+  file { suffix($repos, '/jenkins.io-2023.key'):
+    ensure  => file,
+    source  => "puppet:///modules/${module_name}/pkgrepo/jenkins.io-2023.key",
+    require => File[$docroot],
+  }
+
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
     ensure    => present,
     docroot   => $docroot,
