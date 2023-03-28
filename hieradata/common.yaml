@@ -216,7 +216,7 @@ profile::jenkinscontroller::jcasc:
       # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
       tempDir: 'C:\\\\Temp'
       remoteAdmin: Administrator
-      osDiskSize: 150
+      osDiskSize: "150"
       osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: 'C:/tools/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
@@ -240,13 +240,13 @@ profile::jenkinscontroller::jcasc:
       version: 0.63.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:7599d3bd01723847a4383d6f1b3e0290adb4c07fbaf83a576b903d38d59db979
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:acf9ab2aae6d332233b2cc175e0f706d451410cc51bb2a60204145a0c792f5b5
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:58ef0e3c2fea8636d84b934acaf09906d7bd7e9b87266144a6cc6604f4bef95f
-      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:386655b48370a055d0e157c0ee87ccf37cc8f071b1a735f21aff2278bbeace74
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:95a7adac45fd0772961649c0c5e9b03cb3277283bbaeb44e279598229ff6c70a
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:3fb2698b2c5b9351c70f58832dfd38dcef7ce758b5fa0642179a36c95aec28d4
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:9a611204f253b82b9053790dcdb739c5f8f02e9aa47e52d38e5a5a59eb3d420f
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:4cf4161f49f66c875ff0d3132e92e43e106f4a309649a16858f3cd4a02206360
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:cbdc2c722d4a5572410f5caa607c3f3624293aa6247a95ba358819117f179b22
-      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:d5a94486c2cd539b11a6f51c3ed883407a07394b641e0acb5b1d9aed94a92a0b'
+      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:4a13e7be5eabef1de27a7fd9823e54925d7d96cc950f6cd579e13ed05407a181'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:c1be7443b2e2d577a1a7a4631c23df305756f8b5207ee2b4fe4b1d15c26b252c
   tools_default_versions:
@@ -307,6 +307,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "1.2.30" # Tracked by updatecli
+profile::openvpn::image_tag: "1.2.36" # Tracked by updatecli
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
