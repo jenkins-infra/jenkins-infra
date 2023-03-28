@@ -12,6 +12,7 @@ class profile::pkgrepo (
   String $mirror_user                   = 'mirrorbrain',
   String $mirror_group                  = 'mirrorbrain',
   Array[String] $mirror_other_groups    = ['www-data'],
+  Hash $ssh_keys                        = {},
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -65,6 +66,7 @@ class profile::pkgrepo (
     # Allow apache user to read some of the files in this directory, through the "read" permission for groups
     groups         => $mirror_other_groups,
     require        => Group[$mirror_group],
+    ssh_keys       => $ssh_keys
   }
 
   exec { "Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}":
