@@ -234,7 +234,7 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-20.04-amd64: "ami-0f2e922a890f4580e"
+      ubuntu-20.04-amd64: "ami-05f368ccf3af63042"
       windows-2019-amd64: "ami-094f622a02b7c210e"
       ubuntu-20.04-arm64: "ami-0ae35a16a5023978b"
       # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
