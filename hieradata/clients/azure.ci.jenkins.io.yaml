@@ -353,7 +353,7 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - linux-amd64
-          maxInstances: 10
+          maxInstances: 80
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
@@ -377,7 +377,7 @@ profile::jenkinscontroller::jcasc:
             - highram
             - docker-highmem
             - linux-amd64-big
-          maxInstances: 20
+          maxInstances: 40
           useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
@@ -399,7 +399,7 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
             - docker-windows-2019
             - windows
-          maxInstances: 20
+          maxInstances: 80
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
@@ -420,7 +420,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-2022
-          maxInstances: 20
+          maxInstances: 40
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
