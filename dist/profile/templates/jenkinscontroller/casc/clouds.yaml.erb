@@ -259,6 +259,13 @@ jenkins:
         <%- end -%>
           slaveConnectTimeout: 100
           yamlMergeStrategy: "override"
+          volumes:
+          - emptyDirVolume:
+              memory: false
+              mountPath: "/tmp"
+          - emptyDirVolume:
+              memory: false
+              mountPath: "/home/jenkins"
       <%- end -%>
     <%- end -%>
     <%- end -%>
