@@ -2,7 +2,7 @@ forge 'http://forge.puppetlabs.com'
 
 # Install and manage r10k
 mod 'puppet-r10k', '10.3.0'
-mod 'puppet-systemd', '4.0.1'
+mod 'puppet-systemd', '4.1.0'
 
 mod 'puppetlabs-stdlib', '8.5.0'
 
@@ -52,7 +52,7 @@ mod 'puppetlabs-lvm', '1.4.0'
 mod 'datadog-datadog_agent', '3.20.0'
 
 # Used for grabbing certificates for jenkins.io
-mod 'puppet-letsencrypt', '9.1.0'
+mod 'puppet-letsencrypt', '9.2.0'
 
 # For managing dependencies
 mod 'puppetlabs-augeas_core', '1.2.0'
