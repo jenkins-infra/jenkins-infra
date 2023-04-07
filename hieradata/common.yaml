@@ -164,7 +164,7 @@ profile::buildagent::ssh_keys:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: "2.387.1-jdk11"
+profile::jenkinscontroller::docker_tag: "2.387.2-jdk11"
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -232,13 +232,13 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:
-      ubuntu-20.04-amd64: "ami-05f368ccf3af63042"
-      windows-2019-amd64: "ami-094f622a02b7c210e"
-      ubuntu-20.04-arm64: "ami-0ae35a16a5023978b"
+      ubuntu-22.04-amd64: "ami-0d29df31cda59a7e6"
+      windows-2019-amd64: "ami-00c87e4aaa0eb2259"
+      ubuntu-22.04-arm64: "ami-0ffff51e5fcd2b376"
       # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
-      windows-2022-amd64: "ami-0132e0317947a6070"
+      windows-2022-amd64: "ami-02b531ad9370793a3"
     azure_vms_gallery_image:
-      version: 0.64.0
+      version: 1.0.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:18f2b207abfe5364da5becd90022e1e69679ced316fb9f38d3f5a294b2ca3514
@@ -246,7 +246,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:58fe8cb224f882bb27595de82d97eaa57e305638ff26cd7d703931db37037589
       jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:1827dcffbf3d46956b1dbf115127ee47f46b5ff64376d09ac98df8d45ad349da
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-20.04@sha256:de60c8e857776d2c622394b1c6afa361b698013325edf86132c8977fe4825911
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:e9dd1801ae21b59d3fdd04c363a7ca737933fbc248f3ea417071a6955cf1b52b
       jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:507791464a2aec1fa9af6e34f398159a77e36d59a02cd9a1d2cf68ad000f9c9a'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:c1be7443b2e2d577a1a7a4631c23df305756f8b5207ee2b4fe4b1d15c26b252c
@@ -296,7 +296,7 @@ usage_ssh_privkey: "usage_ssh_privkey"
 osuosl_mirroring_privkey: ""
 archives_mirroring_privkey: ""
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: "5:23.0.2-1~ubuntu.18.04~bionic"
+docker::version: "5:23.0.3-1~ubuntu.18.04~bionic"
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"

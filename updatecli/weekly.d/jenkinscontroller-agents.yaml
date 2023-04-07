@@ -24,7 +24,7 @@ sources:
   getLatestInboundAllInOneContainerImage:
     kind: dockerdigest
     spec:
-      image: "jenkinsciinfra/jenkins-agent-ubuntu-20.04"
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
       tag: "latest"
       architecture: amd64
   getLatestInboundMaven8ContainerImage:
@@ -90,7 +90,7 @@ sources:
       sortby: creationDateDesc
       filters:
         - name: "name"
-          values: "jenkins-agent-ubuntu-20.04-amd64-*"
+          values: "jenkins-agent-ubuntu-22.04-amd64-*"
         - name: "tag:build_type"
           values: "prod"
         - name: "tag:version"
@@ -132,7 +132,7 @@ sources:
       sortby: creationDateDesc
       filters:
         - name: "name"
-          values: "jenkins-agent-ubuntu-20.04-arm64-*"
+          values: "jenkins-agent-ubuntu-22.04-arm64-*"
         - name: "tag:build_type"
           values: "prod"
         - name: "tag:version"
@@ -153,11 +153,11 @@ sources:
 
 conditions:
   LatestInboundAllInOneContainerImage:
-    name: 'Test if LatestInboundAllInOneContainerImage : jenkinsciinfra/jenkins-agent-ubuntu-20.04:{{ source `getLatestInboundAllInOneContainerImage` }} published on the registry'
+    name: 'Test if LatestInboundAllInOneContainerImage : jenkinsciinfra/jenkins-agent-ubuntu-22.04:{{ source `getLatestInboundAllInOneContainerImage` }} published on the registry'
     kind: dockerimage
     sourceid: getLatestInboundAllInOneContainerImage
     spec:
-      image: "jenkinsciinfra/jenkins-agent-ubuntu-20.04"
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
       tag: "latest"
       architecture: amd64
   LatestInboundMaven8ContainerImage:
@@ -241,7 +241,7 @@ conditions:
       sortby: creationDateDesc
       filters:
         - name: "name"
-          values: "jenkins-agent-ubuntu-20.04-amd64-*"
+          values: "jenkins-agent-ubuntu-22.04-amd64-*"
         - name: "tag:build_type"
           values: "prod"
         - name: "tag:version"
@@ -283,7 +283,7 @@ conditions:
       sortby: creationDateDesc
       filters:
         - name: "name"
-          values: "jenkins-agent-ubuntu-20.04-arm64-*"
+          values: "jenkins-agent-ubuntu-22.04-arm64-*"
         - name: "tag:build_type"
           values: "prod"
         - name: "tag:version"
@@ -308,13 +308,13 @@ targets:
     scmid: default
   setInboundAllInOneContainerImage:
     sourceid: getLatestInboundAllInOneContainerImage
-    name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-20.04 (AllInOne)"
+    name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-22.04 (AllInOne)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
       key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one"
     transformers:
-      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-20.04@"
+      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04@"
     scmid: default
   setInboundWebBuilderContainerImage:
     sourceid: getLatestInboundWebBuilderContainerImage
