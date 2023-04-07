@@ -382,7 +382,7 @@ targets:
     sourceid: getLatestUbuntuAgentAMIAmd64
     spec:
       file: hieradata/common.yaml
-      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-20\.04-amd64'
+      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-22\.04-amd64'
     scmid: default
   setUbuntuAgentAMIArm64:
     name: "Bump AMI ID for Ubuntu ARM64 agents"
@@ -390,7 +390,7 @@ targets:
     sourceid: getLatestUbuntuAgentAMIArm64
     spec:
       file: hieradata/common.yaml
-      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-20\.04-arm64'
+      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-22\.04-arm64'
     scmid: default
   setWindowsAgent2019AMIamd64:
     name: "Bump AMI ID for Windows 2019 AMD64 agents"

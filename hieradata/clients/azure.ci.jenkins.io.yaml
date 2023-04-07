@@ -266,7 +266,7 @@ profile::jenkinscontroller::jcasc:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
       agent_definitions:
-        - name: "ubuntu-20"
+        - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04
           os: "ubuntu"
@@ -290,7 +290,7 @@ profile::jenkinscontroller::jcasc:
           subnetName: "ci.j-agents-vm"
           spot: true
           initScript: *BootstrapDatadogScript
-        - name: "ubuntu-20-highmem"
+        - name: "ubuntu-22-highmem"
           description: "Ubuntu 22.04 LTS Highmem"
           imageDefinition: jenkins-agent-ubuntu-22.04
           os: "ubuntu"

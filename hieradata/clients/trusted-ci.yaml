@@ -78,7 +78,7 @@ profile::jenkinscontroller::jcasc:
       azureCredentialsId: "azure-sponsorship-credentials"
       resource_group: jenkinsinfra-trustedvmagents
       agent_definitions:
-        - name: "ubuntu-20"
+        - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04
           os: "ubuntu"
