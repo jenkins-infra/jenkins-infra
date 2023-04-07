@@ -2,6 +2,11 @@
 jenkins:
   # No builds on controller
   numExecutors: 0
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "AZURE_COLLECT_TELEMETRY"
+        value: "false"
 unclassified:
   shell:
     shell: "/bin/bash"
