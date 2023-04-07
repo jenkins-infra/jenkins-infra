@@ -261,11 +261,11 @@ jenkins:
           yamlMergeStrategy: "override"
           volumes:
           - emptyDirVolume:
-              memory: false
+              memory: true
               mountPath: "/tmp"
           - emptyDirVolume:
               memory: false
-              mountPath: "/home/jenkins/.m2"
+              mountPath: "/home/jenkins/.m2/repository"
       <%- end -%>
     <%- end -%>
     <%- end -%>
