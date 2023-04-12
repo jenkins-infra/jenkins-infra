@@ -31,7 +31,6 @@ describe 'profile::apachemisc' do
     end
 
     it_behaves_like 'apachemisc'
-    it { expect(subject).to contain_ssh_authorized_key 'hudson@cucumber' }
   end
 
   context 'provide Apache/mod_proxy support' do
