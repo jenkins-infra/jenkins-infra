@@ -46,7 +46,7 @@ mod 'puppetlabs-concat', '7.3.3'
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
 # Dependency
-mod 'puppetlabs-sshkeys_core', '1.0.2'
+mod 'puppetlabs-sshkeys_core', '2.4.0'
 
 mod 'puppetlabs-lvm', '1.4.0'
 mod 'datadog-datadog_agent', '3.20.0'
