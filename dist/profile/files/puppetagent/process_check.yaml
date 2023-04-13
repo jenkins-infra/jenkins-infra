@@ -1,6 +1,0 @@
-  - name: Puppet Agent
-    search_string: ['puppet/bin/puppet agent']
-    exact_match: false
-    thresholds:
-      # expect exactly 1 instance
-      critical: [0, 1]

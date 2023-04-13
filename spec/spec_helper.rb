@@ -26,6 +26,7 @@ RSpec.configure do |c|
 
   # Use the `facter` command on any production node to see real-life values
   c.default_facts = {
+    'datadog_agent::params::conf_dir' => '/somewhere',
     :os => {
       :architecture => 'amd64',
       :distro => {

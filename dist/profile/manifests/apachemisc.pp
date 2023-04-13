@@ -11,7 +11,11 @@ class profile::apachemisc (
 
   # enable mod_status for local interface and allow datadog to monitor this
   include apache::mod::status
-  include datadog_agent::integrations::apache
+  file { "${datadog_agent::params::conf_dir}/apache.d/conf.yaml":
+    ensure  => file,
+    require => Class['datadog_agent'],
+    source  => "puppet:///modules/${module_name}/apachemisc/datadog_apache_conf.yaml",
+  }
 
   include apache::mod::proxy
   include apache::mod::proxy_http

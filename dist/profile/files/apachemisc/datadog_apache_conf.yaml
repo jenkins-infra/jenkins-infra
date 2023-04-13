@@ -1,0 +1,16 @@
+init_config:
+instances:
+  - apache_status_url: http://localhost/server-status?auto
+
+logs:
+  - type: file
+    path: /var/log/apache2/*.log
+    source: apache
+    service: apache
+
+  - type: file
+    path: /var/log/apache2/*/*.log.*
+    exclude_paths:
+      - /var/log/apache2/*/*.gz
+    source: apache
+    service: apache
