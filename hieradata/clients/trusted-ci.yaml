@@ -24,6 +24,9 @@ accounts:
       - sudo
 docker::log_opt::max-size: "100m"
 docker::log_opt::max-file: 2
+# Per-host Datadog configuration
+datadog_agent::host: "trusted.ci.jenkins.io"
+datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/3486 is done
 profile::jenkinscontroller::ci_fqdn: "trusted.ci.jenkins.io"
 profile::jenkinscontroller::proxy_port: 1443
 profile::jenkinscontroller::anonymous_access: false

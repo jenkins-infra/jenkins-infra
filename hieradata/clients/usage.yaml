@@ -7,3 +7,6 @@ lvm::volume_groups:
       usage:
         size: 200G
         mountpath: /srv/usage
+# Per-host Datadog configuration
+datadog_agent::host: "usage.jenkins.io"
+datadog_agent::collect_ec2_tags: true # TODO: remove when moved to Azure
