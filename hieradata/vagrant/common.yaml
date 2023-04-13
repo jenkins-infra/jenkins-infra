@@ -9,13 +9,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
-profile::jenkinscontroller::letsencrypt: true
-profile::letsencrypt::dns_azure:
-  sp_client_id: "<application_id>" # application_id
-  sp_client_secret: "<application_password>" # application_password.
-  tenant_id: "<subscription id>" # subscription id
-  zones:
-    trusted.ci.jenkins.io: "/subscriptions/xxx/dnszone/yyyy"
+profile::jenkinscontroller::letsencrypt: false
 # Per-host Datadog configuration
 datadog_agent::host: "vagrant.local"
 datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/3486 is done
