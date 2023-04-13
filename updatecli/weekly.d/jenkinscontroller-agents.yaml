@@ -81,48 +81,6 @@ sources:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
       architecture: amd64
-  getLatestUbuntuAgentAMIAmd64:
-    kind: aws/ami
-    dependson:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-ubuntu-22.04-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
-  getLatestWindows2019AgentAMIAmd64:
-    kind: aws/ami
-    dependson:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2019-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
-  getLatestWindows2022AgentAMIAmd64:
-    kind: aws/ami
-    dependson:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2022-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
   getLatestUbuntuAgentAMIArm64:
     kind: aws/ami
     dependson:
@@ -232,48 +190,6 @@ conditions:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
       architecture: amd64
-  LatestUbuntuAgentAMIAmd64:
-    name: "Test if getLatestUbuntuAgentAMIAmd64 Image Published on AWS"
-    kind: aws/ami
-    sourceid: getLatestUbuntuAgentAMIAmd64
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-ubuntu-22.04-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
-  LatestWindows2019AgentAMIAmd64:
-    name: "Test if getLatestWindows2019AgentAMIAmd64 Image Published on AWS"
-    kind: aws/ami
-    sourceid: getLatestWindows2019AgentAMIAmd64
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2019-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
-  LatestWindows2022AgentAMIAmd64:
-    name: "Test if getLatestWindows2022AgentAMIAmd64 Image Published on AWS"
-    kind: aws/ami
-    sourceid: getLatestWindows2022AgentAMIAmd64
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2022-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
   LatestUbuntuAgentAMIArm64:
     name: "Test if getLatestUbuntuAgentAMIArm64 Image Published on AWS"
     kind: aws/ami
@@ -376,14 +292,6 @@ targets:
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@"
     scmid: default
-  setUbuntuAgentAMIAmd64:
-    name: "Bump AMI ID for Ubuntu AMD64 agents"
-    kind: yaml
-    sourceid: getLatestUbuntuAgentAMIAmd64
-    spec:
-      file: hieradata/common.yaml
-      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-22\.04-amd64'
-    scmid: default
   setUbuntuAgentAMIArm64:
     name: "Bump AMI ID for Ubuntu ARM64 agents"
     kind: yaml
@@ -391,22 +299,6 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-22\.04-arm64'
-    scmid: default
-  setWindowsAgent2019AMIamd64:
-    name: "Bump AMI ID for Windows 2019 AMD64 agents"
-    kind: yaml
-    sourceid: getLatestWindows2019AgentAMIAmd64
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2019-amd64"
-    scmid: default
-  setWindows2022AgentAMIamd64:
-    name: "Bump AMI ID for Windows 2022 AMD64 agents"
-    kind: yaml
-    sourceid: getLatestWindows2022AgentAMIAmd64
-    spec:
-      file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2022-amd64"
     scmid: default
 
 actions:
