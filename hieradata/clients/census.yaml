@@ -7,3 +7,6 @@ lvm::volume_groups:
       census:
         size: 64G
         mountpath: /srv/census
+# Per-host Datadog configuration
+datadog_agent::host: "census.jenkins.io"
+datadog_agent::collect_ec2_tags: true # TODO: remove when moved to Azure

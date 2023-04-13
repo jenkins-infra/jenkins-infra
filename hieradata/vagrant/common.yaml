@@ -16,6 +16,9 @@ profile::letsencrypt::dns_azure:
   tenant_id: "<subscription id>" # subscription id
   zones:
     trusted.ci.jenkins.io: "/subscriptions/xxx/dnszone/yyyy"
+# Per-host Datadog configuration
+datadog_agent::host: "vagrant.local"
+datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/3486 is done
 profile::jenkinscontroller::ci_fqdn: 'localhost'
 profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
 profile::jenkinscontroller::proxy_port: 443

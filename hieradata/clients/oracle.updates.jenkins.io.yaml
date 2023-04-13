@@ -14,3 +14,5 @@ lvm::volume_groups:
       updates_srv:
         size: 700G
         mountpath: /srv
+# Per-host Datadog configuration
+datadog_agent::host: "oracle.updates.jenkins.io"
