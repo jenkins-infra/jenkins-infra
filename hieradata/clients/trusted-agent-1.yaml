@@ -1,4 +1,3 @@
 ---
 # Per-host Datadog configuration
 datadog_agent::host: "trusted-agent-1.ci.jenkins.io"
-datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/3486 is done
