@@ -1,3 +1,5 @@
+### MANAGED BY PUPPET
+
 init_config:
 instances:
   - apache_status_url: http://localhost/server-status?auto

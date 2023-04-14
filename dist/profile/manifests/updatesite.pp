@@ -45,8 +45,8 @@ class profile::updatesite (
     ssl                          => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 604800",
   }
 
   apache::vhost { "${update_fqdn} unsecured":
@@ -57,8 +57,8 @@ class profile::updatesite (
     docroot                      => $docroot,
     override                     => ['All'],
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     require                      => Apache::Vhost[$update_fqdn],
   }
 
@@ -71,8 +71,8 @@ class profile::updatesite (
     ssl                          => true,
     override                     => ['All'],
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/error.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/error.log.%Y%m%d%H%M%S 604800",
     require                      => [
       File[$apache_legacy_log_dir],
     ],
@@ -86,8 +86,8 @@ class profile::updatesite (
     port                         => 80,
     override                     => ['All'],
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_legacy_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     require                      => Apache::Vhost['updates.jenkins-ci.org'],
   }
 

@@ -3,14 +3,29 @@
 #
 class profile::apachemisc (
   Boolean $ssh_enabled = false,
+  Stdlib::Absolutepath $compress_rotatelogs_path = '/usr/local/bin/compress-rotatelogs.sh',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
-  # log rotation setting lives in another module
-  include apachelogcompressor
+
+  file { $compress_rotatelogs_path:
+    ensure => 'file',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0755',
+    source => "puppet:///modules/${module_name}/apachemisc/compress-rotatelogs.sh",
+  }
 
   # enable mod_status for local interface and allow datadog to monitor this
   include apache::mod::status
+  # Datadog agent needs read access to the logs directory
+  file { '/var/log/apache2':
+    ensure => 'directory',
+    owner  => 'root',
+    group  => 'adm', # apache2 package for Ubuntu 18.04
+    mode   => $apache::logroot_mode, # From hieradata, because shared with the `apache` module
+  }
+  # Datadog agent custom configuration
   file { "${datadog_agent::params::conf_dir}/apache.d/conf.yaml":
     ensure  => file,
     require => Class['datadog_agent'],

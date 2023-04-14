@@ -66,7 +66,7 @@ class profile::pkgrepo (
     # Allow apache user to read some of the files in this directory, through the "read" permission for groups
     groups         => $mirror_other_groups,
     require        => Group[$mirror_group],
-    ssh_keys       => $ssh_keys
+    ssh_keys       => $ssh_keys,
   }
 
   exec { "Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}":
@@ -86,7 +86,7 @@ class profile::pkgrepo (
     'release-blob-sync',
     'release-blob-sync-new',
     'requirements.txt',
-    'rsync.filter'
+    'rsync.filter',
   ].each | $mirror_file | {
     file { "${mirror_home_dir}/${mirror_file}":
       ensure  => 'link',
@@ -140,7 +140,6 @@ class profile::pkgrepo (
     command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --requirement=${mirror_home_dir}/requirements.txt'",
     unless  => "/bin/bash -c 'source ${venv_blobxfer_script} && for pip_dep in $(cat ${mirror_home_dir}/requirements.txt); do pip freeze | grep \$pip_dep;done'",
   }
-
 
   ################################################################################################
 
@@ -240,8 +239,8 @@ class profile::pkgrepo (
     ssl                          => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
     require                      => File[$docroot],
   }
 
@@ -253,8 +252,8 @@ class profile::pkgrepo (
     override                     => ['All'],
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     require                      => File[$docroot],
   }
 
@@ -265,8 +264,8 @@ class profile::pkgrepo (
     use_port_for_filenames       => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     redirect_status              => 'permanent',
     redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
@@ -282,8 +281,8 @@ class profile::pkgrepo (
     docroot                      => $docroot,
     ssl                          => true,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
     redirect_status              => 'permanent',
     redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)

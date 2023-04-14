@@ -6,9 +6,6 @@ mod 'puppet-systemd', '4.1.0'
 
 mod 'puppetlabs-stdlib', '8.5.0'
 
-# Deps for apachelogcompressor
-mod 'puppetlabs-ruby', '1.0.1'
-mod 'puppetlabs-gcc', '0.3.0'
 # Used for installing gems for the puppetserver, like with hiera-eyaml
 mod 'puppetlabs-puppetserver_gem', '1.1.0'
 mod 'puppetlabs-inifile', '1.4.3'
@@ -90,7 +87,3 @@ mod 'account',
 mod 'jenkins_keys',
   :git => 'git@github.com:jenkins-infra/jenkins-keys.git',
   :ref => 'eeb7db7'
-# Used internally to gzip compress rotated logs
-mod 'apachelogcompressor',
-  :git => 'https://github.com/jenkins-infra/puppet-apachelogcompressor.git',
-  :ref => '0113d7b'
