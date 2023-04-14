@@ -109,6 +109,7 @@ apache::keepalive: "On"
 apache::keepalive_timeout: 3
 apache::server_tokens: "Prod"
 apache::server_signature: "Off"
+apache::logroot_mode: "0755"
 ### Stuff for IRC jenkins-admin bot
 # access to GitHub (for creating repos, etc)
 profile::jenkinsadmin::github_login: "jenkinsadmin"

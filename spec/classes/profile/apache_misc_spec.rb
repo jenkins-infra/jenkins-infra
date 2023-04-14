@@ -10,7 +10,6 @@ describe 'profile::apachemisc' do
 
   shared_examples 'apachemisc' do
     it { expect(subject).to contain_class 'apache' }
-    it { expect(subject).to contain_class 'apachelogcompressor' }
     it { expect(subject).to contain_package 'apache2-utils' }
 
     it { expect(subject).to contain_file '/etc/apache2/conf.d/00-reverseproxy_combined' }

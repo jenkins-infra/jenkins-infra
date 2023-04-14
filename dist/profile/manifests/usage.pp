@@ -124,8 +124,8 @@ class profile::usage (
     ssl                          => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe               => "|/usr/bin/rotatelogs ${apache_log_dir}/error_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error_${usage_fqdn}.log.%Y%m%d%H%M%S 86400",
     require                      => [
       File[$docroot],
       File[$apache_log_dir],
@@ -145,8 +145,8 @@ class profile::usage (
     options                      => ['Indexes', 'FollowSymLinks', 'MultiViews'],
     override                     => ['All'],
     docroot                      => $docroot,
-    access_log_pipe              => "|/usr/bin/rotatelogs ${apache_log_dir}/access_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe               => "|/usr/bin/rotatelogs ${apache_log_dir}/error_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path}  -t ${apache_log_dir}/access_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path}  -t ${apache_log_dir}/error_${usage_fqdn}_unsecured.log.%Y%m%d%H%M%S 86400",
     require                      => [
       File[$docroot],
       File[$apache_log_dir],

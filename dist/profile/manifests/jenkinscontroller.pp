@@ -363,8 +363,8 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     ssl                          => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host          => true,
     allow_encoded_slashes        => 'on',
     custom_fragment              => "${ci_fqdn_x_forwarded_host}
@@ -445,8 +445,8 @@ RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
       ssl                          => true,
       docroot                      => $docroot,
 
-      access_log_pipe              => "|/usr/bin/rotatelogs -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-      error_log_pipe               => "|/usr/bin/rotatelogs -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+      access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
+      error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
       proxy_preserve_host          => true,
       allow_encoded_slashes        => 'on',
       custom_fragment              => "${ci_resource_domain_x_forwarded_host}

@@ -149,8 +149,8 @@ describe 'profile::pkgrepo' do
         :docroot => params[:docroot],
         :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
         :override => ['All'],
-        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/access.log.%Y%m%d%H%M%S 604800",
-        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/error.log.%Y%m%d%H%M%S 604800",
+        :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/access.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/error.log.%Y%m%d%H%M%S 604800",
       })
     end
 
@@ -159,8 +159,8 @@ describe 'profile::pkgrepo' do
         :servername => 'pkg.origin.jenkins.io',
         :port => 80,
         :docroot => params[:docroot],
-        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/access_unsecured.log.%Y%m%d%H%M%S 604800",
-        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.origin.jenkins.io/error_unsecured.log.%Y%m%d%H%M%S 604800",
+        :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/access_unsecured.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/error_unsecured.log.%Y%m%d%H%M%S 604800",
       })
     end
 
@@ -179,8 +179,8 @@ describe 'profile::pkgrepo' do
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
         :custom_fragment => 'Protocols http/1.1',
-        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/access.log.%Y%m%d%H%M%S 604800",
-        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/error.log.%Y%m%d%H%M%S 604800",
+        :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.jenkins-ci.org/access.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.jenkins-ci.org/error.log.%Y%m%d%H%M%S 604800",
       })
     end
 
@@ -192,8 +192,8 @@ describe 'profile::pkgrepo' do
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
         :custom_fragment => 'Protocols http/1.1',
-        :access_log_pipe => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/access_unsecured.log.%Y%m%d%H%M%S 604800",
-        :error_log_pipe  => "|/usr/bin/rotatelogs -t /var/log/apache2/pkg.jenkins-ci.org/error_unsecured.log.%Y%m%d%H%M%S 604800",
+        :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.jenkins-ci.org/access_unsecured.log.%Y%m%d%H%M%S 604800",
+        :error_log_pipe  => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.jenkins-ci.org/error_unsecured.log.%Y%m%d%H%M%S 604800",
       })
     end
   end
