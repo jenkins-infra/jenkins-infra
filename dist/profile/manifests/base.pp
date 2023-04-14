@@ -10,7 +10,6 @@ class profile::base {
     include profile::ntp
     include profile::sudo
     include profile::diagnostics
-    include profile::puppetagent
     include profile::rngd
 
     # Applying the production SSH would break the Vagrant SSH system

@@ -47,6 +47,6 @@ describe 'profile::apachemisc' do
 
   context 'mod_status support' do
     it { expect(subject).to contain_class 'apache::mod::status' }
-    it { expect(subject).to contain_class 'datadog_agent::integrations::apache' }
+    it { expect(subject).to contain_file '/somewhere/apache.d/conf.yaml' }
   end
 end
