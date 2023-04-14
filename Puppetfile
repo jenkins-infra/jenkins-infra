@@ -10,6 +10,7 @@ mod 'puppetlabs-stdlib', '8.5.0'
 mod 'puppetlabs-puppetserver_gem', '1.1.0'
 mod 'puppetlabs-inifile', '1.4.3'
 mod 'puppetlabs-vcsrepo', '1.1.0'
+mod 'puppetlabs-ruby', '1.0.1'
 
 # Used for setting up ntp daemons on all machines to have a correct time
 mod 'puppetlabs-ntp', '7.3.0'
