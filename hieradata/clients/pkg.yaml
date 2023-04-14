@@ -7,4 +7,3 @@ apache::mod::event::serverlimit: 30 #default 25
 # maxrequestworkers = ServerLimit (see value above) * ThreadsPerChild (default: 25)
 apache::mod::event::maxrequestworkers: 750
 datadog_agent::host: "pkg.origin.jenkins.io"
-datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/2649 is done

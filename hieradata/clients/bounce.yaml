@@ -22,4 +22,3 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABgQD4jyaQucbqLmDZ+WiAS0bjXTTlOr7Jx+1gUs4pT5LzlL/ijg7Fa7FGK/96U5lUJKvmuF2oGI53n3JfwJuRsuKe2yTdlMrRKREn/jUBP4LnNeVs77Fau25jPERJAgo+lz3BBlRfPJ6AYdMRiVWr9ZsKJILGB9UpALjSJkN3F+W66Dm51Xjw7SiScKs5xKb+s5WisIlJp6MC1T0z24DFAu/X08f2A2jGpHloF6R6FHUPVYewc5bjj72DrFIP+6M+1k1mBzyr/5COBgbFxStrT+wk+spA9U8fhOiFWDcmpEnfJa8qwMBDwSkiwWdDgEeEbepFgeNgzfBxY0vSbBtV2rbm2Chy8yUj0EKERZIIGHo3yowP6pyK78QJceuBFd3jzzlaOotdI1ce5tFDR51FMbAAKY2YYm//LmwZcxXVC0k2Vd5kMOmRtM3Iv4WT836ZvkhMxUi+fC0HbKXMsEwXnitNmGO0c9JKe9XbMYqKCsCVoeEjL0+8nMiLkId5ZMxFyKc=
 # Per-host Datadog configuration
 datadog_agent::host: "bounce.jenkins.io"
-datadog_agent::collect_ec2_tags: true # TODO: remove when https://github.com/jenkins-infra/helpdesk/issues/3486 is done
