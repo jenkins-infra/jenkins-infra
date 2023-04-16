@@ -109,7 +109,7 @@ describe 'profile::buildagent' do
     let(:params) do
       {
         :home_dir => home,
-        :ssh_keys => private_keys,
+        :private_ssh_keys => private_keys,
       }
     end
 

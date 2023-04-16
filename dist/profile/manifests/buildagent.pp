@@ -3,8 +3,8 @@ class profile::buildagent (
   Stdlib::Absolutepath $home_dir         = '/home/jenkins',
   Boolean              $docker           = true,
   Boolean              $trusted_agent    = false,
-  Hash                 $private_ssh_keys = undef,
-  Hash                 $ssh_keys         = undef,
+  Hash                 $private_ssh_keys = {},
+  Hash                 $ssh_keys         = {},
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
