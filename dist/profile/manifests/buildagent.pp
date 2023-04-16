@@ -3,6 +3,7 @@ class profile::buildagent (
   Stdlib::Absolutepath $home_dir         = '/home/jenkins',
   Boolean              $docker           = true,
   Boolean              $trusted_agent    = false,
+  Hash                 $private_ssh_keys = undef,
   Hash                 $ssh_keys         = undef,
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
@@ -26,6 +27,7 @@ class profile::buildagent (
     home_dir => $home_dir,
     groups   => $groups,
     comment  => 'Jenkins build node user',
+    ssh_keys => $ssh_keys,
   }
 
   if $docker {
@@ -108,13 +110,13 @@ class profile::buildagent (
     ensure => absent,
   }
 
-  if $ssh_keys {
+  if $private_ssh_keys {
     $private_keys_defaults = {
       'type'  => 'ssh-rsa',
       'owner' => $user,
     }
 
-    create_resources('sshkeyman::key', $ssh_keys, $private_keys_defaults)
+    create_resources('sshkeyman::key', $private_ssh_keys, $private_keys_defaults)
   }
 }
 
