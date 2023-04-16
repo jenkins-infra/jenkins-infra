@@ -66,15 +66,10 @@ profile::jenkinscontroller::jcasc:
         - census
       ssh:
         host: "172.31.5.190"
-        credentialsId: "0e73a07a-5f72-4a90-bcce-5dcfcd10aea8"
+        credentialsId: "trusted-agent-1-ssh-key"
         maxNumRetries: 0
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6p0lupt11K5Htbzw+yYs2GMiQsVF63jSW7/eGqjWSh"
-      envVars:
-        PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.4/bin"
-      toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.8.4"
-          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     azure-vm-agents:
       azureCredentialsId: "azure-sponsorship-credentials"
