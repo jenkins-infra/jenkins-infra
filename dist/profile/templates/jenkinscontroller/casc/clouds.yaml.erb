@@ -209,6 +209,7 @@ jenkins:
           <%= line %>
         <%- end -%>
       <%- end -%>
+      <%- if k8s_setup['agent_definitions'] -%>
       templates:
       <%- k8s_setup['agent_definitions'].each do |agent| -%>
         - containers:
@@ -266,6 +267,7 @@ jenkins:
           - emptyDirVolume:
               memory: false
               mountPath: "/home/jenkins/.m2/repository"
+      <%- end -%>
       <%- end -%>
     <%- end -%>
     <%- end -%>
