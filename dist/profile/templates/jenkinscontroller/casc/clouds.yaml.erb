@@ -201,7 +201,7 @@ jenkins:
       containerCap: <%= k8s_setup['max_capacity'] %>
       credentialsId: "<%= k8s_setup['credentialsId'] %>"
       directConnection: true
-      namespace: "jenkins-agents"
+      namespace: "<%= k8s_setup['defaultNamespace'] %>"
       serverUrl: "<%= k8s_setup['url'] %>"
       <%- if k8s_setup['serverCertificate'] -%>
       serverCertificate: |
