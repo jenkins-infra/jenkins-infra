@@ -80,13 +80,23 @@ profile::jenkinscontroller::jcasc:
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
+      cik8s-bom:
+        enabled: true
+        provider: "aws"
+        credentialsId: "cik8s-jenkins-agent-bom-sa-token"
+        serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
+        defaultNamespace: jenkins-agents-bom
+        max_capacity: 345 # Max 15 workers (96 CPU / 192+ Gb) with 23 pods (4 CPU / 8G) each
+        url: SuperSecretThatShouldBeEncryptedInProduction
+        # No agent_definitions: Jenkinsfile based
       cik8s:
         enabled: true
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
-        max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
-        url: SuperSecretThatShouldBeEncryptedInProduction
+        max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
+        url: SuperSecretThatShouldBeEncyptedInProduction
+        defaultNamespace: jenkins-agents
         agent_definitions:
           - name: jnlp-maven-8
             imageName: jnlp-maven-all-in-one
@@ -138,6 +148,7 @@ profile::jenkinscontroller::jcasc:
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
         max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
         url: SuperSecretThatShouldBeEncryptedInProduction
+        defaultNamespace: jenkins-agents
         agent_definitions:
           - name: jnlp-maven-8
             imageName: jnlp-maven-all-in-one
