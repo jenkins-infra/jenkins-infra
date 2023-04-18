@@ -77,7 +77,7 @@ profile::jenkinscontroller::jcasc:
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
-          imageDefinition: jenkins-agent-ubuntu-22.04
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXhMrX6DhUDJU5Ug4nLaRGGPWFHT2u9ZnxTQuXVQTBbR3Pb8pOYr/kWxQJmZTpVoqEnanVineZn1PFTxVVkjHUirX3kKgdwu3pZTrzaklBex1C1us64SmHErbHds0KeE/EX03k+Gti/V9W1z9jcTueHSld58olNCAb5oNbyo6noqLAZehoQLS39eRvsQDb4sYmVUv9X7daZ7Zu+kCYBtBZyfDNbRFMSOYcbj9WuygCwAijVGIC6q9hJWZYe/5DKAUZnynWDdPmtzDytrc3qKDaHSQ+5nQYORcO9vTuAevUoHis5elQ8dm6VWGiyvafx7xKzqbNghu9xGz/5IA/zzC9TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBEbhkLOEK5AaKPTV2CVxhagCAx5gsM01ONtqyQ7FRhnqOtyISGBXJtdfdcJXbp2MSBtw==]
           location: "East US"
@@ -96,7 +96,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
-          imageDefinition: jenkins-agent-windows-2019
+          imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEACyYOJKI6ZUkaYxvjc2B28AgmrulBjPZu4/1CgWkG9UDeDL36IaKtwZpbrunMC1iomzchJeeamWP97FYXZEuL+UrjtksLyDWMwXRjH+reENg8zXkm0d3ixajOAxyWMp8oWBQXHbF6sabFthVFsyH/NHiJNK7SathpmEZb2CV4Wijh2OEqWD9siJiIuG6ltkOO3lof2v83QG7FdBiiUq19k3vZQ7DQa8ew8jqH0+/+nMoMnpSg93PY/CJ5ty5Wp1gKEl3fZoLWT9ajwsPSAdQz7aK74/eYkSfbFY8EYPxSteAsLZz/OUJjhKpQQH8OUiYj88caw6uw+hnCdUI7ii+goTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBcFfMvnXKFZn9P6fwpv38CgCBZNquRP9m0BnCJIVRT+f8AvBve8ReanZIVHLCtKasF4w==]
           location: "East US"

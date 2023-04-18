@@ -300,7 +300,7 @@ profile::jenkinscontroller::jcasc:
       agent_definitions:
         - name: "ubuntu-20"
           description: "Ubuntu 20.04 LTS"
-          imageDefinition: jenkins-agent-ubuntu-20.04
+          imageDefinition: jenkins-agent-ubuntu-20.04-amd64
           os: "ubuntu"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
           location: "East US 2"
@@ -322,7 +322,7 @@ profile::jenkinscontroller::jcasc:
           initScript: *BootstrapDatadogScript
         - name: "ubuntu-20-highmem"
           description: "Ubuntu 20.04 LTS Highmem"
-          imageDefinition: jenkins-agent-ubuntu-20.04
+          imageDefinition: jenkins-agent-ubuntu-20.04-amd64
           os: "ubuntu"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
           location: "East US 2"
@@ -344,7 +344,7 @@ profile::jenkinscontroller::jcasc:
           initScript: *BootstrapDatadogScript
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
-          imageDefinition: jenkins-agent-windows-2019
+          imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
           location: "East US 2"
@@ -364,7 +364,7 @@ profile::jenkinscontroller::jcasc:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretThatShouldBeEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
-          imageDefinition: jenkins-agent-windows-2022
+          imageDefinition: jenkins-agent-windows-2022-amd64
           os: "windows"
           os_version: "2022"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
