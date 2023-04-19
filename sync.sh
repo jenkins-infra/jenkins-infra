@@ -72,6 +72,6 @@ if [ "${FLAG}" = '--full-sync' ]; then
   echo ">> Update artifacts on get.jenkins.io"
   source /srv/releases/.azure-storage-env
   source /srv/releases/.venv-blobxfer/bin/activate
-  /usr/local/bin/blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json" 2>&1
-  time /usr/local/bin/blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 2>&1
+  blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --file-md5  --skip-on-md5-match --progress-bar --include "*.json" 2>&1
+  time blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "$BASE_DIR" --remote-path mirrorbits --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --transfer-threads 128  --no-progress-bar 2>&1
 fi
