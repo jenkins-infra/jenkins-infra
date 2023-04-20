@@ -220,19 +220,19 @@ profile::jenkinscontroller::jcasc:
     ec2_amis:
       ubuntu-22.04-amd64: "ami-0bd6642923953e087"
       windows-2019-amd64: "ami-0df4e33d473d4899e"
-      ubuntu-22.04-arm64: "ami-0fbf764319e4d4e9c"
+      ubuntu-22.04-arm64: "ami-082a4bc75f76ade1f"
       # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
       windows-2022-amd64: "ami-0a78169098a3f340d"
     azure_vms_gallery_image:
-      version: 1.2.2
+      version: 1.3.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:e0a2a9d133fa978981ebe5be0231dbf5dd3d7cbddb1a5fae078c7a94d0e63525
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:6131198dccfae50c9920ba935b3166af09d3d4cf6be6ccff3565f06529751bd7
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:a7dc5a7faa2cced5aab615f4bc4b3d20c1ea6af72cb501447c1f7eb7bf8d6207
-      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:76bcb817e3786f62dbdbddb5d0f07cb67ac8c821950cd0eb4ed379b9ae8122df
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:326170f83515fd4f0048dbc50884673179434ff38e55763a789a67b4504681be
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:b98623a627d3a93a7f4d28440b5e2adf46b650e32018a3997a6c562e74ad2288
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:46b6ce1929a526f6785c69bb489d728e1c742c67ca8eff6cc0a68c933dcfcc59
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:58c89388dcc76547406523beac432bfb790b4ae422fd954e1d6882025086146b
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:8146cfa2fcc740b2d72f2ad6c41e0137fe3406310d7ff03221f071913a4ce805
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:0f007bec7835b0b7e383d12eac4f860af9fa9b35d53159f67348770f97d55ce6
       jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:07599c2d5722a2cd3c976ef787bdb70bc3d8609777f0c711953ba62fb93a0356'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:b1fd0c42efe8fe6780b0fa665931f0d1e62e80c5080141085404cdb63ee64f25
