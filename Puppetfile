@@ -37,7 +37,7 @@ mod 'puppetlabs-apt', '9.0.2'
 mod 'rootexpert-snap', '1.1.0'
 
 # Apache and its dependencies
-mod 'puppetlabs-apache', '9.1.3'
+mod 'puppetlabs-apache', '10.0.0'
 
 mod 'puppetlabs-concat', '7.3.3'
 
