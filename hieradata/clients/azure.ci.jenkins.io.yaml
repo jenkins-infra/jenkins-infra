@@ -185,7 +185,7 @@ profile::jenkinscontroller::jcasc:
             memory: 1
             imagePullSecrets: dockerhub-credential
       doks:
-        enabled: true
+        enabled: false
         provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
