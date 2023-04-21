@@ -41,6 +41,15 @@ profile::jenkinscontroller::memory_limit: '30g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
+  unclassified:
+    data: |-
+      buildDiscarders:
+          configuredBuildDiscarders:
+          - "jobBuildDiscarder"
+          - defaultBuildDiscarder:
+              discarder:
+                logRotator:
+                  numToKeepStr: "5"
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -412,6 +421,7 @@ profile::jenkinscontroller::plugins:
   - azure-vm-agents # Azure VM Agents
   - blueocean # A nice view for pipelines
   - buildtriggerbadge # Add an icon with the build cause in the build history
+  - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder # Provides a job type "Folder"
   - code-coverage-api # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
   - config-file-provider # Used to provide Maven settings for proxies
