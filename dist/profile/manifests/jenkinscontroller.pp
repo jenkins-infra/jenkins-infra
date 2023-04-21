@@ -174,7 +174,7 @@ class profile::jenkinscontroller (
       'jenkinscontroller/casc/tools.yaml.erb',
       # Opt-out with `profile::jenkinscontroller::jcasc.artifact_caching_proxy: false`
       'jenkinscontroller/casc/artifact-caching-proxy.yaml.erb',
-      # Opt-out with `profile::jenkinscontroller::jcasc.unclassified: false`
+      # Opt-in with `profile::jenkinscontroller::jcasc.unclassified.data
       'jenkinscontroller/casc/unclassified.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
