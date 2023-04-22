@@ -52,6 +52,11 @@ profile::jenkinscontroller::jcasc:
                   numToKeepStr: "5"
   artifact-manager:
     data: |-
+      unclassified:
+        artifactManager:
+          artifactManagerFactories:
+          - jclouds:
+              provider: "s3"
       aws:
         awsCredentials:
           credentialsId: "aws-s3-artifact-manager"
