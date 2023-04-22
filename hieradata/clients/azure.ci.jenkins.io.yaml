@@ -50,6 +50,19 @@ profile::jenkinscontroller::jcasc:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
+  artifact-manager:
+    data: |-
+      aws:
+        awsCredentials:
+          credentialsId: "aws-s3-artifact-manager"
+          region: "us-east-2"
+        s3:
+          container: "ci-jenkins-io-artifacts"  # Resource defined in jenkins-infra/aws/ci.jenkins.io.tf
+          disableSessionToken: false            # For non AWS services only
+          prefix: "ci.jenkins.io/"              # Rule of thumb: Controller's hostname
+          useHttp: false                        # TLS for everyone \o/
+          usePathStyleUrl: false                # For non AWS services only
+          useTransferAcceleration: false        # Too expensive
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -417,6 +430,7 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
+  - artifact-manager-s3 # Store Artifact and stashes in AWS S3 (instead of the VM JENKINS_HOME directory)
   - azure-container-agents # ACI agents
   - azure-vm-agents # Azure VM Agents
   - blueocean # A nice view for pipelines
