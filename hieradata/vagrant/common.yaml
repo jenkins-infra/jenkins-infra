@@ -20,8 +20,22 @@ profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
+  unclassified:
+    data: |-
+      buildDiscarders:
+          configuredBuildDiscarders:
+          - "jobBuildDiscarder"
+          - defaultBuildDiscarder:
+              discarder:
+                logRotator:
+                  numToKeepStr: "5"
   artifact-manager:
     data: |-
+      unclassified:
+        artifactManager:
+          artifactManagerFactories:
+          - jclouds:
+              provider: "s3"
       aws:
         awsCredentials:
           credentialsId: "aws-s3-artifact-manager"
