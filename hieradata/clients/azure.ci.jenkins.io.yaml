@@ -447,7 +447,7 @@ profile::jenkinscontroller::plugins:
   - configuration-as-code # Required for CasC
   - credentials # Provides Jenkins Credentials management
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
-  - docker-workflow # Provides the "withDockerContainer" pipelie keyword
+  - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - ec2 # AWS EC2 VM agents
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
@@ -457,7 +457,6 @@ profile::jenkinscontroller::plugins:
   - generic-tool # Ligthweight tool definition (should replace 'groovy' plugin and tools)
   - groovy # TODO: remove in favor of generic-tool
   - kubernetes # Kubernetes Container Agents
-  - jobConfigHistory # TODO: remove in favor of a configuration as code job definition (JobDSL?)
   - junit-attachments # Used by ATH
   - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
   - ldap # Required for authentication/authorization
