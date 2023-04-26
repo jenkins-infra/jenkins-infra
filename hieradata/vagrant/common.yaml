@@ -20,6 +20,33 @@ profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
+  unclassified:
+    data: |-
+      buildDiscarders:
+          configuredBuildDiscarders:
+          - "jobBuildDiscarder"
+          - defaultBuildDiscarder:
+              discarder:
+                logRotator:
+                  numToKeepStr: "5"
+  artifact-manager:
+    data: |-
+      unclassified:
+        artifactManager:
+          artifactManagerFactories:
+          - jclouds:
+              provider: "s3"
+      aws:
+        awsCredentials:
+          credentialsId: "aws-s3-artifact-manager"
+          region: "us-east-2"
+        s3:
+          container: "localhost-test-bucket"    # Resource defined in jenkins-infra/aws/<controller_hostname>.tf
+          disableSessionToken: false            #
+          prefix: "localhost/"                  # Rule of thumb: Controller's hostname
+          useHttp: false                        # TLS for everyone \o/
+          usePathStyleUrl: false                # For non AWS services only
+          useTransferAcceleration: false        # Too expensive
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -425,11 +452,13 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
+  - artifact-manager-s3 # Store Artifact and stashes in AWS S3 (instead of the VM JENKINS_HOME directory)
   - azure-container-agents
   - azure-vm-agents
   - blueocean
   - build-timeout
   - buildtriggerbadge
+  - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder
   - code-coverage-api
   - config-file-provider

@@ -41,6 +41,33 @@ profile::jenkinscontroller::memory_limit: '30g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
+  unclassified:
+    data: |-
+      buildDiscarders:
+          configuredBuildDiscarders:
+          - "jobBuildDiscarder"
+          - defaultBuildDiscarder:
+              discarder:
+                logRotator:
+                  numToKeepStr: "5"
+  artifact-manager:
+    data: |-
+      unclassified:
+        artifactManager:
+          artifactManagerFactories:
+          - jclouds:
+              provider: "s3"
+      aws:
+        awsCredentials:
+          credentialsId: "aws-s3-artifact-manager"
+          region: "us-east-2"
+        s3:
+          container: "ci-jenkins-io-artifacts"  # Resource defined in jenkins-infra/aws/ci.jenkins.io.tf
+          disableSessionToken: false            # For non AWS services only
+          prefix: "ci.jenkins.io/"              # Rule of thumb: Controller's hostname
+          useHttp: false                        # TLS for everyone \o/
+          usePathStyleUrl: false                # For non AWS services only
+          useTransferAcceleration: false        # Too expensive
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -104,7 +131,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s-bom:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-bom-sa-token"
         serverCertificate: >
@@ -114,7 +141,7 @@ profile::jenkinscontroller::jcasc:
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAnPRdxpD9DpARlMqoylNtQBFWxBe3r2BBWM5kLNkttc26pxzUgbzfje/C+dOSmGn83S/mkimDFRVTjMft9/mIF5L9m2QbyXLKt630KBUPyFc1KZcfllrcaMtad+VZkv1cieLvb+iD1u4BhdFxsmG3SfaqFob9JWJdzRGCqAkvaIPg5Vdl5TzURbYTiHyrpNnrxP2vZOZQfbwq5cQmf1sf/k2aSinBm6g/BNt8cwxBex0tup16A9m7imOla5JxJiYtAEz6gY9HZBCHV301eB4SD2taX61aYPRpoh01K3qtYgDvb6LnaoUZEtsDNUkN/sRVwY/1HxcfisM4i7kcjk/3CTB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCK4mBTIaoCPJLfyQgJK4lfgFAyEO52eHBCPBz+ZDSvYhDxzKYo+ibl51dcJcp020b6jyJQwsNoD2Sq1Ahsz5Xs+t9DP/9PILukolb32tM9rK1kbz+Iry2hzixHUjE6idmJZA==]
         # No agent_definitions: Jenkinsfile based
       cik8s:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
@@ -408,17 +435,19 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
+  - artifact-manager-s3 # Store Artifact and stashes in AWS S3 (instead of the VM JENKINS_HOME directory)
   - azure-container-agents # ACI agents
   - azure-vm-agents # Azure VM Agents
   - blueocean # A nice view for pipelines
   - buildtriggerbadge # Add an icon with the build cause in the build history
+  - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder # Provides a job type "Folder"
   - code-coverage-api # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
   - config-file-provider # Used to provide Maven settings for proxies
   - configuration-as-code # Required for CasC
   - credentials # Provides Jenkins Credentials management
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
-  - docker-workflow # Provides the "withDockerContainer" pipelie keyword
+  - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - ec2 # AWS EC2 VM agents
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
@@ -428,7 +457,6 @@ profile::jenkinscontroller::plugins:
   - generic-tool # Ligthweight tool definition (should replace 'groovy' plugin and tools)
   - groovy # TODO: remove in favor of generic-tool
   - kubernetes # Kubernetes Container Agents
-  - jobConfigHistory # TODO: remove in favor of a configuration as code job definition (JobDSL?)
   - junit-attachments # Used by ATH
   - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
   - ldap # Required for authentication/authorization
