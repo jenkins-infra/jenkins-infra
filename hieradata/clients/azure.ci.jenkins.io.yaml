@@ -430,7 +430,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAG/Diw4+KrBubbNNGJxe7yGXyJJUSSbhWIRXcLBYGPxo14g/jsZLqyoO7yW7mN36IUnByMnBhQemcp2gGXj7x4GXBwbrABRd4UhIJMfMoAaKjFktl2FQk1YRdgBFDmCd7+FeOSn4GsCG1w/IVSpN1ezlqBdVqiMuG3RSyEByVBHvLXBQLulGp/ZsKGoJkW2gFTLnjxSbpu3fB8Y2KtiZ6RT3IlfnGS5Yfhl9vBxTcxgzvRrjK2h6QjVFSz/r+unAhpPKZ8BPlFCQta7/HF1bzWE4G7fX+rYiNtTAH3aWdOlD/okMUlhzsByIzi74VFvHREFVOkD908Gds7kzMh3qptjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDg3jrltbTU6EQUsnrJ7+VRgCCtEzUFqD1vyGyzqY4dHdJpD1CrMKnVM/JW0AT+y6573g==]
           location: "East US 2"
-          instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
+          instanceType: Standard_D8s_v3 # 8 vCPUS / 32 Gb
           architecture: amd64
           labels:
             - ubuntu
