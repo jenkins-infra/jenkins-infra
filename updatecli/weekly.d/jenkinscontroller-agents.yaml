@@ -21,12 +21,24 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-  getLatestInboundAllInOneContainerImage:
+  getLatestInboundAllInOneContainerImageX86:
     kind: dockerdigest
+    name: Get digest of the jenkinsciinfra/jenkins-agent-ubuntu-22.04 image
+    dependson:
+      - packerImageVersion
     spec:
       image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
-      tag: "latest"
+      tag: '{{ source "packerImageVersion"}}'
       architecture: amd64
+  getLatestInboundAllInOneContainerImageARM:
+    kind: dockerdigest
+    name: Get digest of the jenkinsciinfra/jenkins-agent-ubuntu-22.04 image
+    dependson:
+      - packerImageVersion
+    spec:
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
+      tag: '{{ source "packerImageVersion"}}'
+      architecture: arm64
   getLatestInboundMaven8WindowsContainerImage:
     kind: dockerdigest
     spec:
@@ -91,6 +103,13 @@ sources:
           pattern: 'windows_disk_size_gb = (\d*)'
           captureindex: 1
 
+conditions:
+  checkAllInOneContainerImages:
+    disablesourceinput: true
+    name: Check that x86 and arm64 all in one images are different
+    kind: shell
+    spec:
+      command: test {{ source "getLatestInboundAllInOneContainerImageX86" }} != {{ source "getLatestInboundAllInOneContainerImageARM" }}
 
 targets:
   setWindowsVMAgentDiskSize:
