@@ -366,7 +366,7 @@ profile::jenkinscontroller::jcasc:
       aws-us-east-2:
         region: us-east-2
         credentialsId: "aws-credentials-jenkins-ci"
-        sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
+        sshKeysCredentialsId: "ec2-agent-ssh"
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
             maxInstances: 5
