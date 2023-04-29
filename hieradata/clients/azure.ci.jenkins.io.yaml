@@ -130,6 +130,52 @@ profile::jenkinscontroller::jcasc:
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
+      cik8s-experiments:
+        enabled: true
+        provider: "aws"
+        credentialsId: "cik8s-jenkins-agent-experiments-sa-token"
+        serverCertificate: >
+          ENC[PKCS7,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]
+        defaultNamespace: jenkins-agents-experiments
+        max_capacity: 345 # Max 15 workers (96 CPU / 192+ Gb) with 23 pods (4 CPU / 8G) each
+        url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqqsX9flKf0ph1t5xPw8sSHwqWS5kxPicvdb9UG3137GIv/wRAzoUxLPRnjDER3SJrN7QTFFSblCxXEXMv3OtCBZH+k0y2CX4M+eC1VUcHsEYdKdiWwzJNw8qo8W8gO4kr2raneDNhGRjmDazcPJaLLcht7gTNQSr2RQdFe0GuDEps33oMzS1/fT/YbOzfg4O6yZDC9mbg2IcryhCK7RGqhDRVTQ6DFTW1RhN2o0GdoY0k0NK46Y4zCR71NACy0PHNOL6cRnBUQfc7kCFDw8/ISFJRAihxAWAG631jHGoUh26H+gXXfoQHZppSnIuGfUCoTn52lul9zoKrc7c2GKZhzB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCXHTqrSVgZnWeEyj1rnEISgFDZ/ZoneDJR74i4SLb+hIgRDuznKj9D16zFgUOhaZZP8GIxaaAJ3ruVPlmjD5mAMAknhwfpOzRM/puRDSglpEBOZJrBvRXGwceFiv1LgnAqIw==]
+        # No agent definitions (custom podTemplates() from pipelines)
       cik8s-bom:
         enabled: true
         provider: "aws"
@@ -173,9 +219,42 @@ profile::jenkinscontroller::jcasc:
           8xlRF9VyfRB6PwUns4/lO5SPXYRlShjNDPPQ6Pe3sGx0CN9IdP0U+1oDVD+i
           e3vSG2XfqeOPy0F3q5S7PmHmoSoi3QE+lAWRxvepS4lUce9rk=]
         defaultNamespace: jenkins-agents-bom
-        max_capacity: 345 # Max 15 workers (96 CPU / 192+ Gb) with 23 pods (4 CPU / 8G) each
+        max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (4 CPU / 8G) each
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqqsX9flKf0ph1t5xPw8sSHwqWS5kxPicvdb9UG3137GIv/wRAzoUxLPRnjDER3SJrN7QTFFSblCxXEXMv3OtCBZH+k0y2CX4M+eC1VUcHsEYdKdiWwzJNw8qo8W8gO4kr2raneDNhGRjmDazcPJaLLcht7gTNQSr2RQdFe0GuDEps33oMzS1/fT/YbOzfg4O6yZDC9mbg2IcryhCK7RGqhDRVTQ6DFTW1RhN2o0GdoY0k0NK46Y4zCR71NACy0PHNOL6cRnBUQfc7kCFDw8/ISFJRAihxAWAG631jHGoUh26H+gXXfoQHZppSnIuGfUCoTn52lul9zoKrc7c2GKZhzB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCXHTqrSVgZnWeEyj1rnEISgFDZ/ZoneDJR74i4SLb+hIgRDuznKj9D16zFgUOhaZZP8GIxaaAJ3ruVPlmjD5mAMAknhwfpOzRM/puRDSglpEBOZJrBvRXGwceFiv1LgnAqIw==]
-        # No agent_definitions: Jenkinsfile based
+        agent_definitions:
+          - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
+            labels:
+              - maven
+              - maven-8
+              - jdk8
+            cpus: 4
+            memory: 8
+          - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
+            labels:
+              - maven-11
+              - jdk11
+            cpus: 4
+            memory: 8
+          - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-17
+              - jdk17
+            cpus: 4
+            memory: 8
+          - name: jnlp-maven-19
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-19
+            labels:
+              - maven-19
+              - jdk19
+            cpus: 4
+            memory: 8
       cik8s:
         enabled: true
         provider: "aws"
