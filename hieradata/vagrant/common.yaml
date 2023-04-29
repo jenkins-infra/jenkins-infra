@@ -107,15 +107,6 @@ profile::jenkinscontroller::jcasc:
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
-      cik8s-bom:
-        enabled: true
-        provider: "aws"
-        credentialsId: "cik8s-jenkins-agent-bom-sa-token"
-        serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
-        defaultNamespace: jenkins-agents-bom
-        max_capacity: 345 # Max 15 workers (96 CPU / 192+ Gb) with 23 pods (4 CPU / 8G) each
-        url: SuperSecretThatShouldBeEncryptedInProduction
-        # No agent_definitions: Jenkinsfile based
       cik8s:
         enabled: true
         provider: "aws"
@@ -125,6 +116,19 @@ profile::jenkinscontroller::jcasc:
         url: SuperSecretThatShouldBeEncyptedInProduction
         defaultNamespace: jenkins-agents
         agent_definitions:
+          - name: jnlp-maven-bom
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-bom
+            cpus: 4
+            memory: 8
+            nodeSelector: "ci.jenkins.io/agents-density=3"
+            tolerations:
+              - key: "ci.jenkins.io/bom"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
           - name: jnlp-maven-8
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-8
@@ -176,59 +180,7 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
         url: SuperSecretThatShouldBeEncryptedInProduction
         defaultNamespace: jenkins-agents
-        agent_definitions:
-          - name: jnlp-maven-8
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-8
-            labels:
-              - maven
-              - maven-8
-              - jdk8
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-11
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
-            labels:
-              - maven-11
-              - jdk11
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-17
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
-            labels:
-              - maven-17
-              - jdk17
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-maven-19
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-19
-            labels:
-              - maven-19
-              - jdk19
-            cpus: 4
-            memory: 8
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp-webbuilder
-            agentJavaBin: java
-            cpus: 2
-            memory: 4
-            labels:
-              - node
-              - webbuilder
-              - ruby
-            imagePullSecrets: dockerhub-credential
-          - name: jnlp
-            labels:
-              - default
-            cpus: 1
-            memory: 1
-            imagePullSecrets: dockerhub-credential
+        # No agent definitions (to test an empty cloud)
     ec2:
       aws-us-east-2:
         region: us-east-2

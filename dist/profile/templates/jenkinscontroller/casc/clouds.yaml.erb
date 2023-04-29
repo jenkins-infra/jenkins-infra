@@ -259,6 +259,22 @@ jenkins:
           - name: "<%= agent['imagePullSecrets'] %>"
         <%- end -%>
           slaveConnectTimeout: 100
+        <%- if agent['nodeSelector'] -%>
+          nodeSelector: "<%= agent['nodeSelector'] %>"
+        <%- end -%>
+        <%- if agent['tolerations'] -%>
+          yaml: |-
+            apiVersion: "v1"
+            kind: "Pod"
+            spec:
+              tolerations:
+                <%- agent['tolerations'].each do |toleration| -%>
+                - key: "<%= toleration["key"] %>"
+                  operator: "<%= toleration["operator"] %>"
+                  value: "<%= toleration["value"] %>"
+                  effect: "<%= toleration["effect"] %>"
+                <%- end -%>
+          <%- end -%>
           yamlMergeStrategy: "override"
           volumes:
           - emptyDirVolume:
