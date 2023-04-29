@@ -2,16 +2,14 @@
 jenkins:
   clouds:
   <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
-    <%- # Creating one cloud per template because there is no "maxVirtualMachinesLimit" directive applicable for a single template -%>
-    <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
   - azureVM:
       azureCredentialsId: "<%= @jcasc['cloud_agents']['azure-vm-agents']['azureCredentialsId'] %>"
-      cloudName: "azure-<%= agent['name'] %>"
+      cloudName: "azure-vms"
       deploymentTimeout: 1200
       existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
-      maxVirtualMachinesLimit: <%= agent['maxInstances'] %>
       resourceGroupReferenceType: "existing"
       vmTemplates:
+    <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
       - agentLaunchMethod: "SSH"
         agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
         credentialsId: "<%= agent['credentialsId'] %>"
@@ -65,6 +63,9 @@ jenkins:
         templateName: "<%= agent['name'] %>"
         usageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
         virtualMachineSize: "<%= agent['instanceType'] %>"
+        <%- if agent['maxInstances'] -%>
+        maxVirtualMachinesLimit: <%= agent['maxInstances'] %>
+        <%- end -%>
       <%- if agent['usePrivateIP'] -%>
         usePrivateIP: true
         virtualNetworkName: "<%= agent['virtualNetworkName'] %>"
