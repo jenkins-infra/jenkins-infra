@@ -10,8 +10,7 @@ jenkins:
       resourceGroupReferenceType: "existing"
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
-      - agentLaunchMethod: "SSH"
-        launcher:
+      - launcher:
           ssh:
             preInstallSsh: false
         agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
