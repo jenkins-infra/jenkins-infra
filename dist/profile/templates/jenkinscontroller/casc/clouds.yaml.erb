@@ -10,7 +10,9 @@ jenkins:
       resourceGroupReferenceType: "existing"
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
-      - agentLaunchMethod: "SSH"
+      - launcher:
+          ssh:
+            preInstallSsh: false
         agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
         credentialsId: "<%= agent['credentialsId'] %>"
         diskType: "managed"
@@ -48,7 +50,6 @@ jenkins:
         osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskSize'] %>
         osDiskStorageAccountType: <%= agent['osDiskStorageAccountType'] ? agent['osDiskStorageAccountType'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskStorageAccountType'] %>
         osType: "<%= agent['os'].to_s == "windows" ? 'Windows' : 'Linux' %>"
-        preInstallSsh: false
       <%- if agent['idleTerminationMinutes'] -%>
         retentionStrategy:
           azureVMCloudRetentionStrategy:
