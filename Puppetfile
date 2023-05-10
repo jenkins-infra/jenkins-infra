@@ -41,7 +41,7 @@ mod 'rootexpert-snap', '1.1.0'
 # Apache and its dependencies
 mod 'puppetlabs-apache', '9.1.2'
 
-mod 'puppetlabs-concat', '8.0.0'
+mod 'puppetlabs-concat', '8.0.1'
 
 # For managing server-side ssh configuration options
 mod 'saz-ssh', '5.0.0'
