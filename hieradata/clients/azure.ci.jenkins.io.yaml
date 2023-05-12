@@ -465,7 +465,8 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
           location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
           architecture: amd64
           labels:
             - ubuntu
@@ -489,7 +490,8 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXcLW9OnUwAhARiFS6P8vg8YrfYj9DHXTJmXqp+U/Ytjeova0bH/C8bhEbOykV4nJLMReHrrfEu5Jx+Eg+wjfq7LGD4bkAsp3covik/lkxAEDiMACIU3mWGlgeQ+0Tf4tpEHDOlWXNiA33T+3Knr1/v4H4vQOWC63tASAUUIPys2sesrv4RilEqKTd39oT9ugsQDVhftEHbp4eaqmI9zTXpU5hvy2fpJp5F2b5o7ohNvdRsovrsbN7XWJvMxvRbg/YMK/yq3zdowBzUFqXRcmiNC7T2iV0/lNjKKJOV1j4y0VDQoMomOZ5+zrozDq44FhwtAXRHJMyHr8lhtYZth0PTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVFqN/yr2UmCADos0nCHO7gCC7w2deUgakcUIXAZ7Y1M+Y3+dGENY/F2cNkceceJpQhw==]
           location: "East US 2"
-          instanceType: Standard_D4ps_v5 # 4 vCPUS / 16 Gb
+          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
           architecture: arm64
           labels:
             - ubuntu
@@ -536,7 +538,8 @@ profile::jenkinscontroller::jcasc:
           os_version: "2019"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
           location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
           architecture: amd64
           labels:
             - docker-windows
@@ -549,7 +552,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: false
+          spot: true
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAwauZAjJ4q+FlbVZP/oph6SieLs4uV84UsFXGSTZ6Jqss1+54QUo5CE0yewkAWdS7NPieofhFVLGZ80ctY1hMJKFyEm1I28tfTSO+sTl8y/viw9Osw7SjlkoJnSyjyC6Zz1y1Zcvt0hRvTYhrx1e/4xvQT8hyvS/l1YpPTwZeMIlZfcE/kwbQb//t5sOOQN/t16gIczUIs1GoCl/AxqPDugUDp4ywQpowqDdn66PjISyvdzSoFq+K9jKn77cQmO6mR6X1taQL7LG7/SZSjR971wUFJzB0AA+gOgTlsC6meoEOuufDDaO+GKNZkY5ECnFh5/WMwdUSyZ8eLN6EyHIegzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA37mrATOdrzzAq7YzIvTiogDAQ9lBBTveYMxpwbfdP9rY2qom/AIqvgraMdmde8zJ2w4ilVeR1aj0IHF80Kh++jNg=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -559,7 +562,8 @@ profile::jenkinscontroller::jcasc:
           os_version: "2022"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAa3oGTsMY7PLE9o717wXQutJn5erhOYg2JV0KX1wR4JrAOBQ3d8DIdy7Uz60N/ANgEDZyrEgt2PYs51RYhtJV5OY5r7GxHecYj0fClGCkGVn+Zkz7SWLQlppK5QX3HaXFXwEXMvsn3CRZai8r2y6f0xxoVuEudih2eCxZ9ayq5CdOQYE3hXmGa6lXvpjpQTJpx1qwcyQRy/eieps4i3571pY8GYDQRkTdGKWrNpO7j59EgnEp64s+VRrSJuYHq+AqOPzA3DY8onnHCGg+uFFJ5W0ZtKDwj8hBHW8nKt7U0hURivHKbfr0S1mb9SDO5G5i/4OB6cIio6COS1pTsHbfSjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAKIIdotZJv1Gi79wx+4nFBgCCJXHclsURJelhh4ZScsLY7s1rrE+6qCUIDMOkDz7kaBw==]
           location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
           architecture: amd64
           labels:
             - docker-windows-2022
@@ -570,7 +574,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: false
+          spot: true
           initScript:
             - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAgpgVYZ4sEtsRHFfQ/08BnGI0W94lNVS0IuzpyDq9NC1vtb8uJqF3H3pm2B9nKik+cu0z8XAQfbgED+sbz9Aia5PmEibBfAcufblETKPEoQMwYtkCLUjkHGmQZXxSTfmFRumgRWWjm4tguG/3ouVoUEcZIJVviPkacejwgcXBC543AmEFvLmLxmX1m8mNGIi9yl9S6SGyAC+1VuW3E+oN36sXm1jzL0b5NHuJFF/Iso3lYa9EhYBfudyn7OwJN26CrNcQcOY9jilu1zwHAzIUDXGmCyhpfdU2AFUVDnEKpJ9blA78AWjm3w9u/SLtdgV0qsfSG47lY5nsMs9q1EqyZzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBnnHwSeC2exXv3gY4Zm2VRgDC3wSNm8xRReG3fcUMBFdX2HYo2HD8yUWXzSTq9yTZg9yGFEAfp0YDAhyWQK0LdkHY=]' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
     azure-container-agents:
