@@ -457,6 +457,7 @@ profile::jenkinscontroller::jcasc:
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
       resource_group: eastus-cijenkinsio
+      maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
@@ -474,7 +475,7 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - linux-amd64
-          maxInstances: 80
+          maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
@@ -497,7 +498,7 @@ profile::jenkinscontroller::jcasc:
             - ubuntu
             - arm64docker
             - arm64linux
-          maxInstances: 80
+          maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
@@ -522,7 +523,7 @@ profile::jenkinscontroller::jcasc:
             - highram
             - docker-highmem
             - linux-amd64-big
-          maxInstances: 40
+          maxInstances: 50
           useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
@@ -545,7 +546,7 @@ profile::jenkinscontroller::jcasc:
             - docker-windows
             - docker-windows-2019
             - windows
-          maxInstances: 80
+          maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
@@ -567,7 +568,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-2022
-          maxInstances: 40
+          maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true

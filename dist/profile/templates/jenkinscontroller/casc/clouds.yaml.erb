@@ -8,6 +8,7 @@ jenkins:
       deploymentTimeout: 1200
       existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
       resourceGroupReferenceType: "existing"
+      maxVirtualMachinesLimit: <%= @jcasc['cloud_agents']['azure-vm-agents']['maxInstances'] %>
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
       - launcher:
