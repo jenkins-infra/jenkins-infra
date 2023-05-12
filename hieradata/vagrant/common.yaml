@@ -327,8 +327,9 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           storageAccount: SuperSecretThatShouldBeEncryptedInProduction
           location: "East US 2"
-          instanceType: Standard_D16s_v3 # 16 vCPUS / 64 Gb
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           architecture: amd64
+          ephemeralOSDisk: true # Should set osDiskStorageAccountType to Standard_LRS
           labels:
             - highmem
             - highram
@@ -341,7 +342,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "prod-jenkins-public-prod"
           virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
           subnetName: "ci.j-agents-vm"
-          spot: false
+          spot: true
           initScript: *BootstrapDatadogScript
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"

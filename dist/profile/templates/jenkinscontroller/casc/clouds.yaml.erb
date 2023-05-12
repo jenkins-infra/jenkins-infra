@@ -19,7 +19,7 @@ jenkins:
         doNotUseMachineIfInitFails: true
         enableMSI: false
         enableUAMI: false
-        ephemeralOSDisk: false
+        ephemeralOSDisk: "<%= agent['ephemeralOSDisk'] ? agent['ephemeralOSDisk'] : false %>"
       <%- if agent['initScript'] && !agent['initScript'].empty? -%>
         executeInitScriptAsRoot: true
         initScript: |
@@ -48,7 +48,7 @@ jenkins:
         location: "<%= agent['location'] %>"
         noOfParallelJobs: 1
         osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskSize'] %>
-        osDiskStorageAccountType: <%= agent['osDiskStorageAccountType'] ? agent['osDiskStorageAccountType'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskStorageAccountType'] %>
+        osDiskStorageAccountType: <%= agent['ephemeralOSDisk'] ? "Standard_LRS" : (agent['osDiskStorageAccountType'] ? agent['osDiskStorageAccountType'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskStorageAccountType']) %>
         osType: "<%= agent['os'].to_s == "windows" ? 'Windows' : 'Linux' %>"
       <%- if agent['idleTerminationMinutes'] -%>
         retentionStrategy:
