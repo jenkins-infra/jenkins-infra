@@ -1,0 +1,34 @@
+<%- if @jcasc['datadog'] -%>
+unclassified:
+  datadogGlobalConfiguration:
+    # Select the `Datadog Agent` mode (DSD).
+    reportWith: "DSD"
+    # Configure the `Agent` host
+    targetHost: <%= @jcasc['datadog']['targetHost'] ? @jcasc['datadog']['targetHost'] : '127.0.0.1' %>
+    # Configure the agent port
+    targetPort: <%= @jcasc['datadog']['targetPort'] ? @jcasc['datadog']['targetPort'] : 8125 %>
+    # Configure the `Traces Collection` port
+    targetTraceCollectionPort: <%= @jcasc['datadog']['targetTraceCollectionPort'] ? @jcasc['datadog']['targetTraceCollectionPort'] : 8126 %>
+    # Enable CI Visibility flag
+    enableCiVisibility: <%= @jcasc['datadog']['enableCiVisibility'] ? @jcasc['datadog']['enableCiVisibility'] : true %>
+    # (Optional) Configure your CI Instance name
+    ciInstanceName: <%= @jcasc['datadog']['host'] %>
+    # Enable logs collection
+    collectBuildLogs: <%= @jcasc['datadog']['collectBuildLogs'] ? @jcasc['datadog']['collectBuildLogs'] : false %>
+    # Enter the name you'd like to identify your Jenkins host as. Must comply with the hostname format set in RFC 1123. Leave empty to use the detected hostname.
+    hostname: <%= @jcasc['datadog']['host'] %>
+    # A list of tags to apply globally to all submissions.
+    globalTags: <%= @jcasc['datadog']['globalTags'] ? @jcasc['datadog']['globalTags'] : "controller:" + @jcasc['datadog']['host'] %>
+    # Send security events like login, logout, and login failure.
+    emitSecurityEvents: <%= @jcasc['datadog']['emitSecurityEvents'] ? @jcasc['datadog']['emitSecurityEvents'] : true %>
+    # Retry sending a log if sending to Datadog fails
+    retryLogs: <%= @jcasc['datadog']['retryLogs'] ? @jcasc['datadog']['retryLogs'] : true %>
+    # Refresh Dogstatsd Client when your agent IP changes
+    refreshDogstatsdClient: true
+    # Cache build runs when calculating pause duration
+    cacheBuildRuns: true
+    # Send system events like Node changes of states.
+    emitSystemEvents: <%= @jcasc['datadog']['emitSystemEvents'] ? @jcasc['datadog']['emitSystemEvents'] : true %>
+    # Send events on configuration changes to jobs or changes to jenkins. These events include changes by the system which may be frequent and redundant.
+    emitConfigChangeEvents: <%= @jcasc['datadog']['emitConfigChangeEvents'] ? @jcasc['datadog']['emitConfigChangeEvents'] : false %>
+<%- end -%>

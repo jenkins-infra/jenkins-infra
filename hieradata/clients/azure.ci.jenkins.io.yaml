@@ -611,6 +611,8 @@ profile::jenkinscontroller::jcasc:
               - maven-19-windows
   artifact_caching_proxy:
     disabled: false
+  datadog:
+    host: "ci.jenkins.io"
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
