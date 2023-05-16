@@ -424,6 +424,8 @@ profile::jenkinscontroller::jcasc:
               - maven-19-windows
   artifact_caching_proxy:
     disabled: false
+  datadog:
+    host: "vagrant.local"
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
@@ -440,6 +442,7 @@ profile::jenkinscontroller::plugins:
   - configuration-as-code
   - credentials
   - credentials-binding
+  - datadog
   - docker-workflow
   - ec2
   - embeddable-build-status
