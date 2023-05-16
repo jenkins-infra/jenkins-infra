@@ -266,7 +266,7 @@ class profile::jenkinscontroller (
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
     ],
-    ports            => ['8080:8080', '50000:50000'],
+    ports            => ['8080:8080', '50000:50000', '8125:8125', '8126:8126'],
     volumes          => ["${jenkins_home}:/var/jenkins_home"],
     pull_on_start    => true,
     require          => [
