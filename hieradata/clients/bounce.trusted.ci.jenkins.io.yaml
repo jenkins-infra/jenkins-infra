@@ -1,0 +1,12 @@
+---
+accounts:
+  wfollonier:
+    ssh_keys:
+      wfollonier:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQC3oj0NN9UL1dIfBP44JDsOj/bGX/DG/GIv82imhgWbCQvsKcPczb32+W+zVo+OF3mADX4EoBG681GGopjYCKLreo8D3nFSP/+kdAt0lEqbufzoLvSyyxa0RUHDwzVQIiMiNlzDiWqLRkF2TdeFDl5u+bbdPTYCGil5/qZ3Ro8sG9ayWXMxh+f+s0MAU9qFIwau838RF2R9OCMjmPodW/zf+Mcq+SqrbZyYfYha5jOWxoN8IdrGuAOQeYks7mrXC6qq5N9ojUtMKONvayFwNOsuC0U8PYUtukkHVnm2IK9KM1A38HDlV9eTF8ac7yCUHLlttmoIBdLUuLJAw72BQkK/
+  notmyfault:
+    ssh_keys:
+      notmyfault:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABgQD4jyaQucbqLmDZ+WiAS0bjXTTlOr7Jx+1gUs4pT5LzlL/ijg7Fa7FGK/96U5lUJKvmuF2oGI53n3JfwJuRsuKe2yTdlMrRKREn/jUBP4LnNeVs77Fau25jPERJAgo+lz3BBlRfPJ6AYdMRiVWr9ZsKJILGB9UpALjSJkN3F+W66Dm51Xjw7SiScKs5xKb+s5WisIlJp6MC1T0z24DFAu/X08f2A2jGpHloF6R6FHUPVYewc5bjj72DrFIP+6M+1k1mBzyr/5COBgbFxStrT+wk+spA9U8fhOiFWDcmpEnfJa8qwMBDwSkiwWdDgEeEbepFgeNgzfBxY0vSbBtV2rbm2Chy8yUj0EKERZIIGHo3yowP6pyK78QJceuBFd3jzzlaOotdI1ce5tFDR51FMbAAKY2YYm//LmwZcxXVC0k2Vd5kMOmRtM3Iv4WT836ZvkhMxUi+fC0HbKXMsEwXnitNmGO0c9JKe9XbMYqKCsCVoeEjL0+8nMiLkId5ZMxFyKc=
+# Per-host Datadog configuration
+datadog_agent::host: "bounce.trusted.ci.jenkins.io"

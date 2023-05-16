@@ -111,3 +111,14 @@ node 'private.vpn.jenkins.io' {
 node 'bounce' {
   include role::bounce
 }
+
+## New VMs (Azure) for trusted.ci.jenkins.io
+node 'bounce.trusted.ci.jenkins.io' {
+  include role::bounce
+}
+node 'agent.trusted.ci.jenkins.io' {
+  include role::updatecenter
+}
+node 'trusted.ci.jenkins.io' {
+  include role::jenkins::controller
+}

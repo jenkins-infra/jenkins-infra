@@ -1,0 +1,8 @@
+---
+# Per-host Datadog configuration
+datadog_agent::host: "agent.trusted.ci.jenkins.io"
+# Allow trusted.ci.jenkins.io controller to use SSH for the agent connection
+profile::buildagent::ssh_keys:
+  trusted.ci.jenkins.io:
+    type: ed25519
+    key: AAAAC3NzaC1lZDI1NTE5AAAAINdeZJh/nqgNvkhSph152vK/9vWzEzYXd6GWk68edm2E
