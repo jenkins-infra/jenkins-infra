@@ -238,10 +238,14 @@ class profile::archives (
     mode    => '0755',
   }
 
+  package { 'cron':
+    ensure => installed,
+  }
+
   cron { 'mirrorsync':
     command => '/usr/bin/mirrorsync',
     user    => 'mirrorsync',
     minute  => 30,
-    require => File['/usr/bin/mirrorsync'],
+    require => [File['/usr/bin/mirrorsync'],Package['cron']],
   }
 }
