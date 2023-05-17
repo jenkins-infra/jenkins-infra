@@ -1,7 +1,8 @@
 #
 # This profile configures letsencrypt on the host it's applied to
 class profile::letsencrypt (
-  Hash $dns_azure                  = {},
+  String $plugin  = '',
+  Hash $dns_azure = {},
 ) {
   # Snap package is broken (despite being really helpfull) until https://github.com/terrycain/certbot-dns-azure/issues/28 is fixed
   # So let's use Python (3.8 required) with pinned (and old) versions for both certbot and certbot azure-dns plugin
@@ -56,24 +57,18 @@ class profile::letsencrypt (
     creates => '/usr/local/bin/certbot',
   }
 
-  exec { 'Install certbot-apache plugin':
-    require => Exec['Install certbot'],
-    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
-    unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
-  }
-
-  exec { 'Install certbot-dns-azure plugin':
-    require => Exec['Install certbot'],
-    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
-    unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
-  }
-
   $default_config = {
     email  => lookup('letsencrypt::config::email'),
     server => lookup('letsencrypt::config::server'),
   }
 
-  if $dns_azure == {} {
+  if $plugin == 'apache' {
+    exec { 'Install certbot-apache plugin':
+      require => Exec['Install certbot'],
+      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
+      unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
+    }
+
     # Case of HTTP-01 challenge
     $_additional_config = {
       'authenticator'        => 'apache',
@@ -83,7 +78,15 @@ class profile::letsencrypt (
     file { '/etc/letsencrypt/azure.ini':
       ensure  => 'absent',
     }
-  } else {
+  }
+
+  if $plugin == 'dns-azure' {
+    exec { 'Install certbot-dns-azure plugin':
+      require => Exec['Install certbot'],
+      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
+      unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
+    }
+
     # Case of DNS-01 challenge (with Azure DNS)
     $_additional_config = {
       'authenticator'        => 'dns-azure',

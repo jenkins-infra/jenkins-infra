@@ -87,6 +87,7 @@ letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/direc
 letsencrypt::renew_cron_ensure: "present"
 letsencrypt::renew_cron_minute: 0
 letsencrypt::renew_cron_hour: 6
+profile::letsencrypt::plugin: apache
 profile::pkgrepo::ssh_keys:
   release.ci.jenkins.io:
     key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDBi5DJcmDRAa6J7d4Zj9alGw0ZNwDftfKPNqyMoJrbRyvqvhKi8z0mg5HMK+ohkc+Xk5+HWpLNf36nn4b+Jn9g2CZJfzkt2SL7HbCN4eVLkQmqmWG/y9HCSmld9bTVWFy1zD34qNiaZw1ldsusvokyU/LTIgWHsCtbsgMoE+CzRKKRJXDrUmnY4e4q5leTHjOdShlrFiakyy5XYtUKG0zlnJMqIvxyTSo+jKKA1iNeW0hP8knu4uhFCGcYOZps1eNH2z+7Vq+wq6lsNfU11CDfuCSZBG24VNMMf75giFVc2PdAzlWrY+BXi7QeDaPUqilMf3d2egKb/dFxhkTGQL11

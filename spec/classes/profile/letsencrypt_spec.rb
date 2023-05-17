@@ -32,6 +32,7 @@ describe 'profile::letsencrypt' do
     let(:environment) { 'production' }
     let(:params) do
       {
+        :plugin => 'dns-azure',
         :dns_azure => {
           :sp_client_id => "sp-app-id",
           :sp_client_secret => "token",
@@ -52,7 +53,7 @@ describe 'profile::letsencrypt' do
         :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
       })
 
-      expect(subject).to contain_exec('Install certbot-apache plugin').with({
+      expect(subject).not_to contain_exec('Install certbot-apache plugin').with({
         :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-apache==1.32.0',
         :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
       })
