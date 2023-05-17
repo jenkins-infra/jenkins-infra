@@ -228,10 +228,10 @@ profile::jenkinscontroller::jcasc:
       version: 1.5.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:1d19d4836f80bf915c81efc9ec685552fe7ebe2b6a0b12edd7af8116028d25b4
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:f9ad922812c4bc83f3aec6a3119977b1b051ab6e869a0b69cde78c3cc49f2a01
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:809edf5c5b85975d7ad09937c8665a132c0fe2dc90d624bea124f368ba2ac93f
-      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:53675580c95a6d8f334400cca4943347a059aba980d5b563c6c3ebbb8b31330f
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:6b4b95d8e122493bc0099a14ba6b3ffb4a63e2e1427c5b2d910af07bcfe4f44e
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:eefb7a1279853f6496f13297c9a3b52192cc8cea77d34853522728d7bc51f017
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:887420dae264e83cd010efc463b227b64aec29fdf216ee28fbf948ab519b60a7
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:3ff0669251b673821d2873a6da24a55222e76d1eeb0ceaeae23259cfb27bfb35
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:0a9f92da81a4691ffed0463b9e6ad44cc4edf244e76ae730a46c959128862b94
       jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:64ee66820084808ecf6b2cad4da26449646eb1effa2c4a1612fc6aa2077b1f96'
