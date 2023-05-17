@@ -9,6 +9,9 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 
+# TODO: keep updated with updatecli when all ubuntu images are switched to 22.04
+docker::version: "5:24.0.0-1~ubuntu.22.04~jammy"
+
 accounts:
   wfollonier:
     ssh_keys:
