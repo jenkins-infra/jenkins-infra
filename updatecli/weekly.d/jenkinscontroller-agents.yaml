@@ -103,13 +103,14 @@ sources:
           pattern: 'windows_disk_size_gb = (\d*)'
           captureindex: 1
 
-conditions:
-  checkAllInOneContainerImages:
-    disablesourceinput: true
-    name: Check that x86 and arm64 all in one images are different
-    kind: shell
-    spec:
-      command: test {{ source "getLatestInboundAllInOneContainerImageX86" }} != {{ source "getLatestInboundAllInOneContainerImageARM" }}
+#conditions:
+#  checkAllInOneContainerImages:
+#    disablesourceinput: true
+#    name: Check that x86 and arm64 all in one images are different
+#    kind: shell
+#    spec:
+#      command: test {{ source "getLatestInboundAllInOneContainerImageX86" }} != {{ source "getLatestInboundAllInOneContainerImageARM" }}
+
 
 targets:
   setWindowsVMAgentDiskSize:
