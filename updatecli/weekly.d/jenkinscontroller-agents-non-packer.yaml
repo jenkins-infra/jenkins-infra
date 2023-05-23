@@ -1,5 +1,5 @@
 ---
-name: Bump windows container agent templates version on all controllers
+name: Bump non-packer agent templates version on all controllers
 
 scms:
   default:
@@ -101,7 +101,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump windows container agent templates version on all controllers
+    title: Bump non-packer container agent templates version on all controllers
     spec:
       labels:
         - dependencies
