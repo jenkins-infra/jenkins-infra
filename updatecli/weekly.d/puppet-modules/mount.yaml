@@ -1,0 +1,58 @@
+---
+name: Bump the Mount Puppet Module
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  latestVersion:
+    kind: githubrelease
+    name: Get the latest puppetlabs-mount module version
+    spec:
+      owner: puppetlabs
+      repository: puppetlabs-mount_core
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: semver
+    transformers:
+      - trimprefix: v
+
+conditions:
+  testPuppetModuleExists:
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --verbose --silent --show-error --location --fail --head --output /dev/null https://forge.puppet.com/v3/files/puppetlabs-mount_core-{{ source "latestVersion" }}.tar.gz
+
+targets:
+  puppetfile:
+    name: "Update Puppetfile with the latest Mount module version"
+    kind: file
+    sourceid: latestVersion
+    spec:
+      file: Puppetfile
+      matchpattern: >
+        mod 'puppetlabs-mount_core'(.*)
+      replacepattern: >
+        mod 'puppetlabs-mount_core', '{{ source "latestVersion" }}'
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump the Mount Puppet Module to {{ source "latestVersion" }}
+    spec:
+      labels:
+        - puppet-module
+        - dependencies
