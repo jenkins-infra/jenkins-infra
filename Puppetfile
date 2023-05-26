@@ -16,7 +16,7 @@ mod 'puppetlabs-ruby', '1.0.1' # Required by datadog_agent - https://forge.puppe
 mod 'puppetlabs-ntp', '7.3.0'
 
 # https://puppet.com/docs/puppet/6/type.html#supported-type-modules-in-puppet-agent
-mod 'puppetlabs-mount_core', '1.1.0'
+mod 'puppetlabs-mount_core', '1.2.0'
 mod 'puppetlabs-cron_core', '1.2.0'
 
 # Module for managing sudoers across all machines
