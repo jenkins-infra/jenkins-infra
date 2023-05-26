@@ -9,6 +9,9 @@ profile::openvpn::networks:
     name: "'private-vnet-data-tier' subnet from 'private-vnet' virtual network"
     route-metric: 200
     network_cidr: 10.248.1.0/24
+    peered_network_cidrs:
+      - 10.244.0.0/14 # Access to the public-vnet network
+      - 10.252.0.0/21 # Access to the public-db network
 profile::openvpn::vpn_network:
   name: private
   # Abstract network
