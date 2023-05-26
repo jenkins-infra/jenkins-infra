@@ -120,8 +120,20 @@ node 'bounce.trusted.ci.jenkins.io' {
   include role::bounce
 }
 node 'agent.trusted.ci.jenkins.io' {
+  mount { '/home/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=d87e9734-13a2-4e45-b906-6410a913c148',
+    fstype => 'ext4',
+  }
   include role::updatecenter
 }
-node 'trusted.ci.jenkins.io' {
+node 'controller.trusted.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=60de6f1a-4c88-47c6-928d-4dcb55e02f21',
+    fstype => 'ext4',
+  }
   include role::jenkins::controller
 }
