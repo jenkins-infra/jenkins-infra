@@ -240,7 +240,7 @@ profile::jenkinscontroller::jcasc:
   tools_default_versions:
     jdk8: "8u372-b07"
     jdk11: "11.0.19+7"
-    jdk17: "17.0.7+7"
+    jdk17: 17.0.7+7
     jdk19: "19.0.2+7"
     maven: "3.9.2"
   artifact_caching_proxy:
