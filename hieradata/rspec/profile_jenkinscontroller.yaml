@@ -39,7 +39,7 @@ profile::jenkinscontroller::jcasc:
       envVars:
         PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.9.2/bin"
       toolLocation:
-        - home: "/home/jenkins/tools/apache-maven-3.9.2"
+        - home: /home/jenkins/tools/apache-maven-3.9.2
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
