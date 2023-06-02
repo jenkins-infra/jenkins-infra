@@ -49,11 +49,14 @@ targets:
       key: "docker::version"
     scmid: default
   UpdateHieradataPrivateVPNHasDockerVersionKey:
-    name: Update docker-ce version in hieradata/clients/private.vpn.jenkins.io.yaml
+    name: Update docker-ce version in hieradata/clients/
     kind: yaml
     sourceid: lastVersionJammy
     spec:
-      file: hieradata/clients/private.vpn.jenkins.io.yaml
+      files:
+        - hieradata/clients/private.vpn.jenkins.io.yaml
+        - hieradata/clients/controller.trusted.ci.jenkins.io.yaml
+        - hieradata/clients/agent.trusted.ci.jenkins.io.yaml
       key: "docker::version"
     scmid: default
 
