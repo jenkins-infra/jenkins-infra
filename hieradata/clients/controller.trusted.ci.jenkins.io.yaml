@@ -73,7 +73,7 @@ profile::jenkinscontroller::jcasc:
         credentialsId: "trusted-agent-1-ssh-key"
         maxNumRetries: 0
         retryWaitTime: 0
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII6p0lupt11K5Htbzw+yYs2GMiQsVF63jSW7/eGqjWSh"
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMiQn2MajD7mCTbj7+HrZS3rfhT6juqQCdcck50rc+Dc"
   cloud_agents:
     azure-vm-agents:
       azureCredentialsId: "azure-sponsorship-credentials"
