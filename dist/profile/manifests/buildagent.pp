@@ -54,12 +54,13 @@ class profile::buildagent (
 
   if $facts['kernel'] == 'Linux' {
     ensure_packages([
-        'build-essential',
+        'build-essential', # Build requirement
         'curl',
         'ca-certificates',
-        'make',
-        'git',
+        'make', # Build requirement
+        'git', # Jenkins agent requirement
         'openssl',
+        'rsync', # Required by Update Center to send data to remote systems
         'subversion',
         'tar',
         'unzip',
