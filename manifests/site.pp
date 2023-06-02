@@ -78,25 +78,10 @@ node 'azure.ci.jenkins.io' {
   include role::jenkins::controller
 }
 
-# TODO: remove if https://github.com/jenkins-infra/helpdesk/issues/3486 is finished with success
-# Jenkins controller for trusted.ci.jenkins.io
-node 'trusted-ci' {
-  $hiera_role = 'trustedci'
-  sshkeyman::hostkey { ['trusted.ci.jenkins.io', 'ci.trusted.jenkins.io']: }
-  include role::jenkins::controller
-}
-
 # Jenkins controller for cert.ci.jenkins.io
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
   include role::privateci
-}
-
-# TODO: remove if https://github.com/jenkins-infra/helpdesk/issues/3486 is finished with success
-node 'trusted-agent-1' {
-  notice('This agent is trusted!')
-  $hiera_role = 'trustedagent'
-  include role::updatecenter
 }
 
 node 'vpn.jenkins.io' {
@@ -107,12 +92,6 @@ node 'vpn.jenkins.io' {
 node 'private.vpn.jenkins.io' {
   sshkeyman::hostkey { ['private.vpn.jenkins.io']: }
   include role::openvpn
-}
-
-# TODO: remove if https://github.com/jenkins-infra/helpdesk/issues/3486 is finished with success
-# SSH Bastion used to reach trusted.ci and its trusted-agent-1
-node 'bounce' {
-  include role::bounce
 }
 
 ## New VMs (Azure) for trusted.ci.jenkins.io
