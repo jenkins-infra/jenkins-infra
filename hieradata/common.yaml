@@ -151,7 +151,7 @@ datadog_agent::integrations:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: "2.387.3-jdk11"
+profile::jenkinscontroller::docker_tag: "2.401.1-jdk11"
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -228,13 +228,13 @@ profile::jenkinscontroller::jcasc:
       version: 1.7.1
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:abd9dcfca680c0e67ed7537801d252c95aafcb9bb81337749c8d738552c4aeb2
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:802d287d952d677ec11407baa610e9ab2a73fce81180d7ce30aab0eb1aec1b5c
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:52f6325dc73a0b6aadcfc2b78867069eb15fdcc6a239e1ddf983a833ce3cba32
-      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:8b14e476afa2b0433d94b02a69153ffec83d426ec5f30e01c3ed5a3cabe9ffbc
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:ed9bc546956e61b3aa7ec88dccc24b7bcfde4987fe34e700377f8b9387c4e5fa
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:c50cec17488bdc69327dbd54444ed85ab23dff25d00f8630659cfb903e487c31
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:79d22d16488a64eb2350d45881190683510c4f356aa6d942839345d0c0cf0ffc
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:4f4e0b29a74502b03a3bf396f41fbc1e9e85a3192c6236b7076d77d4f7a10f22
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:9e3ba22eeb83439d2a8cb4bba5cc40f82a8a68cb24aa9832edb8958ad6dad580
-      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:4e2affea2cd5233433accc815f25bc1b813b9fb66d3330b55546eca600c77072'
+      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:77f8dfb3a33d4771a69bf24a95f0be9403b9a8f6fd71b0f7d90a3ffd034decc5'
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent@sha256:531cf1e57ad4fe37e6e1d2aaa8ce359534a8f73f671e516b61605e26b6dc05e2
   tools_default_versions:
