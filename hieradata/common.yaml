@@ -228,7 +228,7 @@ profile::jenkinscontroller::jcasc:
       version: 1.10.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:ed9bc546956e61b3aa7ec88dccc24b7bcfde4987fe34e700377f8b9387c4e5fa
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:cbdf90b2b9d8249fd024aab3891dd0eb2227166eb89ecff864bb023ff986b9b4
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:84f540e67ea7b99d33c5e32d8caf1063a68dad6d76cbee1d00006a3332821e03
       jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:79d22d16488a64eb2350d45881190683510c4f356aa6d942839345d0c0cf0ffc
       jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:4f4e0b29a74502b03a3bf396f41fbc1e9e85a3192c6236b7076d77d4f7a10f22
