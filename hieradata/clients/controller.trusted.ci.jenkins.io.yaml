@@ -50,7 +50,7 @@ x-inbound-agent-init-shell-script: &InboundAgentInitShellScript
   - "#!/bin/bash"
   - "set -eux"
   - echo "START CLOUDINIT"
-  - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAp1EN//8Rqd5PGR3qbiLEQcU7VjkMclipg9nIMG5YNafcma1VOu1DJX1laH3pGdJHwYOqVOGsiMBZDojWhgd1IEHCI9P+9MrU9a7gog+aEsZFKi2fSpw/o/U0+tA7yDhMhSireOwi+E9rXOOojHOlVPXCOsas3V0PT9tvr7zHadSZj10d10L5uX/oNaLQXGwDnAU3AT7TRlGETEI+FP50P/IyoN5SOb+UDECfsJnQkvQAux20UaRXUXT35ECDQmULnf3BR0Zzmpbqji1Mn+aEV/8NIBAfTUfTRbzFEsVDznfB/qIOt7YBKKQwiiOy8tjIFXQN4nSNFOuJ/v8f95TDZDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjHiqfdYeWfOw5ydrp6+AFgDBLVhQVC2dqv5nYd9QJjxoJkoPoUARsf1J3Wycg+ZH9Daf3EGDuhoaEp79z0+ksKoo=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+  - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhoDM4a7hdCAgZikQ/SE3mE3jO4zQkYkDCiDRR1zF6dOMEagx2ztsVT+Rr4c5W9mpyor4K0O5GriZVmh+zlR7icucFf9o59w/PS8ryDMNYIRMMW2wfvMKj+xz8YEeNGbNEWyg8lempPmt+zXq5zSxon/Mz8gcC8rLbxugPVawxEO48x3wL46qpA0TzilaiHPFG90/WiEmu5HCme4kDqPhg+ArYiH5n7KGZUEqv3iYYRF5GzsLe+MCCINz3Q9AKHADAOG3kcf4SWsl+mDsq+iA9GIsk1ouRdX9iiRAstPzxrDv2NJYPZRpRNgG3L9dmruAIeqtvZCf1xGGRgFSEmws7zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBscnDbb0G00Fk3iaK2BNkZgDB7S/qP+jE2P88vv/pieLchcEROoUgd/OG2WGZm5e0p7MMi3n3EOun4Eh9sVEPCy30=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
   - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
   - systemctl stop datadog-agent.service
   - mkdir -p /var/log/datadog /etc/datadog-agent
