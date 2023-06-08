@@ -20,19 +20,17 @@ profile::jenkinscontroller::memory_limit: '14g'
 # Non functional key used to factorize code with a YAML anchor
 x-inbound-agent-init-shell-script: &InboundAgentInitShellScript
   - "#!/bin/bash"
-  - "set -eux"
-  - echo "START CLOUDINIT"
-  - "sed 's/api_key:.*/api_key: SuperSecretThatShouldBeEncryptedInProduction/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
-  - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+  - set -eux
   - systemctl stop datadog-agent.service
+  - sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhoDM4a7hdCAgZikQ/SE3mE3jO4zQkYkDCiDRR1zF6dOMEagx2ztsVT+Rr4c5W9mpyor4K0O5GriZVmh+zlR7icucFf9o59w/PS8ryDMNYIRMMW2wfvMKj+xz8YEeNGbNEWyg8lempPmt+zXq5zSxon/Mz8gcC8rLbxugPVawxEO48x3wL46qpA0TzilaiHPFG90/WiEmu5HCme4kDqPhg+ArYiH5n7KGZUEqv3iYYRF5GzsLe+MCCINz3Q9AKHADAOG3kcf4SWsl+mDsq+iA9GIsk1ouRdX9iiRAstPzxrDv2NJYPZRpRNgG3L9dmruAIeqtvZCf1xGGRgFSEmws7zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBscnDbb0G00Fk3iaK2BNkZgDB7S/qP+jE2P88vv/pieLchcEROoUgd/OG2WGZm5e0p7MMi3n3EOun4Eh9sVEPCy30=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml
+  - sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml
   - mkdir -p /var/log/datadog /etc/datadog-agent
   - chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
   - chmod 640 /etc/datadog-agent/datadog.yaml
   - chown dd-agent:dd-agent /var/log/datadog
   - chmod 770 /var/log/datadog
   - systemctl start datadog-agent.service
-  - rm -f /etc/sudoers.d/90-cloud-init-users
-  - echo "END CLOUDINIT"
+  - rm -f /etc/sudoers.d/90-cloud-init-users # Remove jenkins user from admins
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
