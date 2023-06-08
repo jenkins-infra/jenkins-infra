@@ -8,7 +8,6 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
-# TODO: keep updated with updatecli when all ubuntu images are switched to 22.04
 docker::version: 5:24.0.2-1~ubuntu.22.04~jammy
 accounts:
   wfollonier:
@@ -45,6 +44,20 @@ profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: "present"
 profile::jenkinscontroller::groovy_d_set_up_git: "present"
 profile::jenkinscontroller::memory_limit: "7g"
+# Non functionnal key used to factorize code with a YAML anchor
+x-inbound-agent-init-shell-script: &InboundAgentInitShellScript
+  - "#!/bin/bash"
+  - "set -eux"
+  - "systemctl stop datadog-agent.service"
+  - "sed 's/api_key:.*/api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAhoDM4a7hdCAgZikQ/SE3mE3jO4zQkYkDCiDRR1zF6dOMEagx2ztsVT+Rr4c5W9mpyor4K0O5GriZVmh+zlR7icucFf9o59w/PS8ryDMNYIRMMW2wfvMKj+xz8YEeNGbNEWyg8lempPmt+zXq5zSxon/Mz8gcC8rLbxugPVawxEO48x3wL46qpA0TzilaiHPFG90/WiEmu5HCme4kDqPhg+ArYiH5n7KGZUEqv3iYYRF5GzsLe+MCCINz3Q9AKHADAOG3kcf4SWsl+mDsq+iA9GIsk1ouRdX9iiRAstPzxrDv2NJYPZRpRNgG3L9dmruAIeqtvZCf1xGGRgFSEmws7zBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBscnDbb0G00Fk3iaK2BNkZgDB7S/qP+jE2P88vv/pieLchcEROoUgd/OG2WGZm5e0p7MMi3n3EOun4Eh9sVEPCy30=]/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
+  - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
+  - "mkdir -p /var/log/datadog /etc/datadog-agent"
+  - "chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml"
+  - "chmod 640 /etc/datadog-agent/datadog.yaml"
+  - "chown dd-agent:dd-agent /var/log/datadog"
+  - "chmod 770 /var/log/datadog"
+  - "systemctl start datadog-agent.service"
+  - "rm -f /etc/sudoers.d/90-cloud-init-users" # Remove jenkins user from admins
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlreoLMhSaHCcZZaL1r7BQgmqUVbqWs+e2kaj0cn+r8o4N/qKZGXkkYBN9xhK+b5MRe2cTlfQ9J3gFFLFa6i1n1GrM/WwNMUm/cVYA2eGFNcV3ruUfigyriIrIaQVm7KIQZqv+RIQoZHJ1cWy+CdKg2hXi4KUBSawl1V3VXjSD4ZJEWv96KSceJZRTzVjZW66iD8i8Uq50WvHhvivMfHkaghowz626w/ejz0AettIKCVL9/j0B1iVv+ghOyd4A5kyIYJKR0BwQLpfKFoXY/0uhB7toZWSe7TUS7hzTAfYNhyTbS0aaczsa7pshiFZzxHAdvMeU7om4N1Dj+5LDUgAsDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBByyf8QkfPXbWYxJbMykP8SgCAQ5ncRq7jZddH/cFcb+xHJzKluSoRQU3fnSKJ8fnbEQA==]
@@ -83,8 +96,10 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAwlTuXgbIkiSzGStNLeY1vD/P6W+qHMs6Y5iiS7zlten659BfucBRoYQ6+I2SdoJ3P8BF/jGE8unno4a950CVYYKNO9E8Nlf8CkEVBMOQx5wykRO8cDxcMF2iLuhyIGSQhHENqagzRAAE26rDzQBZqfCL4a2btGHOLlaNZuO4Tv/Y8WfYKDCvh3hysYnaSY2OND176rE9fQfBjRYx0rwY2EMTQq/cw5qosQYYn8j6b/EiFUr1IHZ4jKmGiYY435TJW36VsgwlSuGYhXVVaLxzx3/5Sotw6upheMhinHGe38LKBhj/bB+P5lVqzuFLIOUmFoOl+XZZEv6EZF/W1mIlXTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDugu9cOmhNUqPfIw5W77CEgBCkCNrdzkuYRj5YXCJNl+Qq]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
-          spotInstance: true
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: true
+          initScript: *InboundAgentInitShellScript
           architecture: amd64
           labels:
             - java
@@ -92,7 +107,7 @@ profile::jenkinscontroller::jcasc:
             - docker
             - maven-11
             - jdk11
-          maxInstances: 7 # Quota of 56 vCPUs
+          maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
@@ -105,12 +120,13 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALl/EWRs6+6Wmr6p6Ce6GxeZeh3WoZuMtDpT2BHQrRvfMzKVda6HSvvaA7aMHVeyxzfwxay+kWDQN/cpbUIP9LjEAR1dIGxtKbDTEnglmtViZkvZyyG1HgXKNUAs1ZZNzmwHD7WHKxxnjvK5AjKjro9HqgitnuhokIWS8keqJ93fe1ClJs23mh5uPk6fV60MATqy7EIp7M0oEJGyWlJmE0mTbID3rVNDGGXrVENXaPNzoys+g/HC0/ydRn1Dt2jIGhTY9ej0w8YJ7mwIyW7DF2viYi2J7ipOUPqDGKOH5I3CV2t4NhWupV/cEPCfTla9mwIk/6x2iP0wWBOBJkrWqLzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDeZ0akYFi7qYGMRUZy0ylWgBAZ/EnT5I3LzVkpzLBVM3M5]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
-          spotInstance: true
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          spot: true
+          initScript: *InboundAgentInitShellScript
           architecture: amd64
           labels:
             - docker-windows
-          maxInstances: 7 # Quota of 56 vCPUs
+          maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
