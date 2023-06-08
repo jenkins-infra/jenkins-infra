@@ -29,10 +29,10 @@ sources:
       - getPackerImageDeployedVersion
     spec:
       file: https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source "getPackerImageDeployedVersion" }}/provisioning/tools-versions.yml
-      matchpattern: 'maven_version:\s"(.*)"'
+      matchpattern: 'maven_version:\s(.*)'
     transformers:
       - findsubmatch:
-          pattern: 'maven_version:\s"(.*)"'
+          pattern: 'maven_version:\s(.*)'
           captureindex: 1
 
 conditions:
