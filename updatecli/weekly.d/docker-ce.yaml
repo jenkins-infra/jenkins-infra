@@ -57,6 +57,7 @@ targets:
         - hieradata/clients/private.vpn.jenkins.io.yaml
         - hieradata/clients/controller.trusted.ci.jenkins.io.yaml
         - hieradata/clients/agent.trusted.ci.jenkins.io.yaml
+        - hieradata/clients/cert-ci.yaml
       key: "docker::version"
     scmid: default
 
