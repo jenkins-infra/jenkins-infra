@@ -94,8 +94,6 @@ profile::pkgrepo::ssh_keys:
 profile::archives::rsync_hosts_allow:
   - localhost
   - archives.jenkins.io
-  - 52.177.88.13 # publick8s outbound IP
-  - 20.75.10.224/29 # publick8s additionnal outboun IP range
   - pkg.origin.jenkins.io
   - get.jenkins.io
   - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
