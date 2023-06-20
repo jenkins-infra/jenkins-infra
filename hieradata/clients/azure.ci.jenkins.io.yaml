@@ -24,6 +24,8 @@ accounts:
       - sudo
 # Per-host Datadog configuration
 datadog_agent::host: "ci.jenkins.io"
+datadog_agent::agent_extra_options:
+  bind_host: "0.0.0.0" # All hosts interfaces to allow container access
 profile::jenkinscontroller::anonymous_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins

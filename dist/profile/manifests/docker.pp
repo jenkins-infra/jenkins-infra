@@ -11,6 +11,15 @@ class profile::docker {
 
   include datadog_agent::integrations::docker_daemon
 
+  # Restrict UDP dogStatsD traffic only from loopback or docker0
+  firewall {
+    '901 Drop all non local dogStatsD UDP/8125 inbound requests':
+      proto   => 'udp',
+      dport   => 8125,
+      iniface => ['! lo', '! docker0'],
+      action  => 'drop',
+  }
+
   # Ensure that the datadog user has the right group to access docker
   user { $datadog_agent::params::dd_user:
     ensure  => present,
