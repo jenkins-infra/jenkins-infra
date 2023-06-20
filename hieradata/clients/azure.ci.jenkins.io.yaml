@@ -475,6 +475,7 @@ profile::jenkinscontroller::jcasc:
     disabled: false
   datadog:
     host: "ci.jenkins.io"
+    targetHost: "172.17.0.1" # docker0 interface
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
