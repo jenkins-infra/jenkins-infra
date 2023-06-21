@@ -63,7 +63,7 @@ accounts:
     ssh_keys:
       dduportal:
         type: ecdsa-sha2-nistp256
-        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDKKa/o/49P2v/U0rvHXjzal6vCrrCwnpN8lVV4XZD29ZKQUCZ1noVfS6vArgUPVM8+l/TulWeMM0MGqX+DXOX4=
       dduportal-bertha:
         type: ed25519
         key: AAAAC3NzaC1lZDI1NTE5AAAAIGasEvLKplsDZIEVW2UVT3kTByb3s4m3R5h1Bgx0vDGk
