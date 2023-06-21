@@ -22,6 +22,10 @@ class profile::letsencrypt (
   }
 
   # Custom crontab to control the renew command (absolute path, logging to var log, etc.)
+  package { 'cron':
+    ensure => installed,
+  }
+
   cron { 'certbot-renew-all':
     command => "bash -c 'date && ${certbot_bin} renew' >>/var/log/certbot-renew-all.log 2>&1",
     user    => 'root',

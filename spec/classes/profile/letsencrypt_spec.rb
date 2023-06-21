@@ -25,6 +25,12 @@ describe 'profile::letsencrypt' do
       expect(subject).to contain_file('/etc/letsencrypt/azure.ini').with({
         :ensure  => 'absent',
       })
+      expect(subject).to contain_package('cron')
+      expect(subject).to contain_cron('certbot-renew-all').with({
+        :command => "bash -c 'date && /usr/local/bin/certbot renew' >>/var/log/certbot-renew-all.log 2>&1",
+        :user    => 'root',
+        :hour    => 6,
+      })
     }
   end
 
