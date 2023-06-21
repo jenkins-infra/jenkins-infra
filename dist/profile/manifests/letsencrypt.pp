@@ -26,7 +26,8 @@ class profile::letsencrypt (
   cron { 'certbot-renew-all':
     command => "bash -c 'date && ${certbot_bin} renew' >>/var/log/certbot-renew-all.log 2>&1",
     user    => 'root',
-    hour    => 6, # Once a day during UTC night
+    hour    => 6,
+    minute  => 0,
     require => [Package['certbot']],
   }
 
