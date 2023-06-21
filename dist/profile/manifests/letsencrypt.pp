@@ -1,8 +1,10 @@
 #
 # This profile configures letsencrypt on the host it's applied to
 class profile::letsencrypt (
-  String $plugin  = '',
+  String $plugin = '',
   Hash $dns_azure = {},
+  String $certbot_version = '1.32.0',
+  Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
 ) {
   # Snap package is broken (despite being really helpfull) until https://github.com/terrycain/certbot-dns-azure/issues/28 is fixed
   # So let's use Python (3.8 required) with pinned (and old) versions for both certbot and certbot azure-dns plugin
@@ -21,7 +23,7 @@ class profile::letsencrypt (
 
   # Custom crontab to control the renew command (absolute path, logging to var log, etc.)
   cron { 'certbot-renew-all':
-    command => "bash -c 'date && /usr/local/bin/certbot renew' >>/var/log/certbot-renew-all.log 2>&1",
+    command => "bash -c 'date && ${certbot_bin} renew' >>/var/log/certbot-renew-all.log 2>&1",
     user    => 'root',
     hour    => 6, # Once a day during UTC night
     require => [Package['certbot'],Package['cron']],
@@ -45,7 +47,6 @@ class profile::letsencrypt (
     }
   }
   $python_weight       = regsubst($python_certbot_version, '\.','')
-  $certbot_version     = '1.32.0'
 
   ['python3', 'python3-pip', "python${python_certbot_version}", 'libaugeas0'].each | $package_name | {
     package { $package_name:
@@ -62,7 +63,7 @@ class profile::letsencrypt (
   exec { 'Install certbot':
     require => [Package["python${python_certbot_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
     command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
-    creates => '/usr/local/bin/certbot',
+    creates => $certbot_bin,
   }
 
   $default_config = {
@@ -74,7 +75,7 @@ class profile::letsencrypt (
     exec { 'Install certbot-apache plugin':
       require => Exec['Install certbot'],
       command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
-      unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
+      unless  => "${certbot_bin} plugins --text 2>&1 | /bin/grep --quiet apache",
     }
 
     # Case of HTTP-01 challenge
@@ -92,7 +93,7 @@ class profile::letsencrypt (
     exec { 'Install certbot-dns-azure plugin':
       require => Exec['Install certbot'],
       command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
-      unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
+      unless  => "${certbot_bin} plugins --text 2>&1 | /bin/grep --quiet dns-azure",
     }
 
     # Case of DNS-01 challenge (with Azure DNS)
