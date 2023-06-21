@@ -87,9 +87,6 @@ accounts:
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
-letsencrypt::renew_cron_ensure: "present"
-letsencrypt::renew_cron_minute: 0
-letsencrypt::renew_cron_hour: 6
 profile::letsencrypt::plugin: apache
 profile::pkgrepo::ssh_keys:
   release.ci.jenkins.io:
