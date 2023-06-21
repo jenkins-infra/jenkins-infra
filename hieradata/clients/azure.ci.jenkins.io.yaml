@@ -222,7 +222,7 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
       doks:
-        enabled: true
+        enabled: false
         provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
