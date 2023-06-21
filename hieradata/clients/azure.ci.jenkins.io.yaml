@@ -24,6 +24,9 @@ accounts:
       - sudo
 # Per-host Datadog configuration
 datadog_agent::host: "ci.jenkins.io"
+datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
+datadog_agent::apm_enabled: true
+datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
 profile::jenkinscontroller::anonymous_access: true
@@ -476,6 +479,9 @@ profile::jenkinscontroller::jcasc:
   datadog:
     host: "ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
+    targetLogCollectionPort: 8127
+    collectBuildLogs: true
+    emitConfigChangeEvents: true
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs

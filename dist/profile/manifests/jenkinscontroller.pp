@@ -30,6 +30,11 @@ class profile::jenkinscontroller (
   String $groovy_d_set_up_git                  = 'absent',
   String $groovy_d_lock_down_jenkins           = 'absent',
   Hash $jcasc                                  = {},
+  Hash $datadog                                = {
+    metrics_collection_port => 8125,
+    traces_collection_port  => 8126,
+    logs_collection_port    => 8127,
+  },
   Boolean $block_remote_access_api             = false,
   String $memory_limit                         = '1g',
   String $java_opts = "-server \
@@ -240,6 +245,45 @@ class profile::jenkinscontroller (
     }
   } else {
     $jcasc_java_opts = ''
+  }
+
+  if $jcasc_final_config['datadog'] and $jcasc_final_config['datadog']['collectBuildLogs'] {
+    firewall { '901 accept datadog local metrics collection':
+      proto   => 'udp',
+      dport   => $datadog['metrics_collection_port'],
+      iniface => ['! lo', '! docker0'],
+      action  => 'reject',
+    }
+
+    firewall { '902 accept datadog local jenkins logs collection':
+      proto   => 'tcp',
+      dport   => $datadog['logs_collection_port'],
+      iniface => 'docker0',
+      action  => 'accept',
+    }
+
+    firewall { '903 accept datadog local trace collection':
+      proto   => 'tcp',
+      dport   => $datadog['traces_collection_port'],
+      iniface => 'docker0',
+      action  => 'accept',
+    }
+
+    file { "${datadog_agent::params::conf_dir}/jenkins.d":
+      ensure  => directory,
+      owner   => $datadog_agent::params::dd_user,
+      group   => $datadog_agent::params::dd_group,
+      mode    => '0755',
+      require => Class['datadog_agent'],
+    }
+    file { "${datadog_agent::params::conf_dir}/jenkins.d/conf.yaml":
+      ensure  => file,
+      owner   => $datadog_agent::params::dd_user,
+      group   => $datadog_agent::params::dd_group,
+      mode    => '0644',
+      require => File["${datadog_agent::params::conf_dir}/jenkins.d"],
+      content => template("${module_name}/jenkinscontroller/datadog_jenkins_conf.yaml.erb"),
+    }
   }
 
   ##############################################################################
