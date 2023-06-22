@@ -284,6 +284,7 @@ class profile::jenkinscontroller (
         mode    => '0644',
         require => File["${datadog_agent::params::conf_dir}/jenkins.d"],
         content => template("${module_name}/jenkinscontroller/datadog_jenkins_conf.yaml.erb"),
+        notify  => Service['datadog-agent'],
       }
     }
   }

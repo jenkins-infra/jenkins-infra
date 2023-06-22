@@ -479,7 +479,6 @@ profile::jenkinscontroller::jcasc:
   datadog:
     host: "ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
-    targetLogCollectionPort: 8127
     collectBuildLogs: true
     emitConfigChangeEvents: true
 # These are plugins we need in our ci environment
