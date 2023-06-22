@@ -12,6 +12,11 @@ lookup_options:
 profile::jenkinscontroller::letsencrypt: false
 # Per-host Datadog configuration
 datadog_agent::host: "vagrant.local"
+datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
+datadog_agent::apm_enabled: true
+datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
+datadog_agent::agent_extra_options:
+  bind_host: "0.0.0.0" # All hosts interfaces to allow container access
 profile::jenkinscontroller::ci_fqdn: 'localhost'
 profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
 profile::jenkinscontroller::proxy_port: 443
@@ -348,6 +353,9 @@ profile::jenkinscontroller::jcasc:
     disabled: false
   datadog:
     host: "vagrant.local"
+    targetHost: "172.18.0.1" # docker0 interface in vagrant is non standard (because docker in docker)
+    collectBuildLogs: true
+    emitConfigChangeEvents: true
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor

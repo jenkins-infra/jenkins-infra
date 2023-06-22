@@ -1,0 +1,6 @@
+### MANAGED BY PUPPET
+logs:
+  - type: tcp
+    port: <%= @datadog['metrics_collection_port'] %>
+    service: <%= @jcasc['datadog']['host'] %>
+    source: jenkins
