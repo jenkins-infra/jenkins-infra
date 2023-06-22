@@ -247,7 +247,7 @@ class profile::jenkinscontroller (
     $jcasc_java_opts = ''
   }
 
-  if $jcasc_final_config['datadog'] and $jcasc_final_config['datadog']['collectBuildLogs'] {
+  if $jcasc_final_config['datadog'] {
     firewall { '901 accept datadog local metrics collection':
       proto   => 'udp',
       dport   => $datadog['metrics_collection_port'],
@@ -255,34 +255,36 @@ class profile::jenkinscontroller (
       action  => 'reject',
     }
 
-    firewall { '902 accept datadog local jenkins logs collection':
-      proto   => 'tcp',
-      dport   => $datadog['logs_collection_port'],
-      iniface => 'docker0',
-      action  => 'accept',
-    }
-
-    firewall { '903 accept datadog local trace collection':
+    firewall { '902 accept datadog local trace collection':
       proto   => 'tcp',
       dport   => $datadog['traces_collection_port'],
       iniface => 'docker0',
       action  => 'accept',
     }
 
-    file { "${datadog_agent::params::conf_dir}/jenkins.d":
-      ensure  => directory,
-      owner   => $datadog_agent::params::dd_user,
-      group   => $datadog_agent::params::dd_group,
-      mode    => '0755',
-      require => Class['datadog_agent'],
-    }
-    file { "${datadog_agent::params::conf_dir}/jenkins.d/conf.yaml":
-      ensure  => file,
-      owner   => $datadog_agent::params::dd_user,
-      group   => $datadog_agent::params::dd_group,
-      mode    => '0644',
-      require => File["${datadog_agent::params::conf_dir}/jenkins.d"],
-      content => template("${module_name}/jenkinscontroller/datadog_jenkins_conf.yaml.erb"),
+    if $jcasc_final_config['datadog']['collectBuildLogs'] {
+      firewall { '905 accept datadog local jenkins logs collection':
+        proto   => 'tcp',
+        dport   => $datadog['logs_collection_port'],
+        iniface => 'docker0',
+        action  => 'accept',
+      }
+
+      file { "${datadog_agent::params::conf_dir}/jenkins.d":
+        ensure  => directory,
+        owner   => $datadog_agent::params::dd_user,
+        group   => $datadog_agent::params::dd_group,
+        mode    => '0755',
+        require => Class['datadog_agent'],
+      }
+      file { "${datadog_agent::params::conf_dir}/jenkins.d/conf.yaml":
+        ensure  => file,
+        owner   => $datadog_agent::params::dd_user,
+        group   => $datadog_agent::params::dd_group,
+        mode    => '0644',
+        require => File["${datadog_agent::params::conf_dir}/jenkins.d"],
+        content => template("${module_name}/jenkinscontroller/datadog_jenkins_conf.yaml.erb"),
+      }
     }
   }
 
