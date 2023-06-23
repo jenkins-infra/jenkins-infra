@@ -8,7 +8,6 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
-docker::version: 5:24.0.2-1~ubuntu.22.04~jammy
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
 profile::jenkinscontroller::proxy_port: 443
 # Per-host Datadog configuration

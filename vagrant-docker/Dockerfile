@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG="en_US.UTF-8"
@@ -64,7 +64,7 @@ RUN package_path=/tmp/puppetrelease.deb \
   && dpkg -i "${package_path}" \
   && rm -f /tmp/puppetrelease.deb \
   && apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes --quiet puppet-agent \
+  && apt-get install --no-install-recommends --yes --quiet puppet \
   && apt-get clean \
   && rm -Rf /var/lib/apt/lists/*
 

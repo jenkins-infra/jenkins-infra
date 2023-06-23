@@ -32,32 +32,23 @@ conditions:
     spec:
       file: hieradata/common.yaml
       matchpattern: "docker::version:.*"
-  checkIfHieradataPrivateVPNHasDockerVersionKey:
-    kind: file
-    disablesourceinput: true
-    spec:
-      file: hieradata/clients/private.vpn.jenkins.io.yaml
-      matchpattern: "docker::version:.*"
 
 targets:
   UpdateHieradataCommonHasDockerVersionKey:
     name: Update docker-ce version in common.yaml
     kind: yaml
-    sourceid: lastVersionBionic
+    sourceid: lastVersionJammy
     spec:
       file: hieradata/common.yaml
       key: "docker::version"
     scmid: default
-  UpdateHieradataPrivateVPNHasDockerVersionKey:
+  UpdateLegacyBionics:
     name: Update docker-ce version in hieradata/clients/
     kind: yaml
-    sourceid: lastVersionJammy
+    sourceid: lastVersionBionic
     spec:
       files:
-        - hieradata/clients/private.vpn.jenkins.io.yaml
-        - hieradata/clients/controller.trusted.ci.jenkins.io.yaml
-        - hieradata/clients/agent.trusted.ci.jenkins.io.yaml
-        - hieradata/clients/cert-ci.yaml
+        - hieradata/clients/azure.ci.jenkins.io.yaml
       key: "docker::version"
     scmid: default
 
