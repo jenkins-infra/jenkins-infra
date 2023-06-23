@@ -30,20 +30,20 @@ RSpec.configure do |c|
     :os => {
       :architecture => 'amd64',
       :distro => {
-        :codename => "bionic",
-        :description => "Ubuntu 18.04.6 LTS",
+        :codename => "jammy",
+        :description => "Ubuntu 22.04.2 LTS",
         :id => "Ubuntu",
         :release => {
-          :full => "18.04",
-          :major => "18.04"
+          :full => "22.04",
+          :major => "22.04"
         },
       },
       :family => "Debian",
       :hardware => "x86_64",
       :name => "Ubuntu",
       :release => {
-        :full => "18.04",
-        :major => "18.04"
+        :full => "22.04",
+        :major => "22.04"
       },
       :selinux => {
         :enabled => false
@@ -63,10 +63,10 @@ RSpec.configure do |c|
     :osfamily => 'Debian',
     :kernel => 'Linux',
     :lsbdistid => 'Ubuntu',
-    :lsbdistrelease => '18.04',
-    :lsbdistcodename => 'bionic',
+    :lsbdistrelease => '22.04',
+    :lsbdistcodename => 'jammy',
     :operatingsystem => 'Ubuntu',
-    :operatingsystemrelease => '18.04',
+    :operatingsystemrelease => '22.04',
     ####
     :concat_basedir => '/tmp',
     :is_pe => true,

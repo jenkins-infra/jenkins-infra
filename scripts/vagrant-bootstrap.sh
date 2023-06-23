@@ -17,4 +17,4 @@ ln -s  "./spec/fixtures/modules" "./modules" # Reuse modules from rpsec tests
 popd
 
 echo "> Prebuilding the Docker image to ensure it is kept in cache (by giving a name)"
-docker build -t jenkins-infra-ubuntu:18.04 "${repo_dir}/vagrant-docker/"
+docker build -t jenkins-infra-ubuntu:22.04 "${repo_dir}/vagrant-docker/"
