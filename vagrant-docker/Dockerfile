@@ -64,7 +64,7 @@ RUN package_path=/tmp/puppetrelease.deb \
   && dpkg -i "${package_path}" \
   && rm -f /tmp/puppetrelease.deb \
   && apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes --quiet puppet-agent \
+  && apt-get install --no-install-recommends --yes --quiet puppet \
   && apt-get clean \
   && rm -Rf /var/lib/apt/lists/*
 
