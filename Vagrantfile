@@ -41,9 +41,9 @@ Vagrant.configure("2") do |config|
                 puppet.environment = "vagrant"
                 puppet.facter = {
                     "vagrant"    => "1",
-                    "veggie"     => "veggie",
-                    "clientcert" => "veggie",
-                    "hiera_role" => "veggie",
+                    "veggie"     => veggie,
+                    "clientcert" => veggie,
+                    "hiera_role" => veggie,
                 }
                 puppet.working_directory = "/vagrant"
                 puppet.manifests_path = "manifests"
