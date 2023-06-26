@@ -258,6 +258,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
+          launcher: "inbound"
           storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
