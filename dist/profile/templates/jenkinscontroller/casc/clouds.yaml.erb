@@ -18,7 +18,6 @@ jenkins:
         launcher:
           ssh:
             preInstallSsh: false
-        launcher: "inbound"
         <%- end -%>
         credentialsId: "<%= agent['credentialsId'] %>"
         diskType: "managed"
