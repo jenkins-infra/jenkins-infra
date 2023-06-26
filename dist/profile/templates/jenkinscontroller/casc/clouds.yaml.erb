@@ -11,12 +11,17 @@ jenkins:
       maxVirtualMachinesLimit: <%= @jcasc['cloud_agents']['azure-vm-agents']['maxInstances'] %>
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
-      - launcher:
+      - agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
+        <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
+        launcher: "inbound"
+        <%- else %>
+        launcher:
           ssh:
             preInstallSsh: false
-        agentWorkspace: "<%= @jcasc['agents_setup'][agent['os']]['agentDir'] %>"
+        <%- end -%>
         credentialsId: "<%= agent['credentialsId'] %>"
         diskType: "managed"
+        encryptionAtHost: true
         doNotUseMachineIfInitFails: true
         enableMSI: false
         enableUAMI: false
