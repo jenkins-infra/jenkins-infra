@@ -56,7 +56,7 @@ x-inbound-agent-init-shell-script: &InboundAgentInitShellScript
 # Non functionnal key used to factorize code with a YAML anchor
 x-inbound-agent-init-powershell-script: &InboundAgentInitPowershellScript
   - "# Setup datadog"
-  - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: 15c1d29da910e04b4673eda9f0607316' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
+  - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
   - "& \"$env:ProgramFiles\\Datadog\\Datadog Agent\\bin\\agent.exe\" restart"
   - "# Setup inbound agent"
   - "$jenkinsserverurl = $args[0]"
