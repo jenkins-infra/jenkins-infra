@@ -515,6 +515,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
+          launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEA1Nsg1Pm61jyGb87jWWKChYAFr5V6N3gPm3kzp9DfdL7ntn2eN+ZWUH3Q2IjfKVqM2AIubG8yopiG7fC6/6/hjkGl9HvQCEmnL6pYtxCr5c3aa/E5HUWV4NdhBS0aphW3BGK4eMuEZVtAwOsyjM2VrUQyX5j653l0TX9DSzWbRpg1b8L07yfIxyRHIwn3Os+CFRIiIEjH5/9hHLhVaX47RmoQAo4tqaVM63Jzwgwac0QYmXFjfJ9Nr0vptL9bb8mahcrlVplRgrLYJgRfyVU/5ACRLuRPphlrIubTxAZedII1hSzwPVZCc3hbRsvZT0/fUBTJNrwTKj6vtKwTIoMJszBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBC4aAckaWcMKMpLzJP6QsTGgCB22xvs2eN/1mbe8eTwtnyyIuUElyAHsmGO+z7Hycat4g==]
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
@@ -540,6 +541,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
           os: "ubuntu"
           os_version: "22.04"
+          launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXUzOSOWZy2EI9QzQS/rHOuDVVykF9iKin47MtO85BsRdLIncooCcdD/WWJizYLnTXg7SzcS6E/rHP/QML+ymHfQYYTcbnbjYQQbI5t9kLlQB49QOSKrP3elsg9j/r24sUh7fGsV354j281ADD1meMwZ4nj5aYWLVN4KIAGzqYx113PkS1I/B+5Gtl06P9Mrt9myf7SXxuya7X9M3OZR/USuGXM47nDpQN57zmpgtSrZoaQ+9h+67prX1wq1hRsWwwt6Ve9j3JHwYGnVRPaU5zUbfRMHYW0exbnl/6KJn6pLVcRwiI4l740nUgJgzWfeASk7qAEGM6eVo3BZBW2A+VzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDdbrT/4ubtoeKc07/uQk14gCCdGGZJAjSgpN30zDmrfVQkXBtIoYQ2+lr/vFStxH4VBw==]
           location: "East US 2"
           instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
@@ -563,6 +565,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
+          launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAu0efEH9NzGrhuJpSxNZWuWwGOIeGBpsvNfNlxezGgbDjT7JFihJcHTCue/I3jG5afzT7LM+2sOlzx3X02gEAYyfIF6f87lWkyU8JwgAawBSQv4RZe9F/xPb5EIZUC1aTsV6c4i9IUbDsXnN6riJe5Cad/jhl0eE9C9s3kxugP9GHSgRsLrdBVon+VEm2VRRtdspEU3k249KY7kzUEjbxSCYFSCPW3Bq4naFRIab/DwcJcx7yYjboAaDeGwuPxCDxsSBfkz4Mv5c3xALlyIcEtjzucRVnXkX0mqpOTc4CzRJ4+2sL6GApK5CuSuU4xUdKsNzzZx5ZxfQcnBJhtLB6ejBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAK7JsGHPsFqAY/Hjj7OEtgCDRSLKM6BQQHHKQl2PHZmx/AxHdWav7GE5z/vVyVmG8OQ==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
@@ -588,6 +591,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
+          launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAEDWY4jm5b9+cuyyygyxro0ei9gdjlctC/r7ArLUs8poPS/TtPRjC+HToOF52ZDp9cueq1qnFFbEkh5Y0IxFwC9FMRKkdCKmst7OnjcWCd2DOfgkau8SX0Y9UwVXKswv3xHGfAVDge6KmsXo0uVemafWgflhWKOlnQ8/EZyRQiq7GdGQEYAvN8RgSH+AhqTZgYYKdMdjHeMSw8AIKsBZgVkc/mKUZDicxbAwAw290jx5SgAGw4CGvzWe4SO57LxWhst1Y80KXY3NRcfNrqFUa+t4mIFCHfNk9c+eap+cSwVTvN20Y+0ClFccFqevQP5IOrRYPwsaYfdWoiUbDTh5zJDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAtlI9ee6IQCNrI7sv/L5ungCDnUJfb1bXoY0Vf45rbG2bujlYXAIuu5I+SR/5tmAqtFg==]
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
@@ -611,6 +615,7 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-windows-2022-amd64
           os: "windows"
           os_version: "2022"
+          launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAxqeuJ/JuJ8Z1sdTo3G/NLrcP7cYSC/m8w7+UE6Hdx3eH1aywUKjk+9nOIix9ccLvfhMNcPAqecLbkQBx2whqry/soSEMdK43Pk4yZluCtWGpfbAC3CH9CGSwMuf98T4azupZHYcttdo9ZSi1LD031G1fG7UTPFj74jMc9c+xnpF4h8zWmZLu7B4AA33bCQQfsjgcWn2vjRCL+8AcM70DH9SdPLb36RxCb1OGz4lTMhyFGMZe0cUcc8VOsg7XGUURX/m7apHghO5GN7KX02bb0tsLODbc2gJqi0YJPV17S3yijwadMGViaTCBS2cAGMKjmUO84dEUHqhMjuuARQ8JCjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAlsml6TC3ewPAJ5STsIHoggCAb2sm1Y7aJeaHEYPtIXKXlsktj2MjVoXuexTDgYPUx0w==]
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
