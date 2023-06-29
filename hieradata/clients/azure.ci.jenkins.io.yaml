@@ -30,6 +30,7 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
+datadog_agent::container_collect_all: true # Don't collect Jenkins container logs (the only container running) as we're already collecting these logs via the Datadog plugin
 profile::jenkinscontroller::anonymous_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
