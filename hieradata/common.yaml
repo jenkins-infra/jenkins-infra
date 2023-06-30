@@ -198,7 +198,7 @@ profile::jenkinscontroller::jcasc:
             os: "windows"
   agents_setup:
     windows:
-      agentDir: 'C:/Jenkins'
+      agentDir: 'C:/Jenkins/agent'
       # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
       tempDir: 'C:\\\\Temp'
       remoteAdmin: Administrator
@@ -206,14 +206,16 @@ profile::jenkinscontroller::jcasc:
       osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: 'C:/tools/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      javaHome: 'C:/tools/jdk-11' # Default JDK provided for builds when no pipeline setup exists
     ubuntu:
-      agentDir: "/home/jenkins"
+      agentDir: "/home/jenkins/agent"
       remoteAdmin: jenkins
       tempDir: "/tmp"
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: '/opt/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      javaHome: '/opt/jdk-11'  # Default JDK provided for builds when no pipeline setup exists
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     ec2_amis:

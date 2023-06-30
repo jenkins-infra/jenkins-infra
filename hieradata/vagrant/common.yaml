@@ -22,71 +22,10 @@ profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
 profile::jenkinscontroller::proxy_port: 443
 profile::jenkinscontroller::groovy_init_enabled: false
 profile::jenkinscontroller::memory_limit: '14g'
-# Non functional key used to factorize code with a YAML anchor
-x-inbound-agent-init-shell-script: &InboundAgentInitShellScript
-  - "#!/bin/bash"
-  - "set -eux"
-  - "JENKINS_URL=$1"
-  - "AGENT_NAME=$2"
-  - "SECRET=$3"
-  - "export USER=jenkins"
-  - "systemctl stop datadog-agent.service"
-  - "mkdir -p /home/$USER/inbound-agent /var/log/datadog /etc/datadog-agent"
-  - "chown $USER:$USER /home/$USER/inbound-agent"
-  - "("
-  - "  cd /home/$USER/inbound-agent || exit"
-  - "  curl -O \"$JENKINS_URL/jnlpJars/agent.jar\""
-  - "  echo \"^${SECRET}\" > agent-secret"
-  - "  curl -O https://raw.githubusercontent.com/jenkinsci/azure-vm-agents-plugin/HEAD/docs/init-scripts/systemd-unit.service"
-  - "  export AGENT_URL=\"$JENKINS_URL/computer/$AGENT_NAME/jenkins-agent.jnlp\""
-  - "  envsubst < systemd-unit.service > /etc/systemd/system/jenkins-agent.service"
-  - "  rm -f systemd-unit.service"
-  - "  sudo systemctl daemon-reload"
-  - "  sudo systemctl enable jenkins-agent"
-  - "  sudo systemctl start jenkins-agent || sudo systemctl status jenkins-agent"
-  - ") |& tee /home/$USER/inbound-agent/agent-init-script.log"
-  - "sed 's/api_key:.*/api_key: SuperSecretEncryptedInProduction/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml"
-  - "sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml"
-  - "chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml"
-  - "chmod 640 /etc/datadog-agent/datadog.yaml"
-  - "chown dd-agent:dd-agent /var/log/datadog"
-  - "chmod 770 /var/log/datadog"
-  - "systemctl start datadog-agent.service"
-  - "rm -f /etc/sudoers.d/90-cloud-init-users" # Remove jenkins user from admins
-# Non functionnal key used to factorize code with a YAML anchor
-x-inbound-agent-init-powershell-script: &InboundAgentInitPowershellScript
-  - "# Setup datadog"
-  - "(Get-Content C:\\ProgramData\\Datadog\\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: SuperSecretEncryptedInProduction' | Set-Content C:\\ProgramData\\Datadog\\datadog.yaml"
-  - "& \"$env:ProgramFiles\\Datadog\\Datadog Agent\\bin\\agent.exe\" restart"
-  - "# Setup inbound agent"
-  - "$jenkinsserverurl = $args[0]"
-  - "$vmname = $args[1]"
-  - "$secret = $args[2]"
-  - "# Download the service wrapper"
-  - "$wrapperExec = 'c:\\jenkins\\jenkins-agent.exe'"
-  - "$configFile = 'c:\\jenkins\\jenkins-agent.xml'"
-  - "$agentSource = $jenkinsserverurl + 'jnlpJars/agent.jar'"
-  - "mkdir C:\\jenkins"
-  - "$wc = New-Object System.Net.WebClient"
-  - "$wc.DownloadFile('https://github.com/winsw/winsw/releases/download/v2.12.0/WinSW.NET461.exe', $wrapperExec)"
-  - "$wc.DownloadFile('https://raw.githubusercontent.com/Azure/jenkins/master/agents_scripts/jenkins-slave.exe.config', 'c:\\jenkins\\jenkins-agent.exe.config')"
-  - "$wc.DownloadFile('https://raw.githubusercontent.com/Azure/jenkins/master/agents_scripts/jenkins-slave.xml', $configFile)"
-  - "# Prepare config"
-  - "Write-Output 'Executing agent process...'"
-  - "$configExec = 'C:\\tools\\jdk-11\\bin\\java'"
-  - "$configArgs = '-jnlpUrl \"{0}/computer/{1}/jenkins-agent.jnlp\" -workDir C:\\jenkins\\workDir' -f $jenkinsserverurl, $vmname"
-  - "if ($secret) {"
-  - "    $configArgs += \" -secret `\"$secret`\"\""
-  - "}"
-  - "(Get-Content $configFile).replace('@JAVA@', $configExec) | Set-Content $configFile"
-  - "(Get-Content $configFile).replace('@ARGS@', $configArgs) | Set-Content $configFile"
-  - "(Get-Content $configFile).replace('@SLAVE_JAR_URL', $agentSource) | Set-Content $configFile"
-  - "# Install the service"
-  - "& $wrapperExec install"
-  - "& $wrapperExec start"
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
+  datadog_api_key: SuperSecretThatShouldBeEncryptedInProduction
   unclassified:
     data: |-
       buildDiscarders:
@@ -253,7 +192,7 @@ profile::jenkinscontroller::jcasc:
       resource_group: ci-jenkins-io-ephemeral-agents
       maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
       agent_definitions:
-        - name: "ubuntu-22"
+        - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
@@ -278,12 +217,12 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
-          initScript: *InboundAgentInitShellScript
-        - name: "ubuntu-22-arm64"
+        - name: "ubuntu-22-arm64-ssh"
           description: "Ubuntu 22.04 LTS ARM64"
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
           os: "ubuntu"
           os_version: "22.04"
+          launcher: "ssh"
           storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
@@ -300,38 +239,14 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "public-vnet"
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
-          spot: true
-          initScript: *InboundAgentInitShellScript
-        - name: "ubuntu-22-highmem"
-          description: "Ubuntu 22.04 LTS Highmem"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          storageAccount: SuperSecretEncryptedInProduction
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          architecture: amd64
-          labels:
-            - ubuntu
-            - highmem
-            - highram
-            - docker-highmem
-            - linux-amd64-big
-          maxInstances: 50
-          useAsMuchAsPossible: false
-          usePrivateIP: true
-          credentialsId: "jenkinsvmagents-userpass"
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
-          spot: true
-          initScript: *InboundAgentInitShellScript
-        - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
+          javaHome: /opt/jdk-19       # Test override of the default JDK for builds
+          agentJavaBin: /opt/jdk-17   # Test override of the default JDK for builds
+        - name: "win-2019-inbound" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
+          launcher: "inbound"
           storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
@@ -349,8 +264,9 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
-          initScript: *InboundAgentInitPowershellScript
-        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+          javaHome: 'C:/Tools/openjdk-19'       # Test override of the default JDK for builds
+          agentJavaBin: 'C:/Tools/openjdk-17'   # Test override of the default JDK for builds
+        - name: "win-2022-ssh" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
           imageDefinition: jenkins-agent-windows-2022-amd64
           os: "windows"
@@ -369,8 +285,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "public-vnet"
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
-          spot: true
-          initScript: *InboundAgentInitPowershellScript
+          spot: false
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
