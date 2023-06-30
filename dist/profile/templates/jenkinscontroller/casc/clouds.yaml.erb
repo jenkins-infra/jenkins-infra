@@ -22,8 +22,8 @@ jenkins:
             <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup inbound agent
           $jenkinsServerUrl = $args[0] # Always ends with a '/'
-          $vmname = $args[1]
-          $secret = $args[2]
+          $agentName = $args[1]
+          $agentSecret = $args[2]
           $jenkinsWorkDir = '<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>'
           # Download the service wrapper
           $agentJar =  '{0}jnlpJars/agent.jar' -f $jenkinsServerUrl
@@ -40,9 +40,9 @@ jenkins:
           # Prepare config
           Write-Output 'Executing agent process...'
           $configExec = '<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>'
-          $configArgs = '-jnlpUrl "{0}/computer/{1}/jenkins-agent.jnlp" -workDir {2}' -f $jenkinsserverurl, $vmname, $jenkinsWorkDir
-          if ($secret) {
-              $configArgs += " -secret `"$secret`""
+          $configArgs = '-jnlpUrl "{0}/computer/{1}/jenkins-agent.jnlp" -workDir {2}' -f $jenkinsserverurl, $agentName, $jenkinsWorkDir
+          if ($agentSecret) {
+              $configArgs += " -secret `"$agentSecret`""
           }
           (Get-Content $configFile).replace('@JAVA@', $configExec) | Set-Content $configFile
           (Get-Content $configFile).replace('@ARGS@', $configArgs) | Set-Content $configFile
