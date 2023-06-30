@@ -21,12 +21,12 @@ jenkins:
           & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart
             <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup inbound agent
-          $jenkinsserverurl = $args[0] # Always ends witgh a '/'
+          $jenkinsServerUrl = $args[0] # Always ends with a '/'
           $vmname = $args[1]
           $secret = $args[2]
           $jenkinsWorkDir = '<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>'
           # Download the service wrapper
-          $agentJar =  '{0}jnlpJars/agent.jar' -f $jenkinsserverurl
+          $agentJar =  '{0}jnlpJars/agent.jar' -f $jenkinsServerUrl
 
           $wrapperExec = '{0}\jenkins-agent.exe' -f $jenkinsWorkDir
           $configFile = '{0}\jenkins-agent.xml'  -f $jenkinsWorkDir
@@ -76,7 +76,7 @@ jenkins:
           # Setup Jenkins Agent Service
           (
             # Argument provided by the Azure-VM plugin
-            export JENKINS_URL="^${1}" # Always ends witgh a '/'
+            export JENKINS_URL="^${1}" # Always ends with a '/'
             export AGENT_NAME="^${2}"
             export AGENT_SECRET="^${3}"
 
