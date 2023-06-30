@@ -58,21 +58,6 @@ jenkins:
           #!/bin/bash
           set -eux
 
-          # Argument provided by the Azure-VM plugin
-          export JENKINS_URL="^${1}" # Always ends witgh a '/'
-          export AGENT_NAME="^${2}"
-          export AGENT_SECRET="^${3}"
-
-          export USER=jenkins
-          export AGENT_WORKDIR='<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>'
-          export AGENT_JAR="^${AGENT_WORKDIR}/agent.jar"
-          export AGENT_SECRETFILE="^${AGENT_WORKDIR}/agent-secret"
-          export AGENT_URL="^${JENKINS_URL}computer/^${AGENT_NAME}/jenkins-agent.jnlp"
-          export JENKINS_JAVA_OPTS='<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>'
-          export ARTIFACT_CACHING_PROXY_PROVIDER='azure'
-          export JAVA_HOME='<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>'
-          export JENKINS_JAVA_BIN='<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>'
-
           # Setup Datadog service
           (
             systemctl stop datadog-agent.service
@@ -90,6 +75,21 @@ jenkins:
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
           (
+            # Argument provided by the Azure-VM plugin
+            export JENKINS_URL="^${1}" # Always ends witgh a '/'
+            export AGENT_NAME="^${2}"
+            export AGENT_SECRET="^${3}"
+
+            export USER=jenkins
+            export AGENT_WORKDIR='<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>'
+            export AGENT_JAR="^${AGENT_WORKDIR}/agent.jar"
+            export AGENT_SECRETFILE="^${AGENT_WORKDIR}/agent-secret"
+            export AGENT_URL="^${JENKINS_URL}computer/^${AGENT_NAME}/jenkins-agent.jnlp"
+            export JENKINS_JAVA_OPTS='<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>'
+            export ARTIFACT_CACHING_PROXY_PROVIDER='azure'
+            export JAVA_HOME='<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>'
+            export JENKINS_JAVA_BIN='<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>'
+
             mkdir -p "^${AGENT_WORKDIR}"
             chown "^${USER}:^${USER}" "^${AGENT_WORKDIR}"
             curl --silent --show-error --location --output "^${AGENT_JAR}" "^${JENKINS_URL}jnlpJars/agent.jar"
