@@ -55,7 +55,7 @@ jenkins:
         executeInitScriptAsRoot: true
         # Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |
-          #!/bin/bash
+          #!/bin/sh
           set -eux
 
           # Setup Datadog service
@@ -71,7 +71,7 @@ jenkins:
             systemctl daemon-reload
             systemctl enable datadog-agent.service
             systemctl start datadog-agent.service
-          ) |& tee /var/log/agent-init-datadog.log
+          ) 2>&1 | tee /var/log/agent-init-datadog.log
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
           (
@@ -118,7 +118,7 @@ jenkins:
             systemctl daemon-reload
             systemctl enable jenkins-agent
             systemctl start jenkins-agent || systemctl status jenkins-agent
-          ) |& tee /var/log/agent-init-jenkins.log
+          ) 2>&1 | tee /var/log/agent-init-jenkins.log
           <%-end -%>
 
           # Remove jenkins user from sudoers
