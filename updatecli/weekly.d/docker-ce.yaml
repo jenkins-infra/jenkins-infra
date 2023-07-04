@@ -14,11 +14,6 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  lastVersionBionic:
-    name: Get latest docker-ce version
-    kind: shell
-    spec:
-      command: bash ./updatecli/scripts/docker-ce-updates.sh bionic
   lastVersionJammy:
     name: Get latest docker-ce version
     kind: shell
@@ -40,23 +35,14 @@ targets:
     sourceid: lastVersionJammy
     spec:
       file: hieradata/common.yaml
-      key: "docker::version"
-    scmid: default
-  UpdateLegacyBionics:
-    name: Update docker-ce version in hieradata/clients/
-    kind: yaml
-    sourceid: lastVersionBionic
-    spec:
-      files:
-        - hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "docker::version"
+      key: $.docker::version
     scmid: default
 
 actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump docker-ce version to {{ source "lastVersionBionic" }} (Bionic) and {{ source "lastVersionJammy" }} (Jammy)
+    title: Bump docker-ce version to {{ source "lastVersionJammy" }} (Jammy)
     spec:
       labels:
         - dependencies
