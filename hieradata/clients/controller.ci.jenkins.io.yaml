@@ -22,7 +22,6 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDwdnCxqQGMo1LTOhCDu7TpzT31sqJPYltmQEeKOut1lRP2HSn3Zac5XKXKq2Vn9xlmjSayC6mQcUw23x8VGa2bnCqWTxiAGSpAmcE4dZFRf/T20Il8YiuYNyP+Pl8zLOisOWMQ6XU6F//yoNeE+y1rnOolK0AHmO7/vz6FlnvM/pn5jSuHj+sicBdR5sA+wfejSkvW1Z3wH3vpa4xNFkS8nNjrC/Qv7rj+WmBxYMd4z7M5NFadfH1byH7omRLUZ2XNi6cDOY4g0+qbpwSmzs+JLTXa10uIMn9dcA3WOQDcBlYdQ0FSwsSYJy6jskf2A62yHJ3TESnNGis9o19AEGsVFxPo1aXdLJ5X9jEogjOX5CKK2kchpONaQoX7nh04ys5at8jzcn3B9KvSfx8B6UFlsvOHZOKlVNymZ+pe/JJecY08A4E/1Teo4wL4oVkBcMTbX2z04pXLbMtqELpzU29yeF5MRO1B37Jzf5E71TGWWxdllQ/WO+RTAInha1tLyujQoUop2EyZMFCvPtozVYIJpVV8hwQC1j4NyTnslmGaUd/3dyTVcnKKctDimGT+zULWE6ckCNwzsrIEY5ESERwa3JE5HtoEnolsddR5OQiVb4AImFz0Y4T3TvCQVFdhjs/1xjIRKsbg9eFzF2cy52GzTKDzcb9NQeRbPXPeLyZrBQ
     groups:
       - sudo
-docker::version: 5:24.0.2-1~ubuntu.18.04~bionic
 # Per-host Datadog configuration
 datadog_agent::host: "controller.ci.jenkins.io"
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
