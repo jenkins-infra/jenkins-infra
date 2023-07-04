@@ -78,6 +78,16 @@ node 'azure.ci.jenkins.io' {
   include role::jenkins::controller
 }
 
+node 'controller.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=08379ea7-29d9-469e-8f64-37aa62159e08',
+    fstype => 'ext4',
+  }
+  include role::jenkins::controller
+}
+
 # Jenkins controller for cert.ci.jenkins.io
 node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
