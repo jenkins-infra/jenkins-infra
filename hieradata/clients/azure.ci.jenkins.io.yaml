@@ -139,7 +139,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s-experiments:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-experiments-sa-token"
         serverCertificate: >
@@ -185,7 +185,7 @@ profile::jenkinscontroller::jcasc:
         url: ENC[PKCS7,MIIBuQYJKoZIhvcNAQcDoIIBqjCCAaYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAqqsX9flKf0ph1t5xPw8sSHwqWS5kxPicvdb9UG3137GIv/wRAzoUxLPRnjDER3SJrN7QTFFSblCxXEXMv3OtCBZH+k0y2CX4M+eC1VUcHsEYdKdiWwzJNw8qo8W8gO4kr2raneDNhGRjmDazcPJaLLcht7gTNQSr2RQdFe0GuDEps33oMzS1/fT/YbOzfg4O6yZDC9mbg2IcryhCK7RGqhDRVTQ6DFTW1RhN2o0GdoY0k0NK46Y4zCR71NACy0PHNOL6cRnBUQfc7kCFDw8/ISFJRAihxAWAG631jHGoUh26H+gXXfoQHZppSnIuGfUCoTn52lul9zoKrc7c2GKZhzB8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCXHTqrSVgZnWeEyj1rnEISgFDZ/ZoneDJR74i4SLb+hIgRDuznKj9D16zFgUOhaZZP8GIxaaAJ3ruVPlmjD5mAMAknhwfpOzRM/puRDSglpEBOZJrBvRXGwceFiv1LgnAqIw==]
         # No agent definitions (custom podTemplates() from pipelines)
       cik8s-bom:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-bom-sa-token"
         serverCertificate: >
@@ -244,7 +244,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       cik8s:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
