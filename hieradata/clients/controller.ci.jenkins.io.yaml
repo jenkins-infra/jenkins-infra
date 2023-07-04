@@ -37,7 +37,7 @@ profile::jenkinscontroller::admin_ldap_groups:
   - jenkins-admins
 profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
-profile::jenkinscontroller::letsencrypt: true
+profile::jenkinscontroller::letsencrypt: false # TODO: set back to true once migrated
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk11'
 profile::jenkinscontroller::groovy_init_enabled: true
