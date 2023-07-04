@@ -612,6 +612,7 @@ profile::jenkinscontroller::plugins:
   - credentials # Provides Jenkins Credentials management
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
   - datadog # Datadog plugin
+  - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
