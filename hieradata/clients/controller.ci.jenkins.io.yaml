@@ -615,6 +615,7 @@ profile::jenkinscontroller::plugins:
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
+  - git-forensics # Discovering reference builds, used in buildPlugin
   - github # Provides basic GitHub integration for jobs
   - github-checks # Allows GitHub Jobs to create checks in GitHub API
   - github-branch-source # Provides Job integration to get code from GitHub
