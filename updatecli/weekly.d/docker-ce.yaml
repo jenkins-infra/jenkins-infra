@@ -19,6 +19,8 @@ sources:
     kind: shell
     spec:
       command: bash ./updatecli/scripts/docker-ce-updates.sh jammy
+      environments:
+        - name: PATH
 
 conditions:
   checkIfHieradataCommonHasDockerVersionKey:
