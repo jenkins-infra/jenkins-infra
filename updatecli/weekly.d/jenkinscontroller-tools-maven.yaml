@@ -18,8 +18,8 @@ sources:
     kind: yaml
     name: Retrieve the current version of the Packer images used in production
     spec:
-      file: ./hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
   # Retrieving Maven from packer-images to synchronize its version across our infra
   # See https://github.com/jenkins-infra/docker-inbound-agents/issues/18
   getMavenVersionFromPackerImages:
@@ -49,7 +49,7 @@ targets:
     sourceid: getMavenVersionFromPackerImages
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.tools_default_versions.maven"
+      key: $.profile::jenkinscontroller::jcasc.tools_default_versions.maven
     scmid: default
   setMavenPathFors390x:
     name: "Bump Maven path on s390x permanent agent setup"
@@ -61,7 +61,7 @@ targets:
     spec:
       files:
         - hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.envVars.PATH+MAVEN"
+      key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.envVars.PATH+MAVEN
     scmid: default
   setMavenToolVersionFors390x:
     name: "Bump Maven path on s390x permanent agent setup"
@@ -72,7 +72,7 @@ targets:
     spec:
       files:
         - hieradata/clients/azure.ci.jenkins.io.yaml
-      key: "profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.toolLocation[0].home"
+      key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.toolLocation[0].home
     scmid: default
 
 

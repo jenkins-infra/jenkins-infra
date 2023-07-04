@@ -45,7 +45,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::openvpn::image_tag"
+      key: $.profile::openvpn::image_tag
     scmid: default
 
 actions:
