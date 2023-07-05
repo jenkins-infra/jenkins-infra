@@ -622,6 +622,7 @@ profile::jenkinscontroller::plugins:
   - github-branch-source # Provides Job integration to get code from GitHub
   - generic-tool # Ligthweight tool definition (should replace 'groovy' plugin and tools)
   - groovy # TODO: remove in favor of generic-tool
+  - http_request # Used for core builds
   - kubernetes # Kubernetes Container Agents
   - junit-attachments # Used by ATH
   - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
