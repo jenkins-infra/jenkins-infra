@@ -30,7 +30,7 @@ mod 'reidmv-yamlfile'
 # Needed by `yamlfile`
 mod 'adrien-filemapper'
 
-mod 'puppetlabs-docker', '7.0.0'
+mod 'puppetlabs-docker', '8.0.0'
 
 # Package Managers
 mod 'puppetlabs-apt', '9.0.2'
