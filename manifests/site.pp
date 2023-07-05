@@ -73,11 +73,6 @@ node 'oracle.updates.jenkins.io' {
   include role::updates
 }
 
-node 'azure.ci.jenkins.io' {
-  sshkeyman::hostkey { ['azure.ci.jenkins.io']: }
-  include role::jenkins::controller
-}
-
 node 'controller.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
