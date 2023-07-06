@@ -47,7 +47,7 @@ mod 'saz-ssh', '5.0.0'
 mod 'puppetlabs-sshkeys_core', '2.4.0'
 
 mod 'puppetlabs-lvm', '1.4.0'
-mod 'datadog-datadog_agent', '3.20.0'
+mod 'datadog-datadog_agent', '3.21.0'
 
 # Used for grabbing certificates for jenkins.io
 mod 'puppet-letsencrypt', '9.2.0'
