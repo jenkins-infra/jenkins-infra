@@ -4,11 +4,13 @@ unclassified:
     # Select the `Datadog Agent` mode (DSD).
     reportWith: "DSD"
     # Configure the `Agent` host
-    targetHost: <%= @jcasc['datadog']['targetHost'] ? @jcasc['datadog']['targetHost'] : '127.0.0.1' %>
+    targetHost: "<%= @jcasc['datadog']['targetHost'] ? @jcasc['datadog']['targetHost'] : '127.0.0.1' %>"
     # Configure the agent port
-    targetPort: <%= @jcasc['datadog']['targetPort'] ? @jcasc['datadog']['targetPort'] : 8125 %>
+    targetPort: <%= @datadog['metrics_collection_port'] %>
     # Configure the `Traces Collection` port
-    targetTraceCollectionPort: <%= @jcasc['datadog']['targetTraceCollectionPort'] ? @jcasc['datadog']['targetTraceCollectionPort'] : 8126 %>
+    targetTraceCollectionPort: <%= @datadog['traces_collection_port'] %>
+    # Configure the `Logs Collection` port
+    targetLogCollectionPort: <%= @datadog['logs_collection_port'] %>
     # Enable CI Visibility flag
     enableCiVisibility: <%= @jcasc['datadog']['enableCiVisibility'] ? @jcasc['datadog']['enableCiVisibility'] : true %>
     # (Optional) Configure your CI Instance name

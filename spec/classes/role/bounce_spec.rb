@@ -9,7 +9,4 @@ describe 'role::bounce' do
 
   it { expect(subject).to contain_class 'role::bounce' }
   it { expect(subject).to contain_class 'profile::base' }
-
-  # https://issues.jenkins-ci.org/browse/INFRA-909
-  it { expect(subject).to contain_user 'ogondza' }
 end

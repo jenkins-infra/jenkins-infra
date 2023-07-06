@@ -45,20 +45,6 @@ sources:
       image: "jenkins/inbound-agent"
       tag: "latest-jdk11"
       architecture: amd64
-  getLatestUbuntuAgentAMIArm64:
-    kind: aws/ami
-    dependson:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-ubuntu-22.04-arm64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
   getWindowsVMAgentsDiskSize:
     kind: file
     dependson:
@@ -88,7 +74,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agents_setup.windows.osDiskSize"
+      key: $.profile::jenkinscontroller::jcasc.agents_setup.windows.osDiskSize
     scmid: default
   setAzureGalleryImageVersion:
     sourceid: packerImageVersion
@@ -96,7 +82,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version"
+      key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
     scmid: default
   setInboundAllInOneContainerImage:
     sourceid: getLatestInboundAllInOneContainerImageX86
@@ -104,7 +90,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one"
+      key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04@"
     scmid: default
@@ -114,17 +100,9 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp"
+      key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp
     transformers:
       - addprefix: "jenkins/inbound-agent@"
-    scmid: default
-  setUbuntuAgentAMIArm64:
-    name: "Bump AMI ID for Ubuntu ARM64 agents"
-    kind: yaml
-    sourceid: getLatestUbuntuAgentAMIArm64
-    spec:
-      file: hieradata/common.yaml
-      key: 'profile::jenkinscontroller::jcasc.agent_images.ec2_amis.ubuntu-22\.04-arm64'
     scmid: default
 
 actions:

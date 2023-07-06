@@ -14,16 +14,13 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  lastVersionBionic:
-    name: Get latest docker-ce version
-    kind: shell
-    spec:
-      command: bash ./updatecli/scripts/docker-ce-updates.sh bionic
   lastVersionJammy:
     name: Get latest docker-ce version
     kind: shell
     spec:
       command: bash ./updatecli/scripts/docker-ce-updates.sh jammy
+      environments:
+        - name: PATH
 
 conditions:
   checkIfHieradataCommonHasDockerVersionKey:
@@ -32,36 +29,22 @@ conditions:
     spec:
       file: hieradata/common.yaml
       matchpattern: "docker::version:.*"
-  checkIfHieradataPrivateVPNHasDockerVersionKey:
-    kind: file
-    disablesourceinput: true
-    spec:
-      file: hieradata/clients/private.vpn.jenkins.io.yaml
-      matchpattern: "docker::version:.*"
 
 targets:
   UpdateHieradataCommonHasDockerVersionKey:
     name: Update docker-ce version in common.yaml
     kind: yaml
-    sourceid: lastVersionBionic
-    spec:
-      file: hieradata/common.yaml
-      key: "docker::version"
-    scmid: default
-  UpdateHieradataPrivateVPNHasDockerVersionKey:
-    name: Update docker-ce version in hieradata/clients/private.vpn.jenkins.io.yaml
-    kind: yaml
     sourceid: lastVersionJammy
     spec:
-      file: hieradata/clients/private.vpn.jenkins.io.yaml
-      key: "docker::version"
+      file: hieradata/common.yaml
+      key: $.docker::version
     scmid: default
 
 actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump docker-ce version to {{ source "lastVersionBionic" }} (Bionic) and {{ source "lastVersionJammy" }} (Jammy)
+    title: Bump docker-ce version to {{ source "lastVersionJammy" }} (Jammy)
     spec:
       labels:
         - dependencies

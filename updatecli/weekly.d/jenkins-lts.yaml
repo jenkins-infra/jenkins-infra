@@ -29,7 +29,7 @@ conditions:
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::docker_image"
+      key: $.profile::jenkinscontroller::docker_image
       value: "jenkins/jenkins"
   testdockerimageExist:
     kind: dockerimage
@@ -45,8 +45,8 @@ targets:
     sourceid: jenkinsLatestLTS
     kind: yaml
     spec:
-      file: "hieradata/common.yaml"
-      key: "profile::jenkinscontroller::docker_tag"
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::docker_tag
     scmid: default
 
 actions:

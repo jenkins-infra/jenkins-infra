@@ -8,6 +8,33 @@ describe 'profile::pkgrepo' do
     }
   end
 
+  let(:facts) do
+    {
+      :os => {
+        :architecture => 'amd64',
+        :distro => {
+          :codename => "bionic",
+          :description => "Ubuntu 18.04.6 LTS",
+          :id => "Ubuntu",
+          :release => {
+            :full => "18.04",
+            :major => "18.04"
+          },
+        },
+        :family => "Debian",
+        :hardware => "x86_64",
+        :name => "Ubuntu",
+        :release => {
+          :full => "18.04",
+          :major => "18.04"
+        },
+        :selinux => {
+          :enabled => false
+        }
+      },
+    }
+  end
+
   it 'should ensure the docroot exists' do
     expect(subject).to contain_file(params[:docroot]).with({
       :ensure => :directory,

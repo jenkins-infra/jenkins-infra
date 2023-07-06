@@ -119,6 +119,12 @@ class profile::openvpn (
     iniface => 'eth0',
   }
 
+  # Set default FORWARD CHAIN policy to ACCEPT
+  firewallchain { 'FORWARD:filter:IPv4':
+    ensure => present,
+    policy => 'accept',
+  }
+
   # Create firewall rules and route for each specified NIC to allow routing from VPN virtual networks to different networks
   lookup('profile::openvpn::networks').each |$network_nic, $network_setup| {
     # Only get the 3 first digits of the CIDR (`10.0.0.0/24` returns `10.0.0`)
@@ -156,13 +162,18 @@ class profile::openvpn (
     if $network_nic != 'eth0' {
       $destinations_cidrs.each |$destination_cidr| {
         # Then add firewall rules to allow routing through networks using masquerading
-        firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 80/443":
+        firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 22/80/443/5432":
           chain       => 'POSTROUTING',
           jump        => 'MASQUERADE',
           proto       => 'tcp',
           outiface    => $network_nic,
           source      => $vpn_network['cidr'],
-          dport       => [80,443],
+          dport       => [
+            22,   # Allow SSH to private networks
+            80,   # Allow HTTP to private networks
+            443,  # Allow HTTPS to private networks
+            5432, # Allow Postgres to private networks
+          ],
           destination => $destination_cidr,
           table       => 'nat',
         }

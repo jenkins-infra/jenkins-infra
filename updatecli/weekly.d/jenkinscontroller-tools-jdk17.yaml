@@ -41,7 +41,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: "profile::jenkinscontroller::jcasc.tools_default_versions.jdk17"
+      key: $.profile::jenkinscontroller::jcasc.tools_default_versions.jdk17
     scmid: default
 
 actions:

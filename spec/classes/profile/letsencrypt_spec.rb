@@ -3,16 +3,16 @@ require 'spec_helper'
 describe 'profile::letsencrypt' do
   context 'default setup uses HTTP-01 with staging' do
     it {
-      expect(subject).to contain_package('python3.8')
+      expect(subject).to contain_package('python3.10')
       expect(subject).to contain_package('python3-pip')
       expect(subject).to contain_package('libaugeas0')
 
       expect(subject).to contain_exec('Install certbot').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
+        :command => '/usr/bin/python3.10 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
       })
 
       expect(subject).to contain_exec('Install certbot-apache plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-apache==1.32.0',
+        :command => '/usr/bin/python3.10 -m pip install --upgrade certbot-apache==1.32.0',
         :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
       })
 
@@ -24,6 +24,11 @@ describe 'profile::letsencrypt' do
       }).with_package_ensure('absent').with_configure_epel(false)
       expect(subject).to contain_file('/etc/letsencrypt/azure.ini').with({
         :ensure  => 'absent',
+      })
+      expect(subject).to contain_cron('certbot-renew-all').with({
+        :command => "bash -c 'date && /usr/local/bin/certbot renew' >>/var/log/certbot-renew-all.log 2>&1",
+        :user    => 'root',
+        :hour    => 6,
       })
     }
   end
@@ -46,20 +51,20 @@ describe 'profile::letsencrypt' do
     end
 
     it {
-      expect(subject).to contain_package('python3.8')
+      expect(subject).to contain_package('python3.10')
       expect(subject).to contain_package('python3-pip')
 
       expect(subject).to contain_exec('Install certbot').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
+        :command => '/usr/bin/python3.10 -m pip install --upgrade pyopenssl certbot==1.32.0 acme==1.32.0',
       })
 
       expect(subject).not_to contain_exec('Install certbot-apache plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-apache==1.32.0',
+        :command => '/usr/bin/python3.10 -m pip install --upgrade certbot-apache==1.32.0',
         :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet apache',
       })
 
       expect(subject).to contain_exec('Install certbot-dns-azure plugin').with({
-        :command => '/usr/bin/python3.8 -m pip install --upgrade certbot-dns-azure',
+        :command => '/usr/bin/python3.10 -m pip install --upgrade certbot-dns-azure',
         :unless  => '/usr/local/bin/certbot plugins --text 2>&1 | /bin/grep --quiet dns-azure',
       })
 

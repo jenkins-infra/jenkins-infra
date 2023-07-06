@@ -3,21 +3,13 @@ def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
 pipeline {
   // `docker` and `updatecli` are required
   agent { label 'linux-amd64-docker' }
-
   options {
     buildDiscarder(logRotator(numToKeepStr: '10'))
     timeout(time: 30, unit: 'MINUTES')
     disableConcurrentBuilds(abortPrevious: true)
   }
-
   triggers {
     cron (cronExpr)
-  }
-
-  environment {
-    AWS_ACCESS_KEY_ID     = credentials('packer-aws-access-key-id')
-    AWS_SECRET_ACCESS_KEY = credentials('packer-aws-secret-access-key')
-    AWS_DEFAULT_REGION    = 'us-east-2'
   }
   stages {
     stage('Check Configuration Update') {

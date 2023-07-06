@@ -53,7 +53,8 @@ class profile::docker {
     # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
     command => "bash -c 'date && docker system prune --volumes --force' >/var/log/docker-system-prune.log 2>&1",
     user    => 'root',
-    hour    => 2, # Once a day during UTC night
+    hour    => 2,
+    minute  => 0,
     require => [Class['docker'],Package['cron']],
   }
 }

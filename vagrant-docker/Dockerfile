@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV LANG="en_US.UTF-8"
@@ -60,11 +60,12 @@ RUN chmod 600 /home/vagrant/.ssh/authorized_keys \
 # Install the puppet agent
 # hadolint ignore=DL3008,DL3059
 RUN package_path=/tmp/puppetrelease.deb \
-  && curl --silent --show-error --location --output "${package_path}" "http://apt.puppetlabs.com/puppet6-release-$(grep UBUNTU_CODENAME /etc/os-release | cut -d= -f2).deb" \
+  # Use focal even if we are in jammy as there are no puppet agent package for 6.x
+  && curl --silent --show-error --location --output "${package_path}" "http://apt.puppetlabs.com/puppet6-release-focal.deb" \
   && dpkg -i "${package_path}" \
   && rm -f /tmp/puppetrelease.deb \
   && apt-get update --quiet \
-  && apt-get install --no-install-recommends --yes --quiet puppet-agent \
+  && apt-get install --no-install-recommends --yes --quiet puppet-agent=6.* \
   && apt-get clean \
   && rm -Rf /var/lib/apt/lists/*
 

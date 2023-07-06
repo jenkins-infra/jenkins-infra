@@ -63,13 +63,16 @@ accounts:
     ssh_keys:
       dduportal:
         type: ecdsa-sha2-nistp256
-        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGB+Bqbq5roMzOpWucT3/tLOb0luvbuXYpsT8rfOPnhFQ8j166VNBCcjAWcYpjnjpDYiN5jIcdoV3r7wg8lOQvc=
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDKKa/o/49P2v/U0rvHXjzal6vCrrCwnpN8lVV4XZD29ZKQUCZ1noVfS6vArgUPVM8+l/TulWeMM0MGqX+DXOX4=
+      dduportal-bertha:
+        type: ed25519
+        key: AAAAC3NzaC1lZDI1NTE5AAAAIGasEvLKplsDZIEVW2UVT3kTByb3s4m3R5h1Bgx0vDGk
     groups:
       - sudo
   hlemeur:
     ssh_keys:
       hlemeur:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCszWjPAxVCpF2vfNzrk8viS2vxZ3wntZ3MNJ8EajbdUHpDrLJuGbkDV5XhvA/HfKyboukIgMotO66hMSqShxMdCaNW/VmkAKak5zRY+/iai4vQC03rdlF8xpgeuIZMusDgubCE0MUGsmzo7Y6xzUJcjItAJz0CHM983bD1Fq+PIg7kjoYuQuaFvkR2XEACu292GoMV0kPSng3002wEOE7S8JpIQc+KvCtr/kUMPc8goNE4hY4cTDy8oziqgAjZgjCjRpHAinzPq6+OWMHpCwCliuo1jlJqRw6ncrHuBXDsKzY6Hft/fE0eRoO9CJzKqASh3ZGfE8sXJkF2aPlJVaD7ydjyU5+tMnSVp/WwdtQ5yDPcxMrtoW/uz8iKQxeXsDQCC5s5X8UbQDJyWD+Dx6Waw5GEFOn6RdJbyXZMLcwmL5gJkUw9YsrRavVekK7axwsRBSUVG49qN0IQcq2pSEyFb3F0FqWS6TA+YwF/xNHb7lOZ+mP4/5HvXXVdvcRV35U6kx5Cq1CKe6xgyhLbgnrHaZ0ZeCWIsr0taGIducXLm6U3BP7u0OTxMVVqFZzEYxMY+72kWsxKNBtGM8aALRiUsp8p9KSbhWioNlUF1kjAF+I4xDWN39khzvyajZKF7Ij20V+CMh/PIM6zDmsp/+6DyErrNR/vm5wtv8jEjsORhQ==
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABgQCoYnOoOMmc63wCF3poh41zRjsqQ0rN68y00oCCM1nvRvu/IEHj6+PLVlBXKO6BtcOYQzeLU5S/ykTRdTZ8aSygh4hR6724BWgfOoK+2wPru8+vQMRHAek7Rb06JEQoOnrOVdev3uv4m6uaCnMWBk0GnpC+eD/W3A/z6Jqvx41tIXPrOyXQl6HYctOWOFdBdOQsoa/D18zX+BNwjlHgJDKF2xXpAsLJ9nhLeASQmiJUsIkN7LDJK+8Qgs2q/CnSrx3DtJa5HiKSCDmPGYZ4v5qPykLs3eXToHg8G6mk7gQW3lsAH7ZZo7+T6GTrjUXR9Z1hNwlv8bJJEx1/CBe8nWxK7ej37b4Vr0oBDCo32o1HeS0/85D22cO0+rsFhAxwqVFLfXxFeVI3oeb7xSlh2Oq3642+67Q0GWLCGf4LrELxa9Ycs66BW7fVpWBlaJXUT5RZ4HTqmso6BXK9ADEgI0beirLpJnUR0t2Zcytk2r2p+QF+2N6yJPrANLSARnAV6EU=
     groups:
       - sudo
   smerle:
@@ -84,9 +87,6 @@ accounts:
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
-letsencrypt::renew_cron_ensure: "present"
-letsencrypt::renew_cron_minute: 0
-letsencrypt::renew_cron_hour: 6
 profile::letsencrypt::plugin: apache
 profile::pkgrepo::ssh_keys:
   release.ci.jenkins.io:
@@ -94,8 +94,6 @@ profile::pkgrepo::ssh_keys:
 profile::archives::rsync_hosts_allow:
   - localhost
   - archives.jenkins.io
-  - 52.177.88.13 # publick8s outbound IP
-  - 20.75.10.224/29 # publick8s additionnal outboun IP range
   - pkg.origin.jenkins.io
   - get.jenkins.io
   - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
@@ -151,7 +149,7 @@ datadog_agent::integrations:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: "2.401.1-jdk11"
+profile::jenkinscontroller::docker_tag: 2.401.2-jdk11
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -200,49 +198,44 @@ profile::jenkinscontroller::jcasc:
             os: "windows"
   agents_setup:
     windows:
-      agentDir: 'C:/Jenkins'
-      # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
-      tempDir: 'C:\\\\Temp'
+      agentDir: 'C:/Jenkins/agent'
+      tempDir: 'C:/Temp'
       remoteAdmin: Administrator
-      osDiskSize: "150"
+      osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: 'C:/tools/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      javaHome: 'C:/tools/jdk-11' # Default JDK provided for builds when no pipeline setup exists
     ubuntu:
-      agentDir: "/home/jenkins"
+      agentDir: "/home/jenkins/agent"
       remoteAdmin: jenkins
       tempDir: "/tmp"
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
       agentJavaBin: '/opt/jdk-11/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
+      javaHome: '/opt/jdk-11' # Default JDK provided for builds when no pipeline setup exists
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
-    ec2_amis:
-      ubuntu-22.04-amd64: "ami-0bd6642923953e087"
-      windows-2019-amd64: "ami-0df4e33d473d4899e"
-      ubuntu-22.04-arm64: "ami-0a4ad9fc51eec90af"
-      # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
-      windows-2022-amd64: "ami-0a78169098a3f340d"
     azure_vms_gallery_image:
-      version: 1.7.1
+      version: 1.13.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAluBQmOHo1MWoOCMVOCcgVUs9gOzFVEZMT7RA3V33KeolyRKh0lm5Ta5+C9aKJe9myuVGaDQsd99XsW40d7NdygJcnBxUV+VTnnLphjplPtCX5JIS4ww/S8JGOpOIE2zejy5bL2CpnZhgSFh+aD1FLD91ozNS5lgNOq9hNKqo+mSfUnX5wrUFvlCaadTWp3yxG7l7VluxP1Wh4BlsRmphmbUmmgFo56CjDUVz9dMwxT/p/uE1S/SPuEirJOAPtPCl7x2NQWg+Qlv5j1tC5ASgh9beD3SjUVPd6VYM+K+u07aw8jOj/meARXgghtUPgqHqWC44JGHPzWkZ4dQFhe6jyzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDc6VPQnQTEmwF9aAh/uK9IgDDXAM9S6QNxRH8cFSOAESeqOlLFBKVAlJc3Mnby3Pc/6H21BsehZbQLUd+1MfcoPI0=]
     container_images:
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:ed9bc546956e61b3aa7ec88dccc24b7bcfde4987fe34e700377f8b9387c4e5fa
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:c50cec17488bdc69327dbd54444ed85ab23dff25d00f8630659cfb903e487c31
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:79d22d16488a64eb2350d45881190683510c4f356aa6d942839345d0c0cf0ffc
-      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:4f4e0b29a74502b03a3bf396f41fbc1e9e85a3192c6236b7076d77d4f7a10f22
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:cbdf90b2b9d8249fd024aab3891dd0eb2227166eb89ecff864bb023ff986b9b4
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:84f540e67ea7b99d33c5e32d8caf1063a68dad6d76cbee1d00006a3332821e03
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:db6912f524696fc87cfbf85ae81de1590bfcd6d1c1a4aab1772b9d93f2df0311
+      jnlp-maven-19-windows: jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@sha256:37ca9e317e9b3253a58eac06d354e77eeec02f98999a4933bec41c513f48b83e
       jnlp-ruby: jenkinsciinfra/inbound-agent-ruby@sha256:221f96baa1957742728eb6d2769a691aea5721fc11ed9b05da810c5debe92115
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:9e3ba22eeb83439d2a8cb4bba5cc40f82a8a68cb24aa9832edb8958ad6dad580
-      jnlp-webbuilder: 'jenkinsciinfra/builder@sha256:77f8dfb3a33d4771a69bf24a95f0be9403b9a8f6fd71b0f7d90a3ffd034decc5'
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:f358a91fe9fddcb6fde7c40ad72f562b6e6daaf1a56002ee92c5a9a4e8f29f64
+      jnlp-webbuilder: jenkinsciinfra/builder@sha256:180e8d1111ce81b9e7979d12303e6a7ebb40bff955d6ae429332d6d82f665f0d
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent@sha256:531cf1e57ad4fe37e6e1d2aaa8ce359534a8f73f671e516b61605e26b6dc05e2
+      jnlp: jenkins/inbound-agent@sha256:663103245845ebf133e6fa104f10593690ed434011c0549d7746bc686683269a
   tools_default_versions:
-    jdk8: "8u372-b07"
-    jdk11: "11.0.19+7"
-    jdk17: "17.0.7+7"
-    jdk19: "19.0.2+7"
-    maven: "3.9.2"
+    jdk8: 8u372-b07
+    jdk11: 11.0.19+7
+    jdk17: 17.0.7+7
+    jdk19: 19.0.2+7
+    maven: 3.9.3
   artifact_caching_proxy:
     providers:
       aws:
@@ -283,7 +276,7 @@ usage_ssh_privkey: "usage_ssh_privkey"
 osuosl_mirroring_privkey: ""
 archives_mirroring_privkey: ""
 ## Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: "5:24.0.2-1~ubuntu.18.04~bionic"
+docker::version: 5:24.0.2-1~ubuntu.22.04~jammy
 # The following map to the Terraform resource "${tfPrefix}jenkinsrelease" for
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"
@@ -295,6 +288,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: "2.0.13" # Tracked by updatecli
+profile::openvpn::image_tag: 2.0.34
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et

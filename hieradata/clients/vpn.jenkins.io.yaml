@@ -3,21 +3,14 @@ profile::openvpn::networks:
   eth0:
     name: Subnet 'dmz' of network 'prod-jenkins-public-prod'
     route-metric: 100
-    macaddress: 00:0d:3a:0e:4b:1c
     network_cidr: 10.0.99.0/24
   eth1:
     name: Subnet 'data-tier' of network 'prod-jenkins-public-prod'
     route-metric: 200
-    macaddress: 00:0d:3a:0e:4f:89
     network_cidr: 10.0.2.0/24
     peered_network_cidrs:
       # Network 'prod-jenkins-private-prod-vnet' through peering
       - 10.240.0.0/14
-  eth2:
-    name: Subnet 'app-tier' of network 'prod-jenkins-public-prod'
-    route-metric: 300
-    macaddress: 00:0d:3a:0e:4e:7e
-    network_cidr: 10.0.1.0/24
 profile::openvpn::vpn_network:
   name: default
   cidr: 10.8.0.0/24 # Normal VPN
