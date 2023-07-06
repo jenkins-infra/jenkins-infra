@@ -47,7 +47,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 \
--Dio.jenkins.plugins.artifact_manager_jclouds.s3.S3BlobStoreConfig.deleteStashes=true", # Must be Java 11 compliant!
+-Dio.jenkins.plugins.artifact_manager_jclouds.s3.S3BlobStoreConfig.deleteStashes=false", # Must be Java 11 compliant!
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
