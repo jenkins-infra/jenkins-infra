@@ -121,6 +121,27 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: trusted-vnet
           virtualNetworkResourceGroupName: trusted
           subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
+        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022"
+          imageDefinition: jenkins-agent-windows-2022-amd64
+          os: "windows"
+          os_version: "2022"
+          launcher: "inbound"
+          storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEALl/EWRs6+6Wmr6p6Ce6GxeZeh3WoZuMtDpT2BHQrRvfMzKVda6HSvvaA7aMHVeyxzfwxay+kWDQN/cpbUIP9LjEAR1dIGxtKbDTEnglmtViZkvZyyG1HgXKNUAs1ZZNzmwHD7WHKxxnjvK5AjKjro9HqgitnuhokIWS8keqJ93fe1ClJs23mh5uPk6fV60MATqy7EIp7M0oEJGyWlJmE0mTbID3rVNDGGXrVENXaPNzoys+g/HC0/ydRn1Dt2jIGhTY9ej0w8YJ7mwIyW7DF2viYi2J7ipOUPqDGKOH5I3CV2t4NhWupV/cEPCfTla9mwIk/6x2iP0wWBOBJkrWqLzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDeZ0akYFi7qYGMRUZy0ylWgBAZ/EnT5I3LzVkpzLBVM3M5]
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          spot: true
+          architecture: amd64
+          labels:
+            - docker-windows-2022
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
+          virtualNetworkName: trusted-vnet
+          virtualNetworkResourceGroupName: trusted
+          subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
+          ephemeralOSDisk: true
 # These are plugins we need only in our trusted-ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
