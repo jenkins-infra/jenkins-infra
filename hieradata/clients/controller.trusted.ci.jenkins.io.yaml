@@ -141,7 +141,6 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: trusted-vnet
           virtualNetworkResourceGroupName: trusted
           subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
-          ephemeralOSDisk: true
 # These are plugins we need only in our trusted-ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
