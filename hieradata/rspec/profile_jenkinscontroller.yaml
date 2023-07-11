@@ -63,7 +63,7 @@ profile::jenkinscontroller::jcasc:
             imagePullSecrets: dockerhub-credentials
     azure-vm-agents:
       azureCredentialsId: "azure-credentials"
-      resource_group: eastus-cijenkinsio
+      resource_group: ci-jenkins-io-ephemeral-agents
       agent_definitions:
         - name: "ubuntu-20"
           description: "Ubuntu 20.04 LTS"
@@ -111,7 +111,7 @@ profile::jenkinscontroller::jcasc:
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
-        resource_group: eastus-cijenkinsio
+        resource_group: ci-jenkins-io-ephemeral-agents
         agent_definitions:
           - name: maven-11-windows
             os: windows
