@@ -289,7 +289,7 @@ profile::jenkinscontroller::jcasc:
     azure-container-agents:
       aci-windows:
         credentialsId: "azure-credentials"
-        resource_group: eastus-cijenkinsio
+        resource_group: ci-jenkins-io-ephemeral-agents
         agent_definitions:
           - name: maven-8-windows
             os: windows
