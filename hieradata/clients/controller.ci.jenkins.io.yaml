@@ -530,7 +530,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "public-vnet"
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
-          spot: true
+          spot: false
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
           imageDefinition: jenkins-agent-windows-2022-amd64
