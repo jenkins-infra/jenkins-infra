@@ -507,6 +507,30 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "public-vnet"
           virtualNetworkResourceGroupName: "public"
           subnetName: "public-vnet-ci_jenkins_io_agents"
+          spot: true
+        - name: "ubuntu-22-highmem-nonspot"
+          description: "Ubuntu 22.04 LTS Highmem"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAu0efEH9NzGrhuJpSxNZWuWwGOIeGBpsvNfNlxezGgbDjT7JFihJcHTCue/I3jG5afzT7LM+2sOlzx3X02gEAYyfIF6f87lWkyU8JwgAawBSQv4RZe9F/xPb5EIZUC1aTsV6c4i9IUbDsXnN6riJe5Cad/jhl0eE9C9s3kxugP9GHSgRsLrdBVon+VEm2VRRtdspEU3k249KY7kzUEjbxSCYFSCPW3Bq4naFRIab/DwcJcx7yYjboAaDeGwuPxCDxsSBfkz4Mv5c3xALlyIcEtjzucRVnXkX0mqpOTc4CzRJ4+2sL6GApK5CuSuU4xUdKsNzzZx5ZxfQcnBJhtLB6ejBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAK7JsGHPsFqAY/Hjj7OEtgCDRSLKM6BQQHHKQl2PHZmx/AxHdWav7GE5z/vVyVmG8OQ==]
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - highmem-nonspot
+            - highram-nonspot
+            - docker-highmem-nonspot
+            - linux-amd64-big-nonspot
+          maxInstances: 50
+          useAsMuchAsPossible: false
+          usePrivateIP: true
+          credentialsId: "jenkinsvmagents-userpass"
+          virtualNetworkName: "public-vnet"
+          virtualNetworkResourceGroupName: "public"
+          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
