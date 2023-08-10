@@ -92,7 +92,7 @@ Note: for this role, there may be the following error message because plugins in
 
 You can safely ignore it.
 
-You can re-run puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running
+You can re-run puppet and execute tests with `vagrant provision ROLE` repeatedly while the VM is up and running.
 When it's all done, remove the instance the instance via `vagrant destroy ROLE`.
 
 ## Branching model
