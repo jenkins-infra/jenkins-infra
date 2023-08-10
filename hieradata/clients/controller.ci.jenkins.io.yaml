@@ -116,6 +116,16 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
+      jdk21:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux && arm64"
+            cpu_arch: "aarch64"
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
@@ -319,6 +329,14 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-19
               - jdk19
+            cpus: 4
+            memory: 8
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
             cpus: 4
             memory: 8
           - name: jnlp-webbuilder
