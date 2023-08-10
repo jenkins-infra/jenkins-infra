@@ -185,6 +185,8 @@ class profile::jenkinscontroller (
       'jenkinscontroller/casc/artifact-manager.yaml.erb',
       # Opt-in with `profile::jenkinscontroller::jcasc.datadog
       'jenkinscontroller/casc/datadog.yaml.erb',
+      # Opt-out with `profile::jenkinscontroller::jcasc.ansi_color: false`
+      'jenkinscontroller/casc/ansi-color.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
   }

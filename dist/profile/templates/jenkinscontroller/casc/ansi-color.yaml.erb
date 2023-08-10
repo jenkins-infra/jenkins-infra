@@ -1,0 +1,24 @@
+<%- if @jcasc['ansi_color'] && @jcasc['ansi_color']['disabled'].to_s != "true" -%>
+unclassified:
+  ansiColorBuildWrapper:
+    globalColorMapName: "xterm"
+    colorMaps:
+    - name: "xterm"
+      defaultBackground: 7 # better separation between jenkins output and pipeline output
+      black: "#000000"
+      blackB: "#4C4C4C"
+      blue: "#1E90FF"
+      blueB: "#4682B4"
+      cyan: "#00CDCD"
+      cyanB: "#00FFFF"
+      green: "#00CD00"
+      greenB: "#00FF00"
+      magenta: "#CD00CD"
+      magentaB: "#FF00FF"
+      red: "#CD0000"
+      redB: "#FF0000"
+      white: "#E5E5E5"
+      whiteB: "#FFFFFF"
+      yellow: "#CDCD00"
+      yellowB: "#FFFF00"
+<%- end -%>
