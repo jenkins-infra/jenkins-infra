@@ -116,6 +116,20 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
+      jdk21:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux && arm64"
+            cpu_arch: "aarch64"
+            subdir: "jdk-21+34"
+            version: "21-2023-08-09-06-56-beta"
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
+            subdir: "jdk-21+34"
+            version: "21-2023-08-09-06-56-beta"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
