@@ -335,6 +335,14 @@ profile::jenkinscontroller::jcasc:
               - jdk19
             cpus: 4
             memory: 8
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
+            cpus: 4
+            memory: 8
           - name: jnlp-webbuilder
             agentJavaBin: /opt/java/openjdk/bin/java
             javaHome: /opt/java/openjdk
@@ -428,6 +436,14 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-19
               - jdk19
+            cpus: 4
+            memory: 8
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
             cpus: 4
             memory: 8
           - name: jnlp-webbuilder
