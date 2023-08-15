@@ -84,6 +84,12 @@ accounts:
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBC4F10XloU9fqyO2L+U+TAOfUCeaQBG6FaUylIdMl2IwJehK3lS+Ut81/SPmBeiuNN3sPdXDOX5Ycii7L88AVT4=
     groups:
       - sudo
+  wfollonier:
+    ssh_keys:
+      wfollonier:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABAQC3oj0NN9UL1dIfBP44JDsOj/bGX/DG/GIv82imhgWbCQvsKcPczb32+W+zVo+OF3mADX4EoBG681GGopjYCKLreo8D3nFSP/+kdAt0lEqbufzoLvSyyxa0RUHDwzVQIiMiNlzDiWqLRkF2TdeFDl5u+bbdPTYCGil5/qZ3Ro8sG9ayWXMxh+f+s0MAU9qFIwau838RF2R9OCMjmPodW/zf+Mcq+SqrbZyYfYha5jOWxoN8IdrGuAOQeYks7mrXC6qq5N9ojUtMKONvayFwNOsuC0U8PYUtukkHVnm2IK9KM1A38HDlV9eTF8ac7yCUHLlttmoIBdLUuLJAw72BQkK/
+    groups:
+      - sudo
 # Lets Encrypt settings
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
