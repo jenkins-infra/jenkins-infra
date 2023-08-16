@@ -38,6 +38,12 @@ sources:
       image: "jenkinsciinfra/inbound-agent-maven"
       tag: "jdk19-nanoserver"
       architecture: amd64
+  getLatestInboundMaven21WindowsContainerImage:
+    kind: dockerdigest
+    spec:
+      image: "jenkinsciinfra/inbound-agent-maven"
+      tag: "jdk21-nanoserver"
+      architecture: amd64
   getLatestInboundWebBuilderContainerImage:
     kind: dockerdigest
     spec:
@@ -95,6 +101,16 @@ targets:
       key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-19-windows
     transformers:
       - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk19-nanoserver@"
+    scmid: default
+  setInboundJDK21WindowsContainerImage:
+    sourceid: getLatestInboundMaven21WindowsContainerImage
+    name: "Bump container agent image jenkinsciinfra/inbound-agent-maven (jdk21-nanoserver)"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-21-windows
+    transformers:
+      - addprefix: "jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@"
     scmid: default
 
 actions:
