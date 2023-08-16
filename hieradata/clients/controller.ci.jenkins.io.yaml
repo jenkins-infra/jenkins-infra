@@ -637,6 +637,14 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
             labels:
               - maven-19-windows
+          - name: maven-21-windows
+            os: windows
+            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+            cpus: 4
+            memory: 8
+            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            labels:
+              - maven-21-windows
   artifact_caching_proxy:
     disabled: false
   datadog:
