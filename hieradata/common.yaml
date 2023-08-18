@@ -155,7 +155,7 @@ datadog_agent::integrations:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: 2.401.3-jdk11
+profile::jenkinscontroller::docker_tag: 2.401.3-jdk17
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -222,18 +222,18 @@ profile::jenkinscontroller::jcasc:
       remoteAdmin: Administrator
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: 'C:/tools/jdk-11/bin/java'
+      agentJavaBin: 'C:/tools/jdk-17/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
-      javaHome: 'C:/tools/jdk-11' # Default JDK provided for builds when no pipeline setup exists
+      javaHome: 'C:/tools/jdk-17' # Default JDK provided for builds when no pipeline setup exists
     ubuntu:
       agentDir: "/home/jenkins/agent"
       remoteAdmin: jenkins
       tempDir: "/tmp"
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: '/opt/jdk-11/bin/java'
+      agentJavaBin: '/opt/jdk-17/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
-      javaHome: '/opt/jdk-11' # Default JDK provided for builds when no pipeline setup exists
+      javaHome: '/opt/jdk-17' # Default JDK provided for builds when no pipeline setup exists
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     azure_vms_gallery_image:
@@ -249,7 +249,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04@sha256:d2a76a445d5197d4579f51a1c24b69e97a7942a33f9fd064770c419ea2568572
       jnlp-webbuilder: jenkinsciinfra/builder@sha256:8b59fae6e558ab5da8b8c7d1b63e3ef259e0c8d5d7809ae179fe2d55584aee16
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent@sha256:ffcee0b47c65c14a8347a4af916c81e3fcf3b9fd35b64a5ae627f358265c32d8
+      jnlp: jenkins/inbound-agent@sha256:51b36a5ac5078996504ecc271aab884bbd12d44ddc33f3ecb62ca54e4c97636c # :latest-jdk17
   tools_default_versions:
     jdk8: 8u382-b05
     jdk11: 11.0.20+8

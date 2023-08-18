@@ -14,7 +14,7 @@ jenkins:
         ssh:
           credentialsId: "<%= agent['ssh']['credentialsId'] %>"
           host: "<%= agent['ssh']['host'] %>"
-          javaPath: "<%= agent['ssh']['javaPath'] ? agent['ssh']['javaPath'] : '/opt/jdk-11/bin/java' %>"
+          javaPath: "<%= agent['ssh']['javaPath'] ? agent['ssh']['javaPath'] : '/opt/jdk-17/bin/java' %>"
           launchTimeoutSeconds: "<%= agent['ssh']['timeout'] ? agent['ssh']['timeout'] : '60' %>"
           port: "<%= agent['ssh']['port'] ? agent['ssh']['port'] : '22' %>"
           retryWaitTime: "<%= agent['ssh']['retryWaitTime'] ? agent['ssh']['retryWaitTime'] : '60' %>"

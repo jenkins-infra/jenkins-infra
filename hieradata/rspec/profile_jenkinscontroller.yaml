@@ -53,7 +53,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           - name: jnlp-webbuilder
             agentJavaBin: java
-            javaHome: /opt/jdk-11
+            javaHome: /opt/jdk-17
             cpus: 2
             memory: 4
             labels:
