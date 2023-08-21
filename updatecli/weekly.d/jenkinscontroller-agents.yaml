@@ -39,11 +39,11 @@ sources:
       image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
       tag: '{{ source "packerImageVersion"}}'
       architecture: arm64
-  getLatestInboundJDK11ContainerImage:
+  getLatestInboundJDK17ContainerImage:
     kind: dockerdigest
     spec:
       image: "jenkins/inbound-agent"
-      tag: "latest-jdk11"
+      tag: "latest-jdk17"
       architecture: amd64
   getWindowsVMAgentsDiskSize:
     kind: file
@@ -94,9 +94,9 @@ targets:
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04@"
     scmid: default
-  setInboundJDK11ContainerImage:
-    sourceid: getLatestInboundJDK11ContainerImage
-    name: "Bump container agent image jenkins/inbound-agent (JDK11)"
+  setInboundJDK17ContainerImage:
+    sourceid: getLatestInboundJDK17ContainerImage
+    name: "Bump container agent image jenkins/inbound-agent (JDK17)"
     kind: yaml
     spec:
       file: hieradata/common.yaml

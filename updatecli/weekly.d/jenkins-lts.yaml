@@ -20,7 +20,7 @@ sources:
     spec:
       release: stable
     transformers:
-      - addsuffix: "-jdk11"
+      - addsuffix: "-jdk17"
 
 conditions:
   defaultCidockerimage:

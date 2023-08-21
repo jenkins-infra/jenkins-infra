@@ -32,7 +32,7 @@ profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
-profile::jenkinscontroller::docker_tag: 'lts-jdk11'
+profile::jenkinscontroller::docker_tag: 'lts-jdk17'
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
@@ -137,7 +137,7 @@ profile::jenkinscontroller::jcasc:
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.4/bin
-        JAVA_HOME: "/opt/jdk-11"
+        JAVA_HOME: "/opt/jdk-17"
         # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
         ARTIFACT_CACHING_PROXY_PROVIDER: "do"
       toolLocation:
@@ -307,7 +307,7 @@ profile::jenkinscontroller::jcasc:
             memory: 8
           - name: jnlp-maven-11
             imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
+            javaHome: /opt/jdk-17
             labels:
               - maven-11
               - jdk11
@@ -610,7 +610,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -618,7 +618,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -626,7 +626,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-17-windows
           - name: maven-19-windows
@@ -634,7 +634,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-19-windows
           - name: maven-21-windows
@@ -642,7 +642,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-21-windows
   artifact_caching_proxy:

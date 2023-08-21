@@ -114,7 +114,7 @@ profile::jenkinscontroller::jcasc:
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: "/home/jenkins/tools/apache-maven-3.8.7/bin"
-        JAVA_HOME: "/opt/jdk-11"
+        JAVA_HOME: "/opt/jdk-17"
       toolLocation:
         - home: "/home/jenkins/tools/apache-maven-3.8.7"
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
@@ -303,7 +303,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-windows
           - name: maven-11-windows
@@ -311,7 +311,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-11-windows
           - name: maven-17-windows
@@ -319,7 +319,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-17-windows
           - name: maven-19-windows
@@ -327,7 +327,7 @@ profile::jenkinscontroller::jcasc:
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
             cpus: 4
             memory: 8
-            agentJavaBin: 'C:/openjdk-11/bin/java' # From image jenkins/inbound-agent:jdk11-nanoserver
+            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-19-windows
   artifact_caching_proxy:
