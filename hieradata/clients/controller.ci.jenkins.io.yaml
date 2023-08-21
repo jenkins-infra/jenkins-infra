@@ -307,7 +307,7 @@ profile::jenkinscontroller::jcasc:
             memory: 8
           - name: jnlp-maven-11
             imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
+            javaHome: /opt/jdk-11
             labels:
               - maven-11
               - jdk11
