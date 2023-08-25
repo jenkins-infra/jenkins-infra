@@ -88,6 +88,15 @@ node 'cert-ci' {
   sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
   include role::privateci
 }
+node 'controller.cert.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=afa01d2f-c643-4b0f-a917-66fedaee9325',
+    fstype => 'ext4',
+  }
+  include role::privateci
+}
 
 node 'vpn.jenkins.io' {
   sshkeyman::hostkey { ['vpn.jenkins.io']: }
