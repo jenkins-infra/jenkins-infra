@@ -49,7 +49,7 @@ profile::jenkinscontroller::jcasc:
       maven-3.9:
         version: "3.9.4"
       maven:
-        home: "/usr/share/apache-maven-3.9.4"
+        home: "/usr/share/apache-maven-3.8.8"
     jdk:
       jdk-8: &tool_jdk8
         installers:
