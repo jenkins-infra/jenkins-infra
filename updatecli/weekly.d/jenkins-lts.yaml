@@ -41,7 +41,7 @@ conditions:
 
 targets:
   imageTag:
-    name: "Update Docker Image Digest for jenkins/jenkins:lts"
+    name: "Update Docker Image tag for jenkins/jenkins:lts"
     sourceid: jenkinsLatestLTS
     kind: yaml
     spec:

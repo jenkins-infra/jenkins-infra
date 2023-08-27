@@ -92,7 +92,7 @@ targets:
       file: hieradata/common.yaml
       key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one
     transformers:
-      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04@"
+      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04:"
     scmid: default
   setInboundJDK17ContainerImage:
     sourceid: getLatestInboundJDK17ContainerImage
@@ -102,7 +102,7 @@ targets:
       file: hieradata/common.yaml
       key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp
     transformers:
-      - addprefix: "jenkins/inbound-agent@"
+      - addprefix: "jenkins/inbound-agent:"
     scmid: default
 
 actions:
