@@ -103,7 +103,8 @@ profile::jenkinscontroller::jcasc:
           launcher: "ssh"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeKRjv1bRcYHvDq0BDY61R8NjlYOcqQwGvQdSQGw97IocmyAHu8KWjbgG1rry1Y5AnaAuTYycrXreIYOdxvCp0bt28ZUTaVIKBj6Wj7NhrLgmT4bivEIwoceofsomGQzAVFy9d0A/ubi/BHsYE1S9ZTEvFZ3nxU1W59I7BEmERWn5W8lgMuXkiOhkRbHs2UIcbpepaXa0PCeF8pA999U49+NWZZ8Xw6D/YxNh7slDlVQs9MR7rCuoesqAaXGxvkRN+xP2r4IXHyesbb1lwaLVQUko7rAsc1c6wAPLlDN4iPoX07tfaVc5BV/RZPcHyHPVG5zbt3A7pmF/8iPQDC0dAzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjvP3lYtLyHGNYAdelA3Y3gCBC7Yw5PHTPmzDvONYd7/onkGRLnydibBz1+Q+2oD5HCw==]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
           spot: false
           architecture: amd64
           labels:
@@ -124,7 +125,8 @@ profile::jenkinscontroller::jcasc:
           launcher: "ssh"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAE6RybUpjNDuve0SJ9CqVYByWMTuxyYGUKnIyNJQcTCkjb7Ru96Z3vUi0QQcBDmtzTa5gs8ob9Z0CnxdrEOECq2gugz5KQuLIl1sziidBv7UXtaQyZhr+tx4Vnt0lQoXBWzEr+54Y66o0tdvyypWDtAKXiyq0ZCzE0rJiV6VaKVMq+pdFvwVh95oG2ypyM56/yRVvBhi7wT70aZTsPta/HJdgxSFETsKhHtUNOPy6y1r+NdAWnbMZX8X09fhw9j0UcTAXaJqrZ1iT1fvaKAfGREv9bM1wSsB3uZCCyTrDJsGPxzQPSsNqSpcQOpz1V1+n/ImNdmXvrf/o8SIukNbLqzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA5aa632Fw04CJM5y/rCd1kgCCo6GibyePNOvdWuwHVmipYWTWtEJoXw4DgcFa3PiIhQQ==]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
           spot: false
           architecture: amd64
           labels:
