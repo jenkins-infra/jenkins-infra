@@ -83,11 +83,6 @@ node 'controller.ci.jenkins.io' {
   include role::jenkins::controller
 }
 
-# Jenkins controller for cert.ci.jenkins.io
-node 'cert-ci' {
-  sshkeyman::hostkey { ['cert.ci.jenkins.io']: }
-  include role::privateci
-}
 node 'controller.cert.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
@@ -108,7 +103,6 @@ node 'private.vpn.jenkins.io' {
   include role::openvpn
 }
 
-## New VMs (Azure) for trusted.ci.jenkins.io
 node 'bounce.trusted.ci.jenkins.io' {
   include role::bounce
 }
