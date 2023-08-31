@@ -93,11 +93,6 @@ node 'controller.cert.ci.jenkins.io' {
   include role::privateci
 }
 
-node 'vpn.jenkins.io' {
-  sshkeyman::hostkey { ['vpn.jenkins.io']: }
-  include role::openvpn
-}
-
 node 'private.vpn.jenkins.io' {
   sshkeyman::hostkey { ['private.vpn.jenkins.io']: }
   include role::openvpn
