@@ -99,6 +99,14 @@ class profile::jenkinscontroller (
     group  => 'jenkins',
   }
 
+  file { "/etc/profile.d/prompt.sh":
+    ensure => present,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+    content => template("${module_name}/jenkinscontroller/prompt.sh.erb"),
+  }
+
   # Jenkins custom-bootstrapping
   #
   # These files should be laid down on the file system before Jenkins starts
