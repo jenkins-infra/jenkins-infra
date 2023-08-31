@@ -99,11 +99,11 @@ class profile::jenkinscontroller (
     group  => 'jenkins',
   }
 
-  file { "/etc/profile.d/prompt.sh":
-    ensure => present,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
+  file { '/etc/profile.d/prompt.sh':
+    ensure  => present,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
     content => template("${module_name}/jenkinscontroller/prompt.sh.erb"),
   }
 
