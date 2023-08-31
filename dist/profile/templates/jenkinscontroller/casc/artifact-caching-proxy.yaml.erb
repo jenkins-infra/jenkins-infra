@@ -19,6 +19,31 @@ unclassified:
                   <mirrorOf>incrementals</mirrorOf>
               </mirror>
             </mirrors>
+            <profiles>
+              <profile>
+                <id>jenkins-infra-plugin-repositories</id>
+                <pluginRepositories>
+                  <pluginRepository>
+                    <id>repo.jenkins-ci.org</id>
+                    <url>https://repo.jenkins-ci.org/public/</url>
+                  </pluginRepository>
+                  <pluginRepository>
+                    <snapshots>
+                      <enabled>false</enabled>
+                    </snapshots>
+                    <id>incrementals</id>
+                    <url>https://repo.jenkins-ci.org/incrementals/</url>
+                  </pluginRepository>
+                  <pluginRepository>
+                    <id>central</id>
+                    <url>https://repo.maven.apache.org/maven2</url>
+                  </pluginRepository>
+                </pluginRepositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>jenkins-infra-plugin-repositories</activeProfile>
+            </activeProfiles>
           </settings>
         id: "artifact-caching-proxy-<%= providerId %>"
         isReplaceAll: true
