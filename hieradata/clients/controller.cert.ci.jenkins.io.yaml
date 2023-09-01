@@ -10,9 +10,17 @@ lookup_options:
       merge_hash_arrays: true
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
 profile::jenkinscontroller::proxy_port: 443
+docker::log_opt::max-size: "100m"
+docker::log_opt::max-file: 2
 # Per-host Datadog configuration
 datadog_agent::host: "cert.ci.jenkins.io"
 profile::jenkinscontroller::letsencrypt: true
+## TODO: should we uncomment?
+# profile::jenkinscontroller::anonymous_access: false
+## TODO: should we uncomment?
+# profile::jenkinscontroller::admin_ldap_groups:
+#   - admins
+#   - cert-admins
 profile::letsencrypt::plugin: dns-azure
 profile::letsencrypt::dns_azure:
   sp_client_id: "ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAkpN6sYhMR1TjgwqpS84p/1x4LBKdOmMvr7Y4msG7eWmejWKUkTnmPo081r9CG7fZmOLU2WnvjZmdSCpYptOYuBFGqj7G523wp0n8gPgif7XlrESb3LiO6+pgklQ45YvI6+sob7wmxdlHMCyuq4nEywzC73OJhPeIRLKZ+f+Sq/ELsvnv4ZpQKTK9pnondc4uLmWGa8mYS7RISDYvQUlEJ1jqDpltAz9GciRav72NBVe2ZMqBPQdLiN1ZxDB6Xi0zK64b9tTbqfyUc+iPdbHlHMX+xPeOHhO2wqSTVbHMxvbHOcqOafMxVZJwg26+3L5YEU9O/g5Cqkw3U1IFaOwWpTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDaPnKpm49eujEGENbjOzojgDA/WZMkInqdfOdfMMfC/MXcO9eUsNdcV+vqZZMkvHUDWGgDn/YX8hXNWuzt7po3q84=]" # application_id
@@ -21,10 +29,10 @@ profile::letsencrypt::dns_azure:
   zones:
     cert.ci.jenkins.io: "ENC[PKCS7,MIIB+wYJKoZIhvcNAQcDoIIB7DCCAegCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXd58sZ32pzljKO60kMLEEKkEkrDvc+bn+pIE5pQuTc2DkgTBB9ANC0rYJuYzgpzmzULM8qX5eZXKKBlY664NdtdDS9W5kEknx1tqubZC8EEQiuZjgK9XIsVuW+zkfEJSwK59pK0qDxtscB1j/rz7OkQwm0x3vU7sr6Kc4oOk8Jwt9/3qagCkQNtOcW43a8Rqys/fGQB7vrepS/QTgyKe0YS3hoin2GaXd5pzaoTNf9nTCJjK4EK5ebNkZsJ2X7jMMoENdNWS3VErkzRpUckvUMCryG1tUGPN28JEUwejGgfhsoCxrqBpw2TjBmQ8nEcIFpZEBn0aS/lLdM/W2nQHBzCBvQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQKRndXbtRhLr3JBv/IELoRICBkB6IQGtkhoRuG/60RHQYefkuKP48L9lXKU6c/b/AYuAxZLwq3IVQGv8B1fC+vumBRAz2I2MzEKPZevIG5S73VrdNcpvDhmPGw7tWYYTVUlVQDvOwmTaiUfsf99DK42psQUyex0jL9QRuwwdxPRvara4S5H01uGEyY0uREdOhakgYtb3JuTJK8K1/yrtuYfR3Tw==]"
 profile::jenkinscontroller::groovy_init_enabled: false
-profile::jenkinscontroller::memory_limit: '14g'
+profile::jenkinscontroller::memory_limit: '7g'
 profile::jenkinscontroller::jcasc:
   enabled: true
-  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABEfs+rIJcAI0m8IKKgDjuGY7VyibX+V/uQK55ir23b8hKS1CcpWIMt048rswRyMBxoUfqssSj/VfunEc0/XJ38/ewOUOgmNesnd41Zb531OuXnRM4CGk24fcgwNAD5XuMDMTRBf76RWDmMDbG1MvTBuq2hs2OYPOvzmoitVeiaCwf2rCJJi+1O0VIBCCaGcXbJ5mxcAKe0onu3SRKeFLCUc5qNY7yaCQTYW48cWdeh8M482CDNoCs4USt/pInlEmfK3LrZsNDhCe/YHOyxJEbOrzO3zW99Gxg0MZc3wdiZp1O/aw0v05ohDbrqcQt2A/TMxsJl9xeVXnyMwMOIh4rjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDAdCli//H3PvL7TwGVW6hcgCA7cdPzrqU08q6u3Mqq8C7HjlRClGlbN2W1rN/E7o5EWw==]
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXpmFyHEJVPfkgY2pUna5kvSxS8/O8b78GKNbCstm5loTtW6Ahgeeaqimiha9zOlr383B3/qursQHv0lYlGQrxGzonQHRblEbXM19hznGKIqtZc2JsXQ7uutgSApIB+aQkNcE7LF5AIbQbag0vfs2VtC18k8k/krqtzqFcd2ioukzdF7Dnf9YXsSbp2Q3gMUt9r1WpmrgxHTXIghZCA8lVsI1c9oo3JnQCvHYAUUxRbfXs/mAyeOKKGnCCmgujvWjNbjCNsLC0+VhVi0Hn3hnT3FTm9cyEWyDxfFfQ3/dffq9ZKbNHbRDkUg0M5sP1Kn0bQK08Nc2UScKsvP00g281TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA+RyPMfeLE+gavSoFQen4tgCB2fTgVbu+YezSpWaedB4WQ6gX1eP5G4id2Lh7gOUYOSw==]
   datadog_api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPHOrzhvtHBDIx0+hew05tezK2pM+fCy1rBzC5BZIBvzeMV5rXJ9p6Ujo7O9bdYeFB1O03wemXfWAN2slD3Ycvi/NEs/2aIxDsWs/qSWhzkEucUDLqcwazcN3lHIf69zsO6fE+0srmA0sdZf+nWyJRKSDj0wDZ2Zsaa0Sz8Y5LPrDW+DMnMo84C7fdqXLJDxlzDGNMOu8kj3zv1GTH89bdNOXxFD44vzBVxX/y64FUi1VmHro1kPicLN7Gde6+X3K8oEJ2ib3Z8H5NSNC8SAGws2bYbLw+pbXyvhdDrATLS9KuVh8Huv3lolyrEyfnCtt2FCfXDvWoRgM50hQ/GElFzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBX4DRxdnIckeAh69lPWonkgDDJwdm4VegnOcix+MS+AQuBFvVv+SJFTSUTt5GA+yJ+wfI6D4n0UdCqxaLSvyLZQ9U=]
   global_libraries:
     disabled: true
@@ -37,9 +45,11 @@ profile::jenkinscontroller::jcasc:
       maven-3.6:
         version: "3.6.3"
       maven-3.8:
-        version: "3.8.1"
+        version: "3.8.8"
+      maven-3.9:
+        version: "3.9.4"
       maven:
-        home: "/usr/share/apache-maven-3.8.4"
+        home: "/usr/share/apache-maven-3.8.8"
     jdk:
       jdk-8: &tool_jdk8
         installers:
@@ -55,7 +65,7 @@ profile::jenkinscontroller::jcasc:
             toolHome: "C:/Tools/jdk-8"
           default:
             type: "zip"
-            version: "8u322-b06"
+            version: "8u382-b05"
       jdk-11: &tool_jdk11
         installers:
           linux-amd64:
@@ -70,7 +80,7 @@ profile::jenkinscontroller::jcasc:
             toolHome: "C:/Tools/jdk-11"
           default:
             type: "zip"
-            version: "11.0.12+7"
+            version: "11.0.20+8"
       # Use Yaml anchor to avoid repeating configuration
       jdk8: *tool_jdk8
       # Use Yaml anchor to avoid repeating configuration
@@ -82,18 +92,20 @@ profile::jenkinscontroller::jcasc:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
   cloud_agents:
     azure-vm-agents:
-      azureCredentialsId: "azure-sp-agents"
-      resource_group: "certci-agents-2"
+      azureCredentialsId: "azure-sp-agents" # Managed manually
+      resource_group: "cert-ci-jenkins-io-ephemeral-agents"
       agent_definitions:
         - name: "ubuntu"
           description: "Ubuntu 22.04 LTS (jdk11-default)"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
-          storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAfJd75oC4r6/feqjOc6DCQPzqTC7wAGsA1pVwrn1j/mm0hroqM5n03vy+t+tY3pnennuPxCJhtyyDPM9bH7LHjtiGilho2F8UOHl6qrQgf5lEf4f45Oo8wMw4pdkdH6rgVdX+xRBe3bMTSNmXqNLN/o6NYF9M3H5NbS7HbwCZ4QqWZOGMMFi2AClyuOf/QVTxLYtzG462zNzYzKMozytu8ZXgiZsGEB/YXC8+opaW+jpyMsDKy23mOiQxHPbW1KFt/jsT8nGUMRvpq9JxSTJ2B4dL5JVt9llLJcuXb5hGztq9P/qRQ93yK/gJmrexsu/DM3eGR+5HdmYX/c0ueC3R4zA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBArgE41Ni3oH5kkDAwhHUJOgBCKJjGeftsAOPGDV+p4dvUA]
+          launcher: "ssh"
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeKRjv1bRcYHvDq0BDY61R8NjlYOcqQwGvQdSQGw97IocmyAHu8KWjbgG1rry1Y5AnaAuTYycrXreIYOdxvCp0bt28ZUTaVIKBj6Wj7NhrLgmT4bivEIwoceofsomGQzAVFy9d0A/ubi/BHsYE1S9ZTEvFZ3nxU1W59I7BEmERWn5W8lgMuXkiOhkRbHs2UIcbpepaXa0PCeF8pA999U49+NWZZ8Xw6D/YxNh7slDlVQs9MR7rCuoesqAaXGxvkRN+xP2r4IXHyesbb1lwaLVQUko7rAsc1c6wAPLlDN4iPoX07tfaVc5BV/RZPcHyHPVG5zbt3A7pmF/8iPQDC0dAzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjvP3lYtLyHGNYAdelA3Y3gCBC7Yw5PHTPmzDvONYd7/onkGRLnydibBz1+Q+2oD5HCw==]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
-          spotInstance: false
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
           architecture: amd64
           labels:
             - linux
@@ -101,16 +113,21 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
-          usePrivateIP: false
+          usePrivateIP: true
+          virtualNetworkName: "cert-ci-jenkins-io-vnet"
+          virtualNetworkResourceGroupName: "cert-ci-jenkins-io"
+          subnetName: "cert-ci-jenkins-io-vnet-ephemeral-agents"
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
-          storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAYjS5rZbvhOSp/e5QLkABkH5XgzFku3L7imaagPnUFcCyIvX+cgXms14GsJ3rvRaHoiyOk8ovtiPwTQ7J4LuoBgVBOSkHcCEJLbaHHNdn74JWO3owVzfHuSojN9AzVWTd8Jf/1gKWG7tzbTjIkJQMhKsH33FTtyEN63WjGqo1wEEhqSFKlsUleyfE+D+aBe1AeDp42J8+RB7LxobINQi965vfjuFjHIS3ix7GUvir/KkRV1rshWt26TA9SabAY5KiLlEHrxjgtAGbJGdraqblmOZHjc5a/BGXJqGEQyHGMWdf2xLxUOgNXoX5O5+1lWfOMl9pBDuEpYhJ1qR00WpunTA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBVqd7WM6EjxJ+Fy0wn4SPUgBCrYZUZoU8TDYppNLoSnrur]
+          launcher: "ssh"
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAE6RybUpjNDuve0SJ9CqVYByWMTuxyYGUKnIyNJQcTCkjb7Ru96Z3vUi0QQcBDmtzTa5gs8ob9Z0CnxdrEOECq2gugz5KQuLIl1sziidBv7UXtaQyZhr+tx4Vnt0lQoXBWzEr+54Y66o0tdvyypWDtAKXiyq0ZCzE0rJiV6VaKVMq+pdFvwVh95oG2ypyM56/yRVvBhi7wT70aZTsPta/HJdgxSFETsKhHtUNOPy6y1r+NdAWnbMZX8X09fhw9j0UcTAXaJqrZ1iT1fvaKAfGREv9bM1wSsB3uZCCyTrDJsGPxzQPSsNqSpcQOpz1V1+n/ImNdmXvrf/o8SIukNbLqzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA5aa632Fw04CJM5y/rCd1kgCCo6GibyePNOvdWuwHVmipYWTWtEJoXw4DgcFa3PiIhQQ==]
           location: "East US 2"
-          instanceType: Standard_DS4_v2 # 8 vCPUS / 28 Gb
-          spotInstance: false
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
           architecture: amd64
           labels:
             - windows
@@ -118,7 +135,10 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
-          usePrivateIP: false
+          usePrivateIP: true
+          virtualNetworkName: "cert-ci-jenkins-io-vnet"
+          virtualNetworkResourceGroupName: "cert-ci-jenkins-io"
+          subnetName: "cert-ci-jenkins-io-vnet-ephemeral-agents"
 ## Ensure we override the default plugins to install defined from hieradata/common.yaml
 profile::jenkinscontroller::plugins:
   # System configuration
