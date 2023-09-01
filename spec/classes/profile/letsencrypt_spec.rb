@@ -21,6 +21,7 @@ describe 'profile::letsencrypt' do
         'server'               => 'https://acme-staging-v02.api.letsencrypt.org/directory',
         'authenticator'        => 'apache',
         'preferred-challenges' => 'http',
+        'deploy-hook'          => 'systemctl reload apache2',
       }).with_package_ensure('absent').with_configure_epel(false)
       expect(subject).to contain_file('/etc/letsencrypt/azure.ini').with({
         :ensure  => 'absent',
@@ -80,6 +81,7 @@ describe 'profile::letsencrypt' do
         'authenticator'        => 'dns-azure',
         'preferred-challenges' => 'dns',
         'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
+        'deploy-hook'          => 'systemctl reload apache2',
       }).with_package_ensure('absent').with_configure_epel(false)
     }
 
