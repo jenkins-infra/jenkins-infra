@@ -84,6 +84,7 @@ class profile::letsencrypt (
     $_additional_config = {
       'authenticator'        => 'apache',
       'preferred-challenges' => 'http',
+      'deploy-hook'          => 'systemctl reload apache2',
     }
 
     file { '/etc/letsencrypt/azure.ini':
@@ -103,6 +104,7 @@ class profile::letsencrypt (
       'authenticator'        => 'dns-azure',
       'preferred-challenges' => 'dns',
       'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
+      'deploy-hook'          => 'systemctl reload apache2',
     }
 
     file { '/etc/letsencrypt/azure.ini':
