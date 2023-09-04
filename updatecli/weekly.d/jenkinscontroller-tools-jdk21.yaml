@@ -33,8 +33,6 @@ sources:
         pattern: ".*-ea-.*"
     transformers:
       - trimprefix: "jdk-"
-      - addprefix: "\""
-      - addsuffix: "\""
 
 conditions:
   checkIfReleaseIsAvailable:
