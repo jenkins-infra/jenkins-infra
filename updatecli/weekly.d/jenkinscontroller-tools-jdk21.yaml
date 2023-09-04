@@ -1,6 +1,7 @@
 ---
 name: Bump JDK21 version (Jenkins tools) on all controllers
 
+
 scms:
   default:
     kind: github
@@ -22,6 +23,7 @@ scms:
       token: '{{ requiredEnv .github.token }}'
       branch: "main"
 
+
 sources:
   getLatestJDK21EAVersion:
     name: Get the latest Adoptium JDK21 version
@@ -33,12 +35,15 @@ sources:
         pattern: ".*-ea-.*"
     transformers:
       - trimprefix: "jdk-"
+      - addprefix: "\""
+      - addsuffix: "\""
 
 conditions:
   checkIfReleaseIsAvailable:
     kind: shell
     spec:
       command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
+
 
 targets:
   setJDK21VersionLinuxAmd64:
@@ -55,6 +60,7 @@ targets:
       file: hieradata/common.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk21.installers.windows-amd64.version
     scmid: default
+
 
 actions:
   default:
