@@ -5,7 +5,7 @@
 # The source of truth is the ERB template stored at the location dist/profile/templates/jenkinscontroller/casc/tools.yaml.erb
 # It lists all the installations used as "Jenkins Tools" by the Jenkins controllers of the infrastructure
 ##
-set -eux # -o pipefail
+set -eu -o pipefail
 
 command -v curl >/dev/null 2>&1 || { echo "ERROR: curl command not found. Exiting."; exit 1; }
 
