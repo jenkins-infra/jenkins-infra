@@ -13,6 +13,7 @@ profile::openvpn::networks:
       - 10.244.0.0/14 # Access to the public-vnet network
       - 10.252.0.0/21 # Access to the public-db network
       - 10.252.8.0/21 # Access to the cert-ci-jenkins-io network
+      - 10.252.0.0/21 # Access to the trusted-ci-jenkins-io network
 profile::openvpn::vpn_network:
   name: private
   # Abstract network
