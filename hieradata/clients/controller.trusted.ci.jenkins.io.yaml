@@ -92,9 +92,9 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-          virtualNetworkName: trusted-vnet
-          virtualNetworkResourceGroupName: trusted
-          subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
+          virtualNetworkName: trusted-ci-jenkins-io-vnet
+          virtualNetworkResourceGroupName: trusted-ci-jenkins-io
+          subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019-amd64
@@ -112,9 +112,9 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-          virtualNetworkName: trusted-vnet
-          virtualNetworkResourceGroupName: trusted
-          subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
+          virtualNetworkName: trusted-ci-jenkins-io-vnet
+          virtualNetworkResourceGroupName: trusted-ci-jenkins-io
+          subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
           imageDefinition: jenkins-agent-windows-2022-amd64
@@ -132,9 +132,9 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-          virtualNetworkName: trusted-vnet
-          virtualNetworkResourceGroupName: trusted
-          subnetName: trusted-vnet-trusted-jenkins-ci-io-ephemeral-agents
+          virtualNetworkName: trusted-ci-jenkins-io-vnet
+          virtualNetworkResourceGroupName: trusted-ci-jenkins-io
+          subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
 # These are plugins we need only in our trusted-ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
