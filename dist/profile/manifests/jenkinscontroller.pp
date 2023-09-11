@@ -46,7 +46,8 @@ class profile::jenkinscontroller (
 -Duser.home=${container_jenkins_home} \
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
--Dhudson.model.WorkspaceCleanupThread.retainForDays=2", # Must be Java 11 compliant!
+-Dhudson.model.WorkspaceCleanupThread.retainForDays=2 \
+-Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING",
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
