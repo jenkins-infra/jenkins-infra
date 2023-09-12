@@ -47,7 +47,7 @@ class profile::jenkinscontroller (
 -Djenkins.install.runSetupWizard=false \
 -Djenkins.model.Jenkins.slaveAgentPort=50000 \
 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 \
--Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING",
+-Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING=true",
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
