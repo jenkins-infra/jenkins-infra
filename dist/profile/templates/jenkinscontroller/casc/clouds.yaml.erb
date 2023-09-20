@@ -4,7 +4,7 @@ jenkins:
   <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
   - azureVM:
       azureCredentialsId: "<%= @jcasc['cloud_agents']['azure-vm-agents']['azureCredentialsId'] %>"
-      cloudName: "azure-vms"
+      name: "azure-vms"
       deploymentTimeout: 1200
       existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
       resourceGroupReferenceType: "existing"
