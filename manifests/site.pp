@@ -31,7 +31,18 @@ node default {
 }
 
 # archives
+## Oracle VM (TODO: remove as part of https://github.com/jenkins-infra/helpdesk/issues/3760)
 node 'archives.jenkins.io' {
+  include role::archives
+}
+## DigitalOcean VM
+node 'archives.do.jenkins.io' {
+  mount { '/srv':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=2bfde305-641d-4e6b-9376-96cdb1919860',
+    fstype => 'ext4',
+  }
   include role::archives
 }
 

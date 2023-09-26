@@ -73,11 +73,6 @@ class profile::archives (
     }
   }
 
-  #
-  package { 'lvm2':
-    ensure => present,
-  }
-
   package { 'libapache2-mod-bw':
     ensure => present,
   }
