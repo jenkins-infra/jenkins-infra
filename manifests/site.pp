@@ -79,11 +79,6 @@ node 'pkg' {
   include role::pkg
 }
 
-node 'oracle.updates.jenkins.io' {
-  sshkeyman::hostkey { ['oracle.updates.jenkins.io']: }
-  include role::updates
-}
-
 node 'controller.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
