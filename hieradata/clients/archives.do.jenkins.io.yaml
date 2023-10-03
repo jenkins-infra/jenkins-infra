@@ -4,7 +4,6 @@ profile::archives::rsync_hosts_allow:
   - archives.jenkins.io
   - pkg.origin.jenkins.io
   - get.jenkins.io
-  - 129.146.98.132 # archives.jenkins.io running on oracle in phoenix region
   - 46.101.121.132 # archives.do.jenkins.io
 # Per-host Datadog configuration
 datadog_agent::host: "archives.do.jenkins.io"
