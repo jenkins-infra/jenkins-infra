@@ -72,27 +72,19 @@ class profile::buildagent (
         'zip',
     ])
 
-    $kernel = downcase($facts['kernel'])
     $os_architecture = $facts['os']['architecture']
-    if $kernel == 'linux' {
-      $extension = 'tar.gz'
-      $archive_command = '/usr/bin/tar -xz --strip-components=1 -C'
-    } else {
-      $extension = 'zip'
-      $archive_command = '/usr/bin/unzip -j -d'
-    }
     # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
     if $os_architecture == 'aarch64' {
       $architecture = 'arm64'
     } else {
       $architecture = $os_architecture
     }
-    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_${kernel}_${architecture}_10.21.0.${extension}"
+    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
     notify { "azcopy_url: ${azcopy_url}": }
 
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar'], Account[$user]],
-      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | ${archive_command} /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
+      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | /usr/bin/tar -xz --strip-components=1 -C /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
       creates => '/usr/local/bin/azcopy',
     }
 
