@@ -83,7 +83,7 @@ class profile::buildagent (
     }
     # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
     if $os_architecture == 'aarch64' {
-      $architecture = 'amd64'
+      $architecture = 'arm64'
     } else {
       $architecture = $os_architecture
     }
