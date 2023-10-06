@@ -81,7 +81,7 @@ class profile::buildagent (
 
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar'], Account[$user]],
-      command => "/usr/bin/curl ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
+      command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
       creates => '/usr/local/bin/azcopy',
     }
 
