@@ -73,10 +73,9 @@ class profile::buildagent (
     ])
 
     # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
-    if  $facts['os']['architecture'] == 'aarch64' {
-      $architecture = 'arm64'
-    } else {
-      $architecture =  $facts['os']['architecture']
+    $architecture = $facts['os']['architecture'] ? {
+      'aarch64'          => 'arm64',
+      default            => $facts['os']['architecture'],
     }
     $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
 
