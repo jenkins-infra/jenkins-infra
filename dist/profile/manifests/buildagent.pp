@@ -5,6 +5,8 @@ class profile::buildagent (
   Boolean              $trusted_agent    = false,
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
+  Optional[String]     $aws_credentials  = '',
+  Optional[String]     $aws_config       = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
@@ -55,10 +57,13 @@ class profile::buildagent (
   if $facts['kernel'] == 'Linux' {
     ensure_packages([
         'build-essential', # Build requirement
-        'curl',
+        'awscli', # Required by Update Center to sync buckets
         'ca-certificates',
-        'make', # Build requirement
+        'curl',
         'git', # Jenkins agent requirement
+        'groff', # Required by awscli
+        'less', # Required by awscli
+        'make', # Build requirement
         'openssl',
         'rsync', # Required by Update Center to send data to remote systems
         'subversion',
@@ -66,6 +71,40 @@ class profile::buildagent (
         'unzip',
         'zip',
     ])
+
+    $azcopy_bin = '/usr/local/bin/azcopy'
+    $azcopy_url = 'https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_amd64_10.21.0.tar.gz'
+    exec { 'Install azcopy':
+      require => [Package['curl'], Package['tar'], Account[$user]],
+      # chown?
+      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | /usr/bin/tar -xz --strip-components=1 -C /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
+      creates => $azcopy_bin,
+    }
+
+    file { "${home_dir}/.aws":
+      ensure  => directory,
+      owner   => $user,
+      require => Account[$user],
+    }
+
+    if $aws_credentials != '' {
+      file { "${home_dir}/.aws/credentials":
+        ensure  => file,
+        mode    => '0644',
+        content => $aws_credentials,
+        require => File["${home_dir}/.aws"],
+      }
+    }
+
+    # Optional needed? Or just test not empty?
+    if $aws_config {
+      file { "${home_dir}/.aws/config":
+        ensure  => file,
+        mode    => '0644',
+        content => $aws_config,
+        require => File["${home_dir}/.aws"],
+      }
+    }
 
     lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_version| {
       $jdk = {
