@@ -79,7 +79,6 @@ class profile::buildagent (
       $architecture =  $facts['os']['architecture']
     }
     $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
-    notify { "azcopy_url: ${azcopy_url}": }
 
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar'], Account[$user]],
@@ -102,7 +101,6 @@ class profile::buildagent (
       }
     }
 
-    # Optional needed? Or just test not empty?
     if $aws_config {
       file { "${home_dir}/.aws/config":
         ensure  => file,
