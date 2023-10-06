@@ -7,6 +7,7 @@ class profile::buildagent (
   Hash                 $ssh_keys         = {},
   Optional[String]     $aws_credentials  = '',
   Optional[String]     $aws_config       = '',
+  Optional[String]     $azure_env        = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
@@ -85,10 +86,12 @@ class profile::buildagent (
       creates => '/usr/local/bin/azcopy',
     }
 
-    file { "${home_dir}/.aws":
-      ensure  => directory,
-      owner   => $user,
-      require => Account[$user],
+    if $aws_credentials or $aws_config {
+      file { "${home_dir}/.aws":
+        ensure  => directory,
+        owner   => $user,
+        require => Account[$user],
+      }
     }
 
     if $aws_credentials {
@@ -106,6 +109,21 @@ class profile::buildagent (
         mode    => '0644',
         content => $aws_config,
         require => File["${home_dir}/.aws"],
+      }
+    }
+
+    if $azure_env {
+      file { "${home_dir}/.azure":
+        ensure  => directory,
+        owner   => $user,
+        require => Account[$user],
+      }
+
+      file { "${home_dir}/.azure/.env":
+        ensure  => file,
+        mode    => '0644',
+        content => $azure_env,
+        require => File["${home_dir}/.azure"],
       }
     }
 
