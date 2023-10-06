@@ -74,14 +74,14 @@ class profile::buildagent (
 
     # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
     $architecture = $facts['os']['architecture'] ? {
-      'aarch64'          => 'arm64',
-      default            => $facts['os']['architecture'],
+      'aarch64' => 'arm64',
+      default   => $facts['os']['architecture'],
     }
     $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
 
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar'], Account[$user]],
-      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | /usr/bin/tar -xz --strip-components=1 -C /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
+      command => "/usr/bin/curl ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
       creates => '/usr/local/bin/azcopy',
     }
 
