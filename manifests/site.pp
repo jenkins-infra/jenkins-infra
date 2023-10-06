@@ -30,11 +30,6 @@ node default {
   include profile::base
 }
 
-# archives
-## Oracle VM (TODO: remove as part of https://github.com/jenkins-infra/helpdesk/issues/3760)
-node 'archives.jenkins.io' {
-  include role::archives
-}
 ## DigitalOcean VM
 node 'archives.do.jenkins.io' {
   mount { '/srv':
