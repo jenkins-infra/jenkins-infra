@@ -5,6 +5,9 @@ class profile::buildagent (
   Boolean              $trusted_agent    = false,
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
+  Optional[String]     $aws_credentials  = '',
+  Optional[String]     $aws_config       = '',
+  Optional[String]     $azure_env        = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
@@ -55,10 +58,13 @@ class profile::buildagent (
   if $facts['kernel'] == 'Linux' {
     ensure_packages([
         'build-essential', # Build requirement
-        'curl',
+        'awscli', # Required by Update Center to sync buckets
         'ca-certificates',
-        'make', # Build requirement
+        'curl',
         'git', # Jenkins agent requirement
+        'groff', # Required by awscli
+        'less', # Required by awscli
+        'make', # Build requirement
         'openssl',
         'rsync', # Required by Update Center to send data to remote systems
         'subversion',
@@ -66,6 +72,60 @@ class profile::buildagent (
         'unzip',
         'zip',
     ])
+
+    # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
+    $architecture = $facts['os']['architecture'] ? {
+      'aarch64' => 'arm64',
+      default   => $facts['os']['architecture'],
+    }
+    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
+
+    exec { 'Install azcopy':
+      require => [Package['curl'], Package['tar']],
+      command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
+      creates => '/usr/local/bin/azcopy',
+    }
+
+    if $aws_credentials or $aws_config {
+      file { "${home_dir}/.aws":
+        ensure  => directory,
+        owner   => $user,
+        require => Account[$user],
+      }
+    }
+
+    if $aws_credentials {
+      file { "${home_dir}/.aws/credentials":
+        ensure  => file,
+        mode    => '0644',
+        content => $aws_credentials,
+        require => File["${home_dir}/.aws"],
+      }
+    }
+
+    if $aws_config {
+      file { "${home_dir}/.aws/config":
+        ensure  => file,
+        mode    => '0644',
+        content => $aws_config,
+        require => File["${home_dir}/.aws"],
+      }
+    }
+
+    if $azure_env {
+      file { "${home_dir}/.azure":
+        ensure  => directory,
+        owner   => $user,
+        require => Account[$user],
+      }
+
+      file { "${home_dir}/.azure/.env":
+        ensure  => file,
+        mode    => '0644',
+        content => $azure_env,
+        require => File["${home_dir}/.azure"],
+      }
+    }
 
     lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_version| {
       $jdk = {

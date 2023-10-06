@@ -386,3 +386,21 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-aggregator
   - workflow-multibranch
+profile::buildagent::aws_credentials: |
+  [default]
+  aws_access_key_id=AKIAIOSFODNN7EXAMPLE
+  aws_secret_access_key=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+  [user1]
+  aws_access_key_id=AKIAI44QH8DHBEXAMPLE
+  aws_secret_access_key=je7MtGbClwBF/2Zp9Utk/h3yCo8nvbEXAMPLEKEY
+profile::buildagent::aws_config: |
+  [default]
+  region=us-west-2
+  output=json
+
+  [profile user1]
+  region=us-east-1
+  output=text
+profile::buildagent::azure_env: |
+  export UPDATES_FILE_SHARE_URL="https://azure.url/?sas_token=abcdef123"
