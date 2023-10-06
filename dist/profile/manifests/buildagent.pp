@@ -72,13 +72,28 @@ class profile::buildagent (
         'zip',
     ])
 
-    $azcopy_bin = '/usr/local/bin/azcopy'
-    $azcopy_url = 'https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_amd64_10.21.0.tar.gz'
+    $kernel = downcase($facts['kernel'])
+    $os_architecture = $facts['os']['architecture']
+    if $kernel == 'linux' {
+      $extension = 'tar.gz'
+      $archive_command = '/usr/bin/tar -xz --strip-components=1 -C'
+    } else {
+      $extension = 'zip'
+      $archive_command = '/usr/bin/unzip -j -d'
+    }
+    # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
+    if $os_architecture == 'aarch64' {
+      $architecture = 'amd64'
+    } else {
+      $architecture = $os_architecture
+    }
+    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_${kernel}_${architecture}_10.21.0.${extension}"
+    notify { "azcopy_url: ${azcopy_url}": }
+
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar'], Account[$user]],
-      # chown?
-      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | /usr/bin/tar -xz --strip-components=1 -C /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
-      creates => $azcopy_bin,
+      command => "/usr/bin/mkdir -p /tmp/azcopy && /usr/bin/curl ${azcopy_url} | ${archive_command} /tmp/azcopy && /usr/bin/cp /tmp/azcopy/azcopy /usr/local/bin/azcopy && /usr/bin/chmod +x /usr/local/bin/azcopy && /usr/bin/rm -rf /tmp/azcopy/",
+      creates => '/usr/local/bin/azcopy',
     }
 
     file { "${home_dir}/.aws":
@@ -87,7 +102,7 @@ class profile::buildagent (
       require => Account[$user],
     }
 
-    if $aws_credentials != '' {
+    if $aws_credentials {
       file { "${home_dir}/.aws/credentials":
         ensure  => file,
         mode    => '0644',
