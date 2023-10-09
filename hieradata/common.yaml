@@ -245,7 +245,7 @@ profile::jenkinscontroller::jcasc:
     jdk17: 17.0.8+7
     jdk19: 19.0.2+7
     jdk21: 21+35-ea-beta
-    maven: 3.9.4
+    maven: 3.9.5
   artifact_caching_proxy:
     providers:
       aws:
