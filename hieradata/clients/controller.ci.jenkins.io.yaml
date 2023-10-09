@@ -137,7 +137,7 @@ profile::jenkinscontroller::jcasc:
         # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
         ARTIFACT_CACHING_PROXY_PROVIDER: "do"
       toolLocation:
-        - home: /home/jenkins/tools/apache-maven-3.9.4
+        - home: /home/jenkins/tools/apache-maven-3.9.5
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
