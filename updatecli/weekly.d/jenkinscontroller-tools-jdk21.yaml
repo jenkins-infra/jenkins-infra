@@ -35,7 +35,7 @@ conditions:
       command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
 
 targets:
-  setJDK17Version:
+  setJDK21Version:
     name: "Bump JDK21 version on tools"
     kind: yaml
     spec:
