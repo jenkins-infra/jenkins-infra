@@ -402,5 +402,3 @@ profile::buildagent::aws_config: |
   [profile user1]
   region=us-east-1
   output=text
-profile::buildagent::azure_env: |
-  export UPDATES_FILE_SHARE_URL="https://azure.url/?sas_token=abcdef123"
