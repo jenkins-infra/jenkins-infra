@@ -24,7 +24,7 @@ sources:
       username: "{{ .github.username }}"
       versionfilter:
         kind: regex
-        pattern: "^jdk-21.(\\d*).(\\d*).(\\d*)+(\\d*)$"
+        pattern: "^jdk-21(\\.\\d+)*\\+(\\d+)$"
     transformers:
       - trimprefix: "jdk-"
 
