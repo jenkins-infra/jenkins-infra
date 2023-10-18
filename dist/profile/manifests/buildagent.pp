@@ -85,6 +85,13 @@ class profile::buildagent (
       creates => '/usr/local/bin/azcopy',
     }
 
+    $rclone_url = "https://downloads.rclone.org/v1.64.0/rclone-v1.64.0-linux-${architecture}.zip"
+    exec { 'Install rclone':
+      require => [Package['curl'], Package['unzip']],
+      command => "/usr/bin/curl --location ${rclone_url} > rclone.zip && /usr/bin/unzip -j rclone.zip -d ./rclone && mv ./rclone/rclone /usr/local/bin/rclone && rm -rf ./rclone",
+      creates => '/usr/local/bin/rclone',
+    }
+
     if $aws_credentials or $aws_config {
       file { "${home_dir}/.aws":
         ensure  => directory,
