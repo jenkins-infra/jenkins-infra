@@ -65,6 +65,7 @@ class profile::buildagent (
         'less', # Required by awscli
         'make', # Build requirement
         'openssl',
+        'parallel', # Required by Update Center to synchronize with mirrors nodes
         'rsync', # Required by Update Center to send data to remote systems
         'subversion',
         'tar',
