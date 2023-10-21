@@ -1,8 +1,0 @@
----
-lookup_options:
-  "^profile::jenkinscontroller::jcasc$":
-    merge:
-      strategy: deep
-      merge_hash_arrays: true
-
-profile::jenkinscontroller::ci_fqdn: 'jenkins.role.rspec.test.local'

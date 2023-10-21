@@ -1,5 +1,5 @@
 ---
-name: Bump OpenVPN Docker image version
+name: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK17)
 
 scms:
   default:
@@ -14,45 +14,39 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  latestVersion:
+  packerImageVersion:
     kind: githubrelease
-    name: Get the latest stable docker-openvpn version
     spec:
       owner: "jenkins-infra"
-      repository: "docker-openvpn"
+      repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionfilter:
-        kind: semver
 
-conditions:
-  testdockerimageExist:
-    kind: dockerimage
+sources:
+  getLatestInboundJDK17ContainerImage:
+    kind: dockerdigest
     spec:
-      image: "jenkinsciinfra/openvpn"
+      image: "jenkins/inbound-agent"
+      tag: "latest-jdk17"
       architecture: amd64
-      # Tag comes from the source input value
-  checkIfKeyExist:
-    kind: file
-    disablesourceinput: true
-    spec:
-      file: hieradata/common.yaml
-      matchpattern: "profile::openvpn::image"
 
 targets:
-  imageTag:
-    name: "Update Docker Image tag for jenkinsciinfra/openvpn:latest"
+  setInboundJDK17ContainerImage:
+    sourceid: getLatestInboundJDK17ContainerImage
+    name: "Bump container agent image jenkins/inbound-agent (JDK17)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: $.profile::openvpn::image_tag
+      key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp
+    transformers:
+      - addprefix: "jenkins/inbound-agent:"
     scmid: default
 
 actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump OpenVPN Docker image version to {{ source "latestVersion" }}
+    title: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK17) to {{ source "getLatestInboundJDK17ContainerImage" }}
     spec:
       labels:
         - dependencies

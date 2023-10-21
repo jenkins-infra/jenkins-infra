@@ -1,8 +1,0 @@
-<%- if @jcasc['jenkins_global'] && !@jcasc['jenkins_global']['disabled'] == "true" -%>
-jenkins:
-  # No builds on controller
-  numExecutors: 0
-unclassified:
-  shell:
-    shell: "/bin/bash"
-<%- end -%>

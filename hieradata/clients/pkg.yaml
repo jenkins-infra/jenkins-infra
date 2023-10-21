@@ -1,9 +1,0 @@
----
-# https://www.liquidweb.com/kb/apache-performance-tuning-swap-memory/
-# trashing point, with ~30 Gb of RAM and ~500Mb (worst-case full apache) means around 50.
-# We are conservative and keep 30 (to be monitored and validated)
-apache::mod::event::serverlimit: 30 #default 25
-# https://httpd.apache.org/docs/2.4/fr/mod/mpm_common.html#maxrequestworkers
-# maxrequestworkers = ServerLimit (see value above) * ThreadsPerChild (default: 25)
-apache::mod::event::maxrequestworkers: 750
-datadog_agent::host: "pkg.origin.jenkins.io"

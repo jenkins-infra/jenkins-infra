@@ -1,4 +1,0 @@
---fail-fast --order random
---format RspecJunitFormatter
---out tmp/rspec<%= ENV['TEST_ENV_NUMBER'] %>.xml
---require spec_helper

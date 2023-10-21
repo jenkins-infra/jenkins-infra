@@ -1,0 +1,63 @@
+---
+name: Bump Packer Agent Templates (all-in-one) Version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  packerImageVersion:
+    kind: githubrelease
+    spec:
+      owner: "jenkins-infra"
+      repository: "packer-images"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+
+sources:
+  getLatestInboundAllInOneContainerImageX86:
+    kind: dockerdigest
+    name: Get digest of the jenkinsciinfra/jenkins-agent-ubuntu-22.04 image
+    dependson:
+      - packerImageVersion
+    spec:
+      image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
+      tag: '{{ source "packerImageVersion"}}'
+      architecture: amd64
+
+conditions:
+  checkAllInOneContainerImages:
+    disablesourceinput: true
+    name: Check that x86 and arm64 all-in-one images are different
+    kind: shell
+    spec:
+      command: test {{ source "getLatestInboundAllInOneContainerImageX86" }} != {{ source "getLatestInboundAllInOneContainerImageARM" }}
+
+targets:
+  setInboundAllInOneContainerImage:
+    sourceid: getLatestInboundAllInOneContainerImageX86
+    name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-22.04 (AllInOne) for x86"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one
+    transformers:
+      - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04:"
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump Packer Agent Templates (All-In-One) Version to {{ source "packerImageVersion" }}
+    spec:
+      labels:
+        - dependencies
