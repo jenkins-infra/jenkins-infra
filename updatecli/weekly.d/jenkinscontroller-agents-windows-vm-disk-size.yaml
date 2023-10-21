@@ -1,0 +1,55 @@
+---
+name: Bump Windows VM Agent Disk Size
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  packerImageVersion:
+    kind: githubrelease
+    spec:
+      owner: "jenkins-infra"
+      repository: "packer-images"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+
+sources:
+  getWindowsVMAgentsDiskSize:
+    kind: file
+    dependson:
+      - packerImageVersion
+    spec:
+      file: 'https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source `packerImageVersion` }}/locals.pkr.hcl'
+      matchpattern: 'windows_disk_size_gb = (.*)'
+    transformers:
+      - findsubmatch:
+          pattern: 'windows_disk_size_gb = (\d*)'
+          captureindex: 1
+
+targets:
+  setWindowsVMAgentDiskSize:
+    sourceid: getWindowsVMAgentsDiskSize
+    name: "Change the Azure VM agents disk size"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agents_setup.windows.osDiskSize
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump Windows VM Agent Disk Size to {{ source "getWindowsVMAgentDiskSize" }}
+    spec:
+      labels:
+        - dependencies
