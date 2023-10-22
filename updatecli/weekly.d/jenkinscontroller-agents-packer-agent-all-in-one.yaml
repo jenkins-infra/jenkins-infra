@@ -21,6 +21,7 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
+
   getLatestInboundAllInOneContainerImageX86:
     kind: dockerdigest
     name: Get digest of the jenkinsciinfra/jenkins-agent-ubuntu-22.04 image
@@ -31,6 +32,15 @@ sources:
       tag: '{{ source "packerImageVersion"}}'
       architecture: amd64
 
+  getLatestInboundAllInOneContainerImageARM:
+      kind: dockerdigest
+      name: Get digest of the jenkinsciinfra/jenkins-agent-ubuntu-22.04 image
+      dependson:
+        - packerImageVersion
+      spec:
+        image: "jenkinsciinfra/jenkins-agent-ubuntu-22.04"
+        tag: '{{ source "packerImageVersion"}}'
+        architecture: arm64
 
 conditions:
   checkAllInOneContainerImages:
