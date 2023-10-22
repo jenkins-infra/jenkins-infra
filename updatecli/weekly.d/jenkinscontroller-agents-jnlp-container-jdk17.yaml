@@ -12,16 +12,6 @@ scms:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       branch: "{{ .github.branch }}"
-
-sources:
-  packerImageVersion:
-    kind: githubrelease
-    spec:
-      owner: "jenkins-infra"
-      repository: "packer-images"
-      token: "{{ requiredEnv .github.token }}"
-      username: "{{ .github.username }}"
-
 sources:
   getLatestInboundJDK17ContainerImage:
     kind: dockerdigest
