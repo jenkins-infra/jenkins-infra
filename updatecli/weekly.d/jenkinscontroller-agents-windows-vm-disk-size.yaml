@@ -22,14 +22,15 @@ sources:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
   getWindowsVMAgentsDiskSize:
-
     kind: file
     dependson:
       - packerImageVersion
     spec:
       file: 'https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source `packerImageVersion` }}/locals.pkr.hcl'
+      # matchpattern can only retrieve the full line. A transformer is required after to strip the unused content
       matchpattern: 'windows_disk_size_gb = (.*)'
     transformers:
+      ## Retrieve only the integer (ignore whitespaces, comments, etc.)
       - findsubmatch:
           pattern: 'windows_disk_size_gb = (\d*)'
           captureindex: 1
@@ -48,7 +49,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump Windows VM Agent Disk Size to {{ source "getWindowsVMAgentDiskSize" }}
+    title: Bump Windows VM Agent Disk Size to {{ source "getWindowsVMAgentsDiskSize" }}
     spec:
       labels:
         - dependencies
