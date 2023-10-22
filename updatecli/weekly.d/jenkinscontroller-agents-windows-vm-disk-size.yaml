@@ -21,9 +21,8 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-
-sources:
   getWindowsVMAgentsDiskSize:
+
     kind: file
     dependson:
       - packerImageVersion
