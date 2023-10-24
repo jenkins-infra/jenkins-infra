@@ -343,6 +343,8 @@ profile::jenkinscontroller::jcasc:
               - ruby
               - webbuilder
           - name: jnlp
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
             labels:
               - default
             cpus: 1
@@ -446,6 +448,8 @@ profile::jenkinscontroller::jcasc:
               - ruby
               - webbuilder
           - name: jnlp
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
             labels:
               - default
             cpus: 1
