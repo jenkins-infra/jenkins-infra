@@ -165,5 +165,4 @@ profile::jenkinscontroller::plugins:
   - compact-columns
 
   # (Likely unused) detached
-  - sshd # split after 2.281
   - javax-mail-api # split after 2.330
