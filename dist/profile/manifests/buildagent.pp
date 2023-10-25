@@ -79,7 +79,6 @@ class profile::buildagent (
       default   => $facts['os']['architecture'],
     }
     $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
-
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar']],
       command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
@@ -91,6 +90,13 @@ class profile::buildagent (
       require => [Package['curl'], Package['unzip']],
       command => "/usr/bin/curl --location ${rclone_url} > rclone.zip && /usr/bin/unzip -j rclone.zip -d ./rclone && mv ./rclone/rclone /usr/local/bin/rclone && rm -rf ./rclone",
       creates => '/usr/local/bin/rclone',
+    }
+
+    $kubectl_url = "https://dl.k8s.io/release/v1.28.3/bin/linux/${architecture}/kubectl"
+    exec { 'Install kubectl':
+      require => [Package['curl']],
+      command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url}",
+      creates => '/usr/local/bin/kubectl',
     }
 
     if $aws_credentials or $aws_config {
