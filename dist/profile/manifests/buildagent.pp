@@ -5,6 +5,7 @@ class profile::buildagent (
   Boolean              $trusted_agent    = false,
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
+  Hash                 $tools_versions   = {},
   Optional[String]     $aws_credentials  = '',
   Optional[String]     $aws_config       = '',
 ) {
@@ -73,13 +74,12 @@ class profile::buildagent (
         'zip',
     ])
 
-    # There is no linux_aarch64 azcopy release, considering that aarch64 = amd64 so vagrant can run on Mac Silicon
+    # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
     $architecture = $facts['os']['architecture'] ? {
       'aarch64' => 'arm64',
       default   => $facts['os']['architecture'],
     }
     $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
-
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar']],
       command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
@@ -91,6 +91,15 @@ class profile::buildagent (
       require => [Package['curl'], Package['unzip']],
       command => "/usr/bin/curl --location ${rclone_url} > rclone.zip && /usr/bin/unzip -j rclone.zip -d ./rclone && mv ./rclone/rclone /usr/local/bin/rclone && rm -rf ./rclone",
       creates => '/usr/local/bin/rclone',
+    }
+
+    if $tools_versions['kubectl'] {
+      $kubectl_url = "https://dl.k8s.io/release/${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
+      exec { 'Install kubectl':
+        require => [Package['curl']],
+        command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
+        unless  => "/usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
+      }
     }
 
     if $aws_credentials or $aws_config {
