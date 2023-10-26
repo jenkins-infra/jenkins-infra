@@ -92,11 +92,12 @@ class profile::buildagent (
       creates => '/usr/local/bin/rclone',
     }
 
-    $kubectl_url = "https://dl.k8s.io/release/v1.28.3/bin/linux/${architecture}/kubectl"
+    $kubectl_version = "v1.26.10"
+    $kubectl_url = "https://dl.k8s.io/release/${kubectl_version}/bin/linux/${architecture}/kubectl"
     exec { 'Install kubectl':
       require => [Package['curl']],
       command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
-      creates => '/usr/local/bin/kubectl',
+      unless  => "/usr/local/bin/kubectl version | /bin/grep --quiet ${kubectl_version}",
     }
 
     if $aws_credentials or $aws_config {
