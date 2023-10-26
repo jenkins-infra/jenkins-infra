@@ -388,12 +388,12 @@ profile::jenkinscontroller::plugins:
   - workflow-multibranch
 profile::buildagent::aws_credentials: |
   [default]
-  aws_access_key_id=EXAMPLE
-  aws_secret_access_key=EXAMPLEKEY
+  aws_access_key_id=AWS_ACCESS_KEY_ID_EXAMPLE
+  aws_secret_access_key=AWS_SECRET_ACCESS_KEY_EXAMPLE
 
   [user1]
-  aws_access_key_id=EXAMPLE
-  aws_secret_access_key=EXAMPLEKEY
+  aws_access_key_id=ANOTHER_AWS_ACCESS_KEY_ID_EXAMPLE
+  aws_secret_access_key=ANOTHER_AWS_SECRET_ACCESS_KEY_EXAMPLE
 profile::buildagent::aws_config: |
   [default]
   region=us-west-2
