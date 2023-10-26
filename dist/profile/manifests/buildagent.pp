@@ -5,6 +5,7 @@ class profile::buildagent (
   Boolean              $trusted_agent    = false,
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
+  Hash                 $tools_versions   = {},
   Optional[String]     $aws_credentials  = '',
   Optional[String]     $aws_config       = '',
 ) {
@@ -92,12 +93,11 @@ class profile::buildagent (
       creates => '/usr/local/bin/rclone',
     }
 
-    $kubectl_version = "v1.26.10"
-    $kubectl_url = "https://dl.k8s.io/release/${kubectl_version}/bin/linux/${architecture}/kubectl"
+    $kubectl_url = "https://dl.k8s.io/release/${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
     exec { 'Install kubectl':
       require => [Package['curl']],
       command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
-      unless  => "/usr/local/bin/kubectl version | /bin/grep --quiet ${kubectl_version}",
+      unless  => "/usr/bin/test -f /usr/local/bin/kubectl && /usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
     }
 
     if $aws_credentials or $aws_config {
