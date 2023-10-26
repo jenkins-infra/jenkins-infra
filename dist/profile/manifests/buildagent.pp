@@ -98,7 +98,7 @@ class profile::buildagent (
       exec { 'Install kubectl':
         require => [Package['curl']],
         command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
-        unless  => "/usr/bin/test -f /usr/local/bin/kubectl && /usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
+        unless  => "/usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
       }
     }
 
