@@ -51,6 +51,15 @@ conditions:
       command: test {{ source "getLatestInboundAllInOneContainerImageX86" }} != {{ source "getLatestInboundAllInOneContainerImageARM" }}
 
 targets:
+  setAzureGalleryImageVersion:
+    sourceid: packerImageVersion
+    name: "Bump Azure Gallery Image Version"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
+    scmid: default    
+
   setInboundAllInOneContainerImage:
     sourceid: getLatestInboundAllInOneContainerImageX86
     name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-22.04 (AllInOne) for x86"
@@ -70,3 +79,4 @@ actions:
     spec:
       labels:
         - dependencies
+
