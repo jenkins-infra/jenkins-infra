@@ -90,7 +90,11 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "linux && arm64"
             cpu_arch: "aarch64"
+            # Test an EA version with 3 digits - https://github.com/adoptium/temurin/issues/6
+            version: 21.0.1+12-ea-beta
           s390x:
+            # Test an EA version with 1 digit - https://github.com/adoptium/temurin/issues/6
+            version: 21+35-ea-beta
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"

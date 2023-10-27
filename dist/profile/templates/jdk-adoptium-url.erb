@@ -1,5 +1,34 @@
 <%-# This template outputs the adoptium binary download URL dependening on the provided JDK and platform -%>
 <%-# Requires the hash $jdk to be defined with the following mandatory keys: $jdk['name'], $jdk['major_version'] and $jdk['version'] -%>
 <%-# The following are optional: $jdk['os'] (Default: 'linux'), $jdk['cpu_arch'] (Default: 'x64') -%>
-<%- $jdk_setup = @jdk ? @jdk : $jdk -%><%-# This instruction is a trick to support both Puppet templates and subtemplates (see scoped variables) -%>
-https://github.com/adoptium/temurin<%= $jdk_setup['major_version'] %>-binaries/releases/download/jdk<%= $jdk_setup['major_version'] == '8' ? '' : '-' %><%= $jdk_setup['version']%>/OpenJDK<%= $jdk_setup['major_version'] %>U-jdk_<%= $jdk_setup['cpu_arch'] ? $jdk_setup['cpu_arch'] : 'x64' %>_<%= $jdk_setup['os'] ? $jdk_setup['os'] : 'linux' %>_hotspot_<%= $jdk_setup['major_version'] == '21' ? 'ea_' : '' %><%= $jdk_setup['major_version'] == '8' ? $jdk_setup['version'].gsub('-', '') : $jdk_setup['major_version'] == '21' ? '21-0-' + $jdk_setup['version'][/21\+(\d*)/, 1] : $jdk_setup['version'].gsub('+', '_') %>.<%= $jdk_setup['os'] == 'windows' ? 'zip' : 'tar.gz' %>
+<%-##### -%>
+<%-# This instruction is a trick to support both Puppet templates and subtemplates (see scoped variables) -%>
+<%- $jdk_setup = @jdk ? @jdk : $jdk -%>
+<%-# JDK8 URLs don't have dashes in the encoded version for the filename -%>
+<%-# Example: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u392-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u392b08.tar.gz -%>
+<%- if $jdk_setup['major_version'] == '8' -%>
+  <%- $filename_version = $jdk_setup['version'].gsub('-', '') -%>
+<%- else -%>
+  <%-# First releases of JDK > 8 are only specified with the major version but filename also have the minor version (at least) -%>
+  <%-# Example: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21%2B35/OpenJDK21U-jdk_aarch64_linux_hotspot_21_35.tar.gz -%>
+  <%- $tmp_version = $jdk_setup['version'] -%>
+  <%- $base_version = $jdk_setup['version'].split('+')[0] -%>
+  <%- $build_version = $jdk_setup['version'].split('+')[1] -%>
+  <%- if $base_version.split('.').length == 1 -%>
+    <%- $tmp_version = $base_version + '-0+' + $build_version -%>
+  <%- end -%>
+  <%-# EA (Early Access) versions have weird patterns too -%>
+  <%-# Example: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21%2B35-ea-beta/OpenJDK21U-jdk_x64_linux_hotspot_ea_21-0-35.tar.gz -%>
+  <%-# Example: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.1%2B12-ea-beta/OpenJDK21U-jdk_s390x_linux_hotspot_ea_21-0-1-12.tar.gz -%>
+  <%- if $jdk_setup['version'] =~ /ea/ -%>
+    <%-# The '+' in the URL filename is replaced by a dash (instead of an underscore on GA releases) -%>
+    <%-# The '.' in the URL filename is replaced by a dash (instead kept as-it on GA releases) -%>
+    <%-# The '-ea' and '-ea-beta' suffixes shoud be removed from the URL filename -%>
+    <%-# For all kind of releases (EA, GA, etc.) the URL filename has dashes instead of dots -%>
+    <%- $filename_version = 'ea_' + $tmp_version.gsub('+', '-').gsub('.', '-').gsub('-ea-beta', '').gsub('-ea', '') -%>
+  <%- else -%>
+    <%-# The '+' in the URL filename for GA releases is replace by an underscore -%>
+    <%- $filename_version = $jdk_setup['version'].gsub('+', '_') -%>
+  <%- end -%>
+<%- end -%>
+https://github.com/adoptium/temurin<%= $jdk_setup['major_version'] -%>-binaries/releases/download/jdk<%= $jdk_setup['major_version'] == '8' ? '' : '-' -%><%= $jdk_setup['version'] %>/OpenJDK<%= $jdk_setup['major_version'] -%>U-jdk_<%= $jdk_setup['cpu_arch'] ? $jdk_setup['cpu_arch'] : 'x64' -%>_<%= $jdk_setup['os'] ? $jdk_setup['os'] : 'linux' -%>_hotspot_<%= $filename_version -%>.<%= $jdk_setup['os'] == 'windows' ? 'zip' : 'tar.gz' %>

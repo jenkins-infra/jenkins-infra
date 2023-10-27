@@ -110,6 +110,8 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
+            # Still EA version - https://github.com/adoptium/temurin/issues/6
+            version: 21.0.1+12-ea-beta
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
