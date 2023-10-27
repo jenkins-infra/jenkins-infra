@@ -100,16 +100,6 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
-      jdk19:
-        installers:
-          linux-arm64:
-            type: "zip"
-            label: "linux && arm64"
-            cpu_arch: "aarch64"
-          s390x:
-            type: "zip"
-            label: "s390x"
-            cpu_arch: "s390x"
       jdk21:
         installers:
           linux-arm64:
@@ -317,14 +307,6 @@ profile::jenkinscontroller::jcasc:
               - jdk17
             cpus: 4
             memory: 8
-          - name: jnlp-maven-19
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-19
-            labels:
-              - maven-19
-              - jdk19
-            cpus: 4
-            memory: 8
           - name: jnlp-maven-21
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-21
@@ -420,14 +402,6 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-17
               - jdk17
-            cpus: 4
-            memory: 8
-          - name: jnlp-maven-19
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-19
-            labels:
-              - maven-19
-              - jdk19
             cpus: 4
             memory: 8
           - name: jnlp-maven-21
@@ -629,14 +603,6 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
             labels:
               - maven-17-windows
-          - name: maven-19-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-            labels:
-              - maven-19-windows
           - name: maven-21-windows
             os: windows
             command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
