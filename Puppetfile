@@ -23,7 +23,7 @@ mod 'puppetlabs-cron_core', '1.2.0'
 mod 'saz-sudo', '5.0.0'
 
 # Needed for managing firewall rules
-mod 'puppetlabs-firewall', '4.0.1'
+mod 'puppetlabs-firewall', '7.0.2'
 
 # Needed for managing .yaml files from within Puppet
 mod 'reidmv-yamlfile'
