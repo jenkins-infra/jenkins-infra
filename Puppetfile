@@ -4,7 +4,7 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppet-r10k', '10.3.0'
 mod 'puppet-systemd', '4.2.0'
 
-mod 'puppetlabs-stdlib', '8.6.0'
+mod 'puppetlabs-stdlib', '9.4.0'
 
 # Used for installing gems for the puppetserver, like with hiera-eyaml
 mod 'puppetlabs-puppetserver_gem', '1.1.0' # Required by datadog_agent - https://forge.puppet.com/modules/datadog/datadog_agent/dependencies
