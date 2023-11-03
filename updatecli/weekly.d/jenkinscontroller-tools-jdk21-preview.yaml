@@ -1,0 +1,62 @@
+---
+name: Bump JDK21 preview version (EA) for all s390x machines or controller tools
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+  temurin21-binaries:
+    kind: "github"
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "adoptium"
+      repository: "temurin21-binaries"
+      token: '{{ requiredEnv .github.token }}'
+      branch: "main"
+
+sources:
+  getLatestJDK21PreviewVersion:
+    name: Get the latest Adoptium JDK21 preview version (EA)
+    kind: gittag
+    scmid: temurin21-binaries
+    spec:
+      versionfilter:
+        kind: regex
+        pattern: ".*-ea-.*"
+    transformers:
+      - trimprefix: "jdk-"
+
+conditions:
+  checkIfReleaseIsAvailable:
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/check-jdk.sh # source input value passed as argument
+      environments:
+        - name: PATH
+
+targets:
+  setJDK21PreviewVersion:
+    name: "Bump JDK21 preview version (EA) for s390x agent"
+    kind: yaml
+    spec:
+      file: hieradata/clients/controller.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk21.installers.s390x.version
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump JDK21 preview version (EA) (Jenkins tools) to {{ source "getLatestJDK21PreviewVersion" }}
+    spec:
+      labels:
+        - dependencies
+        - jdk21-preview
