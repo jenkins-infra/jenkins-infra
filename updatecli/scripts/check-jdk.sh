@@ -25,10 +25,6 @@ function get_jdk_download_url() {
       ## JDK17 URLs have an underscore ('_') instead of a plus ('+') in their archive names
       echo "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-${jdk_version}/OpenJDK17U-jdk_${platform}_hotspot_${jdk_version//+/_}";
       return 0;;
-    19*)
-      ## JDK19 URLs have an underscore ('_') instead of a plus ('+') in their archive names
-      echo "https://github.com/adoptium/temurin19-binaries/releases/download/jdk-${jdk_version}/OpenJDK19U-jdk_${platform}_hotspot_${jdk_version//+/_}";
-      return 0;;
     21*-ea-beta)
       # JDK preview version (21+35-ea-beta, 21.0.1+12-ea-beta)
       jdk_version="${jdk_version//-ea-beta}"
@@ -55,8 +51,6 @@ case "${1}" in
   11.*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
   17.*+*)
-    platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
-  19.*+*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
   21*+*-ea-beta)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
