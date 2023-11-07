@@ -21,24 +21,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAABIwAAAQEAv2C9H4ZadOCu1rDmou5xgTpWF+cEFHGfwIIkB3fIzjsMfKUjofjXeAf5XrS9oTsQlrr++LRriYKDCCE7l9IPilDJpeua/21S0nktU+2iXKqgiPCVTlVd6qMksqz8j+9oRPZc2AWzp955Kc67MiKHAuZBpuIl7DBTvxL8OLYz/qyh6XnF+kcvNr8xnZ2qYn8lmh1VFnVscEs/5XtKpKQjnwOW4PmJ4YUcZV+Jeg8Si2jDes/BOvVOPBDt5jgNSsUvvVZSKdBiz5ioIZGbqOrnOqCeuZvFemOjeeSKfJUJOBTGisRgsEfcJPFKlgsUDiekvIfqQiVIC3N+0qskKDNWTw==
     groups:
       - sudo
-  abayer:
-    ssh_keys:
-      abayer_laptop:
-        key: AAAAB3NzaC1yc2EAAAABIwAAAQEA402I3RoTGntFReTPTs5UGO2HkU4UN3PDZ/slALFXRC6qKMhdySzHfIXJTVx8IE7Z/TcBuM411Hy/HwTZFZBihw/B8mD6ubut5py0GUc8sI/Qo7++1qaEjhXg6aLZGqu+USH0aE/fgqzZq1o8YF+HxuN5FhWKsbL3T1ukf387gT6rhuUje4Ch9ko/h40IsIyvpcqVCGo47SfDz+lCT2A0mXp/rtJRYOTGdqLAUcJ1zZNawf7FrxGtphuppgyGYFHT+qq4lRRlgVu6rZrAWWoDPPexGB4XuRrbcgKXZ595WQjpx+zlz6Og5TNX4bvX59MQPKr8cg3Qj842ZfOgPkBvOw==
-    groups:
-      - sudo
   danielbeck:
     ssh_keys:
       servus14:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDb/Y8wjTRSo58wKuhqI54zpWan/tOX9auQGAMyTpjVG7OKyncSRRZkEtI7YVc3RCUdso+APuYN3W362nPm1dlocA46FYvRpDibSqP1XuknTvSLkA7smrM76fEFXonmnGcrfSZDCZfBsazK2xd8aFDpi1eYlDfJ/SNZOHIALAvzeBfalsrjs768w80XFzz9hZN+PYWgmH3t/tZZOz5dlrTJDQjo19egGwMu4HqgdZgYEglNYIVoJbbuGr+xvZ2TZosHQ0/CJtQcW9DCCSFaz1YNJwriJCv0gUbIX7V1+0rb8RXfZbhPXdh/AFn35HQlP1z4AmAsu9GW0/7kHWaNChxT
       servus19:
         key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDAUdJCbGRdioMnSD1gnHSMhTTX3vOpuVIv7R3fzHU0HXXyjbnOeskkFOLl4vt4GgL4Tf3DRZkxFqqFWAlOvR+WwkLQdfPikg+O1vxNY3hzvimYOe+L8UguhuDwoSLdYnl86ZdB/sz+CxQcQNSXCDlSEsEbJwkS8IFnWUQqvOfNiBn5z+PQ8f3XS0FjXedc2rb30Zy6mAzSi4PPTZj8xVE9TMBpX1qHg3Ln/YOIGDt9Fg+1insupfXYInPq6RxUfHANRRJOjrqO6sM4fHa/KVFnjzZxQBjVGrBFIhVaRfnNTUkFlUC2R5fhi5vaxzCGA/W/rHPvPQZ7uS0XL9ix7umT
-    groups:
-      - sudo
-  aheritier:
-    ssh_keys:
-      aheritier:
-        key: AAAAB3NzaC1yc2EAAAABIwAAAIEAvQwwtdd6moJF7OQEiCnNNs5XdeEUSbIBcVfQWaAFU32EXap59S56ABPSNBkXTqhVCR7jXKL6suqZuyAOyiYYYrUHQth6oMMk2110b+VZ1o2xxa9vbh918ivRbk4NLbhVwa9hy25u/YwS1Z5bB8ymORMbwen0QGSnikrkAL6IVi8=
     groups:
       - sudo
   olblak:
@@ -298,6 +286,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.1.28
+profile::openvpn::image_tag: 2.1.30
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
