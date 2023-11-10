@@ -6,8 +6,6 @@ class profile::buildagent (
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
   Hash                 $tools_versions   = {},
-  Optional[String]     $aws_credentials  = '',
-  Optional[String]     $aws_config       = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
@@ -86,45 +84,12 @@ class profile::buildagent (
       creates => '/usr/local/bin/azcopy',
     }
 
-    $rclone_url = "https://downloads.rclone.org/v1.64.0/rclone-v1.64.0-linux-${architecture}.zip"
-    exec { 'Install rclone':
-      require => [Package['curl'], Package['unzip']],
-      command => "/usr/bin/curl --location ${rclone_url} > rclone.zip && /usr/bin/unzip -j rclone.zip -d ./rclone && mv ./rclone/rclone /usr/local/bin/rclone && rm -rf ./rclone",
-      creates => '/usr/local/bin/rclone',
-    }
-
     if $tools_versions['kubectl'] {
       $kubectl_url = "https://dl.k8s.io/release/${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
       exec { 'Install kubectl':
         require => [Package['curl']],
         command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
         unless  => "/usr/bin/test -f /usr/local/bin/kubectl && /usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
-      }
-    }
-
-    if $aws_credentials or $aws_config {
-      file { "${home_dir}/.aws":
-        ensure  => directory,
-        owner   => $user,
-        require => Account[$user],
-      }
-    }
-
-    if $aws_credentials {
-      file { "${home_dir}/.aws/credentials":
-        ensure  => file,
-        mode    => '0644',
-        content => $aws_credentials,
-        require => File["${home_dir}/.aws"],
-      }
-    }
-
-    if $aws_config {
-      file { "${home_dir}/.aws/config":
-        ensure  => file,
-        mode    => '0644',
-        content => $aws_config,
-        require => File["${home_dir}/.aws"],
       }
     }
 
@@ -138,7 +103,8 @@ class profile::buildagent (
       $java_dir = "/opt/jdk-${$jdk['major_version']}"
 
       # Use this reusable template to retrieve the URL of the adoptium binary (requires the variable $jdk to be set)
-      $archive_url = template("${module_name}/jdk-adoptium-url.erb")
+      # Also remove eventual whitespaces (tabs/line returns/etc.)
+      $archive_url = strip(template("${module_name}/jdk-adoptium-url.erb"))
 
       notice("Installing Adoptium JDK ${$jdk['major_version']} to ${java_dir} from ${archive_url}")
 
