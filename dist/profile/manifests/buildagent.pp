@@ -6,8 +6,6 @@ class profile::buildagent (
   Hash                 $private_ssh_keys = {},
   Hash                 $ssh_keys         = {},
   Hash                 $tools_versions   = {},
-  Optional[String]     $aws_credentials  = '',
-  Optional[String]     $aws_config       = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
@@ -99,32 +97,6 @@ class profile::buildagent (
         require => [Package['curl']],
         command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
         unless  => "/usr/bin/test -f /usr/local/bin/kubectl && /usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
-      }
-    }
-
-    if $aws_credentials or $aws_config {
-      file { "${home_dir}/.aws":
-        ensure  => directory,
-        owner   => $user,
-        require => Account[$user],
-      }
-    }
-
-    if $aws_credentials {
-      file { "${home_dir}/.aws/credentials":
-        ensure  => file,
-        mode    => '0644',
-        content => $aws_credentials,
-        require => File["${home_dir}/.aws"],
-      }
-    }
-
-    if $aws_config {
-      file { "${home_dir}/.aws/config":
-        ensure  => file,
-        mode    => '0644',
-        content => $aws_config,
-        require => File["${home_dir}/.aws"],
       }
     }
 
