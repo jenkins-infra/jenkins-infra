@@ -103,7 +103,8 @@ class profile::buildagent (
       $java_dir = "/opt/jdk-${$jdk['major_version']}"
 
       # Use this reusable template to retrieve the URL of the adoptium binary (requires the variable $jdk to be set)
-      $archive_url = template("${module_name}/jdk-adoptium-url.erb")
+      # Also remove eventual whitespaces (tabs/line returns/etc.)
+      $archive_url = strip(template("${module_name}/jdk-adoptium-url.erb"))
 
       notice("Installing Adoptium JDK ${$jdk['major_version']} to ${java_dir} from ${archive_url}")
 
