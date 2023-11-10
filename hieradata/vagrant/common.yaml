@@ -373,4 +373,5 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - workflow-multibranch
 profile::buildagent::tools_versions:
+  azcopy: 10.21.0-20230928
   kubectl: v1.26.10

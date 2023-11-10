@@ -77,11 +77,15 @@ class profile::buildagent (
       'aarch64' => 'arm64',
       default   => $facts['os']['architecture'],
     }
-    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-10.21.0-20230928/azcopy_linux_${architecture}_10.21.0.tar.gz"
-    exec { 'Install azcopy':
-      require => [Package['curl'], Package['tar']],
-      command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
-      creates => '/usr/local/bin/azcopy',
+
+    if $tools_versions['azcopy'] {
+      $azcopysemver = split($tools_versions['azcopy'], /-/)[0]
+      $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-${tools_versions['azcopy']}/azcopy_linux_${architecture}_${azcopysemver}.tar.gz"
+      exec { 'Install azcopy':
+        require => [Package['curl'], Package['tar']],
+        command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy'",
+        unless  => "/usr/bin/test -f /usr/local/bin/azcopy && /usr/local/bin/azcopy --version | /bin/grep --quiet ${tools_versions['azcopy']}",
+      }
     }
 
     if $tools_versions['kubectl'] {
