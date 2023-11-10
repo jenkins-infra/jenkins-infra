@@ -94,7 +94,7 @@ class profile::buildagent (
       exec { 'Install azcopy':
         require => [Package['curl'], Package['tar']],
         command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy' && chmod a+x /usr/local/bin/azcopy",
-        unless  => "/usr/bin/test -f /usr/local/bin/azcopy && /usr/local/bin/azcopy --version | /bin/grep --quiet ${tools_versions['azcopy']}",
+        unless  => "/usr/bin/test -f /usr/local/bin/azcopy && /usr/local/bin/azcopy --version | /bin/grep --quiet ${azcopysemver}",
       }
     }
 
