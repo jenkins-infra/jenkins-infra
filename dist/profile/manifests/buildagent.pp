@@ -56,7 +56,6 @@ class profile::buildagent (
   if $facts['kernel'] == 'Linux' {
     ensure_packages([
         'build-essential', # Build requirement
-        'awscli', # Required by Update Center to sync buckets
         'ca-certificates',
         'curl',
         'git', # Jenkins agent requirement
@@ -76,6 +75,17 @@ class profile::buildagent (
     $architecture = $facts['os']['architecture'] ? {
       'aarch64' => 'arm64',
       default   => $facts['os']['architecture'],
+    }
+
+    if $tools_versions['awscli'] {
+      # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
+      $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
+      $aws_temp_zip = '/tmp/awscliv2.zip'
+      exec { 'Install aws CLI':
+        require => [Package['curl'], Package['unzip'], Package['groff'], Package['less']],
+        command => "/usr/bin/curl --silent --show-error --location ${awscli_url} --output ${aws_temp_zip} && unzip -o ${aws_temp_zip} -d /tmp && bash /tmp/aws/install --update && rm -rf /tmp/aws*",
+        unless  => "/usr/bin/test -f /usr/local/bin/aws && /usr/local/bin/aws --version | /bin/grep --quiet ${tools_versions['awscli']}",
+      }
     }
 
     if $tools_versions['azcopy'] {
