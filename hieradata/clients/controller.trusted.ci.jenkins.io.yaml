@@ -104,6 +104,7 @@ profile::jenkinscontroller::jcasc:
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAQ3r9h0iq+GWsy6L8+avm4Zyl+ceMIVwE4jkWtizO6Z2z4n7UMce0ykzGqS1N40q39Hav/u9RkKXC6ObIO2WOf1lSKEpGWdjQGijq5vFHvaak+BBX13t45ZVxeR2fApeUPDMMKreLh58G6NlgG59fJ9gH5SsTyyobZZvxbD2pKou3A9soL/5tm7Td2rSSls5zmKYZvvDooqR869fpaeaeIqmf5PlKpIznbYxYnedizPK1Hk/n+Du8J+h9+JlrRpHTr3euYqDbNxLmMaEBoZAi4PhPWXfJ1ODbfFlnap36VjbVNCzz3APUawLyHkz8WzAYflTTE1jHpYSag+h/AohLtTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDHUZsei+WM3m6xpdMbw2MZgCA4qSXD+tuliubzmMN/baT3Lc/JLFa+kOtL5K4fy2Y9Vg==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
           spot: true
           architecture: amd64
           labels:
@@ -124,6 +125,7 @@ profile::jenkinscontroller::jcasc:
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbAxg7BN6ITc6YT94PCxtwzZUwytEOTcWa0LK8/NJZNi5huyrSDb4XkFHbO0Fgmy/i110hZNY3kid27ZCm1//Aiq6Y0c3puLofOMydKg+KtrAzXJrWZ9GpJScH6jOHJoSjcHz7TmnwYXhJTLTgXW/I6qwsnL98SpdK1hikWnWjl0jtJhMT9yayAYsBPx9gyEgsOl0fhJNxb3lrTA4pWj+fvWFIuxsxs4iaXlRnWy/lqyoKH8JOOrmkrqvdEBmHy3TMW92bxxce3yARIaXoXdrxnEJKJUTaw7WYqxSG6t2CmeIyxGddWUomIQ8c9yqRYAWG7BE85YnDZPW+u9Jm/ijOzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDKCN844A+3necghexQVs2QgCB5e17lG0VeqtYMtMKPerxXMCDPjPVxKQaVWrM6L2/L+g==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
           spot: true
           architecture: amd64
           labels:

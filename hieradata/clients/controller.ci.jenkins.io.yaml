@@ -468,8 +468,9 @@ profile::jenkinscontroller::jcasc:
           launcher: "inbound"
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXUzOSOWZy2EI9QzQS/rHOuDVVykF9iKin47MtO85BsRdLIncooCcdD/WWJizYLnTXg7SzcS6E/rHP/QML+ymHfQYYTcbnbjYQQbI5t9kLlQB49QOSKrP3elsg9j/r24sUh7fGsV354j281ADD1meMwZ4nj5aYWLVN4KIAGzqYx113PkS1I/B+5Gtl06P9Mrt9myf7SXxuya7X9M3OZR/USuGXM47nDpQN57zmpgtSrZoaQ+9h+67prX1wq1hRsWwwt6Ve9j3JHwYGnVRPaU5zUbfRMHYW0exbnl/6KJn6pLVcRwiI4l740nUgJgzWfeASk7qAEGM6eVo3BZBW2A+VzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDdbrT/4ubtoeKc07/uQk14gCCdGGZJAjSgpN30zDmrfVQkXBtIoYQ2+lr/vFStxH4VBw==]
           location: "East US 2"
-          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 100 Gb OsCacheDisk local storage (150 temp)
           ephemeralOSDisk: true
+          osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
           labels:
             - ubuntu
