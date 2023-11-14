@@ -325,7 +325,6 @@ profile::jenkinscontroller::jcasc:
     host: "vagrant.local"
     targetHost: "172.18.0.1" # docker0 interface in vagrant is non standard (because docker in docker)
     collectBuildLogs: true
-    emitConfigChangeEvents: true
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor

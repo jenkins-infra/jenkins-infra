@@ -31,6 +31,4 @@ unclassified:
     cacheBuildRuns: true
     # Send system events like Node changes of states.
     emitSystemEvents: <%= @jcasc['datadog']['emitSystemEvents'] ? @jcasc['datadog']['emitSystemEvents'] : true %>
-    # Send events on configuration changes to jobs or changes to jenkins. These events include changes by the system which may be frequent and redundant.
-    emitConfigChangeEvents: <%= @jcasc['datadog']['emitConfigChangeEvents'] ? @jcasc['datadog']['emitConfigChangeEvents'] : false %>
 <%- end -%>
