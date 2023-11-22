@@ -431,9 +431,15 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
     azure-vm-agents:
-      azureCredentialsId: "azure-credentials"
-      resource_group: ci-jenkins-io-ephemeral-agents
-      maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+      azureVMClouds:
+        azure-vms:
+          azureCredentialsId: "azure-credentials" # Managed manually
+          resource_group: ci-jenkins-io-ephemeral-agents
+          maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+        azure-vms-jenkins-sponsorship:
+          azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
+          resource_group: ci-jenkins-io-ephemeral-agents
+          maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"

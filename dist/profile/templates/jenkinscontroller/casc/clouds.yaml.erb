@@ -1,14 +1,15 @@
 <%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" -%>
 jenkins:
   clouds:
-  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
+  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && @jcasc['cloud_agents']['azure-vm-agents']['azureVMClouds'] -%>
+  <%- @jcasc['cloud_agents']['azure-vm-agents']['azureVMClouds'].each do |azureVMCloudName, azureVMCloudSetup| -%>
   - azureVM:
-      azureCredentialsId: "<%= @jcasc['cloud_agents']['azure-vm-agents']['azureCredentialsId'] %>"
-      name: "azure-vms"
+      azureCredentialsId: "<%= azureVMCloudSetup['azureCredentialsId'] %>"
+      name: "<%= azureVMCloudName %>"
       deploymentTimeout: 1200
-      existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
+      existingResourceGroupName: "<%= azureVMCloudSetup['resource_group'] %>"
       resourceGroupReferenceType: "existing"
-      maxVirtualMachinesLimit: <%= @jcasc['cloud_agents']['azure-vm-agents']['maxInstances'] %>
+      maxVirtualMachinesLimit: <%= azureVMCloudSetup['maxInstances'] %>
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
       - agentWorkspace: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
@@ -183,6 +184,7 @@ jenkins:
         usePrivateIP: false
       <%- end -%>
     <%- end -%>
+  <%- end -%>
   <%- end -%>
   <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? -%>
     <%- @jcasc['cloud_agents']['azure-container-agents'].each do |aci_cloud_name, aci_cloud_setup| -%>
