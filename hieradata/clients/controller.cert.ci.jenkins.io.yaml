@@ -91,11 +91,11 @@ profile::jenkinscontroller::jcasc:
       groovy-3.0.6:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
   cloud_agents:
-    azure-vm-agents:
-      azureVMClouds:
+    azure_vm_agents:
+      clouds:
         azure-vms:
           azureCredentialsId: "azure-sp-agents" # Managed manually
-          resource_group: "cert-ci-jenkins-io-ephemeral-agents"
+          resourceGroup: "cert-ci-jenkins-io-ephemeral-agents"
       agent_definitions:
         - name: "ubuntu"
           description: "Ubuntu 22.04 LTS (jdk11-default)"

@@ -66,11 +66,11 @@ profile::jenkinscontroller::jcasc:
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFQNVOQ1pujfnfhOpFRV2AQOWm1I4mL6Xz+3TFJDL5iN"
   cloud_agents:
-    azure-vm-agents:
-      azureVMClouds:
+    azure_vm_agents:
+      clouds:
         azure-vms:
           azureCredentialsId: "azure-sponsorship-credentials" # Managed manually
-          resource_group: jenkinsinfra-trusted-ephemeral-agents
+          resourceGroup: jenkinsinfra-trusted-ephemeral-agents
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
