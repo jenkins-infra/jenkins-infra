@@ -1,16 +1,17 @@
 <%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" -%>
 jenkins:
   clouds:
-  <%- if @jcasc['cloud_agents']['azure-vm-agents'] && !@jcasc['cloud_agents']['azure-vm-agents'].empty? -%>
+  <%- if @jcasc['cloud_agents']['azure_vm_agents'] && @jcasc['cloud_agents']['azure_vm_agents']['clouds'] -%>
+  <%- @jcasc['cloud_agents']['azure_vm_agents']['clouds'].each do |cloudname, cloudsetup| -%>
   - azureVM:
-      azureCredentialsId: "<%= @jcasc['cloud_agents']['azure-vm-agents']['azureCredentialsId'] %>"
-      name: "azure-vms"
+      azureCredentialsId: "<%= cloudsetup['azureCredentialsId'] %>"
+      name: "<%= cloudname %>"
       deploymentTimeout: 1200
-      existingResourceGroupName: "<%= @jcasc['cloud_agents']['azure-vm-agents']['resource_group'] %>"
+      existingResourceGroupName: "<%= cloudsetup['resourceGroup'] %>"
       resourceGroupReferenceType: "existing"
-      maxVirtualMachinesLimit: <%= @jcasc['cloud_agents']['azure-vm-agents']['maxInstances'] %>
+      maxVirtualMachinesLimit: <%= cloudsetup['maxInstances'] %>
       vmTemplates:
-    <%- @jcasc['cloud_agents']['azure-vm-agents']['agent_definitions'].each do |agent| -%>
+    <%- @jcasc['cloud_agents']['azure_vm_agents']['agent_definitions'].each do |agent| -%>
       - agentWorkspace: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
         <%- if agent['os'].to_s == 'windows' -%>
         executeInitScriptAsRoot: false
@@ -184,12 +185,13 @@ jenkins:
       <%- end -%>
     <%- end -%>
   <%- end -%>
+  <%- end -%>
   <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? -%>
     <%- @jcasc['cloud_agents']['azure-container-agents'].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
       credentialsId: "<%= aci_cloud_setup['credentialsId'] %>"
       name: "<%= aci_cloud_name %>"
-      resourceGroup: "<%= aci_cloud_setup['resource_group'] %>"
+      resourceGroup: "<%= aci_cloud_setup['resourceGroup'] %>"
       templates:
       <%- aci_cloud_setup['agent_definitions'].each do |agent| -%>
       - command: "<%= agent['command'] %>"
