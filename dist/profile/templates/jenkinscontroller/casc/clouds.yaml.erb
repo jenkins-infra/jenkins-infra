@@ -2,10 +2,10 @@
 jenkins:
   clouds:
   <%- if @jcasc['cloud_agents']['azure_vm_agents'] && @jcasc['cloud_agents']['azure_vm_agents']['clouds'] -%>
-  <%- @jcasc['cloud_agents']['azure_vm_agents']['clouds'].each do |azureVMCloudName, cloudsetup| -%>
+  <%- @jcasc['cloud_agents']['azure_vm_agents']['clouds'].each do |cloudname, cloudsetup| -%>
   - azureVM:
       azureCredentialsId: "<%= cloudsetup['azureCredentialsId'] %>"
-      name: "<%= azureVMCloudName %>"
+      name: "<%= cloudname %>"
       deploymentTimeout: 1200
       existingResourceGroupName: "<%= cloudsetup['resourceGroup'] %>"
       resourceGroupReferenceType: "existing"
