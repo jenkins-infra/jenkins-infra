@@ -196,10 +196,16 @@ profile::jenkinscontroller::jcasc:
         azure-vms:
           azureCredentialsId: "azure-credentials"
           resourceGroup: ci-jenkins-io-ephemeral-agents
-        azure-vms-jenkins-sponsorship:
-          azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
-          resourceGroup: ci-jenkins-io-ephemeral-agents
+          virtualNetworkName: "vnet"
+          virtualNetworkResourceGroupName: "vnet-rg"
+          subnetName: "vnet-agents"
+        azure-vms-secondary:
+          azureCredentialsId: "azure-secondary-credentials" # Managed manually
+          resourceGroup: ci-jenkins-io-ephemeral-agents-secondary
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: "vnet-secondary"
+          virtualNetworkResourceGroupName: "vnet-secondary-rg"
+          subnetName: "vnet-secondary-subnet-agents"
       agent_definitions:
         - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
@@ -222,9 +228,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
         - name: "ubuntu-22-arm64-ssh"
           description: "Ubuntu 22.04 LTS ARM64"
@@ -245,9 +248,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           javaHome: /opt/jdk-11       # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-17   # Test override of the default JDK for builds
         - name: "win-2019-inbound" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -269,9 +269,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
           javaHome: 'C:/Tools/openjdk-11'       # Test override of the default JDK for builds
           agentJavaBin: 'C:/Tools/openjdk-17'   # Test override of the default JDK for builds
@@ -291,9 +288,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: false
     azure-container-agents:
       aci-windows:

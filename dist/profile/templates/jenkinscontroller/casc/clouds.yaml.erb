@@ -177,9 +177,9 @@ jenkins:
         <%- end -%>
       <%- if agent['usePrivateIP'] -%>
         usePrivateIP: true
-        virtualNetworkName: "<%= agent['virtualNetworkName'] %>"
-        virtualNetworkResourceGroupName: "<%= agent['virtualNetworkResourceGroupName'] %>"
-        subnetName: "<%= agent['subnetName'] %>"
+        virtualNetworkName: "<%= cloudsetup['virtualNetworkName'] %>"
+        virtualNetworkResourceGroupName: "<%= cloudsetup['virtualNetworkResourceGroupName'] %>"
+        subnetName: "<%= cloudsetup['subnetName'] %>"
       <%- else -%>
         usePrivateIP: false
       <%- end -%>

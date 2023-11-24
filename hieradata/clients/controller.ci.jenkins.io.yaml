@@ -436,10 +436,16 @@ profile::jenkinscontroller::jcasc:
           azureCredentialsId: "azure-credentials" # Managed manually
           resourceGroup: ci-jenkins-io-ephemeral-agents
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: "public-vnet"
+          virtualNetworkResourceGroupName: "public"
+          subnetName: "public-vnet-ci_jenkins_io_agents"
         azure-vms-jenkins-sponsorship:
           azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
           resourceGroup: ci-jenkins-io-ephemeral-agents
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: "public-jenkins-sponsorship-vnet"
+          virtualNetworkResourceGroupName: "public-jenkins-sponsorship"
+          subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_agents"
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
@@ -462,9 +468,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
         - name: "ubuntu-22-arm64"
           description: "Ubuntu 22.04 LTS ARM64"
@@ -486,9 +489,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
         - name: "ubuntu-22-highmem"
           description: "Ubuntu 22.04 LTS Highmem"
@@ -511,9 +511,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
         - name: "ubuntu-22-highmem-nonspot"
           description: "Ubuntu 22.04 LTS Highmem"
@@ -535,9 +532,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: false
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: false
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
@@ -558,9 +552,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
         - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
@@ -579,9 +570,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "public-vnet"
-          virtualNetworkResourceGroupName: "public"
-          subnetName: "public-vnet-ci_jenkins_io_agents"
           spot: true
     azure-container-agents:
       aci-windows:

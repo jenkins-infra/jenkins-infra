@@ -70,6 +70,9 @@ profile::jenkinscontroller::jcasc:
           azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
           resourceGroup: ci-jenkins-io-ephemeral-agents
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: "prod-jenkins-public-prod"
+          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
+          subnetName: "ci.j-agents-vm"
       agent_definitions:
         - name: "ubuntu-20"
           description: "Ubuntu 20.04 LTS"
@@ -89,9 +92,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
           spot: true
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
@@ -109,9 +109,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
-          virtualNetworkName: "prod-jenkins-public-prod"
-          virtualNetworkResourceGroupName: "prod-jenkins-public-prod"
-          subnetName: "ci.j-agents-vm"
           spot: false
           agentDir: 'C:/Foo'
     azure-container-agents:
