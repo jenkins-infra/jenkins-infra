@@ -166,7 +166,7 @@ jenkins:
         retentionStrategy: "azureVMCloudOnce"
       <%- end -%>
         shutdownOnIdle: false
-        spotInstance: <%= agent['spotInstance'] || agent['spot'] ? true : false %>
+        spotInstance: <%= cloudsetup['disableSpot'] ? false : (agent['spot'] ? true : false) %>
         templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
         templateName: "<%= agent['name'] %>"
