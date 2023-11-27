@@ -446,6 +446,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "public-jenkins-sponsorship-vnet"
           virtualNetworkResourceGroupName: "public-jenkins-sponsorship"
           subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_agents"
+          disableSpot: true # Not enough quota available
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"

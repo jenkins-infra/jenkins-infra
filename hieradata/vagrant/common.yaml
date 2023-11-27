@@ -206,6 +206,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "vnet-secondary"
           virtualNetworkResourceGroupName: "vnet-secondary-rg"
           subnetName: "vnet-secondary-subnet-agents"
+          disableSpot: true # Not enough quota available
       agent_definitions:
         - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
