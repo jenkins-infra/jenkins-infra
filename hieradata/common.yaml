@@ -227,7 +227,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:a695fe20ec0a0a1a70aafdb1b64a6b911315a6cf0384122c6fd94adf1d41e26d
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:f2d82b1df974bed152acb53551d3155e85d6120df664b100894b0079eed5fa45
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:1d44f05db8232709f0818a6ccebb035ef54f813b2c0c4d4110d505d4be88ec06
+      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:b719ae4adcadcfe673953fb04dda819ad82758d315348c7a3b0cf252b99253bb
   tools_default_versions:
     jdk8: 8u392-b08
     jdk11: 11.0.21+9
@@ -286,6 +286,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.1.35
+profile::openvpn::image_tag: 2.1.36
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
