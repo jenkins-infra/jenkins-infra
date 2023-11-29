@@ -152,7 +152,7 @@ jenkins:
         installMaven: false
         javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
         jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
-        labels: "<%= agent['os'].to_s + "-" + agent['os_version'].to_s %> <%= agent['architecture'].to_s %> azure vm <%= agent['labels'].join(' ') %>"
+        labels: "<%= agent['os'].to_s + "-" + agent['os_version'].to_s %> <%= agent['architecture'].to_s %> azure vm <%= agent['labels'].join(' ') %> <%= cloudname %>"
         location: "<%= agent['location'] %>"
         noOfParallelJobs: 1
         osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][agent['os'].to_s]['osDiskSize'] %>
