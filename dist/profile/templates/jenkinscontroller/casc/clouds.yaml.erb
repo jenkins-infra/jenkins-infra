@@ -137,7 +137,7 @@ jenkins:
         enableMSI: false
         enableUAMI: false
         ephemeralOSDisk: "<%= agent['ephemeralOSDisk'] ? agent['ephemeralOSDisk'] : false %>"
-        existingStorageAccountName: "<%= agent['storageAccount'] %>"
+        existingStorageAccountName: "<%= cloudsetup['storageAccount'] %>"
         storageAccountNameReferenceType: "existing"
         storageAccountType: "Standard_LRS"
         imageReference:

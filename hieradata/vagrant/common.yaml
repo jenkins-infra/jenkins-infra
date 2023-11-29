@@ -199,6 +199,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: "vnet"
           virtualNetworkResourceGroupName: "vnet-rg"
           subnetName: "vnet-agents"
+          storageAccount: SuperSecretEncryptedInProduction
         azure-vms-secondary:
           azureCredentialsId: "azure-secondary-credentials" # Managed manually
           resourceGroup: ci-jenkins-io-ephemeral-agents-secondary
@@ -207,6 +208,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: "vnet-secondary-rg"
           subnetName: "vnet-secondary-subnet-agents"
           disableSpot: true # Not enough quota available
+          storageAccount: SuperSecretEncryptedInProductionSecondary
       agent_definitions:
         - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
@@ -214,7 +216,7 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "inbound"
-          storageAccount: SuperSecretEncryptedInProduction
+
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
@@ -236,7 +238,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
@@ -257,7 +258,6 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2019"
           launcher: "inbound"
-          storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
@@ -278,7 +278,6 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-windows-2022-amd64
           os: "windows"
           os_version: "2022"
-          storageAccount: SuperSecretEncryptedInProduction
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true

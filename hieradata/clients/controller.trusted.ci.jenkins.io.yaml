@@ -74,6 +74,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkName: trusted-ci-jenkins-io-vnet
           virtualNetworkResourceGroupName: trusted-ci-jenkins-io
           subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV0UHUA2ynllZMXtGzQtnVBXgdAvS4vPHQULBOFbspqNInDLJgcOlkwo5yrc1yWdx6nZ0WPSoPBH8itNYsOhBO83b1ER0VuZiiQp20PUx5v4rkmHFe2XEA3VrVLKZyqoniwpf6FhgVEa0tujtN0K7m03/uuL/AAjejz9EmKvwmKaIQyT3dUMgXyxuOaklWJP+URAgsDSxFAUqEADIn90EMT2rzHYCkztU9Ron/By7WpAAfqWijdjluEoTFS8pWICkax7c/pKEmN/y0onaAy4sr49D9zyFX34dHYOaIntdVOAc/1A07dUa2S1yfwv/CAvubdS66quMykpOZG6AgbFxiDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAVnae6Xt49IT6H71Lb93PugCDdA8sP3KpmZN5g4Irwfu+/JUN0PMnZV7bKgFLpRWZDrA==]
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
@@ -81,7 +82,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV0UHUA2ynllZMXtGzQtnVBXgdAvS4vPHQULBOFbspqNInDLJgcOlkwo5yrc1yWdx6nZ0WPSoPBH8itNYsOhBO83b1ER0VuZiiQp20PUx5v4rkmHFe2XEA3VrVLKZyqoniwpf6FhgVEa0tujtN0K7m03/uuL/AAjejz9EmKvwmKaIQyT3dUMgXyxuOaklWJP+URAgsDSxFAUqEADIn90EMT2rzHYCkztU9Ron/By7WpAAfqWijdjluEoTFS8pWICkax7c/pKEmN/y0onaAy4sr49D9zyFX34dHYOaIntdVOAc/1A07dUa2S1yfwv/CAvubdS66quMykpOZG6AgbFxiDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAVnae6Xt49IT6H71Lb93PugCDdA8sP3KpmZN5g4Irwfu+/JUN0PMnZV7bKgFLpRWZDrA==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
@@ -103,7 +103,6 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2019"
           launcher: "ssh"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAQ3r9h0iq+GWsy6L8+avm4Zyl+ceMIVwE4jkWtizO6Z2z4n7UMce0ykzGqS1N40q39Hav/u9RkKXC6ObIO2WOf1lSKEpGWdjQGijq5vFHvaak+BBX13t45ZVxeR2fApeUPDMMKreLh58G6NlgG59fJ9gH5SsTyyobZZvxbD2pKou3A9soL/5tm7Td2rSSls5zmKYZvvDooqR869fpaeaeIqmf5PlKpIznbYxYnedizPK1Hk/n+Du8J+h9+JlrRpHTr3euYqDbNxLmMaEBoZAi4PhPWXfJ1ODbfFlnap36VjbVNCzz3APUawLyHkz8WzAYflTTE1jHpYSag+h/AohLtTBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDHUZsei+WM3m6xpdMbw2MZgCA4qSXD+tuliubzmMN/baT3Lc/JLFa+kOtL5K4fy2Y9Vg==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
@@ -121,7 +120,6 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2022"
           launcher: "ssh"
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAbAxg7BN6ITc6YT94PCxtwzZUwytEOTcWa0LK8/NJZNi5huyrSDb4XkFHbO0Fgmy/i110hZNY3kid27ZCm1//Aiq6Y0c3puLofOMydKg+KtrAzXJrWZ9GpJScH6jOHJoSjcHz7TmnwYXhJTLTgXW/I6qwsnL98SpdK1hikWnWjl0jtJhMT9yayAYsBPx9gyEgsOl0fhJNxb3lrTA4pWj+fvWFIuxsxs4iaXlRnWy/lqyoKH8JOOrmkrqvdEBmHy3TMW92bxxce3yARIaXoXdrxnEJKJUTaw7WYqxSG6t2CmeIyxGddWUomIQ8c9yqRYAWG7BE85YnDZPW+u9Jm/ijOzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDKCN844A+3necghexQVs2QgCB5e17lG0VeqtYMtMKPerxXMCDPjPVxKQaVWrM6L2/L+g==]
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
