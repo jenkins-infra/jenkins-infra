@@ -64,7 +64,7 @@ profile::jenkinscontroller::jcasc:
     azure_vm_agents:
       clouds:
         azure-vms:
-          azureCredentialsId: "azure-credentials"
+          azureCredentialsId: azure-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
         azure-vms-jenkins-sponsorship:
           azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
@@ -112,18 +112,22 @@ profile::jenkinscontroller::jcasc:
           spot: false
           agentDir: 'C:/Foo'
     azure-container-agents:
-      aci-windows:
-        credentialsId: "azure-credentials"
-        resourceGroup: ci-jenkins-io-ephemeral-agents
-        agent_definitions:
-          - name: maven-11-windows
-            os: windows
-            command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-            cpus: 4
-            memory: 8
-            agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
-            labels:
-              - maven-11-windows
+      clouds:
+        aci-windows:
+          credentialsId: azure-credentials
+          resourceGroup: ci-jenkins-io-ephemeral-agents
+        aci-windows-jenkins-sponsorship:
+          credentialsId: azure-jenkins-sponsorship-credentials
+          resourceGroup: ci-jenkins-io-ephemeral-agents
+      agent_definitions:
+        - name: maven-11-windows
+          os: windows
+          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
+          cpus: 4
+          memory: 8
+          agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
+          labels:
+            - maven-11-windows
   artifact_caching_proxy:
     disabled: false
 # These are plugins we need in our ci environment
