@@ -186,14 +186,14 @@ jenkins:
     <%- end -%>
   <%- end -%>
   <%- end -%>
-  <%- if @jcasc['cloud_agents']['azure-container-agents'] && !@jcasc['cloud_agents']['azure-container-agents'].empty? -%>
-    <%- @jcasc['cloud_agents']['azure-container-agents'].each do |aci_cloud_name, aci_cloud_setup| -%>
+  <%- if @jcasc['cloud_agents']['azure-container-agents'] && @jcasc['cloud_agents']['azure-container-agents']['clouds'] -%>
+    <%- @jcasc['cloud_agents']['azure-container-agents']['clouds'].each do |aci_cloud_name, aci_cloud_setup| -%>
   - aci:
       credentialsId: "<%= aci_cloud_setup['credentialsId'] %>"
       name: "<%= aci_cloud_name %>"
       resourceGroup: "<%= aci_cloud_setup['resourceGroup'] %>"
       templates:
-      <%- aci_cloud_setup['agent_definitions'].each do |agent| -%>
+      <%-  @jcasc['cloud_agents']['azure-container-agents']['agent_definitions'].each do |agent| -%>
       - command: "<%= agent['command'] %>"
         cpu: "<%= agent['cpus'] %>"
         image: "<%= @jcasc['agent_images']['container_images']['jnlp-' + agent['name'].to_s] %>"
