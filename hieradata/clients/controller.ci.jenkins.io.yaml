@@ -516,9 +516,6 @@ profile::jenkinscontroller::jcasc:
           spot: true
     azure-container-agents:
       clouds:
-        aci-windows:
-          credentialsId: azure-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
         aci-windows-jenkins-sponsorship:
           credentialsId: azure-jenkins-sponsorship-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
