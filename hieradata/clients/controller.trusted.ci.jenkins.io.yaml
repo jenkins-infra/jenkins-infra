@@ -69,12 +69,21 @@ profile::jenkinscontroller::jcasc:
     azure_vm_agents:
       clouds:
         azure-vms:
-          azureCredentialsId: "azure-sponsorship-credentials" # Managed manually
+          azureCredentialsId: azure-sponsorship-credentials # Managed manually
           resourceGroup: jenkinsinfra-trusted-ephemeral-agents
           virtualNetworkName: trusted-ci-jenkins-io-vnet
           virtualNetworkResourceGroupName: trusted-ci-jenkins-io
           subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV0UHUA2ynllZMXtGzQtnVBXgdAvS4vPHQULBOFbspqNInDLJgcOlkwo5yrc1yWdx6nZ0WPSoPBH8itNYsOhBO83b1ER0VuZiiQp20PUx5v4rkmHFe2XEA3VrVLKZyqoniwpf6FhgVEa0tujtN0K7m03/uuL/AAjejz9EmKvwmKaIQyT3dUMgXyxuOaklWJP+URAgsDSxFAUqEADIn90EMT2rzHYCkztU9Ron/By7WpAAfqWijdjluEoTFS8pWICkax7c/pKEmN/y0onaAy4sr49D9zyFX34dHYOaIntdVOAc/1A07dUa2S1yfwv/CAvubdS66quMykpOZG6AgbFxiDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAVnae6Xt49IT6H71Lb93PugCDdA8sP3KpmZN5g4Irwfu+/JUN0PMnZV7bKgFLpRWZDrA==]
+        azure-vms-jenkins-sponsorship:
+          azureCredentialsId: azure-jenkins-sponsorship-credentials # Managed manually
+          resourceGroup: trusted-ci-jenkins-io-ephemeral-agents
+          maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: trusted-ci-jenkins-io-sponsorship-vnet
+          virtualNetworkResourceGroupName: trusted-ci-jenkins-io-sponsorship
+          subnetName: trusted-ci-jenkins-io-sponsorship-vnet-ephemeral-agents
+          disableSpot: true # Not enough quota available
+          storageAccount: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAA49aqiuamjDHT4BfHIPfpin2qd3jqKOC7T6P/hzvgB8kXOcvMH+w9AkghCCcr3TKFd5Qc8JMG0fHA6FyJSzBmOpYasxHjT7lrPeSvP+Enz4bIsFL0c4DOEfaCGWneLa1IygsbKKXUk4CdFtWhIzdAHLz7+u8+2dmludyJ0/fzmAUxzZJsQ1H67PMXAkwS3MbzjwfqVeybSDvxh3TlttEhLDj9QbcIqeqqVDXmRNKOM+guNtknQU1Bmfxr8GQTPZzN2Nt6GzGaKzJbmBuSwZ3RSndnIPeyPhSNsIK/b0WPdfEFeqlNrxuNYx9sEHaXeVFjyBLOfS9IGrkmfTMxUyfTjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBADjjckysZlQkvbP4Sh/D9IgDB+YBZSELoYr8sT1jNE4SJtMfRWyuORp6Aynfb+LQkKBUfRB50ANWFQ0z4/djq2ePk=]
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
