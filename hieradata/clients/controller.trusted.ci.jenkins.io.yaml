@@ -83,7 +83,7 @@ profile::jenkinscontroller::jcasc:
           virtualNetworkResourceGroupName: trusted-ci-jenkins-io-sponsorship
           subnetName: trusted-ci-jenkins-io-sponsorship-vnet-ephemeral-agents
           disableSpot: true # Not enough quota available
-          storageAccount: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAA49aqiuamjDHT4BfHIPfpin2qd3jqKOC7T6P/hzvgB8kXOcvMH+w9AkghCCcr3TKFd5Qc8JMG0fHA6FyJSzBmOpYasxHjT7lrPeSvP+Enz4bIsFL0c4DOEfaCGWneLa1IygsbKKXUk4CdFtWhIzdAHLz7+u8+2dmludyJ0/fzmAUxzZJsQ1H67PMXAkwS3MbzjwfqVeybSDvxh3TlttEhLDj9QbcIqeqqVDXmRNKOM+guNtknQU1Bmfxr8GQTPZzN2Nt6GzGaKzJbmBuSwZ3RSndnIPeyPhSNsIK/b0WPdfEFeqlNrxuNYx9sEHaXeVFjyBLOfS9IGrkmfTMxUyfTjBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBADjjckysZlQkvbP4Sh/D9IgDB+YBZSELoYr8sT1jNE4SJtMfRWyuORp6Aynfb+LQkKBUfRB50ANWFQ0z4/djq2ePk=]
+          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABg+VT2jJfm39KjS0i/PhizdtKpy7AC4wLmKN4DWOsdfea3XUbUU0FQfuPLNY/9CA7iuEIAtO9y7pht9vwX16b2sC2xqL9CJlxj2B6bgLkJsqo9Qeib7Sy7nYe0LyIgE+HUrQ8Y1rCU1itPxHCdXFjy+GiG/q7xs1bMUuulQf/aL48uTC8BvO3DGNaNdNadpI+6NpVwtzk5wtLZS6mbL053f8t+DFmpyUR0HYYnYGxVl2eDFRlR5qV93kErpPMGfuWj3sk7P3o4h8RXt5BIgR/0Hd9/ypd60mKjGJpUn3y4LMBthDEIB0iEwiIBw5oE5EJHnBTPVEYkKMPZ+5Ct837zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDuNBYp213f+ubJVbpnKwIbgCChAER2/Kp5oAKS60k5HWAcu0cgHJMIK2d6SgAHv5FhuA==]
       agent_definitions:
         - name: "ubuntu-22"
           description: "Ubuntu 22.04 LTS"
