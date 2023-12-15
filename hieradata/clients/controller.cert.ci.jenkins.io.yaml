@@ -94,12 +94,21 @@ profile::jenkinscontroller::jcasc:
     azure_vm_agents:
       clouds:
         azure-vms:
-          azureCredentialsId: "azure-sp-agents" # Managed manually
-          resourceGroup: "cert-ci-jenkins-io-ephemeral-agents"
-          virtualNetworkName: "cert-ci-jenkins-io-vnet"
-          virtualNetworkResourceGroupName: "cert-ci-jenkins-io"
-          subnetName: "cert-ci-jenkins-io-vnet-ephemeral-agents"
+          azureCredentialsId: azure-sp-agents # Managed manually
+          resourceGroup: cert-ci-jenkins-io-ephemeral-agents
+          virtualNetworkName: cert-ci-jenkins-io-vnet
+          virtualNetworkResourceGroupName: cert-ci-jenkins-io
+          subnetName: cert-ci-jenkins-io-vnet-ephemeral-agents
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeKRjv1bRcYHvDq0BDY61R8NjlYOcqQwGvQdSQGw97IocmyAHu8KWjbgG1rry1Y5AnaAuTYycrXreIYOdxvCp0bt28ZUTaVIKBj6Wj7NhrLgmT4bivEIwoceofsomGQzAVFy9d0A/ubi/BHsYE1S9ZTEvFZ3nxU1W59I7BEmERWn5W8lgMuXkiOhkRbHs2UIcbpepaXa0PCeF8pA999U49+NWZZ8Xw6D/YxNh7slDlVQs9MR7rCuoesqAaXGxvkRN+xP2r4IXHyesbb1lwaLVQUko7rAsc1c6wAPLlDN4iPoX07tfaVc5BV/RZPcHyHPVG5zbt3A7pmF/8iPQDC0dAzBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCjvP3lYtLyHGNYAdelA3Y3gCBC7Yw5PHTPmzDvONYd7/onkGRLnydibBz1+Q+2oD5HCw==]
+        azure-vms-jenkins-sponsorship:
+          azureCredentialsId: azure-jenkins-sponsorship-credentials # Managed manually
+          resourceGroup: cert-ci-jenkins-io-ephemeral-agents
+          maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          virtualNetworkName: cert-ci-jenkins-io-sponsorship-vnet
+          virtualNetworkResourceGroupName: cert-ci-jenkins-io-sponsorship
+          subnetName: cert-ci-jenkins-io-sponsorship-vnet-ephemeral-agents
+          disableSpot: true # Not enough quota available
+          storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHnSCgxZHR7PGhJROKv6Y5r2HJupg+Mi9UBCfMm0wL60+8jfvI35sKcc8qQVJTJLtTiSudf9YyG43we03L3JrNpw6HOIi4tnjQlNtPzoIfN47cY9UmAHuhiLIaQM3x8f2wm/Gf4+2VPZP+YoF2ye8Aa5Y9NKbu6sTd2sYEa/LkBslYIafQbLkud1zCW0iWolnSZad6CxPIGP/s0a9vOhQfeEbxbvfiQq2NelhOP499AjQpmbQd1mnzruUB5xp3yll3eEmPl5zzWSzcfrU9od3ZsBCHK5ag3hm8wMDLns4RnFM35UZGBXRsVaS2HNtaHeZNzJL9YhCdhwWgWQc/bN6gzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBnRt4ORJZ+RrwhVTTG2OlQgBA3r788oLc+SZ7UK0e5AAFH]
       agent_definitions:
         - name: "ubuntu"
           description: "Ubuntu 22.04 LTS (jdk11-default)"
