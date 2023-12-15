@@ -68,13 +68,6 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     azure_vm_agents:
       clouds:
-        azure-vms:
-          azureCredentialsId: azure-sponsorship-credentials # Managed manually
-          resourceGroup: jenkinsinfra-trusted-ephemeral-agents
-          virtualNetworkName: trusted-ci-jenkins-io-vnet
-          virtualNetworkResourceGroupName: trusted-ci-jenkins-io
-          subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV0UHUA2ynllZMXtGzQtnVBXgdAvS4vPHQULBOFbspqNInDLJgcOlkwo5yrc1yWdx6nZ0WPSoPBH8itNYsOhBO83b1ER0VuZiiQp20PUx5v4rkmHFe2XEA3VrVLKZyqoniwpf6FhgVEa0tujtN0K7m03/uuL/AAjejz9EmKvwmKaIQyT3dUMgXyxuOaklWJP+URAgsDSxFAUqEADIn90EMT2rzHYCkztU9Ron/By7WpAAfqWijdjluEoTFS8pWICkax7c/pKEmN/y0onaAy4sr49D9zyFX34dHYOaIntdVOAc/1A07dUa2S1yfwv/CAvubdS66quMykpOZG6AgbFxiDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAVnae6Xt49IT6H71Lb93PugCDdA8sP3KpmZN5g4Irwfu+/JUN0PMnZV7bKgFLpRWZDrA==]
         azure-vms-jenkins-sponsorship:
           azureCredentialsId: azure-jenkins-sponsorship-credentials # Managed manually
           resourceGroup: trusted-ci-jenkins-io-ephemeral-agents
