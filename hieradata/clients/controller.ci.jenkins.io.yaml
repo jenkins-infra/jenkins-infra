@@ -72,7 +72,7 @@ profile::jenkinscontroller::jcasc:
   tools:
     groovy:
       groovy: # Default version is named "groovy"
-        version: "2.4.7"
+        version: "2.4.21"
     jdk:
       jdk8:
         installers:
