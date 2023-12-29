@@ -350,6 +350,7 @@ profile::jenkinscontroller::plugins:
   - coverage
   - config-file-provider
   - configuration-as-code
+  - coverage-badges-extension
   - credentials
   - credentials-binding
   - datadog
