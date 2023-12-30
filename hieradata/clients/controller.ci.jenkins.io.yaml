@@ -568,7 +568,7 @@ profile::jenkinscontroller::plugins:
   - buildtriggerbadge # Add an icon with the build cause in the build history
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder # Provides a job type "Folder"
-  - code-coverage-api # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
+  - coverage # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
   - config-file-provider # Used to provide Maven settings for proxies
   - configuration-as-code # Required for CasC
   - credentials # Provides Jenkins Credentials management
