@@ -571,6 +571,7 @@ profile::jenkinscontroller::plugins:
   - coverage # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
   - config-file-provider # Used to provide Maven settings for proxies
   - configuration-as-code # Required for CasC
+  - coverage-badges-extension # Coverage Badges
   - credentials # Provides Jenkins Credentials management
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
   - datadog # Datadog plugin
