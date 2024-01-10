@@ -137,7 +137,6 @@ profile::jenkinscontroller::jcasc:
 profile::jenkinscontroller::plugins:
   - ansicolor
   - azure-vm-agents
-  - blueocean
   - build-timeout
   - buildtriggerbadge
   - cloudbees-folder
