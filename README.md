@@ -33,6 +33,12 @@ This repo just manages and configures the deployments.
 * Image versions are defined in the [hieradata/common.yaml](./hieradata/common.yaml) file by the `*:image_tag` variables.
   Services can be updated by submitting a pull request with the version update.
 
+### Editing secrets
+
+All the secrets are encrypted within the repository using [eyaml](https://github.com/voxpupuli/hiera-eyaml). in order to view or edit them:
+- Follow instructions in (private repository) https://github.com/jenkins-infra/jenkins-keys
+- Use the command `bundle exec eyaml edit <filename>` such as `bundle exec eyaml edit ./hieradata/common.yaml`
+
 ## Local development
 
 ### Pre-requisites for Local Development
