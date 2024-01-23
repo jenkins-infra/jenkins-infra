@@ -35,7 +35,9 @@ This repo just manages and configures the deployments.
 
 ### Editing secrets
 
-All the secrets are encrypted within the repository using [eyaml](https://github.com/voxpupuli/hiera-eyaml). in order to edit them, you should use `bundle exec eyaml edit <filename>` like `bundle exec eyaml edit ./hieradata/common.yaml`
+All the secrets are encrypted within the repository using [eyaml](https://github.com/voxpupuli/hiera-eyaml). in order to view or edit them:
+- Follow instructions in (private repository) https://github.com/jenkins-infra/jenkins-keys
+- Use the command `bundle exec eyaml edit <filename>` such as `bundle exec eyaml edit ./hieradata/common.yaml`
 
 ## Local development
 
