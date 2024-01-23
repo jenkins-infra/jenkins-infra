@@ -232,7 +232,7 @@ profile::jenkinscontroller::jcasc:
     jdk8: 8u392-b08
     jdk11: 11.0.21+9
     jdk17: 17.0.8+7
-    jdk21: 21.0.1+12
+    jdk21: 21.0.2+13
     maven: 3.9.6
   artifact_caching_proxy:
     providers:
