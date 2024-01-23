@@ -33,6 +33,10 @@ This repo just manages and configures the deployments.
 * Image versions are defined in the [hieradata/common.yaml](./hieradata/common.yaml) file by the `*:image_tag` variables.
   Services can be updated by submitting a pull request with the version update.
 
+### Editing secrets
+
+All the secrets are encrypted within the repository using [eyaml](https://github.com/voxpupuli/hiera-eyaml). in order to edit them, you should use `bundle exec eyaml edit <filename>` like `bundle exec eyaml edit ./hieradata/common.yaml`
+
 ## Local development
 
 ### Pre-requisites for Local Development
