@@ -84,6 +84,16 @@ node 'controller.ci.jenkins.io' {
   include role::jenkins::controller
 }
 
+node 'controller.sponsorship.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=787eb048-4f49-4e41-b191-479147e29aae',
+    fstype => 'ext4',
+  }
+  include role::jenkins::controller
+}
+
 node 'controller.cert.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
