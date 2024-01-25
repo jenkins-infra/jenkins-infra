@@ -17,7 +17,7 @@ accounts:
     groups:
       - sudo
 # Per-host Datadog configuration
-datadog_agent::host: "controller.ci.jenkins.io"
+datadog_agent::host: 'controller.sponsorship.ci.jenkins.io'
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
 datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
