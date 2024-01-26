@@ -77,14 +77,12 @@ class profile::pkgrepo (
   }
 
   [
-    'azure-sync.sh',
     'batch-upload.bash',
     'populate-archives.sh',
     'populate-fallback.sh',
     'sync-recent-releases.sh',
-    'sync.sh', 'update-latest-symlink.sh',
-    'release-blob-sync',
-    'release-blob-sync-new',
+    'sync.sh',
+    'update-latest-symlink.sh',
     'requirements.txt',
     'rsync.filter',
   ].each | $mirror_file | {
