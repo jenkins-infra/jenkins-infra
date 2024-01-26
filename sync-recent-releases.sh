@@ -30,11 +30,7 @@ echo
 while IFS= read -r release; do
     echo "Uploading $release"
 
-    # TODO: remove this sync to the old storage - ref. https://github.com/jenkins-infra/helpdesk/issues/3917
     blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT" --storage-account-key "$AZURE_STORAGE_KEY" --local-path "${BASE_DIR}/plugins/$release" --remote-path mirrorbits/plugins/"${release}" --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --file-md5 --skip-on-md5-match  --no-progress-bar
-
-    # New file share
-    blobxfer upload --storage-account "$AZURE_STORAGE_ACCOUNT_GETJENKINSIO" --storage-account-key "$AZURE_STORAGE_KEY_GETJENKINSIO" --local-path "${BASE_DIR}/plugins/$release" --remote-path mirrorbits/plugins/"${release}" --recursive --mode file --no-overwrite --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' --file-md5 --skip-on-md5-match  --no-progress-bar
 
     ssh -n ${HOST} "mkdir -p jenkins/plugins/${release}"
 

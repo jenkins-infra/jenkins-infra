@@ -11,7 +11,6 @@ for CONTAINER in $(az storage container list --account-name "$AZURE_STORAGE_ACCO
 	if [ -d "/srv/releases/jenkins/$CONTAINER" ]; then
 		echo "Syncing Container: $CONTAINER";
 
-		# TODO: remove this sync to the old storage - ref. https://github.com/jenkins-infra/helpdesk/issues/3917
 		time blobxfer upload \
 			--local-path "/srv/releases/jenkins/$CONTAINER/" \
 			--storage-account-key "$AZURE_STORAGE_KEY" \
@@ -22,21 +21,4 @@ for CONTAINER in $(az storage container list --account-name "$AZURE_STORAGE_ACCO
 			--connect-timeout 30 \
 			--exclude '.htaccess'
 		fi
-done;
-
-## Sync files from "/srv/releases/jenkins/$CONTAINER" to $CONTAINER for each container in "$AZURE_STORAGE_ACCOUNT_GETJENKINSIO",
-for CONTAINER in $(az storage container list --account-name "$AZURE_STORAGE_ACCOUNT_GETJENKINSIO" --account-key "$AZURE_STORAGE_KEY_GETJENKINSIO" --query '[*].name' --output table ); do
-	if [ -d "/srv/releases/jenkins/$CONTAINER" ]; then
-		echo "Syncing Container: $CONTAINER";
-		# New storage account
-		time blobxfer upload \
-			--local-path "/srv/releases/jenkins/$CONTAINER/" \
-			--storage-account-key "$AZURE_STORAGE_KEY_GETJENKINSIO" \
-			--storage-account "$AZURE_STORAGE_ACCOUNT_GETJENKINSIO" \
-			--remote-path "$CONTAINER" \
-			--recursive \
-			--skip-on-lmt-ge \
-			--connect-timeout 30 \
-			--exclude '.htaccess'
-	fi
 done;
