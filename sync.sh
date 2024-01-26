@@ -2,7 +2,6 @@
 HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
 UPDATES_DIR=/var/www/updates.jenkins.io
-REMOTE_BASE_DIR=data/
 RSYNC_ARGS="-rlpgoDvz"
 SCRIPT_DIR=$PWD
 FLAG="${1}"
@@ -21,7 +20,7 @@ pushd $BASE_DIR
     # files that are older than last one year is removed from the mirror
     find . -type f -mtime +365 | sed -e 's#\./#- /#g'
     # the rest of the rules come from rsync.filter
-    cat $SCRIPT_DIR/rsync.filter
+    cat "${SCRIPT_DIR}"/rsync.filter
   ) . $HOST:jenkins/
 popd
 
@@ -34,8 +33,8 @@ pushd ${UPDATES_DIR}
     #rsync ${RSYNC_ARGS}  *.json* ${BASE_DIR}/updates
     for uc_version in */update-center.json; do
       echo ">> Syncing UC version ${uc_version}"
-      uc_version=$(dirname $uc_version)
-      rsync ${RSYNC_ARGS} $uc_version/*.json* ${BASE_DIR}/updates/${uc_version}
+      uc_version=$(dirname "${uc_version}")
+      rsync ${RSYNC_ARGS} "${uc_version}"/*.json* ${BASE_DIR}/updates/"${uc_version}"
     done;
 
     # Ensure that our tool installers get synced
@@ -70,7 +69,9 @@ echo ">> move index from staging to production"
 
 if [ "${FLAG}" = '--full-sync' ]; then
   echo ">> Update artifacts on get.jenkins.io"
+  #shellcheck disable=SC1091
   source /srv/releases/.azure-storage-env
+  #shellcheck disable=SC1091
   source /srv/releases/.venv-blobxfer/bin/activate
 
   # TODO: remove this sync to the old storage - ref. https://github.com/jenkins-infra/helpdesk/issues/3917
