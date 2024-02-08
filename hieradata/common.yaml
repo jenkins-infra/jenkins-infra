@@ -144,7 +144,6 @@ profile::jenkinscontroller::plugins:
   - pipeline-stage-view
   - config-file-provider
   - ldap
-  - beer
 profile::jenkinscontroller::jcasc:
   global_libraries:
     pipeline-library:
