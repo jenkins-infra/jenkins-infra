@@ -13,4 +13,3 @@ profile::updatecenter::rsync_privkey: |
 profile::buildagent::tools_versions:
   awscli: 2.13.32
   kubectl: v1.26.10
-profile::azcopy::version: 10.21.0-20230928
