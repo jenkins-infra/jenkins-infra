@@ -22,7 +22,7 @@ class profile::azcopy (
     exec { 'Install azcopy':
       require => [Package['curl'], Package['tar']],
       command => "/usr/bin/curl --location ${azcopy_url} | /bin/tar --extract --gzip --strip-components=1 --directory=${install_dir}/ --wildcards '*/azcopy' && chmod a+x ${install_dir}/azcopy",
-      unless  => "/usr/bin/test -f ${install_dir}/azcopy && ${install_dir}/azcopy --version | /bin/grep --quiet 'azcopy ${azcopysemver}:'",
+      unless  => "/usr/bin/test -f ${install_dir}/azcopy && ${install_dir}/azcopy --version --skip-version-check | /bin/grep --quiet ${azcopysemver}",
     }
   }
 }
