@@ -278,6 +278,7 @@ docker::version: 5:25.0.3-1~ubuntu.22.04~jammy
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"
 azure::releases::access_key: "overridewithaccesskey"
+profile::azcopy::version: 10.23.0-20240129
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
 limits:
@@ -285,6 +286,6 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.3.7
+profile::openvpn::image_tag: 2.3.8
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et

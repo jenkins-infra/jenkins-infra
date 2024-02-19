@@ -1,0 +1,43 @@
+---
+name: Bump `azcopy` version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: shell
+    name: Get the latest `azcopy` (full) version
+    spec:
+      command: bash -c 'basename "$(dirname "$(curl https://aka.ms/downloadazcopy-v10-linux --write-out "%{redirect_url}" --output /dev/null --silent --fail --show-error)" )"'
+    transformers:
+      - trimprefix: 'release-'
+
+targets:
+  updateHieradataVersion:
+    name: Update the `azcopy` version in the hieradata/common.yaml file
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::azcopy::version
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `azcopy` version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - azcopy

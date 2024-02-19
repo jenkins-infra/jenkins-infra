@@ -9,6 +9,7 @@ class profile::buildagent (
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include limits
+  include profile::azcopy
 
   $user = 'jenkins'
 
@@ -71,12 +72,6 @@ class profile::buildagent (
         'zip',
     ])
 
-    # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
-    $architecture = $facts['os']['architecture'] ? {
-      'aarch64' => 'arm64',
-      default   => $facts['os']['architecture'],
-    }
-
     if $tools_versions['awscli'] {
       # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
       $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
@@ -88,14 +83,10 @@ class profile::buildagent (
       }
     }
 
-    if $tools_versions['azcopy'] {
-      $azcopysemver = split($tools_versions['azcopy'], /-/)[0]
-      $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-${tools_versions['azcopy']}/azcopy_linux_${architecture}_${azcopysemver}.tar.gz"
-      exec { 'Install azcopy':
-        require => [Package['curl'], Package['tar']],
-        command => "/usr/bin/curl --location ${azcopy_url} | /usr/bin/tar --extract --gzip --strip-components=1 --directory=/usr/local/bin/ --wildcards '*/azcopy' && chmod a+x /usr/local/bin/azcopy",
-        unless  => "/usr/bin/test -f /usr/local/bin/azcopy && /usr/local/bin/azcopy --version | /bin/grep --quiet ${azcopysemver}",
-      }
+    # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
+    $architecture = $facts['os']['architecture'] ? {
+      'aarch64' => 'arm64',
+      default   => $facts['os']['architecture'],
     }
 
     if $tools_versions['kubectl'] {

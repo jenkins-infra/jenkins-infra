@@ -45,6 +45,7 @@ describe 'profile::pkgrepo' do
 
   it { expect(subject).to contain_class 'profile::pkgrepo' }
   it { expect(subject).to contain_class 'apache' }
+  it { expect(subject).to contain_class 'profile::azcopy' }
 
   context 'Ubuntu 18.04 Bionic' do
     it 'installs the createrepo(8) package on Ubuntu bionic with python set to 2.7' do
