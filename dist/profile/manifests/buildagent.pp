@@ -83,6 +83,12 @@ class profile::buildagent (
       }
     }
 
+    # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
+    $architecture = $facts['os']['architecture'] ? {
+      'aarch64' => 'arm64',
+      default   => $facts['os']['architecture'],
+    }
+
     if $tools_versions['kubectl'] {
       $kubectl_url = "https://dl.k8s.io/release/${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
       exec { 'Install kubectl':
