@@ -98,6 +98,11 @@ class profile::pkgrepo (
     }
   }
 
+  ################################################################################################
+  ## Azcopy (replaces blobxfer)
+  include profile::azcopy
+  ################################################################################################
+
   ## Blobxfer
   $venv_blobxfer_path = "${mirror_home_dir}/.venv-blobxfer"
   $venv_blobxfer_script = "${venv_blobxfer_path}/bin/activate"
