@@ -1,7 +1,7 @@
 # Profile to ensure `azcopy` is installed, up-to-date and set up (SAS token generation, etc.)
 class profile::azcopy (
-  String $version
-  String $install_dir = '/usr/local/bin'
+  String $version,
+  String $install_dir = '/usr/local/bin',
 ) {
   # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
   $architecture = $facts['os']['architecture'] ? {
