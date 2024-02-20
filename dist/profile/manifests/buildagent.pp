@@ -90,7 +90,7 @@ class profile::buildagent (
     }
 
     if $tools_versions['kubectl'] {
-      $kubectl_url = "https://dl.k8s.io/release/${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
+      $kubectl_url = "https://dl.k8s.io/release/v${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
       exec { 'Install kubectl':
         require => [Package['curl']],
         command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
