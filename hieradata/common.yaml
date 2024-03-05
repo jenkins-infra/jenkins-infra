@@ -220,11 +220,11 @@ profile::jenkinscontroller::jcasc:
       # All in one image (same as VM templates)
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.55.0@sha256:3d3b04493d39604ca8edf18c3decf46ecfea242269b430a928f72c7d755357a3
       # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:1bf5f0787bcd7c1525f3b45dd2eeed7de970ded32392c36786445339373e3180
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:3fcdc4be701751f63886a851141f8b46ed67bbe93924387cfffba8fdfade615c
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:51e4b1d46519bfd193ff774cdecbb33544d4b35e5f0aa830316f78f37e774a15
-      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:2ab6aeb4bc2990bc9318fd27c691a76b668b2d7ea318b095c68b1431862f2d12
-      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:900563a20e0a4fcae17e4ad127948e2aa3f19804ca406feec892e80d01bcd832
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:e1c19e0fc5c95a65741c606062c0b28d70608c4f9e81293b8f56d2484386f793
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:6220c2dae38ef03f4027b73d9a7e3cd92092f7aad08077a448ab1c065445e4b9
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:18722ac8b47295f7eb3cadad086243795878da90c89532ca25d8dcfc6a9a727d
+      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:9fa355032051d065f821e994efff15e2f70e7955188dcfe73e1256490a00c788
+      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:10cfb8eb3390f4ef5bcab4f76214e5a04cc593f1a68989201e0d219353860ff5
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:8b333a38f555cd10d4a9e162cdae6eeb235e1a8a99f96c683dbaa6d011597d02
   tools_default_versions:
