@@ -287,7 +287,7 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
       doks:
-        enabled: false # While working on https://github.com/jenkins-infra/helpdesk/issues/3916
+        enabled: true
         provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
