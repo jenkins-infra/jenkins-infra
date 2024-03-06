@@ -92,6 +92,14 @@ To launch a test instance, `vagrant up ROLE` where `ROLE` is [one of the defined
 
 Ex: `vagrant up jenkins::controller`
 
+All machines should have the same base Ubuntu version, however we can have edge cases. As such, you can specify the Ubuntu version through the environment variable `UBUNTU_VERSION`.
+
+Ex: `UBUNTU_VERSION=18.04 vagrant up pkg`
+
+NOTE: there are a LOT of corner cases and a generic code (Dockerfile and Vagrantfile) would only mean writing tons of hashmaps to cover all cases. Work on using another tool such as molecule instead if you want to spend time fixing this.
+
+----
+
 Note: for this role, there may be the following error message because plugins installation needs a running Jenkins instance while it's not quite ready when it happens:
 
 > Error: /Stage[main]/Profile::Jenkinscontroller/Exec[perform-jcasc-reload]: Failed to call refresh: '/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=SuperSecretThatShouldBeEncryptedInProduction' returned 7 instead of one of [0]
