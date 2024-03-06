@@ -40,4 +40,8 @@ while IFS= read -r release; do
     echo "Done uploading $release"
 done <<< "${RECENT_RELEASES}"
 
+echo ">> Telling OSUOSL to gets the new bits"
 ssh jenkins@ftp-osl.osuosl.org 'sh trigger-jenkins'
+
+echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
+/srv/releases/populate-archives.sh
