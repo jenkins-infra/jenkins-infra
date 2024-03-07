@@ -133,7 +133,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s-bom:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-bom-sa-token"
         serverCertificate: >
@@ -192,7 +192,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       cik8s:
-        enabled: true
+        enabled: false
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
