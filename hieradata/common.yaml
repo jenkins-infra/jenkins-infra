@@ -278,7 +278,8 @@ docker::version: 5:25.0.3-1~ubuntu.22.04~jammy
 # distribution Jenkins core releases
 azure::releases::account_name: "overridewithstorageaccountname"
 azure::releases::access_key: "overridewithaccesskey"
-profile::azcopy::version: 10.23.0-20240129
+profile::azcopy::azcopy_version: 10.23.0-20240129
+profile::azcopy::az_cli_version: 2.57.0
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
 limits:
