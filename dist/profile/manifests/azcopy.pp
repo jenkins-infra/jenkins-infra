@@ -46,5 +46,11 @@ class profile::azcopy (
       ensure  => "${az_cli_version}-1~${facts['os']['distro']['codename']}",
       require => Class['apt::update'],
     }
+
+    file { '/usr/local/bin/get-fileshare-signed-url.sh':
+      ensure => file,
+      mode   => '0755',
+      source => 'https://raw.githubusercontent.com/jenkins-infra/pipeline-library/master/resources/get-fileshare-signed-url.sh',
+    }
   }
 }
