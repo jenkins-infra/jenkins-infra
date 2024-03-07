@@ -17,6 +17,7 @@ rsync -avz --delete-during --delete-excluded --prune-empty-dirs --include-from=<
   # no .htaccess
   echo '- .htaccess'
   # files that are modified within the last 7 days
+  #shellcheck disable=SC2312
   (find . -type f -mtime -7) | sed -e 's#\./#+ /#g'
   # skip updates/ directory
   echo '- updates/'
