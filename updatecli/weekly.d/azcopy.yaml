@@ -29,7 +29,7 @@ targets:
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: $.profile::azcopy::version
+      key: $.profile::azcopy::azcopy_version
     scmid: default
 
 actions:
