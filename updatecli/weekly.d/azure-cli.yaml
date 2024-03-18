@@ -1,0 +1,46 @@
+---
+name: Bump `azure-cli` version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: githubrelease
+    name: Get the latest `azure-cli` version
+    spec:
+      owner: "Azure"
+      repository: "azure-cli"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+    transformers:
+      - trimprefix: 'azure-cli-'
+
+targets:
+  updateHieradataVersion:
+    name: Update the `azure-cli` version in the hieradata/common.yaml file
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::azcopy::az_cli_version
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `azure-cli` version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - azure-cli
