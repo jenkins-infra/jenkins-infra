@@ -383,4 +383,4 @@ profile::jenkinscontroller::plugins:
   - workflow-multibranch
 profile::buildagent::tools_versions:
   awscli: 2.13.32
-  kubectl: 1.27.11
+  kubectl: 1.27.12
