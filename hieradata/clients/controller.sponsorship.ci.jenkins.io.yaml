@@ -431,6 +431,7 @@ profile::jenkinscontroller::jcasc:
             - ubuntu
             - arm64docker
             - arm64linux
+            - linux-arm64
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
