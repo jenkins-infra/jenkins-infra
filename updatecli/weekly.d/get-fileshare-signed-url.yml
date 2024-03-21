@@ -1,0 +1,39 @@
+---
+name: Update get-fileshare-signed-url.sh script content
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastScriptContent:
+    kind: file
+    name: Get the latest script content from jenkins-infra/pipeline-library
+    spec:
+      file: https://raw.githubusercontent.com/jenkins-infra/pipeline-library/master/resources/get-fileshare-signed-url.sh
+
+targets:
+  updateScriptContent:
+    name: Update script content
+    kind: file
+    spec:
+      file: dist/profile/files/azcopy/get-fileshare-signed-url.sh
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Update `get-fileshare-signed-url.sh` script content
+    scmid: default
+    spec:
+      labels:
+        - dependencies
+        - get-fileshare-signed-url
