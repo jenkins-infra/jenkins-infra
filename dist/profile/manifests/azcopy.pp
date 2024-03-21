@@ -50,7 +50,7 @@ class profile::azcopy (
     file { '/usr/local/bin/get-fileshare-signed-url.sh':
       ensure => file,
       mode   => '0755',
-      source => 'https://raw.githubusercontent.com/jenkins-infra/pipeline-library/master/resources/get-fileshare-signed-url.sh',
+      source => "puppet:///modules/${module_name}/azcopy/get-fileshare-signed-url.sh",
     }
   }
 }
