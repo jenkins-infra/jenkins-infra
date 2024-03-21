@@ -77,13 +77,13 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux && arm64"
+            label: "linux-arm64 && arm64"
             cpu_arch: "aarch64"
       jdk11:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux && arm64"
+            label: "linux-arm64 && arm64"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
@@ -93,7 +93,7 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux && arm64"
+            label: "linux-arm64 && arm64"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
@@ -103,7 +103,7 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux && arm64"
+            label: "linux-arm64 && arm64"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
