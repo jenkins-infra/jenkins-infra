@@ -48,7 +48,6 @@ while IFS= read -r release; do
         --delete-destination=false \
         --compare-hash=MD5 \
         --put-md5 \
-        --local-hash-storage-mode=HiddenFiles \
         "${BASE_DIR}/plugins/${release}" "${urlWithoutToken}plugins/${release}?${token}"
 
     # Following commands traces are safe
