@@ -2,12 +2,12 @@
 HOST=jenkins@ftp-osl.osuosl.org
 BASE_DIR=/srv/releases/jenkins
 UPDATES_DIR=/var/www/updates.jenkins.io
-RSYNC_ARGS="-rlpgoDvz"
+RSYNC_ARGS="-rlpDvz"
 SCRIPT_DIR=${PWD}
 FLAG="${1}"
 
 pushd "${BASE_DIR}"
-  time rsync "${RSYNC_ARGS}" --times --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
+  time rsync "${RSYNC_ARGS}" --chown=jenkins --times --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
     echo '+ plugins/**'
     echo '+ updates/**'
@@ -37,14 +37,14 @@ pushd "${UPDATES_DIR}"
     for uc_version in */update-center.json; do
       echo ">> Syncing UC version ${uc_version}"
       uc_version=$(dirname "${uc_version}")
-      rsync "${RSYNC_ARGS}" "${uc_version}"/*.json* "${BASE_DIR}/updates/${uc_version}"
+      rsync "${RSYNC_ARGS}" --chown=mirrorbrain:www-data "${uc_version}"/*.json* "${BASE_DIR}/updates/${uc_version}"
     done;
 
     # Ensure that our tool installers get synced
-    rsync "${RSYNC_ARGS}" updates "${BASE_DIR}/updates/"
+    rsync "${RSYNC_ARGS}" --chown=mirrorbrain:www-data updates "${BASE_DIR}/updates/"
 
     echo ">> Syncing UC to primarily OSUOSL mirror"
-    rsync "${RSYNC_ARGS}" --delete "${BASE_DIR}/updates/" "${HOST}:jenkins/updates"
+    rsync "${RSYNC_ARGS}" --chown=jenkins --delete "${BASE_DIR}/updates/" "${HOST}:jenkins/updates"
 popd
 
 echo ">> Delivering bits to fallback"
@@ -66,7 +66,7 @@ ssh "${HOST}" "sh trigger-jenkins"
 echo ">> move index from staging to production"
 # Excluding some files which the packaging repo which are now managed by Puppet
 # see INFRA-985, INFRA-989
-(cd /var/www && rsync --omit-dir-times -av \
+(cd /var/www && rsync --chown=mirrorbrain:www-data --omit-dir-times -av \
     --exclude=.htaccess --exclude=jenkins.repo \
     pkg.jenkins.io.staging/ pkg.jenkins.io/)
 
