@@ -37,7 +37,7 @@ pushd "${UPDATES_DIR}"
     for uc_version in */update-center.json; do
       echo ">> Syncing UC version ${uc_version}"
       uc_version=$(dirname "${uc_version}")
-      rsync "${RSYNC_ARGS}" "${uc_version}/*.json*" "${BASE_DIR}/updates/${uc_version}"
+      rsync "${RSYNC_ARGS}" "${uc_version}"/*.json* "${BASE_DIR}/updates/${uc_version}"
     done;
 
     # Ensure that our tool installers get synced
