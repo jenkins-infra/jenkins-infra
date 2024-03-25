@@ -74,31 +74,35 @@ echo ">> move index from staging to production"
 
 if [[ "${FLAG}" = '--full-sync' ]]; then
   echo ">> Update artifacts on get.jenkins.io"
+
+  # Don't print any trace
+  set +x
+
   #shellcheck disable=SC1091
   source /srv/releases/.azure-storage-env
-  #shellcheck disable=SC1091
-  source /srv/releases/.venv-blobxfer/bin/activate
 
-  blobxfer upload \
-    --storage-account "${AZURE_STORAGE_ACCOUNT}" \
-    --storage-account-key "${AZURE_STORAGE_KEY}" \
-    --local-path "${BASE_DIR}" \
-    --remote-path mirrorbits \
-    --recursive \
-    --mode file \
-    --file-md5 \
-    --skip-on-md5-match \
-    --progress-bar \
-    --include "*.json" 2>&1
-  time blobxfer upload \
-    --storage-account "${AZURE_STORAGE_ACCOUNT}" \
-    --storage-account-key "${AZURE_STORAGE_KEY}" \
-    --local-path "${BASE_DIR}" \
-    --remote-path mirrorbits \
-    --recursive \
-    --mode file \
-    --no-overwrite \
-    --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' \
-    --transfer-threads 128  \
-    --no-progress-bar 2>&1
+  export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
+  export STORAGE_PERMISSIONS=dlrw
+
+  fileShareSignedUrl=$(get-fileshare-signed-url.sh)
+
+  azcopy sync \
+    --skip-version-check \
+    --recursive true \
+    --delete-destination false \
+    --compare-hash MD5 \
+    --put-md5 \
+    --local-hash-storage-mode HiddenFiles \
+    --include-pattern '*.json' \
+    "${BASE_DIR}" "${fileShareSignedUrl}"
+
+  azcopy sync \
+    --skip-version-check \
+    --recursive true \
+    --delete-destination false \
+    --compare-hash MD5 \
+    --put-md5 \
+    --local-hash-storage-mode HiddenFiles \
+    --exclude-pattern '*.json' \
+    "${BASE_DIR}" "${fileShareSignedUrl}"
 fi

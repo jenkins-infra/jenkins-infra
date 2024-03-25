@@ -14,10 +14,8 @@ RECENT_RELEASES_JSON="$1"
 echo ">> Update artifacts on get.jenkins.io"
 
 #shellcheck disable=SC1091
-source /srv/releases/.venv-blobxfer/bin/activate
-#shellcheck disable=SC1091
 source /srv/releases/.azure-storage-env
-: "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
+: "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}" "${STORAGE_NAME?}" "${STORAGE_FILESHARE?}"
 
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "${RECENT_RELEASES_JSON}" )
 if [[ -z "${RECENT_RELEASES}" ]] ; then
@@ -28,21 +26,33 @@ fi
 echo "${RECENT_RELEASES}"
 echo
 
+export STORAGE_DURATION_IN_MINUTE=5
+export STORAGE_PERMISSIONS=dlrw
+
+# Don't print any trace
+set +x
+
+fileShareSignedUrl=$(get-fileshare-signed-url.sh)
+urlWithoutToken=${fileShareSignedUrl%\?*}
+token=${fileShareSignedUrl#*\?}
+
 while IFS= read -r release; do
     echo "Uploading ${release}"
 
-    blobxfer upload \
-        --storage-account "${AZURE_STORAGE_ACCOUNT}" \
-        --storage-account-key "${AZURE_STORAGE_KEY}" \
-        --local-path "${BASE_DIR}/plugins/${release}" \
-        --remote-path mirrorbits/plugins/"${release}" \
-        --recursive \
-        --mode file \
-        --no-overwrite \
-        --exclude 'mvn%20org.apache.maven.plugins:maven-release-plugin:2.5:perform' \
-        --file-md5 \
-        --skip-on-md5-match \
-        --no-progress-bar
+    # Don't print any trace
+    set +x
+
+    azcopy sync \
+        --skip-version-check \
+        --recursive true \
+        --delete-destination false \
+        --compare-hash MD5 \
+        --put-md5 \
+        --local-hash-storage-mode HiddenFiles \
+        "${BASE_DIR}/plugins/${release}" "${urlWithoutToken}plugins/${release}?${token}"
+
+    # Following commands traces are safe
+    set -x
 
     ssh -n "${HOST}" "mkdir -p jenkins/plugins/${release}"
 
@@ -51,6 +61,9 @@ while IFS= read -r release; do
     rsync -avz "${BASE_DIR}/TIME" "${HOST}:jenkins/TIME"
     echo "Done uploading ${release}"
 done <<< "${RECENT_RELEASES}"
+
+# Following commands traces are safe
+set -x
 
 echo ">> Telling OSUOSL to gets the new bits"
 ssh jenkins@ftp-osl.osuosl.org 'sh trigger-jenkins'
