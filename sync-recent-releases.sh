@@ -59,9 +59,9 @@ while IFS= read -r release; do
 
     ssh -n "${HOST}" "mkdir -p jenkins/plugins/${release}"
 
-    rsync -rlpDvz --chown=jenkins "${BASE_DIR}/plugins/${release}/" "${HOST}:jenkins/plugins/${release}"
+    rsync -rlptDvz --chown=jenkins "${BASE_DIR}/plugins/${release}/" "${HOST}:jenkins/plugins/${release}"
     date +%s > "${BASE_DIR}/TIME"
-    rsync -rlpDvz --chown=jenkins "${BASE_DIR}/TIME" "${HOST}:jenkins/TIME"
+    rsync -rlptDvz --chown=jenkins "${BASE_DIR}/TIME" "${HOST}:jenkins/TIME"
     echo "Done uploading ${release}"
 done <<< "${RECENT_RELEASES}"
 
