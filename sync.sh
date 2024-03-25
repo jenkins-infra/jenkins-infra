@@ -6,8 +6,6 @@ RSYNC_ARGS="-rlpgoDvz"
 SCRIPT_DIR=${PWD}
 FLAG="${1}"
 
-: "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
-
 pushd "${BASE_DIR}"
   time rsync "${RSYNC_ARGS}" --times --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
@@ -80,6 +78,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
 
   #shellcheck disable=SC1091
   source /srv/releases/.azure-storage-env
+  : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
 
   export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
   export STORAGE_PERMISSIONS=dlrw
