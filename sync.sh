@@ -91,7 +91,6 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --delete-destination=false \
     --compare-hash=MD5 \
     --put-md5 \
-    --local-hash-storage-mode=HiddenFiles \
     --include-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 
@@ -101,7 +100,6 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --delete-destination=false \
     --compare-hash=MD5 \
     --put-md5 \
-    --local-hash-storage-mode=HiddenFiles \
     --exclude-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 fi
