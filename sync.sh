@@ -87,21 +87,21 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
 
   azcopy sync \
     --skip-version-check \
-    --recursive true \
-    --delete-destination false \
-    --compare-hash MD5 \
+    --recursive=true \
+    --delete-destination=false \
+    --compare-hash=MD5 \
     --put-md5 \
-    --local-hash-storage-mode HiddenFiles \
-    --include-pattern '*.json' \
+    --local-hash-storage-mode=HiddenFiles \
+    --include-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 
   azcopy sync \
     --skip-version-check \
-    --recursive true \
-    --delete-destination false \
-    --compare-hash MD5 \
+    --recursive=true \
+    --delete-destination=false \
+    --compare-hash=MD5 \
     --put-md5 \
-    --local-hash-storage-mode HiddenFiles \
-    --exclude-pattern '*.json' \
+    --local-hash-storage-mode=HiddenFiles \
+    --exclude-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 fi

@@ -44,11 +44,11 @@ while IFS= read -r release; do
 
     azcopy sync \
         --skip-version-check \
-        --recursive true \
-        --delete-destination false \
-        --compare-hash MD5 \
+        --recursive=true \
+        --delete-destination=false \
+        --compare-hash=MD5 \
         --put-md5 \
-        --local-hash-storage-mode HiddenFiles \
+        --local-hash-storage-mode=HiddenFiles \
         "${BASE_DIR}/plugins/${release}" "${urlWithoutToken}plugins/${release}?${token}"
 
     # Following commands traces are safe
