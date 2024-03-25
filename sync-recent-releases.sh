@@ -47,7 +47,7 @@ while IFS= read -r release; do
     # Don't print any trace
     set +x
 
-    # ${release} is a directory (hence the trailing slash for destination) to avoid 
+    # ${release} is a directory (hence the trailing slash for destination) to avoid `azcopy` error related to file <-> dir
     azcopy sync \
         --skip-version-check \
         --recursive=true \
