@@ -48,7 +48,7 @@ pushd "${UPDATES_DIR}"
 popd
 
 echo ">> Delivering bits to fallback"
-/srv/releases/populate-archives.sh
+/srv/releases/populate-archives.sh || true
 /srv/releases/batch-upload.bash || true
 
 echo ">> Updating the latest symlink for weekly"
