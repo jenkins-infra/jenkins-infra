@@ -71,6 +71,5 @@ set -x
 echo ">> Telling OSUOSL to gets the new bits"
 ssh jenkins@ftp-osl.osuosl.org 'sh trigger-jenkins'
 
-## Commented out until OSUOSL <-> archives permissions are fixed
-# echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
-# /srv/releases/populate-archives.sh
+echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
+/srv/releases/populate-archives.sh
