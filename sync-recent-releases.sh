@@ -39,8 +39,8 @@ token=${fileShareSignedUrl#*\?}
 while IFS= read -r release; do
     # Ensure proper permissions are set (mirrorbrain is the owner and can write while www-data only need read access for webserver)
     find "${BASE_DIR}/plugins/${release}" -exec chown mirrorbrain:www-data {} \;
-    find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 640 {} \;
-    find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 750 {} \;
+    find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 644 {} \;
+    find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 755 {} \;
     
     echo "Uploading ${release}"
 
