@@ -45,8 +45,9 @@ while IFS= read -r release; do
     echo "Uploading ${release} to get.jenkins.io..."
     # Don't print any trace
     set +x
-
-    azcopy copy \
+    ## azcopy breaks the while + read loop - https://github.com/Azure/azure-storage-azcopy/issues/974
+    ## so we ensure an empty stding is passed using the ':|' form
+    : | azcopy copy \
         --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
         --recursive `# Source directory contains at least one subdirectory` \
         --log-level=ERROR `# Do not write too much logs (I/O...)` \
