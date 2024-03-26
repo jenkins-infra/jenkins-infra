@@ -41,18 +41,18 @@ while IFS= read -r release; do
     find "${BASE_DIR}/plugins/${release}" -exec chown mirrorbrain:www-data {} \;
     find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 644 {} \;
     find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 755 {} \;
-    
+
     echo "Uploading ${release}"
 
     # Don't print any trace
     set +x
 
-    # ${release} is a directory (hence the trailing slash for destination) to avoid `azcopy` error related to file <-> dir
-    azcopy sync \
-        --skip-version-check \
-        --recursive=true \
-        --delete-destination=false \
-        "${BASE_DIR}/plugins/${release}" "${urlWithoutToken}plugins/?${token}"
+    azcopy copy \
+        --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
+        --recursive `# Source directory contains at least one subdirectory` \
+        --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
+        --log-level=ERROR `# Do not write too much logs (I/O...)` \
+        "${BASE_DIR}/plugins/${release}/*" "${urlWithoutToken}plugins/${release}?${token}"
 
     # Following commands traces are safe
     set -x
@@ -71,6 +71,5 @@ set -x
 echo ">> Telling OSUOSL to gets the new bits"
 ssh jenkins@ftp-osl.osuosl.org 'sh trigger-jenkins'
 
-## Commented out until OSUOSL <-> archives permissions are fixed
-# echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
-# /srv/releases/populate-archives.sh
+echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
+/srv/releases/populate-archives.sh
