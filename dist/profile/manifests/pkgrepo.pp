@@ -11,7 +11,7 @@ class profile::pkgrepo (
   String $mirror_git_remote             = 'https://github.com/jenkins-infra/mirror-scripts.git',
   String $mirror_user                   = 'mirrorbrain',
   String $mirror_group                  = 'mirrorbrain',
-  Array[String] $mirror_other_groups    = ['www-data'],
+  String $www_common_group              = 'www-data',
   Hash $ssh_keys                        = {},
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
@@ -64,7 +64,7 @@ class profile::pkgrepo (
     home_dir       => $mirror_home_dir,
     gid            => $mirror_group,
     # Allow apache user to read some of the files in this directory, through the "read" permission for groups
-    groups         => $mirror_other_groups,
+    groups         => [$www_common_group],
     require        => Group[$mirror_group],
     ssh_keys       => $ssh_keys,
   }
@@ -156,12 +156,13 @@ class profile::pkgrepo (
     }
   }
 
-  file { $docroot:
-    ensure  => directory,
-    owner   => 'www-data',
-    # We need group writes on this directory for pushing a release
-    mode    => '0775',
-    require => [File[$apache_log_dir_fqdn], File[$apache_log_dir_legacy_fqdn]],
+  [$docroot, $release_root].each |String $dir| {
+    file { $dir:
+      ensure => directory,
+      owner  => $mirror_user,
+      group  => $www_common_group,
+      mode   => '0755',
+    }
   }
 
   $repos = [
@@ -181,30 +182,45 @@ class profile::pkgrepo (
 
   file { $repos:
     ensure  => directory,
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0755',
     require => File[$docroot],
   }
 
   file { suffix($repos, '/jenkins-ci.org.key'):
     ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0644',
     require => File[$docroot],
   }
 
   file { suffix($repos, '/jenkins.io.key'):
     ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins-ci.org.key",
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0644',
     require => File[$docroot],
   }
 
   file { suffix($repos, '/jenkins-ci.org-2023.key'):
     ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins.io-2023.key",
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0644',
     require => File[$docroot],
   }
 
   file { suffix($repos, '/jenkins.io-2023.key'):
     ensure  => file,
     source  => "puppet:///modules/${module_name}/pkgrepo/jenkins.io-2023.key",
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0644',
     require => File[$docroot],
   }
 
