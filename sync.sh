@@ -89,8 +89,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --skip-version-check \
     --recursive=true \
     --delete-destination=false \
-    --compare-hash=MD5 \
-    --put-md5 \
+    --log-error=ERROR \
     --include-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 
@@ -98,8 +97,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --skip-version-check \
     --recursive=true \
     --delete-destination=false \
-    --compare-hash=MD5 \
-    --put-md5 \
+    --log-error=ERROR \
     --exclude-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 fi
