@@ -42,27 +42,26 @@ while IFS= read -r release; do
     find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 644 {} \;
     find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 755 {} \;
 
-    echo "Uploading ${release}"
-
+    echo "Uploading ${release} to get.jenkins.io..."
     # Don't print any trace
     set +x
 
     azcopy copy \
         --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
         --recursive `# Source directory contains at least one subdirectory` \
-        --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
         --log-level=ERROR `# Do not write too much logs (I/O...)` \
         "${BASE_DIR}/plugins/${release}/*" "${urlWithoutToken}plugins/${release}?${token}"
 
     # Following commands traces are safe
     set -x
+    echo "Done uploading ${release} to get.jenkins.io"
 
+    echo "Uploading ${release} to OSUOSL..."
     ssh -n "${HOST}" "mkdir -p jenkins/plugins/${release}"
-
     rsync -rlptDvz --chown=jenkins "${BASE_DIR}/plugins/${release}/" "${HOST}:jenkins/plugins/${release}"
     date +%s > "${BASE_DIR}/TIME"
     rsync -rlptDvz --chown=jenkins "${BASE_DIR}/TIME" "${HOST}:jenkins/TIME"
-    echo "Done uploading ${release}"
+    echo "Done uploading ${release} to OSUOSL"
 done <<< "${RECENT_RELEASES}"
 
 # Following commands traces are safe
