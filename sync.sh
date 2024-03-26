@@ -102,11 +102,18 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --log-level=ERROR `# Do not write too much logs (I/O...)` \
     --exclude-pattern='*.json' `# Second pass with all files except update center JSON files` \
     "${BASE_DIR}/*" "${fileShareSignedUrl}"
+  
+  echo ">>> Update finished on get.jenkins.io"
 
+  echo ">>> Cleanup..."
   # Remove completed azcopy plans
   azcopy jobs clean --with-status=completed
   # Remove uncompleted azcopy plans older than 30 days
   find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
   # Remove azcopy logs older than 30 days
   find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
+  echo ">>> Cleanup finished"
 fi
+
+echo ">>> Script sync.sh finished"
+exit 0
