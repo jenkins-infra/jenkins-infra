@@ -82,7 +82,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
   source /srv/releases/.azure-storage-env
   : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
 
-  export STORAGE_DURATION_IN_MINUTE=50 #TODO: to be adjusted
+  export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
   export STORAGE_PERMISSIONS=dlrw
 
   fileShareSignedUrl=$(get-fileshare-signed-url.sh)
