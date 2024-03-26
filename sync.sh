@@ -93,7 +93,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
     --log-level=ERROR `# Do not write too much logs (I/O...)` \
     --include-pattern='*.json' `# First quick pass on the update center JSON files` \
-    "${BASE_DIR}" "${fileShareSignedUrl}"
+    "${BASE_DIR}/*" "${fileShareSignedUrl}"
 
   azcopy copy --dry-run \
     --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
@@ -101,7 +101,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
     --log-level=ERROR `# Do not write too much logs (I/O...)` \
     --exclude-pattern='*.json' `# Second pass with all files except update center JSON files` \
-    "${BASE_DIR}" "${fileShareSignedUrl}"
+    "${BASE_DIR}/*" "${fileShareSignedUrl}"
 
   # Remove completed azcopy plans
   azcopy jobs clean --with-status=completed
