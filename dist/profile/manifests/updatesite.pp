@@ -6,7 +6,10 @@
 #
 class profile::updatesite (
   Stdlib::Absolutepath $docroot    = '/var/www/updates.jenkins.io',
-  Optional[String]     $ssh_pubkey = '',
+  String $mirror_user              = 'mirrorbrain',
+  String $www_user                 = 'www-data',
+  String $www_common_group         = 'www-data',
+  Optional[String] $ssh_pubkey     = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -21,7 +24,7 @@ class profile::updatesite (
 
   # We need a shell for now
   # https://issues.jenkins-ci.org/browse/INFRA-657
-  User <| title == 'www-data' |> {
+  User <| title == $www_user |> {
     shell => '/bin/bash',
   }
   file { '/var/www':
@@ -29,7 +32,15 @@ class profile::updatesite (
     mode   => '0755',
   }
 
-  file { [$apache_log_dir, $docroot, $apache_legacy_log_dir,]:
+  file { $docroot:
+    ensure  => directory,
+    owner   => $mirror_user,
+    group   => $www_common_group,
+    mode    => '0755',
+    require => [File['/var/www']],
+  }
+
+  file { [$apache_log_dir, $apache_legacy_log_dir,]:
     ensure => directory,
   }
 
@@ -98,13 +109,13 @@ class profile::updatesite (
     file { '/var/www/.ssh':
       ensure => directory,
       mode   => '0700',
-      owner  => 'www-data',
-      group  => 'www-data',
+      owner  => $www_user,
+      group  => $www_common_group,
     }
 
     ssh_authorized_key { 'updatesite-key':
       ensure  => present,
-      user    => 'www-data',
+      user    => $www_user,
       type    => 'ssh-rsa',
       key     => $ssh_pubkey,
       require => File['/var/www/.ssh'],
@@ -112,7 +123,7 @@ class profile::updatesite (
 
     # If we're managing an ssh_authorized_key, then we should purge anything
     # else for safety's sake
-    User <| title == 'www-data' |> {
+    User <| title == $www_user |> {
       managehome     => true,
       home           => '/var/www',
       purge_ssh_keys => true,

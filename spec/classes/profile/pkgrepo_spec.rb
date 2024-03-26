@@ -38,8 +38,9 @@ describe 'profile::pkgrepo' do
   it 'should ensure the docroot exists' do
     expect(subject).to contain_file(params[:docroot]).with({
       :ensure => :directory,
-      :owner => 'www-data',
-      :mode => '0775',
+      :owner => 'mirrorbrain',
+      :group => 'www-data',
+      :mode => '0755',
     })
   end
 
