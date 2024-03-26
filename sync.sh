@@ -107,6 +107,6 @@ fi
 # Remove completed azcopy plans
 azcopy jobs clean --with-status=completed
 # Remove uncompleted azcopy plans older than 30 days
-find /srv/releases/.azcopy/plans -type f -mtime +30 -delete
+find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
 # Remove azcopy logs older than 30 days
-find /srv/releases/.azcopy -type f -name '*.log' -mtime +30 -delete
+find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
