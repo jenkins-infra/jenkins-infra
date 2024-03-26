@@ -49,7 +49,9 @@ popd
 
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh || true
-/srv/releases/batch-upload.bash || true
+
+## Disabled as always failing since Feb. 2024
+# /srv/releases/batch-upload.bash || true
 
 echo ">> Updating the latest symlink for weekly"
 /srv/releases/update-latest-symlink.sh
@@ -85,26 +87,26 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
 
   fileShareSignedUrl=$(get-fileshare-signed-url.sh)
 
-  azcopy sync \
-    --skip-version-check \
-    --recursive=true \
-    --delete-destination=false \
-    --log-level=ERROR \
-    --include-pattern='*.json' \
+  azcopy copy --dry-run \
+    --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
+    --recursive `# Source directory contains at least one subdirectory` \
+    --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
+    --log-level=ERROR `# Do not write too much logs (I/O...)` \
+    --include-pattern='*.json' `# First quick pass on the update center JSON files` \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 
-  azcopy sync \
-    --skip-version-check \
-    --recursive=true \
-    --delete-destination=false \
-    --log-level=ERROR \
-    --exclude-pattern='*.json' \
+  azcopy copy --dry-run \
+    --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
+    --recursive `# Source directory contains at least one subdirectory` \
+    --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
+    --log-level=ERROR `# Do not write too much logs (I/O...)` \
+    --exclude-pattern='*.json' `# Second pass with all files except update center JSON files` \
     "${BASE_DIR}" "${fileShareSignedUrl}"
+
+  # Remove completed azcopy plans
+  azcopy jobs clean --with-status=completed
+  # Remove uncompleted azcopy plans older than 30 days
+  find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
+  # Remove azcopy logs older than 30 days
+  find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
 fi
-
-# Remove completed azcopy plans
-azcopy jobs clean --with-status=completed
-# Remove uncompleted azcopy plans older than 30 days
-find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
-# Remove azcopy logs older than 30 days
-find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
