@@ -103,3 +103,10 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --exclude-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 fi
+
+# Remove completed azcopy plans
+azcopy jobs clean --with-status=completed
+# Remove uncompleted azcopy plans older than 30 days
+find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
+# Remove azcopy logs older than 30 days
+find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
