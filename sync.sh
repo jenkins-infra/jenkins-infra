@@ -89,7 +89,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --skip-version-check \
     --recursive=true \
     --delete-destination=false \
-    --log-error=ERROR \
+    --log-level=ERROR \
     --include-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 
@@ -97,7 +97,7 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --skip-version-check \
     --recursive=true \
     --delete-destination=false \
-    --log-error=ERROR \
+    --log-level=ERROR \
     --exclude-pattern='*.json' \
     "${BASE_DIR}" "${fileShareSignedUrl}"
 fi
