@@ -73,11 +73,12 @@ echo ">> move index from staging to production"
     pkg.jenkins.io.staging/ pkg.jenkins.io/)
 
 if [[ "${FLAG}" = '--full-sync' ]]; then
-  echo ">> Update artifacts on get.jenkins.io"
+  echo ">> Updating artifacts on get.jenkins.io..."
 
   # Don't print any trace
   set +x
 
+  echo ">>> retrieving the file share URL..."
   #shellcheck disable=SC1091
   source /srv/releases/.azure-storage-env
   : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
@@ -85,35 +86,43 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
   export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
   export STORAGE_PERMISSIONS=dlrw
 
-  fileShareSignedUrl=$(get-fileshare-signed-url.sh)
+  fileShareSignedUrl="$(get-fileshare-signed-url.sh)"
+  echo ">>> retrieved the file share URL"
 
-  azcopy copy \
+  echo ">>> azcopy-ing the JSON files..."
+  : | azcopy copy \
     --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
     --recursive `# Source directory contains at least one subdirectory` \
     --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
     --log-level=ERROR `# Do not write too much logs (I/O...)` \
     --include-pattern='*.json' `# First quick pass on the update center JSON files` \
     "${BASE_DIR}/*" "${fileShareSignedUrl}"
+  echo ">>> finished azcopy-ing the JSON files"
 
-  azcopy copy \
+  echo ">>> azcopy-ing all the other files..."
+  : | azcopy copy \
     --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
     --recursive `# Source directory contains at least one subdirectory` \
     --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
     --log-level=ERROR `# Do not write too much logs (I/O...)` \
     --exclude-pattern='*.json' `# Second pass with all files except update center JSON files` \
     "${BASE_DIR}/*" "${fileShareSignedUrl}"
+  echo ">>> finished azcopy-ing all the other files"
   
-  echo ">>> Update finished on get.jenkins.io"
+  # Back to debug mode
+  set -x
+  
+  echo ">> finished updating artifacts on get.jenkins.io"
 
-  echo ">>> Cleanup..."
+  echo ">> Cleanup..."
   # Remove completed azcopy plans
   azcopy jobs clean --with-status=completed
   # Remove uncompleted azcopy plans older than 30 days
   find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
   # Remove azcopy logs older than 30 days
   find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
-  echo ">>> Cleanup finished"
+  echo ">> Cleanup finished"
 fi
 
-echo ">>> Script sync.sh finished"
+echo ">> Script sync.sh finished"
 exit 0
