@@ -6,6 +6,9 @@ RSYNC_ARGS="-rlpDvz"
 SCRIPT_DIR=${PWD}
 FLAG="${1}"
 
+# This script can be run from a crontab where the PATH is stripped comapred to an interactive/login session
+export PATH="${HOME}"/.bin:/usr/local/bin:"${PATH}"
+
 pushd "${BASE_DIR}"
   time rsync "${RSYNC_ARGS}" --chown=jenkins --times --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
     # keep all the plugins
@@ -90,6 +93,8 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
   echo ">>> retrieved the file share URL"
 
   echo ">>> azcopy-ing the JSON files..."
+  ## azcopy might break the stdin pipelining - https://github.com/Azure/azure-storage-azcopy/issues/974
+  ## so we ensure an empty stding is passed using the ':|' form
   : | azcopy copy \
     --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
     --recursive `# Source directory contains at least one subdirectory` \
@@ -100,6 +105,8 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
   echo ">>> finished azcopy-ing the JSON files"
 
   echo ">>> azcopy-ing all the other files..."
+  ## azcopy might break the stdin pipelining - https://github.com/Azure/azure-storage-azcopy/issues/974
+  ## so we ensure an empty stding is passed using the ':|' form
   : | azcopy copy \
     --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
     --recursive `# Source directory contains at least one subdirectory` \
@@ -108,10 +115,10 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
     --exclude-pattern='*.json' `# Second pass with all files except update center JSON files` \
     "${BASE_DIR}/*" "${fileShareSignedUrl}"
   echo ">>> finished azcopy-ing all the other files"
-  
+
   # Back to debug mode
   set -x
-  
+
   echo ">> finished updating artifacts on get.jenkins.io"
 
   echo ">> Cleanup..."
