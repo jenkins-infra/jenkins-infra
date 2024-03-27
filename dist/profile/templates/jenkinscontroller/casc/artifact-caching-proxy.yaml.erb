@@ -10,13 +10,8 @@ unclassified:
             <mirrors>
               <mirror>
                   <id><%= providerId %>-proxy</id>
-                  <url>https://repo.<%= providerId %>.jenkins.io/public/</url>
-                  <mirrorOf>external:*,!central,!incrementals,!chimera-releases,!chimera-snapshots,!atlassian-public,!org.zowe.sdk,!jitpack.io,!space-maven</mirrorOf>
-              </mirror>
-              <mirror>
-                  <id><%= providerId %>-proxy-incrementals</id>
-                  <url>https://repo.<%= providerId %>.jenkins.io/incrementals/</url>
-                  <mirrorOf>incrementals</mirrorOf>
+                  <url>https://repo.<%= providerId %>.jenkins.io/</url>
+                  <mirrorOf>external:*,!chimera-releases,!chimera-snapshots,!atlassian-public,!org.zowe.sdk,!jitpack.io,!space-maven</mirrorOf>
               </mirror>
             </mirrors>
             <profiles>
