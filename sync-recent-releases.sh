@@ -50,6 +50,7 @@ while IFS= read -r release; do
     : | azcopy copy \
         --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
         --recursive `# Source directory contains at least one subdirectory` \
+        --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
         --log-level=ERROR `# Do not write too much logs (I/O...)` \
         "${BASE_DIR}/plugins/${release}/*" "${urlWithoutToken}plugins/${release}?${token}"
 
