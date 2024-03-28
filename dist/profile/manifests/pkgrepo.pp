@@ -77,13 +77,11 @@ class profile::pkgrepo (
   }
 
   [
-    'batch-upload.bash',
     'populate-archives.sh',
     'populate-fallback.sh',
     'sync-recent-releases.sh',
     'sync.sh',
     'update-latest-symlink.sh',
-    'requirements.txt',
     'rsync.filter',
   ].each | $mirror_file | {
     file { "${mirror_home_dir}/${mirror_file}":
@@ -99,51 +97,8 @@ class profile::pkgrepo (
   }
 
   ################################################################################################
-  ## Azcopy (replaces blobxfer)
+  ## Azcopy
   include profile::azcopy
-  ################################################################################################
-
-  ## Blobxfer
-  $venv_blobxfer_path = "${mirror_home_dir}/.venv-blobxfer"
-  $venv_blobxfer_script = "${venv_blobxfer_path}/bin/activate"
-  $venv_blobxfer_python = 'python3.8'
-
-  # Install dependencies for blobxfer
-  [
-    'virtualenv',
-    "${venv_blobxfer_python}-venv",
-    "${venv_blobxfer_python}-dev",
-    'libffi-dev',
-  ].each |$pkg| {
-    package { $pkg:
-      ensure => present,
-    }
-  }
-
-  exec { 'Define a virtualenv for blobxfer':
-    require => [
-      Package["${venv_blobxfer_python}-venv"],
-      Package['virtualenv'],
-      Account[$mirror_user],
-    ],
-    command => "/usr/bin/${venv_blobxfer_python} -m venv ${venv_blobxfer_path}",
-    creates => $venv_blobxfer_script,
-  }
-  exec { 'Ensure that virtualenv for blobxfer has base requirements':
-    require => Exec['Define a virtualenv for blobxfer'],
-    command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --upgrade pip setuptools setuptools-rust'",
-    unless  => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip list --format=json | /bin/grep --quiet setuptools-rust'",
-  }
-  exec { 'Install mirror script python requirements':
-    require => [
-      Exec['Ensure that virtualenv for blobxfer has base requirements'],
-      File["${mirror_home_dir}/requirements.txt"],
-    ],
-    cwd     => $mirror_home_dir,
-    command => "/bin/bash -c 'source ${venv_blobxfer_script} && ${venv_blobxfer_python} -m pip install --requirement=${mirror_home_dir}/requirements.txt'",
-    unless  => "/bin/bash -c 'source ${venv_blobxfer_script} && for pip_dep in $(cat ${mirror_home_dir}/requirements.txt); do pip freeze | grep \$pip_dep;done'",
-  }
-
   ################################################################################################
 
   $apache_log_dir_fqdn = "/var/log/apache2/${repo_fqdn}"
