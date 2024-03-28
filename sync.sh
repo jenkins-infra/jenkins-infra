@@ -53,9 +53,6 @@ popd
 echo ">> Delivering bits to fallback"
 /srv/releases/populate-archives.sh || true
 
-## Disabled as always failing since Feb. 2024
-# /srv/releases/batch-upload.bash || true
-
 echo ">> Updating the latest symlink for weekly"
 /srv/releases/update-latest-symlink.sh
 echo ">> Updating the latest symlink for weekly RC"
