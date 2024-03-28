@@ -1,0 +1,9 @@
+---
+osuosl_mirroring_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  overridewith_osuosl_mirroring_privkey
+  -----END RSA PRIVATE KEY-----
+archives_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  override_with_archives_privkey
+  -----END RSA PRIVATE KEY-----
