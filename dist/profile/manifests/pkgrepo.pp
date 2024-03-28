@@ -51,9 +51,9 @@ class profile::pkgrepo (
     ensure => 'installed',
   }
 
-  ############################################################################################################
+  ################################################################################################
   # Mirrorbrain User management
-  ############################################################################################################
+  ################################################################################################
   group { $mirror_group:
     ensure => present,
   }
@@ -132,7 +132,6 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
 
   cron { 'mirrorbrain-sync-releases':
     command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
-    # 0 * * * * cd /srv/releases && time ./sync.sh --full-sync > last_sync.log
     minute  => '0',
     user    => $mirror_user,
     require => File["${mirror_home_dir}/sync.sh"],
@@ -164,7 +163,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
       group   => $mirror_group,
     }
   }
-  ############################################################################################################
+  ################################################################################################
 
   ################################################################################################
   ## Azcopy
