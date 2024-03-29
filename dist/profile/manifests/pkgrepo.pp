@@ -106,12 +106,12 @@ class profile::pkgrepo (
     require => Account[$mirror_user],
   }
 
-  file { "${mirror_home_dir}/.ssh/archives":
+  file { $archives_jenkins_io_mirroring['keypath']:
     ensure  => file,
     owner   => $mirror_user,
     group   => $mirror_group,
     mode    => '0600',
-    content => lookup('archives_jenkins_io_mirroring::privkey'),
+    content => $osuosl_mirroring['privkey'],
     require => Account[$mirror_user],
   }
 
