@@ -40,7 +40,6 @@ describe 'profile::pkgrepo' do
 
   before(:each) do
     $pkg_docroot = "#{params[:www_basedir]}/#{params[:pkg_basedir]}"
-    # @data = get_data_from_file  # [ '42', '36' ]
   end
 
   it 'should ensure the docroot exists' do
