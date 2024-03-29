@@ -12,7 +12,7 @@
 # very new files, this script only copies those files that are created within last 7 days.
 # In this way, we keep the disk consumption in check
 #
-cd /srv/releases/jenkins
+cd "<%= @release_root %>"
 rsync -avz --delete-during --delete-excluded --prune-empty-dirs --include-from=<(
   # no .htaccess
   echo '- .htaccess'

@@ -5,7 +5,7 @@
 # <https://github.com/jenkinsci/backend-update-center2>
 #
 class profile::updatesite (
-  Stdlib::Absolutepath $docroot    = '/var/www/updates.jenkins.io',
+  Stdlib::Absolutepath $docroot    = '',
   String $mirror_user              = 'mirrorbrain',
   String $www_user                 = 'www-data',
   String $www_common_group         = 'www-data',
