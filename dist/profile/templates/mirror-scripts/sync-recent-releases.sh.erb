@@ -73,5 +73,5 @@ set -x
 echo ">> Telling OSUOSL to gets the new bits"
 ssh "${HOST}" 'sh trigger-jenkins'
 
-echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
+echo ">> Delivering bits to archives.jenkins.io (fallback of get.jenkins.io) from OSUOSL"
 /srv/releases/populate-archives.sh

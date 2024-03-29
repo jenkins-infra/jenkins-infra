@@ -50,7 +50,7 @@ pushd "${UPDATES_DIR}"
     rsync "${RSYNC_ARGS}" --chown=jenkins --delete "${BASE_DIR}/updates/" "${HOST}:jenkins/updates"
 popd
 
-echo ">> Delivering bits to fallback"
+echo ">> Delivering bits to archives.jenkins.io (fallback of get.jenkins.io)"
 /srv/releases/populate-archives.sh || true
 
 echo ">> Updating the latest symlink for weekly"
