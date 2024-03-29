@@ -12,7 +12,7 @@ class profile::pkgrepo (
   String $mirror_user                   = 'mirrorbrain',
   String $mirror_group                  = 'mirrorbrain',
   String $www_common_group              = 'www-data',
-  Hash $ssh_keys                        = {},
+  Hash $authorized_ssh_keys             = {},
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -51,6 +51,9 @@ class profile::pkgrepo (
     ensure => 'installed',
   }
 
+  ################################################################################################
+  # Mirrorbrain User management
+  ################################################################################################
   group { $mirror_group:
     ensure => present,
   }
@@ -66,7 +69,72 @@ class profile::pkgrepo (
     # Allow apache user to read some of the files in this directory, through the "read" permission for groups
     groups         => [$www_common_group],
     require        => Group[$mirror_group],
-    ssh_keys       => $ssh_keys,
+    ssh_keys       => $authorized_ssh_keys,
+  }
+
+  file { "${mirror_home_dir}/.ssh/osuosl_mirror":
+    ensure  => file,
+    owner   => $mirror_user,
+    group   => $mirror_group,
+    mode    => '0600',
+    content => lookup('osuosl_mirroring_privkey'),
+    require => Account[$mirror_user],
+  }
+
+  file { "${mirror_home_dir}/.ssh/archives":
+    ensure  => file,
+    owner   => $mirror_user,
+    group   => $mirror_group,
+    mode    => '0600',
+    content => lookup('archives_privkey'),
+    require => Account[$mirror_user],
+  }
+
+  file { "${mirror_home_dir}/.ssh/config":
+    ensure  => file,
+    owner   => $mirror_user,
+    group   => $mirror_group,
+    mode    => '0600',
+    content => "
+Host archives.jenkins-ci.org
+    IdentityFile ${mirror_home_dir}/.ssh/archives
+Host archives.jenkins.io
+    IdentityFile ${mirror_home_dir}/.ssh/archives
+Host fallback.jenkins-ci.org
+    IdentityFile ${mirror_home_dir}/.ssh/archives
+Host fallback.jenkins.io
+    IdentityFile ${mirror_home_dir}/.ssh/archives
+Host ftp-osl.osuosl.org
+    IdentityFile ${mirror_home_dir}/.ssh/osuosl_mirror
+",
+    require => [
+      Account[$mirror_user],
+      File["${mirror_home_dir}/.ssh/archives"],
+      File["${mirror_home_dir}/.ssh/osuosl_mirror"],
+    ],
+  }
+
+  file { "${mirror_home_dir}/.azure-storage-env":
+    ensure  => file,
+    owner   => $mirror_user,
+    group   => $mirror_group,
+    mode    => '0600',
+    content => "
+export AZURE_STORAGE_ACCOUNT=${lookup('azure::getjenkinsio::storageaccount')}
+export STORAGE_NAME=${lookup('azure::getjenkinsio::storageaccount')}
+export STORAGE_FILESHARE=${lookup('azure::getjenkinsio::fileshare')}
+export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
+",
+    require => [
+      Account[$mirror_user],
+    ],
+  }
+
+  cron { 'mirrorbrain-sync-releases':
+    command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
+    minute  => '0',
+    user    => $mirror_user,
+    require => File["${mirror_home_dir}/sync.sh"],
   }
 
   exec { "Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}":
@@ -95,6 +163,7 @@ class profile::pkgrepo (
       group   => $mirror_group,
     }
   }
+  ################################################################################################
 
   ################################################################################################
   ## Azcopy

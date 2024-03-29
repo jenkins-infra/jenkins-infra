@@ -16,6 +16,18 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
+usage_ssh_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  overridewith_usage_ssh_privkey
+  -----END RSA PRIVATE KEY-----
+osuosl_mirroring_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  overridewith_osuosl_mirroring_privkey
+  -----END RSA PRIVATE KEY-----
+archives_privkey: |
+  -----BEGIN RSA PRIVATE KEY-----
+  override_with_archives_privkey
+  -----END RSA PRIVATE KEY-----
 profile::jenkinscontroller::ci_fqdn: 'localhost'
 profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
 profile::jenkinscontroller::proxy_port: 443

@@ -10,6 +10,7 @@ describe 'profile::pkgrepo' do
 
   let(:facts) do
     {
+      :rspec_hieradata_fixture => 'profile_pkgrepo',
       :os => {
         :architecture => 'amd64',
         :distro => {
