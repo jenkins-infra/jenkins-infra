@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'profile::pkgrepo' do
   let(:params) do
     {
-      :docroot => '/var/www/rspec',
+      :www_basedir => '/data/html',
+      :pkg_basedir => 'pkg_prod',
+      :pkg_staging_basedir => 'pkg.staging',
       :release_root => '/srv/releases/rspec',
     }
   end
@@ -36,8 +38,13 @@ describe 'profile::pkgrepo' do
     }
   end
 
+  before(:each) do
+    $pkg_docroot = "#{params[:www_basedir]}/#{params[:pkg_basedir]}"
+    # @data = get_data_from_file  # [ '42', '36' ]
+  end
+
   it 'should ensure the docroot exists' do
-    expect(subject).to contain_file(params[:docroot]).with({
+    expect(subject).to contain_file($pkg_docroot).with({
       :ensure => :directory,
       :owner => 'mirrorbrain',
       :group => 'www-data',
@@ -75,7 +82,7 @@ describe 'profile::pkgrepo' do
         # hyphenate if we have a variant to test
         variant = "-#{variant}" unless variant.nil?
         variant = "#{platform}#{variant}"
-        let(:variant_dir) { "#{params[:docroot]}/#{variant}" }
+        let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
 
         it "should have a repo directory for #{variant}" do
           expect(subject).to contain_file(variant_dir).with({
@@ -96,7 +103,7 @@ describe 'profile::pkgrepo' do
         platform = 'opensuse'
         variant = "-#{variant}" unless variant.nil?
         variant = "#{platform}#{variant}"
-        let(:variant_dir) { "#{params[:docroot]}/#{variant}" }
+        let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
 
         it "should define an .htaccess file for #{variant} redirects" do
           expect(subject).to contain_file("#{variant_dir}/.htaccess").with({
@@ -117,7 +124,7 @@ describe 'profile::pkgrepo' do
         platform = 'redhat'
         variant = "-#{variant}" unless variant.nil?
         variant = "#{platform}#{variant}"
-        let(:variant_dir) { "#{params[:docroot]}/#{variant}" }
+        let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
 
         it "should define a jenkins.repo for #{variant}" do
           expect(subject).to contain_file("#{variant_dir}/jenkins.repo").with({
@@ -144,7 +151,7 @@ describe 'profile::pkgrepo' do
         platform = 'debian'
         variant = "-#{variant}" unless variant.nil?
         variant = "#{platform}#{variant}"
-        let(:variant_dir) { "#{params[:docroot]}/#{variant}" }
+        let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
 
         it "should define an .htaccess to manage redirects for #{variant}" do
           expect(subject).to contain_file("#{variant_dir}/.htaccess").with({
@@ -176,7 +183,7 @@ describe 'profile::pkgrepo' do
       expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io').with({
         :port => 443,
         :ssl => true,
-        :docroot => params[:docroot],
+        :docroot => $pkg_docroot,
         :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
         :override => ['All'],
         :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/access.log.%Y%m%d%H%M%S 604800",
@@ -188,7 +195,7 @@ describe 'profile::pkgrepo' do
       expect(subject).to contain_apache__vhost('pkg.origin.jenkins.io unsecured').with({
         :servername => 'pkg.origin.jenkins.io',
         :port => 80,
-        :docroot => params[:docroot],
+        :docroot => $pkg_docroot,
         :access_log_pipe => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/access_unsecured.log.%Y%m%d%H%M%S 604800",
         :error_log_pipe  => "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/pkg.origin.jenkins.io/error_unsecured.log.%Y%m%d%H%M%S 604800",
       })
@@ -205,7 +212,7 @@ describe 'profile::pkgrepo' do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org').with({
         :port => 443,
         :ssl => true,
-        :docroot => params[:docroot],
+        :docroot => $pkg_docroot,
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
         :custom_fragment => 'Protocols http/1.1',
@@ -218,7 +225,7 @@ describe 'profile::pkgrepo' do
       expect(subject).to contain_apache__vhost('pkg.jenkins-ci.org unsecured').with({
         :servername => 'pkg.jenkins-ci.org',
         :port => 80,
-        :docroot => params[:docroot],
+        :docroot => $pkg_docroot,
         :redirect_status => 'permanent',
         :redirect_dest => ['https://pkg.jenkins.io/'],
         :custom_fragment => 'Protocols http/1.1',

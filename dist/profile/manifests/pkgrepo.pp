@@ -1,18 +1,19 @@
 #
 # Manage yum and apt repositories for Jenkins
 class profile::pkgrepo (
-  Stdlib::Absolutepath $docroot         = '/var/www/pkg.jenkins.io',
-  Stdlib::Absolutepath $release_root    = '/srv/releases/jenkins',
-  Stdlib::Absolutepath $mirror_scripts  = '/srv/releases/mirror-scripts',
-  Stdlib::Fqdn $repo_fqdn               = 'pkg.origin.jenkins.io',
-  Stdlib::Fqdn $repo_legacy_fqdn        = 'pkg.jenkins-ci.org',
-  Stdlib::Fqdn $mirror_fqdn             = 'mirrors.jenkins.io',
-  Stdlib::Absolutepath $mirror_home_dir = '/srv/releases',
-  String $mirror_git_remote             = 'https://github.com/jenkins-infra/mirror-scripts.git',
-  String $mirror_user                   = 'mirrorbrain',
-  String $mirror_group                  = 'mirrorbrain',
-  String $www_common_group              = 'www-data',
-  Hash $authorized_ssh_keys             = {},
+  Stdlib::Absolutepath $www_basedir         = '/var/www',
+  String $pkg_basedir                       = 'pkg.jenkins.io',
+  String $pkg_staging_basedir               = 'pkg.jenkins.io.staging',
+  Stdlib::Absolutepath $release_root        = '/srv/releases/jenkins',
+  Stdlib::Fqdn $repo_fqdn                   = 'pkg.origin.jenkins.io',
+  Stdlib::Fqdn $repo_legacy_fqdn            = 'pkg.jenkins-ci.org',
+  Stdlib::Fqdn $mirror_fqdn                 = 'mirrors.jenkins.io',
+  Stdlib::Absolutepath $mirror_home_dir     = '/srv/releases',
+  String $mirror_git_remote                 = 'https://github.com/jenkins-infra/mirror-scripts.git',
+  String $mirror_user                       = 'mirrorbrain',
+  String $mirror_group                      = 'mirrorbrain',
+  String $www_common_group                  = 'www-data',
+  Hash $authorized_ssh_keys                 = {},
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -52,6 +53,31 @@ class profile::pkgrepo (
   }
 
   ################################################################################################
+  # Retrieve hieradata to use in templates or reuse across resources
+  ################################################################################################
+  $osuosl_mirroring = {
+    'host'     => lookup('osuosl_mirroring::host'),
+    'username' => lookup('osuosl_mirroring::username'),
+    'privkey'  => lookup('osuosl_mirroring::privkey'),
+    'keypath'  => "${mirror_home_dir}/.ssh/osuosl_mirror",
+  }
+
+  $archives_jenkins_io_mirroring = {
+    'host'     => lookup('archives_jenkins_io_mirroring::host'),
+    'username' => lookup('archives_jenkins_io_mirroring::username'),
+    'privkey'  => lookup('archives_jenkins_io_mirroring::privkey'),
+    'keypath'  => "${mirror_home_dir}/.ssh/archives",
+  }
+
+  # Used by mirror-scripts
+  $updates_docroot = lookup('profile::updatesite::docroot')
+  $azure_storage_env_file = "${mirror_home_dir}/.azure-storage-env"
+
+  # Used by apache2 and epos
+  $pkg_docroot = "${www_basedir}/${pkg_basedir}"
+  $pkg_staging_docroot = "${www_basedir}/${pkg_staging_basedir}"
+
+  ################################################################################################
   # Mirrorbrain User management
   ################################################################################################
   group { $mirror_group:
@@ -72,12 +98,12 @@ class profile::pkgrepo (
     ssh_keys       => $authorized_ssh_keys,
   }
 
-  file { "${mirror_home_dir}/.ssh/osuosl_mirror":
+  file { $osuosl_mirroring['keypath']:
     ensure  => file,
     owner   => $mirror_user,
     group   => $mirror_group,
     mode    => '0600',
-    content => lookup('osuosl_mirroring_privkey'),
+    content => $osuosl_mirroring['privkey'],
     require => Account[$mirror_user],
   }
 
@@ -86,7 +112,7 @@ class profile::pkgrepo (
     owner   => $mirror_user,
     group   => $mirror_group,
     mode    => '0600',
-    content => lookup('archives_privkey'),
+    content => lookup('archives_jenkins_io_mirroring::privkey'),
     require => Account[$mirror_user],
   }
 
@@ -97,24 +123,24 @@ class profile::pkgrepo (
     mode    => '0600',
     content => "
 Host archives.jenkins-ci.org
-    IdentityFile ${mirror_home_dir}/.ssh/archives
+    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host archives.jenkins.io
-    IdentityFile ${mirror_home_dir}/.ssh/archives
+    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host fallback.jenkins-ci.org
-    IdentityFile ${mirror_home_dir}/.ssh/archives
+    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host fallback.jenkins.io
-    IdentityFile ${mirror_home_dir}/.ssh/archives
+    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host ftp-osl.osuosl.org
-    IdentityFile ${mirror_home_dir}/.ssh/osuosl_mirror
+    IdentityFile ${$osuosl_mirroring['keypath']}
 ",
     require => [
       Account[$mirror_user],
-      File["${mirror_home_dir}/.ssh/archives"],
-      File["${mirror_home_dir}/.ssh/osuosl_mirror"],
+      File[$archives_jenkins_io_mirroring['keypath']],
+      File[$osuosl_mirroring['keypath']],
     ],
   }
 
-  file { "${mirror_home_dir}/.azure-storage-env":
+  file { $azure_storage_env_file:
     ensure  => file,
     owner   => $mirror_user,
     group   => $mirror_group,
@@ -146,7 +172,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
   ].each | $mirror_script | {
     file { "${mirror_home_dir}/${mirror_script}":
       ensure  => file,
-      content => template("${module_name}/mirror-scripts/${mirror_script}"),
+      content => template("${module_name}/mirror-scripts/${mirror_script}.erb"),
       owner   => $mirror_user,
       group   => $mirror_group,
       mode    => '0700', # Need execution but only by the owner
@@ -162,7 +188,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
   ].each | $mirror_file | {
     file { "${mirror_home_dir}/${mirror_file}":
       ensure  => file,
-      content => template("${module_name}/mirror-scripts/${mirror_file}"),
+      content => template("${module_name}/mirror-scripts/${mirror_file}.erb"),
       owner   => $mirror_user,
       group   => $mirror_group,
       mode    => '0600',
@@ -188,7 +214,11 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     }
   }
 
-  [$docroot, $release_root].each |String $dir| {
+  [
+    $pkg_docroot,
+    $pkg_staging_docroot,
+    $release_root,
+  ].each |String $dir| {
     file { $dir:
       ensure => directory,
       owner  => $mirror_user,
@@ -198,18 +228,18 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
   }
 
   $repos = [
-    "${docroot}/debian",
-    "${docroot}/debian-rc",
-    "${docroot}/debian-stable",
-    "${docroot}/debian-stable-rc",
-    "${docroot}/redhat",
-    "${docroot}/redhat-rc",
-    "${docroot}/redhat-stable",
-    "${docroot}/redhat-stable-rc",
-    "${docroot}/opensuse",
-    "${docroot}/opensuse-rc",
-    "${docroot}/opensuse-stable",
-    "${docroot}/opensuse-stable-rc",
+    "${pkg_docroot}/debian",
+    "${pkg_docroot}/debian-rc",
+    "${pkg_docroot}/debian-stable",
+    "${pkg_docroot}/debian-stable-rc",
+    "${pkg_docroot}/redhat",
+    "${pkg_docroot}/redhat-rc",
+    "${pkg_docroot}/redhat-stable",
+    "${pkg_docroot}/redhat-stable-rc",
+    "${pkg_docroot}/opensuse",
+    "${pkg_docroot}/opensuse-rc",
+    "${pkg_docroot}/opensuse-stable",
+    "${pkg_docroot}/opensuse-stable-rc",
   ]
 
   file { $repos:
@@ -217,7 +247,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     owner   => $mirror_user,
     group   => $www_common_group,
     mode    => '0755',
-    require => File[$docroot],
+    require => File[$pkg_docroot],
   }
 
   file { suffix($repos, '/jenkins-ci.org.key'):
@@ -226,7 +256,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     owner   => $mirror_user,
     group   => $www_common_group,
     mode    => '0644',
-    require => File[$docroot],
+    require => File[$pkg_docroot],
   }
 
   file { suffix($repos, '/jenkins.io.key'):
@@ -235,7 +265,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     owner   => $mirror_user,
     group   => $www_common_group,
     mode    => '0644',
-    require => File[$docroot],
+    require => File[$pkg_docroot],
   }
 
   file { suffix($repos, '/jenkins-ci.org-2023.key'):
@@ -244,7 +274,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     owner   => $mirror_user,
     group   => $www_common_group,
     mode    => '0644',
-    require => File[$docroot],
+    require => File[$pkg_docroot],
   }
 
   file { suffix($repos, '/jenkins.io-2023.key'):
@@ -253,19 +283,19 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     owner   => $mirror_user,
     group   => $www_common_group,
     mode    => '0644',
-    require => File[$docroot],
+    require => File[$pkg_docroot],
   }
 
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
     ensure    => present,
-    docroot   => $docroot,
+    docroot   => $pkg_docroot,
     repo_fqdn => $repo_fqdn,
     require   => File[$repos],
   }
 
   profile::debian_repo { ['debian', 'debian-stable', 'debian-rc', 'debian-stable-rc']:
     ensure      => present,
-    docroot     => $docroot,
+    docroot     => $pkg_docroot,
     direct_root => $release_root,
     mirror_fqdn => $mirror_fqdn,
     require     => File[$repos],
@@ -273,7 +303,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
 
   profile::opensuse_repo { ['opensuse', 'opensuse-stable', 'opensuse-rc', 'opensuse-stable-rc']:
     ensure      => present,
-    docroot     => $docroot,
+    docroot     => $pkg_docroot,
     mirror_fqdn => $mirror_fqdn,
     require     => File[$repos],
   }
@@ -288,11 +318,11 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     options                      => ['Indexes', 'FollowSymLinks', 'MultiViews'],
     override                     => ['All'],
     ssl                          => true,
-    docroot                      => $docroot,
+    docroot                      => $pkg_docroot,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
-    require                      => File[$docroot],
+    require                      => File[$pkg_docroot],
   }
 
   apache::vhost { "${repo_fqdn} unsecured":
@@ -301,11 +331,11 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     override                     => ['All'],
-    docroot                      => $docroot,
+    docroot                      => $pkg_docroot,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
-    require                      => File[$docroot],
+    require                      => File[$pkg_docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org unsecured':
@@ -313,7 +343,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     port                         => 80,
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
-    docroot                      => $docroot,
+    docroot                      => $pkg_docroot,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
@@ -321,7 +351,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
     custom_fragment              => 'Protocols http/1.1',
-    require                      => File[$docroot],
+    require                      => File[$pkg_docroot],
   }
 
   apache::vhost { 'pkg.jenkins-ci.org':
@@ -329,7 +359,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     port                         => 443,
-    docroot                      => $docroot,
+    docroot                      => $pkg_docroot,
     ssl                          => true,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
@@ -338,7 +368,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     redirect_dest                => ['https://pkg.jenkins.io/'],
     # Due to fastly caching on the target domain, it is required to force re-establishing TLS connection to new domain (HTTP/2 tries to reuse connection thinking it is the same server)
     custom_fragment              => 'Protocols http/1.1',
-    require                      => File[$docroot],
+    require                      => File[$pkg_docroot],
   }
 
   # We can only acquire certs in production due to the way the letsencrypt

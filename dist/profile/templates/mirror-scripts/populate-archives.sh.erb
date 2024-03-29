@@ -3,4 +3,4 @@
 # mirror /srv/releases into archives.jenkins-ci.org
 #
 # exec to ensure that signals are propagated to child process
-exec ssh mirrorsync@archives.jenkins-ci.org "mirrorsync"
+exec ssh <%= @archives_jenkins_io_mirroring['username'] %>@<%= @archives_jenkins_io_mirroring['host'] %> "mirrorsync"

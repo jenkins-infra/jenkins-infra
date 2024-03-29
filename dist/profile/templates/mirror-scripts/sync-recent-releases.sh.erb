@@ -3,8 +3,8 @@ set -o nounset
 set -o errexit
 set -o pipefail
 
-BASE_DIR=/srv/releases/jenkins
-HOST=jenkins@ftp-osl.osuosl.org
+BASE_DIR="<%= @release_root %>"
+HOST=<%= @osuosl_mirroring['username'] %>@<%= @osuosl_mirroring['host'] %>
 
 [[ $# -eq 1 ]] || { echo "Usage: $0 <recent-releases.json>" >&2 ; exit 1 ; }
 [[ -f "$1" ]] || { echo "$1 is not a file" >&2 ; exit 2 ; }
@@ -14,7 +14,7 @@ RECENT_RELEASES_JSON="$1"
 echo ">> Update artifacts on get.jenkins.io"
 
 #shellcheck disable=SC1091
-source /srv/releases/.azure-storage-env
+source <%= @azure_storage_env_file %>
 : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}" "${STORAGE_NAME?}" "${STORAGE_FILESHARE?}"
 
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "${RECENT_RELEASES_JSON}" )
@@ -37,8 +37,8 @@ urlWithoutToken=${fileShareSignedUrl%\?*}
 token=${fileShareSignedUrl#*\?}
 
 while IFS= read -r release; do
-    # Ensure proper permissions are set (mirrorbrain is the owner and can write while www-data only need read access for webserver)
-    find "${BASE_DIR}/plugins/${release}" -exec chown mirrorbrain:www-data {} \;
+    # Ensure proper permissions are set (<%= @mirror_user %> is the owner and can write while www-data only need read access for webserver)
+    find "${BASE_DIR}/plugins/${release}" -exec chown <%= @mirror_user %>:<%= @www_common_group %> {} \;
     find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 644 {} \;
     find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 755 {} \;
 
@@ -70,7 +70,7 @@ done <<< "${RECENT_RELEASES}"
 set -x
 
 echo ">> Telling OSUOSL to gets the new bits"
-ssh jenkins@ftp-osl.osuosl.org 'sh trigger-jenkins'
+ssh "${HOST}" 'sh trigger-jenkins'
 
 echo ">> Delivering bits to mirrors fallback (archives.jenkins.io) from OSUOSL"
 /srv/releases/populate-archives.sh

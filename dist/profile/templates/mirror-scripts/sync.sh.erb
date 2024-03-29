@@ -1,9 +1,9 @@
 #!/bin/bash -xe
-HOST=jenkins@ftp-osl.osuosl.org
-BASE_DIR=/srv/releases/jenkins
-UPDATES_DIR=/var/www/updates.jenkins.io
+HOST=<%= @osuosl_mirroring['username'] %>@<%= @osuosl_mirroring['host'] %>
+BASE_DIR="<%= @release_root %>"
+UPDATES_DIR="<%= @updates_docroot %>"
 RSYNC_ARGS="-rlpDvz"
-SCRIPT_DIR=${PWD}
+SCRIPT_DIR="${PWD}"
 FLAG="${1}"
 
 # This script can be run from a crontab where the PATH is stripped comapred to an interactive/login session
@@ -40,11 +40,11 @@ pushd "${UPDATES_DIR}"
     for uc_version in */update-center.json; do
       echo ">> Syncing UC version ${uc_version}"
       uc_version=$(dirname "${uc_version}")
-      rsync "${RSYNC_ARGS}" --chown=mirrorbrain:www-data "${uc_version}"/*.json* "${BASE_DIR}/updates/${uc_version}"
+      rsync "${RSYNC_ARGS}" --chown=<%= @mirror_user %>:<%= @www_common_group %> "${uc_version}"/*.json* "${BASE_DIR}/updates/${uc_version}"
     done;
 
     # Ensure that our tool installers get synced
-    rsync "${RSYNC_ARGS}" --chown=mirrorbrain:www-data updates "${BASE_DIR}/updates/"
+    rsync "${RSYNC_ARGS}" --chown=<%= @mirror_user %>:<%= @www_common_group %> updates "${BASE_DIR}/updates/"
 
     echo ">> Syncing UC to primarily OSUOSL mirror"
     rsync "${RSYNC_ARGS}" --chown=jenkins --delete "${BASE_DIR}/updates/" "${HOST}:jenkins/updates"
@@ -68,9 +68,9 @@ ssh "${HOST}" "sh trigger-jenkins"
 echo ">> move index from staging to production"
 # Excluding some files which the packaging repo which are now managed by Puppet
 # see INFRA-985, INFRA-989
-(cd /var/www && rsync --chown=mirrorbrain:www-data --omit-dir-times -av \
+(cd "<%= @www_basedir %>" && rsync --chown=<%= @mirror_user %>:<%= @www_common_group %> --omit-dir-times -av \
     --exclude=.htaccess --exclude=jenkins.repo \
-    pkg.jenkins.io.staging/ pkg.jenkins.io/)
+    "<%= @pkg_staging_basedir %>"/ "<%= @pkg_basedir %>"/)
 
 if [[ "${FLAG}" = '--full-sync' ]]; then
   echo ">> Updating artifacts on get.jenkins.io..."
