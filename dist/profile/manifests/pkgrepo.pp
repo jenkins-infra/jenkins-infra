@@ -125,10 +125,6 @@ Host archives.jenkins-ci.org
     IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host archives.jenkins.io
     IdentityFile ${archives_jenkins_io_mirroring['keypath']}
-Host fallback.jenkins-ci.org
-    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
-Host fallback.jenkins.io
-    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
 Host ftp-osl.osuosl.org
     IdentityFile ${$osuosl_mirroring['keypath']}
 ",
@@ -164,7 +160,6 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
 
   [
     'populate-archives.sh',
-    'populate-fallback.sh',
     'sync-recent-releases.sh',
     'sync.sh',
     'update-latest-symlink.sh',
