@@ -1,0 +1,7 @@
+.vim/
+.*
+*.log
+hashes/
+jenkins/
+mirror_list
+tounlink.txt
