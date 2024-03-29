@@ -137,30 +137,38 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     require => File["${mirror_home_dir}/sync.sh"],
   }
 
-  exec { "Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}":
-    require => [Account[$mirror_user],Package['git']],
-    user    => $mirror_user,
-    command => "/usr/bin/git clone ${mirror_git_remote} ${mirror_scripts}",
-    creates => "${mirror_scripts}/.git/config",
-  }
-
   [
     'populate-archives.sh',
     'populate-fallback.sh',
     'sync-recent-releases.sh',
     'sync.sh',
     'update-latest-symlink.sh',
+  ].each | $mirror_script | {
+    file { "${mirror_home_dir}/${mirror_script}":
+      ensure  => file,
+      content => template("${module_name}/mirror-scripts/${mirror_script}"),
+      owner   => $mirror_user,
+      group   => $mirror_group,
+      mode    => '0700', # Need execution but only by the owner
+      require => [
+        Account[$mirror_user],
+      ],
+    }
+  }
+
+  # Not a script: different mode
+  [
     'rsync.filter',
   ].each | $mirror_file | {
     file { "${mirror_home_dir}/${mirror_file}":
-      ensure  => 'link',
-      require => [
-        Exec["Ensure ${mirror_git_remote} is cloned to ${mirror_scripts}"],
-        Account[$mirror_user],
-      ],
-      target  => "${mirror_scripts}/${mirror_file}",
+      ensure  => file,
+      content => template("${module_name}/mirror-scripts/${mirror_file}"),
       owner   => $mirror_user,
       group   => $mirror_group,
+      mode    => '0600',
+      require => [
+        Account[$mirror_user],
+      ],
     }
   }
   ################################################################################################
