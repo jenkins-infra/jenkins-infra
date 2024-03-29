@@ -9,7 +9,6 @@ class profile::pkgrepo (
   Stdlib::Fqdn $repo_legacy_fqdn            = 'pkg.jenkins-ci.org',
   Stdlib::Fqdn $mirror_fqdn                 = 'mirrors.jenkins.io',
   Stdlib::Absolutepath $mirror_home_dir     = '/srv/releases',
-  String $mirror_git_remote                 = 'https://github.com/jenkins-infra/mirror-scripts.git',
   String $mirror_user                       = 'mirrorbrain',
   String $mirror_group                      = 'mirrorbrain',
   String $www_common_group                  = 'www-data',
