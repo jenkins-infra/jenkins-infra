@@ -72,7 +72,7 @@ class profile::pkgrepo (
   $updates_docroot = lookup('profile::updatesite::docroot')
   $azure_storage_env_file = "${mirror_home_dir}/.azure-storage-env"
 
-  # Used by apache2 and epos
+  # Used by apache2 and scripts
   $pkg_docroot = "${www_basedir}/${pkg_basedir}"
   $pkg_staging_docroot = "${www_basedir}/${pkg_staging_basedir}"
 
