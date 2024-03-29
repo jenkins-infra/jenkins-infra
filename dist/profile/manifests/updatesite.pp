@@ -9,7 +9,6 @@ class profile::updatesite (
   String $mirror_user              = 'mirrorbrain',
   String $www_user                 = 'www-data',
   String $www_common_group         = 'www-data',
-  Optional[String] $ssh_pubkey     = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
@@ -22,11 +21,6 @@ class profile::updatesite (
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
   $apache_legacy_log_dir = '/var/log/apache2/updates.jenkins-ci.org'
 
-  # We need a shell for now
-  # https://issues.jenkins-ci.org/browse/INFRA-657
-  User <| title == $www_user |> {
-    shell => '/bin/bash',
-  }
   file { '/var/www':
     ensure => directory,
     mode   => '0755',
@@ -36,7 +30,7 @@ class profile::updatesite (
     ensure  => directory,
     owner   => $mirror_user,
     group   => $www_common_group,
-    mode    => '0755',
+    mode    => '0775',
     require => [File['/var/www']],
   }
 
@@ -100,34 +94,6 @@ class profile::updatesite (
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_legacy_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     require                      => Apache::Vhost['updates.jenkins-ci.org'],
-  }
-
-  ##################################
-  ##################################
-
-  if $ssh_pubkey {
-    file { '/var/www/.ssh':
-      ensure => directory,
-      mode   => '0700',
-      owner  => $www_user,
-      group  => $www_common_group,
-    }
-
-    ssh_authorized_key { 'updatesite-key':
-      ensure  => present,
-      user    => $www_user,
-      type    => 'ssh-rsa',
-      key     => $ssh_pubkey,
-      require => File['/var/www/.ssh'],
-    }
-
-    # If we're managing an ssh_authorized_key, then we should purge anything
-    # else for safety's sake
-    User <| title == $www_user |> {
-      managehome     => true,
-      home           => '/var/www',
-      purge_ssh_keys => true,
-    }
   }
 
   # We can only acquire certs in production due to the way the letsencrypt

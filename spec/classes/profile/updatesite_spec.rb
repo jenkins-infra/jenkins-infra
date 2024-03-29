@@ -7,30 +7,6 @@ describe 'profile::updatesite' do
   it { expect(subject).to contain_class 'profile::updatesite' }
   it { expect(subject).to contain_class 'profile::firewall' }
 
-  it 'should give www-data a shell' do
-    expect(subject).to contain_user('www-data').with({
-      :shell => '/bin/bash',
-    })
-  end
-
-  context 'with ssh_pubkey provided' do
-    let(:params) do
-      {
-        :ssh_pubkey => 'rspeckey',
-      }
-    end
-
-    it { expect(subject).to contain_ssh_authorized_key('updatesite-key').with_key(params[:ssh_pubkey]) }
-    it { expect(subject).to contain_user('www-data').with_purge_ssh_keys(true) }
-
-    it 'should ensure the /var/www permissions are correct for SSH auth' do
-      expect(subject).to contain_file('/var/www').with({
-        :ensure => :directory,
-        :mode   => '0755',
-      })
-    end
-  end
-
   context 'apache setup' do
     it { expect(subject).to contain_class 'apache' }
     it { expect(subject).to contain_class 'profile::apachemisc' }
