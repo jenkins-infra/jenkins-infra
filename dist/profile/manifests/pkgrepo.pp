@@ -111,7 +111,7 @@ class profile::pkgrepo (
     owner   => $mirror_user,
     group   => $mirror_group,
     mode    => '0600',
-    content => $osuosl_mirroring['privkey'],
+    content => $archives_jenkins_io_mirroring['privkey'],
     require => Account[$mirror_user],
   }
 
