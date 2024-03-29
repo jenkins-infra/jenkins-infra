@@ -14,7 +14,7 @@ RECENT_RELEASES_JSON="$1"
 echo ">> Update artifacts on get.jenkins.io"
 
 #shellcheck disable=SC1091
-source <%= @azure_storage_env_file %>
+source "<%= @azure_storage_env_file %>"
 : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}" "${STORAGE_NAME?}" "${STORAGE_FILESHARE?}"
 
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "${RECENT_RELEASES_JSON}" )
