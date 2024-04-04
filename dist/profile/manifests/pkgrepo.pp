@@ -141,7 +141,6 @@ Host ftp-osl.osuosl.org
     group   => $mirror_group,
     mode    => '0600',
     content => "
-export AZURE_STORAGE_ACCOUNT=${lookup('azure::getjenkinsio::storageaccount')}
 export STORAGE_NAME=${lookup('azure::getjenkinsio::storageaccount')}
 export STORAGE_FILESHARE=${lookup('azure::getjenkinsio::fileshare')}
 export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
