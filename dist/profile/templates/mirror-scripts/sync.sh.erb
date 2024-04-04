@@ -83,7 +83,6 @@ if [[ "${FLAG}" = '--full-sync' ]]; then
   ## Tell shellcheck to NOT check the sourced file (as it is not available when running shellcheck outside of production)
   #shellcheck disable=SC1091
   source "<%= @azure_storage_env_file %>"
-  : "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}"
 
   export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
   export STORAGE_PERMISSIONS=dlrw

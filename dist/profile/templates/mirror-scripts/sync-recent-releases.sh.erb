@@ -16,7 +16,6 @@ echo ">> Update artifacts on get.jenkins.io"
 ## Tell shellcheck to NOT check the sourced file (as it is not available when running shellcheck outside of production)
 #shellcheck disable=SC1091
 source "<%= @azure_storage_env_file %>"
-: "${AZURE_STORAGE_ACCOUNT?}" "${AZURE_STORAGE_KEY?}" "${STORAGE_NAME?}" "${STORAGE_FILESHARE?}"
 
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "${RECENT_RELEASES_JSON}" )
 if [[ -z "${RECENT_RELEASES}" ]] ; then
