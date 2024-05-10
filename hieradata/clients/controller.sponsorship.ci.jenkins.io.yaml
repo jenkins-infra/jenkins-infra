@@ -50,8 +50,6 @@ profile::jenkinscontroller::jcasc:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
-      defaultDisplayUrlProvider:
-        providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   artifact-manager:
     data: |-
       unclassified:
