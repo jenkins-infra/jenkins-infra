@@ -2,7 +2,7 @@
 unclassified:
   globalConfigFiles:
     configs:
-    <%-  @jcasc['artifact_caching_proxy']['providers'].each do |providerId, provider| -%>
+    <%- @jcasc['artifact_caching_proxy']['providers'].each do |providerId, provider| -%>
     - mavenSettings:
         comment: "Artifact caching proxy settings for the <%= provider['name'] %> provider"
         content: |
@@ -10,7 +10,7 @@ unclassified:
             <mirrors>
               <mirror>
                   <id><%= providerId %>-proxy</id>
-                  <url>https://repo.<%= providerId %>.jenkins.io/</url>
+                  <url><% if provider['url'] %><%= provider['url'] %><% else %>https://repo.<%= providerId %>.jenkins.io/<% end %></url>
                   <mirrorOf>external:*,!chimera-releases,!chimera-snapshots,!atlassian-public,!org.zowe.sdk,!jitpack.io,!space-maven</mirrorOf>
               </mirror>
             </mirrors>
@@ -44,10 +44,12 @@ unclassified:
         isReplaceAll: true
         name: "<%= provider['name'] %> Artifact Caching Proxy"
         providerId: "org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig"
+        <%- unless provider['disableCredentials'] == true -%>
         serverCredentialMappings:
         - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
           serverId: "<%= providerId %>-proxy"
         - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
           serverId: "<%= providerId %>-proxy-incrementals"
+        <%- end -%>
       <%- end -%>
 <%- end -%>
