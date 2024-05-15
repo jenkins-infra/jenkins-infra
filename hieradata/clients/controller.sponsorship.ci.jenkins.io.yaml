@@ -365,6 +365,154 @@ profile::jenkinscontroller::jcasc:
               - default
             cpus: 1
             memory: 1
+      ci.jenkins.io-agents-1:
+        enabled: true
+        provider: "azure"
+        credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
+        serverCertificate: >
+          ENC[PKCS7,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]
+        defaultNamespace: jenkins-agents
+        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        url: ENC[PKCS7,MIIBqQYJKoZIhvcNAQcDoIIBmjCCAZYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeYDyjHG34gEFTSRlDZEF/HkMRNQGleIM7LoqpLEbvpt8nwHEpk7VstyzTbU31S3F5M28XkOHW47AO5N+iUtqIPDppIH/f1A8cs3DasMLmQS1W57yvHiHv0cD/tpCTTodPFE+Jsrwr4XunU1CxmAE02fDnLt+F63SfKg3i2N7cFfwkhEd1P9eATf2acfqnQcvtzOKPt1dk21xbyEYSUaRwHmwvDY388apmmlzu8OHKskYFMAX1CuawSx9xKZxTC56xtBAd5jZIjXid9P9QG7+q0DMc03ySNCieNcN8En4+6bMmNm9d2xL+q89d4beER3vIegtWyJ3kwiY6O5bXdM2LTBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdwHuCAVC2vK1VuxTBEqwMgEBsBYDGp4ZHgwK+46rQ2u4NYQBLu+RIvCJGHWTPd1Nl1aW16s333hZy4dpv6RTH6PLRGJ6mLPBLqgCFVRiIWQWG]
+        agent_definitions:
+          - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
+            labels:
+              - maven
+              - maven-8
+              - jdk8
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
+            labels:
+              - maven-11
+              - jdk11
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-17
+              - jdk17
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-webbuilder
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
+            labels:
+              - node
+              - ruby
+              - webbuilder
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
+            labels:
+              - default
+            cpus: 1
+            memory: 1
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
     azure_vm_agents:
       clouds:
         azure-vms-jenkins-sponsorship:
