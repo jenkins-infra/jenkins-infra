@@ -367,7 +367,7 @@ profile::jenkinscontroller::jcasc:
             memory: 1
       ci.jenkins.io-agents-1:
         enabled: true
-        provider: "azure"
+        provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
@@ -519,7 +519,7 @@ profile::jenkinscontroller::jcasc:
           #       effect: "NoSchedule"
       ci.jenkins.io-agents-1-bom:
         enabled: true
-        provider: "azure"
+        provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-bom-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
