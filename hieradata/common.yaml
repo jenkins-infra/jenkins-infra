@@ -244,6 +244,10 @@ profile::jenkinscontroller::jcasc:
         name: AWS
       azure:
         name: Azure
+      azure-aks-internal:
+        name: Azure AKS internal
+        url: http://artifact-caching-proxy.artifact-caching-proxy:8080/
+        disableCredentials: true
       do:
         name: DigitalOcean
     credentialsId: artifact-caching-proxy-credentials
