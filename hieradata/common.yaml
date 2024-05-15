@@ -231,7 +231,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:5231ab6ad045668f26f8e7e6d03e524c42ccce6e350749eeee98633da8bdfd69
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:b18d4611ee913e534527c2d204298dc9ecb7e7fd5bb5c5eb81d366d12129a61d
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:9d236ada05eb9c538319d3597783a3fb1e04520186cf38920c03e81a831a3774
+      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:e28ce7ae97a58805c0e946421af48bef5e9a5bc5375e9fcd4d53f9e168c407ec
   tools_default_versions:
     jdk8: 8u412-b08
     jdk11: 11.0.23+9
