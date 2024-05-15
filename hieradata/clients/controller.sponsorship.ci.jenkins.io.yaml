@@ -428,41 +428,43 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         url: ENC[PKCS7,MIIBqQYJKoZIhvcNAQcDoIIBmjCCAZYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAeYDyjHG34gEFTSRlDZEF/HkMRNQGleIM7LoqpLEbvpt8nwHEpk7VstyzTbU31S3F5M28XkOHW47AO5N+iUtqIPDppIH/f1A8cs3DasMLmQS1W57yvHiHv0cD/tpCTTodPFE+Jsrwr4XunU1CxmAE02fDnLt+F63SfKg3i2N7cFfwkhEd1P9eATf2acfqnQcvtzOKPt1dk21xbyEYSUaRwHmwvDY388apmmlzu8OHKskYFMAX1CuawSx9xKZxTC56xtBAd5jZIjXid9P9QG7+q0DMc03ySNCieNcN8En4+6bMmNm9d2xL+q89d4beER3vIegtWyJ3kwiY6O5bXdM2LTBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAdwHuCAVC2vK1VuxTBEqwMgEBsBYDGp4ZHgwK+46rQ2u4NYQBLu+RIvCJGHWTPd1Nl1aW16s333hZy4dpv6RTH6PLRGJ6mLPBLqgCFVRiIWQWG]
         agent_definitions:
-          - name: jnlp-maven-8
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-8
-            labels:
-              - maven
-              - maven-8
-              - jdk8
-            cpus: 4
-            memory: 12
-            nodeSelector: "role=jenkins-agents"
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
-          - name: jnlp-maven-11
-            imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-11
-            labels:
-              - maven-11
-              - jdk11
-            cpus: 4
-            memory: 12
-            nodeSelector: "role=jenkins-agents"
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
+          # - name: jnlp-maven-8
+          #   imageName: jnlp-maven-all-in-one
+          #   javaHome: /opt/jdk-8
+          #   labels:
+          #     - maven
+          #     - maven-8
+          #     - jdk8
+          #   cpus: 4
+          #   memory: 12
+          #   nodeSelector: "role=jenkins-agents"
+          #   tolerations:
+          #     - key: "ci.jenkins.io/agents"
+          #       operator: "Equal"
+          #       value: "true"
+          #       effect: "NoSchedule"
+          # - name: jnlp-maven-11
+          #   imageName: jnlp-maven-all-in-one
+          #   javaHome: /opt/jdk-11
+          #   labels:
+          #     - maven-11
+          #     - jdk11
+          #   cpus: 4
+          #   memory: 12
+          #   nodeSelector: "role=jenkins-agents"
+          #   tolerations:
+          #     - key: "ci.jenkins.io/agents"
+          #       operator: "Equal"
+          #       value: "true"
+          #       effect: "NoSchedule"
           - name: jnlp-maven-17
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-17
             labels:
-              - maven-17
-              - jdk17
+            #   - maven-17
+            #   - jdk17
+              - maven-17-helpdesk-3954
+              - jdk17-helpdesk-3954
             cpus: 4
             memory: 12
             nodeSelector: "role=jenkins-agents"
@@ -475,8 +477,10 @@ profile::jenkinscontroller::jcasc:
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-21
             labels:
-              - maven-21
-              - jdk21
+              # - maven-21
+              # - jdk21
+              - maven-21-helpdesk-3954
+              - jdk21-helpdesk-3954
             cpus: 4
             memory: 12
             nodeSelector: "role=jenkins-agents"
@@ -485,34 +489,34 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
-          - name: jnlp-webbuilder
-            agentJavaBin: /opt/java/openjdk/bin/java
-            javaHome: /opt/java/openjdk
-            labels:
-              - node
-              - ruby
-              - webbuilder
-            cpus: 4
-            memory: 12
-            nodeSelector: "role=jenkins-agents"
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
-          - name: jnlp
-            agentJavaBin: /opt/java/openjdk/bin/java
-            javaHome: /opt/java/openjdk
-            labels:
-              - default
-            cpus: 1
-            memory: 1
-            nodeSelector: "role=jenkins-agents"
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
+          # - name: jnlp-webbuilder
+          #   agentJavaBin: /opt/java/openjdk/bin/java
+          #   javaHome: /opt/java/openjdk
+          #   labels:
+          #     - node
+          #     - ruby
+          #     - webbuilder
+          #   cpus: 4
+          #   memory: 12
+          #   nodeSelector: "role=jenkins-agents"
+          #   tolerations:
+          #     - key: "ci.jenkins.io/agents"
+          #       operator: "Equal"
+          #       value: "true"
+          #       effect: "NoSchedule"
+          # - name: jnlp
+          #   agentJavaBin: /opt/java/openjdk/bin/java
+          #   javaHome: /opt/java/openjdk
+          #   labels:
+          #     - default
+          #   cpus: 1
+          #   memory: 1
+          #   nodeSelector: "role=jenkins-agents"
+          #   tolerations:
+          #     - key: "ci.jenkins.io/agents"
+          #       operator: "Equal"
+          #       value: "true"
+          #       effect: "NoSchedule"
     azure_vm_agents:
       clouds:
         azure-vms-jenkins-sponsorship:
