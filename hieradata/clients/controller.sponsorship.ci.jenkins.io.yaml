@@ -115,7 +115,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       cik8s-bom:
-        enabled: false
+        enabled: true
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-bom-sa-token"
         serverCertificate: >
@@ -174,7 +174,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       cik8s:
-        enabled: false
+        enabled: true
         provider: "aws"
         credentialsId: "cik8s-jenkins-agent-sa-token"
         serverCertificate: >
@@ -269,7 +269,7 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
       doks:
-        enabled: false
+        enabled: true
         provider: do
         credentialsId: "doks-jenkins-agent-sa-token"
         serverCertificate: >
@@ -366,7 +366,7 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
       ci.jenkins.io-agents-1:
-        enabled: true
+        enabled: false
         provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
         serverCertificate: >
@@ -514,7 +514,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       ci.jenkins.io-agents-1-bom:
-        enabled: true
+        enabled: false
         provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-bom-sa-token"
         serverCertificate: >
