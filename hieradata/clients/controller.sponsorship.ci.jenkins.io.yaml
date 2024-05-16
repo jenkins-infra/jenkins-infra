@@ -576,7 +576,7 @@ profile::jenkinscontroller::jcasc:
           2v4qWQVeWfx8spHopW6fH9H6QwqsXZJ/rQqjZx8feO2rG3xc4UXndqmlvmUG
           JVN7Kz/PNG4ozveOV2YsCN+DFfxD5rNSl5GhVnfQkgRSwGTuZnKdJ9xVIx5f
           KjkyriOLova9/0vsl1ewMtKREDUYlH5s6B/ZKHJlas0cpV780JRgE=]
-        defaultNamespace: jenkins-agents
+        defaultNamespace: jenkins-agents-bom
         max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         url: ENC[PKCS7,MIIBqQYJKoZIhvcNAQcDoIIBmjCCAZYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAc0StQoSNO1r57vSJe9WktTQV6ibUu7hN6XkzjrUFwcLC81hLR7WK88EKEatPKkG/Nv3ZdnZDnBDOA1Zj+vrFWgXVqdXAe+Xw0pU3QX894US9wNaS7+uwviUPxd91lIvwIde69MdG22oStSlOkZimdJQ3YZfb2sCROlqb0I6mi2SEsqYLUPoOkW4FIqyfIwk0+//diCKMrSDd20YZKre7vnXj1rEmMIMZvGkXlDOlTjCAJ7mqX9xEU1JWpbxaQ+zuO9q8PmtE/ZPQ7uVEjClBDMJA04nRBKe8LUmSvB7FvsOIdfwFZ3+kliZf5NjZAoxJ76NQjPmJR6k7fxjQBGJtdzBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCs1F+GHCCnyGtd3LYjZxdNgEAzPr1zdAaCJy6JIyYTb3iIXBGLVQppVz8GrOqexBitGOYzuEloomLv7205Jl0qy31xyPk2n4KzZYKvKjsd+EqH]
         agent_definitions:
@@ -587,7 +587,7 @@ profile::jenkinscontroller::jcasc:
               - maven-bom-helpdesk-3954
             cpus: 4
             memory: 12
-            nodeSelector: "role=jenkins-agents"
+            nodeSelector: "role=jenkins-agents-bom"
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
