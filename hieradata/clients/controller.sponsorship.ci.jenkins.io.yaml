@@ -580,7 +580,7 @@ profile::jenkinscontroller::jcasc:
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-17
             labels:
-              - maven-bom-helpdesk-3954
+              - maven-bom
             cpus: 4
             memory: 12
             nodeSelector: "role=jenkins-agents-bom"
