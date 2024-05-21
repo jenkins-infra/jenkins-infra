@@ -240,16 +240,12 @@ profile::jenkinscontroller::jcasc:
     maven: 3.9.6
   artifact_caching_proxy:
     providers:
-      aws:
-        name: AWS
       azure:
         name: Azure
       azure-aks-internal:
         name: Azure AKS internal
         url: http://artifact-caching-proxy.artifact-caching-proxy:8080/
         disableCredentials: true
-      do:
-        name: DigitalOcean
     credentialsId: artifact-caching-proxy-credentials
     disabled: true
 ldap_url: "ldap://localhost:389"
