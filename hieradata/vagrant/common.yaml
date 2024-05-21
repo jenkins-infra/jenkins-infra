@@ -46,24 +46,6 @@ profile::jenkinscontroller::jcasc:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
-  artifact-manager:
-    data: |-
-      unclassified:
-        artifactManager:
-          artifactManagerFactories:
-          - jclouds:
-              provider: "s3"
-      aws:
-        awsCredentials:
-          credentialsId: "aws-s3-artifact-manager"
-          region: "us-east-2"
-        s3:
-          container: "localhost-test-bucket"    # Resource defined in jenkins-infra/aws/<controller_hostname>.tf
-          disableSessionToken: false            #
-          prefix: "localhost/"                  # Rule of thumb: Controller's hostname
-          useHttp: false                        # TLS for everyone \o/
-          usePathStyleUrl: false                # For non AWS services only
-          useTransferAcceleration: false        # Too expensive
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -128,12 +110,12 @@ profile::jenkinscontroller::jcasc:
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
-      cik8s:
+      first-cluster:
         enabled: true
-        provider: "aws"
-        credentialsId: "cik8s-jenkins-agent-sa-token"
+        provider: "azure"
+        credentialsId: "first-cluster-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
-        max_capacity: 150 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
+        max_capacity: 150
         url: SuperSecretThatShouldBeEncyptedInProduction
         defaultNamespace: jenkins-agents
         agent_definitions:
@@ -193,10 +175,10 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
             imagePullSecrets: dockerhub-credential
-      doks:
+      second-cluster:
         enabled: true
-        provider: do
-        credentialsId: "doks-jenkins-agent-sa-token"
+        provider: azure
+        credentialsId: "second-cluster-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
         max_capacity: 30 # Max 10 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each
         url: SuperSecretThatShouldBeEncryptedInProduction
@@ -349,7 +331,6 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
-  - artifact-manager-s3 # Store Artifact and stashes in AWS S3 (instead of the VM JENKINS_HOME directory)
   - azure-container-agents
   - azure-vm-agents
   - blueocean

@@ -43,12 +43,12 @@ profile::jenkinscontroller::jcasc:
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
-      cik8s:
+      first-cluster:
         enabled: true
-        provider: "aws"
-        credentialsId: "cik8s-jenkins-agent-sa-token"
+        provider: "azure"
+        credentialsId: "first-cluster-jenkins-agent-sa-token"
         serverCertificate: SuperSecretThatShouldBeEncryptedInProduction
-        max_capacity: 120 # Max 50 workers (16 CPU / 32 G) with 3 pods (3*4 CPU / 3*8G) each, minus the 30 of doks
+        max_capacity: 120
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
           - name: jnlp-webbuilder
