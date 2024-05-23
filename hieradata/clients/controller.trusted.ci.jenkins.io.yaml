@@ -165,3 +165,8 @@ profile::jenkinscontroller::plugins:
   - toolenv
   - workflow-aggregator
   - workflow-multibranch
+accounts:
+  kevingrdj:
+    ssh_keys:
+      potatoes:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDi8hiaY4Fl/XewmQkWfBO0xe3P0A1O7h8vxLDm5md7tbIl19UyvavyMGFZj0/klRkzGKgfDwnXv1vQKGfZVApoLtWcsZjOES+5AXZwVGRIYmiiCcVzriQEc91w4iJFaE9Wq5BLKgVUarEA4vyrdwfD3FmXc9cF2NIZXzTJCPWeLmmtuNweEnnUh5/16noCbwTN/e9CXgduTKX/kyEORrgQdeluoO6C7uRfRKYUiAqC6LeXzVqR7dWQA6BE5Bntn0qqyAnXdzfkx5y8dDNlPNENwJF2J6GP83RsaB3h7wCZoYCn80T02+iRxVG9vbp7kj5+v7wJhz/HF3RuOUge6cQd+jWL+v34kVXyZ8q0v8TKVz4Ackb2eXjzCbJvwBDsJEJwKFt9JnvwQFBZmn0JBV1SgkNRTOcZVuYFd+S8n6zB0OHZgoDBJGkYUukaQBdbBEX3MiDz80SnaKw97G7/pCD6kUBmuqblPSecOY+ZG085sfa0nVHIrrfbg0z0rfVOnfxTH2tny0HBGdPH/LXopa0Wo32qmf7iyopb9wvgbrVS/pEl15XcjyL5JFSwYJCs6tht1QUkQh5R5N/vtMmOojF6tXJSj7IauZnbidLubRaUns66yCB7hIIW1/7r4HDePu5KCRVHv5WqQiMY5wWu1W42AEpGRbE3tvTJKeXTXIRNAQ==
