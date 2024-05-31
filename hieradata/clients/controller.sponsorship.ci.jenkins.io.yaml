@@ -249,6 +249,20 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+          - name: jnlp-packaging
+            imageName: packaging
+            javaHome: /opt/jdk-17
+            labels:
+              - packaging
+              - jnlp-packaging
+            cpus: 1
+            memory: 1
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
           - name: jnlp
             agentJavaBin: /opt/java/openjdk/bin/java
             javaHome: /opt/java/openjdk
