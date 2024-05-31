@@ -250,7 +250,6 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
           - name: jnlp-packaging
-            imageName: packaging
             javaHome: /opt/jdk-17
             labels:
               - packaging
