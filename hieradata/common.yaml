@@ -223,7 +223,7 @@ profile::jenkinscontroller::jcasc:
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJokMFlqEIHh428rMxPGKucW2B/jmxIvmBvQuPTGoZ2IhKrg5I/gWbaXlro2psKGJjR7q/a0206lyZyF2Szb5yZOIUEcW3FxbIL9lI+xH+4T5ipnNiKWSC0TsSujK9BcDmw/Iuyq1IXStEhxZu53+g1nmN0aXLkxZbwUzlNKjXKO40hYfR5k/mOmR933AaCBQ/RoGS7knuqALaHddBZwaFSLvVzuUVfurZeSU8Q21+lwv25iP1ohcXlfvoiabES5VQx+E3CGX/oFzoysgtYWL0v/Vd43NOTDFu7fCUbJRA31N+czw6gJ//LrZkuFGYzBjFw91iXgnm4sneV5UwJUGlTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDQfE2Wq/VYjFxNw3xWO2kVgDBaM7Y6exFPmmn6y/i2mwkqV3WqrAPqOF4dZZ6gELy8e+jCFqhYO9keuLXM1AdBTpo=]
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.69.0@sha256:2372d3acdd71ad6b30a319444a37cb1061dcd9bb1295a9f83f8b40319254d59f
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.70.1@sha256:7a06b77656f4c05a84ae46213aa9250dbc2f8c10763386bdf7718b5b06e454f8
       # Windows container images (jenkins-infra/docker-inbound-agents)
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:e1cd640cb38d22db2d5564d01b3716dfc6f33d5454b832826d2d31375f25bc8e
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:8a2b88577b452980e64f56ae281783052f719be0d494017f3e12357168dfa1ff
