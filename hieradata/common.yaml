@@ -219,19 +219,19 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     azure_vms_gallery_image:
-      version: 1.69.0
+      version: 1.71.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJokMFlqEIHh428rMxPGKucW2B/jmxIvmBvQuPTGoZ2IhKrg5I/gWbaXlro2psKGJjR7q/a0206lyZyF2Szb5yZOIUEcW3FxbIL9lI+xH+4T5ipnNiKWSC0TsSujK9BcDmw/Iuyq1IXStEhxZu53+g1nmN0aXLkxZbwUzlNKjXKO40hYfR5k/mOmR933AaCBQ/RoGS7knuqALaHddBZwaFSLvVzuUVfurZeSU8Q21+lwv25iP1ohcXlfvoiabES5VQx+E3CGX/oFzoysgtYWL0v/Vd43NOTDFu7fCUbJRA31N+czw6gJ//LrZkuFGYzBjFw91iXgnm4sneV5UwJUGlTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDQfE2Wq/VYjFxNw3xWO2kVgDBaM7Y6exFPmmn6y/i2mwkqV3WqrAPqOF4dZZ6gELy8e+jCFqhYO9keuLXM1AdBTpo=]
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.69.0@sha256:2372d3acdd71ad6b30a319444a37cb1061dcd9bb1295a9f83f8b40319254d59f
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.71.0@sha256:d4161be23dab2c71cd4349875afafb43651c55f7e00d9016d4ebd87bb2c1c1d5
       # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:7fd73a35abf8831db5e62bf90091ff0d99f76d162578e36e0e34338ad2b78174
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:6d13c6aefd54b3c4301948f134e735038542e3bfca5cda0c7939bdd2c344e0b5
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:3db3549209a7fc4c480db6c66907baf8fd62eef82af542028ff519b3699a5a5f
-      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:edfe8b7b31f67d6d76960376bc64cf03ff7a56ddc0f0bfd3af18e7503c076adc
-      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:765e79f96f1f97ee03e747b2b872889c438858c3fb5f9d6a5afc2aa707ccbcef
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:e1cd640cb38d22db2d5564d01b3716dfc6f33d5454b832826d2d31375f25bc8e
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:8a2b88577b452980e64f56ae281783052f719be0d494017f3e12357168dfa1ff
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:23e863a31f2c338049e740cf40e9d197478370889d4d78cf9fcee68b452a1e4a
+      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:abdf81aca0074e0b039cfe1e8200a4ea0cde6423273e5b958653739fcd919760
+      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:404af048ad6429efa6e4d48c8b4829076b0aa8b47f41e81240b05e22f77f7ee3
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:d35ded3be6daaa839dd1cef181f2dd424f95ea4088374130f6e87e3bacd637f7
+      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:23e1505aa1022848b859e95652e649fb0f479b9079ddbd354ca0184322eb4d8e
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u412-b08
@@ -277,7 +277,7 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:26.1.3-1~ubuntu.22.04~jammy
+docker::version: 5:26.1.4-1~ubuntu.22.04~jammy
 # This file storage and the storage account are defined in https://github.com/jenkins-infra/azure/blob/main/get.jenkins.io.tf
 azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
 azure::getjenkinsio::fileshare: "overridewithfilestoragename"
@@ -291,7 +291,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.3.30
+profile::openvpn::image_tag: 2.3.32
 profile::updatesite::docroot: /var/www/updates.jenkins.io
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
