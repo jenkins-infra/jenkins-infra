@@ -50,6 +50,8 @@ profile::jenkinscontroller::jcasc:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
+      defaultDisplayUrlProvider:
+        providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   tools:
     groovy:
       groovy: # Default version is named "groovy"
