@@ -50,8 +50,10 @@ profile::jenkinscontroller::jcasc:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
-      defaultDisplayUrlProvider:
-        providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+        # Weird indentation: we would expect 2 less spaces below
+        # but hierdata is behaving weirdly (bug in YAML parser?)
+        defaultDisplayUrlProvider:
+          providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   tools:
     groovy:
       groovy: # Default version is named "groovy"
