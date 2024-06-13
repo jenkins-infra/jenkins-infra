@@ -13,7 +13,7 @@ profile::openvpn::networks:
       - 10.244.0.0/14 # Access to the public-vnet network
       - 10.200.0.0/14 # Access to the public-sponsorship vnet network
       - 10.253.0.0/21 # Access to the public-db network
-      - 10.206.0.0/23 # Access to the infra-ci-sponsorship vnet network
+      - 10.206.0.0/22 # Access to the infra-ci-sponsorship vnet network
       - 10.252.8.0/21 # Access to the cert-ci-jenkins-io network
       - 10.205.8.0/24 # Access to the cert-ci-jenkins-io-sponsorship network
       - 10.252.0.0/21 # Access to the trusted-ci-jenkins-io network
