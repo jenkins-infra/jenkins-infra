@@ -33,11 +33,13 @@ conditions:
       architecture: amd64
       # Tag comes from the source input value
   checkIfKeyExist:
-    kind: file
+    kind: yaml
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      matchpattern: "profile::openvpn::image"
+      keyonly: true
+      key: $.profile::openvpn::image_tag
+
 
 targets:
   imageTag:
