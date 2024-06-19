@@ -24,11 +24,12 @@ sources:
 
 conditions:
   checkIfHieradataCommonHasDockerVersionKey:
-    kind: file
+    kind: yaml
     disablesourceinput: true
     spec:
       file: hieradata/common.yaml
-      matchpattern: "docker::version:.*"
+      keyonly: true
+      key: $.docker::version
 
 targets:
   UpdateHieradataCommonHasDockerVersionKey:

@@ -22,17 +22,13 @@ sources:
       key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
   # Retrieving kubectl from packer-images to synchronize its version across our infra
   getKubectlVersionFromPackerImages:
-    kind: file
+    kind: yaml
     name: Get the latest kubectl version set in packer-images
     dependson:
       - getPackerImageDeployedVersion
     spec:
       file: https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source "getPackerImageDeployedVersion" }}/provisioning/tools-versions.yml
-      matchpattern: 'kubectl_version:\s(.*)'
-    transformers:
-      - findsubmatch:
-          pattern: 'kubectl_version:\s(.*)'
-          captureindex: 1
+      key: $.kubectl_version
 
 targets:
   updateHieradataVersion:

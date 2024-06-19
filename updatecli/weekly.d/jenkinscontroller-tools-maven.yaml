@@ -23,17 +23,13 @@ sources:
   # Retrieving Maven from packer-images to synchronize its version across our infra
   # See https://github.com/jenkins-infra/docker-inbound-agents/issues/18
   getMavenVersionFromPackerImages:
-    kind: file
-    name: Get the latest Maven version set in packer-images
+    kind: yaml
+    name: Get the latest Maven version set in the "production" Packer images
     dependson:
       - getPackerImageDeployedVersion
     spec:
       file: https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source "getPackerImageDeployedVersion" }}/provisioning/tools-versions.yml
-      matchpattern: 'maven_version:\s(.*)'
-    transformers:
-      - findsubmatch:
-          pattern: 'maven_version:\s(.*)'
-          captureindex: 1
+      key: $.maven_version
 
 conditions:
   checkIfReleaseIsAvailable:
@@ -74,7 +70,6 @@ targets:
         - hieradata/clients/controller.sponsorship.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.toolLocation[0].home
     scmid: default
-
 
 actions:
   default:
