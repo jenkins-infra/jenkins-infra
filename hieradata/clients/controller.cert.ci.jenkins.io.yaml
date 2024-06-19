@@ -37,6 +37,7 @@ profile::jenkinscontroller::jcasc:
   global_libraries:
     disabled: true
   tools:
+    # Multiple Maven versions managed by the controller users (JenSec team)
     maven:
       mvn:
         disabled: true
