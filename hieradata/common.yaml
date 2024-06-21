@@ -238,7 +238,7 @@ profile::jenkinscontroller::jcasc:
     jdk11: 11.0.23+9
     jdk17: 17.0.11+9
     jdk21: 21.0.3+9
-    maven: 3.9.7
+    maven: 3.9.8
   artifact_caching_proxy:
     providers:
       azure:
