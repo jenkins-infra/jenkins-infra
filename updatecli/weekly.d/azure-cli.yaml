@@ -22,6 +22,8 @@ sources:
       repository: "azure-cli"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
+      typefilter:
+        latest: true
     transformers:
       - trimprefix: 'azure-cli-'
 
