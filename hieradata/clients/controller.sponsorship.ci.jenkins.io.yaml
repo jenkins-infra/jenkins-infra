@@ -119,7 +119,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       ci.jenkins.io-agents-1:
-        enabled: false
+        enabled: true
         provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
         serverCertificate: >
@@ -280,7 +280,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       ci.jenkins.io-agents-1-bom:
-        enabled: false
+        enabled: true
         provider: "azure-aks-internal"
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-bom-sa-token"
         serverCertificate: >
