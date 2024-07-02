@@ -219,11 +219,11 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     azure_vms_gallery_image:
-      version: 1.75.0
+      version: 1.76.0
       subscription_id: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJokMFlqEIHh428rMxPGKucW2B/jmxIvmBvQuPTGoZ2IhKrg5I/gWbaXlro2psKGJjR7q/a0206lyZyF2Szb5yZOIUEcW3FxbIL9lI+xH+4T5ipnNiKWSC0TsSujK9BcDmw/Iuyq1IXStEhxZu53+g1nmN0aXLkxZbwUzlNKjXKO40hYfR5k/mOmR933AaCBQ/RoGS7knuqALaHddBZwaFSLvVzuUVfurZeSU8Q21+lwv25iP1ohcXlfvoiabES5VQx+E3CGX/oFzoysgtYWL0v/Vd43NOTDFu7fCUbJRA31N+czw6gJ//LrZkuFGYzBjFw91iXgnm4sneV5UwJUGlTBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDQfE2Wq/VYjFxNw3xWO2kVgDBaM7Y6exFPmmn6y/i2mwkqV3WqrAPqOF4dZZ6gELy8e+jCFqhYO9keuLXM1AdBTpo=]
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.75.0@sha256:3ce62ab3cec358b34b77bb1281ec13a10e5dd0bc66e3d8e4902e862b9588aacf
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.76.0@sha256:f61e69513ee8ea39f80d1493c14f228004b9f11fa1c5cfdb6c3d938fe003ea10
       # Windows container images (jenkins-infra/docker-inbound-agents)
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:3a0464e85852acc588718ebe0b0f22038177a7c051f7753e460e8f382c4b4528
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:5955dbfbe315ffcb5aa028c65e2ba2cbdccec0d5afeaaf5eabf0cf1747b1e855
