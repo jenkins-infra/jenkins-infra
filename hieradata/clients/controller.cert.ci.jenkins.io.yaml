@@ -82,12 +82,42 @@ profile::jenkinscontroller::jcasc:
           default:
             type: "zip"
             version: "11.0.20+8"
+      jdk-17: &tool_jdk17
+        installers:
+          linux-amd64:
+            type: "command"
+            label: "linux"
+            command: "echo JDK17"
+            toolHome: "/opt/jdk-17"
+          windows-amd64:
+            type: "batchFile"
+            label: "windows"
+            command: "echo JDK17"
+            toolHome: "C:/Tools/jdk-17"
+          default:
+            type: "zip"
+            version: "17.0.11+9"
+      jdk-21: &tool_jdk21
+        installers:
+          linux-amd64:
+            type: "command"
+            label: "linux"
+            command: "echo JDK21"
+            toolHome: "/opt/jdk-21"
+          windows-amd64:
+            type: "batchFile"
+            label: "windows"
+            command: "echo JDK21"
+            toolHome: "C:/Tools/jdk-21"
+          default:
+            type: "zip"
+            version: "21.0.3+9"
       # Use Yaml anchor to avoid repeating configuration
       jdk8: *tool_jdk8
       # Use Yaml anchor to avoid repeating configuration
       jdk11: *tool_jdk11
-      jdk17:
-        disabled: true
+      jdk17: *tool_jdk17
+      jdk21: *tool_jdk21
     generic:
       groovy-3.0.6:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
