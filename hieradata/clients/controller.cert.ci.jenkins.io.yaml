@@ -164,6 +164,3 @@ profile::jenkinscontroller::plugins:
 
   # Utility
   - compact-columns
-
-  # (Likely unused) detached
-  - javax-mail-api # split after 2.330
