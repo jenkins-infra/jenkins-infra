@@ -51,6 +51,16 @@ profile::jenkinscontroller::jcasc:
           linux-amd64:
             type: "zip"
             label: "(linux && amd64) || updatecenter || census"
+      jdk17:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "(linux && amd64) || updatecenter || census"
+      jdk21:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "(linux && amd64) || updatecenter || census"
   permanent_agents:
     agent-1:
       remoteFS: /home/jenkins/agent-workspace
