@@ -197,6 +197,7 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "windows"
             os: "windows"
+    jgit: true # Set to false to use Native `git` CLI
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'
