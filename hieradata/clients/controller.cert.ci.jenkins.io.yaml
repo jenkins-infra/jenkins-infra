@@ -196,4 +196,5 @@ profile::jenkinscontroller::plugins:
   - workflow-basic-steps
 
   # Utility
+  - better-pipeline-flowgraph-table
   - compact-columns
