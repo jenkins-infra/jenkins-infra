@@ -224,6 +224,44 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - linux-amd64
+        - name: "ubuntu-22-inbound-jdk17"
+          description: "Ubuntu 22.04 LTS"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu
+            - java
+            - linux
+            - docker
+            - linux-amd64
+            - jdk17
+          javaHome: /opt/jdk-17 # Test override of the default JDK for builds
+          agentJavaBin: /opt/jdk-17 # Test override of the default JDK for builds
+        - name: "ubuntu-22-inbound-jdk21"
+          description: "Ubuntu 22.04 LTS"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu
+            - java
+            - linux
+            - docker
+            - linux-amd64
+            - jdk21
+          javaHome: /opt/jdk-21 # Test override of the default JDK for builds
+          agentJavaBin: /opt/jdk-21 # Test override of the default JDK for builds
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
