@@ -235,12 +235,7 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu
-            - java
-            - linux
-            - docker
-            - linux-amd64
-            - jdk17
+            - ubuntu-22-maven-17
           javaHome: /opt/jdk-17 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-17 # Test override of the default JDK for builds
         - name: "ubuntu-22-inbound-jdk21"
@@ -254,12 +249,7 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu
-            - java
-            - linux
-            - docker
-            - linux-amd64
-            - jdk21
+            - ubuntu-22-maven-21
           javaHome: /opt/jdk-21 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-21 # Test override of the default JDK for builds
           maxInstances: 50
