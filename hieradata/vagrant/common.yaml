@@ -224,6 +224,11 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - linux-amd64
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
         - name: "ubuntu-22-inbound-jdk17"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -238,6 +243,11 @@ profile::jenkinscontroller::jcasc:
             - ubuntu-22-maven-17
           javaHome: /opt/jdk-17 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-17 # Test override of the default JDK for builds
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
         - name: "ubuntu-22-inbound-jdk21"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
