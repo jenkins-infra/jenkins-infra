@@ -392,7 +392,7 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-        - name: "ubuntu-22-inbound-jdk17"
+        - name: "ubuntu-22-inbound-amd64-jdk17"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
@@ -403,7 +403,7 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu-22-maven-17
+            - ubuntu-22-amd64-maven-17
           javaHome: /opt/jdk-17 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-17 # Test override of the default JDK for builds
           maxInstances: 50
@@ -411,7 +411,7 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-        - name: "ubuntu-22-inbound-jdk21"
+        - name: "ubuntu-22-amd64-inbound-jdk21"
           description: "Ubuntu 22.04 LTS"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
@@ -422,7 +422,7 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu-22-maven-21
+            - ubuntu-22-amd64-maven-21
           javaHome: /opt/jdk-21 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-21 # Test override of the default JDK for builds
           maxInstances: 50
