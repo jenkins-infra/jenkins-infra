@@ -369,8 +369,8 @@ profile::jenkinscontroller::jcasc:
           disableSpot: true # Not enough quota available
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAX1+w3HsG7jVw0T37cE9RVIEyAaNIg31kdhsxq/N3g0zehZB8QQw6K6/0y0uyNZhqxxdOUHHWN4qmLwrHXhsP+EXF/WHleC2qgYMJT8HHbJtVJ7yEVeeJKgUNipgWRf5FcB2hTKdcwfMqunMapQ4vmdREvAeWggN+racF1yJ1dsOJkzs0oR4GaCfGZLm3IxKMy13ifBJtlTl6dC6f8K70Z9aGbcWf3TqNVrznop9q8LlOPGOZXYyo8WGl1CheSUm5VbWa+o7J04cBOcYP+IAlJObZAN3rdM78Kt0GuDTTjlMZK3R/2e6+nyDw2LO2mMlfNPQcklI5uT1eh6nlWy+cjjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAhoV9P3un0kUya+CJJTFAHgCBAr5FalXjPsRdLH9XztQDGwMHJj8jLCoBk9D+268MpZw==]
       agent_definitions:
-        - name: "ubuntu-22"
-          description: "Ubuntu 22.04 LTS"
+        - name: "ubuntu-22-amd64-maven8"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
@@ -380,18 +380,33 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu
-            - java
-            - linux
-            - docker
-            - linux-amd64
+            - ubuntu-22-amd64-maven8
+          javaHome: /opt/jdk-8
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
+        - name: "ubuntu-22-amd64-maven11"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-maven11
+          javaHome: /opt/jdk-11
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-maven17"
-          description: "Ubuntu 22.04 LTS with JDK17 set as default java CLI"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
@@ -402,6 +417,12 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - ubuntu-22-amd64-maven17
+            # Labels indicating it is the default VM template
+            - ubuntu
+            - java
+            - linux
+            - docker
+            - linux-amd64
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
@@ -409,7 +430,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-maven21"
-          description: "Ubuntu 22.04 LTS with JDK21 set as default java CLI"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
@@ -426,8 +447,8 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-        - name: "ubuntu-22-arm64"
-          description: "Ubuntu 22.04 LTS ARM64"
+        - name: "ubuntu-22-arm64-maven17"
+          description: "Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
           os: "ubuntu"
           os_version: "22.04"
@@ -438,17 +459,38 @@ profile::jenkinscontroller::jcasc:
           osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
           labels:
-            - ubuntu
+            - ubuntu-22-amd64-maven17
+            # Labels indicating it is the default VM template for arm64
             - arm64docker
             - arm64linux
             - linux-arm64
+          javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-        - name: "ubuntu-22-highmem"
-          description: "Ubuntu 22.04 LTS Highmem"
+        - name: "ubuntu-22-arm64-maven21"
+          description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-arm64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 100 Gb OsCacheDisk local storage (150 temp)
+          ephemeralOSDisk: true
+          osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
+          architecture: arm64
+          labels:
+            - ubuntu-22-amd64-maven21
+          javaHome: /opt/jdk-21
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
+        - name: "ubuntu-22-amd64-highmem-maven17"
+          description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
@@ -457,8 +499,10 @@ profile::jenkinscontroller::jcasc:
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           architecture: amd64
+          javaHome: /opt/jdk-17
           labels:
-            - ubuntu
+            - ubuntu-22-amd64-highmem-maven17
+            # Labels indicating it is the default VM template for high mem x86_64
             - highmem
             - highram
             - docker-highmem
@@ -468,8 +512,8 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
           credentialsId: "jenkinsvmagents-userpass"
           spot: true
-        - name: "ubuntu-22-highmem-nonspot"
-          description: "Ubuntu 22.04 LTS Highmem"
+        - name: "ubuntu-22-amd64-highmem-nonspot-maven17"
+          description: "Ubuntu 22.04 LTS x86_64 High Memory NON Spot instance with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
@@ -478,7 +522,10 @@ profile::jenkinscontroller::jcasc:
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           architecture: amd64
+          javaHome: /opt/jdk-17
           labels:
+            - ubuntu-22-amd64-highmem-nonspot-maven17
+            # Labels indicating it is the default VM template for high mem x86_64
             - highmem-nonspot
             - highram-nonspot
             - docker-highmem-nonspot
