@@ -236,7 +236,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u412-b08
-    jdk11: 11.0.23+9
+    jdk11: 11.0.24+8
     jdk17: 17.0.11+9
     jdk21: 21.0.3+9
     maven: 3.9.8
