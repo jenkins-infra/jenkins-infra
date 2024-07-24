@@ -229,6 +229,42 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
+        - name: "ubuntu-22-amd64-maven17"
+          description: "Ubuntu 22.04 LTS with JDK17 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-maven17
+          javaHome: /opt/jdk-17
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
+        - name: "ubuntu-22-amd64-maven21"
+          description: "Ubuntu 22.04 LTS with JDK21 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-maven21
+          javaHome: /opt/jdk-21
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
         - name: "ubuntu-22-arm64-ssh"
           description: "Ubuntu 22.04 LTS ARM64"
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
