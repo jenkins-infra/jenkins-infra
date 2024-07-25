@@ -18,12 +18,9 @@ tool:
   <%- end -%>
   git:
     installations:
-    <%- if @jcasc['tools']['jgit'] -%>
-    - name: "jgit"
-    <%- else -%>
     - home: "git"
       name: "git-native"
-    <%- end -%>
+    - name: "jgit"
   <%- if @jcasc['tools']['groovy'] -%>
   groovy:
     installations:
