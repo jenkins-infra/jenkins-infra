@@ -1,18 +1,19 @@
 # This class deploy an openvpn dockerized service based on the project jenkins-infra/openvpn
 
 class profile::openvpn (
-  String $image_tag                    = 'latest',
-  String $image                        = 'jenkinsciinfra/openvpn',
-  Optional[String] $auth_ldap_password = undef,
-  String $auth_ldap_binddn             = 'cn=admin,dc=jenkins-ci,dc=org',
-  String $auth_ldap_url                = 'ldaps://ldap.jenkins.io',
-  String $auth_ldap_group_member       = 'cn=all',
-  Optional[String] $openvpn_ca_pem     = undef,
-  Optional[String] $openvpn_server_pem = undef,
-  Optional[String] $openvpn_server_key = undef,
-  Optional[String] $openvpn_dh_pem     = undef,
-  Hash $vpn_network                    = {},
-  Hash $networks                       = {}
+  String $image_tag                             = 'latest',
+  String $image                                 = 'jenkinsciinfra/openvpn',
+  Optional[String] $auth_ldap_password          = undef,
+  String $auth_ldap_binddn                      = 'cn=admin,dc=jenkins-ci,dc=org',
+  String $auth_ldap_url                         = 'ldaps://ldap.jenkins.io',
+  String $auth_ldap_group_member                = 'cn=all',
+  Optional[String] $openvpn_ca_pem              = undef,
+  Optional[String] $openvpn_server_pem          = undef,
+  Optional[String] $openvpn_server_key          = undef,
+  Optional[String] $openvpn_dh_pem              = undef,
+  Hash $vpn_network                             = {},
+  Hash $networks                                = {},
+  Hash[String,String] $allowed_external_ssh_ips = []
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::docker
@@ -158,8 +159,8 @@ class profile::openvpn (
       $item and $item.length > 0
     }
 
-    # Allow routing from the VPN vnet to all the internal networks (excluding the main eth0 network)
     if $network_nic != 'eth0' {
+      # Allow routing from the VPN vnet to all the internal networks (excluding the main eth0 network)
       $destinations_cidrs.each |$destination_cidr| {
         # Then add firewall rules to allow routing through networks using masquerading
         firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 22/80/443/5432":
@@ -175,6 +176,24 @@ class profile::openvpn (
             5432, # Allow Postgres to private networks
           ],
           destination => $destination_cidr,
+          table       => 'nat',
+        }
+      }
+    } else {
+      # Allow routing from VPN to the following external (Internet) with outbound SSH (admin restrictions)
+      $allowed_external_ssh_ips.each |String $service_name, String $external_ssh_ip| {
+        $external_ssh_ip_cidr = "${external_ssh_ip}/32"
+
+        firewall { "100 allow routing from ${vpn_network['cidr']} to ${service_name} (${external_ssh_ip}) on port 22":
+          chain       => 'POSTROUTING',
+          jump        => 'MASQUERADE',
+          proto       => 'tcp',
+          outiface    => 'eth0',
+          source      => $vpn_network['cidr'],
+          dport       => [
+            22,
+          ],
+          destination => $external_ssh_ip_cidr,
           table       => 'nat',
         }
       }

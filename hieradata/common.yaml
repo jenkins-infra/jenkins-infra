@@ -293,6 +293,11 @@ limits:
       soft: "65536"
       hard: "65536"
 profile::openvpn::image_tag: 2.4.9
+profile::openvpn::allowed_external_ssh_ips:
+  pkg.origin.jenkins.io: 52.202.51.185
+  census.jenkins.io: 52.202.38.86
+  usage.jenkins.io: 52.204.62.78
+  archives.jenkins.io: 46.101.121.132
 profile::updatesite::docroot: /var/www/updates.jenkins.io
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
