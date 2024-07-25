@@ -174,6 +174,7 @@ class profile::openvpn (
             80,   # Allow HTTP to private networks
             443,  # Allow HTTPS to private networks
             5432, # Allow Postgres to private networks
+            3306, # Allow MySQL to private networks
           ],
           destination => $destination_cidr,
           table       => 'nat',
@@ -191,7 +192,9 @@ class profile::openvpn (
           outiface    => 'eth0',
           source      => $vpn_network['cidr'],
           dport       => [
-            22,
+            22,   # Allow SSH to external VMs
+            80,   # Allow HTTP to external VMs
+            443,  # Allow HTTPS to external VMs
           ],
           destination => $external_ssh_ip_cidr,
           table       => 'nat',
