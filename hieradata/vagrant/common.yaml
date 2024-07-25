@@ -51,7 +51,6 @@ profile::jenkinscontroller::jcasc:
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   tools:
-    jgit: false # Use native git instead of default JGit
     groovy:
       groovy: # Default version is named "groovy"
         version: "2.4.21"
