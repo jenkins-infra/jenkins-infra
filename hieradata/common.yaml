@@ -219,11 +219,11 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
   agent_images:
     azure_vms_gallery_image:
-      version: 1.82.0
+      version: 1.81.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.82.0@sha256:bae18988c2ebc45b34d8891c6372926086ef7b6d8c2d3a544f68bfae71fa41de
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:1.81.0@sha256:7a7a7dce9e2cd2c854fe434c04619b9f3b61961ee221da933f7a7fb2be109366
       # Windows container images (jenkins-infra/docker-inbound-agents)
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:dcae4a047c6ff222deabf3697f8099fe564bd46dfb35c77710fcb3129d367848
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:556280a781eaac57d46ec488a5587fd048d4470a8a83fcdbe5fd35824feebca2
