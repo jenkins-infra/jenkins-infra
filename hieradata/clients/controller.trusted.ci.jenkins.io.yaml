@@ -102,7 +102,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: "/opt/jdk-11"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
-          spot: true
+          spot: false
           architecture: amd64
           labels:
             - java
@@ -110,6 +110,43 @@ profile::jenkinscontroller::jcasc:
             - docker
             - maven-11
             - jdk11
+          javaHome: '/opt/jdk-11'
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
+        - name: "ubuntu-22-maven-17"
+          description: "Ubuntu 22.04 LTS"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - ubuntu-22-maven-17
+          javaHome: '/opt/jdk-17'
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
+        - name: "ubuntu-22-maven-21"
+          description: "Ubuntu 22.04 LTS"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - ubuntu-22-maven-21
+          javaHome: '/opt/jdk-21'
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
