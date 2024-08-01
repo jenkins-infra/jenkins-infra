@@ -459,7 +459,7 @@ profile::jenkinscontroller::jcasc:
           osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
           labels:
-            - ubuntu-22-amd64-maven17
+            - ubuntu-22-arm64-maven17
             # Labels indicating it is the default VM template for arm64
             - arm64docker
             - arm64linux
@@ -482,7 +482,7 @@ profile::jenkinscontroller::jcasc:
           osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
           labels:
-            - ubuntu-22-amd64-maven21
+            - ubuntu-22-arm64-maven21
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
