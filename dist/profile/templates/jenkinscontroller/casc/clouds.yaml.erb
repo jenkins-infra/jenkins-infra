@@ -120,8 +120,14 @@ jenkins:
             systemctl enable jenkins-agent
             systemctl start jenkins-agent || systemctl status jenkins-agent
           ) 2>&1 | tee /var/log/agent-init-jenkins.log
-          <%-end -%>
 
+          <%- else -%>
+
+          # Setup default java for build (not for agent process) 
+          export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>
+          update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
+          echo "JAVA_HOME=^${DEFAULT_JDK}" >> /etc/environment
+          <%-end -%>
           # Remove jenkins user from sudoers
           rm -f /etc/sudoers.d/90-cloud-init-users
         <%- end -%>

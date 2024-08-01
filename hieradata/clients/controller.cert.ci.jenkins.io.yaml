@@ -142,6 +142,7 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
+          javaHome: "/opt/jdk-11"
           location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
