@@ -20,7 +20,16 @@ jenkins:
           # Setup datadog
           (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
           & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart
-            <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
+
+          # Setup Docker Engine
+          @'
+          {
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+          }
+          '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
+          Restart-Service docker
+
+          <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup inbound agent
           $jenkinsServerUrl = $args[0] # Always ends with a '/'
           $agentName = $args[1]
@@ -73,6 +82,17 @@ jenkins:
             systemctl enable datadog-agent.service
             systemctl start datadog-agent.service
           ) 2>&1 | tee /var/log/agent-init-datadog.log
+
+          # Setup Docker Engine
+          mkdir -p /etc/docker
+          cat <<EOF >/etc/docker/daemon.json
+          {
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+          }
+          EOF
+          systemctl daemon-reload
+          systemctl restart docker
+
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
           (
