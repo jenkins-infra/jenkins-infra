@@ -207,7 +207,7 @@ profile::jenkinscontroller::jcasc:
       agentJavaBin: 'C:/tools/jdk-17/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: 'C:/tools/jdk-17' # Default JDK provided for builds when no pipeline setup exists
-      registryMirror: https://cijenkinsio.azurecr.io
+      registryMirror: https://dockerhubmirror.azurecr.io
     ubuntu:
       agentDir: "/home/jenkins/agent"
       remoteAdmin: jenkins
@@ -218,7 +218,7 @@ profile::jenkinscontroller::jcasc:
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: '/opt/jdk-17' # Default JDK provided for builds when no pipeline setup exists
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
-      registryMirror: https://cijenkinsio.azurecr.io
+      registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
       version: 1.84.0
