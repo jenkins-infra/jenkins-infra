@@ -285,7 +285,7 @@ azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
 azure::getjenkinsio::fileshare: "overridewithfilestoragename"
 azure::getjenkinsio::storagekey: "overridewithstoragekey"
 profile::azcopy::azcopy_version: 10.26.0-20240731
-profile::azcopy::az_cli_version: 2.62.0
+profile::azcopy::az_cli_version: 2.63.0
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
 limits:
