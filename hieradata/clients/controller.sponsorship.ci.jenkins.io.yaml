@@ -632,6 +632,7 @@ profile::jenkinscontroller::plugins:
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
   - datadog # Datadog plugin
   - dark-theme # Dark theme
+  - disable-job-button # Removed from Core by 2.461.x
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git

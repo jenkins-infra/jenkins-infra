@@ -160,6 +160,7 @@ profile::jenkinscontroller::plugins:
   - credentials-binding
   - configuration-as-code
   - docker-workflow
+  - disable-job-button
   - git-client
   - git
   - github
