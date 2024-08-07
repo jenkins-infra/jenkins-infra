@@ -198,3 +198,4 @@ profile::jenkinscontroller::plugins:
   # Utility
   - better-pipeline-flowgraph-table
   - compact-columns
+  - disable-job-button
