@@ -153,10 +153,9 @@ profile::jenkinscontroller::jcasc:
             - docker
             - ubuntu
             - ubuntu-22-amd64-maven-11
-          javaHome: '/opt/jdk-11'
-          maxInstances: 7
+          maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
+          credentialsId: "azure-login"
           usePrivateIP: true
         - name: "ubuntu-22-amd64-maven-17"
           description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
@@ -172,9 +171,9 @@ profile::jenkinscontroller::jcasc:
           labels:
             - ubuntu-22-maven-17
           javaHome: '/opt/jdk-17'
-          maxInstances: 7
+          maxInstances: 10
           useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
+          credentialsId: "azure-login"
           usePrivateIP: true
         - name: "ubuntu-22-amd64-maven-21"
           description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
@@ -190,9 +189,9 @@ profile::jenkinscontroller::jcasc:
           labels:
             - ubuntu-22-maven-21
           javaHome: '/opt/jdk-21'
-          maxInstances: 7
+          maxInstances: 10
           useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
+          credentialsId: "azure-login"
           usePrivateIP: true
         - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
