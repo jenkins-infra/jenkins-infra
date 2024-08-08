@@ -150,11 +150,24 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     ],
   }
 
+  package { 'cron':
+    ensure => installed,
+  }
+
   cron { 'mirrorbrain-sync-releases':
     command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
     minute  => '0',
     user    => $mirror_user,
-    require => File["${mirror_home_dir}/sync.sh"],
+    require => [File["${mirror_home_dir}/sync.sh"],Package['cron']],
+  }
+
+  cron { "azcopy-${mirror_user}-logs-cleanup":
+    # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
+    command => "bash -c 'date && df -h ${mirror_home_dir} && date && find ${mirror_home_dir}/.azcopy/ -mtime +10 -type f -print -exec rm -f {} \; && df -h ${mirror_home_dir}' >${mirror_home_dir}/.cron-azcopy-${mirror_user}-logs-cleanup.log 2>&1",
+    user    => $mirror_user,
+    hour    => 3,
+    minute  => 0,
+    require => [Package['cron']],
   }
 
   [

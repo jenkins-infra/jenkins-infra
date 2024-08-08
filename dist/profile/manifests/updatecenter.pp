@@ -12,6 +12,7 @@ class profile::updatecenter (
   Optional[String]     $rsync_pubkey  = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
+  include profile::azcopy
 
   if $rsync_privkey {
     $rsync_privkeyfile = "${home_dir}/.ssh/updates-rsync-key"
@@ -47,4 +48,13 @@ Host updates.jenkins.io
       },
     }
   )
+
+  # Cleanup old azcopy logs
+  cron { "azcopy-${user}-logs-cleanup":
+    # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
+    command => "bash -c 'date && df -h ${home_dir} && date && find ${home_dir}/.azcopy/ -mtime +10 -type f -print -exec rm -f {} \; && df -h ${home_dir}' >${home_dir}/.cron-azcopy-${user}-logs-cleanup.log 2>&1",
+    user    => $user,
+    hour    => 3,
+    minute  => 0,
+  }
 }

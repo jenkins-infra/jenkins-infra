@@ -57,4 +57,16 @@ class profile::docker {
     minute  => 0,
     require => [Class['docker'],Package['cron']],
   }
+
+  # Cleanup non-dangling (docker system prune already do this) but non-used images
+  # This cleanup is safe: if you do not use the '-f, --force' flag on `docker image`,
+  # then Docker refuses to remove running container's images with 'image is being used by running container' message
+  cron { 'docker-images-cleanup':
+    # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
+    command => "bash -c 'date &&  docker image ls -q | xargs docker image rm' >/var/log/docker-images-cleanup.log 2>&1",
+    user    => 'root',
+    hour    => 3,
+    minute  => 0,
+    require => [Class['docker'],Package['cron']],
+  }
 }
