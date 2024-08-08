@@ -7,3 +7,5 @@ apache::mod::event::serverlimit: 30 #default 25
 # maxrequestworkers = ServerLimit (see value above) * ThreadsPerChild (default: 25)
 apache::mod::event::maxrequestworkers: 750
 datadog_agent::host: "pkg.origin.jenkins.io"
+# Ubuntu Bionic means: stuck on this old version
+profile::azcopy::az_cli_version: 2.60.0
