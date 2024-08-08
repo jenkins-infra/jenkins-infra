@@ -152,6 +152,7 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - ubuntu
+            - ubuntu-amd64-maven-11
             - ubuntu-22-amd64-maven-11
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
@@ -169,7 +170,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-maven-17
+            - ubuntu-amd64-maven-17
+            - ubuntu-22-amd64-maven-17
           javaHome: '/opt/jdk-17'
           maxInstances: 10
           useAsMuchAsPossible: true
@@ -187,7 +189,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-maven-21
+            - ubuntu-amd64-maven-21
+            - ubuntu-22-amd64-maven-21
           javaHome: '/opt/jdk-21'
           maxInstances: 10
           useAsMuchAsPossible: true
