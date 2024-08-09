@@ -105,11 +105,14 @@ profile::jenkinscontroller::jcasc:
           spot: true
           architecture: amd64
           labels:
+            - java
             - linux
             - docker
             - ubuntu
             - ubuntu-amd64-maven-11
             - ubuntu-22-amd64-maven-11
+            - maven-11
+            - jdk11
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
@@ -128,6 +131,8 @@ profile::jenkinscontroller::jcasc:
           labels:
             - ubuntu-amd64-maven-17
             - ubuntu-22-amd64-maven-17
+            - maven-17
+            - jdk17
           javaHome: '/opt/jdk-17'
           maxInstances: 7
           useAsMuchAsPossible: true
@@ -147,6 +152,8 @@ profile::jenkinscontroller::jcasc:
           labels:
             - ubuntu-amd64-maven-21
             - ubuntu-22-amd64-maven-21
+            - maven-21
+            - jdk21
           javaHome: '/opt/jdk-21'
           maxInstances: 7
           useAsMuchAsPossible: true
