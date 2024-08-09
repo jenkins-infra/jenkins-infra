@@ -92,14 +92,14 @@ profile::jenkinscontroller::jcasc:
           disableSpot: true # Not enough quota available
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEABg+VT2jJfm39KjS0i/PhizdtKpy7AC4wLmKN4DWOsdfea3XUbUU0FQfuPLNY/9CA7iuEIAtO9y7pht9vwX16b2sC2xqL9CJlxj2B6bgLkJsqo9Qeib7Sy7nYe0LyIgE+HUrQ8Y1rCU1itPxHCdXFjy+GiG/q7xs1bMUuulQf/aL48uTC8BvO3DGNaNdNadpI+6NpVwtzk5wtLZS6mbL053f8t+DFmpyUR0HYYnYGxVl2eDFRlR5qV93kErpPMGfuWj3sk7P3o4h8RXt5BIgR/0Hd9/ypd60mKjGJpUn3y4LMBthDEIB0iEwiIBw5oE5EJHnBTPVEYkKMPZ+5Ct837zBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDuNBYp213f+ubJVbpnKwIbgCChAER2/Kp5oAKS60k5HWAcu0cgHJMIK2d6SgAHv5FhuA==]
       agent_definitions:
-        - name: "ubuntu-22"
-          description: "Ubuntu 22.04 LTS"
+        - name: "ubuntu-22-amd64-maven-11"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           javaHome: "/opt/jdk-11"
+          location: "East US 2"
           instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -108,8 +108,54 @@ profile::jenkinscontroller::jcasc:
             - java
             - linux
             - docker
+            - ubuntu
+            - ubuntu-22
+            - ubuntu-amd64-maven-11
+            - ubuntu-22-amd64-maven-11
             - maven-11
             - jdk11
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
+        - name: "ubuntu-22-amd64-maven-17"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: true
+          architecture: amd64
+          labels:
+            - ubuntu-amd64-maven-17
+            - ubuntu-22-amd64-maven-17
+            - maven-17
+            - jdk17
+          javaHome: '/opt/jdk-17'
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
+        - name: "ubuntu-22-amd64-maven-21"
+          description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: true
+          architecture: amd64
+          labels:
+            - ubuntu-amd64-maven-21
+            - ubuntu-22-amd64-maven-21
+            - maven-21
+            - jdk21
+          javaHome: '/opt/jdk-21'
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
