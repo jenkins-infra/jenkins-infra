@@ -109,6 +109,7 @@ profile::jenkinscontroller::jcasc:
             - linux
             - docker
             - ubuntu
+            - ubuntu-22
             - ubuntu-amd64-maven-11
             - ubuntu-22-amd64-maven-11
             - maven-11
