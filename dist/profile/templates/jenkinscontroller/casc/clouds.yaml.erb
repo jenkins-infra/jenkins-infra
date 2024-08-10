@@ -48,9 +48,9 @@ jenkins:
           $Env:ARTIFACT_CACHING_PROXY_SERVERID = "<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>"
           <%- end -%>
           $javaHome = "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
-          [System.Environment]::SetEnvironmentVariable("JAVA_HOME", ${javaHome}, "Machine")
-          [System.Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";${javaHome}\bin", "Machine")
-          $Env:Path += ";${javaHome}\bin"
+          [System.Environment]::SetEnvironmentVariable("JAVA_HOME", ^${javaHome}, "Machine")
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";^${javaHome}\bin", "Machine")
+          $Env:Path += ";^${javaHome}\bin"
 
           mkdir $jenkinsWorkDir
           $wc = New-Object System.Net.WebClient
