@@ -107,7 +107,9 @@ jenkins:
             export AGENT_SECRETFILE="^${AGENT_WORKDIR}/agent-secret"
             export AGENT_URL="^${JENKINS_URL}computer/^${AGENT_NAME}/jenkins-agent.jnlp"
             export JENKINS_JAVA_OPTS='<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>'
-            export ARTIFACT_CACHING_PROXY_PROVIDER='azure'
+            <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+            export ARTIFACT_CACHING_PROXY_SERVERID='<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>'
+            <%- end -%>
             export JAVA_HOME='<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>'
             export JENKINS_JAVA_BIN='<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>'
 
@@ -129,7 +131,9 @@ jenkins:
             Restart=on-failure
             RestartSec=10
             Environment="JAVA_HOME=^${JAVA_HOME}"
-            Environment="ARTIFACT_CACHING_PROXY_PROVIDER=^${ARTIFACT_CACHING_PROXY_PROVIDER}"
+            <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+            Environment="ARTIFACT_CACHING_PROXY_SERVERID=^${ARTIFACT_CACHING_PROXY_SERVERID}"
+            <%- end -%>
             Environment="PATH=^${JAVA_HOME}/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
 
             [Install]
@@ -143,7 +147,7 @@ jenkins:
 
           <%- else -%>
 
-          # Setup default java for build (not for agent process) 
+          # Setup default java for build (not for agent process)
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
           echo "JAVA_HOME=^${DEFAULT_JDK}" >> /etc/environment
@@ -248,8 +252,10 @@ jenkins:
               <%= jenkinsJavaOpts %>
           - key: "JENKINS_JAVA_BIN"
             value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
-          - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
-            value: "azure"
+          <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && aci_cloud_setup['acpServerId'] -%>
+          - key: "ARTIFACT_CACHING_PROXY_SERVERID"
+            value: "<%= @jcasc['artifact_caching_proxy']['servers'][aci_cloud_setup['acpServerId']]['url'] %>"
+          <%- end -%>
       <%- end -%>
     <%- end -%>
   <%- end -%>
@@ -289,9 +295,11 @@ jenkins:
               - envVar:
                   key: "PATH"
                   value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup']['ubuntu']['javaHome'] %>/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
+              <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && k8s_setup['acpServerId'] -%>
               - envVar:
-                  key: "ARTIFACT_CACHING_PROXY_PROVIDER"
-                  value: "<%= k8s_setup['provider'] %>"
+                  key: "ARTIFACT_CACHING_PROXY_SERVERID"
+                  value: "<%= @jcasc['artifact_caching_proxy']['servers'][k8s_setup['acpServerId']]['url'] %>"
+              <%- end -%>
             livenessProbe:
               failureThreshold: 0
               initialDelaySeconds: 0
