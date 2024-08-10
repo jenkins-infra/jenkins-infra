@@ -333,6 +333,9 @@ profile::jenkinscontroller::jcasc:
           credentialsId: azure-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
           acpServerId: internal
+          virtualNetworkName: "aci-vnet"
+          virtualNetworkResourceGroupName: "aci-vnet-rg"
+          subnetName: "aci-vnet-subnet"
         aci-windows-jenkins-sponsorship:
           credentialsId: azure-jenkins-sponsorship-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
@@ -346,6 +349,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-windows
+          usePrivateIP: true
         - name: maven-11-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
@@ -354,6 +358,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-11-windows
+          usePrivateIP: true
         - name: maven-17-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'

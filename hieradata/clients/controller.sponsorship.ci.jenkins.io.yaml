@@ -584,6 +584,9 @@ profile::jenkinscontroller::jcasc:
           credentialsId: azure-jenkins-sponsorship-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
           acpServerId: azure-internal
+          virtualNetworkName: "public-jenkins-sponsorship-vnet"
+          virtualNetworkResourceGroupName: "public-jenkins-sponsorship"
+          subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_aci"
       agent_definitions:
         - name: maven-8-windows
           os: windows
@@ -593,6 +596,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-windows
+          usePrivateIP: true
         - name: maven-11-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
@@ -601,6 +605,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-11-windows
+          usePrivateIP: true
         - name: maven-17-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
@@ -609,6 +614,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-17-windows
+          usePrivateIP: true
         - name: maven-21-windows
           os: windows
           command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
@@ -617,6 +623,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-21-windows
+          usePrivateIP: true
   artifact_caching_proxy:
     enabled: true
     servers:
