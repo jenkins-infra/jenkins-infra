@@ -42,6 +42,16 @@ jenkins:
           $configFile = '{0}\jenkins-agent.xml'  -f $jenkinsWorkDir
           $agentExeConfig = '{0}\jenkins-agent.exe.config' -f $jenkinsWorkDir
 
+          # Setup agent-level environment variables
+          <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+          [System.Environment]::SetEnvironmentVariable("ARTIFACT_CACHING_PROXY_SERVERID", "<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>", "Machine")
+          $Env:ARTIFACT_CACHING_PROXY_SERVERID = "<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>"
+          <%- end -%>
+          $javaHome = "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
+          [System.Environment]::SetEnvironmentVariable("JAVA_HOME", ${javaHome}, "Machine")
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";${javaHome}\bin", "Machine")
+          $Env:Path += ";${javaHome}\bin"
+
           mkdir $jenkinsWorkDir
           $wc = New-Object System.Net.WebClient
           $wc.DownloadFile('https://github.com/winsw/winsw/releases/download/v2.12.0/WinSW.NET461.exe', $wrapperExec)

@@ -160,7 +160,7 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-        - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
@@ -173,11 +173,15 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows
+            - win-2019
+            - windows-2019
+            - win-2019-amd64-maven-11
+          javaHome: 'C:/tools/jdk-11'
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-        - name: "win-2022" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: "win-2022-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022"
           imageDefinition: jenkins-agent-windows-2022-amd64
           os: "windows"
@@ -190,6 +194,10 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-2022
+            - win-2022
+            - windows-2022
+            - win-2022-amd64-maven-11
+          javaHome: 'C:/tools/jdk-11'
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
