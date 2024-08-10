@@ -245,11 +245,9 @@ profile::jenkinscontroller::jcasc:
     providers:
       azure:
         name: Azure
-      azure-aks-internal:
-        name: Azure AKS internal
-        url: http://artifact-caching-proxy.artifact-caching-proxy:8080/
+        url: http://artifact-caching-proxy.privatelink.azurecr.io:8080/
         disableCredentials: true
-    credentialsId: artifact-caching-proxy-credentials
+    # Disabled by default, set this to "false" on children to enable
     disabled: true
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
