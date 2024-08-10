@@ -241,6 +241,12 @@ jenkins:
         memory: "<%= agent['memory'] %>"
         name: "aci-<%= agent['name'] %>"
         osType: "<%= agent['os'] == "windows" ? 'Windows' : 'Linux' %>"
+        <%- if agent['usePrivateIP'] && aci_cloud_setup['virtualNetworkResourceGroupName'] && aci_cloud_setup['virtualNetworkName'] && aci_cloud_setup['subnetName'] -%>
+        privateIpAddress:
+          resourceGroup: "<%= aci_cloud_setup['virtualNetworkResourceGroupName'] %>"
+          vnet: "<%= aci_cloud_setup['virtualNetworkName'] %>"
+          subnet: "<%= aci_cloud_setup['subnetName'] %>"
+        <%- end -%>
         retentionStrategy: "containerOnce"
         rootFs: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
         timeout: 60
