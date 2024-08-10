@@ -109,8 +109,6 @@ profile::jenkinscontroller::jcasc:
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.8/bin
         JAVA_HOME: "/opt/jdk-17"
-        # For the permanent agents, we're using the artifact caching proxy on DigitalOcean (bandwith available)
-        ARTIFACT_CACHING_PROXY_PROVIDER: "azure"
       toolLocation:
         - home: /home/jenkins/tools/apache-maven-3.9.8
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
@@ -118,7 +116,7 @@ profile::jenkinscontroller::jcasc:
     kubernetes:
       ci.jenkins.io-agents-1:
         enabled: true
-        provider: "azure"
+        acpServerId: azure-internal
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
@@ -279,7 +277,7 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
       ci.jenkins.io-agents-1-bom:
         enabled: true
-        provider: "azure"
+        acpServerId: azure-internal
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-bom-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
@@ -368,6 +366,7 @@ profile::jenkinscontroller::jcasc:
           subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_agents"
           disableSpot: true # Not enough quota available
           storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAX1+w3HsG7jVw0T37cE9RVIEyAaNIg31kdhsxq/N3g0zehZB8QQw6K6/0y0uyNZhqxxdOUHHWN4qmLwrHXhsP+EXF/WHleC2qgYMJT8HHbJtVJ7yEVeeJKgUNipgWRf5FcB2hTKdcwfMqunMapQ4vmdREvAeWggN+racF1yJ1dsOJkzs0oR4GaCfGZLm3IxKMy13ifBJtlTl6dC6f8K70Z9aGbcWf3TqNVrznop9q8LlOPGOZXYyo8WGl1CheSUm5VbWa+o7J04cBOcYP+IAlJObZAN3rdM78Kt0GuDTTjlMZK3R/2e6+nyDw2LO2mMlfNPQcklI5uT1eh6nlWy+cjjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAhoV9P3un0kUya+CJJTFAHgCBAr5FalXjPsRdLH9XztQDGwMHJj8jLCoBk9D+268MpZw==]
+          acpServerId: azure-internal
       agent_definitions:
         - name: "ubuntu-22-amd64-maven8"
           description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
@@ -576,6 +575,7 @@ profile::jenkinscontroller::jcasc:
         aci-windows-jenkins-sponsorship:
           credentialsId: azure-jenkins-sponsorship-credentials
           resourceGroup: ci-jenkins-io-ephemeral-agents
+          acpServerId: azure-internal
       agent_definitions:
         - name: maven-8-windows
           os: windows
@@ -610,7 +610,11 @@ profile::jenkinscontroller::jcasc:
           labels:
             - maven-21-windows
   artifact_caching_proxy:
-    disabled: false
+    enabled: true
+    servers:
+      azure-internal:
+        name: Azure (Internal) Artifact Caching Proxy
+        url: http://artifact-caching-proxy.privatelink.azurecr.io:8080/
   datadog:
     host: "ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface

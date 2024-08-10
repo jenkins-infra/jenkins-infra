@@ -1,16 +1,16 @@
-<%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['disabled'].to_s != "true" -%>
+<%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" -%>
 unclassified:
   globalConfigFiles:
     configs:
-    <%- @jcasc['artifact_caching_proxy']['providers'].each do |providerId, provider| -%>
+    <%- @jcasc['artifact_caching_proxy']['servers'].each do |serverId, serverConfig| -%>
     - mavenSettings:
-        comment: "Artifact caching proxy settings for the <%= provider['name'] %> provider"
+        comment: "Artifact caching proxy settings for the <%= serverConfig['name'] %> serverConfig"
         content: |
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
             <mirrors>
               <mirror>
-                  <id><%= providerId %>-proxy</id>
-                  <url><% if provider['url'] %><%= provider['url'] %><% else %>https://repo.<%= providerId %>.jenkins.io/<% end %></url>
+                  <id><%= serverConfig['url'] %></id>
+                  <url><%= serverConfig['url'] %></url>
                   <mirrorOf>external:*,!chimera-releases,!chimera-snapshots,!atlassian-public,!org.zowe.sdk,!jitpack.io,!space-maven</mirrorOf>
               </mirror>
             </mirrors>
@@ -40,16 +40,16 @@ unclassified:
               <activeProfile>jenkins-infra-plugin-repositories</activeProfile>
             </activeProfiles>
           </settings>
-        id: "artifact-caching-proxy-<%= providerId %>"
+        id: "<%= serverConfig['url'] %>"
         isReplaceAll: true
-        name: "<%= provider['name'] %> Artifact Caching Proxy"
+        name: "<%= serverConfig['name'] %>"
         providerId: "org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig"
-        <%- unless provider['disableCredentials'] == true -%>
+        <%- if serverConfig['credentials'] -%>
         serverCredentialMappings:
-        - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
-          serverId: "<%= providerId %>-proxy"
-        - credentialsId: "<%= @jcasc['artifact_caching_proxy']['credentialsId'] %>"
-          serverId: "<%= providerId %>-proxy-incrementals"
+          <%- serverConfig['credentials'].each do |acpCredentialId| -%>
+        - credentialsId: "<%= acpCredentialId %>"
+          serverId: "<%= serverConfig['url'] %>"
+          <%- end -%>
         <%- end -%>
       <%- end -%>
 <%- end -%>
