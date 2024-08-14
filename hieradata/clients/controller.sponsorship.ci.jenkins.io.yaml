@@ -558,7 +558,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
           spot: true
         - name: "win-2019-amd64-maven-17"
-          description: "Windows 2019 Maven-17"
+          description: "Windows 2019 x86_64 with JDK17"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
@@ -576,7 +576,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
           spot: true
         - name: "win-2019-amd64-maven-21"
-          description: "Windows 2019 Maven-21"
+          description: "Windows 2019 x86_64 with JDK21"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
