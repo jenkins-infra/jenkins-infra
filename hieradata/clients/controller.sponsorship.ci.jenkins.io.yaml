@@ -535,7 +535,7 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           spot: false
         - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019"
+          description: "Windows 2019 x86_64 JDK11"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
