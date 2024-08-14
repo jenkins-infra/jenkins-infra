@@ -535,7 +535,7 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           spot: false
         - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019"
+          description: "Windows 2019 x86_64 JDK11"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: "windows"
           os_version: "2019"
@@ -552,6 +552,42 @@ profile::jenkinscontroller::jcasc:
             - windows-2019
             - win-2019-amd64-maven-11
           javaHome: 'C:/tools/jdk-11'
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
+        - name: "win-2019-amd64-maven-17"
+          description: "Windows 2019 x86_64 with JDK17"
+          imageDefinition: jenkins-agent-windows-2019-amd64
+          os: "windows"
+          os_version: "2019"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - win-2019-amd64-maven-17
+          javaHome: 'C:/tools/jdk-17'
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: true
+        - name: "win-2019-amd64-maven-21"
+          description: "Windows 2019 x86_64 with JDK21"
+          imageDefinition: jenkins-agent-windows-2019-amd64
+          os: "windows"
+          os_version: "2019"
+          launcher: "inbound"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - win-2019-amd64-maven-21
+          javaHome: 'C:/tools/jdk-21'
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"
