@@ -116,7 +116,7 @@ profile::jenkinscontroller::jcasc:
     kubernetes:
       ci.jenkins.io-agents-1:
         enabled: true
-        acpServerId: azure-internal
+        acpServerId: azure-aks-internal
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
@@ -277,7 +277,7 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
       ci.jenkins.io-agents-1-bom:
         enabled: true
-        acpServerId: azure-internal
+        acpServerId: azure-aks-internal
         credentialsId: "ci.jenkins.io-agents-1-jenkins-agent-bom-sa-token"
         serverCertificate: >
           ENC[PKCS7,MIIJbQYJKoZIhvcNAQcDoIIJXjCCCVoCAQAxggEhMIIBHQIBAD
@@ -666,6 +666,9 @@ profile::jenkinscontroller::jcasc:
       azure-internal:
         name: Azure (Internal) Artifact Caching Proxy
         url: http://artifact-caching-proxy.privatelink.azurecr.io:8080/
+      azure-aks-internal:
+        name: Azure (AKS Internal) Artifact Caching Proxy
+        url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   datadog:
     host: "ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
