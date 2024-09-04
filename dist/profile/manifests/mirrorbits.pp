@@ -19,7 +19,7 @@ class profile::mirrorbits (
     exec { 'Install mirrorbits CLI':
       require => [Package['curl'], Package['tar']],
       command => "/usr/bin/curl --location ${mirrorbits_url} | /bin/tar --extract --gzip --strip-components=1 --directory=${install_dir}/ mirrorbits/mirrorbits && chmod a+x ${install_dir}/mirrorbits",
-      unless  => "/usr/bin/test -f ${install_dir}/mirrorbits && { ${install_dir}/mirrorbits version || true} 2>/dev/null | /bin/grep --quiet ${mirrorbits_version}",
+      unless  => "/usr/bin/test -f ${install_dir}/mirrorbits && { ${install_dir}/mirrorbits version || true; } 2>/dev/null | /bin/grep --quiet ${mirrorbits_version}",
     }
   }
 }
