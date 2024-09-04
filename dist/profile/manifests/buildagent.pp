@@ -89,15 +89,6 @@ class profile::buildagent (
       default   => $facts['os']['architecture'],
     }
 
-    if $tools_versions['kubectl'] {
-      $kubectl_url = "https://dl.k8s.io/release/v${tools_versions['kubectl']}/bin/linux/${architecture}/kubectl"
-      exec { 'Install kubectl':
-        require => [Package['curl']],
-        command => "/usr/bin/curl --output kubectl --output-dir /usr/local/bin/ --location ${kubectl_url} && /usr/bin/chmod +x /usr/local/bin/kubectl",
-        unless  => "/usr/bin/test -f /usr/local/bin/kubectl && /usr/local/bin/kubectl version | /bin/grep --quiet ${tools_versions['kubectl']}",
-      }
-    }
-
     lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_version| {
       $jdk = {
         name => $jdk_name,
