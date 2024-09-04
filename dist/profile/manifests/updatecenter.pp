@@ -13,6 +13,7 @@ class profile::updatecenter (
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::azcopy
+  include profile::mirrorbits
 
   if $rsync_privkey {
     $rsync_privkeyfile = "${home_dir}/.ssh/updates-rsync-key"
