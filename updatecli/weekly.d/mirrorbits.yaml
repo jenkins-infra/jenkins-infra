@@ -1,0 +1,46 @@
+---
+name: Bump `mirrorbits-cli` version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: githubrelease
+    name: Get the latest `mirrorbits-cli` version
+    spec:
+      owner: "etix"
+      repository: "mirrorbits"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      typefilter:
+        latest: true
+
+targets:
+  updateHieradataVersion:
+    name: Update the `mirrorbits-cli` version in the hieradata/common.yaml file
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::mirrorbits::mirrorbits_version
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `mirrorbits-cli` version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - mirrorbits
