@@ -42,5 +42,5 @@ actions:
     scmid: default
     spec:
       labels:
-        - enhancement
+        - updatecli
         - mirrorbits
