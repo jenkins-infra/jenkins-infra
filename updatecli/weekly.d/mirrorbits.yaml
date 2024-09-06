@@ -22,8 +22,9 @@ sources:
       repository: "mirrorbits"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      typefilter:
-        latest: true
+      versionFilter:
+        kind: semver
+        strict: false
 
 targets:
   updateHieradataVersion:
