@@ -227,7 +227,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:3b33d4b5aa19136a96b2192c6c0f2889c785aff7a769046d16da574d4adcc7c9
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:14b20fbc665365f353f035fab6573ed207f495a6eb21825868025b733c06b106
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:ce7c1ae159a18b8f8da894561e7ecb95b72760c53215c0547539402acc97fd49
+      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:b8ab0c916da2107a744ae0bdfea8db285948615fd58146eaabfe4e5f83a370cc
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u422-b05
@@ -263,7 +263,7 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:27.2.0-1~ubuntu.22.04~jammy
+docker::version: 5:27.2.1-1~ubuntu.22.04~jammy
 # This file storage and the storage account are defined in https://github.com/jenkins-infra/azure/blob/main/get.jenkins.io.tf
 azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
 azure::getjenkinsio::fileshare: "overridewithfilestoragename"
