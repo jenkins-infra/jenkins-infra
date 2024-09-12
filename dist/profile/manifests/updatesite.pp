@@ -18,7 +18,10 @@ class profile::updatesite (
   include profile::letsencrypt
 
   $update_fqdn = 'updates.jenkins.io'
+  $update_alias_fqdn = "aws.${update_fqdn}"
+
   $apache_log_dir = "/var/log/apache2/${update_fqdn}"
+  $apache_log_dir_alias = "/var/log/apache2/${update_alias_fqdn}"
   $apache_legacy_log_dir = '/var/log/apache2/updates.jenkins-ci.org'
 
   file { '/var/www':
@@ -34,7 +37,7 @@ class profile::updatesite (
     require => [File['/var/www']],
   }
 
-  file { [$apache_log_dir, $apache_legacy_log_dir,]:
+  file { [$apache_log_dir, $apache_legacy_log_dir, $apache_log_dir_alias]:
     ensure => directory,
   }
 
@@ -65,6 +68,35 @@ class profile::updatesite (
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error_unsecured.log.%Y%m%d%H%M%S 604800",
     require                      => Apache::Vhost[$update_fqdn],
+  }
+
+  apache::vhost { $update_alias_fqdn:
+    servername                   => $update_alias_fqdn,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    require                      => [
+      File[$docroot],
+    ],
+    port                         => 443,
+    override                     => ['All'],
+    ssl                          => true,
+    docroot                      => $docroot,
+
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_alias}/access.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_alias}/error.log.%Y%m%d%H%M%S 604800",
+  }
+
+  apache::vhost { "${update_alias_fqdn} unsecured":
+    servername                   => $update_alias_fqdn,
+    use_servername_for_filenames => true,
+    use_port_for_filenames       => true,
+    port                         => 80,
+    docroot                      => $docroot,
+    override                     => ['All'],
+
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_alias}/access_unsecured.log.%Y%m%d%H%M%S 604800",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_alias}/error_unsecured.log.%Y%m%d%H%M%S 604800",
+    require                      => Apache::Vhost[$update_alias_fqdn],
   }
 
   apache::vhost { 'updates.jenkins-ci.org':
@@ -99,7 +131,7 @@ class profile::updatesite (
   # We can only acquire certs in production due to the way the letsencrypt
   # challenge process works
   if (($environment == 'production') and ($facts['vagrant'] != '1')) {
-    [$update_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
+    [$update_fqdn, $update_alias_fqdn, 'updates.jenkins-ci.org'].each |String $domain| {
       letsencrypt::certonly { $domain:
         domains => [$domain],
         plugin  => 'apache',
