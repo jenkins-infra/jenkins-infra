@@ -34,7 +34,12 @@ class profile::updatecenter (
       target  => "${home_dir}/.ssh/config",
       order   => '99',
       content => "
+Host aws.updates.jenkins.io
+  IdentityFile ${rsync_privkeyfile}
+Host pkg.origin.jenkins.io
+  IdentityFile ${rsync_privkeyfile}
 Host updates.jenkins.io
+  HostName aws.updates.jenkins.io
   IdentityFile ${rsync_privkeyfile}
 ",
     }
