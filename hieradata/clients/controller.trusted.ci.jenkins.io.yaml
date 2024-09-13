@@ -193,9 +193,6 @@ profile::jenkinscontroller::jcasc:
           spot: true
           architecture: amd64
           labels:
-            - docker-windows
-            - win-2019
-            - windows-2019
             - win-2019-amd64-maven-17
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 7
@@ -214,9 +211,6 @@ profile::jenkinscontroller::jcasc:
           spot: true
           architecture: amd64
           labels:
-            - docker-windows
-            - win-2019
-            - windows-2019
             - win-2019-amd64-maven-21
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 7
@@ -256,9 +250,6 @@ profile::jenkinscontroller::jcasc:
           spot: true
           architecture: amd64
           labels:
-            - docker-windows-2022
-            - win-2022
-            - windows-2022
             - win-2022-amd64-maven-17
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 7
@@ -277,9 +268,6 @@ profile::jenkinscontroller::jcasc:
           spot: true
           architecture: amd64
           labels:
-            - docker-windows-2022
-            - win-2022
-            - windows-2022
             - win-2022-amd64-maven-21
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 7

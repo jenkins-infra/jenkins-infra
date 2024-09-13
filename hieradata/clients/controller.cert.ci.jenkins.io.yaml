@@ -230,10 +230,6 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - windows
-            - docker-windows
-            - win-2019
-            - windows-2019
             - win-2019-amd64-maven-17
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 10 # Quota of 80 vCPUs
@@ -252,10 +248,6 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - windows
-            - docker-windows
-            - win-2019
-            - windows-2019
             - win-2019-amd64-maven-21
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 10 # Quota of 80 vCPUs
