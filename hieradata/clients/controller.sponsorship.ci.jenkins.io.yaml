@@ -691,6 +691,7 @@ profile::jenkinscontroller::plugins:
   - datadog # Datadog plugin
   - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
+  - ec2
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
   - git-forensics # Discovering reference builds, used in buildPlugin
