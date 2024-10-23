@@ -228,7 +228,7 @@ profile::jenkinscontroller::jcasc:
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:2195693f173662cca17098d440810c90819258676d2757f5f4cf7b7ebd8da092
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
-    jdk8: 8u422-b05
+    jdk8: 8u432-b06
     jdk11: 11.0.25+9
     jdk17: 17.0.12+7
     jdk21: 21.0.5+11
