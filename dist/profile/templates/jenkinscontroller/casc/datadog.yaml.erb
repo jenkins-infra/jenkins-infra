@@ -23,8 +23,6 @@ unclassified:
     globalTags: <%= @jcasc['datadog']['globalTags'] ? @jcasc['datadog']['globalTags'] : "controller:" + @jcasc['datadog']['host'] %>
     # Send security events like login, logout, and login failure.
     emitSecurityEvents: <%= @jcasc['datadog']['emitSecurityEvents'] ? @jcasc['datadog']['emitSecurityEvents'] : true %>
-    # Retry sending a log if sending to Datadog fails
-    retryLogs: <%= @jcasc['datadog']['retryLogs'] ? @jcasc['datadog']['retryLogs'] : true %>
     # Refresh Dogstatsd Client when your agent IP changes
     refreshDogstatsdClient: true
     # Cache build runs when calculating pause duration
