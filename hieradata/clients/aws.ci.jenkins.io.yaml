@@ -1,0 +1,133 @@
+lookup_options:
+  "^profile::jenkinscontroller::jcasc$":
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+# Per-host Datadog configuration
+datadog_agent::host: 'aws.ci.jenkins.io'
+datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
+datadog_agent::apm_enabled: true
+datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
+datadog_agent::agent_extra_options:
+  bind_host: "0.0.0.0" # All hosts interfaces to allow container access
+
+# TODO: set up to false once configured
+profile::jenkinscontroller::anonymous_access: false
+
+profile::jenkinscontroller::admin_ldap_groups:
+  - admins
+  - jenkins-admins
+profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::letsencrypt: true
+profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
+profile::jenkinscontroller::docker_tag: 'lts-jdk17'
+profile::jenkinscontroller::groovy_init_enabled: true
+profile::jenkinscontroller::block_remote_access_api: true
+profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
+profile::jenkinscontroller::groovy_d_set_up_git: 'present'
+profile::jenkinscontroller::memory_limit: '14g'
+profile::jenkinscontroller::jcasc:
+  enabled: true
+  reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
+  datadog_api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAyXXVIepD5qWybRIc1EfQwKo9H1nbGRSH0S3ko02n5CMGCzACVLLLojdKTVZSGIi6P3RwEwqb0QZXMSpHatDNxzCQRCh/UTlVWePkB0yiPFFi47Zk01eR1JXYuMtkDBFW5XYd6/Y54k0o9VA6l9z5XFCOmY1qB1hth97FsPT+3e2OeNc9D8n3WzR5toUSmY+InIAebyWptXAwRlSQBA5DfsZeH2Pcfn9DKRWuLbaRKv8V6uIG8RMSqe1Us69fYIIHZvMiGSWJ98uY+95z5GQ85aqN7yW7tndVfHjpxB+rHeFbThtWOqsi/OyyFaGxqzVBIyH66YsoKARpRW/r0y6WzDBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBla6PJTLOicucQ5tmp5NYegDBoLrLMHSvvPBHZkyMyP7kjd9N3tWBvd457zdUW9BhjphFlrnhVVyUr5YpRDnIGN9k=]
+  unclassified:
+    data: |-
+      buildDiscarders:
+          configuredBuildDiscarders:
+          - "jobBuildDiscarder"
+          - defaultBuildDiscarder:
+              discarder:
+                logRotator:
+                  numToKeepStr: "5"
+        # Weird indentation: we would expect 2 less spaces below
+        # but hieradata is behaving weirdly (bug in YAML parser?)
+        defaultDisplayUrlProvider:
+          providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+  tools:
+    groovy:
+      groovy: # Default version is named "groovy"
+        version: "2.4.21"
+    jdk:
+      jdk8:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux-arm64 && arm64"
+            cpu_arch: "aarch64"
+      jdk11:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux-arm64 && arm64"
+            cpu_arch: "aarch64"
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
+      jdk17:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux-arm64 && arm64"
+            cpu_arch: "aarch64"
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
+      jdk21:
+        installers:
+          linux-arm64:
+            type: "zip"
+            label: "linux-arm64 && arm64"
+            cpu_arch: "aarch64"
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
+  datadog:
+    host: "aws.ci.jenkins.io"
+    targetHost: "172.17.0.1" # docker0 interface
+    collectBuildLogs: true
+# These are plugins we need in our ci environment
+profile::jenkinscontroller::plugins:
+  - ansicolor # Provides ANSI color in the UI when checking log outputs
+  - blueocean # A nice view for pipelines
+  - buildtriggerbadge # Add an icon with the build cause in the build history
+  - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
+  - cloudbees-folder # Provides a job type "Folder"
+  - coverage # Provides nice code covergae view in the Web UI (used by multiple downstream plugins)
+  - config-file-provider # Used to provide Maven settings for proxies
+  - configuration-as-code # Required for CasC
+  - coverage-badges-extension # Coverage Badges
+  - credentials # Provides Jenkins Credentials management
+  - credentials-binding # Bind Jenbkins credentials to variables in jobs
+  - datadog # Datadog plugin
+  - dark-theme # Dark theme
+  - docker-workflow # Provides the "withDockerContainer" pipeline keyword
+  - ec2 # For Jenkins EC2 VM agents
+  - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
+  - git # Used for... git
+  - git-forensics # Discovering reference builds, used in buildPlugin
+  - github # Provides basic GitHub integration for jobs
+  - github-checks # Allows GitHub Jobs to create checks in GitHub API
+  - github-branch-source # Provides Job integration to get code from GitHub
+  - generic-tool # Ligthweight tool definition (should replace 'groovy' plugin and tools)
+  - groovy # TODO: remove in favor of generic-tool
+  - http_request # Used for publishing incrementals
+  - kubernetes # Kubernetes Container Agents
+  - junit-attachments # Used by ATH
+  - junit-realtime-test-reporter # Provides the 'realTimeJunit' keyword used by the ATH - https://github.com/jenkinsci/acceptance-test-harness/blob/1cfec809d04b2a098f769ff662320d0e873dfb9f/Jenkinsfile#L60
+  - ldap # Required for authentication/authorization
+  - lockable-resources # Provides the pipeline keyword 'lock'
+  - mailer # Provides build notification by email
+  - matrix-auth # Required for specifying authorization schemes for RBAC
+  - parallel-test-executor # Provides the pipleine keyword "splitTest" used byt the Jenkins "ATH" - https://github.com/jenkinsci/acceptance-test-harness/blob/54adf0da5605e2caa4afc3f0b00fbc6191991e9a/Jenkinsfile#L32
+  - pipeline-github # This plugin adds the following pipeline triggers: issueCommentTrigger, pullRequestReview
+  - pipeline-graph-view # Candidate for replacing Blue Ocean use cases
+  - pipeline-stage-view # Old but classic pipeline view
+  - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
+  - ssh-slaves # SSH Build Agent to implement "outbound agents"
+  - timestamper # Allow showing timestamp on build logs
+  - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
+  - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
