@@ -1,0 +1,41 @@
+name: Update list of external SSH IPs (restricted to VPN access only) in Hieradata
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  aws-ci-jenkins-io:
+    kind: json
+    spec:
+      file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+      # Outbound IPs are also public "inbound" IPs for EC2 instances
+      # The 2nd element is the IPv4 (1st is IPv6)
+      key: .aws\.ci\.jenkins\.io.outbound_ips.controller.[1]
+
+targets:
+  aws-ci-jenkins-io:
+    name: Update ci.jenkins.io public IP in the YAML configuration of our OpenVPN CLI
+    kind: yaml
+    sourceid: aws-ci-jenkins-io
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::openvpn::allowed_external_ssh_ips.'aws.ci.jenkins.io'
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Update list of external SSH IPs (restricted to VPN access only)
+    spec:
+      labels:
+        - hieradata
