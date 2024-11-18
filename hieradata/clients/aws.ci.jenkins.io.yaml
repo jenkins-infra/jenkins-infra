@@ -4,7 +4,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 # Per-host Datadog configuration
-datadog_agent::host: 'controller.sponsorship.ci.jenkins.io'
+datadog_agent::host: 'aws.ci.jenkins.io'
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
 datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
@@ -26,7 +26,7 @@ profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
 profile::jenkinscontroller::groovy_d_set_up_git: 'present'
-profile::jenkinscontroller::memory_limit: '30g'
+profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
@@ -660,7 +660,7 @@ profile::jenkinscontroller::jcasc:
         name: Azure (AKS Internal) Artifact Caching Proxy
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   datadog:
-    host: "ci.jenkins.io"
+    host: "aws.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
     collectBuildLogs: true
 # These are plugins we need in our ci environment
