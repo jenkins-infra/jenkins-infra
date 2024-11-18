@@ -282,7 +282,7 @@ profile::openvpn::allowed_external_ssh_ips:
   census.jenkins.io: 52.202.38.86
   usage.jenkins.io: 52.204.62.78
   archives.jenkins.io: 46.101.121.132
-  aws.ci.jenkins.io: 3.147.151.207
+  aws.ci.jenkins.io: 3.146.166.108
 profile::updatesite::docroot: /var/www/updates.jenkins.io
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
