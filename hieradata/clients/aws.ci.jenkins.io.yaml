@@ -3,19 +3,6 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
-accounts:
-  basil:
-    ssh_keys:
-      basil:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCkR0yiRuFiY82o1IUyglIFAGLlkqXfuIv/zGU8x/BWvjHBUetM4LLdVTT21lagee85wSKEPEhwBHd0NpSKZQj/iXlhHt5IQQAt0ZKuJYNHtbIUXPEue4bpHssn58tNsbtIvgEKoLkbqkjRbSTceT9yB8FLS9fYleFtwxera/1S7L8U0if9idfCibJhmxI91K+lKT+PMvQ3SS/9KGlOae0t9UfN+TT2YKLWa74Pi4QYrATDny3F8+ad4xeW6Tzour9yVWEXbXab1u7yXZcBwpQpCPMc9xSuP8/gomRum5Cw2M1dKSGi7UX7K03hWPr7F68zIQ8CkD/NZyJDj9R4QxTEDRINYpAznig8GRklbECvBLE5nenQ7hT6vTv7cWf0JBotrpoGOJHcK2vcEjDPu9nhtsB+sZp/BvTiFLvZSmNDgkrNOHRZaI5dbREkgBJrYYsFnfJNf7/+6BrbKpBa4rRHl7OfYnlLrcw7xWR8XZeKA8y80521oPpm7XMDij/yNbAqxWpxJfukbHIM7ouUo2mV+FsuSpkDh8w9ab5F4HkJs3jlMRtrYy0IV0HKPFZ57ILGUpHTdod1rwvUnF7/MeX3I2lqS56YbzCYpnhBsJ41Hai07V7GVa7cFaRUNWgHRtu2GN/rg7RaFFdCBRSxY6B2qyyJEWt7mNj5mXSm37JO8Q==
-    groups:
-      - sudo
-  rsandell:
-    ssh_keys:
-      rsandell:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDwdnCxqQGMo1LTOhCDu7TpzT31sqJPYltmQEeKOut1lRP2HSn3Zac5XKXKq2Vn9xlmjSayC6mQcUw23x8VGa2bnCqWTxiAGSpAmcE4dZFRf/T20Il8YiuYNyP+Pl8zLOisOWMQ6XU6F//yoNeE+y1rnOolK0AHmO7/vz6FlnvM/pn5jSuHj+sicBdR5sA+wfejSkvW1Z3wH3vpa4xNFkS8nNjrC/Qv7rj+WmBxYMd4z7M5NFadfH1byH7omRLUZ2XNi6cDOY4g0+qbpwSmzs+JLTXa10uIMn9dcA3WOQDcBlYdQ0FSwsSYJy6jskf2A62yHJ3TESnNGis9o19AEGsVFxPo1aXdLJ5X9jEogjOX5CKK2kchpONaQoX7nh04ys5at8jzcn3B9KvSfx8B6UFlsvOHZOKlVNymZ+pe/JJecY08A4E/1Teo4wL4oVkBcMTbX2z04pXLbMtqELpzU29yeF5MRO1B37Jzf5E71TGWWxdllQ/WO+RTAInha1tLyujQoUop2EyZMFCvPtozVYIJpVV8hwQC1j4NyTnslmGaUd/3dyTVcnKKctDimGT+zULWE6ckCNwzsrIEY5ESERwa3JE5HtoEnolsddR5OQiVb4AImFz0Y4T3TvCQVFdhjs/1xjIRKsbg9eFzF2cy52GzTKDzcb9NQeRbPXPeLyZrBQ
-    groups:
-      - sudo
 # Per-host Datadog configuration
 datadog_agent::host: 'controller.sponsorship.ci.jenkins.io'
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
@@ -23,7 +10,10 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
-profile::jenkinscontroller::anonymous_access: true
+
+# TODO: set up to false once configured
+profile::jenkinscontroller::anonymous_access: false
+
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
@@ -51,7 +41,7 @@ profile::jenkinscontroller::jcasc:
                 logRotator:
                   numToKeepStr: "5"
         # Weird indentation: we would expect 2 less spaces below
-        # but hierdata is behaving weirdly (bug in YAML parser?)
+        # but hieradata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   tools:
