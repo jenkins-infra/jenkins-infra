@@ -192,7 +192,8 @@ profile::jenkinscontroller::jcasc:
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'
-      tempDir: 'C:/Temp'
+      # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
+      tempDir: 'C:\\\\Temp'
       remoteAdmin: Administrator
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
@@ -212,6 +213,12 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
+    ec2_amis:
+      ubuntu-22.04-amd64: "ami-0bd6642923953e087"
+      windows-2019-amd64: "ami-0df4e33d473d4899e"
+      ubuntu-22.04-arm64: ami-0f126d4f0052d12b6
+      # Empty until https://github.com/jenkins-infra/packer-images/pull/442 is merged
+      windows-2022-amd64: "ami-0a78169098a3f340d"
     azure_vms_gallery_image:
       version: 2.14.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
