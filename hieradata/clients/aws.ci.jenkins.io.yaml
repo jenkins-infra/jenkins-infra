@@ -93,7 +93,7 @@ profile::jenkinscontroller::jcasc:
     ec2:
       aws-us-east-2:
         region: us-east-2
-        credentialsId: "aws-credentials-jenkins-ci"
+        useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "ec2-agent-ssh"
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
