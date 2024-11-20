@@ -289,9 +289,10 @@ jenkins:
         <%- $maxEC2Vms = agent['maxInstances'] + $maxEC2Vms -%>
       <%- end -%>
       instanceCapStr: "<%= $maxEC2Vms %>"
+      noDelayProvisioning: true
       region: "<%= ec2_cloud_setup['region'] %>"
       sshKeysCredentialsId: "<%= ec2_cloud_setup['sshKeysCredentialsId'] %>"
-      useInstanceProfileForCredentials: false
+      useInstanceProfileForCredentials: "<%= ec2_cloud_setup['useInstanceProfileForCredentials'] ? ec2_cloud_setup['useInstanceProfileForCredentials'] : false %>"
       templates:
       <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
