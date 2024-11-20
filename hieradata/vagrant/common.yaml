@@ -408,6 +408,7 @@ profile::jenkinscontroller::plugins:
   - credentials-binding
   - datadog
   - docker-workflow
+  - ec2
   - embeddable-build-status
   - git-client
   - git

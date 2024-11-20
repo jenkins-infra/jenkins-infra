@@ -283,7 +283,7 @@ jenkins:
   <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
     <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
-      cloudName: <%= ec2_cloud_name %>
+      name: <%= ec2_cloud_name %>
       credentialsId: "<%= ec2_cloud_setup['credentialsId'] %>"
       <%- $maxEC2Vms = 0; ec2_cloud_setup['agent_definitions'].each do |agent| -%>
         <%- $maxEC2Vms = agent['maxInstances'] + $maxEC2Vms -%>
@@ -295,7 +295,6 @@ jenkins:
       templates:
       <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
-        amiOwners: "200564066411"
         amiType:
           unixData:
             <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
