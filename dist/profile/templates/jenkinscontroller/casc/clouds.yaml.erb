@@ -80,8 +80,8 @@ jenkins:
         executeInitScriptAsRoot: true
         # Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |
-          #!/bin/sh
-          set -eux
+          #!/bin/bash
+          set -eux -o pipefail
 
           # Setup Datadog service
           (
@@ -211,7 +211,7 @@ jenkins:
         retentionStrategy: "azureVMCloudOnce"
       <%- end -%>
         shutdownOnIdle: false
-        spotInstance: <%= cloudsetup['disableSpot'] ? false : (agent['spot'] ? true : false) %>
+        spotInstance: false # TODO: add spot support (inbound)
         templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
         templateName: "<%= agent['name'] %>"
@@ -311,12 +311,12 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: false
         hostKeyVerificationStrategy: ACCEPT_NEW
-        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : 1 %>"
+        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : -5 %>"
         instanceCapStr: "<%= agent['maxInstances'] %>"
         jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
         labelString: "<%= agent['os'] + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
-        maxTotalUses: 1 # Throw away the VMs after a build
+        maxTotalUses: 1 # Throw away the VMs after a build: ephemeral machines
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
         mode: <%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>
@@ -343,17 +343,64 @@ jenkins:
         type: <%= agent['instanceType'] %>
         tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
         useEphemeralDevices: true
-        <%- if agent['userData'] && !agent['userData'].empty? -%>
-        userData: |
-          <%- agent['userData'].each do |line| -%>
-            <%= line %>
-          <%- end -%>
+        # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
+        initScript: |-
+        <%- if agent['os'].to_s == 'windows' -%>
+
+          ## Setup datadog
+          (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+          & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart
+
+          ## Setup Docker Engine
+          @'
+          {
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+          }
+          '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
+          Restart-Service docker
+        <%- else -%>
+          #!/bin/bash
+          set -eux -o pipefail
+
+          ## Setup Datadog service
+          (
+            systemctl stop datadog-agent.service
+            mkdir -p /var/log/datadog /etc/datadog-agent
+            sed 's/api_key:.*/api_key: <%= @jcasc['datadog_api_key'] %>/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml
+            sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml
+            chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+            chmod 640 /etc/datadog-agent/datadog.yaml
+            chown dd-agent:dd-agent /var/log/datadog
+            chmod 770 /var/log/datadog
+            systemctl daemon-reload
+            systemctl enable datadog-agent.service
+            systemctl start datadog-agent.service
+          ) 2>&1 | tee /var/log/agent-init-datadog.log
+
+          ## Setup Docker Engine
+          mkdir -p /etc/docker
+          cat <<EOF >/etc/docker/daemon.json
+          {
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+          }
+          EOF
+          systemctl daemon-reload
+          systemctl restart docker
+
+          ## Setup default java for build (not for agent process)
+          export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>
+          update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
+
+          ## Remove jenkins user from sudoers
+          rm -f /etc/sudoers.d/90-cloud-init-users
         <%- end -%>
         nodeProperties:
         - envVars:
             env:
             - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
               value: "aws"
+            - key: "JAVA_HOME"
+              value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
       <%- end -%>
     <%- end -%>
   <%- end -%>
