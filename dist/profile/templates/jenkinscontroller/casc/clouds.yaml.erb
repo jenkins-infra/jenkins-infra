@@ -80,8 +80,8 @@ jenkins:
         executeInitScriptAsRoot: true
         # Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |
-          #!/bin/bash
-          set -eux -o pipefail
+          #!/bin/sh
+          set -eux
 
           # Setup Datadog service
           (
@@ -359,8 +359,8 @@ jenkins:
           '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
           Restart-Service docker
         <%- else -%>
-          #!/bin/bash
-          set -eux -o pipefail
+          #!/bin/sh
+          set -eux
 
           ## Setup Datadog service
           (

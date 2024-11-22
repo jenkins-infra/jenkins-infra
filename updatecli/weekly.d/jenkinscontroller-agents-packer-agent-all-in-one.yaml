@@ -21,6 +21,34 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
+  getLatestUbuntuAgentAMIx86:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-22.04-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  getLatestUbuntuAgentAMIArm64:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-22.04-arm64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
 
   getLatestInboundAllInOneContainerImageX86:
     kind: dockerdigest
@@ -58,8 +86,7 @@ targets:
     spec:
       file: hieradata/common.yaml
       key: $.profile::jenkinscontroller::jcasc.agent_images.azure_vms_gallery_image.version
-    scmid: default    
-
+    scmid: default
   setInboundAllInOneContainerImage:
     sourceid: getLatestInboundAllInOneContainerImageX86
     name: "Bump container agent image jenkinsciinfra/jenkins-agent-ubuntu-22.04 (AllInOne) for x86"
@@ -70,6 +97,22 @@ targets:
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04:"
     scmid: default
+  setUbuntuAgentAMIx86:
+    sourceid: getLatestUbuntuAgentAMIx86
+    name: "Set AMI ID for the Ubuntu x86 Image"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.'ubuntu-22.04-amd64'
+    scmid: default
+  setUbuntuAgentAMIArm64:
+    sourceid: getLatestUbuntuAgentAMIArm64
+    name: "Set AMI ID for the Ubuntu x86 Image"
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.'ubuntu-22.04-arm64'
+    scmid: default
 
 actions:
   default:
@@ -79,4 +122,3 @@ actions:
     spec:
       labels:
         - dependencies
-
