@@ -1,5 +1,5 @@
 ---
-name: Bump Maven version for cert.ci.jenkins.io
+name: Bump Maven versions for cert.ci.jenkins.io
 
 scms:
   default:
@@ -28,11 +28,11 @@ sources:
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
-        pattern: "^maven-3.5.(\\d*)$"
+        pattern: "^maven-3\\.5\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: "\""
-      - addsuffix: "\""
+      - addprefix: '"'
+      - addsuffix: '"'
   mavenVersion3-6:
     kind: gittag
     name: Get the latest Maven 3.6.x version
@@ -44,8 +44,8 @@ sources:
         pattern: "^maven-3.6.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: "\""
-      - addsuffix: "\""
+      - addprefix: '"'
+      - addsuffix: '"'
   mavenVersion3-8:
     kind: gittag
     name: Get the latest Maven 3.8.x version
@@ -54,7 +54,7 @@ sources:
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
-        pattern: "^maven-3.8.(\\d*)$"
+        pattern: "^maven-3\\.8\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
       - addprefix: "\""
@@ -67,11 +67,11 @@ sources:
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
-        pattern: "^maven-3.9.(\\d*)$"
+        pattern: "^maven-3\\.9\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: "\""
-      - addsuffix: "\""
+      - addprefix: '"'
+      - addsuffix: '"'
 
 conditions:
   checkIfReleaseIsAvailable3-5:
