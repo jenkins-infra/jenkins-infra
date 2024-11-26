@@ -678,7 +678,6 @@ profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
   - azure-container-agents # ACI agents
   - azure-vm-agents # Azure VM Agents
-  - blueocean # A nice view for pipelines
   - buildtriggerbadge # Add an icon with the build cause in the build history
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder # Provides a job type "Folder"
