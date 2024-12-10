@@ -43,7 +43,7 @@ class profile::openvpn (
       # TODO: replace by a conversion from profile network cidr
       "OPENVPN_SERVER_NETMASK=${vpn_network['netmask']}",
     ],
-    extra_parameters => ['--restart=always --cap-add=NET_ADMIN'],
+    extra_parameters => ['--restart=always --cap-add=NET_ADMIN --device=/dev/net/tun'],
     net              => 'host',
     require          => [Docker::Image[$image]],
   }
