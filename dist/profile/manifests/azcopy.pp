@@ -18,13 +18,22 @@ class profile::azcopy (
   ])
 
   if $azcopy_version {
-    $azcopysemver = split($azcopy_version, /-/)[0]
-    $azcopy_url = "https://azcopyvnext.azureedge.net/releases/release-${azcopy_version}/azcopy_linux_${architecture}_${azcopysemver}.tar.gz"
+    $msprodpackagepath = '/tmp/microsoft-prod.deb'
+    file { $msprodpackagepath:
+      ensure => 'file',
+      source => "https://packages.microsoft.com/config/${facts['os']['name'].downcase()}/${facts['os']['release']['full']}/packages-microsoft-prod.deb",
+    }
 
-    exec { 'Install azcopy':
-      require => [Package['curl'], Package['tar']],
-      command => "/usr/bin/curl --location ${azcopy_url} | /bin/tar --extract --gzip --strip-components=1 --directory=${install_dir}/ --wildcards '*/azcopy' && chmod a+x ${install_dir}/azcopy",
-      unless  => "/usr/bin/test -f ${install_dir}/azcopy && ${install_dir}/azcopy --version --skip-version-check | /bin/grep --quiet ${azcopysemver}",
+    package { 'microsoftprod':
+      ensure   => present,
+      source   => $msprodpackagepath,
+      provider => dpkg,
+      require  => File[$msprodpackagepath],
+    }
+
+    package { 'azcopy':
+      ensure  => $azcopy_version,
+      require => [Class['apt::update'], Package['microsoftprod']],
     }
   }
 

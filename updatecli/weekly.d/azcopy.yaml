@@ -15,12 +15,14 @@ scms:
 
 sources:
   lastReleaseVersion:
-    kind: shell
-    name: Get the latest `azcopy` (full) version
+    kind: githubrelease
+    name: Get the latest `azcopy` version
     spec:
-      command: bash -c 'basename "$(dirname "$(curl https://aka.ms/downloadazcopy-v10-linux --write-out "%{redirect_url}" --output /dev/null --silent --fail --show-error)" )"'
+      owner: Azure
+      repository: azure-storage-azcopy
+      token: "{{ requiredEnv .github.token }}"
     transformers:
-      - trimprefix: 'release-'
+      - trimprefix: v
 
 targets:
   updateHieradataVersion:
