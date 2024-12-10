@@ -11,7 +11,8 @@ azure::getjenkinsio::fileshare: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxgg
 azure::getjenkinsio::storagekey: ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAreO1nGjp5BkiRgsWIp6zTRj8hAZcoaZXH6FhgyLtxVel8hd/tmjmRYdwxeHOMmgEn4mMj+0hRdQHyBaarHQeOjR+7k+iU6JHTvGN9Sktf/1AmhWpm8dP3WFBGGjg/vtFU9XCTJJcjGa/WEyoK2WqeP0seRXRF6hQ7IJGCbCcEtkuqZNYMm5Ow4z7k9kebS/U24nvC3SnVUjK60VBUev3CKXaCUDF+moElWS9ZFT7k2j+r9lAQ6xlQwmwC2VSN+wXCOKX0D2EAzVSDxJ/ledgl72QnRLc/tWj/lD+XWy5y24oZS5ZF4sf/YxMi1LAVq/DjcYWdxbf+HFXODjcUo/ufjCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQvLEEb5diJAhC0w0QwljlDoBgvctqNJEVhnTgHdyUIeITWEbtywcHt2Kf3ngePljvIzOkIykPp8kjVsYy4iTBse5nkleLm8wH2Hhz0fcfYkLEjI4OMEJmmKacwkamTw+NAK8wHmUL6UeM5KCIvXxA0n2T]
 
 # SSH keys used for inter-machine accesses
-osuosl_mirroring::privkey: >
+osuosl_mirroring::privkey: |
+  >
   ENC[PKCS7,MIIH/QYJKoZIhvcNAQcDoIIH7jCCB+oCAQAxggEhMIIBHQIBAD
   AFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAV+V7n9zWF1EplI1GDR7fJRm/uH
   LxKPdzfmzzFdNZtYoYjJoTXS8Stm3hoNb+E4H5TWOmGu6NBh9C47PL7sYfoP
@@ -59,7 +60,8 @@ osuosl_mirroring::privkey: >
   EK+xGtTs6tkov7HKKCizr2t2MoqZKi6Fk5YnWHnyb2K2HS7d3S3ghM4AMUap
   vpNPqMjpDA189GtI9IHY1DeIv/tLbMbEupKg9musp6]
 
-archives_jenkins_io_mirroring::privkey: >
+archives_jenkins_io_mirroring::privkey: |
+  >
   ENC[PKCS7,MIIH/QYJKoZIhvcNAQcDoIIH7jCCB+oCAQAxggEhMIIBHQIBAD
   AFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAM/4JE7cVeWM97wYS9NFUAeLxoD
   Hn3xE/hJp5xCOlsKn2APO3h5qS9LdzUaOabD9Xjbnc9V4o3eUkfJscfvvxbr
