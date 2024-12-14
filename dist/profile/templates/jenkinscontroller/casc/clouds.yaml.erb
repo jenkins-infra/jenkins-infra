@@ -281,6 +281,7 @@ jenkins:
     <%- end -%>
   <%- end -%>
   <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
+    <%- $cloudInitDoneFile = "/tmp/.cloud-init.done" -%>
     <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       name: <%= ec2_cloud_name %>
@@ -298,53 +299,73 @@ jenkins:
       - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
           unixData:
-            <%-# Windows VM agent are not supported yet: https://issues.jenkins.io/browse/JENKINS-69304 -%>
-            <%- if agent['os'].to_s != 'windows' -%>
-            slaveCommandPrefix: "PATH=<%= scope.call_function('dirname', [agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup']['ubuntu']['agentJavaBin']]) %>:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
-            <%- end -%>
             sshPort: "22"
-        associatePublicIp: true
+        associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
         connectBySSHProcess: false
-        connectionStrategy: PUBLIC_DNS
+        connectionStrategy: "<%= agent['associatePublicIp'] || ec2_cloud_setup['associatePublicIp'] ? "PUBLIC_DNS" : "PRIVATE_IP" %>"
         deleteRootOnTermination: true
         description: "<%= agent['description'] %>"
         ebsEncryptRootVolume: DEFAULT
-        ebsOptimized: false
+        ebsOptimized: "<%= agent['ebsOptimized'] ? "true" : "false" %>"
+        # TODO: allow customization
         hostKeyVerificationStrategy: ACCEPT_NEW
         idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : -5 %>"
+        # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
+        initScript: |-
+        <%- if agent['os'].to_s == 'windows' -%>
+        <%- else -%>
+          #!/bin/sh
+          set -eEux -o pipefail
+
+          # Wait for cloud init (run in background as root user from 'userData') to finish successfully
+          until [ -e "<%= $cloudInitDoneFile %>%" ]; do
+            sleep 1
+          done
+        <%- end -%>
         instanceCapStr: "<%= agent['maxInstances'] %>"
+        javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaBin'] %>"
         jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][agent['os'].to_s]['agentJavaOpts'] %>"
         labelString: "<%= agent['os'] + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build: ephemeral machines
+        metadataEndpointEnabled: true
+        metadataHopsLimit: 1
+        metadataSupported: true
+        metadataTokensRequired: true
         minimumNumberOfInstances: 0
         minimumNumberOfSpareInstances: 0
         mode: <%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>
         monitoring: false
+        nodeProperties:
+        - envVars:
+            env:
+            - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
+              value: "aws"
+            - key: "JAVA_HOME"
+              value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
         numExecutors: 1
         remoteAdmin: "<%= @jcasc['agents_setup'][agent['os'].to_s]['remoteAdmin'] %>"
         remoteFS: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
-        securityGroups: "ci-agents"
+        securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
         <%- if agent['spot'] -%>
         spotConfig:
           fallbackToOndemand: true
           useBidPrice: false
         <%- end -%>
         stopOnTerminate: false
+        subnetId: "<%= agent['subnetId'] ? agent['subnetId'] : (ec2_cloud_setup['subnetId'] ? ec2_cloud_setup['subnetId'] : "") %>%"
         t2Unlimited: false
         tags:
         - name: "architecture"
           value: "<%= agent['architecture'] %>"
         - name: "os"
           value: "<%= agent['os'] %>"
-        - name: "jenkins"
-          value: "ci.jenkins.io"
         tenancy: Default
-        type: <%= agent['instanceType'] %>
         tmpDir: "<%= @jcasc['agents_setup'][agent['os']]['tempDir'] %>"
+        type: <%= agent['instanceType'] %>
         useEphemeralDevices: true
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
-        initScript: |-
+        userData: |-
         <%- if agent['os'].to_s == 'windows' -%>
 
           ## Setup datadog
@@ -381,7 +402,7 @@ jenkins:
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
           {
-            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : (ec2_cloud_setup['registryMirror'] ? ec2_cloud_setup['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror']) %>"]
           }
           EOF
           systemctl daemon-reload
@@ -393,14 +414,10 @@ jenkins:
 
           ## Remove jenkins user from sudoers
           rm -f /etc/sudoers.d/90-cloud-init-users
+
+          ## Mark cloud init finished (cloud-init status --wait might not report all errors)
+          touch "<%= $cloudInitDoneFile %>%"
         <%- end -%>
-        nodeProperties:
-        - envVars:
-            env:
-            - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
-              value: "aws"
-            - key: "JAVA_HOME"
-              value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
       <%- end -%>
     <%- end -%>
   <%- end -%>

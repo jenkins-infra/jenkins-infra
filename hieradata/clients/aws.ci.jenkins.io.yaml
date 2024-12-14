@@ -95,18 +95,23 @@ profile::jenkinscontroller::jcasc:
         region: us-east-2
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "ec2-agent-ssh"
+        associatePublicIp: false
+        securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
+        subnetId: "subnet-0138ee90cd53d58f7"
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
             maxInstances: 5
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
             os: "ubuntu"
             os_version: "22.04"
+            ebsOptimized: true
             architecture: "arm64"
+            javaHome: /opt/jdk-21
             labels:
               - ubuntu
               - arm64docker
               - arm64linux
-            spot: true
+            spot: false
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
