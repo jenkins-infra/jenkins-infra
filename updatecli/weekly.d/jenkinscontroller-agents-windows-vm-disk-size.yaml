@@ -27,7 +27,7 @@ sources:
       - packerImageVersion
     spec:
       file: 'https://raw.githubusercontent.com/jenkins-infra/packer-images/{{ source `packerImageVersion` }}/locals.pkr.hcl'
-      path: locals.windows_disk_size_gb
+      path: locals.disk_size_gb
 
 targets:
   setWindowsVMAgentDiskSize:
