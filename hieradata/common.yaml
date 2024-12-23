@@ -289,7 +289,7 @@ profile::openvpn::external_ips_vpn_restricted:
   usage.jenkins.io: 52.204.62.78
   archives.jenkins.io: 46.101.121.132
   aws.ci.jenkins.io: 3.146.166.108
-  cijenkinsio-agents-2-ip1: 3.146.156.247
+  cijenkinsio-agents-2-ip1: 3.140.57.67
   cijenkinsio-agents-2-ip2: 3.19.0.193
 profile::updatesite::docroot: /var/www/updates.jenkins.io
 apt::update:frequency: 'daily'
