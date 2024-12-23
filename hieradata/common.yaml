@@ -214,7 +214,7 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-05fd5eb9a8be0e155
+      ubuntu-22.04-amd64: ami-0c52922d5195cb154
       windows-2019-amd64: ami-03c1eb24604482598
       ubuntu-22.04-arm64: ami-0c10e37ce7740965d
       windows-2022-amd64: ami-0a71c15dbb555627f
