@@ -210,7 +210,7 @@ profile::jenkinscontroller::jcasc:
       agentJavaBin: '/opt/jdk-17/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: '/opt/jdk-17' # Default JDK provided for builds when no pipeline setup exists
-      path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
+      path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/local/go/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
