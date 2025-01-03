@@ -101,7 +101,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
             maxInstances: 5
-            instanceType: A1Xlarge # 4 vCPUs / 8 Gb
+            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -111,6 +111,22 @@ profile::jenkinscontroller::jcasc:
               - ubuntu
               - arm64docker
               - arm64linux
+            spot: false
+          - description: "Windows 2019 x86_64 with JDK21"
+            maxInstances: 5
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2022"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-21'
+            labels:
+              - docker-windows
+              - docker-windows-2019
+              - windows
+              - win-2019
+              - windows-2019
+              - win-2019-amd64-maven-21
             spot: false
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
