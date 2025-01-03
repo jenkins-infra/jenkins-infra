@@ -116,7 +116,7 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 5
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
-            os_version: "2022"
+            os_version: "2019"
             ebsOptimized: true
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
