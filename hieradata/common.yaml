@@ -225,7 +225,7 @@ profile::jenkinscontroller::jcasc:
       # All in one image (same as VM templates)
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.21.0@sha256:8cb3ceb55c06b6e8828a9cbd2044179fbf4c97cace79bcc73c08f823f3e6fddf
       # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:71093c3c2e5d48775bb00252af6606b33f57933de40619d6db120368909f2061
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:6e005b9d561eca0d5cded900cba8ac1d74f8dcbbbd59411de7c44e069d45c8e3
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:a78e4381d66447cf4d1c18de2b070a2900a6d930238045368908b55495836717
       jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:7a2ac63bdd83f618ee31b361b9578cf099bbd647c0c8ca1804f0de43efdfeb78
       jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:01d1ab9e3ea2b87463430b51de9de0385511b6682ca9b0c9346a303fafea9667
