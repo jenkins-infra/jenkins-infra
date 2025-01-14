@@ -686,7 +686,8 @@ profile::jenkinscontroller::plugins:
   - configuration-as-code # Required for CasC
   - coverage-badges-extension # Coverage Badges
   - credentials # Provides Jenkins Credentials management
-  - credentials-binding # Bind Jenbkins credentials to variables in jobs
+  - credentials-binding # Bind Jenkins credentials to variables in jobs
+  - customizable-header # Allow customizing header and providing system messages in a banner - https://github.com/jenkins-infra/helpdesk/issues/4494
   - datadog # Datadog plugin
   - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
