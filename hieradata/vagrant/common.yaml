@@ -240,6 +240,29 @@ profile::jenkinscontroller::jcasc:
         url: SuperSecretThatShouldBeEncryptedInProduction
         defaultNamespace: jenkins-agents
         # No agent definitions (to test an empty cloud)
+      third-cluster:
+        enabled: true
+        provider: aws
+        defaultNamespace: jenkins-agents-bom
+        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        agent_definitions:
+          - name: jnlp-maven-bom
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-bom
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents-bom"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+              - key: "ci.jenkins.io/bom"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
     azure_vm_agents:
       clouds:
         azure-vms:

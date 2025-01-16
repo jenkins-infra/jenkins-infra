@@ -99,6 +99,132 @@ profile::jenkinscontroller::jcasc:
     targetHost: "172.17.0.1" # docker0 interface
     collectBuildLogs: true
   cloud_agents:
+    kubernetes:
+      ci.jenkins.io-agents-2:
+        enabled: true
+        defaultNamespace: jenkins-agents
+        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        agent_definitions:
+          - name: jnlp-maven-8
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-8
+            labels:
+              - maven
+              - maven-8
+              - jdk8
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-11
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-11
+            labels:
+              - maven-11
+              - jdk11
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-17
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-17
+              - jdk17
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-webbuilder
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
+            labels:
+              - node
+              - ruby
+              - webbuilder
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-packaging
+            javaHome: /opt/jdk-17
+            labels:
+              - packaging
+              - jnlp-packaging
+            cpus: 1
+            memory: 1
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp
+            agentJavaBin: /opt/java/openjdk/bin/java
+            javaHome: /opt/java/openjdk
+            labels:
+              - default
+            cpus: 1
+            memory: 1
+            nodeSelector: "role=jenkins-agents"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+      ci.jenkins.io-agents-2-bom:
+        enabled: true
+        defaultNamespace: jenkins-agents-bom
+        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        agent_definitions:
+          - name: jnlp-maven-bom
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-bom
+            cpus: 4
+            memory: 12
+            nodeSelector: "role=jenkins-agents-bom"
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+              - key: "ci.jenkins.io/bom"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
     ec2:
       aws-us-east-2:
         region: us-east-2
