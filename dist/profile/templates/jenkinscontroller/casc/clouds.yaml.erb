@@ -281,7 +281,6 @@ jenkins:
     <%- end -%>
   <%- end -%>
   <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
-    <%- $cloudInitDoneFile = "/tmp/.cloud-init.done" -%>
     <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       name: <%= ec2_cloud_name %>
@@ -296,10 +295,19 @@ jenkins:
       useInstanceProfileForCredentials: "<%= ec2_cloud_setup['useInstanceProfileForCredentials'] ? ec2_cloud_setup['useInstanceProfileForCredentials'] : false %>"
       templates:
       <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
+        <%- $cloudInitDoneFile = agent['os'].to_s == 'windows' ? "C:/Windows/Temp/.cloud-init.done" : "/tmp/.cloud-init.done" -%>
+        <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] -%>
       - ami: "<%= @jcasc['agent_images']['ec2_amis'][agent['os'].to_s + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
+        <%- if agent['launcher'] && agent['launcher'] == "winrm" -%>
+          windowsData:
+            allowSelfSignedCertificate: true
+            specifyPassword: false
+            useHTTPS: true
+        <%- else -%>
           unixData:
             sshPort: "22"
+        <%- end -%>
         associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
         connectBySSHProcess: false
         connectionStrategy: "<%= agent['associatePublicIp'] || ec2_cloud_setup['associatePublicIp'] ? "PUBLIC_DNS" : "PRIVATE_IP" %>"
@@ -313,6 +321,7 @@ jenkins:
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
         <%- if agent['os'].to_s == 'windows' -%>
+          <%-# No init script if using SSH launcher: the cmd.exe never finishes (most probably an EC2 plugin bug) %>
         <%- else -%>
           #!/bin/sh
           set -eEux
@@ -344,6 +353,11 @@ jenkins:
               value: "aws"
             - key: "JAVA_HOME"
               value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
+            - key: "PATH"
+              # javaHome always uses '/' as directory separator on both Unix and Windows
+              # The only difference between OSes is the PATH separator (hence the ternary operator).
+              # Note: the $PATH is the "append" Jenkins syntax in that case
+              value: "<%= $javaHome %>/bin<%= agent['os'].to_s == 'windows' ? ";" : ":" %>$PATH"
         numExecutors: 1
         remoteAdmin: "<%= @jcasc['agents_setup'][agent['os'].to_s]['remoteAdmin'] %>"
         remoteFS: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][agent['os'].to_s]['agentDir'] %>"
@@ -368,18 +382,70 @@ jenkins:
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         userData: |-
         <%- if agent['os'].to_s == 'windows' -%>
+          # Requires using YAML for the Windows "Cloud Init" stuff. Multipart upload of a powershell script does not work.
+          version: 1.1
+          tasks:
+          - task: executeScript
+            inputs:
+            - frequency: always
+              type: powershell
+              runAs: localSystem
+              content: |-
+                ## Set up permissions context (as you are Administrator here)
+                Set-ExecutionPolicy Unrestricted -Scope LocalMachine -Force -ErrorAction Ignore
+                # Don't set this before Set-ExecutionPolicy as it throws an error
+                $ErrorActionPreference = "stop"
 
-          ## Setup datadog
-          (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
-          & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart
+                ## Setup datadog
+                (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+                & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart
 
-          ## Setup Docker Engine
-          @'
-          {
-            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
-          }
-          '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
-          Restart-Service docker
+                ## Setup Docker Engine
+                @'
+                {
+                  "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+                }
+                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
+                Restart-Service docker
+          <%- if agent['launcher'] && agent['launcher'] == "winrm" -%>
+                ## Setup WinRM
+                # Remove existing listeners
+                Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
+
+                # Generate a new Cert using the current hostname (instead of the AMI inherited one)
+                $Cert = New-SelfSignedCertificate -CertstoreLocation Cert:\LocalMachine\My -DnsName $env:computername
+                New-Item -Path WSMan:\LocalHost\Listener -Transport HTTPS -Address * -CertificateThumbPrint $Cert.Thumbprint -Force
+
+                # Setup WinRM from scratch and restart it
+                cmd.exe /c winrm quickconfig -q
+                cmd.exe /c winrm set "winrm/config" '@{MaxTimeoutms="1800000"}'
+                cmd.exe /c winrm set "winrm/config/winrs" '@{MaxMemoryPerShellMB="1024"}'
+                cmd.exe /c winrm set "winrm/config/service" '@{AllowUnencrypted="true"}'
+                cmd.exe /c winrm set "winrm/config/client" '@{AllowUnencrypted="true"}'
+                cmd.exe /c winrm set "winrm/config/service/auth" '@{Basic="true"}'
+                cmd.exe /c winrm set "winrm/config/client/auth" '@{Basic="true"}'
+                cmd.exe /c winrm set "winrm/config/service/auth" '@{CredSSP="true"}'
+                cmd.exe /c winrm set "winrm/config/listener?Address=*+Transport=HTTPS" "@{Port=`"5986`";Hostname=`"$($env:computername)`";CertificateThumbprint=`"$($Cert.Thumbprint)`"}"
+                # Yes, Firewall
+                cmd.exe /c netsh advfirewall firewall set rule group="remote administration" new enable=yes
+                # CIFS over TCP
+                cmd.exe /c netsh firewall add portopening TCP 445 "Port 445"
+                # WinRM HTTP
+                cmd.exe /c netsh firewall add portopening TCP 5985 "Port 5985"
+                # WinRM HTTPS
+                cmd.exe /c netsh firewall add portopening TCP 5986 "Port 5986"
+                cmd.exe /c net stop winrm
+                cmd.exe /c net start winrm
+                # Sanity check
+                winrm enumerate winrm/config/listener
+          <%- else -%>
+                ## Disable WinRM
+                Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
+                cmd.exe /c net stop winrm
+          <%- end -%>
+
+                ## Mark cloud init finished (cloud-init status --wait might not report all errors)
+                New-Item -Path . -Name "<%= $cloudInitDoneFile %>" -ItemType "file" -Value "Cloud Init "
         <%- else -%>
           #!/bin/sh
           set -eux
