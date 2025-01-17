@@ -85,6 +85,15 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
+  artifact_caching_proxy:
+    enabled: true
+    servers:
+      aws-internal:
+        name: AWS (Internal) Artifact Caching Proxy
+        url: http://k8s-artifact-artifact-51a40b09ac-8673e1bdefab0d64.elb.us-east-2.amazonaws.com:8080/
+      aws-eks-internal:
+        name: AWS (EKS Internal) Artifact Caching Proxy
+        url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   datadog:
     host: "aws.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
