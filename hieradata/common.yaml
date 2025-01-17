@@ -282,7 +282,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.4.63
+profile::openvpn::image_tag: 2.4.65
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
   census.jenkins.io: 52.202.38.86
