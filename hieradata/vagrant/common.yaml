@@ -492,3 +492,16 @@ profile::buildagent::tools_versions:
   awscli: 2.13.32
 profile::jenkinscontroller::tools_versions:
   awscli: 2.13.32
+profile::jenkinscontroller::kubeconfigs:
+  # Case of cluster which user requires a token
+  - cluster_name: cijenkinsio-agents-1
+    cluster_url: https://azure_cluster.url
+    cluster_ca_data: SuperSecretCAdata
+    client_ca_data: SuperSecretClientCAdata
+    client_key_data: SuperSecretClientKeydata
+    client_token: SuperSecretClientToken
+  # Case of cluster which requires instance profile (and aws CLI)
+  - cluster_name: cijenkinsio-agents-2
+    cluster_url: https://aws_cluster.url
+    cluster_ca_data: SuperSecretCAdata
+    cluster_aws_region: us-east-2

@@ -37,6 +37,7 @@ class profile::jenkinscontroller (
   },
   Boolean $block_remote_access_api             = false,
   Hash $tools_versions                         = {},
+  Array $kubeconfigs                           = [],
   String $memory_limit                         = '1g',
   String $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
@@ -300,14 +301,12 @@ class profile::jenkinscontroller (
   # Install 'awscli' INSIDE the controller is specified
   # Use cases:
   # - Kubernetes plugin with EC2 Instance profile authentication
-  $container_volumes = ["${jenkins_home}:/var/jenkins_home:rw"]
   $container_base_path = '/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-
+  $aws_install_dir = '/var/awscli'
   if $tools_versions['awscli'] {
     # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
     $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
     $aws_temp_zip = '/tmp/awscliv2.zip'
-    $aws_install_dir = '/var/awscli'
     file { $aws_install_dir:
       ensure  => directory,
     }
@@ -319,11 +318,43 @@ class profile::jenkinscontroller (
       command => "/usr/bin/curl --silent --show-error --location ${awscli_url} --output ${aws_temp_zip} && unzip -o ${aws_temp_zip} -d /tmp && bash /tmp/aws/install --install-dir ${aws_install_dir} --update && rm -rf /tmp/aws*",
       unless  => "/usr/bin/test -f ${aws_install_dir}/v2/current/dist/aws && ${aws_install_dir}/v2/current/dist/aws --version | /bin/grep --quiet ${tools_versions['awscli']}",
     }
-    $all_container_volumes = $container_volumes + ["${aws_install_dir}:${aws_install_dir}:ro"]
-    $final_container_path = "${aws_install_dir}/v2/current/bin/:${container_base_path}"
+    $awscli_container_volume = "${aws_install_dir}:${aws_install_dir}:ro"
+    $final_container_path = "${aws_install_dir}/v2/current/bin:${container_base_path}"
   } else {
-    $all_container_volumes = ["${jenkins_home}:/var/jenkins_home:rw"]
+    file { $aws_install_dir:
+      ensure => absent,
+      force  => true,
+    }
+    $awscli_container_volume = ''
     $final_container_path = $container_base_path
+  }
+
+  $kubeconfig_path = '/var/jenkins_kubeconfigs'
+  if $kubeconfigs and $kubeconfigs.size > 0 {
+    file { $kubeconfig_path:
+      ensure  => directory,
+    }
+    $kubeconfigs.each | $kconfig | {
+      $kconfig_file = "${kubeconfig_path}/${kconfig['cluster_name']}.yml"
+
+      file { $kconfig_file:
+        ensure  => file,
+        require => [File[$kubeconfig_path]],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template("${module_name}/jenkinscontroller/kubeconfig.erb"),
+      }
+    }
+    $kubeconfig_container_volume = "${kubeconfig_path}:${kubeconfig_path}:ro"
+    $kubeconfig_envvar_value = "${kubeconfig_path}/${kubeconfigs[0]['cluster_name']}.yml"
+  } else {
+    file { $kubeconfig_path:
+      ensure => absent,
+      force  => true,
+    }
+    $kubeconfig_container_volume = ''
+    $kubeconfig_envvar_value = ''
   }
 
   docker::run { $docker_container_name:
@@ -348,9 +379,10 @@ class profile::jenkinscontroller (
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
       "PATH=${final_container_path}",
+      "KUBECONFIG=${kubeconfig_envvar_value}",
     ],
     ports            => ['8080:8080', '50000:50000'],
-    volumes          => $all_container_volumes,
+    volumes          => concat(["${jenkins_home}:/var/jenkins_home:rw"],$awscli_container_volume,$kubeconfig_container_volume).map |$item| { if $item != '' { $item } },
     pull_on_start    => true,
     require          => [
       File[$jenkins_home],
@@ -358,13 +390,13 @@ class profile::jenkinscontroller (
     ],
   }
 
-  # CLI support: legacy support (ensure clean up of old resources)
-  ##############################################################################
+# CLI support: legacy support (ensure clean up of old resources)
+##############################################################################
   exec { 'safe-restart-jenkins':
     command     => "/usr/bin/docker restart ${docker_container_name}",
     refreshonly => true,
   }
-  ##############################################################################
+##############################################################################
 
   profile::jenkinsplugin { $plugins:
     # Only install plugins after we've secured Jenkins, that seems reasonable
@@ -495,7 +527,7 @@ ${custom_fragment_api_paths}
     action => 'accept',
   }
 
-  # If a custom resource "assets" domain is set (to serve static resources)
+# If a custom resource "assets" domain is set (to serve static resources)
   if ($ci_resource_domain != '') {
     $ci_resource_domain_x_forwarded_host = "
 RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
@@ -546,7 +578,7 @@ ${custom_fragment_api_paths}
     }
   }
 
-  # Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
+# Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
   if ($letsencrypt == true) and ($environment == 'production') {
     $letsencrypt_plugin = lookup('profile::letsencrypt::plugin')
 

@@ -35,7 +35,7 @@ describe "profile::jenkinscontroller" do
       it "should define a suitable docker::run" do
         expect(subject).to contain_docker__run("jenkins").with({
           :pull_on_start => true,
-          :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw"],
+          :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", nil, nil],
         })
       end
     end
@@ -96,14 +96,51 @@ describe "profile::jenkinscontroller" do
     it "should mount the aws CLI installation directory in the container with an updated PATH" do
       expect(subject).to contain_docker__run("jenkins").with({
         :pull_on_start => true,
-        :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", "/var/awscli:/var/awscli:ro"],
+        :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", "/var/awscli:/var/awscli:ro", nil],
         :env => [
           "HOME=/var/jenkins_home",
           "USER=jenkins",
           "JAVA_OPTS=-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 -Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING=true -Dcasc.jenkins.config=/var/jenkins_home/casc.d         -Dcasc.reload.token=SuperSecretThatShouldBeEncryptedInProduction",
           "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
           "LANG=C.UTF-8",
-          "PATH=/var/awscli/v2/current/bin/:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "PATH=/var/awscli/v2/current/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "KUBECONFIG=",
+        ],
+      })
+    end
+  end
+
+  context "with kubeconfigs in the container" do
+    let(:fqdn) { "rspec.jenkins.io" }
+    let(:params) do
+      {
+        :ci_fqdn => fqdn,
+        :kubeconfigs => [{
+          :cluster_name => "cijenkinsio-agents-2",
+          :cluster_url => "https://aws_cluster.url",
+          :cluster_ca_data => "SuperSecretCAdata",
+          :cluster_aws_region => "us-east-2",
+        }],
+      }
+    end
+    let(:facts) do
+      {
+        :rspec_hieradata_fixture => "profile_jenkinscontroller",
+      }
+    end
+
+    it "should mount the kubeconfigs directory in the container with an updated KUBECONFIG" do
+      expect(subject).to contain_docker__run("jenkins").with({
+        :pull_on_start => true,
+        :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", nil, "/var/jenkins_kubeconfigs:/var/jenkins_kubeconfigs:ro"],
+        :env => [
+          "HOME=/var/jenkins_home",
+          "USER=jenkins",
+          "JAVA_OPTS=-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 -Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING=true -Dcasc.jenkins.config=/var/jenkins_home/casc.d         -Dcasc.reload.token=SuperSecretThatShouldBeEncryptedInProduction",
+          "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
+          "LANG=C.UTF-8",
+          "PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "KUBECONFIG=/var/jenkins_kubeconfigs/cijenkinsio-agents-2.yml",
         ],
       })
     end
