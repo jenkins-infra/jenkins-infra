@@ -102,7 +102,9 @@ profile::jenkinscontroller::jcasc:
     kubernetes:
       ci.jenkins.io-agents-2:
         enabled: true
-        acpServerId: azure-aks-internal # will probably be aws-eks-internal
+        ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
+        acpServerId: aws-eks-internal
+        # TODO: track with updatecli
         defaultNamespace: jenkins-agents
         max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         agent_definitions:
@@ -115,7 +117,9 @@ profile::jenkinscontroller::jcasc:
               - jdk8
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -129,7 +133,9 @@ profile::jenkinscontroller::jcasc:
               - jdk11
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -143,7 +149,9 @@ profile::jenkinscontroller::jcasc:
               - jdk17
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -157,7 +165,9 @@ profile::jenkinscontroller::jcasc:
               - jdk21
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -172,7 +182,9 @@ profile::jenkinscontroller::jcasc:
               - webbuilder
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -185,7 +197,9 @@ profile::jenkinscontroller::jcasc:
               - jnlp-packaging
             cpus: 1
             memory: 1
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -198,7 +212,9 @@ profile::jenkinscontroller::jcasc:
               - default
             cpus: 1
             memory: 1
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -206,7 +222,9 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
       ci.jenkins.io-agents-2-bom:
         enabled: true
-        acpServerId: azure-aks-internal # will probably be aws-eks-internal
+        ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
+        acpServerId: aws-eks-internal
+        # TODO: track with updatecli
         defaultNamespace: jenkins-agents-bom
         max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         agent_definitions:
@@ -217,7 +235,9 @@ profile::jenkinscontroller::jcasc:
               - maven-bom
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents-bom"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
