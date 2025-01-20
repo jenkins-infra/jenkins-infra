@@ -490,3 +490,5 @@ profile::jenkinscontroller::plugins:
   - workflow-multibranch
 profile::buildagent::tools_versions:
   awscli: 2.13.32
+profile::jenkinscontroller::tools_versions:
+  awscli: 2.13.32

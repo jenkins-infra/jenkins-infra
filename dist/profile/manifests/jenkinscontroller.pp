@@ -36,6 +36,7 @@ class profile::jenkinscontroller (
     logs_collection_port    => 8127,
   },
   Boolean $block_remote_access_api             = false,
+  Hash $tools_versions                         = {},
   String $memory_limit                         = '1g',
   String $java_opts = "-server \
 -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=${container_jenkins_home}/gc/gc.log::filecount=5,filesize=40M \
@@ -101,13 +102,14 @@ class profile::jenkinscontroller (
   }
 
   file { '/etc/profile.d/prompt.sh':
-    ensure  => present,
+    ensure  => file,
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
     content => template("${module_name}/jenkinscontroller/prompt.sh.erb"),
   }
 
+  ##############################################################################
   # Jenkins custom-bootstrapping
   #
   # These files should be laid down on the file system before Jenkins starts
@@ -164,7 +166,6 @@ class profile::jenkinscontroller (
       notify  => Service['docker-jenkins'],
     }
   }
-  ##############################################################################
 
   ##############################################################################
   # JCasc Files: if provided through hieradata, then add these files in the ${jenkins_home}/casc.d/
@@ -296,6 +297,34 @@ class profile::jenkinscontroller (
   }
 
   ##############################################################################
+  # Install 'awscli' INSIDE the controller is specified
+  # Use cases:
+  # - Kubernetes plugin with EC2 Instance profile authentication
+  $container_volumes = ["${jenkins_home}:/var/jenkins_home:rw"]
+  $container_base_path = '/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+
+  if $tools_versions['awscli'] {
+    # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
+    $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
+    $aws_temp_zip = '/tmp/awscliv2.zip'
+    $aws_install_dir = '/var/awscli'
+    file { $aws_install_dir:
+      ensure  => directory,
+    }
+    Package { 'unzip':
+      ensure => 'latest',
+    }
+    exec { 'Install aws CLI on host':
+      require => [File[$aws_install_dir],Package['unzip']],
+      command => "/usr/bin/curl --silent --show-error --location ${awscli_url} --output ${aws_temp_zip} && unzip -o ${aws_temp_zip} -d /tmp && bash /tmp/aws/install --install-dir ${aws_install_dir} --update && rm -rf /tmp/aws*",
+      unless  => "/usr/bin/test -f ${aws_install_dir}/v2/current/dist/aws && ${aws_install_dir}/v2/current/dist/aws --version | /bin/grep --quiet ${tools_versions['awscli']}",
+    }
+    $all_container_volumes = $container_volumes + ["${aws_install_dir}:${aws_install_dir}:ro"]
+    $final_container_path = "${aws_install_dir}/v2/current/bin/:${container_base_path}"
+  } else {
+    $all_container_volumes = ["${jenkins_home}:/var/jenkins_home:rw"]
+    $final_container_path = $container_base_path
+  }
 
   docker::run { $docker_container_name:
     memory_limit     => $memory_limit,
@@ -318,9 +347,10 @@ class profile::jenkinscontroller (
       "JAVA_OPTS=${java_opts}${jcasc_java_opts}",
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
+      "PATH=${final_container_path}",
     ],
     ports            => ['8080:8080', '50000:50000'],
-    volumes          => ["${jenkins_home}:/var/jenkins_home"],
+    volumes          => $all_container_volumes,
     pull_on_start    => true,
     require          => [
       File[$jenkins_home],

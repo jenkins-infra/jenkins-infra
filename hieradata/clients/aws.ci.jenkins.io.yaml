@@ -179,3 +179,5 @@ profile::jenkinscontroller::plugins:
   - timestamper # Allow showing timestamp on build logs
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
+profile::jenkinscontroller::tools_versions:
+  awscli: 2.13.32
