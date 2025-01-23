@@ -3,23 +3,13 @@
 class profile::letsencrypt (
   String $plugin = '',
   Hash $dns_azure = {},
-  String $certbot_version = '1.32.0',
+  # TODO: track with updatecli
+  String $certbot_version = '3.1.0',
+  # TODO: track with updatecli
+  String $certbot_dnsazure_version = '2.6.1',
   Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
 ) {
-  # Snap package is broken (despite being really helpfull) until https://github.com/terrycain/certbot-dns-azure/issues/28 is fixed
-  # So let's use Python (3.8 required) with pinned (and old) versions for both certbot and certbot azure-dns plugin
-
-  ## Ensure that any pre-existing snap and/or apt installation of certbot are removed
-  include snap
-  ['certbot', 'certbot-dns-azure'].each | $snap_package | {
-    package { $snap_package:
-      ensure   => 'absent',
-      provider => 'snap',
-    }
-  }
-  file { '/snap/bin/certbot':
-    ensure => 'absent',
-  }
+  # Snap package can't be installed in a container so we use the pip installation for certbot.
 
   # Custom crontab to control the renew command (absolute path, logging to var log, etc.)
   # Package 'crontab' already installed here
@@ -28,21 +18,26 @@ class profile::letsencrypt (
     user    => 'root',
     hour    => 6,
     minute  => 0,
-    require => [Package['certbot']],
   }
 
   case $facts['os']['distro']['codename'] {
     'bionic': {
       $python_certbot_version = '3.8'
       $python_system_version = '3.6' # Required to be the default to avoid breaking apt
+      $certbot_pip_version = '' # 3.0.x is the latest certbot version supporting Python < 3.10
+      $certbot_pip_version_check = '' # Only check for the pip presence
     }
     'focal': {
       $python_certbot_version = '3.8'
       $python_system_version = '3.8' # Required to be the default to avoid breaking apt
+      $certbot_pip_version = '' # 3.0.x is the latest certbot version supporting Python < 3.10
+      $certbot_pip_version_check = '' # Only check for the pip presence
     }
     'jammy':  {
       $python_certbot_version = '3.10'
       $python_system_version = '3.10' # Required to be the default to avoid breaking apt
+      $certbot_pip_version = "==${certbot_version}"
+      $certbot_pip_version_check = "| /bin/grep ${certbot_version}"
     }
     default: {
       fail('[profile::letsencrypt] Unsupported Ubuntu distribution.')
@@ -58,14 +53,26 @@ class profile::letsencrypt (
 
   exec { 'Ensure pip is initialized for certbot':
     require => [Package["python${python_certbot_version}"],Package['python3-pip']],
-    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pip setuptools setuptools-rust",
-    unless  => "/usr/bin/python${python_certbot_version} -m pip list --format=json | /bin/grep --quiet setuptools-rust",
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pip",
+    unless  => "/usr/bin/python${python_certbot_version} -m pip list --outdated | /bin/grep --invert-match --word-regexp pip",
   }
 
   exec { 'Install certbot':
     require => [Package["python${python_certbot_version}"],Package['python3-pip'], Exec['Ensure pip is initialized for certbot']],
-    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade pyopenssl certbot==${certbot_version} acme==${certbot_version}",
-    creates => $certbot_bin,
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot${certbot_pip_version}",
+    unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot ${certbot_pip_version_check}",
+  }
+
+  exec { 'Install certbot-apache plugin':
+    require => Exec['Install certbot'],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade --use-pep517 certbot-apache${certbot_pip_version}",
+    unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-apache ${certbot_pip_version_check}",
+  }
+
+  exec { 'Install certbot-dns-azure plugin':
+    require => Exec['Install certbot'],
+    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure==${certbot_dnsazure_version}",
+    unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-dns-azure | /bin/grep ${certbot_dnsazure_version}",
   }
 
   $default_config = {
@@ -74,12 +81,6 @@ class profile::letsencrypt (
   }
 
   if $plugin == 'apache' {
-    exec { 'Install certbot-apache plugin':
-      require => Exec['Install certbot'],
-      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-apache==${certbot_version}",
-      unless  => "${certbot_bin} plugins --text 2>&1 | /bin/grep --quiet apache",
-    }
-
     # Case of HTTP-01 challenge
     $_additional_config = {
       'authenticator'        => 'apache',
@@ -93,12 +94,6 @@ class profile::letsencrypt (
   }
 
   if $plugin == 'dns-azure' {
-    exec { 'Install certbot-dns-azure plugin':
-      require => Exec['Install certbot'],
-      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure",
-      unless  => "${certbot_bin} plugins --text 2>&1 | /bin/grep --quiet dns-azure",
-    }
-
     # Case of DNS-01 challenge (with Azure DNS)
     $_additional_config = {
       'authenticator'        => 'dns-azure',
@@ -120,7 +115,7 @@ class profile::letsencrypt (
 
   class { 'letsencrypt':
     config         => $final_config,
-    package_ensure => 'absent', # We use snap or pip packages instead of the virtual apt package
+    package_ensure => 'absent', # We use pip packages instead of the virtual apt package
     configure_epel => false,
   }
 }
