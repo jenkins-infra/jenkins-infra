@@ -17,8 +17,8 @@ profile::jenkinscontroller::anonymous_access: false
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
-profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
-profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::ci_fqdn: 'aws.ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.aws.ci.jenkins.io'
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk17'
