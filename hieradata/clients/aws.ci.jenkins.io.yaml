@@ -89,7 +89,7 @@ profile::jenkinscontroller::jcasc:
       aws-internal:
         name: AWS (Internal) Artifact Caching Proxy
         # TODO: maintain with updatecli
-        url: http://k8s-artifact-artifact-51a40b09ac-8673e1bdefab0d64.elb.us-east-2.amazonaws.com:8080/
+        url: http://k8s-artifact-artifact-3956ce141b-9dd8bf0a8c925c79.elb.us-east-2.amazonaws.com:8080/
       aws-eks-internal:
         name: AWS (EKS Internal) Artifact Caching Proxy
         # TODO: maintain with updatecli
