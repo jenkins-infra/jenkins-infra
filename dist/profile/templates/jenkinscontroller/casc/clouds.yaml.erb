@@ -349,8 +349,10 @@ jenkins:
         nodeProperties:
         - envVars:
             env:
-            - key: "ARTIFACT_CACHING_PROXY_PROVIDER"
-              value: "aws"
+            <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && agent['acpServerId'] -%>
+            - key: "ARTIFACT_CACHING_PROXY_SERVERID"
+              value: "<%= @jcasc['artifact_caching_proxy']['servers'][agent['acpServerId']]['url'] %>"
+            <%- end -%>
             - key: "JAVA_HOME"
               value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][agent['os'].to_s]['javaHome'] %>"
             - key: "PATH"
@@ -545,6 +547,7 @@ jenkins:
             workingDir: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup']['ubuntu']['agentDir'] %>"
           label: "container kubernetes <%= k8s_name %> <%= agent['labels'] ? agent['labels'].join(' ') : '' %>"
           name: "<%= agent['name'] %>"
+          usageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
         <%- if agent['imagePullSecrets'] -%>
           imagePullSecrets:
           - name: "<%= agent['imagePullSecrets'] %>"

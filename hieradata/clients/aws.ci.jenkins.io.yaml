@@ -10,10 +10,8 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
-
 # TODO: set up to false once configured
 profile::jenkinscontroller::anonymous_access: false
-
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
@@ -90,9 +88,11 @@ profile::jenkinscontroller::jcasc:
     servers:
       aws-internal:
         name: AWS (Internal) Artifact Caching Proxy
+        # TODO: maintain with updatecli
         url: http://k8s-artifact-artifact-51a40b09ac-8673e1bdefab0d64.elb.us-east-2.amazonaws.com:8080/
       aws-eks-internal:
         name: AWS (EKS Internal) Artifact Caching Proxy
+        # TODO: maintain with updatecli
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   datadog:
     host: "aws.ci.jenkins.io"
@@ -210,6 +210,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/java/openjdk
             labels:
               - default
+            useAsMuchAsPossible: true # Default template to sue when `node() {}` step is called without labels
             cpus: 1
             memory: 1
             # TODO: factorize and track with updatecli
@@ -253,11 +254,87 @@ profile::jenkinscontroller::jcasc:
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "ec2-agent-ssh"
         associatePublicIp: false
+        # TODO: maintain with updatecli
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
+        # TODO: maintain with updatecli
         subnetId: "subnet-0138ee90cd53d58f7"
         agent_definitions:
-          - description: "ARM64 ubuntu 22.04"
-            maxInstances: 5
+          ####
+          # x86_64 Linux VMs
+          - description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-8
+            labels:
+              - ubuntu-22-amd64-maven8
+            spot: false
+            acpServerId: aws-internal
+          - description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-11
+            labels:
+              - ubuntu-22-amd64-maven11
+            spot: false
+            acpServerId: aws-internal
+          - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - ubuntu-22-amd64-maven17
+              # Labels indicating it is the default VM template
+              - ubuntu
+              - java
+              - linux
+              - docker
+              - linux-amd64
+            spot: false
+            acpServerId: aws-internal
+          - description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - ubuntu-22-amd64-maven21
+            spot: false
+            acpServerId: aws-internal
+          ####
+          # arm64 Linux VMs
+          - description: "Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "arm64"
+            javaHome: /opt/jdk-17
+            labels:
+              - ubuntu-22-arm64-maven17
+              # Labels indicating it is the default VM template for arm64
+              - arm64docker
+              - arm64linux
+              - linux-arm64
+            spot: false
+            acpServerId: aws-internal
+          - description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+            maxInstances: 50
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
@@ -265,10 +342,82 @@ profile::jenkinscontroller::jcasc:
             architecture: "arm64"
             javaHome: /opt/jdk-21
             labels:
-              - ubuntu
-              - arm64docker
-              - arm64linux
+              - ubuntu-22-arm64-maven21
             spot: false
+            acpServerId: aws-internal
+          ####
+          # High Memory Linux VMs (ATH mostly)
+          - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3a2xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - ubuntu-22-amd64-highmem-maven17
+              # Labels indicating it is the default VM template for high mem x86_64
+              - highmem
+              - highram
+              - docker-highmem
+              - linux-amd64-big
+              ## Spot is not enabled (yet?) in AWS account
+              - ubuntu-22-amd64-highmem-nonspot-maven17
+              - highmem-nonspot
+              - highram-nonspot
+              - docker-highmem-nonspot
+              - linux-amd64-big-nonspot
+            spot: false
+            acpServerId: aws-internal
+          - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: T3a2xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - ubuntu-22-amd64-highmem-maven21
+              # Labels indicating it is the default VM template for high mem x86_64
+              ## Spot is not enabled (yet?) in AWS account
+              - ubuntu-22-amd64-highmem-nonspot-maven21
+            spot: false
+            acpServerId: aws-internal
+          ####
+          # Windows VMs
+          ## TODO: deprecate JDK11 Windows?
+          - description: "Windows 2019 x86_64 with JDK11"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-11'
+            labels:
+              - win-2019-amd64-maven-11
+            spot: false
+            acpServerId: aws-internal
+          - description: "Windows 2019 x86_64 with JDK17"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-17'
+            labels:
+              - win-2019-amd64-maven-17
+              # Labels indicating it is the default VM template for Windows 2019 and Windows
+              - docker-windows
+              - docker-windows-2019
+              - windows
+              - win-2019
+              - windows-2019
+            spot: false
+            acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK21"
             maxInstances: 5
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
@@ -278,13 +427,25 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
             labels:
-              - docker-windows
-              - docker-windows-2019
-              - windows
-              - win-2019
-              - windows-2019
               - win-2019-amd64-maven-21
             spot: false
+            acpServerId: aws-internal
+          - description: "Windows 2022 x86_64 with JDK17"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2022"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-17'
+            labels:
+              - win-2022-amd64-maven-11
+              # Labels indicating it is the default VM template for Windows 2022 (but not windows)
+              - docker-windows-2022
+              - win-2022
+              - windows-2022
+            spot: false
+            acpServerId: aws-internal
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
