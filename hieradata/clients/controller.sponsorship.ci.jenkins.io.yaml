@@ -632,6 +632,7 @@ profile::jenkinscontroller::jcasc:
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
             - maven-windows
+            - maven-8-windows
           usePrivateIP: true
         - name: maven-11-windows
           os: windows
