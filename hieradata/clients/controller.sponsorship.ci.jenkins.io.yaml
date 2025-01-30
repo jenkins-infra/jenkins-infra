@@ -551,7 +551,6 @@ profile::jenkinscontroller::jcasc:
             - win-2019
             - windows-2019
             - win-2019-amd64-maven-11
-            - maven-11-windows
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 50
           useAsMuchAsPossible: true
@@ -570,7 +569,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-17
-            - maven-17-windows
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 50
           useAsMuchAsPossible: true
@@ -589,7 +587,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-21
-            - maven-21-windows
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 50
           useAsMuchAsPossible: true
@@ -643,7 +640,7 @@ profile::jenkinscontroller::jcasc:
           memory: 8
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
-            - maven-11-windows-disabled
+            - maven-11-windows
           usePrivateIP: true
         - name: maven-17-windows
           os: windows
@@ -652,7 +649,7 @@ profile::jenkinscontroller::jcasc:
           memory: 8
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
-            - maven-17-windows-disabled
+            - maven-17-windows
           usePrivateIP: true
         - name: maven-21-windows
           os: windows
@@ -661,7 +658,7 @@ profile::jenkinscontroller::jcasc:
           memory: 8
           agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
           labels:
-            - maven-21-windows-disabled
+            - maven-21-windows
           usePrivateIP: true
   artifact_caching_proxy:
     enabled: true
