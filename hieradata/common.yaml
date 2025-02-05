@@ -242,7 +242,7 @@ profile::jenkinscontroller::jcasc:
   tools_default_versions:
     jdk8: 8u442-b06
     jdk11: 11.0.26+4
-    jdk17: 17.0.13+11
+    jdk17: 17.0.14+7
     jdk21: 21.0.5+11
     maven: 3.9.9
 ldap_url: "ldap://localhost:389"
