@@ -1,0 +1,71 @@
+---
+name: "Bump awscli version"
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: githubrelease
+    name: Get the latest `aws` CLI version
+    spec:
+      owner: "aws"
+      repository: "aws-cli"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionfilter:
+        kind: semver
+        pattern: ~2 # Use the 2.x.y version
+
+targets:
+  updateTrustedAgentAwsCliVersion:
+    name: Update the `aws-cli` version in the agent.trusted.ci.jenkins.io.yaml file
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/clients/agent.trusted.ci.jenkins.io.yaml
+      key: $.profile::buildagent::tools_versions.awscli
+    scmid: default
+  updateCIJIOAwsCliVersion:
+    name: Update the `aws-cli` version in the aws.ci.jenkins.io.yaml file
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/clients/aws.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::tools_versions.awscli
+    scmid: default
+  updateVagrantCommonBuildAgentAwsCliVersion:
+    name: Update the `aws-cli` version in the vagrant common.yaml
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/vagrant/common.yaml
+      key: $.profile::buildagent::tools_versions.awscli
+    scmid: default
+  updateVagrantCommonJenkinsControllerAwsCliVersion:
+    name: Update the `aws-cli` version in the vagrant common.yaml
+    sourceid: lastReleaseVersion
+    kind: yaml
+    spec:
+      file: hieradata/vagrant/common.yaml
+      key: $.profile::jenkinscontroller::tools_versions.awscli
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `aws-cli` version to {{ source "lastReleaseVersion" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - aws-cli
