@@ -405,7 +405,7 @@ jenkins:
                 ## Setup Docker Engine
                 @'
                 {
-                  "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>],
+                  "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"],
                   "registry-mirrors": ["http://<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
                 }
                 '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
@@ -472,7 +472,7 @@ jenkins:
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
           {
-            "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>],
+            "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"],
             "registry-mirrors": ["http://<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
           }
           EOF
