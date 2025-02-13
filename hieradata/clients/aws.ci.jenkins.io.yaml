@@ -265,7 +265,7 @@ profile::jenkinscontroller::jcasc:
           # x86_64 Linux VMs
           - description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -277,7 +277,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -289,7 +289,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -307,7 +307,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -351,7 +351,7 @@ profile::jenkinscontroller::jcasc:
           # High Memory Linux VMs (ATH mostly)
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: T3a2xlarge # 4 vCPUs / 16 Gb
+            instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -374,7 +374,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: T3a2xlarge # 4 vCPUs / 16 Gb
+            instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -393,7 +393,7 @@ profile::jenkinscontroller::jcasc:
           ## TODO: deprecate JDK8 Windows?
           - description: "Windows 2019 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -407,7 +407,7 @@ profile::jenkinscontroller::jcasc:
           ## TODO: deprecate JDK11 Windows?
           - description: "Windows 2019 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -420,7 +420,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -439,7 +439,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK21"
             maxInstances: 5
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -452,7 +452,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Windows 2022 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2022"
             ebsOptimized: true
