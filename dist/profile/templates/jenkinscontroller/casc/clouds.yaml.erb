@@ -405,7 +405,8 @@ jenkins:
                 ## Setup Docker Engine
                 @'
                 {
-                  "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror'] %>"]
+                  "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>],
+                  "registry-mirrors": ["http://<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
                 }
                 '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
                 Restart-Service docker
@@ -471,7 +472,8 @@ jenkins:
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
           {
-            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : (ec2_cloud_setup['registryMirror'] ? ec2_cloud_setup['registryMirror'] : @jcasc['agents_setup'][agent['os'].to_s]['registryMirror']) %>"]
+            "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>],
+            "registry-mirrors": ["http://<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
           }
           EOF
           systemctl daemon-reload
