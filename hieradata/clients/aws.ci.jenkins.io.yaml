@@ -389,6 +389,21 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           ####
           # Windows VMs
+          ####
+          ## TODO: deprecate JDK8 Windows?
+          - description: "Windows 2019 x86_64 with JDK8"
+            maxInstances: 50
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-8'
+            labels:
+              - win-2019-amd64-maven-8
+              - maven-8-windows
+            spot: false
+            acpServerId: aws-internal
           ## TODO: deprecate JDK11 Windows?
           - description: "Windows 2019 x86_64 with JDK11"
             maxInstances: 50
@@ -400,6 +415,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: 'C:/tools/jdk-11'
             labels:
               - win-2019-amd64-maven-11
+              - maven-11-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK17"
@@ -418,6 +434,7 @@ profile::jenkinscontroller::jcasc:
               - windows
               - win-2019
               - windows-2019
+              - maven-17-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK21"
@@ -430,6 +447,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: 'C:/tools/jdk-21'
             labels:
               - win-2019-amd64-maven-21
+              - maven-21-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2022 x86_64 with JDK17"
