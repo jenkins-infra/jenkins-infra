@@ -226,7 +226,8 @@ profile::jenkinscontroller::jcasc:
         acpServerId: aws-eks-internal
         # TODO: track with updatecli
         defaultNamespace: jenkins-agents-bom
-        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        ## TODO: check if it's needed with EKS and karpenter
+        #  max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         agent_definitions:
           - name: jnlp-maven-bom
             imageName: jnlp-maven-all-in-one
