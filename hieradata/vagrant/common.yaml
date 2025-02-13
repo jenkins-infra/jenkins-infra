@@ -121,6 +121,7 @@ profile::jenkinscontroller::jcasc:
         associatePublicIp: false
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
         subnetId: "subnet-0138ee90cd53d58f7"
+        registryMirror: "urltodockerproxy:5000"
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
             maxInstances: 5
