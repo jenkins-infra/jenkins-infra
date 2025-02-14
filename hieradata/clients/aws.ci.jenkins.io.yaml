@@ -227,7 +227,7 @@ profile::jenkinscontroller::jcasc:
         # TODO: track with updatecli
         defaultNamespace: jenkins-agents-bom
         ## TODO: check if it's needed with EKS and karpenter
-        #  max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
         agent_definitions:
           - name: jnlp-maven-bom
             imageName: jnlp-maven-all-in-one
