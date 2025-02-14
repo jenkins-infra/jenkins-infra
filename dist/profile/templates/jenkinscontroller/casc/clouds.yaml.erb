@@ -554,7 +554,7 @@ jenkins:
           imagePullSecrets:
           - name: "<%= agent['imagePullSecrets'] %>"
         <%- end -%>
-          slaveConnectTimeout: 100
+          slaveConnectTimeout: 600
         <%- if agent['nodeSelector'] -%>
           nodeSelector: "<%= agent['nodeSelector'] %>"
         <%- end -%>
