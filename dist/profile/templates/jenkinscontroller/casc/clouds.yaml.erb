@@ -542,7 +542,7 @@ jenkins:
             name: "jnlp"
             command: "/usr/local/bin/jenkins-agent"
             args: ""
-            ## No CPU limit to avoid CPU throttling
+            resourceLimitCpu: "<%= agent['cpus'] %>"
             resourceLimitMemory: "<%= agent['memory'] %>G"
             resourceRequestCpu: "<%= agent['cpus'] %>"
             resourceRequestMemory: "<%= agent['memory'] %>G"
