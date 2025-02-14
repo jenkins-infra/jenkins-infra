@@ -402,6 +402,7 @@ profile::jenkinscontroller::jcasc:
             labels:
               - win-2019-amd64-maven-8
               - maven-8-windows
+              - maven-windows
             spot: false
             acpServerId: aws-internal
           ## TODO: deprecate JDK11 Windows?
