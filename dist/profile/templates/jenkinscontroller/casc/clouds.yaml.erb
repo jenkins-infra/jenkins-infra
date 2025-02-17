@@ -545,14 +545,36 @@ jenkins:
                   value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
               - envVar:
                   key: "JAVA_HOME"
-                  value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup']['ubuntu']['javaHome'] %>"
+                  value: "<%= $javaHome %>"
+              <%- if agent['agentEnvPath'] -%>
               - envVar:
                   key: "PATH"
-                  value: "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup']['ubuntu']['javaHome'] %>/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
+                  value: "<%= agent['agentEnvPath'] %>"
+              <%- else -%>
+                <%- if $os == 'windows' -%>
+              # TODO: implement custom PATH for Windows
+                <%- else -%>
+              - envVar:
+                  key: "PATH"
+                  value: "<%= $javaHome %>/bin<%= $os == 'windows' ? ";" : ":" %><%= @jcasc['agents_setup'][$os]['path'] %>"
+                <%- end -%>
+              <%- end -%>
               <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && k8s_setup['acpServerId'] -%>
               - envVar:
                   key: "ARTIFACT_CACHING_PROXY_SERVERID"
                   value: "<%= @jcasc['artifact_caching_proxy']['servers'][k8s_setup['acpServerId']]['url'] %>"
+              <%- end -%>
+              <%- if $os == "windows" -%>
+              - envVar:
+                  key: "TMP"
+                  value: "<%= $tempDir %>"
+              - envVar:
+                  key: "TEMP"
+                  value: "<%= $tempDir %>"
+              <%- else -%>
+              - envVar:
+                  key: "TMPDIR"
+                  value: "<%= $tempDir %>"
               <%- end -%>
             livenessProbe:
               failureThreshold: 0
@@ -561,8 +583,16 @@ jenkins:
               successThreshold: 0
               timeoutSeconds: 0
             name: "jnlp"
+            <%- if agent['command'] -%>
+            command: "<%= agent['command'] %>"
+            <%- else -%>
+              <%- if $os == "windows" -%>
+            command: "pwsh.exe -f C:/ProgramData/Jenkins/jenkins-agent.ps1"
+              <%- else -%>
             command: "/usr/local/bin/jenkins-agent"
-            args: ""
+              <%- end -%>
+            <%- end -%>
+            args: "<%= agent['args'] ? agent['args'] : '' -%>"
             resourceLimitCpu: "<%= agent['cpus'] %>"
             resourceLimitMemory: "<%= agent['memory'] %>G"
             resourceRequestCpu: "<%= agent['cpus'] %>"
@@ -599,7 +629,15 @@ jenkins:
               mountPath: "<%= $tempDir %>"
           - emptyDirVolume:
               memory: false
-              mountPath: "/home/jenkins/.m2/repository"
+              <%- if agent['m2Repository'] -%>
+              mountPath: "<%= agent['m2Repository'] %>"
+              <%- else -%>
+                <%- if $os == "windows" -%>
+              mountPath: "C:/Users/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+                <%- else -%>
+              mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+                <%- end -%>
+              <%- end -%>
       <%- end -%>
       <%- end -%>
     <%- end -%>
