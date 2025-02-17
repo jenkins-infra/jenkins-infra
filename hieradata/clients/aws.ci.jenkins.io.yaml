@@ -222,8 +222,8 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
           - name: jnlp-maven-8-windows
             os: windows
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 12
             javaHome: 'C:/tools/jdk-8'
             labels:
               - maven-8-windows-test
@@ -238,8 +238,8 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
           - name: jnlp-maven-11-windows
             os: windows
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 12
             javaHome: 'C:/tools/jdk-11'
             labels:
               - maven-11-windows-test
@@ -253,8 +253,8 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
           - name: jnlp-maven-17-windows
             os: windows
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 12
             javaHome: 'C:/tools/jdk-17'
             labels:
               - maven-17-windows-test
@@ -268,8 +268,8 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
           - name: jnlp-maven-21-windows
             os: windows
-            cpus: 2
-            memory: 4
+            cpus: 4
+            memory: 12
             javaHome: 'C:/tools/jdk-21'
             labels:
               - maven-21-windows-test
