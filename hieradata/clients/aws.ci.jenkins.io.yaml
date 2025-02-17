@@ -224,6 +224,7 @@ profile::jenkinscontroller::jcasc:
             os: windows
             cpus: 4
             memory: 12
+            agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-8'
             labels:
               - maven-8-windows-test
@@ -232,6 +233,10 @@ profile::jenkinscontroller::jcasc:
               # - maven-8-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
               - key: "ci.jenkins.io/windows-2019"
                 operator: "Equal"
                 value: "true"
@@ -240,6 +245,7 @@ profile::jenkinscontroller::jcasc:
             os: windows
             cpus: 4
             memory: 12
+            agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-11'
             labels:
               - maven-11-windows-test
@@ -247,6 +253,10 @@ profile::jenkinscontroller::jcasc:
               # - maven-11-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
               - key: "ci.jenkins.io/windows-2019"
                 operator: "Equal"
                 value: "true"
@@ -255,6 +265,7 @@ profile::jenkinscontroller::jcasc:
             os: windows
             cpus: 4
             memory: 12
+            agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-17'
             labels:
               - maven-17-windows-test
@@ -262,6 +273,10 @@ profile::jenkinscontroller::jcasc:
               # - maven-17-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
               - key: "ci.jenkins.io/windows-2019"
                 operator: "Equal"
                 value: "true"
@@ -270,6 +285,7 @@ profile::jenkinscontroller::jcasc:
             os: windows
             cpus: 4
             memory: 12
+            agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-21'
             labels:
               - maven-21-windows-test
@@ -277,6 +293,10 @@ profile::jenkinscontroller::jcasc:
               # - maven-21-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
               - key: "ci.jenkins.io/windows-2019"
                 operator: "Equal"
                 value: "true"
