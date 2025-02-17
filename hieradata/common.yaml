@@ -220,16 +220,16 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-067c3bc11d029901e
-      windows-2019-amd64: ami-01bca96aad2e4b429
-      ubuntu-22.04-arm64: ami-0b151c74f6ec0523c
-      windows-2022-amd64: ami-0f5b7a1ec91dd92d2
+      ubuntu-22.04-amd64: ami-066b518f35b2971fc
+      windows-2019-amd64: ami-0a42d40c9fba78f5d
+      ubuntu-22.04-arm64: ami-0fe1ebd8ddbc43e21
+      windows-2022-amd64: ami-0d69242ea2e9700f6
     azure_vms_gallery_image:
-      version: 2.28.0
+      version: 2.28.1
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.28.0@sha256:4c3a3bb1c8eca6e408cf9023a225620ca3cefde63dbb69a363e14957165ca8e2
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.28.1@sha256:cdb7724dec228e7f3e773098fed3fe5eaa0078a192bd7b25e987307be49dc902
       # Windows container images (jenkins-infra/docker-inbound-agents)
       jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c0ae7940689c2d8eb2cda0f95863b0fdb9a429d810d19bf5e94efde130e69eaa
       jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:f49655b63283f627af60e06265a11a1c20dd8255f36b82807b254708a6f1eff6
