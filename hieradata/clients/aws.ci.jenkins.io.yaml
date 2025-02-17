@@ -220,6 +220,67 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+          - name: jnlp-maven-8-windows
+            os: windows
+            cpus: 2
+            memory: 4
+            javaHome: 'C:/tools/jdk-8'
+            labels:
+              - maven-8-windows-test
+              # TODO: uncomment when ready and remove label "-test" above
+              # - maven-windows
+              # - maven-8-windows
+            nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
+            tolerations:
+              - key: "ci.jenkins.io/windows-2019"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-11-windows
+            os: windows
+            cpus: 2
+            memory: 4
+            javaHome: 'C:/tools/jdk-11'
+            labels:
+              - maven-11-windows-test
+              # TODO: uncomment when ready and remove label "-test" above
+              # - maven-11-windows
+            nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
+            tolerations:
+              - key: "ci.jenkins.io/windows-2019"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-17-windows
+            os: windows
+            cpus: 2
+            memory: 4
+            javaHome: 'C:/tools/jdk-17'
+            labels:
+              - maven-17-windows-test
+              # TODO: uncomment when ready and remove label "-test" above
+              # - maven-17-windows
+            nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
+            tolerations:
+              - key: "ci.jenkins.io/windows-2019"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+          - name: jnlp-maven-21-windows
+            os: windows
+            cpus: 2
+            memory: 4
+            javaHome: 'C:/tools/jdk-21'
+            labels:
+              - maven-21-windows-test
+              # TODO: uncomment when ready and remove label "-test" above
+              # - maven-21-windows
+            nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
+            tolerations:
+              - key: "ci.jenkins.io/windows-2019"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
       ci.jenkins.io-agents-2-bom:
         enabled: true
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
