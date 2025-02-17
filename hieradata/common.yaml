@@ -198,8 +198,7 @@ profile::jenkinscontroller::jcasc:
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'
-      # Double Backslash is required (for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH)
-      tempDir: 'C:\\\\Temp'
+      tempDir: 'C:/Windows/Temp'
       remoteAdmin: Administrator
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
