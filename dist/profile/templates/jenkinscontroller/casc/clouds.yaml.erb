@@ -363,7 +363,7 @@ jenkins:
               value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
             - key: "PATH"
               value: "<%= $javaHome %>/bin<%= $os == 'windows' ? ";" : ":" %>$PATH"
-            <%- if $os == "windows" %>
+            <%- if $os == "windows" -%>
             - key: "TMP"
               value: "<%= $tempDir %>"
             - key: "TEMP"
@@ -393,7 +393,7 @@ jenkins:
         <%- if $os == 'windows' -%>
         # Double Backslash is required for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH
         # And JCasc needs 2 backslashes for a literal backslash.
-        tmpDir: "<%= $tempDir.gsub('/', '\\\\\\\\') %>" <%# Inside ERB instructions, a literal backslash is expressed using 4 backslashes %>
+        tmpDir: "<%= $tempDir.gsub('/', '\\\\\\\\\\\\\\\\') %>" <%# Inside ERB instructions, a literal backslash is expressed using 4 backslashes %>
         <%- else -%>
         tmpDir: "<%= $tempDir %>"
         <%- end -%>
