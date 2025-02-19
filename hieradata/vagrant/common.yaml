@@ -503,7 +503,7 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.24.7
+  awscli: 2.24.8
 profile::jenkinscontroller::tools_versions:
   awscli: 2.24.8
 profile::jenkinscontroller::kubeconfigs:
