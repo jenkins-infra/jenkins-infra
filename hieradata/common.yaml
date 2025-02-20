@@ -205,8 +205,6 @@ profile::jenkinscontroller::jcasc:
       agentJavaBin: 'C:/tools/jdk-17/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: 'C:/tools/jdk-17' # Default JDK provided for builds when no pipeline setup exists
-      # TODO: track with updatecli
-      path: ''
       registryMirror: https://dockerhubmirror.azurecr.io
     ubuntu:
       agentDir: "/home/jenkins/agent"

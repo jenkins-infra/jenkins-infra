@@ -224,6 +224,7 @@ profile::jenkinscontroller::jcasc:
             os: windows
             cpus: 4
             memory: 12
+            # Custom paths as we do not use all-in-one image (jenkinsinfra/docker-inbound-agents/maven built on top of jenkins nanoserver inbound agent)
             agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-8'
             labels:
