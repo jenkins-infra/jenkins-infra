@@ -175,6 +175,7 @@ profile::jenkinscontroller::jcasc:
         url: SuperSecretThatShouldBeEncyptedInProduction
         defaultNamespace: jenkins-agents
         acpServerId: internal
+        imageNamePrefix: "urltobeprovided.amazonaws.com/docker-hub/"
         agent_definitions:
           - name: jnlp-maven-bom
             imageName: jnlp-maven-all-in-one
