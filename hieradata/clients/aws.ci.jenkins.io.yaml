@@ -228,10 +228,8 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-8'
             labels:
-              - maven-8-windows-test
-              # TODO: uncomment when ready and remove label "-test" above
-              # - maven-windows
-              # - maven-8-windows
+              - maven-windows
+              - maven-8-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
               - key: "ci.jenkins.io/agents"
@@ -249,9 +247,7 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-11'
             labels:
-              - maven-11-windows-test
-              # TODO: uncomment when ready and remove label "-test" above
-              # - maven-11-windows
+              - maven-11-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
               - key: "ci.jenkins.io/agents"
@@ -269,9 +265,7 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-17'
             labels:
-              - maven-17-windows-test
-              # TODO: uncomment when ready and remove label "-test" above
-              # - maven-17-windows
+              - maven-17-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
               - key: "ci.jenkins.io/agents"
@@ -289,9 +283,7 @@ profile::jenkinscontroller::jcasc:
             agentJavaBin: 'C:/openjdk-17/bin/java'
             javaHome: 'C:/tools/jdk-21'
             labels:
-              - maven-21-windows-test
-              # TODO: uncomment when ready and remove label "-test" above
-              # - maven-21-windows
+              - maven-21-windows
             nodeSelector: "role=jenkins-agents,kubernetes.io/arch=amd64,kubernetes.io/os=windows"
             tolerations:
               - key: "ci.jenkins.io/agents"
@@ -483,8 +475,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: 'C:/tools/jdk-8'
             labels:
               - win-2019-amd64-maven-8
-              - maven-8-windows
-              - maven-windows
             spot: false
             acpServerId: aws-internal
           ## TODO: deprecate JDK11 Windows?
@@ -498,7 +488,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: 'C:/tools/jdk-11'
             labels:
               - win-2019-amd64-maven-11
-              - maven-11-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK17"
@@ -517,7 +506,6 @@ profile::jenkinscontroller::jcasc:
               - windows
               - win-2019
               - windows-2019
-              - maven-17-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2019 x86_64 with JDK21"
@@ -530,7 +518,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: 'C:/tools/jdk-21'
             labels:
               - win-2019-amd64-maven-21
-              - maven-21-windows
             spot: false
             acpServerId: aws-internal
           - description: "Windows 2022 x86_64 with JDK17"
