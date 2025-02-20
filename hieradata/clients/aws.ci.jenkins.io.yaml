@@ -103,6 +103,7 @@ profile::jenkinscontroller::jcasc:
         enabled: true
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
         acpServerId: aws-eks-internal
+        imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
         # TODO: track with updatecli
         defaultNamespace: jenkins-agents
         max_capacity: 150 # TODO: Re-evaluate and setup updatecli
