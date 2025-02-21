@@ -583,7 +583,7 @@ profile::jenkinscontroller::plugins:
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.24.8
+  awscli: 2.24.9
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
     cluster_url: https://A5986B0920D06F1E0CABF431FF7678F9.yl4.us-east-2.eks.amazonaws.com
