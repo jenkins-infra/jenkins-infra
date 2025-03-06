@@ -465,7 +465,9 @@ jenkins:
           <%- end -%>
 
                 ## Mark cloud init finished (cloud-init status --wait might not report all errors)
-                New-Item -Path . -Name "<%= $cloudInitDoneFile %>" -ItemType "file" -Value "Cloud Init "
+                New-Item -Path  "<%= $cloudInitDoneFile.split('/')[0...-1].join('/') %>" -Name "<%= $cloudInitDoneFile.split('/')[-1] %>" -ItemType "file" -Value "Cloud Init "
+
+
         <%- else -%>
           #!/bin/sh
           set -eux
