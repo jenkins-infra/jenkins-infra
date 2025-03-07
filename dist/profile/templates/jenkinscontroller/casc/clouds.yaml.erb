@@ -502,9 +502,6 @@ jenkins:
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
 
-          ## Remove jenkins user from sudoers
-          rm -f /etc/sudoers.d/90-cloud-init-users
-
           ## Mark cloud init finished (cloud-init status --wait might not report all errors)
           touch "<%= $cloudInitDoneFile %>"
         <%- end -%>
