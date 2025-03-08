@@ -351,6 +351,33 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readonlymany
+                mountPath: "/cache"
+                readOnly: true
+          - name: jnlp-maven-bom-cacher
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-bom-cacher
+            cpus: 4
+            memory: 12
+            # TODO: factorize and track with updatecli
+            nodeSelector: "role=jenkins-agents-bom"
+            # TODO: factorize and track with updatecli
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+              - key: "ci.jenkins.io/bom"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readwritemany
+                mountPath: "/cache-rw"
+                readOnly: false
     ec2:
       aws-us-east-2:
         region: us-east-2

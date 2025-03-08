@@ -646,6 +646,14 @@ jenkins:
               mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
                 <%- end -%>
               <%- end -%>
+          <%- if agent['additionalPVCs'] -%>
+            <%- agent['additionalPVCs'].each do |pvc| -%>
+          - persistentVolumeClaim:
+              claimName: "<%= pvc['claimName'] %>"
+              mountPath: "<%= pvc['mountPath'] %>"
+              readOnly: "<%= pvc['readOnly'] %>"
+            <%- end -%>
+          <%- end -%>
       <%- end -%>
       <%- end -%>
     <%- end -%>
