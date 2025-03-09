@@ -109,6 +109,13 @@ jenkins:
           systemctl daemon-reload
           systemctl restart docker
 
+          ## Also provide Docker BuildX TOML configuration
+          cat <<EOF >/etc/buildkitd.toml
+          debug = true
+          [registry."docker.io"]
+            mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
+          EOF
+
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
           (
@@ -497,6 +504,15 @@ jenkins:
           EOF
           systemctl daemon-reload
           systemctl restart docker
+
+          ## Also provide Docker BuildX TOML configuration
+          cat <<EOF >/etc/buildkitd.toml
+          debug = true
+          [registry."docker.io"]
+            mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
+            http = true
+            insecure = true
+          EOF
 
           ## Setup default java for build (not for agent process)
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
