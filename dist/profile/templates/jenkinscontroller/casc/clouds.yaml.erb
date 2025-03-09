@@ -622,6 +622,9 @@ jenkins:
             apiVersion: "v1"
             kind: "Pod"
             spec:
+              securityContext:
+                # https://github.com/jenkins-infra/packer-images/blob/a9f913c0f5cf7baf49e370c4b823b499bf757e06/provisioning/ubuntu-provision.sh#L32
+                fsGroup: 1001
               tolerations:
                 <%- agent['tolerations'].each do |toleration| -%>
                 - key: "<%= toleration["key"] %>"
