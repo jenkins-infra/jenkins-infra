@@ -140,7 +140,7 @@ datadog_agent::integrations:
 docker_hub_key: |
   ENC[PKCS7,MIICCwYJKoZIhvcNAQcDoIIB/DCCAfgCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAOkIizRCPVrwnvnwibEmMCIfXFsYJQCZKqIVujP0N8IbVhVeieb41055u/MFYSmbqBXb0ummeMiZ7y9NAymAROfz32wY8IM/d005oBMp8JCbSbEGBEApDY22SL4osIk7JNJe2Ru0mhVqIP0sm412frklI1acP3575GvfCvU+JY8xszi9wT28WKT0aIO1nj8WwEET6c0xw4s3XhE99EuakWtvlqhcS+ViXc7LT/iMdWZDeObw12K+B3usOzJsX/u7eG6jr1AR/UKwIjS71qPhO59MKayAs8RoD/L5BtTWIavLSvrbIx2qn5yjQn/U1c6FSdMGAyL7SjPTYEflmvsGvkDCBzQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQ7Foo3dyKQiNVrsMCbnYXO4CBoMjaW4RIBAkNA8Mv/ngH1vzf/dImaPkVpWVomYJ0CSktOjLt6qSPAHLIcL2pU0FAtNF/Css0kll7uhV3oUtwoIsUbz21CYVZPJs88HsZChNl6mE5Awg3MooX3OLcQHn4293rRFZOaRNGL+iA35m0fT1LUWvP/sYjrdOABVmRdFQ+J/tCBsECaqh+CMP4FztPIS8+0ZeNBbC7xxs2MvKVF18=]
 profile::jenkinscontroller::docker_image: jenkins/jenkins
-profile::jenkinscontroller::docker_tag: 2.492.1-jdk17
+profile::jenkinscontroller::docker_tag: 2.492.2-jdk17
 # WARNING: this list is not deep merged by hieradata (will be overwritten!)
 profile::jenkinscontroller::plugins:
   - workflow-aggregator
@@ -221,24 +221,24 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-066b518f35b2971fc
-      windows-2019-amd64: ami-0a42d40c9fba78f5d
-      ubuntu-22.04-arm64: ami-0fe1ebd8ddbc43e21
-      windows-2022-amd64: ami-0d69242ea2e9700f6
+      ubuntu-22.04-amd64: ami-05684632680c508c2
+      windows-2019-amd64: ami-09769407ff8413e2f
+      ubuntu-22.04-arm64: ami-06ab49d891f2d3089
+      windows-2022-amd64: ami-025f3ddf32d994543
     azure_vms_gallery_image:
-      version: 2.28.1
+      version: 2.31.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.28.1@sha256:cdb7724dec228e7f3e773098fed3fe5eaa0078a192bd7b25e987307be49dc902
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.31.0@sha256:52e716a9ae566c6dfa9a67deeb2cfc5f3d9ad76751d5fa1e2a944aa91f31d826
       # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:095323bf0f7c990ee8c57fab749956bfba09672a32c96bc5e9d254a8615a4987
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:381d874a4ecada2f086ba67f042d7dfda3f215d1065220037ddb14357845fe20
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:11ac26aabdcc0f5f82b18309d29a59482c69fbc80a4c93a3ce7aa281f24aa051
-      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:7799ab06b7b89d6912888272c5db44daae4c2d37eba774ea7357783cb7a119cc
-      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:d997262e1065cff2d4a35675239166f6d05b2a86a0dd421d978ecb68f77b53a2
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:f798f485d0c4e34b5fdfddfe2e2053dd9bb31e2567b5b0d27f3489d17bd2f59e
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:d52460b612cc0992f50242d5a898aacb6de780c381298851f470109227cbcc42
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:a738d8404f5a85884208d6c3adbac64608d9d5d79793fe4413560d31d39b78da
+      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:e8eb2d2cf9ea26f5e0cb82e940f4f09aebfcdffac7db245256ffcb0b135d86be
+      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:d5d42732d6c61bf708a9d6089492a53b6dbba2baaf7d2752e64034cccf712348
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:f0cc23f47cb7aeb35d8a746ff0896a8733fed183c89b64efbf622fb6b521b6fe
+      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:fd0f3a993bb78ded0f5d7e085b1dce98b414fd21a97d6eaf11d66bdd55c031c9
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u442-b06
@@ -274,13 +274,13 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:27.5.1-1~ubuntu.22.04~jammy
+docker::version: 5:28.0.1-1~ubuntu.22.04~jammy
 # This file storage and the storage account are defined in https://github.com/jenkins-infra/azure/blob/main/get.jenkins.io.tf
 azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
 azure::getjenkinsio::fileshare: "overridewithfilestoragename"
 azure::getjenkinsio::storagekey: "overridewithstoragekey"
 profile::azcopy::azcopy_version: 10.28.0
-profile::azcopy::az_cli_version: 2.69.0
+profile::azcopy::az_cli_version: 2.70.0
 profile::mirrorbits::mirrorbits_version: v0.5.1
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
@@ -289,7 +289,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.4.77
+profile::openvpn::image_tag: 2.4.81
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
   census.jenkins.io: 52.202.38.86

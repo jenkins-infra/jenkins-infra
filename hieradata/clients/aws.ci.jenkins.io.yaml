@@ -23,7 +23,7 @@ profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
 profile::jenkinscontroller::groovy_d_set_up_git: 'present'
-profile::jenkinscontroller::memory_limit: '14g'
+profile::jenkinscontroller::memory_limit: '30g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAywKTuF4pmWjFgHZyW+wo4D5MDYRf7gVelgeLcIsZJy8t+Sw17vWA96vGIaAD2tklGILSn6snhskSYroQHkdv13gQGW1zcpP5N9wqhMOoA5nXrh9Gnb1F5JlPGlQyUxTA5gi+zjV8+B6athfjpKbkvK91RDkOPMMOkqBALp5E1xlsBpicri5Q1znik9shGPzccONvRw+wWsm0jPquoEdO1EnR17yqN60BOk1ZelY3AV9grLR6OZrRg8M6hl4JcI5SMfm9XUPB0BWQhHwZHlIW8sAmnR9aC7bsCEk16DH82V/HrBaJBYa8GiAr3LBFzy2jiNB0F/oK7XdVsN8AQyW6UjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBDf4FrZNE5uqT3JiM8XUcSRgCCf8HyZFe7GPU+5puax+7Q50f+jT99rOmyBZg20AQTJeQ==]
@@ -351,6 +351,33 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readonlymany
+                mountPath: "/cache"
+                readOnly: true
+          - name: jnlp-maven-bom-cacher
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-bom-cacher
+            cpus: 4
+            memory: 12
+            # TODO: factorize and track with updatecli
+            nodeSelector: "role=jenkins-agents-bom"
+            # TODO: factorize and track with updatecli
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+              - key: "ci.jenkins.io/bom"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readwritemany
+                mountPath: "/cache-rw"
+                readOnly: false
     ec2:
       aws-us-east-2:
         region: us-east-2
@@ -570,6 +597,19 @@ profile::jenkinscontroller::jcasc:
               - windows-2022
             spot: false
             acpServerId: aws-internal
+          - description: "Windows 2019 x86_64 with JDK17 smerle test" ## just for testing purpose
+            maxInstances: 1
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-17'
+            useAsMuchAsPossible: false
+            labels:
+              - smerle
+            spot: false
+            acpServerId: aws-internal
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
@@ -613,7 +653,7 @@ profile::jenkinscontroller::plugins:
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.24.9
+  awscli: 2.24.20
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
     cluster_url: https://A5986B0920D06F1E0CABF431FF7678F9.yl4.us-east-2.eks.amazonaws.com

@@ -233,6 +233,10 @@ profile::jenkinscontroller::jcasc:
             cpus: 1
             memory: 1
             imagePullSecrets: dockerhub-credential
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readwritemany
+                mountPath: "/cache-rw"
+                readOnly: false
           - name: jnlp-maven-21-windows
             os: windows
             cpus: 2
@@ -504,9 +508,9 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.24.9
+  awscli: 2.24.20
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.24.9
+  awscli: 2.24.20
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: cijenkinsio-agents-1

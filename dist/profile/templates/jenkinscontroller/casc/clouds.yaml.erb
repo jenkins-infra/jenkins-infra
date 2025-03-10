@@ -109,6 +109,13 @@ jenkins:
           systemctl daemon-reload
           systemctl restart docker
 
+          ## Also provide Docker BuildX TOML configuration
+          cat <<EOF >/etc/buildkitd.toml
+          debug = true
+          [registry."docker.io"]
+            mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
+          EOF
+
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
           (
@@ -465,7 +472,9 @@ jenkins:
           <%- end -%>
 
                 ## Mark cloud init finished (cloud-init status --wait might not report all errors)
-                New-Item -Path . -Name "<%= $cloudInitDoneFile %>" -ItemType "file" -Value "Cloud Init "
+                New-Item -Path  "<%= $cloudInitDoneFile.split('/')[0...-1].join('/') %>" -Name "<%= $cloudInitDoneFile.split('/')[-1] %>" -ItemType "file" -Value "Cloud Init "
+
+
         <%- else -%>
           #!/bin/sh
           set -eux
@@ -496,12 +505,18 @@ jenkins:
           systemctl daemon-reload
           systemctl restart docker
 
+          ## Also provide Docker BuildX TOML configuration
+          cat <<EOF >/etc/buildkitd.toml
+          debug = true
+          [registry."docker.io"]
+            mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
+            http = true
+            insecure = true
+          EOF
+
           ## Setup default java for build (not for agent process)
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
-
-          ## Remove jenkins user from sudoers
-          rm -f /etc/sudoers.d/90-cloud-init-users
 
           ## Mark cloud init finished (cloud-init status --wait might not report all errors)
           touch "<%= $cloudInitDoneFile %>"
@@ -623,6 +638,9 @@ jenkins:
             apiVersion: "v1"
             kind: "Pod"
             spec:
+              securityContext:
+                # https://github.com/jenkins-infra/packer-images/blob/a9f913c0f5cf7baf49e370c4b823b499bf757e06/provisioning/ubuntu-provision.sh#L32
+                fsGroup: 1001
               tolerations:
                 <%- agent['tolerations'].each do |toleration| -%>
                 - key: "<%= toleration["key"] %>"
@@ -647,6 +665,14 @@ jenkins:
               mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
                 <%- end -%>
               <%- end -%>
+          <%- if agent['additionalPVCs'] -%>
+            <%- agent['additionalPVCs'].each do |pvc| -%>
+          - persistentVolumeClaim:
+              claimName: "<%= pvc['claimName'] %>"
+              mountPath: "<%= pvc['mountPath'] %>"
+              readOnly: "<%= pvc['readOnly'] %>"
+            <%- end -%>
+          <%- end -%>
       <%- end -%>
       <%- end -%>
     <%- end -%>
