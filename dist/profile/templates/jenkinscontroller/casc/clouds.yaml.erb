@@ -415,6 +415,14 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
+                if (Test-Path $cloudInitDoneFile) {
+                    $content = Get-Content $cloudInitDoneFile -Raw
+                    if ($content -match "Cloud Init ") {
+                        Write-Output "Cloud Init already done. Exit script."
+                        exit
+                    }
+                }
+                
                 ## Setup datadog
                 (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
                 & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
