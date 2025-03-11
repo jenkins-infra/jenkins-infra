@@ -597,19 +597,6 @@ profile::jenkinscontroller::jcasc:
               - windows-2022
             spot: false
             acpServerId: aws-internal
-          - description: "Windows 2019 x86_64 with JDK17 smerle test" ## just for testing purpose
-            maxInstances: 1
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
-            os: "windows"
-            os_version: "2019"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-17'
-            useAsMuchAsPossible: false
-            labels:
-              - smerle
-            spot: false
-            acpServerId: aws-internal
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
