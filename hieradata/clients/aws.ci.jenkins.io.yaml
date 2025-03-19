@@ -471,6 +471,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-17
             labels:
               - spot-ubuntu-22-amd64-maven17
+              - linux
               - spot
             spot: true
             acpServerId: aws-internal
@@ -527,6 +528,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-17
             labels:
               - spot-ubuntu-22-arm64-maven17
+              - linux-arm64
               - spot
             spot: true
             acpServerId: aws-internal
