@@ -433,8 +433,8 @@ profile::jenkinscontroller::jcasc:
               - ubuntu-22-amd64-maven17
               # Labels indicating it is the default VM template
               - ubuntu
-              - java
               - linux
+              - java
               - docker
               - linux-amd64
             spot: false
@@ -451,7 +451,10 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-17
             labels:
               - ubuntu-22-amd64-maven17
+              - ubuntu
               - linux
+              - java
+              - docker
               - spot
             spot: true
             acpServerId: aws-internal
