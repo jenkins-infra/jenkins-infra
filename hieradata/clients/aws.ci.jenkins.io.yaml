@@ -412,9 +412,10 @@ profile::jenkinscontroller::jcasc:
             os_version: "22.04"
             ebsOptimized: true
             architecture: "amd64"
-            javaHome: /opt/jdk-11
+            javaHome: /opt/jdk-8
             labels:
-              - ubuntu-22-amd64-maven11-spot
+              - spot-ubuntu-22-amd64-maven8
+              - spot
             spot: true
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
@@ -428,6 +429,19 @@ profile::jenkinscontroller::jcasc:
             labels:
               - ubuntu-22-amd64-maven11
             spot: false
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-11
+            labels:
+              - spot-ubuntu-22-amd64-maven11
+              - spot
+            spot: true
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
             maxInstances: 50
@@ -447,6 +461,19 @@ profile::jenkinscontroller::jcasc:
               - linux-amd64
             spot: false
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - spot-ubuntu-22-amd64-maven17
+              - spot
+            spot: true
+            acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
@@ -458,6 +485,19 @@ profile::jenkinscontroller::jcasc:
             labels:
               - ubuntu-22-amd64-maven21
             spot: false
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - spot-ubuntu-22-amd64-maven21
+              - spot
+            spot: true
             acpServerId: aws-internal
           ####
           # arm64 Linux VMs
@@ -477,6 +517,19 @@ profile::jenkinscontroller::jcasc:
               - linux-arm64
             spot: false
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "arm64"
+            javaHome: /opt/jdk-17
+            labels:
+              - spot-ubuntu-22-arm64-maven17
+              - spot
+            spot: true
+            acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
@@ -488,6 +541,19 @@ profile::jenkinscontroller::jcasc:
             labels:
               - ubuntu-22-arm64-maven21
             spot: false
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "arm64"
+            javaHome: /opt/jdk-21
+            labels:
+              - spot-ubuntu-22-arm64-maven21
+              - spot
+            spot: true
             acpServerId: aws-internal
           ####
           # High Memory Linux VMs (ATH mostly)
@@ -514,6 +580,24 @@ profile::jenkinscontroller::jcasc:
               - linux-amd64-big-nonspot
             spot: false
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - spot-ubuntu-22-amd64-highmem-maven17
+              - ubuntu-22-amd64-highmem-spot-maven17
+              - highmem-spot
+              - highram-spot
+              - docker-highmem-spot
+              - linux-amd64-big-spot
+              - spot
+            spot: true
+            acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
@@ -528,6 +612,20 @@ profile::jenkinscontroller::jcasc:
               ## Spot is not enabled (yet?) in AWS account
               - ubuntu-22-amd64-highmem-nonspot-maven21
             spot: false
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - spot-ubuntu-22-amd64-highmem-maven21
+              - ubuntu-22-amd64-highmem-spot-maven21
+              - spot
+            spot: true
             acpServerId: aws-internal
           ####
           # Windows VMs
