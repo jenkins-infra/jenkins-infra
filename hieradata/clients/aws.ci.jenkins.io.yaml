@@ -393,7 +393,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           ####
           # x86_64 Linux VMs
-          - description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -403,21 +403,9 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-8
             labels:
               - ubuntu-22-amd64-maven8
-            spot: false
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
-            maxInstances: 1
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-11
-            labels:
-              - ubuntu-22-amd64-maven11-spot
             spot: true
             acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -427,8 +415,10 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-11
             labels:
               - ubuntu-22-amd64-maven11
-            spot: false
+            spot: true
             acpServerId: aws-internal
+          ####
+          # Linux VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
           - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
@@ -438,16 +428,28 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - ubuntu-22-amd64-maven17
-              # Labels indicating it is the default VM template
-              - ubuntu
-              - java
-              - linux
-              - docker
-              - linux-amd64
+              - ubuntu-22-amd64-maven17-nonspot
             spot: false
             acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+          ####
+          # Linux VMs jdk17 (default spot version for buildPlugin() / docker-*)
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - ubuntu-22-amd64-maven17
+              - ubuntu
+              - linux
+              - java
+              - docker
+            spot: true
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -457,11 +459,11 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-amd64-maven21
-            spot: false
+            spot: true
             acpServerId: aws-internal
           ####
           # arm64 Linux VMs
-          - description: "Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
+          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
             maxInstances: 50
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -475,9 +477,9 @@ profile::jenkinscontroller::jcasc:
               - arm64docker
               - arm64linux
               - linux-arm64
-            spot: false
+            spot: true
             acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -487,7 +489,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-arm64-maven21
-            spot: false
+            spot: true
             acpServerId: aws-internal
           ####
           # High Memory Linux VMs (ATH mostly)
@@ -500,19 +502,28 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
+              - docker-highmem-nonspot
+              - ubuntu-22-amd64-highmem-maven17-nonspot
+            spot: false
+            acpServerId: aws-internal
+          # High Memory SPOT Linux VMs (ATH mostly)
+          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
+            maxInstances: 50
+            instanceType: M6a2xlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-17
+            labels:
+              - docker-highmem
               - ubuntu-22-amd64-highmem-maven17
               # Labels indicating it is the default VM template for high mem x86_64
               - highmem
               - highram
               - docker-highmem
               - linux-amd64-big
-              ## Spot is not enabled (yet?) in AWS account
-              - ubuntu-22-amd64-highmem-nonspot-maven17
-              - highmem-nonspot
-              - highram-nonspot
-              - docker-highmem-nonspot
-              - linux-amd64-big-nonspot
-            spot: false
+            spot: true
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
@@ -524,10 +535,7 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-amd64-highmem-maven21
-              # Labels indicating it is the default VM template for high mem x86_64
-              ## Spot is not enabled (yet?) in AWS account
-              - ubuntu-22-amd64-highmem-nonspot-maven21
-            spot: false
+            spot: true
             acpServerId: aws-internal
           ####
           # Windows VMs
