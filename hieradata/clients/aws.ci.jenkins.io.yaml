@@ -403,7 +403,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-8
             labels:
               - ubuntu-22-amd64-maven8
-              - spot
             spot: true
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
@@ -416,7 +415,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-11
             labels:
               - ubuntu-22-amd64-maven11
-              - spot
             spot: true
             acpServerId: aws-internal
           ####
@@ -430,13 +428,8 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - ubuntu-22-amd64-maven17
-              # Labels indicating it is the default VM template
-              - ubuntu
-              - linux
-              - java
-              - docker
-              - linux-amd64
+              - nonspot
+              - ubuntu-22-amd64-maven17-nonspot
             spot: false
             acpServerId: aws-internal
           ####
@@ -455,7 +448,6 @@ profile::jenkinscontroller::jcasc:
               - linux
               - java
               - docker
-              - spot
             spot: true
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
@@ -468,7 +460,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-amd64-maven21
-              - spot
             spot: true
             acpServerId: aws-internal
           ####
@@ -487,7 +478,6 @@ profile::jenkinscontroller::jcasc:
               - arm64docker
               - arm64linux
               - linux-arm64
-              - spot
             spot: true
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
@@ -500,7 +490,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-arm64-maven21
-              - spot
             spot: true
             acpServerId: aws-internal
           ####
@@ -514,17 +503,8 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - ubuntu-22-amd64-highmem-maven17
-              # Labels indicating it is the default VM template for high mem x86_64
-              - highmem
-              - highram
-              - docker-highmem
-              - linux-amd64-big
-              - ubuntu-22-amd64-highmem-nonspot-maven17
-              - highmem-nonspot
-              - highram-nonspot
               - docker-highmem-nonspot
-              - linux-amd64-big-nonspot
+              - ubuntu-22-amd64-highmem-maven17-nonspot
             spot: false
             acpServerId: aws-internal
           # High Memory SPOT Linux VMs (ATH mostly)
@@ -537,13 +517,13 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - spot-ubuntu-22-amd64-highmem-maven17
-              - ubuntu-22-amd64-highmem-spot-maven17
-              - highmem-spot
-              - highram-spot
-              - docker-highmem-spot
-              - linux-amd64-big-spot
-              - spot
+              - docker-highmem
+              - ubuntu-22-amd64-highmem-maven17
+              # Labels indicating it is the default VM template for high mem x86_64
+              - highmem
+              - highram
+              - docker-highmem
+              - linux-amd64-big
             spot: true
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
@@ -556,9 +536,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-21
             labels:
               - ubuntu-22-amd64-highmem-maven21
-              # Labels indicating it is the default VM template for high mem x86_64
-              - ubuntu-22-amd64-highmem-spot-maven21
-              - spot
             spot: true
             acpServerId: aws-internal
           ####
