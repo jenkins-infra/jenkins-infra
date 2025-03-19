@@ -428,7 +428,6 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - nonspot
               - ubuntu-22-amd64-maven17-nonspot
             spot: false
             acpServerId: aws-internal
