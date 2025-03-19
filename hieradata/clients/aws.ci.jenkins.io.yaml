@@ -405,6 +405,18 @@ profile::jenkinscontroller::jcasc:
               - ubuntu-22-amd64-maven8
             spot: false
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+            maxInstances: 1
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-11
+            labels:
+              - ubuntu-22-amd64-maven11-spot
+            spot: true
+            acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 50
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
