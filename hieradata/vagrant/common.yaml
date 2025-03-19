@@ -136,6 +136,18 @@ profile::jenkinscontroller::jcasc:
               - arm64docker
               - arm64linux
             spot: false
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+            maxInstances: 1
+            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-11
+            labels:
+              - ubuntu-22-amd64-maven11-spot
+            spot: true
+            acpServerId: internal
           - description: "Windows 2019 x86_64 with JDK21"
             maxInstances: 5
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
