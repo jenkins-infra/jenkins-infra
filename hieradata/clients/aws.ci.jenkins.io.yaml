@@ -620,6 +620,7 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
+  - artifact-manager-s3 # https://github.com/jenkins-infra/helpdesk/issues/4596
   - blueocean # A nice view for pipelines
   - buildtriggerbadge # Add an icon with the build cause in the build history
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
