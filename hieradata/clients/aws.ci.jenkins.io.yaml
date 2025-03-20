@@ -525,7 +525,7 @@ profile::jenkinscontroller::jcasc:
               - linux-amd64-big
             spot: true
             acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
+          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
             instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
             os: "ubuntu"
