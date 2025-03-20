@@ -495,7 +495,7 @@ profile::jenkinscontroller::jcasc:
           # High Memory Linux VMs (ATH mostly)
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 4 vCPUs / 32 Gb / nvme 300Go
+            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -509,7 +509,7 @@ profile::jenkinscontroller::jcasc:
           # High Memory SPOT Linux VMs (ATH mostly)
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 4 vCPUs / 32 Gb / nvme 300Go
+            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -527,7 +527,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 4 vCPUs / 32 Gb / nvme 300Go
+            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
