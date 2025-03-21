@@ -498,15 +498,7 @@ jenkins:
           instanceStorage=$(lsblk -o KNAME,TYPE,SIZE,MODEL | grep "Instance Storage" | cut -f 1 -d' ')
           if [ -n "${instanceStorage}" ] then
             mkdir -p <%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>
-            fdisk "${instanceStorage}" <<EOF
-            n
-            p
-            1
-
-
-
-            w
-            EOF
+            
             mkfs -t xfs -f "${instanceStorage}"
             mount "${instanceStorage}" /home/jenkins/agent/
           else
