@@ -466,6 +466,18 @@ profile::jenkinscontroller::jcasc:
               - ubuntu-22-amd64-maven21
             spot: true
             acpServerId: aws-internal
+          - description: "smerle Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+            maxInstances: 1
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - smerle
+            spot: true
+            acpServerId: aws-internal
           ####
           # arm64 Linux VMs
           - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
