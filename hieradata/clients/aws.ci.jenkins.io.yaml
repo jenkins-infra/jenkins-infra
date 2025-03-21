@@ -558,9 +558,9 @@ profile::jenkinscontroller::jcasc:
           # Windows VMs
           ####
           ## TODO: deprecate JDK8 Windows?
-          - description: "Windows 2019 x86_64 with JDK8"
+          - description: "Spot Windows 2019 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -570,12 +570,12 @@ profile::jenkinscontroller::jcasc:
               - win-2019-amd64-maven-8
               - maven-8-windows
               - maven-windows
-            spot: false
+            spot: true
             acpServerId: aws-internal
           ## TODO: deprecate JDK11 Windows?
-          - description: "Windows 2019 x86_64 with JDK11"
+          - description: "Spot Windows 2019 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -584,11 +584,11 @@ profile::jenkinscontroller::jcasc:
             labels:
               - win-2019-amd64-maven-11
               - maven-11-windows
-            spot: false
+            spot: true
             acpServerId: aws-internal
-          - description: "Windows 2019 x86_64 with JDK17"
+          - description: "Spot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -603,11 +603,23 @@ profile::jenkinscontroller::jcasc:
               - win-2019
               - windows-2019
               - maven-17-windows
+            spot: true
+            acpServerId: aws-internal
+          - description: "Nonspot Windows 2019 x86_64 with JDK17"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-17'
+            labels:
+              - win-2019-amd64-maven-17-nonspot
             spot: false
             acpServerId: aws-internal
-          - description: "Windows 2019 x86_64 with JDK21"
-            maxInstances: 5
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+          - description: "Spot Windows 2019 x86_64 with JDK21"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -616,11 +628,11 @@ profile::jenkinscontroller::jcasc:
             labels:
               - win-2019-amd64-maven-21
               - maven-21-windows
-            spot: false
+            spot: true
             acpServerId: aws-internal
-          - description: "Windows 2022 x86_64 with JDK17"
+          - description: "Spot Windows 2022 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: M6aXlarge # 4 vCPUs / 16 Gb
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2022"
             ebsOptimized: true
@@ -632,7 +644,7 @@ profile::jenkinscontroller::jcasc:
               - docker-windows-2022
               - win-2022
               - windows-2022
-            spot: false
+            spot: true
             acpServerId: aws-internal
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
