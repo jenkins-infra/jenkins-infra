@@ -494,6 +494,25 @@ jenkins:
             systemctl start datadog-agent.service
           ) 2>&1 | tee /var/log/agent-init-datadog.log
 
+          ## Setup Nvme if exist
+          instanceStorage=$(lsblk -o KNAME,TYPE,SIZE,MODEL | grep "Instance Storage" | cut -f 1 -d' ')
+          if [ -n "${instanceStorage}" ] then
+            mkdir -p <%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>
+            fdisk "${instanceStorage}" <<EOF
+            n
+            p
+            1
+
+
+
+            w
+            EOF
+            mkfs -t xfs -f "${instanceStorage}"
+            mount "${instanceStorage}" /home/jenkins/agent/
+          else
+            echo "no instance storage found"
+          fi
+
           ## Setup Docker Engine
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
