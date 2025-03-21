@@ -468,6 +468,10 @@ profile::jenkinscontroller::jcasc:
         url: http://external:8080/
         credentials:
           - "credentialIdInJenkins"
+  artifacts_manager:
+    type: s3
+    region: us-east-2
+    storage_name: SuperBucketName
   datadog:
     host: "vagrant.local"
     targetHost: "172.18.0.1" # docker0 interface in vagrant is non standard (because docker in docker)
@@ -475,6 +479,7 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
+  - artifact-manager-s3
   - azure-container-agents
   - azure-vm-agents
   - blueocean
