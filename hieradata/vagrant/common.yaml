@@ -520,9 +520,9 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.24.27
+  awscli: 2.25.0
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.24.27
+  awscli: 2.25.0
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: cijenkinsio-agents-1
