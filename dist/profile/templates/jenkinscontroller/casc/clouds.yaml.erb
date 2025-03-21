@@ -495,16 +495,62 @@ jenkins:
           ) 2>&1 | tee /var/log/agent-init-datadog.log
 
           ## Setup Nvme if exist
-          instanceStorage=$(lsblk -o KNAME,TYPE,SIZE,MODEL | grep "Instance Storage" | cut -f 1 -d' ')
-          if [ -n "${instanceStorage}" ] then
-            mkdir -p <%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>
-            
-            mkfs -t xfs -f "${instanceStorage}"
-            mount "${instanceStorage}" /home/jenkins/agent/
-          else
-            echo "no instance storage found"
-          fi
+          MNT_DIR="<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+          mapfile -t disks < <(find -L /dev/disk/by-id/ -xtype l -name '*NVMe_Instance_Storage_*')
 
+          ## Bail early if there are no ephemeral disks to setup
+          if [[ "${#disks[@]}" -eq 0 ]]; then
+              echo "no NVMe instance storage disks found!"
+          else
+              md_name="workspace"
+              md_device="/dev/md/${md_name}"
+              md_config="/.aws/mdadm.conf"
+              array_mount_point="${MNT_DIR}/"
+              mkdir -p "$(dirname "${md_config}")"
+
+              ## Get devices of NVMe instance storage ephemeral disks
+              mapfile -t EPHEMERAL_DISKS < <(realpath "${disks[@]}" | sort -u)
+
+              if [[ ! -s "${md_config}" ]]; then
+                  mdadm --create --force --verbose \
+                      "${md_device}" \
+                      --level=0 \
+                      --name="${md_name}" \
+                      --raid-devices="${#EPHEMERAL_DISKS[@]}" \
+                      "${EPHEMERAL_DISKS[@]}"
+                  mdadm --detail --scan > "${md_config}"
+              fi
+
+              # Format the array if not already formatted.
+              if [[ -z "$(lsblk "${md_device}" -o fstype --noheadings)" ]]; then
+                  ## By default, mkfs tries to use the stripe unit of the array (512k),
+                  ## for the log stripe unit, but the max log stripe unit is 256k.
+                  ## So instead, we use 32k (8 blocks) to avoid a warning of breaching the max.
+                  ## mkfs.xfs defaults to 32k after logging the warning since the default log buffer size is 32k.
+                  ## Instances are delivered with disks fully trimmed, so TRIM is skipped at creation time.
+                  mkfs.xfs -K -l su=8b "${md_device}"
+              fi
+
+              ## Create the mount directory
+              mkdir -p "${array_mount_point}"
+
+              dev_uuid=$(blkid -s UUID -o value "${md_device}")
+              mount_unit_name="$(systemd-escape --path --suffix=mount "${array_mount_point}")"
+              cat > "/etc/systemd/system/${mount_unit_name}" <<EOF
+              [Unit]
+              Description=Mount EC2 Instance Store NVMe disk RAID0
+              [Mount]
+              What=UUID=${dev_uuid}
+              Where=${array_mount_point}
+              Type=xfs
+              Options=defaults,noatime
+              [Install]
+              WantedBy=multi-user.target
+              EOF
+              systemd-analyze verify "${mount_unit_name}"
+              systemctl enable "${mount_unit_name}" --now
+
+          fi
           ## Setup Docker Engine
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
