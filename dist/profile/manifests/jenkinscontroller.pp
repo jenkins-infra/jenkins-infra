@@ -194,6 +194,8 @@ class profile::jenkinscontroller (
       'jenkinscontroller/casc/unclassified.yaml.erb',
       # Opt-in with `profile::jenkinscontroller::jcasc.datadog
       'jenkinscontroller/casc/datadog.yaml.erb',
+      # Opt-in with `profile::jenkinscontroller::jcasc.artifacts_manager
+      'jenkinscontroller/casc/artifacts-manager.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
   }

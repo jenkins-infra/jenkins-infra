@@ -93,6 +93,11 @@ profile::jenkinscontroller::jcasc:
         name: AWS (EKS Internal) Artifact Caching Proxy
         # TODO: maintain with updatecli
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
+  artifacts_manager:
+    type: s3
+    region: us-east-2
+    ## TODO: track with updatecli
+    storage_name: aws-ci-jenkins-io-artifacts
   datadog:
     host: "aws.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface

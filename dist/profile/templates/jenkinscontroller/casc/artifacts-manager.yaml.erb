@@ -1,0 +1,18 @@
+<%- if @jcasc['artifacts_manager'] -%>
+  <%- if @jcasc['artifacts_manager']['type'] == 's3' -%>
+aws:
+  awsCredentials:
+    region: "<%= @jcasc['artifacts_manager']['region']%>"
+  s3:
+    container: "<%= @jcasc['artifacts_manager']['storage_name']%>"
+    disableSessionToken: false
+    useHttp: false
+    usePathStyleUrl: false
+    useTransferAcceleration: false
+  <%- end -%>
+unclassified:
+  artifactManager:
+    artifactManagerFactories:
+    - jclouds:
+        provider: "<%= @jcasc['artifacts_manager']['type'] %>"
+<%- end -%>
