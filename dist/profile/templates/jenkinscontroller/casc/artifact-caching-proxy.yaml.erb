@@ -2,14 +2,14 @@
 unclassified:
   globalConfigFiles:
     configs:
-    <%- @jcasc['artifact_caching_proxy']['servers'].each do |serverId, serverConfig| -%>
+    <%- @jcasc['artifact_caching_proxy']['servers'].each do |id, serverConfig| -%>
     - mavenSettings:
         comment: "Artifact caching proxy settings for the <%= serverConfig['name'] %> serverConfig"
         content: |
           <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
             <mirrors>
               <mirror>
-                  <id><%= serverId %></id>
+                  <id>artifact-caching-proxy</id>
                   <url><%= serverConfig['url']%></url>
                   <mirrorOf>external:*,!chimera-releases,!chimera-snapshots,!atlassian-public,!org.zowe.sdk,!jitpack.io,!space-maven</mirrorOf>
               </mirror>
@@ -46,10 +46,8 @@ unclassified:
         providerId: "org.jenkinsci.plugins.configfiles.maven.MavenSettingsConfig"
         <%- if serverConfig['credentials'] -%>
         serverCredentialMappings:
-          <%- serverConfig['credentials'].each do |acpCredentialId| -%>
-        - credentialsId: "<%= acpCredentialId %>"
-          serverId: "<%= serverId %>"
-          <%- end -%>
+        - credentialsId: "<%= serverConfig['credentials'] %>"
+          serverId: "artifact-caching-proxy"
         <%- end -%>
       <%- end -%>
 <%- end -%>
