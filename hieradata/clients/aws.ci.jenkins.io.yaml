@@ -359,8 +359,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-17
             labels:
               - ubuntu-22-amd64-maven17
-              - ubuntu
-              - linux
               - java
               - docker
               - linux-amd64
@@ -511,9 +509,7 @@ profile::jenkinscontroller::jcasc:
               # Labels indicating it is the default VM template for Windows 2019 and Windows
               - docker-windows
               - docker-windows-2019
-              - windows
               - win-2019
-              - windows-2019
               - maven-17-windows
             spot: true
             acpServerId: aws-internal
@@ -555,7 +551,6 @@ profile::jenkinscontroller::jcasc:
               # Labels indicating it is the default VM template for Windows 2022 (but not windows)
               - docker-windows-2022
               - win-2022
-              - windows-2022
             spot: true
             acpServerId: aws-internal
 # These are plugins we need in our ci environment

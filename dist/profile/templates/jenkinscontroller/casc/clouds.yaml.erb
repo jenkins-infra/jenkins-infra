@@ -345,7 +345,7 @@ jenkins:
         instanceCapStr: "<%= agent['maxInstances'] %>"
         javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
         jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
-        labelString: "<%= $os + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['spot'] ? 'spot' : 'nonspot' %> <%= agent['labels'].join(' ') %>"
+        labelString: "<%= $os == 'ubuntu' ? 'ubuntu linux' : 'windows' %> <%= $os + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['spot'] ? 'spot' : 'nonspot' %> <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build: ephemeral machines
         metadataEndpointEnabled: true
