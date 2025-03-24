@@ -132,7 +132,6 @@ profile::jenkinscontroller::jcasc:
             architecture: "arm64"
             javaHome: /opt/jdk-21
             labels:
-              - ubuntu
               - arm64docker
               - arm64linux
             spot: false
@@ -159,9 +158,7 @@ profile::jenkinscontroller::jcasc:
             labels:
               - docker-windows
               - docker-windows-2019
-              - windows
               - win-2019
-              - windows-2019
               - win-2019-amd64-maven-21
             spot: false
           - description: "Windows 2022 x86_64 with default (current) JDK"
@@ -174,7 +171,6 @@ profile::jenkinscontroller::jcasc:
             labels:
               - docker-windows-2022
               - win-2022
-              - windows-2022
             spot: false
             launcher: winrm
     kubernetes:
@@ -303,9 +299,7 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu
             - java
-            - linux
             - docker
             - linux-amd64
           maxInstances: 50
@@ -360,7 +354,6 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: arm64
           labels:
-            - ubuntu
             - arm64docker
             - arm64linux
           maxInstances: 50
@@ -382,9 +375,7 @@ profile::jenkinscontroller::jcasc:
           labels:
             - docker-windows
             - docker-windows-2019
-            - windows
             - win-2019
-            - windows-2019
             - win-2019-amd64-maven-11
           javaHome: 'C:/Tools/openjdk-11' # Test override of the default JDK for builds
           maxInstances: 50
