@@ -471,7 +471,7 @@ profile::jenkinscontroller::jcasc:
   artifacts_manager:
     type: s3
     region: us-east-2
-    storage_name: SuperBucketName
+    storage_name: superbucketname
   datadog:
     host: "vagrant.local"
     targetHost: "172.18.0.1" # docker0 interface in vagrant is non standard (because docker in docker)
