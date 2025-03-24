@@ -457,8 +457,7 @@ profile::jenkinscontroller::jcasc:
       external:
         name: Dummy External Artifact Caching Proxy
         url: http://external:8080/
-        credentials:
-          - "credentialIdInJenkins"
+        credentials: "credentialIdInJenkins"
   artifacts_manager:
     type: s3
     region: us-east-2
