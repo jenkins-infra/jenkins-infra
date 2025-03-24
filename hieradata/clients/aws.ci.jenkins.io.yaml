@@ -363,6 +363,7 @@ profile::jenkinscontroller::jcasc:
               - linux
               - java
               - docker
+              - linux-amd64
             spot: true
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
