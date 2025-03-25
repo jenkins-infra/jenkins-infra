@@ -3,11 +3,9 @@ def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
 // Set pipeline options at the beginning
 properties([
     buildDiscarder(logRotator(numToKeepStr: '10')),
-    disableConcurrentBuilds(abortPrevious: true)
-])
-if (cronExpr) {
+    disableConcurrentBuilds(abortPrevious: true),
     properties([pipelineTriggers([cron(cronExpr)])])
-}
+])
 
 node('linux-amd64-docker') {
     timeout(time: 30, unit: 'MINUTES') {
