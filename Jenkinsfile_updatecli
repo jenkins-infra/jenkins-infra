@@ -1,6 +1,5 @@
-final String cronExpr = env.BRANCH_IS_PRIMARY ? '@daily' : ''
+final String cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
 
-// Set pipeline options at the beginning
 properties([
     buildDiscarder(logRotator(numToKeepStr: '10')),
     disableConcurrentBuilds(abortPrevious: true),
