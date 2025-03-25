@@ -4,7 +4,7 @@ final String cronExpr = env.BRANCH_IS_PRIMARY ? '@daily' : ''
 properties([
     buildDiscarder(logRotator(numToKeepStr: '10')),
     disableConcurrentBuilds(abortPrevious: true),
-    properties([pipelineTriggers([cron(cronExpr)])])
+    pipelineTriggers([cron(cronExpr)]),
 ])
 
 node('linux-amd64-docker') {
