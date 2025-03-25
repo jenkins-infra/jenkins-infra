@@ -517,7 +517,7 @@ profile::jenkinscontroller::plugins:
 profile::buildagent::tools_versions:
   awscli: 2.25.3
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.25.2
+  awscli: 2.25.3
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: cijenkinsio-agents-1
