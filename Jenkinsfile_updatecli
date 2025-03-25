@@ -25,12 +25,14 @@ node('linux-amd64-docker') {
                 properties([pipelineTriggers([cron('@daily')])])
                 updatecli(
                     action: 'apply',
-                    config: './updatecli/weekly.d'
+                    config: './updatecli/weekly.d',
+                    runInCurrentAgent: true
                   )
             } else {
                 updatecli(
                     action: 'diff',
-                    config: './updatecli/weekly.d'
+                    config: './updatecli/weekly.d',
+                    runInCurrentAgent: true
                   )
             }
         }
