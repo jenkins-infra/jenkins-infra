@@ -479,6 +479,7 @@ jenkins:
           #!/bin/sh
           set -eux
 
+          # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
           systemctl stop sshd.service
 
           ## Setup Datadog service
