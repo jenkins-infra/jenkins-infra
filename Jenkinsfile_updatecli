@@ -1,35 +1,31 @@
+def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
+
+// Set pipeline options at the beginning
+properties([
+    buildDiscarder(logRotator(numToKeepStr: '10')),
+    disableConcurrentBuilds(abortPrevious: true)
+])
+if (cronExpr) {
+    properties([pipelineTriggers([cron(cronExpr)])])
+}
+
 node('linux-amd64-docker') {
-    // Set build options and triggers (if required, you can use properties() here)
-    def cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
-    // For scripted pipelines, you can set properties as needed:
-    properties([
-        buildDiscarder(logRotator(numToKeepStr: '10')),
-        timeout(time: 30, unit: 'MINUTES'),
-        disableConcurrentBuilds(abortPrevious: true)
-    ])
-    if (cronExpr) {
-        properties([pipelineTriggers([cron(cronExpr)])])
-    }
-
-    // Set AWS environment variables (or any other required ones)
-    // env.AWS_DEFAULT_REGION = 'us-east-2'
-
-    // Use a single withCredentials block to wrap all updatecli calls
-    withCredentials([
-        string(credentialsId: 'packer-aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
-        string(credentialsId: 'packer-aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
-        usernamePassword(
-            credentialsId: 'github-app-updatecli-on-jenkins-infra',
-            usernameVariable: 'USERNAME_VALUE', // Mandatory even if not used for GitHub App auth
-            passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
-        )
-    ]) {
-        if (env.BRANCH_IS_PRIMARY) {
-            // Only trigger a daily check on the principal branch
-            properties([pipelineTriggers([cron('@daily')])])
-            updatecli(action: 'apply')
-        } else {
-            updatecli(action: 'diff')
+    timeout(time: 30, unit: 'MINUTES') {
+        withCredentials([
+            aws(credentialsId: 'packer-aws-access-key-id'), // needed for aws login
+            usernamePassword(
+                credentialsId: 'github-app-updatecli-on-jenkins-infra',
+                usernameVariable: 'USERNAME_VALUE', // Mandatory even if not used for GitHub App auth
+                passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
+            )
+        ]) {
+            if (env.BRANCH_IS_PRIMARY) {
+                // Only trigger a daily check on the principal branch
+                properties([pipelineTriggers([cron('@daily')])])
+                updatecli(action: 'apply')
+            } else {
+                updatecli(action: 'diff')
+            }
         }
     }
 }
