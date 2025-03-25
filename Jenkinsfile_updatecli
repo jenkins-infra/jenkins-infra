@@ -12,8 +12,8 @@ if (cronExpr) {
 node('linux-amd64-docker') {
     timeout(time: 30, unit: 'MINUTES') {
         withCredentials([
-            string(credentialsId: 'updatecli-aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'), // Needed for AWS login
-            string(credentialsId: 'updatecli-aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+            string(credentialsId: 'packer-aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'), // Needed for AWS login
+            string(credentialsId: 'packer-aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY'),
             usernamePassword(
                 credentialsId: 'github-app-updatecli-on-jenkins-infra',
                 usernameVariable: 'USERNAME_VALUE', // Mandatory even if not used for GitHub App auth
