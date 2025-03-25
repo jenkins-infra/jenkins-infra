@@ -479,6 +479,8 @@ jenkins:
           #!/bin/sh
           set -eux
 
+          systemctl stop sshd.service
+
           ## Setup Datadog service
           (
             systemctl stop datadog-agent.service
@@ -494,63 +496,83 @@ jenkins:
             systemctl start datadog-agent.service
           ) 2>&1 | tee /var/log/agent-init-datadog.log
 
-          ## Setup Nvme if exist
+          ## Setup NVMe if exist
           MNT_DIR="<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
-          mapfile -t disks < <(find -L /dev/disk/by-id/ -xtype l -name '*NVMe_Instance_Storage_*')
+
+          disks=""
+          tmpfile=$(mktemp)
+          find -L /dev/disk/by-id/ -xtype l -name '*NVMe_Instance_Storage_*' > "^${tmpfile}"
+          while IFS= read -r disk; do
+              disks="^${disks} ^${disk}"
+          done < "^${tmpfile}"
+          rm -f "^${tmpfile}"
 
           ## Bail early if there are no ephemeral disks to setup
-          if [[ "${#disks[@]}" -eq 0 ]]; then
+          if [ -z "^${disks}" ]; then
               echo "no NVMe instance storage disks found!"
           else
               md_name="workspace"
-              md_device="/dev/md/${md_name}"
+              md_device="/dev/md/^${md_name}"
               md_config="/.aws/mdadm.conf"
-              array_mount_point="${MNT_DIR}/"
-              mkdir -p "$(dirname "${md_config}")"
+              array_mount_point="^${MNT_DIR}/"
+              mkdir -p "$(dirname "^${md_config}")"
 
               ## Get devices of NVMe instance storage ephemeral disks
-              mapfile -t EPHEMERAL_DISKS < <(realpath "${disks[@]}" | sort -u)
+              EPHEMERAL_DISKS=""
+              tmpfile=$(mktemp)
+              for disk in ^${disks}; do
+                  realpath "^${disk}"
+              done | sort -u > "^${tmpfile}"
+              while IFS= read -r disk; do
+                  EPHEMERAL_DISKS="^${EPHEMERAL_DISKS:+^$EPHEMERAL_DISKS }^${disk}"
+              done < "^${tmpfile}"
+              rm -f "^${tmpfile}"
 
-              if [[ ! -s "${md_config}" ]]; then
+              if [ ! -s "^${md_config}" ]; then
+                  set -- "^${EPHEMERAL_DISKS}"
+                  num_disks=$#
+
                   mdadm --create --force --verbose \
-                      "${md_device}" \
+                      "^${md_device}" \
                       --level=0 \
-                      --name="${md_name}" \
-                      --raid-devices="${#EPHEMERAL_DISKS[@]}" \
-                      "${EPHEMERAL_DISKS[@]}"
-                  mdadm --detail --scan > "${md_config}"
+                      --name="^${md_name}" \
+                      --raid-devices="^${num_disks}" \
+                      "$@"
+
+                  mdadm --detail --scan > "^${md_config}"
               fi
 
               # Format the array if not already formatted.
-              if [[ -z "$(lsblk "${md_device}" -o fstype --noheadings)" ]]; then
+              if [ -z "$(lsblk "^${md_device}" -o fstype --noheadings)" ]; then
                   ## By default, mkfs tries to use the stripe unit of the array (512k),
                   ## for the log stripe unit, but the max log stripe unit is 256k.
                   ## So instead, we use 32k (8 blocks) to avoid a warning of breaching the max.
                   ## mkfs.xfs defaults to 32k after logging the warning since the default log buffer size is 32k.
                   ## Instances are delivered with disks fully trimmed, so TRIM is skipped at creation time.
-                  mkfs.xfs -K -l su=8b "${md_device}"
+                  mkfs.xfs -K -l su=8b "^${md_device}"
               fi
 
               ## Create the mount directory
-              mkdir -p "${array_mount_point}"
+              mkdir -p "^${array_mount_point}"
 
-              dev_uuid=$(blkid -s UUID -o value "${md_device}")
-              mount_unit_name="$(systemd-escape --path --suffix=mount "${array_mount_point}")"
-              cat > "/etc/systemd/system/${mount_unit_name}" <<EOF
+              dev_uuid=$(blkid -s UUID -o value "^${md_device}")
+              mount_unit_name="$(systemd-escape --path --suffix=mount "^${array_mount_point}")"
+              cat > "/etc/systemd/system/^${mount_unit_name}" <<EOF
               [Unit]
               Description=Mount EC2 Instance Store NVMe disk RAID0
               [Mount]
-              What=UUID=${dev_uuid}
-              Where=${array_mount_point}
+              What=UUID=^${dev_uuid}
+              Where=^${array_mount_point}
               Type=xfs
               Options=defaults,noatime
               [Install]
               WantedBy=multi-user.target
-              EOF
-              systemd-analyze verify "${mount_unit_name}"
-              systemctl enable "${mount_unit_name}" --now
-
+          EOF
+              systemd-analyze verify "^${mount_unit_name}"
+              systemctl enable "^${mount_unit_name}" --now
+              chown -R jenkins:jenkins "^${array_mount_point}"
           fi
+
           ## Setup Docker Engine
           mkdir -p /etc/docker
           cat <<EOF >/etc/docker/daemon.json
@@ -574,6 +596,8 @@ jenkins:
           ## Setup default java for build (not for agent process)
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
+
+          systemctl start sshd.service
 
           ## Mark cloud init finished (cloud-init status --wait might not report all errors)
           touch "<%= $cloudInitDoneFile %>"
