@@ -18,22 +18,31 @@ class profile::azcopy (
   ])
 
   if $azcopy_version {
-    $msprodpackagepath = '/tmp/microsoft-prod.deb'
-    file { $msprodpackagepath:
-      ensure => 'file',
-      source => "https://packages.microsoft.com/config/${facts['os']['name'].downcase()}/${facts['os']['release']['full']}/packages-microsoft-prod.deb",
-    }
+    # Hack for Vagrant
+    if ( $facts['os']['architecture'] == 'aarch64' and $facts['os']['distro']['codename'] == 'bionic') {
+      exec { 'get-azcopy-bin':
+        require => [Package['curl'], Package['tar']],
+        command => '/usr/bin/curl --silent --show-error --location https://aka.ms/downloadazcopy-v10-linux-arm64 --output /tmp/azcopy.tgz && tar xzf /tmp/azcopy.tgz -C /tmp && find /tmp -type f -name azcopy -exec mv {} /usr/bin/ \; && rm -rf /tmp/azcopy*',
+        creates => '/usr/bin/azcopy',
+      }
+    } else {
+      $msprodpackagepath = '/tmp/microsoft-prod.deb'
+      file { $msprodpackagepath:
+        ensure => 'file',
+        source => "https://packages.microsoft.com/config/${facts['os']['name'].downcase()}/${facts['os']['release']['full']}/packages-microsoft-prod.deb",
+      }
 
-    package { 'microsoftprod':
-      ensure   => present,
-      source   => $msprodpackagepath,
-      provider => dpkg,
-      require  => File[$msprodpackagepath],
-    }
+      package { 'microsoftprod':
+        ensure   => present,
+        source   => $msprodpackagepath,
+        provider => dpkg,
+        require  => File[$msprodpackagepath],
+      }
 
-    package { 'azcopy':
-      ensure  => $azcopy_version,
-      require => [Class['apt::update'], Package['microsoftprod']],
+      package { 'azcopy':
+        ensure  => $azcopy_version,
+        require => [Class['apt::update'], Package['microsoftprod']],
+      }
     }
   }
 
