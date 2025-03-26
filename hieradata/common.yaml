@@ -279,7 +279,7 @@ docker::version: 5:28.0.4-1~ubuntu.22.04~jammy
 azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
 azure::getjenkinsio::fileshare: "overridewithfilestoragename"
 azure::getjenkinsio::storagekey: "overridewithstoragekey"
-profile::azcopy::azcopy_version: 10.28.0
+profile::azcopy::azcopy_version: 10.28.1
 profile::azcopy::az_cli_version: 2.70.0
 profile::mirrorbits::mirrorbits_version: v0.5.1
 profile::datadog_pluginsite_check::sites:
