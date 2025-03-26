@@ -29,7 +29,7 @@ class profile::updatecenter (
       mode    => '0644',
       content => $rsync_pubkey,
     }
-
+    # TODO: cleanup after UC move to Azure + Cloudflare
     concat::fragment { 'updates-rsync-key concat':
       target  => "${home_dir}/.ssh/config",
       order   => '99',

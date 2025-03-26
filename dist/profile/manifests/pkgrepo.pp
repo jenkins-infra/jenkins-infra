@@ -69,7 +69,6 @@ class profile::pkgrepo (
   }
 
   # Used by mirror-scripts
-  $updates_docroot = lookup('profile::updatesite::docroot')
   $azure_storage_env_file = "${mirror_home_dir}/.azure-storage-env"
 
   # Used by apache2 and scripts
@@ -214,7 +213,7 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
   $apache_log_dir_legacy_fqdn = "/var/log/apache2/${repo_legacy_fqdn}"
 
   # Create apache dirs
-  [$apache_log_dir_fqdn,$apache_log_dir_legacy_fqdn].each |String $dir| {
+  [$www_basedir, $apache_log_dir_fqdn,$apache_log_dir_legacy_fqdn].each |String $dir| {
     file { $dir:
       ensure => directory,
     }

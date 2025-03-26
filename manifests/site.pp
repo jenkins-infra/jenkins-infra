@@ -70,7 +70,7 @@ node 'usage' {
 }
 
 node 'pkg' {
-  sshkeyman::hostkey { ['pkg.jenkins.io', 'pkg.origin.jenkins.io', 'updates.jenkins.io']: }
+  sshkeyman::hostkey { ['pkg.jenkins.io', 'pkg.origin.jenkins.io']: }
   include role::pkg
 }
 
