@@ -499,6 +499,9 @@ jenkins:
                 cmd.exe /c net stop winrm
           <%- end -%>
 
+                # Restart docker engine
+                Restart-Service docker
+
                 # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
                 Start-Service sshd
 
