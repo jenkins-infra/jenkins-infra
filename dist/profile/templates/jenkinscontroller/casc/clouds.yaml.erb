@@ -462,14 +462,6 @@ jenkins:
                 (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
                 & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
 
-                ## Setup Docker Engine
-                @'
-                {
-                  "insecure-registries": ["<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"],
-                  "registry-mirrors": ["http://<%= agent['registryMirror'] ? agent['registryMirror'] : ec2_cloud_setup['registryMirror'] %>"]
-                }
-                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
-                Restart-Service docker
           <%- if agent['launcher'] && agent['launcher'] == "winrm" -%>
                 ## Setup WinRM
                 # Remove existing listeners
