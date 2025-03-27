@@ -422,6 +422,39 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
+                # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
+                Stop-Service sshd
+
+                ## Setup NVMe
+                $nb = Get-Disk | Where-Object PartitionStyle -eq 'RAW' | tee -Variable Disks | measure
+                Write-Output "$nb.Count disk found."
+                Switch ($nb.Count)
+                {
+                  0 {Write-Output "No RAW disk found."}
+                  1 {
+                      Write-Output "1 disk found."
+                      New-Item -ItemType Directory -Path "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                      $Disks | Initialize-Disk -PartitionStyle MBR
+                      $Disks | New-Partition -UseMaximumSize -MbrType IFS
+                      $Partition = Get-Partition -DiskNumber $Disks.Number
+                      $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
+                      $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                      Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
+                  }
+                  default {
+                      Write-Output "$nb.Count disks found."
+                      New-Item -ItemType Directory -Path "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                      $Disks | ForEach-Object -Begin {Get-Date} -Process {
+                              Initialize-Disk -PartitionStyle MBR -PassThru -DiskNumber $_.Number
+                              New-Partition -UseMaximumSize -MbrType IFS
+                              $Partition = Get-Partition -DiskNumber $_.Number
+                              $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
+                              $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                          } -End {Get-Date}
+                      Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
+                  }
+                }
+
                 ## Setup datadog
                 (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
                 & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
@@ -470,6 +503,9 @@ jenkins:
                 Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
                 cmd.exe /c net stop winrm
           <%- end -%>
+
+                # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
+                Start-Service sshd
 
                 ## Mark cloud init finished (cloud-init status --wait might not report all errors)
                 New-Item -Path  "<%= $cloudInitDoneFile.split('/')[0...-1].join('/') %>" -Name "<%= $cloudInitDoneFile.split('/')[-1] %>" -ItemType "file" -Value "Cloud Init "
