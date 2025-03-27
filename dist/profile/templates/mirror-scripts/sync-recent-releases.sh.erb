@@ -46,7 +46,7 @@ while IFS= read -r release; do
     # Don't print any trace
     set +x
     ## azcopy breaks the while + read loop - https://github.com/Azure/azure-storage-azcopy/issues/974
-    ## so we ensure an empty stding is passed using the ':|' form
+    ## so we ensure an empty stdin is passed using the ':|' form
     : | azcopy copy \
         --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
         --recursive `# Source directory contains at least one subdirectory` \

@@ -362,6 +362,7 @@ class profile::jenkinscontroller (
   docker::run { $docker_container_name:
     memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
+    # TODO: cleanup after UC move to Azure + Cloudflare (remove the add-host)
     # This is a "clever" hack to force the init script to pass the numeric UID
     # through on `docker run`. Since passing the string 'jenkins' doesn't
     # actually map the UIDs properly. Using the extra_parameters option because
