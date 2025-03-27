@@ -2,7 +2,7 @@
 # Profile to provision the necessary "usage" host setup
 #
 # A "usage" host is one that will receive anonymized and encrypted usage data
-# from active and cnofigured Jenkins installations around the world.
+# from active and configured Jenkins installations around the world.
 #
 # This usage information is then processed and ultimately finds its way into
 # our "census" data
