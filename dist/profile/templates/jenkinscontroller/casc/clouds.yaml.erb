@@ -318,7 +318,7 @@ jenkins:
           unixData:
             sshPort: "22"
             <%- if $os == 'windows' -%>
-            bootDelay: "120"
+            bootDelay: "60"
             <%- end -%>
         <%- end -%>
         associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
