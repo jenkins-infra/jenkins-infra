@@ -7,3 +7,11 @@ profile::archives::rsync_hosts_allow:
   - 46.101.121.132 # archives.do.jenkins.io
 # Per-host Datadog configuration
 datadog_agent::host: "archives.do.jenkins.io"
+apache::mime_types_additional:
+  AddHandler:
+    type-map: 'var'
+  AddType:
+    'text/html': '.shtml'
+    'application/octet-stream': '.hpi .jpi'
+  AddOutputFilter:
+    INCLUDES: '.shtml'
