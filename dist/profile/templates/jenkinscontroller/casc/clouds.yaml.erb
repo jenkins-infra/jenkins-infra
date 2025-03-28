@@ -436,23 +436,21 @@ jenkins:
                   0 {Write-Output "No RAW disk found."}
                   1 {
                       Write-Output "1 disk found."
-                      New-Item -ItemType Directory -Path "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
                       $Disks | Initialize-Disk -PartitionStyle MBR
                       $Disks | New-Partition -UseMaximumSize -MbrType IFS
                       $Partition = Get-Partition -DiskNumber $Disks.Number
                       $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
-                      $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                      $Partition | Add-PartitionAccessPath -AccessPath "Z:"
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
                   default {
                       Write-Output "$nb.Count disks found."
-                      New-Item -ItemType Directory -Path "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
                       $Disks | ForEach-Object -Begin {Get-Date} -Process {
                               Initialize-Disk -PartitionStyle MBR -PassThru -DiskNumber $_.Number
                               New-Partition -UseMaximumSize -MbrType IFS
                               $Partition = Get-Partition -DiskNumber $_.Number
                               $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
-                              $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+                              $Partition | Add-PartitionAccessPath -AccessPath "Z:"
                           } -End {Get-Date}
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
@@ -498,6 +496,13 @@ jenkins:
                 Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
                 cmd.exe /c net stop winrm
           <%- end -%>
+
+                ## Setup Docker Engine
+                @'
+                {
+                  "data-root": "Z:/docker"
+                }
+                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
 
                 # Restart docker engine
                 Restart-Service docker
