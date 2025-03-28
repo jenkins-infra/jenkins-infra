@@ -155,6 +155,7 @@ profile::jenkinscontroller::jcasc:
             ebsOptimized: true
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
+            agentDir: 'Z:/jenkins'
             labels:
               - docker-windows
               - docker-windows-2019
@@ -168,6 +169,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "2022"
             ebsOptimized: true
             architecture: "amd64"
+            agentDir: 'Z:/jenkins'
             labels:
               - docker-windows-2022
               - win-2022
