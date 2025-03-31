@@ -30,6 +30,10 @@ archives_jenkins_io_mirroring::privkey: |
   -----END RSA PRIVATE KEY-----
 profile::jenkinscontroller::ci_fqdn: 'localhost'
 profile::jenkinscontroller::ci_resource_domain: 'assets.localhost'
+profile::jenkinscontroller::additional_fqdns:
+  foo.localhost:
+    isalias: true
+  legacy.localhost:
 profile::jenkinscontroller::proxy_port: 443
 profile::jenkinscontroller::groovy_init_enabled: false
 profile::jenkinscontroller::memory_limit: '14g'
