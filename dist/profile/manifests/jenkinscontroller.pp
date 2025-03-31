@@ -17,6 +17,7 @@ class profile::jenkinscontroller (
   Boolean $anonymous_access                    = false,
   Array $admin_ldap_groups                     = ['admins'],
   Stdlib::Fqdn $ci_fqdn                        = '',
+  Hash $additional_fqdns                       = {},
   String $ci_resource_domain                   = '',
   String $docker_image                         = 'jenkins/jenkins',
   String $docker_tag                           = 'lts-jdk17',
@@ -73,7 +74,9 @@ class profile::jenkinscontroller (
   $script_dir = '/usr/share/jenkins'
   $groovy_d = "${jenkins_home}/init.groovy.d"
   $docroot = "/var/www/${ci_fqdn}"
-  $apache_log_dir = "/var/log/apache2/${ci_fqdn}"
+
+  $all_fqdns = ($additional_fqdns.keys() << $ci_fqdn )
+  $apache_log_dirs = $all_fqdns.map |$fqdn| { "/var/log/apache2/${fqdn}" }
 
   group { 'jenkins':
     ensure => present,
@@ -408,9 +411,11 @@ class profile::jenkinscontroller (
     ],
   }
 
-  file { [$apache_log_dir, $docroot]:
-    ensure  => directory,
-    require => Package['httpd'],
+  ($apache_log_dirs << $docroot).each | $dir | {
+    file { $dir:
+      ensure  => directory,
+      require => Package['httpd'],
+    }
   }
 
   file { "${docroot}/empty.json" :
@@ -480,6 +485,7 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     require                      => [
       Docker::Run[$docker_container_name],
       File[$docroot],
+      File["/var/log/apache2/${ci_fqdn}"],
       # We need our installation to be secure before we allow access
       File[$groovy_d],
     ],
@@ -488,8 +494,8 @@ RewriteRule (.*)/api/xml(/|$)(.*) /empty.xml
     ssl                          => true,
     docroot                      => $docroot,
 
-    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${ci_fqdn}/access.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${ci_fqdn}/error.log.%Y%m%d%H%M%S 86400",
     proxy_preserve_host          => true,
     allow_encoded_slashes        => 'on',
     custom_fragment              => "${ci_fqdn_x_forwarded_host}
@@ -506,9 +512,77 @@ ${custom_fragment_api_paths}
     docroot                      => $docroot,
     redirect_status              => 'permanent',
     redirect_dest                => "https://${ci_fqdn}/",
-    error_log_file               => "${ci_fqdn}/error_unsecured.log",
-    access_log_pipe              => '/dev/null',
+
+    access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${ci_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 86400",
+    error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${ci_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 86400",
     require                      => Apache::Vhost[$ci_fqdn],
+  }
+
+  # Create additional FQDN vhosts (aliases, legacy hostnames, etc.)
+  $additional_fqdns.keys().each | $fqdn | {
+    if $additional_fqdns[$fqdn].get('isalias', false) {
+      apache::vhost { $fqdn:
+        servername                   => $fqdn,
+        use_servername_for_filenames => true,
+        use_port_for_filenames       => true,
+        require                      => [
+          Apache::Vhost[$ci_fqdn],
+          File[$docroot],
+          File["/var/log/apache2/${fqdn}"],
+        ],
+        port                         => 443,
+        override                     => ['All'],
+        ssl                          => true,
+        docroot                      => $docroot,
+
+        access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/access.log.%Y%m%d%H%M%S 86400",
+        error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/error.log.%Y%m%d%H%M%S 86400",
+        proxy_preserve_host          => true,
+        allow_encoded_slashes        => 'on',
+        custom_fragment              => "
+RequestHeader set X-Forwarded-Host \"${fqdn}\"
+${base_custom_fragment}
+${custom_fragment_api_paths}
+",
+      }
+    } else {
+      apache::vhost { $fqdn:
+        servername                   => $fqdn,
+        use_servername_for_filenames => true,
+        use_port_for_filenames       => true,
+        require                      => [
+          Apache::Vhost[$ci_fqdn],
+          File[$docroot],
+          File["/var/log/apache2/${fqdn}"],
+        ],
+        port                         => 443,
+        ssl                          => true,
+        docroot                      => $docroot,
+        redirect_status              => 'permanent',
+        redirect_dest                => "https://${ci_fqdn}/",
+
+        access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/access.log.%Y%m%d%H%M%S 86400",
+        error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/error.log.%Y%m%d%H%M%S 86400",
+      }
+    }
+
+    # Enforced HTTP to HTTPS redirection
+    apache::vhost { "${fqdn} unsecured":
+      servername                   => $fqdn,
+      use_servername_for_filenames => true,
+      use_port_for_filenames       => true,
+      port                         => 80,
+      docroot                      => $docroot,
+      redirect_status              => 'permanent',
+      redirect_dest                => "https://${fqdn}/",
+
+      access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/access_unsecured.log.%Y%m%d%H%M%S 86400",
+      error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t /var/log/apache2/${fqdn}/error_unsecured.log.%Y%m%d%H%M%S 86400",
+      require                      => [
+        Apache::Vhost[$fqdn],
+        File["/var/log/apache2/${fqdn}"],
+      ],
+    }
   }
 
   firewall { '801 Allow Jenkins web access only on localhost':
@@ -570,8 +644,8 @@ RequestHeader set X-Forwarded-Host \"${ci_resource_domain}\"
       ssl                          => true,
       docroot                      => $docroot,
 
-      access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/access.log.%Y%m%d%H%M%S 86400",
-      error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir}/error.log.%Y%m%d%H%M%S 86400",
+      access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_assets}/access.log.%Y%m%d%H%M%S 86400",
+      error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_assets}/error.log.%Y%m%d%H%M%S 86400",
       proxy_preserve_host          => true,
       allow_encoded_slashes        => 'on',
       custom_fragment              => "${ci_resource_domain_x_forwarded_host}
@@ -617,6 +691,21 @@ ${custom_fragment_api_paths}
       Apache::Vhost <| title == $ci_resource_domain |> {
         ssl_key       => "/etc/letsencrypt/live/${ci_resource_domain}/privkey.pem",
         ssl_cert      => "/etc/letsencrypt/live/${ci_resource_domain}/fullchain.pem",
+      }
+    }
+
+    $additional_fqdns.keys().each | $fqdn | {
+      # Request a multi-domain certificate (uses Subject Alternate Name)
+      letsencrypt::certonly { $fqdn:
+        domains       => [$fqdn],
+        plugin        => $letsencrypt_plugin,
+        custom_plugin => $letsencrypt_custom_plugin,
+        manage_cron   => false,
+      }
+
+      Apache::Vhost <| title == $fqdn |> {
+        ssl_key       => "/etc/letsencrypt/live/${fqdn}/privkey.pem",
+        ssl_cert      => "/etc/letsencrypt/live/${fqdn}/fullchain.pem",
       }
     }
   }

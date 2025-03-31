@@ -16,6 +16,10 @@ profile::jenkinscontroller::admin_ldap_groups:
   - jenkins-admins
 profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::additional_fqdns:
+  aws.ci.jenkins.io:
+    isalias: true
+  ci.jenkins-ci.org:
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk17'
