@@ -46,6 +46,11 @@ node 'puppet.jenkins.io' {
   sshkeyman::hostkey { 'puppet.jenkins.io': }
   include role::puppetmaster
 }
+node 'puppet.do.jenkins.io' {
+  sshkeyman::hostkey { ['puppet.jenkins.io', 'puppet.do.jenkins.io']: }
+  include role::puppetmaster
+}
+
 
 # edamame
 node 'edamame' {
