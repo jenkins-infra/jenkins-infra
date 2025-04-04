@@ -74,7 +74,7 @@ node 'pkg' {
   include role::pkg
 }
 
-node 'controller.sponsorship.ci.jenkins.io' {
+node 'controller.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
     atboot => 'true',
