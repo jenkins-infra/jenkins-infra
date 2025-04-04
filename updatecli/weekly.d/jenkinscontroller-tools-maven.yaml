@@ -57,7 +57,8 @@ targets:
     spec:
       files:
         - hieradata/clients/aws.ci.jenkins.io.yaml
-        - hieradata/clients/azure.ci.jenkins.io.yaml
+        # TODO: uncomment when in production
+        # - hieradata/clients/controller.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.envVars.PATH+MAVEN
     scmid: default
   setMavenToolVersionFors390x:
@@ -69,7 +70,8 @@ targets:
     spec:
       files:
         - hieradata/clients/aws.ci.jenkins.io.yaml
-        - hieradata/clients/azure.ci.jenkins.io.yaml
+        # TODO: uncomment when in production
+        # - hieradata/clients/controller.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.toolLocation[0].home
     scmid: default
 
