@@ -3,21 +3,8 @@ lookup_options:
     merge:
       strategy: deep
       merge_hash_arrays: true
-accounts:
-  basil:
-    ssh_keys:
-      basil:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCkR0yiRuFiY82o1IUyglIFAGLlkqXfuIv/zGU8x/BWvjHBUetM4LLdVTT21lagee85wSKEPEhwBHd0NpSKZQj/iXlhHt5IQQAt0ZKuJYNHtbIUXPEue4bpHssn58tNsbtIvgEKoLkbqkjRbSTceT9yB8FLS9fYleFtwxera/1S7L8U0if9idfCibJhmxI91K+lKT+PMvQ3SS/9KGlOae0t9UfN+TT2YKLWa74Pi4QYrATDny3F8+ad4xeW6Tzour9yVWEXbXab1u7yXZcBwpQpCPMc9xSuP8/gomRum5Cw2M1dKSGi7UX7K03hWPr7F68zIQ8CkD/NZyJDj9R4QxTEDRINYpAznig8GRklbECvBLE5nenQ7hT6vTv7cWf0JBotrpoGOJHcK2vcEjDPu9nhtsB+sZp/BvTiFLvZSmNDgkrNOHRZaI5dbREkgBJrYYsFnfJNf7/+6BrbKpBa4rRHl7OfYnlLrcw7xWR8XZeKA8y80521oPpm7XMDij/yNbAqxWpxJfukbHIM7ouUo2mV+FsuSpkDh8w9ab5F4HkJs3jlMRtrYy0IV0HKPFZ57ILGUpHTdod1rwvUnF7/MeX3I2lqS56YbzCYpnhBsJ41Hai07V7GVa7cFaRUNWgHRtu2GN/rg7RaFFdCBRSxY6B2qyyJEWt7mNj5mXSm37JO8Q==
-    groups:
-      - sudo
-  rsandell:
-    ssh_keys:
-      rsandell:
-        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDwdnCxqQGMo1LTOhCDu7TpzT31sqJPYltmQEeKOut1lRP2HSn3Zac5XKXKq2Vn9xlmjSayC6mQcUw23x8VGa2bnCqWTxiAGSpAmcE4dZFRf/T20Il8YiuYNyP+Pl8zLOisOWMQ6XU6F//yoNeE+y1rnOolK0AHmO7/vz6FlnvM/pn5jSuHj+sicBdR5sA+wfejSkvW1Z3wH3vpa4xNFkS8nNjrC/Qv7rj+WmBxYMd4z7M5NFadfH1byH7omRLUZ2XNi6cDOY4g0+qbpwSmzs+JLTXa10uIMn9dcA3WOQDcBlYdQ0FSwsSYJy6jskf2A62yHJ3TESnNGis9o19AEGsVFxPo1aXdLJ5X9jEogjOX5CKK2kchpONaQoX7nh04ys5at8jzcn3B9KvSfx8B6UFlsvOHZOKlVNymZ+pe/JJecY08A4E/1Teo4wL4oVkBcMTbX2z04pXLbMtqELpzU29yeF5MRO1B37Jzf5E71TGWWxdllQ/WO+RTAInha1tLyujQoUop2EyZMFCvPtozVYIJpVV8hwQC1j4NyTnslmGaUd/3dyTVcnKKctDimGT+zULWE6ckCNwzsrIEY5ESERwa3JE5HtoEnolsddR5OQiVb4AImFz0Y4T3TvCQVFdhjs/1xjIRKsbg9eFzF2cy52GzTKDzcb9NQeRbPXPeLyZrBQ
-    groups:
-      - sudo
 # Per-host Datadog configuration
-datadog_agent::host: 'controller.sponsorship.ci.jenkins.io'
+datadog_agent::host: 'azure.ci.jenkins.io'
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
 datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
@@ -27,8 +14,11 @@ profile::jenkinscontroller::anonymous_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
-profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
-profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+## TODO: uncomment once moving to ci.jenkins.io
+# profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
+# profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::ci_fqdn: 'azure.ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.azure.ci.jenkins.io'
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk17'
@@ -95,23 +85,24 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
-  permanent_agents:
-    s390x-agent:
-      remoteFS: /home/jenkins/agent
-      labels:
-        - s390x
-        - s390xdocker
-      mode: EXCLUSIVE
-      ssh:
-        host: "148.100.84.76"
-        credentialsId: "jenkins-s390x"
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
-      envVars:
-        PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.9/bin
-        JAVA_HOME: "/opt/jdk-17"
-      toolLocation:
-        - home: /home/jenkins/tools/apache-maven-3.9.9
-          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+  ## TODO: uncomment once moving to ci.jenkins.io
+  # permanent_agents:
+  #   s390x-agent:
+  #     remoteFS: /home/jenkins/agent
+  #     labels:
+  #       - s390x
+  #       - s390xdocker
+  #     mode: EXCLUSIVE
+  #     ssh:
+  #       host: "148.100.84.76"
+  #       credentialsId: "jenkins-s390x"
+  #       hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
+  #     envVars:
+  #       PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.9/bin
+  #       JAVA_HOME: "/opt/jdk-17"
+  #     toolLocation:
+  #       - home: /home/jenkins/tools/apache-maven-3.9.9
+  #         key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
       ci.jenkins.io-agents-1:
@@ -614,53 +605,6 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-    azure-container-agents:
-      clouds:
-        aci-windows-jenkins-sponsorship:
-          credentialsId: azure-jenkins-sponsorship-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
-          acpServerId: azure-internal
-          virtualNetworkName: "public-jenkins-sponsorship-vnet"
-          virtualNetworkResourceGroupName: "public-jenkins-sponsorship"
-          subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_aci"
-      agent_definitions:
-        - name: maven-8-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-windows
-            - maven-8-windows
-          usePrivateIP: true
-        - name: maven-11-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-11-windows
-          usePrivateIP: true
-        - name: maven-17-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-17-windows
-          usePrivateIP: true
-        - name: maven-21-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-21-windows
-          usePrivateIP: true
   artifact_caching_proxy:
     enabled: true
     servers:
@@ -670,14 +614,21 @@ profile::jenkinscontroller::jcasc:
       azure-aks-internal:
         name: Azure (AKS Internal) Artifact Caching Proxy
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
+  ## TODO: implement (and switch to) azure artifact manager
+  # artifacts_manager:
+  #   type: s3
+  #   region: us-east-2
+  #   ## TODO: track with updatecli
+  #   storage_name: aws-ci-jenkins-io-artifacts
   datadog:
-    host: "ci.jenkins.io"
+    host: "azure.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
     collectBuildLogs: true
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
-  - azure-container-agents # ACI agents
+  - artifact-manager-s3 # https://github.com/jenkins-infra/helpdesk/issues/4596
+  - azure-artifact-manager # https://github.com/jenkins-infra/helpdesk/issues/4620
   - azure-vm-agents # Azure VM Agents
   - buildtriggerbadge # Add an icon with the build cause in the build history
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
@@ -718,3 +669,9 @@ profile::jenkinscontroller::plugins:
   - timestamper # Allow showing timestamp on build logs
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
+## TODO: Uncomment and adapt once system identity is set up
+# profile::jenkinscontroller::kubeconfigs:
+#   - cluster_name: cijenkinsio-agents-1
+#     cluster_url: https://xxxx
+#     cluster_ca_data: ENC[PKCS7,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]
+#     cluster_aws_region: us-east-2
