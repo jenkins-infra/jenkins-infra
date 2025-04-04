@@ -4,7 +4,7 @@ class profile::letsencrypt (
   String $plugin = '',
   Hash $dns_azure = {},
   # TODO: track with updatecli
-  String $certbot_version = '3.1.0',
+  String $certbot_version = '3.3.0',
   # TODO: track with updatecli
   String $certbot_dnsazure_version = '2.6.1',
   Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
@@ -45,7 +45,7 @@ class profile::letsencrypt (
   }
   $python_weight       = regsubst($python_certbot_version, '\.','')
 
-  ['python3', 'python3-pip', "python${python_certbot_version}", 'libaugeas0'].each | $package_name | {
+  ['python3', 'python3-pip', "python${python_certbot_version}", 'libaugeas0', 'python3-cffi-backend', 'python3-cffi'].each | $package_name | {
     package { $package_name:
       ensure => 'installed',
     }
