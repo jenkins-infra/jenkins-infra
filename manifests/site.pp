@@ -74,6 +74,16 @@ node 'pkg' {
   include role::pkg
 }
 
+node 'controller.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=bb090c13-5638-47fc-af1f-f623cb50f494',
+    fstype => 'ext4',
+  }
+  include role::jenkins::controller
+}
+
 node 'aws.ci.jenkins.io' {
   include role::jenkins::controller
 }
