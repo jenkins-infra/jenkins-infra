@@ -78,7 +78,7 @@ node 'controller.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
     atboot => 'true',
-    device => 'UUID=787eb048-4f49-4e41-b191-479147e29aae',
+    device => 'UUID=bb090c13-5638-47fc-af1f-f623cb50f494',
     fstype => 'ext4',
   }
   include role::jenkins::controller
