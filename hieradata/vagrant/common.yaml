@@ -475,23 +475,15 @@ profile::jenkinscontroller::jcasc:
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor
-  - artifact-manager-s3
-  - azure-container-agents
-  - azure-vm-agents
-  - blueocean
   - build-timeout
   - buildtriggerbadge
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder
   - coverage
-  - config-file-provider
   - configuration-as-code
   - coverage-badges-extension
   - credentials
   - credentials-binding
-  - datadog
-  - docker-workflow
-  - ec2
   - embeddable-build-status
   - git-client
   - git
@@ -499,8 +491,6 @@ profile::jenkinscontroller::plugins:
   - github-checks
   - github-branch-source
   - groovy
-  - kubernetes
-  - jobConfigHistory
   - junit-attachments
   - junit-realtime-test-reporter
   - ldap
@@ -509,7 +499,6 @@ profile::jenkinscontroller::plugins:
   - matrix-auth
   - parallel-test-executor
   - pipeline-githubnotify-step
-  - pipeline-graph-view
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
@@ -518,7 +507,6 @@ profile::jenkinscontroller::plugins:
   - timestamper
   - toolenv
   - warnings-ng
-  - workflow-aggregator
   - workflow-multibranch
 profile::buildagent::tools_versions:
   awscli: 2.25.11
