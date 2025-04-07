@@ -349,14 +349,19 @@ profile::jenkinscontroller::jcasc:
     azure_vm_agents:
       clouds:
         azure-vms-jenkins-sponsorship:
-          azureCredentialsId: "azure-jenkins-sponsorship-credentials" # Managed manually
+          azureCredentialsId: "azure-controller-identity" # Managed manually - https://github.com/jenkins-infra/helpdesk/issues/4628#issuecomment-2782783725
+          # TODO: track with updatecli
           resourceGroup: ci-jenkins-io-ephemeral-agents
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
+          # TODO: track with updatecli
           virtualNetworkName: "public-jenkins-sponsorship-vnet"
+          # TODO: track with updatecli
           virtualNetworkResourceGroupName: "public-jenkins-sponsorship"
+          # TODO: track with updatecli
           subnetName: "public-jenkins-sponsorship-vnet-ci_jenkins_io_agents"
           disableSpot: true # Not enough quota available
-          storageAccount: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAX1+w3HsG7jVw0T37cE9RVIEyAaNIg31kdhsxq/N3g0zehZB8QQw6K6/0y0uyNZhqxxdOUHHWN4qmLwrHXhsP+EXF/WHleC2qgYMJT8HHbJtVJ7yEVeeJKgUNipgWRf5FcB2hTKdcwfMqunMapQ4vmdREvAeWggN+racF1yJ1dsOJkzs0oR4GaCfGZLm3IxKMy13ifBJtlTl6dC6f8K70Z9aGbcWf3TqNVrznop9q8LlOPGOZXYyo8WGl1CheSUm5VbWa+o7J04cBOcYP+IAlJObZAN3rdM78Kt0GuDTTjlMZK3R/2e6+nyDw2LO2mMlfNPQcklI5uT1eh6nlWy+cjjBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBAhoV9P3un0kUya+CJJTFAHgCBAr5FalXjPsRdLH9XztQDGwMHJj8jLCoBk9D+268MpZw==]
+          # TODO: track with updatecli
+          storageAccount: "cijenkinsioagentssub"
           acpServerId: azure-internal
       agent_definitions:
         - name: "ubuntu-22-amd64-maven8"
@@ -374,7 +379,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-8
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-maven11"
@@ -392,7 +397,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-11
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-maven17"
@@ -416,7 +421,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-maven21"
@@ -434,7 +439,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-arm64-maven17"
@@ -457,7 +462,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-arm64-maven21"
@@ -476,7 +481,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "ubuntu-22-amd64-highmem-maven17"
@@ -500,7 +505,7 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 50
           useAsMuchAsPossible: false
           usePrivateIP: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           spot: true
         - name: "ubuntu-22-amd64-highmem-nonspot-maven17"
           description: "Ubuntu 22.04 LTS x86_64 High Memory NON Spot instance with JDK17 set as default java CLI"
@@ -523,7 +528,7 @@ profile::jenkinscontroller::jcasc:
           maxInstances: 50
           useAsMuchAsPossible: false
           usePrivateIP: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           spot: false
         - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 x86_64 JDK11"
@@ -545,7 +550,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "win-2019-amd64-maven-17"
@@ -563,7 +568,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "win-2019-amd64-maven-21"
@@ -581,7 +586,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
         - name: "win-2022-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
@@ -602,7 +607,7 @@ profile::jenkinscontroller::jcasc:
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
+          credentialsId: "azureadmin"
           usePrivateIP: true
           spot: true
   artifact_caching_proxy:
