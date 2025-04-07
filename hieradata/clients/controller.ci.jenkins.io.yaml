@@ -545,7 +545,7 @@ profile::jenkinscontroller::jcasc:
         ####
         # Windows VMs
         ####
-        - name: win-2019-amd64-maven11 # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: win-2019-amd64-maven8 # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 x86_64 Maven with JDK8"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: windows
@@ -556,17 +556,17 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - win-2019-amd64-maven11
+            - win-2019-amd64-maven8
             # Used to be a Windows container (same label pattern as Kubernetes Agents)
             - maven-8-windows
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
-            - win-2019-amd64-maven11-nonspot
+            - win-2019-amd64-maven8-nonspot
           javaHome: 'C:/tools/jdk-8'
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: azureadmin
           usePrivateIP: true
-        - name: "win-2019-amd64-maven11" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: win-2019-amd64-maven11 # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 x86_64 Maven with JDK11"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: windows
@@ -589,7 +589,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
         ####
         # Windows 2019 VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
-        - name: "win-2019-amd64-maven17" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: win-2019-amd64-maven17 # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 Maven 17"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: windows
@@ -615,7 +615,7 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: azureadmin
           usePrivateIP: true
-        - name: "win-2019-amd64-maven21" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: win-2019-amd64-maven21 # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 Maven 21"
           imageDefinition: jenkins-agent-windows-2019-amd64
           os: windows
@@ -638,7 +638,7 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
         ####
         # Windows 2022 VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
-        - name: "win-2022-amd64-maven17" # The name must not contains "windows" or Azure API complains :facepalm:
+        - name: win-2022-amd64-maven17 # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2022 Maven 17"
           imageDefinition: jenkins-agent-windows-2022-amd64
           os: windows
