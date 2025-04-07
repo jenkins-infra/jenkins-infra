@@ -364,48 +364,55 @@ profile::jenkinscontroller::jcasc:
           storageAccount: "cijenkinsioagentssub"
           acpServerId: azure-internal
       agent_definitions:
-        - name: "ubuntu-22-amd64-maven8"
+        ####
+        # x86_64 Linux VMs
+        ####
+        - name: ubuntu-22-amd64-maven11
           description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
+          os: ubuntu
           os_version: "22.04"
-          launcher: "inbound"
-          location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
-          ephemeralOSDisk: true
-          architecture: amd64
-          labels:
-            - ubuntu-22-amd64-maven8
+          launcher: inbound
           javaHome: /opt/jdk-8
-          maxInstances: 50
-          useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
-          usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-amd64-maven11"
-          description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "inbound"
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
             - ubuntu-22-amd64-maven11
-          javaHome: /opt/jdk-11
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-amd64-maven11-nonspot
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-amd64-maven17"
+        - name: ubuntu-22-amd64-maven11
+          description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: ubuntu
+          os_version: "22.04"
+          launcher: inbound
+          javaHome: /opt/jdk-11
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-maven11
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-amd64-maven11-nonspot
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: azureadmin
+          usePrivateIP: true
+        ####
+        # Linux VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
+        - name: ubuntu-22-amd64-maven17
           description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
+          os: ubuntu
           os_version: "22.04"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
@@ -413,43 +420,96 @@ profile::jenkinscontroller::jcasc:
           labels:
             - ubuntu-22-amd64-maven17
             # Labels indicating it is the default VM template
-            - ubuntu
-            - java
             - linux
             - docker
+            - ubuntu
             - linux-amd64
+            - java
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-amd64-maven17-nonspot
+            - ubuntu-22-amd64-maven17-nonspot
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-amd64-maven21"
+        - name: ubuntu-22-amd64-maven21
           description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
+          os: ubuntu
           os_version: "22.04"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
             - ubuntu-22-amd64-maven21
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-amd64-maven21-nonspot
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-arm64-maven17"
+        ####
+        # High Memory Linux VMs
+        ####
+        - name: ubuntu-22-amd64-highmem-maven17
+          description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: ubuntu
+          os_version: "22.04"
+          launcher: inbound
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb / Max 300 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-highmem-maven17
+            # Labels indicating it is the default VM template
+            - highmem
+            - highram
+            - docker-highmem
+            - linux-amd64-big
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - docker-highmem-nonspot
+            - ubuntu-22-amd64-highmem-maven17-nonspot
+          javaHome: /opt/jdk-17
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: azureadmin
+          usePrivateIP: true
+        - name: ubuntu-22-amd64-highmem-maven21
+          description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+          os: ubuntu
+          os_version: "22.04"
+          launcher: inbound
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb / Max 300 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - ubuntu-22-amd64-highmem-maven21
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-amd64-highmem-maven21-nonspot
+          javaHome: /opt/jdk-21
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: azureadmin
+          usePrivateIP: true
+        ####
+        # arm64 Linux VMs
+        ####
+        - name: ubuntu-22-arm64-maven17
           description: "Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
-          os: "ubuntu"
+          os: ubuntu
           os_version: "22.04"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
-          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 100 Gb OsCacheDisk local storage (150 temp)
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
@@ -462,15 +522,14 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-arm64-maven21"
+        - name: ubuntu-22-arm64-maven21
           description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-arm64
-          os: "ubuntu"
+          os: ubuntu
           os_version: "22.04"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 100 Gb OsCacheDisk local storage (150 temp)
           ephemeralOSDisk: true
@@ -481,135 +540,127 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "ubuntu-22-amd64-highmem-maven17"
-          description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "inbound"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          architecture: amd64
-          javaHome: /opt/jdk-17
-          labels:
-            - ubuntu-22-amd64-highmem-maven17
-            # Labels indicating it is the default VM template for high mem x86_64
-            - highmem
-            - highram
-            - docker-highmem
-            - linux-amd64-big
-          maxInstances: 50
-          useAsMuchAsPossible: false
-          usePrivateIP: true
-          credentialsId: "azureadmin"
-          spot: true
-        - name: "ubuntu-22-amd64-highmem-nonspot-maven17"
-          description: "Ubuntu 22.04 LTS x86_64 High Memory NON Spot instance with JDK17 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "inbound"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          architecture: amd64
-          javaHome: /opt/jdk-17
-          labels:
-            - ubuntu-22-amd64-highmem-nonspot-maven17
-            # Labels indicating it is the default VM template for high mem x86_64
-            - highmem-nonspot
-            - highram-nonspot
-            - docker-highmem-nonspot
-            - linux-amd64-big-nonspot
-          maxInstances: 50
-          useAsMuchAsPossible: false
-          usePrivateIP: true
-          credentialsId: "azureadmin"
-          spot: false
-        - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019 x86_64 JDK11"
+        ####
+        # Windows VMs
+        ####
+        - name: win-2019-amd64-maven11 # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2019 x86_64 Maven with JDK8"
           imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
+          os: windows
           os_version: "2019"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - docker-windows
-            - docker-windows-2019
-            - windows
-            - win-2019
-            - windows-2019
-            - win-2019-amd64-maven-11
+            - win-2019-amd64-maven11
+            # Used to be a Windows container (same label pattern as Kubernetes Agents)
+            - maven-8-windows
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2019-amd64-maven11-nonspot
+          javaHome: 'C:/tools/jdk-8'
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: azureadmin
+          usePrivateIP: true
+        - name: "win-2019-amd64-maven11" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2019 x86_64 Maven with JDK11"
+          imageDefinition: jenkins-agent-windows-2019-amd64
+          os: windows
+          os_version: "2019"
+          launcher: inbound
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - win-2019-amd64-maven11
+            # Used to be a Windows container (same label pattern as Kubernetes Agents)
+            - maven-11-windows
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2019-amd64-maven11-nonspot
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "win-2019-amd64-maven-17"
-          description: "Windows 2019 x86_64 with JDK17"
+        ####
+        # Windows 2019 VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
+        - name: "win-2019-amd64-maven17" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2019 Maven 17"
           imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
+          os: windows
           os_version: "2019"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - win-2019-amd64-maven-17
+            - win-2019-amd64-maven17
+            # Labels indicating it is the default VM template for Windows 2019 and Windows
+            - docker-windows
+            - docker-windows-2019
+            - win-2019
+            - win-2019-amd64-maven17
+            # Used to be a Windows container (same label pattern as Kubernetes Agents)
+            - maven-17-windows
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2019-amd64-maven17-nonspot
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "win-2019-amd64-maven-21"
-          description: "Windows 2019 x86_64 with JDK21"
+        - name: "win-2019-amd64-maven21" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2019 Maven 21"
           imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
+          os: windows
           os_version: "2019"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - win-2019-amd64-maven-21
+            - win-2019-amd64-maven21
+            # Used to be a Windows container (same label pattern as Kubernetes Agents)
+            - maven-21-windows
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2019-amd64-maven21-nonspot
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
-        - name: "win-2022-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2022"
+        ####
+        # Windows 2022 VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
+        - name: "win-2022-amd64-maven17" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022 Maven 17"
           imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
+          os: windows
           os_version: "2022"
-          launcher: "inbound"
+          launcher: inbound
           location: "East US 2"
           instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
+            - win-2022-amd64-maven17
+            # Labels indicating it is the default VM template for Windows 2022
             - docker-windows-2022
             - win-2022
-            - windows-2022
-            - win-2022-amd64-maven-11
-          javaHome: 'C:/tools/jdk-11'
+            - win-2022-amd64-maven17
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2022-amd64-maven17-nonspot
+          javaHome: 'C:/tools/jdk-17'
           maxInstances: 50
           useAsMuchAsPossible: true
-          credentialsId: "azureadmin"
+          credentialsId: azureadmin
           usePrivateIP: true
-          spot: true
   artifact_caching_proxy:
     enabled: true
     servers:

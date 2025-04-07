@@ -411,7 +411,8 @@ profile::jenkinscontroller::jcasc:
             spot: true
             acpServerId: aws-internal
           ####
-          # High Memory Linux VMs (ATH mostly)
+          # High Memory Linux VMs
+          ####
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
             instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
@@ -490,6 +491,8 @@ profile::jenkinscontroller::jcasc:
               - maven-11-windows
             spot: true
             acpServerId: aws-internal
+          ####
+          # Windows VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
           - description: "Spot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
             instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
