@@ -1,0 +1,8 @@
+<%- if @jcasc['appearance'] && !@jcasc['appearance']['disabled'] == "true" -%>
+appearance:
+  <%- if @jcasc['appearance']['pipeline_graph_view'] -%>
+  pipelineGraphView:
+    showGraphOnBuildPage: <%= @jcasc['appearance']['pipeline_graph_view']['on_build_page'] %>
+    showGraphOnJobPage: <%= @jcasc['appearance']['pipeline_graph_view']['on_job_page'] %>
+  <%- end -%>
+<%- end -%>

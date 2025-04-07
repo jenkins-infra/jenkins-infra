@@ -182,7 +182,6 @@ profile::jenkinscontroller::plugins:
   - kubernetes
   - ldap
   - matrix-auth
-  - pipeline-graph-view
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - toolenv
