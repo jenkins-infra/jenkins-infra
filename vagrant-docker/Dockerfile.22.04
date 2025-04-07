@@ -57,13 +57,10 @@ ADD https://raw.githubusercontent.com/hashicorp/vagrant/master/keys/vagrant.pub 
 RUN chmod 600 /home/vagrant/.ssh/authorized_keys \
   && chown -R vagrant:vagrant /home/vagrant/.ssh
 
-# Install the puppet agent
-# hadolint ignore=DL3008,DL3059
-RUN package_path=/tmp/puppetrelease.deb \
-  # Use focal even if we are in jammy as there are no puppet agent package for 6.x
-  && curl --silent --show-error --location --output "${package_path}" "http://apt.puppetlabs.com/puppet6-release-focal.deb" \
-  && dpkg -i "${package_path}" \
-  && rm -f /tmp/puppetrelease.deb \
+## Install the puppet agent
+# Official package did have its GPG key expired on April 2025: we want to disable GPGP check only on this one while keeping warnings
+# Note: Use focal even if we are in jammy as there are no puppet agent package for 6.x
+RUN echo 'deb [trusted=yes] http://apt.puppetlabs.com focal puppet6' > /etc/apt/sources.list.d/puppet6.list \
   && apt-get update --quiet \
   && apt-get install --no-install-recommends --yes --quiet puppet-agent=6.* \
   && apt-get clean \
