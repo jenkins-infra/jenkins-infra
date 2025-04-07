@@ -374,7 +374,7 @@ profile::jenkinscontroller::jcasc:
         ####
         # x86_64 Linux VMs
         ####
-        - name: ubuntu-22-amd64-maven11
+        - name: ubuntu-22-amd64-maven8
           description: "Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
           os: ubuntu
@@ -386,9 +386,9 @@ profile::jenkinscontroller::jcasc:
           ephemeralOSDisk: true
           architecture: amd64
           labels:
-            - ubuntu-22-amd64-maven11
+            - ubuntu-22-amd64-maven8
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
-            - ubuntu-22-amd64-maven11-nonspot
+            - ubuntu-22-amd64-maven8-nonspot
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: azureadmin
@@ -516,7 +516,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: inbound
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 100 Gb OsCacheDisk local storage (150 temp)
           ephemeralOSDisk: true
           osDiskSize: 100 # https://github.com/jenkinsci/azure-vm-agents-plugin/issues/349
           architecture: arm64
@@ -526,6 +526,8 @@ profile::jenkinscontroller::jcasc:
             - arm64docker
             - arm64linux
             - linux-arm64
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-arm64-maven17-nonspot
           javaHome: /opt/jdk-17
           maxInstances: 50
           useAsMuchAsPossible: true
@@ -544,6 +546,8 @@ profile::jenkinscontroller::jcasc:
           architecture: arm64
           labels:
             - ubuntu-22-arm64-maven21
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - ubuntu-22-arm64-maven21-nonspot
           javaHome: /opt/jdk-21
           maxInstances: 50
           useAsMuchAsPossible: true
