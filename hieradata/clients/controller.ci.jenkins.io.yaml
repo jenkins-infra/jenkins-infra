@@ -17,6 +17,11 @@ profile::jenkinscontroller::admin_ldap_groups:
 ## TODO: uncomment once moving to ci.jenkins.io
 # profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
 # profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+# profile::jenkinscontroller::additional_fqdns:
+#   azure.ci.jenkins.io:
+#     isalias: true
+#   ci.jenkins-ci.org: null
+## End TODO to uncomment
 profile::jenkinscontroller::ci_fqdn: 'azure.ci.jenkins.io'
 profile::jenkinscontroller::ci_resource_domain: 'assets.azure.ci.jenkins.io'
 profile::jenkinscontroller::letsencrypt: true
@@ -670,7 +675,7 @@ profile::jenkinscontroller::jcasc:
       azure-aks-internal:
         name: Azure (AKS Internal) Artifact Caching Proxy
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
-  ## TODO: implement (and switch to) azure artifact manager
+  ## TODO: configure S3 Artifact Manager without enabling it (to allow old links to keep working without sending anything to S3 from our agents)
   # artifacts_manager:
   #   type: s3
   #   region: us-east-2
