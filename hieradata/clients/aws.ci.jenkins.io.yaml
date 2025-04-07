@@ -45,6 +45,10 @@ profile::jenkinscontroller::jcasc:
         # but hieradata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+  appearance:
+    pipeline_graph_view:
+      on_build_page: true
+      on_job_page: false
   tools:
     groovy:
       groovy: # Default version is named "groovy"
@@ -603,7 +607,6 @@ profile::jenkinscontroller::plugins:
   - matrix-auth # Required for specifying authorization schemes for RBAC
   - parallel-test-executor # Provides the pipleine keyword "splitTest" used byt the Jenkins "ATH" - https://github.com/jenkinsci/acceptance-test-harness/blob/54adf0da5605e2caa4afc3f0b00fbc6191991e9a/Jenkinsfile#L32
   - pipeline-github # This plugin adds the following pipeline triggers: issueCommentTrigger, pullRequestReview
-  - pipeline-graph-view # Candidate for replacing Blue Ocean use cases
   - pipeline-stage-view # Old but classic pipeline view
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
