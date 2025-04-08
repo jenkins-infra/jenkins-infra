@@ -410,54 +410,6 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: false
-    azure-container-agents:
-      clouds:
-        aci-windows:
-          credentialsId: azure-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
-          acpServerId: internal
-          virtualNetworkName: "aci-vnet"
-          virtualNetworkResourceGroupName: "aci-vnet-rg"
-          subnetName: "aci-vnet-subnet"
-        aci-windows-jenkins-sponsorship:
-          credentialsId: azure-jenkins-sponsorship-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
-          acpServerId: external
-      agent_definitions:
-        - name: maven-8-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-windows
-          usePrivateIP: true
-        - name: maven-11-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-11-windows
-          usePrivateIP: true
-        - name: maven-17-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-17-windows
-        - name: maven-21-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: 'C:/openjdk-17/bin/java' # From image jenkins/inbound-agent:jdk17-nanoserver
-          labels:
-            - maven-21-windows
   artifact_caching_proxy:
     enabled: true
     servers:

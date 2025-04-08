@@ -150,28 +150,9 @@ profile::jenkinscontroller::jcasc:
           usePrivateIP: true
           spot: false
           agentDir: 'C:/Foo'
-    azure-container-agents:
-      clouds:
-        aci-windows:
-          credentialsId: azure-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
-        aci-windows-jenkins-sponsorship:
-          credentialsId: azure-jenkins-sponsorship-credentials
-          resourceGroup: ci-jenkins-io-ephemeral-agents
-      agent_definitions:
-        - name: maven-11-windows
-          os: windows
-          command: 'pwsh.exe C:/ProgramData/Jenkins/jenkins-agent.ps1 -Url ^${rootUrl} -Secret ^${secret} -Name ^${nodeName}'
-          cpus: 4
-          memory: 8
-          agentJavaBin: java # From image maven:3.8.6-eclipse-temurin-11
-          labels:
-            - maven-11-windows
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
-  - azure-container-agents
   - azure-vm-agents
-  - blueocean
   - cloudbees-folder
   - config-file-provider
   - configuration-as-code
