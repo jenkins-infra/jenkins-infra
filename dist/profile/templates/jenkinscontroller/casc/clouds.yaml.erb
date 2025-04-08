@@ -239,55 +239,6 @@ jenkins:
     <%- end -%>
   <%- end -%>
   <%- end -%>
-  <%- if @jcasc['cloud_agents']['azure-container-agents'] && @jcasc['cloud_agents']['azure-container-agents']['clouds'] -%>
-    <%- @jcasc['cloud_agents']['azure-container-agents']['clouds'].each do |aci_cloud_name, aci_cloud_setup| -%>
-  - aci:
-      credentialsId: "<%= aci_cloud_setup['credentialsId'] %>"
-      name: "<%= aci_cloud_name %>"
-      resourceGroup: "<%= aci_cloud_setup['resourceGroup'] %>"
-      templates:
-      <%-  @jcasc['cloud_agents']['azure-container-agents']['agent_definitions'].each do |agent| -%>
-        <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
-      - command: "<%= agent['command'] %>"
-        cpu: "<%= agent['cpus'] %>"
-        image: "<%= @jcasc['agent_images']['container_images']['jnlp-' + agent['name'].to_s] %>"
-        label: "<%= $os %> azure aci container <%= agent['labels'].join(' ') %> <%= aci_cloud_name %>"
-        memory: "<%= agent['memory'] %>"
-        name: "aci-<%= agent['name'] %>"
-        osType: "<%= $os == "windows" ? 'Windows' : 'Linux' %>"
-        <%- if agent['usePrivateIP'] && aci_cloud_setup['virtualNetworkResourceGroupName'] && aci_cloud_setup['virtualNetworkName'] && aci_cloud_setup['subnetName'] -%>
-        privateIpAddress:
-          resourceGroup: "<%= aci_cloud_setup['virtualNetworkResourceGroupName'] %>"
-          vnet: "<%= aci_cloud_setup['virtualNetworkName'] %>"
-          subnet: "<%= aci_cloud_setup['subnetName'] %>"
-        <%- end -%>
-        retentionStrategy: "containerOnce"
-        rootFs: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
-        timeout: 60
-        # Please note that envVars are specified differently than permanent or Kubernetes agents
-        envVars:
-          <%- agentJavaOpts = agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] -%>
-          <%- jenkinsJavaOpts = "" -%>
-          <%- if $os == "windows" -%>
-            <%- agentJavaOpts.split(' ').each do |optFlag| -%>
-              <%- jenkinsJavaOpts += '"' + optFlag + '"' -%> <%# Mandatory quotes on Windows: https://github.com/jenkinsci/docker-agent/blob/master/README_inbound-agent.md#windows-jenkins-java-opts %>
-            <%- end -%>
-          <%- else -%>
-            <%-# On Linux, we can pass the java opts string "as it" to the shell -%>
-            <%- jenkinsJavaOpts = agentJavaOpts -%>
-          <%- end -%>
-          - key: "JENKINS_JAVA_OPTS"
-            value: >-
-              <%= jenkinsJavaOpts %>
-          - key: "JENKINS_JAVA_BIN"
-            value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
-          <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && aci_cloud_setup['acpServerId'] -%>
-          - key: "ARTIFACT_CACHING_PROXY_SERVERID"
-            value: "<%= @jcasc['artifact_caching_proxy']['servers'][aci_cloud_setup['acpServerId']]['url'] %>"
-          <%- end -%>
-      <%- end -%>
-    <%- end -%>
-  <%- end -%>
   <%- if @jcasc['cloud_agents']['ec2'] && !@jcasc['cloud_agents']['ec2'].empty? -%>
     <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
@@ -670,7 +621,7 @@ jenkins:
         - containers:
           - alwaysPullImage: false
             image: "<%= k8s_setup['imageNamePrefix'] ? k8s_setup['imageNamePrefix'] : ""%><%= agent['imageName'] && !agent['imageName'].empty? ? @jcasc['agent_images']['container_images'][agent['imageName']] : @jcasc['agent_images']['container_images'][agent['name']] %>"
-            # Please note that envVars are specified differently than permanent or ACI agents
+            # Please note that envVars are specified differently than other agents
             envVars:
               - envVar:
                   key: "JENKINS_JAVA_OPTS"
