@@ -465,9 +465,9 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.25.11
+  awscli: 2.25.12
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.25.11
+  awscli: 2.25.12
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: cijenkinsio-agents-1
