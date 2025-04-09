@@ -14,16 +14,14 @@ profile::jenkinscontroller::anonymous_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
-## TODO: uncomment once moving to ci.jenkins.io
-# profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
-# profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
-# profile::jenkinscontroller::additional_fqdns:
-#   azure.ci.jenkins.io:
-#     isalias: true
-#   ci.jenkins-ci.org: null
-## End TODO to uncomment
-profile::jenkinscontroller::ci_fqdn: 'azure.ci.jenkins.io'
-profile::jenkinscontroller::ci_resource_domain: 'assets.azure.ci.jenkins.io'
+profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::additional_fqdns:
+  azure.ci.jenkins.io:
+    isalias: true
+  assets.azure.ci.jenkins.io:
+    isalias: true
+  ci.jenkins-ci.org: null
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk17'
@@ -94,24 +92,23 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
-  ## TODO: uncomment once moving to ci.jenkins.io
-  # permanent_agents:
-  #   s390x-agent:
-  #     remoteFS: /home/jenkins/agent
-  #     labels:
-  #       - s390x
-  #       - s390xdocker
-  #     mode: EXCLUSIVE
-  #     ssh:
-  #       host: "148.100.84.76"
-  #       credentialsId: "jenkins-s390x"
-  #       hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
-  #     envVars:
-  #       PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.9/bin
-  #       JAVA_HOME: "/opt/jdk-17"
-  #     toolLocation:
-  #       - home: /home/jenkins/tools/apache-maven-3.9.9
-  #         key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+  permanent_agents:
+    s390x-agent:
+      remoteFS: /home/jenkins/agent
+      labels:
+        - s390x
+        - s390xdocker
+      mode: EXCLUSIVE
+      ssh:
+        host: "148.100.84.76"
+        credentialsId: "jenkins-s390x"
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
+      envVars:
+        PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.9/bin
+        JAVA_HOME: "/opt/jdk-17"
+      toolLocation:
+        - home: /home/jenkins/tools/apache-maven-3.9.9
+          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
       ci.jenkins.io-agents-1:
