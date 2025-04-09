@@ -624,6 +624,7 @@ profile::jenkinscontroller::jcasc:
             - win-2019-amd64-maven8
             # Legacy tag for Windows + JDK8. TODO: update pipeline library to avoid this "default" tag.
             - maven-windows
+            - windows
             # Used to be a Windows container (same label pattern as Kubernetes Agents)
             - maven-8-windows
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
