@@ -44,7 +44,7 @@ profile::jenkinscontroller::jcasc:
                 logRotator:
                   numToKeepStr: "5"
         # Weird indentation: we would expect 2 less spaces below
-        # but hierdata is behaving weirdly (bug in YAML parser?)
+        # but hieradata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
   appearance:
@@ -184,12 +184,18 @@ profile::jenkinscontroller::jcasc:
               - jdk8
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
           - name: jnlp-maven-11
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-11
@@ -198,12 +204,18 @@ profile::jenkinscontroller::jcasc:
               - jdk11
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
           - name: jnlp-maven-17
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-17
@@ -212,12 +224,18 @@ profile::jenkinscontroller::jcasc:
               - jdk17
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
           - name: jnlp-maven-21
             imageName: jnlp-maven-all-in-one
             javaHome: /opt/jdk-21
@@ -226,12 +244,18 @@ profile::jenkinscontroller::jcasc:
               - jdk21
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
           - name: jnlp-webbuilder
             agentJavaBin: /opt/java/openjdk/bin/java
             javaHome: /opt/java/openjdk
@@ -241,7 +265,9 @@ profile::jenkinscontroller::jcasc:
               - webbuilder
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -254,7 +280,9 @@ profile::jenkinscontroller::jcasc:
               - jnlp-packaging
             cpus: 1
             memory: 1
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -265,9 +293,12 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/java/openjdk
             labels:
               - default
+            useAsMuchAsPossible: true # Default template to sue when `node() {}` step is called without labels
             cpus: 1
             memory: 1
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -344,7 +375,9 @@ profile::jenkinscontroller::jcasc:
               - maven-bom
             cpus: 4
             memory: 12
+            # TODO: factorize and track with updatecli
             nodeSelector: "role=jenkins-agents-bom"
+            # TODO: factorize and track with updatecli
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -354,6 +387,10 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
     azure_vm_agents:
       clouds:
         azure-vms-jenkins-sponsorship:
