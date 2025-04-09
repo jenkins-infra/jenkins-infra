@@ -3,6 +3,9 @@
 aws:
   awsCredentials:
     region: "<%= @jcasc['artifacts_manager']['region']%>"
+    <%- if @jcasc['artifacts_manager']['credentialsId'] -%>
+    credentialsId: "<%= @jcasc['artifacts_manager']['credentialsId'] %>"
+    <%- end -%>
   s3:
     container: "<%= @jcasc['artifacts_manager']['storage_name']%>"
     disableSessionToken: false
@@ -11,8 +14,12 @@ aws:
     useTransferAcceleration: false
   <%- end -%>
 unclassified:
+  <%- if @jcasc['artifacts_manager']['enable'] -%>
   artifactManager:
     artifactManagerFactories:
     - jclouds:
         provider: "<%= @jcasc['artifacts_manager']['type'] %>"
+  <%- else -%>
+  artifactManager: {}
+  <%- end -%>
 <%- end -%>

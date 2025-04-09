@@ -422,6 +422,8 @@ profile::jenkinscontroller::jcasc:
         credentials: "credentialIdInJenkins"
   artifacts_manager:
     type: s3
+    enable: false
+    credentialsId: aws-s3-artifact-manager
     region: us-east-2
     storage_name: superbucketname
   datadog:
