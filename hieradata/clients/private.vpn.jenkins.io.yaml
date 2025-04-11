@@ -18,6 +18,7 @@ profile::openvpn::networks:
       - 10.205.8.0/24 # Access to the cert-ci-jenkins-io-sponsorship network
       - 10.252.0.0/21 # Access to the trusted-ci-jenkins-io network
       - 10.204.0.0/24 # Access to the trusted-ci-jenkins-io-sponsorship network
+      - 10.240.0.0/14 # Access to the privatek8s-sponsorship network
 profile::openvpn::vpn_network:
   name: private
   # Abstract network
