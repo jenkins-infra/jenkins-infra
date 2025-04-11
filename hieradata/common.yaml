@@ -220,11 +220,6 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/local/go/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
-    ec2_amis:
-      ubuntu-22.04-amd64: ami-0920ff4a67b9a4478
-      windows-2019-amd64: ami-0653ec80db4249c34
-      ubuntu-22.04-arm64: ami-0950e5d2baf56ed0f
-      windows-2022-amd64: ami-0f13d3b8bc443d75a
     azure_vms_gallery_image:
       version: 2.36.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
@@ -296,9 +291,6 @@ profile::openvpn::external_ips_vpn_restricted:
   census.jenkins.io: 52.202.38.86
   usage.jenkins.io: 52.204.62.78
   archives.jenkins.io: 46.101.121.132
-  aws.ci.jenkins.io: 3.146.166.108
   azure.ci.jenkins.io: 172.200.138.43
-  cijenkinsio-agents-2-ip1: 3.140.57.67
-  cijenkinsio-agents-2-ip2: 3.19.0.193
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et

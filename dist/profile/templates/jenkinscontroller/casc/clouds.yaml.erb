@@ -258,7 +258,7 @@ jenkins:
         <%- $tempDir = agent['tempDir'] ? agent['tempDir'] : @jcasc['agents_setup'][$os]['tempDir'] -%>
         <%- $cloudInitDoneFile = "#{$tempDir}/.cloud-init.done" -%>
         <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
-      - ami: "<%= @jcasc['agent_images']['ec2_amis'][$os + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
+      - ami: "<%= agent['ami'] ? agent['ami'] : @jcasc['agent_images']['ec2_amis'][$os + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
         <%- if agent['launcher'] && agent['launcher'] == "winrm" -%>
           windowsData:
