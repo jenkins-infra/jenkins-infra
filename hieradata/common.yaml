@@ -298,7 +298,7 @@ profile::openvpn::external_ips_vpn_restricted:
   archives.jenkins.io: 46.101.121.132
   aws.ci.jenkins.io: 3.146.166.108
   azure.ci.jenkins.io: 172.200.138.43
-  cijenkinsio-agents-2-ip1: 3.140.57.67
+  cijenkinsio-agents-2-ip1: ""
   cijenkinsio-agents-2-ip2: ""
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
