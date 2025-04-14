@@ -467,7 +467,7 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.26.1
+  awscli: 2.26.2
 profile::jenkinscontroller::tools_versions:
   awscli: 2.26.1
 profile::jenkinscontroller::kubeconfigs:
