@@ -87,7 +87,7 @@ profile::jenkinscontroller::jcasc:
     azure_vm_agents:
       clouds:
         azure-vms-jenkins-sponsorship:
-          azureCredentialsId: azure-jenkins-sponsorship-credentials # Managed manually
+          azureCredentialsId: azure-jenkins-sponsorship-managed-identity # Managed manually
           resourceGroup: trusted-ci-jenkins-io-ephemeral-agents
           maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
           virtualNetworkName: trusted-ci-jenkins-io-sponsorship-vnet
