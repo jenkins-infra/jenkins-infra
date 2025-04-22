@@ -227,11 +227,11 @@ profile::jenkinscontroller::jcasc:
       # All in one image (same as VM templates)
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.36.0@sha256:e9cdebfc1d5b8b3006983bafbee6d4572266d3c72fdac4f6aeb316c35c043275
       # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:efdb88decb2d3d491ed3139917d9232c9b025aabeba439dded9b7790b291ac84
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:7a5f315c945f63540d44d8b9d78f00ed2cedb338201ad737164939355cc1537c
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:4cb6eed3de91c88ffdc258345f952cd60c477095572bd479c325ff341b390662
-      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:400e9607034b9143ec7db6fd9ccceff14b76766bcf1007ee1c989d6b00e05456
-      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:03d73b9940418f5e1bb8d2c6a76e5dd9a7bea018d4091e796d2c82abc37986e0
+      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c30303e0d8009e8fa90bb1b7824eeb312cad707afcf3a56d832abcc23a6cce6d
+      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:9182e0d2c5eb51cdd9f9b4eef88af3c277bffc89b8027722fdb8891b86475ea7
+      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:c44af02cd5928b93fbed3b0e7eed4aa5f3e283f58e271e377aacb83828d058f4
+      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:400e7a7070498e6b0e835a49ea02492066de06804db88abb2186e7a524a16ef7
+      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:0a0b41b1771aa75b21e06e5e510774107eb3fe80cd749a3a34b180e9c750d8c9
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:06649a68d18952a37124158de18bafce0c1fb6ad4fdac8be28d757e97beaf09d
       jnlp-packaging: jenkinsciinfra/packaging:latest
