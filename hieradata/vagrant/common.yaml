@@ -255,19 +255,6 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache-readwritemany
                 mountPath: "/cache-rw"
                 readOnly: false
-          - name: jnlp-maven-21-windows
-            os: windows
-            cpus: 2
-            memory: 4
-            javaHome: 'C:/tools/jdk-21'
-            labels:
-              - maven-21-windows
-            nodeSelector: "role=jenkins-agents"
-            tolerations:
-              - key: "ci.jenkins.io/windows"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
       second-cluster:
         enabled: true
         provider: azure

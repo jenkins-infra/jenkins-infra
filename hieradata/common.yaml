@@ -226,11 +226,6 @@ profile::jenkinscontroller::jcasc:
     container_images:
       # All in one image (same as VM templates)
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.37.0@sha256:c0d397e14cc2021d0f3f8c58b17e5b14724a0120b6ffbafccab9692a8138b6be
-      # Windows container images (jenkins-infra/docker-inbound-agents)
-      jnlp-maven-8-windows: jenkinsciinfra/inbound-agent-maven:jdk8-nanoserver@sha256:c30303e0d8009e8fa90bb1b7824eeb312cad707afcf3a56d832abcc23a6cce6d
-      jnlp-maven-11-windows: jenkinsciinfra/inbound-agent-maven:jdk11-nanoserver@sha256:9182e0d2c5eb51cdd9f9b4eef88af3c277bffc89b8027722fdb8891b86475ea7
-      jnlp-maven-17-windows: jenkinsciinfra/inbound-agent-maven:jdk17-nanoserver@sha256:c44af02cd5928b93fbed3b0e7eed4aa5f3e283f58e271e377aacb83828d058f4
-      jnlp-maven-21-windows: jenkinsciinfra/inbound-agent-maven:jdk21-nanoserver@sha256:400e7a7070498e6b0e835a49ea02492066de06804db88abb2186e7a524a16ef7
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:185cfeb68f5b0f1b70c444bfa7e969812801c0f01600f7111d4988cfe042c54d
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:fda58334c0e2a4b419a095a1f478b9f4329dd0729420a37de57ae66f38c98243
