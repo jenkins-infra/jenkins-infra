@@ -221,11 +221,11 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
-      version: 2.38.0
+      version: 2.39.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.38.0@sha256:0eb71540037c9e23a2131175bdfafb01004c3bb60048190aef9f1124f0a5c17a
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.39.0@sha256:c1263722a752dfceeae111ea24e4a99529e78ba643e45b127bac04da44089c23
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:b49120723542a190093c35ff89cff5c9285176de1ef0ee40f889b162b4a256c7
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:71452c4370b5d1f113d313237f5b7281f2058bff897d24b4d8bb3df7d27ee55f
