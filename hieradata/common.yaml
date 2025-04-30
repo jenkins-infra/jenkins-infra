@@ -279,7 +279,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 2.4.92
+profile::openvpn::image_tag: 2.4.94
 # TODO: track with updatecli
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
