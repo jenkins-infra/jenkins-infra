@@ -133,6 +133,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"
             maxInstances: 5
+            ami: ami-xxxxxxxxx
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
@@ -145,6 +146,7 @@ profile::jenkinscontroller::jcasc:
             spot: false
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 1
+            ami: ami-xxxxxxxxx
             instanceType: M6aXlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
             os_version: "22.04"
@@ -157,6 +159,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: internal
           - description: "Windows 2019 x86_64 with JDK21"
             maxInstances: 5
+            ami: ami-xxxxxxxxx
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2019"
@@ -172,6 +175,7 @@ profile::jenkinscontroller::jcasc:
             spot: false
           - description: "Windows 2022 x86_64 with default (current) JDK"
             maxInstances: 4
+            ami: ami-xxxxxxxxx
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2022"
