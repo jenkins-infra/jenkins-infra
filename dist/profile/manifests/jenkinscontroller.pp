@@ -695,7 +695,7 @@ ${custom_fragment_api_paths}
     # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $ci_fqdn:
       domains       => [$ci_fqdn],
-      custom_plugin => $letsencrypt_plugin,
+      custom_plugin => true,
       manage_cron   => false,
     }
 
@@ -707,7 +707,7 @@ ${custom_fragment_api_paths}
     if ($ci_resource_domain != '') {
       letsencrypt::certonly { $ci_resource_domain:
         domains       => [$ci_resource_domain],
-        custom_plugin => $letsencrypt_plugin,
+        custom_plugin => true,
       }
 
       Apache::Vhost <| title == $ci_resource_domain |> {
@@ -720,7 +720,7 @@ ${custom_fragment_api_paths}
       # Request a multi-domain certificate (uses Subject Alternate Name)
       letsencrypt::certonly { $fqdn:
         domains       => [$fqdn],
-        custom_plugin => $letsencrypt_plugin,
+        custom_plugin => true,
         manage_cron   => false,
       }
 
