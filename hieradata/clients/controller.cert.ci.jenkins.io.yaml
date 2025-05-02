@@ -15,7 +15,7 @@ docker::log_opt::max-file: 2
 # Per-host Datadog configuration
 datadog_agent::host: "cert.ci.jenkins.io"
 profile::jenkinscontroller::letsencrypt: true
-profile::letsencrypt::plugin: dns-azure
+profile::letsencrypt::plugin: dns-multi
 profile::letsencrypt::dns_azure:
   use_workload_identity: true
   tenant_id: "4c45fef2-1ba7-4120-80a0-9e2d03e9c2b6" # application_tenant_id
