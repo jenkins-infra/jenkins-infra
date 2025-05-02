@@ -458,9 +458,9 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-multibranch
 profile::buildagent::tools_versions:
-  awscli: 2.27.4
+  awscli: 2.27.6
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.27.4
+  awscli: 2.27.6
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: azure_cluster
