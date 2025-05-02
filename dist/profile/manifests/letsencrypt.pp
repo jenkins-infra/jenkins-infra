@@ -124,9 +124,9 @@ class profile::letsencrypt (
 
     # Case of DNS-01 challenge (with Azure DNS)
     $_additional_config = {
-      'authenticator'        => 'dns-multi',
-      'preferred-challenges' => 'dns',
-      'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
+      'authenticator'         => 'dns-multi',
+      'preferred-challenges'  => 'dns',
+      'dns-multi-credentials' => '/etc/letsencrypt/azure.ini',
     }
 
     file { '/etc/letsencrypt/azure.ini':
