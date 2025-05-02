@@ -48,9 +48,10 @@ describe "profile::letsencrypt" do
           :sp_client_id => "sp-app-id",
           :sp_client_secret => "token",
           :tenant_id => "tenant-id",
-          :zones => {
-            :localhost => "/subscriptions/xxx/AzureDNS/localhost",
-            :"app.localhost" => "/subscriptions/xxx/AzureDNS/localhost",
+          :zone => {
+            :name => "localhost",
+            :subscription => "xxx",
+            :resource_group_name => "rgName",
           },
         },
       }

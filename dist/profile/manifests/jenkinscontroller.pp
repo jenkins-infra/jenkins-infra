@@ -692,20 +692,10 @@ ${custom_fragment_api_paths}
   if ($letsencrypt == true) and ($environment == 'production') {
     $letsencrypt_plugin = lookup('profile::letsencrypt::plugin')
 
-    case $letsencrypt_plugin {
-      'dns-azure': {
-        $letsencrypt_custom_plugin = true
-      }
-      default: {
-        $letsencrypt_custom_plugin = false
-      }
-    }
-
     # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $ci_fqdn:
       domains       => [$ci_fqdn],
-      plugin        => $letsencrypt_plugin,
-      custom_plugin => $letsencrypt_custom_plugin,
+      custom_plugin => $letsencrypt_plugin,
       manage_cron   => false,
     }
 
@@ -717,8 +707,7 @@ ${custom_fragment_api_paths}
     if ($ci_resource_domain != '') {
       letsencrypt::certonly { $ci_resource_domain:
         domains       => [$ci_resource_domain],
-        plugin        => $letsencrypt_plugin,
-        custom_plugin => $letsencrypt_custom_plugin,
+        custom_plugin => $letsencrypt_plugin,
       }
 
       Apache::Vhost <| title == $ci_resource_domain |> {
@@ -731,8 +720,7 @@ ${custom_fragment_api_paths}
       # Request a multi-domain certificate (uses Subject Alternate Name)
       letsencrypt::certonly { $fqdn:
         domains       => [$fqdn],
-        plugin        => $letsencrypt_plugin,
-        custom_plugin => $letsencrypt_custom_plugin,
+        custom_plugin => $letsencrypt_plugin,
         manage_cron   => false,
       }
 
