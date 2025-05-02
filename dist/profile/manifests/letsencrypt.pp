@@ -7,6 +7,8 @@ class profile::letsencrypt (
   String $certbot_version = '3.3.0',
   # TODO: track with updatecli
   String $certbot_dnsazure_version = '2.6.1',
+  # TODO: track with updatecli
+  String $certbot_dnsmulti_version = '4.23.1',
   Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
 ) {
   # Snap package can't be installed in a container so we use the pip installation for certbot.
@@ -69,15 +71,13 @@ class profile::letsencrypt (
     unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-apache ${certbot_pip_version_check}",
   }
 
-  exec { 'Install certbot-dns-azure plugin':
-    require => Exec['Install certbot'],
-    command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure==${certbot_dnsazure_version}",
-    unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-dns-azure | /bin/grep ${certbot_dnsazure_version}",
-  }
-
   $default_config = {
     email  => lookup('letsencrypt::config::email'),
     server => lookup('letsencrypt::config::server'),
+    'deploy-hook'          => $facts['vagrant']? {
+      '1'                    => 'echo Vagrant',
+      default                => 'systemctl reload apache2',
+    },
   }
 
   if $plugin == 'apache' {
@@ -85,7 +85,6 @@ class profile::letsencrypt (
     $_additional_config = {
       'authenticator'        => 'apache',
       'preferred-challenges' => 'http',
-      'deploy-hook'          => 'systemctl reload apache2',
     }
 
     file { '/etc/letsencrypt/azure.ini':
@@ -94,12 +93,40 @@ class profile::letsencrypt (
   }
 
   if $plugin == 'dns-azure' {
+    exec { 'Install certbot-dns-azure plugin':
+      require => Exec['Install certbot'],
+      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-azure==${certbot_dnsazure_version}",
+      unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-dns-azure | /bin/grep ${certbot_dnsazure_version}",
+    }
+
     # Case of DNS-01 challenge (with Azure DNS)
     $_additional_config = {
       'authenticator'        => 'dns-azure',
       'preferred-challenges' => 'dns',
       'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
-      'deploy-hook'          => 'systemctl reload apache2',
+    }
+
+    file { '/etc/letsencrypt/azure.ini':
+      ensure  => file,
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0600',
+      content => template("${module_name}/letsencrypt/azure.ini.erb"),
+    }
+  }
+
+  if $plugin == 'dns-multi' {
+    exec { 'Install certbot-dns-multi plugin':
+      require => Exec['Install certbot'],
+      command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-multi==${certbot_dnsmulti_version}",
+      unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-dns-multi | /bin/grep ${certbot_dnsmulti_version}",
+    }
+
+    # Case of DNS-01 challenge (with Azure DNS)
+    $_additional_config = {
+      'authenticator'        => 'dns-multi',
+      'preferred-challenges' => 'dns',
+      'dns-azure-config'     => '/etc/letsencrypt/azure.ini',
     }
 
     file { '/etc/letsencrypt/azure.ini':

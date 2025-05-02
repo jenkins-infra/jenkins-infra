@@ -15,17 +15,14 @@ docker::log_opt::max-file: 2
 # Per-host Datadog configuration
 datadog_agent::host: "cert.ci.jenkins.io"
 profile::jenkinscontroller::letsencrypt: true
-## TODO: should we uncomment?
-# profile::jenkinscontroller::anonymous_access: false
-## TODO: should we uncomment?
-# profile::jenkinscontroller::admin_ldap_groups:
-#   - admins
-#   - cert-admins
 profile::letsencrypt::plugin: dns-azure
 profile::letsencrypt::dns_azure:
   use_workload_identity: true
-  zones:
-    cert.ci.jenkins.io: "ENC[PKCS7,MIIB+wYJKoZIhvcNAQcDoIIB7DCCAegCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXd58sZ32pzljKO60kMLEEKkEkrDvc+bn+pIE5pQuTc2DkgTBB9ANC0rYJuYzgpzmzULM8qX5eZXKKBlY664NdtdDS9W5kEknx1tqubZC8EEQiuZjgK9XIsVuW+zkfEJSwK59pK0qDxtscB1j/rz7OkQwm0x3vU7sr6Kc4oOk8Jwt9/3qagCkQNtOcW43a8Rqys/fGQB7vrepS/QTgyKe0YS3hoin2GaXd5pzaoTNf9nTCJjK4EK5ebNkZsJ2X7jMMoENdNWS3VErkzRpUckvUMCryG1tUGPN28JEUwejGgfhsoCxrqBpw2TjBmQ8nEcIFpZEBn0aS/lLdM/W2nQHBzCBvQYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQKRndXbtRhLr3JBv/IELoRICBkB6IQGtkhoRuG/60RHQYefkuKP48L9lXKU6c/b/AYuAxZLwq3IVQGv8B1fC+vumBRAz2I2MzEKPZevIG5S73VrdNcpvDhmPGw7tWYYTVUlVQDvOwmTaiUfsf99DK42psQUyex0jL9QRuwwdxPRvara4S5H01uGEyY0uREdOhakgYtb3JuTJK8K1/yrtuYfR3Tw==]"
+  tenant_id: "4c45fef2-1ba7-4120-80a0-9e2d03e9c2b6" # application_tenant_id
+  zone:
+    name: "cert.ci.jenkins.io"
+    subscription: "dff2ec18-6a8e-405c-8e45-b7df7465acf0"
+    resource_group_name: "proddns_jenkinsio"
 profile::jenkinscontroller::groovy_init_enabled: false
 profile::jenkinscontroller::memory_limit: '7g'
 profile::jenkinscontroller::jcasc:
