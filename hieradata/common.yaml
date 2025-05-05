@@ -205,7 +205,7 @@ profile::jenkinscontroller::jcasc:
       remoteAdmin: Administrator
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: 'C:/tools/jdk-17/bin/java'
+      agentJavaBin: 'C:/tools/jdk-21/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: 'C:/tools/jdk-17' # Default JDK provided for builds when no pipeline setup exists
       registryMirror: https://dockerhubmirror.azurecr.io
@@ -215,7 +215,7 @@ profile::jenkinscontroller::jcasc:
       tempDir: "/tmp"
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: '/opt/jdk-17/bin/java'
+      agentJavaBin: '/opt/jdk-21/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       m2RepoPath: '/home/jenkins/.m2/repository'
       javaHome: '/opt/jdk-17' # Default JDK provided for builds when no pipeline setup exists
@@ -231,8 +231,8 @@ profile::jenkinscontroller::jcasc:
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.44.0@sha256:5547089b5bafa151cd3c2fb782bf9ac2d5a524e515a223212d752dcdf7227c37
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:f614a38976fa55e1eb0142e3676b6dbc6d1c65655b354ca9433dbe0bc1853046
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
-      jnlp: jenkins/inbound-agent:latest-jdk17@sha256:4858c5fecc5981e1851294754110de27cc273e6c0dc343ecd6bb70f1a0ea1d07
-      jnlp-packaging: jenkinsciinfra/packaging:6.0.52
+      jnlp: latest-jdk21@sha256:b26f645f109413a475e8d30b007d693505d8ec2d88b3f8b3bb39e42d53907c98
+      jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u452-b09
     jdk11: 11.0.27+6
