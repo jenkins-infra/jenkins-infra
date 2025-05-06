@@ -273,6 +273,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
           - name: jnlp-packaging
+            agentJavaBin: /opt/jdk-17
             javaHome: /opt/jdk-17
             labels:
               - packaging
