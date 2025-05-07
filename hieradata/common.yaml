@@ -225,7 +225,7 @@ profile::jenkinscontroller::jcasc:
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.40.0@sha256:8663967fa021a12d1446c6db585429b9d52171749389ae6ce8afc357489189a5
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.41.0@sha256:f8e5e767c5d8351f857e2df0fffdf1bdd4f4937da1dfbe34d9e5f7ab9b43c2ff
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:1b0a3258a67432432e7d5deded77909a2100a1ac6e1e42bdc811cd3146b1ba9e
       # default template from the official inbound-agent image here to provide a default agent (`node()` pipeline step)
       jnlp: jenkins/inbound-agent:latest-jdk17@sha256:c0834b3fa4f9c89d726bcb58125e63d4f2a1efeff35df4c71a54fe852b3077a9
