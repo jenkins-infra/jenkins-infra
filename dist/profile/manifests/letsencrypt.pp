@@ -4,11 +4,11 @@ class profile::letsencrypt (
   String $plugin = '',
   Hash $dns_azure = {},
   # TODO: track with updatecli
-  String $certbot_version = '3.3.0',
+  String $certbot_version = '',
   # TODO: track with updatecli
-  String $certbot_dnsazure_version = '2.6.1',
+  String $certbot_dnsazure_version = '',
   # TODO: track with updatecli
-  String $certbot_dnsmulti_version = '4.23.1',
+  String $certbot_dnsmulti_version = '',
   Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
 ) {
   # Snap package can't be installed in a container so we use the pip installation for certbot.

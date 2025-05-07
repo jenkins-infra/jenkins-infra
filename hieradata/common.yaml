@@ -80,6 +80,9 @@ accounts:
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
 profile::letsencrypt::plugin: apache
+profile::letsencrypt::certbot_version: '3.3.0'
+profile::letsencrypt::certbot_dnsazure_version: '2.6.1'
+profile::letsencrypt::certbot_dnsmulti_version: '4.23.1'
 profile::pkgrepo::authorized_ssh_keys:
   release.ci.jenkins.io:
     key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDBi5DJcmDRAa6J7d4Zj9alGw0ZNwDftfKPNqyMoJrbRyvqvhKi8z0mg5HMK+ohkc+Xk5+HWpLNf36nn4b+Jn9g2CZJfzkt2SL7HbCN4eVLkQmqmWG/y9HCSmld9bTVWFy1zD34qNiaZw1ldsusvokyU/LTIgWHsCtbsgMoE+CzRKKRJXDrUmnY4e4q5leTHjOdShlrFiakyy5XYtUKG0zlnJMqIvxyTSo+jKKA1iNeW0hP8knu4uhFCGcYOZps1eNH2z+7Vq+wq6lsNfU11CDfuCSZBG24VNMMf75giFVc2PdAzlWrY+BXi7QeDaPUqilMf3d2egKb/dFxhkTGQL11
