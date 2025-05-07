@@ -3,11 +3,8 @@
 class profile::letsencrypt (
   String $plugin = '',
   Hash $dns_azure = {},
-  # TODO: track with updatecli
   String $certbot_version = '',
-  # TODO: track with updatecli
   String $certbot_dnsazure_version = '',
-  # TODO: track with updatecli
   String $certbot_dnsmulti_version = '',
   Stdlib::Absolutepath $certbot_bin = '/usr/local/bin/certbot'
 ) {
