@@ -1,5 +1,5 @@
 ---
-name: Bump `certbot_dnsmulti` version from GitHub Release
+name: Bump Certbot plugin `dns-multi` version
 
 scms:
   default:
@@ -7,19 +7,19 @@ scms:
     spec:
       user: "{{ .github.user }}"
       email: "{{ .github.email }}"
-      owner: "{{ .github.owner }}" # e.g., jenkins-infra
-      repository: "{{ .github.repository }}" # e.g., jenkins-infra
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      branch: "{{ .github.branch }}" # The branch where letsencrypt.pp is located
+      branch: "{{ .github.branch }}"
 
 sources:
   certbotDnsMultiLatestRelease:
     kind: githubrelease
     name: "Get the latest certbot-dns-multi release version"
     spec:
-      owner: "alexzorin"
-      repository: "certbot-dns-multi"
+      owner: alexzorin
+      repository: certbot-dns-multi
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
@@ -53,9 +53,9 @@ targets:
 actions:
   default:
     kind: github/pullrequest
-    title: Bump `certbot_dnsmulti` version to {{ source "certbotDnsMultiLatestRelease" }}
+    title: Bump Certbot plugin `dns-multi` version to {{ source "certbotDnsMultiLatestRelease" }}
     scmid: default
     spec:
       labels:
         - enhancement
-        - certbot_dnsazure
+        - certbot-dns-multi
