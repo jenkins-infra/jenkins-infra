@@ -1,5 +1,5 @@
 ---
-name: Bump `certbot_dnsazure`` version from GitHub Release
+name: Bump `certbot_dnsazure` version from GitHub Release
 
 scms:
   default:
