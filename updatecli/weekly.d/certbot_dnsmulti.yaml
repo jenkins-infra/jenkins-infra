@@ -1,0 +1,61 @@
+---
+name: Bump `certbot_dnsmulti` version from GitHub Release
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}" # e.g., jenkins-infra
+      repository: "{{ .github.repository }}" # e.g., jenkins-infra
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}" # The branch where letsencrypt.pp is located
+
+sources:
+  certbotDnsMultiLatestRelease:
+    kind: githubrelease
+    name: "Get the latest certbot-dns-multi release version"
+    spec:
+      owner: "alexzorin"
+      repository: "certbot-dns-multi"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
+        strict: false
+
+conditions:
+  checkCertbotOnPypi:
+    name: "Check if certbot_dnsmulti version exists on PyPI"
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: >-
+        curl --connect-timeout 10 --silent --show-error --location --fail --head --output /dev/null
+        "https://pypi.org/project/certbot-dns-multi/{{ source "certbotDnsMultiLatestRelease" }}/"
+
+targets:
+  updateCertbotVersion:
+    name: "Update certbot_dnsmulti_version in hieradata/common.yaml"
+    kind: yaml
+    sourceid: certbotDnsMultiLatestRelease
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::letsencrypt::certbot_dnsmulti_version
+    # Puppet 6 uses a buggy yaml parser so we need quotes to ensure string
+    transformers:
+      - addprefix: "'"
+      - addsuffix: "'"
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `certbot_dnsmulti` version to {{ source "certbotDnsMultiLatestRelease" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - certbot_dnsazure
