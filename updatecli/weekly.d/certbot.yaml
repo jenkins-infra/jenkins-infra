@@ -1,5 +1,5 @@
 ---
-name: Bump `certbot` version from GitHub Release
+name: Bump `certbot` version
 
 scms:
   default:
@@ -7,19 +7,19 @@ scms:
     spec:
       user: "{{ .github.user }}"
       email: "{{ .github.email }}"
-      owner: "{{ .github.owner }}" # e.g., jenkins-infra
-      repository: "{{ .github.repository }}" # e.g., jenkins-infra
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      branch: "{{ .github.branch }}" # The branch where letsencrypt.pp is located
+      branch: "{{ .github.branch }}"
 
 sources:
   certbotLatestRelease:
     kind: githubrelease
     name: "Get the latest certbot/certbot release version"
     spec:
-      owner: "certbot"
-      repository: "certbot"
+      owner: certbot
+      repository: certbot
       token: "{{ requiredEnv .github.token }}" 
       username: "{{ .github.username }}"
       versionFilter:
@@ -49,7 +49,7 @@ targets:
     transformers:
       - addprefix: "'"
       - addsuffix: "'"
-    # scmid: default
+    scmid: default
 
 actions:
   default:
