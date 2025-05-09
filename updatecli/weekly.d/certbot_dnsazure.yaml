@@ -1,5 +1,5 @@
 ---
-name: Bump `certbot_dnsazure` plugin version
+name: Bump certbot plugin `dns-azure` version
 
 scms:
   default:
