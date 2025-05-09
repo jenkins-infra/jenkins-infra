@@ -1,5 +1,5 @@
 ---
-name: Bump `certbot_dnsazure` version from GitHub Release
+name: Bump `certbot_dnsazure` plugin version
 
 scms:
   default:
@@ -7,19 +7,19 @@ scms:
     spec:
       user: "{{ .github.user }}"
       email: "{{ .github.email }}"
-      owner: "{{ .github.owner }}" # e.g., jenkins-infra
-      repository: "{{ .github.repository }}" # e.g., jenkins-infra
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      branch: "{{ .github.branch }}" # The branch where letsencrypt.pp is located
+      branch: "{{ .github.branch }}"
 
 sources:
   certbotDnsAzureLatestRelease:
     kind: githubrelease
     name: "Get the latest certbot-dns-azure release version"
     spec:
-      owner: "terricain"
-      repository: "certbot-dns-azure"
+      owner: terricain
+      repository: certbot-dns-azure
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionFilter:
