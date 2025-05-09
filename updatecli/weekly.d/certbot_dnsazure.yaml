@@ -40,7 +40,6 @@ targets:
   updateCertbotVersion:
     name: "Update certbot_dnsazure_version in hieradata/common.yaml"
     kind: yaml
-    # Assuming certbotLatestRelease is the source ID that now correctly gives a SINGLE version string
     sourceid: certbotDnsAzureLatestRelease
     spec:
       file: hieradata/common.yaml
