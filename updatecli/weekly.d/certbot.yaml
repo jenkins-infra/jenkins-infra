@@ -1,0 +1,62 @@
+---
+name: Bump `certbot` version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+  certbotLatestRelease:
+    kind: githubrelease
+    name: "Get the latest certbot/certbot release version"
+    spec:
+      owner: certbot
+      repository: certbot
+      token: "{{ requiredEnv .github.token }}" 
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
+        pattern: "*"
+    transformers:
+      - trimprefix: 'v'
+
+conditions:
+  checkCertbotOnPypi:
+    name: "Check if certbot version exists on PyPI"
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: >-
+        curl --connect-timeout 10 --silent --show-error --location --fail --head --output /dev/null
+        "https://pypi.org/project/certbot/{{ source "certbotLatestRelease" }}/"
+
+targets:
+  updateCertbotVersion:
+    name: "Update certbot_version in letsencrypt.pp"
+    kind: yaml
+    sourceid: certbotLatestRelease
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::letsencrypt::certbot_version
+    transformers:
+      - addprefix: "'"
+      - addsuffix: "'"
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `certbot` version to {{ source "certbotLatestRelease" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - certbot
