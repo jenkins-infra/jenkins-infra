@@ -53,9 +53,9 @@ targets:
 actions:
   default:
     kind: github/pullrequest
-    title: Bump `certbot_dnsazure` version to {{ source "certbotDnsAzureLatestRelease" }}
+    title: Bump certbot plugin `dns-azure` version to {{ source "certbotDnsAzureLatestRelease" }}
     scmid: default
     spec:
       labels:
         - enhancement
-        - certbot_dnsazure
+        - certbot-dns-azure
