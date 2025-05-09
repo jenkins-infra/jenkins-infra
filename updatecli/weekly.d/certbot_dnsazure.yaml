@@ -1,0 +1,62 @@
+---
+name: Bump `certbot_dnsazure`` version from GitHub Release
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}" # e.g., jenkins-infra
+      repository: "{{ .github.repository }}" # e.g., jenkins-infra
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}" # The branch where letsencrypt.pp is located
+
+sources:
+  certbotDnsAzureLatestRelease:
+    kind: githubrelease
+    name: "Get the latest certbot-dns-azure release version"
+    spec:
+      owner: "terricain"
+      repository: "certbot-dns-azure"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      versionFilter:
+        kind: semver
+        strict: false
+
+conditions:
+  checkCertbotOnPypi:
+    name: "Check if certbot_dnsazure version exists on PyPI"
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: >-
+        curl --connect-timeout 10 --silent --show-error --location --fail --head --output /dev/null
+        "https://pypi.org/project/certbot-dns-azure/{{ source "certbotDnsAzureLatestRelease" }}/"
+
+targets:
+  updateCertbotVersion:
+    name: "Update certbot_dnsazure_version in hieradata/common.yaml"
+    kind: yaml
+    # Assuming certbotLatestRelease is the source ID that now correctly gives a SINGLE version string
+    sourceid: certbotDnsAzureLatestRelease
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::letsencrypt::certbot_dnsazure_version
+    # Puppet 6 uses a buggy yaml parser so we need quotes to ensure string
+    transformers:
+      - addprefix: "'"
+      - addsuffix: "'"
+    scmid: default
+
+actions:
+  default:
+    kind: github/pullrequest
+    title: Bump `certbot_dnsazure` version to {{ source "certbotDnsAzureLatestRelease" }}
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - certbot_dnsazure
