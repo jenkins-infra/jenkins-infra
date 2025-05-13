@@ -1,3 +1,0 @@
----
-# Per-host Datadog configuration
-datadog_agent::host: "lettuce.jenkins.io"
