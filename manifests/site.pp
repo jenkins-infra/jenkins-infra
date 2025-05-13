@@ -41,24 +41,6 @@ node 'archives.do.jenkins.io' {
   include role::archives
 }
 
-# radish
-node 'puppet.jenkins.io' {
-  sshkeyman::hostkey { 'puppet.jenkins.io': }
-  include role::puppetmaster
-}
-
-# edamame
-node 'edamame' {
-  sshkeyman::hostkey { ['edamame.jenkins.io', 'edamame.jenkins-ci.org']: }
-  include role::edamame
-}
-
-# lettuce
-node 'lettuce' {
-  sshkeyman::hostkey { ['lettuce.jenkins.io', 'lettuce.jenkins-ci.org']: }
-  include role::lettuce
-}
-
 node 'census' {
   sshkeyman::hostkey { ['census.jenkins.io']: }
   include role::census
