@@ -1,8 +1,6 @@
 require "spec_helper"
 
-# TODO: track with updatecli
 certbot_version = "3.3.0"
-# TODO: track with updatecli
 certbot_dns_azure_version = "2.6.1"
 
 describe "profile::letsencrypt" do
