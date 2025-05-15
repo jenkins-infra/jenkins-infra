@@ -45,10 +45,16 @@ targets:
     sourceid: certbotLatestRelease
     spec:
       file: hieradata/common.yaml
+      engine: yamlpath
       key: $.profile::letsencrypt::certbot_version
-    transformers:
-      - addprefix: "'"
-      - addsuffix: "'"
+    scmid: default
+  updateSpecFile:
+    kind: file
+    sourceid: certbotLatestRelease
+    spec:
+      file: spec/classes/profile/letsencrypt_spec.rb
+      matchpattern: 'certbot_version = "(\d+\.\d+\.\d+)"'
+      replacepattern: 'certbot_version = "{{ source "certbotLatestRelease" }}"'
     scmid: default
 
 actions:
