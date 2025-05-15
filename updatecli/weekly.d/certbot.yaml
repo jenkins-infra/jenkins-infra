@@ -49,6 +49,7 @@ targets:
       key: $.profile::letsencrypt::certbot_version
     scmid: default
   updateSpecFile:
+    name: "Update certbot_version in letsencrypt_spec.rb"
     kind: file
     sourceid: certbotLatestRelease
     spec:

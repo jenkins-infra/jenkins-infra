@@ -43,12 +43,21 @@ targets:
     sourceid: certbotDnsAzureLatestRelease
     spec:
       file: hieradata/common.yaml
+      engine: yamlpath
       key: $.profile::letsencrypt::certbot_dnsazure_version
     # Puppet 6 uses a buggy yaml parser so we need quotes to ensure string
-    transformers:
-      - addprefix: "'"
-      - addsuffix: "'"
-    scmid: default
+    # transformers:
+    #   - addprefix: "'"
+    #   - addsuffix: "'"
+    # scmid: default
+  updateSpecFile:
+    kind: file
+    sourceid: certbotDnsAzureLatestRelease
+    spec:
+      file: spec/classes/profile/letsencrypt_spec.rb
+      matchpattern: 'certbot_dns_azure_version = "(\d+\.\d+\.\d+)"'
+      replacepattern: 'certbot_dns_azure_version = "{{ source "certbotDnsAzureLatestRelease" }}"'
+    
 
 actions:
   default:
