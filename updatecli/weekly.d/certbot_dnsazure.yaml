@@ -49,6 +49,15 @@ targets:
       - addprefix: "'"
       - addsuffix: "'"
     scmid: default
+  updateSpecFile:
+    name: "Update certbot_dnsazure_version in letsencrypt_spec.rb"
+    kind: file
+    sourceid: certbotDnsAzureLatestRelease
+    spec:
+      file: spec/classes/profile/letsencrypt_spec.rb
+      matchpattern: 'certbot_dns_azure_version = "(\d+\.\d+\.\d+)"'
+      replacepattern: 'certbot_dns_azure_version = "{{ source "certbotDnsAzureLatestRelease" }}"'
+    scmid: default
 
 actions:
   default:
