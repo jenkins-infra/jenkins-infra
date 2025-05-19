@@ -256,7 +256,7 @@ profile::jenkinscontroller::jcasc:
                 mountPath: "/cache"
                 readOnly: true
           - name: jnlp-webbuilder
-            agentJavaBin: /opt/java/openjdk/bin/java
+            agentJavaBin: /opt/jdk-21/bin/java
             javaHome: /opt/java/openjdk
             labels:
               - node
