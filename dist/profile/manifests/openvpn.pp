@@ -185,7 +185,7 @@ class profile::openvpn (
       $external_ips_vpn_restricted.each |String $service_name, String $external_ssh_ip| {
         $external_ssh_ip_cidr = "${external_ssh_ip}/32"
 
-        firewall { "100 allow routing from ${vpn_network['cidr']} to ${service_name} (${external_ssh_ip}) on port 22":
+        firewall { "100 allow routing from ${vpn_network['cidr']} to ${service_name} (${external_ssh_ip}) on usual ports":
           chain       => 'POSTROUTING',
           jump        => 'MASQUERADE',
           proto       => 'tcp',
@@ -195,6 +195,7 @@ class profile::openvpn (
             22,   # Allow SSH to external VMs
             80,   # Allow HTTP to external VMs
             443,  # Allow HTTPS to external VMs
+            873,  # Allow rsync to external VMs
           ],
           destination => $external_ssh_ip_cidr,
           table       => 'nat',
