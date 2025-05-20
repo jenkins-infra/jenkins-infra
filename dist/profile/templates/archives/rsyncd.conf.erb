@@ -1,8 +1,4 @@
-# /etc/rsyncd: configuration file for
-rsync daemon mode
-
 # See rsyncd.conf man page for more options.
-
 # configuration example:
 
 uid = nobody
@@ -34,4 +30,3 @@ hosts allow = <%= @rsync_hosts_allow.join(',') %>
 [jenkins]
 path = <%= @archives_dir %>
 comment = "Jenkins Read-Only Mirror"
- 
