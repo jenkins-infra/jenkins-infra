@@ -1,6 +1,7 @@
 ---
 profile::archives::rsync_hosts_allow:
   - 0.0.0.0/0
+  - ::/0
 ## TODO: uncomment and add values from our mirrors to allow them to download data
 #   - localhost
 #   - archives.jenkins.io
