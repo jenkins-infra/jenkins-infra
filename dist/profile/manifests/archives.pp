@@ -2,7 +2,7 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-  Array                $rsync_hosts_allow           = ['localhost'],
+  Array                $rsync_hosts_allow           = [],
   Stdlib::Absolutepath $archives_dir                = '/srv/releases',
   Stdlib::Absolutepath $rsync_motd_file             = '/etc/jenkins.motd',
   Stdlib::Host         $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
