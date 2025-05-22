@@ -1,5 +1,5 @@
 ---
-name: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK17)
+name: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK21)
 
 scms:
   default:
@@ -14,17 +14,17 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  getLatestInboundJDK17ContainerImage:
+  getLatestInboundJDK21ContainerImage:
     kind: dockerdigest
     spec:
       image: "jenkins/inbound-agent"
-      tag: "latest-jdk17"
+      tag: "latest-jdk21"
       architecture: amd64
 
 targets:
-  setInboundJDK17ContainerImage:
-    sourceid: getLatestInboundJDK17ContainerImage
-    name: "Bump container agent image jenkins/inbound-agent (JDK17)"
+  setInboundJDK21ContainerImage:
+    sourceid: getLatestInboundJDK21ContainerImage
+    name: "Bump container agent image jenkins/inbound-agent (JDK21)"
     kind: yaml
     spec:
       file: hieradata/common.yaml
@@ -37,8 +37,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK17) to {{ source "getLatestInboundJDK17ContainerImage" }}
+    title: Bump JNLP Container Agent Image jenkins/inbound-agent (JDK21) to {{ source "getLatestInboundJDK21ContainerImage" }}
     spec:
       labels:
         - dependencies
-

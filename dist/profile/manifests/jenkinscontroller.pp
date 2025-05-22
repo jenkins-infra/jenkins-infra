@@ -20,7 +20,7 @@ class profile::jenkinscontroller (
   Hash $additional_fqdns                       = {},
   String $ci_resource_domain                   = '',
   String $docker_image                         = 'jenkins/jenkins',
-  String $docker_tag                           = 'lts-jdk17',
+  String $docker_tag                           = 'lts-jdk21',
   String $docker_container_name                = 'jenkins',
   Boolean $letsencrypt                         = true,
   Optional[Array] $plugins                     = undef,
