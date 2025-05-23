@@ -25,17 +25,21 @@ jenkins:
     <%- end -%>
     <%- if agent['envVars'] || agent['toolLocation'] -%>
       nodeProperties:
-      <%- agent['envVars'].each do |envKey, envValue| -%>
+      <%- if agent['envVars'] -%>
       - envVars:
           env:
+          <%- agent['envVars'].each do |envKey, envValue| -%>
           - key: "<%= envKey %>"
             value: "<%= envValue %>"
+          <%- end -%>
       <%- end -%>
-      <%- agent['toolLocation'].each do |tool| -%>
+      <%- if agent['toolLocation'] -%>
       - toolLocation:
           locations:
+          <%- agent['toolLocation'].each do |tool| -%>
           - home: "<%= tool['home'] %>"
             key: "<%= tool['key'] %>"
+          <%- end -%>
       <%- end -%>
     <%- end -%>
   <%- end -%>
