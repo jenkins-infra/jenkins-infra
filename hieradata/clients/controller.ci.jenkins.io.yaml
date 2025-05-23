@@ -105,7 +105,7 @@ profile::jenkinscontroller::jcasc:
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.9/bin
-        JAVA_HOME: "/opt/jdk-21"
+        JAVA_HOME: /opt/jdk-17
       toolLocation:
         - home: /home/jenkins/tools/apache-maven-3.9.9
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
