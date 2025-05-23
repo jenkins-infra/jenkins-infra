@@ -97,12 +97,11 @@ class profile::buildagent (
         cpu_arch => $facts['os']['architecture'],
       }
       $java_dir = "/opt/jdk-${$jdk['major_version']}"
-
+      $java_bin = "${java_dir}/bin/java"
       # Use this reusable template to retrieve the URL of the adoptium binary (requires the variable $jdk to be set)
       # Also remove eventual whitespaces (tabs/line returns/etc.)
       $archive_url = strip(template("${module_name}/jdk-adoptium-url.erb"))
-
-      notice("Installing Adoptium JDK ${$jdk['major_version']} to ${java_dir} from ${archive_url}")
+      $temp_archive_file = "/tmp/jdk${$jdk['major_version']}.tgz"
 
       file { $java_dir:
         ensure  => directory,
@@ -110,15 +109,11 @@ class profile::buildagent (
         recurse => true,
       }
 
-      Archive { "/tmp/jdk${$jdk['major_version']}.tgz":
-        provider      => 'curl',
-        require       => [Package['curl', 'tar'],File[$java_dir]],
-        source        => $archive_url,
-        extract       => true,
-        extract_path  => $java_dir,
-        extract_flags => '--extract --strip-components=1 --gunzip -f',
-        creates       => "${java_dir}/bin/java",
-        cleanup       => true,
+      exec { "Download and unarchive Java ${jdk_version}":
+        require => [Package['curl'],],
+        command => "/usr/bin/curl --silent --show-error --location ${archive_url} --output ${temp_archive_file} && tar --extract --gunzip --file=${temp_archive_file} --directory=${java_dir} --strip-components=1 && rm -rf ${temp_archive_file}",
+        # Note: if we are using JDK8, then the version output does not have the '8u' prefix
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${regsubst($jdk_version, '^8u(.*)$', '\1')}'",
       }
     }
   }
