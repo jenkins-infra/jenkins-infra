@@ -243,7 +243,7 @@ profile::jenkinscontroller::jcasc:
               - jdk21
               - jnlp
               - default
-            useAsMuchAsPossible: true # Default template to sue when `node() {}` step is called without labels
+            useAsMuchAsPossible: true # Default template to use when `node() {}` step is called without labels
             cpus: 4
             memory: 12
             # TODO: factorize and track with updatecli
