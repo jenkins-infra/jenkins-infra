@@ -249,16 +249,6 @@ profile::jenkinscontroller::jcasc:
               - webbuilder
               - ruby
             imagePullSecrets: dockerhub-credential
-          - name: jnlp
-            labels:
-              - default
-            cpus: 1
-            memory: 1
-            imagePullSecrets: dockerhub-credential
-            additionalPVCs:
-              - claimName: ci-jenkins-io-maven-cache-readwritemany
-                mountPath: "/cache-rw"
-                readOnly: false
       second-cluster:
         enabled: true
         provider: azure
