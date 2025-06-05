@@ -240,6 +240,19 @@ profile::jenkinscontroller::jcasc:
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
+          - name: jnlp-maven-21
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21
+              - jdk21
+            cpus: 4
+            memory: 8
+            imagePullSecrets: dockerhub-credential
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache-readwritemany
+                mountPath: "/cache-rw"
+                readOnly: false
           - name: jnlp-webbuilder
             agentJavaBin: java
             cpus: 2
