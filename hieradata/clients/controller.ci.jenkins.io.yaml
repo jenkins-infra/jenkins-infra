@@ -241,6 +241,9 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-21
               - jdk21
+              - jnlp
+              - default
+            useAsMuchAsPossible: true # Default template to use when `node() {}` step is called without labels
             cpus: 4
             memory: 12
             # TODO: factorize and track with updatecli
@@ -278,22 +281,6 @@ profile::jenkinscontroller::jcasc:
             labels:
               - packaging
               - jnlp-packaging
-            cpus: 1
-            memory: 1
-            # TODO: factorize and track with updatecli
-            nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
-          - name: jnlp
-            agentJavaBin: /opt/java/openjdk/bin/java
-            javaHome: /opt/java/openjdk
-            labels:
-              - default
-            useAsMuchAsPossible: true # Default template to sue when `node() {}` step is called without labels
             cpus: 1
             memory: 1
             # TODO: factorize and track with updatecli
