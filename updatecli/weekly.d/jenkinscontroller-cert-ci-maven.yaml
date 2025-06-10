@@ -13,87 +13,73 @@ scms:
       username: "{{ .github.username }}"
       branch: "{{ .github.branch }}"
 
-  gitMaven:
-    kind: "git"
-    spec:
-      url: "https://github.com/apache/maven.git"
-      branch: "master"
-
 sources:
   mavenVersion3-5:
     kind: gittag
     name: Get the latest Maven 3.5.x version
-    scmid: gitMaven
     spec:
+      url: https://github.com/apache/maven.git
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
         pattern: "^maven-3\\.5\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: '"'
-      - addsuffix: '"'
   mavenVersion3-6:
     kind: gittag
     name: Get the latest Maven 3.6.x version
-    scmid: gitMaven
     spec:
+      url: https://github.com/apache/maven.git
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
-        pattern: "^maven-3.6.(\\d*)$"
+        pattern: "^maven-3\\.6\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: '"'
-      - addsuffix: '"'
   mavenVersion3-8:
     kind: gittag
     name: Get the latest Maven 3.8.x version
-    scmid: gitMaven
     spec:
+      url: https://github.com/apache/maven.git
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
         pattern: "^maven-3\\.8\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: "\""
-      - addsuffix: "\""
   mavenVersion3-9:
     kind: gittag
     name: Get the latest Maven 3.9.x version
-    scmid: gitMaven
     spec:
+      url: https://github.com/apache/maven.git
       versionfilter:
         kind: regex
         # Only full releases (semver with "maven-" prefix")
         pattern: "^maven-3\\.9\\.(\\d*)$"
     transformers:
       - trimprefix: "maven-"
-      - addprefix: '"'
-      - addsuffix: '"'
 
 conditions:
   checkIfReleaseIsAvailable3-5:
-    kind: shell
+    kind: file
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-5` }}/binaries/apache-maven-{{ source `mavenVersion3-5` }}-bin.tar.gz
+      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-5` }}/binaries/apache-maven-{{ source `mavenVersion3-5` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-6:
-    kind: shell
+    kind: file
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-6` }}/binaries/apache-maven-{{ source `mavenVersion3-6` }}-bin.tar.gz
+      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-6` }}/binaries/apache-maven-{{ source `mavenVersion3-6` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-8:
-    kind: shell
+    kind: file
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-8` }}/binaries/apache-maven-{{ source `mavenVersion3-8` }}-bin.tar.gz
+      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-8` }}/binaries/apache-maven-{{ source `mavenVersion3-8` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-9:
-    kind: shell
+    kind: file
     disablesourceinput: true
     spec:
-      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-9` }}/binaries/apache-maven-{{ source `mavenVersion3-9` }}-bin.tar.gz
+      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-9` }}/binaries/apache-maven-{{ source `mavenVersion3-9` }}-bin.tar.gz
 
 targets:
   updateMaven3-5Version:
@@ -101,73 +87,42 @@ targets:
     sourceid: mavenVersion3-5
     kind: yaml
     spec:
+      engine: yamlpath
       file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
-      key: $.profile::jenkinscontroller::jcasc.tools.maven.'maven-3.5'.version
+      key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.5"].version
     scmid: default
   updateMaven3-6Version:
     name: Update the `Maven 3.6.x` version in the cert.ci.jenkins.io controller
     sourceid: mavenVersion3-6
     kind: yaml
     spec:
+      engine: yamlpath
       file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
-      key: $.profile::jenkinscontroller::jcasc.tools.maven.'maven-3.6'.version
+      key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.6"].version
     scmid: default
   updateMaven3-8Version:
     name: Update the `Maven 3.8.x` version in the cert.ci.jenkins.io controller
     sourceid: mavenVersion3-8
     kind: yaml
     spec:
+      engine: yamlpath
       file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
-      key: $.profile::jenkinscontroller::jcasc.tools.maven.'maven-3.8'.version
+      key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.8"].version
     scmid: default
   updateMaven3-9Version:
     name: Update the `Maven 3.9.x` version in the cert.ci.jenkins.io controller
     sourceid: mavenVersion3-9
     kind: yaml
     spec:
+      engine: yamlpath
       file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
-      key: $.profile::jenkinscontroller::jcasc.tools.maven.'maven-3.9'.version
+      key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.9"].version
     scmid: default
 
 actions:
-  updateMaven3-5PR:
+  updatemavenversions:
     kind: github/pullrequest
-    title: Bump Maven version 3.5.x (Jenkins tools) on cert.ci.jenkins.io controller to {{ source "mavenVersion3-5" }}
-    targets:
-      - updateMaven3-5Version
-    scmid: default
-    spec:
-      labels:
-        - enhancement
-        - maven
-
-  updateMaven3-6PR:
-    kind: github/pullrequest
-    title: Bump Maven version 3.6.x (Jenkins tools) on cert.ci.jenkins.io controller to {{ source "mavenVersion3-6" }}
-    targets:
-      - updateMaven3-6Version
-    scmid: default
-    spec:
-      labels:
-        - enhancement
-        - maven
-
-  updateMaven3-8PR:
-    kind: github/pullrequest
-    title: Bump Maven version 3.8.x (Jenkins tools) on cert.ci.jenkins.io controller to {{ source "mavenVersion3-8" }}
-    targets:
-      - updateMaven3-8Version
-    scmid: default
-    spec:
-      labels:
-        - enhancement
-        - maven
-
-  updateMaven3-9PR:
-    kind: github/pullrequest
-    title: Bump Maven version 3.9.x (Jenkins tools) on cert.ci.jenkins.io controller to {{ source "mavenVersion3-9" }}
-    targets:
-      - updateMaven3-9Version
+    title: Bump Maven version (Jenkins tools) on cert.ci.jenkins.io controller
     scmid: default
     spec:
       labels:
