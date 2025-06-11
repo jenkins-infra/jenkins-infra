@@ -224,11 +224,11 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
-      version: 2.46.0
+      version: 2.47.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.46.0@sha256:4d109ecf882a6cb029242479e0ae551269a7ef7c87a75f09ceacbcfcf6753cce
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.47.0@sha256:f4a40e12866a41eb2ac031c4a57ab07cb05348085bd3a395aaad1c00af88328a
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:e1ee20c213ae7e2b82868715e6ed08e9ab2cd82a39a9ed35625bae7ed7a523b6
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
@@ -236,7 +236,7 @@ profile::jenkinscontroller::jcasc:
     jdk11: 11.0.27+6
     jdk17: 17.0.15+6
     jdk21: 21.0.7+6
-    maven: 3.9.9
+    maven: 3.9.10
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
 ldap_admin_dn: "cn=admin,dc=example,dc=com"
@@ -280,7 +280,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 3.0.7
+profile::openvpn::image_tag: 3.0.8
 # TODO: track with updatecli
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
