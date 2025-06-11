@@ -105,7 +105,7 @@ profile::jenkinscontroller::jcasc:
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.10/bin
-        JAVA_HOME: /opt/jdk-17
+        JAVA_HOME: /opt/jdk-21
       toolLocation:
         - home: /home/jenkins/tools/apache-maven-3.9.10
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
@@ -260,7 +260,7 @@ profile::jenkinscontroller::jcasc:
                 readOnly: true
           - name: jnlp-webbuilder
             agentJavaBin: /opt/jdk-21/bin/java
-            javaHome: /opt/java/openjdk
+            javaHome: /opt/jdk-21/bin/java
             labels:
               - node
               - ruby
@@ -277,7 +277,7 @@ profile::jenkinscontroller::jcasc:
                 effect: "NoSchedule"
           - name: jnlp-packaging
             agentJavaBin: /opt/jdk-21
-            javaHome: /opt/jdk-17
+            javaHome: /opt/jdk-21
             labels:
               - packaging
               - jnlp-packaging
@@ -357,7 +357,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           - name: jnlp-maven-bom
             imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-17
+            javaHome: /opt/jdk-21
             labels:
               - maven-bom
             cpus: 4
@@ -442,7 +442,7 @@ profile::jenkinscontroller::jcasc:
           credentialsId: azureadmin
           usePrivateIP: true
         ####
-        # Linux VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
+        # Linux VMs jdk17
         - name: ubuntu-22-amd64-maven17
           description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -455,14 +455,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - ubuntu-22-amd64-maven17
-            # Labels indicating it is the default VM template
-            - linux
-            - docker
-            - ubuntu
-            - linux-amd64
-            - java
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
-            - ubuntu-22-amd64-maven17-nonspot
             - ubuntu-22-amd64-maven17-nonspot
             - spot
             - nonspot
@@ -471,6 +464,8 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: azureadmin
           usePrivateIP: true
+        ####
+        # Linux VMs jdk21 (default non-spot version for buildPlugin() / docker-*)
         - name: ubuntu-22-amd64-maven21
           description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -483,6 +478,12 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - ubuntu-22-amd64-maven21
+            # Labels indicating it is the default VM template
+            - linux
+            - docker
+            - ubuntu
+            - linux-amd64
+            - java
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
             - ubuntu-22-amd64-maven21-nonspot
             - spot
@@ -507,13 +508,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - ubuntu-22-amd64-highmem-maven17
-            # Labels indicating it is the default VM template
-            - highmem
-            - highram
-            - docker-highmem
-            - linux-amd64-big
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
-            - docker-highmem-nonspot
             - ubuntu-22-amd64-highmem-maven17-nonspot
             - spot
             - nonspot
@@ -534,7 +529,13 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - ubuntu-22-amd64-highmem-maven21
+            # Labels indicating it is the default VM template
+            - highmem
+            - highram
+            - docker-highmem
+            - linux-amd64-big
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - docker-highmem-nonspot
             - ubuntu-22-amd64-highmem-maven21-nonspot
             - spot
             - nonspot
@@ -559,10 +560,6 @@ profile::jenkinscontroller::jcasc:
           architecture: arm64
           labels:
             - ubuntu-22-arm64-maven17
-            # Labels indicating it is the default VM template for arm64
-            - arm64docker
-            - arm64linux
-            - linux-arm64
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
             - ubuntu-22-arm64-maven17-nonspot
             - spot
@@ -585,6 +582,10 @@ profile::jenkinscontroller::jcasc:
           architecture: arm64
           labels:
             - ubuntu-22-arm64-maven21
+            # Labels indicating it is the default VM template for arm64
+            - arm64docker
+            - arm64linux
+            - linux-arm64
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
             - ubuntu-22-arm64-maven21-nonspot
             - spot
@@ -657,11 +658,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven17
-            # Labels indicating it is the default VM template for Windows 2019 and Windows
-            - docker-windows
-            - docker-windows-2019
-            - win-2019
-            - win-2019-amd64-maven17
             # Used to be a Windows container (same label pattern as Kubernetes Agents)
             - maven-17-windows
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
@@ -685,6 +681,11 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven21
+            # Labels indicating it is the default VM template for Windows 2019 and Windows
+            - docker-windows
+            - docker-windows-2019
+            - win-2019
+            - win-2019-amd64-maven17
             # Used to be a Windows container (same label pattern as Kubernetes Agents)
             - maven-21-windows
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
@@ -710,15 +711,38 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2022-amd64-maven17
-            # Labels indicating it is the default VM template for Windows 2022
-            - docker-windows-2022
-            - win-2022
-            - win-2022-amd64-maven17
             # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
             - win-2022-amd64-maven17-nonspot
             - spot
             - nonspot
           javaHome: 'C:/tools/jdk-17'
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: azureadmin
+          usePrivateIP: true
+        ####
+        # Windows 2022 VMs jdk21 (default non-spot version for buildPlugin() / docker-*)
+        - name: win-2022-amd64-maven21 # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2022 Maven 21"
+          imageDefinition: jenkins-agent-windows-2022-amd64
+          os: windows
+          os_version: "2022"
+          launcher: inbound
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - win-2022-amd64-maven21
+            # Labels indicating it is the default VM template for Windows 2022
+            - docker-windows-2022
+            - win-2022
+            - win-2022-amd64-maven21
+            # Labels to support the "nonspot" usage used in retries (as current Azure subscription does not allow using spot)
+            - win-2022-amd64-maven21-nonspot
+            - spot
+            - nonspot
+          javaHome: 'C:/tools/jdk-21'
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: azureadmin
