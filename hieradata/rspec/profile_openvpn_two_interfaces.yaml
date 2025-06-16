@@ -7,7 +7,7 @@ profile::openvpn::networks:
     name: Private Network
     network_cidr: 192.168.100.0/24
     peered_network_cidrs:
-      - 10.0.0.0/16
+      peered_vnet: 10.0.0.0/16
 profile::openvpn::vpn_network:
   name: private
   cidr: 127.0.10.0/24

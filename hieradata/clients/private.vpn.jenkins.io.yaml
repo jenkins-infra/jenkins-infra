@@ -10,15 +10,16 @@ profile::openvpn::networks:
     route-metric: 200
     network_cidr: 10.248.1.0/24
     peered_network_cidrs:
-      - 10.244.0.0/14 # Access to the public-vnet network
-      - 10.200.0.0/14 # Access to the public-sponsorship vnet network
-      - 10.253.0.0/21 # Access to the public-db network
-      - 10.206.0.0/22 # Access to the infra-ci-sponsorship vnet network
-      - 10.252.8.0/21 # Access to the cert-ci-jenkins-io network
-      - 10.205.8.0/24 # Access to the cert-ci-jenkins-io-sponsorship network
-      - 10.252.0.0/21 # Access to the trusted-ci-jenkins-io network
-      - 10.204.0.0/24 # Access to the trusted-ci-jenkins-io-sponsorship network
-      - 10.240.0.0/14 # Access to the privatek8s-sponsorship network
+      private: 10.248.0.0/14
+      private-sponsorship: 10.240.0.0/14
+      public: 10.244.0.0/14
+      public-jenkins-sponsorship: 10.200.0.0/14
+      public-db: 10.253.0.0/21
+      infra-ci-jenkins-io-sponsorship: 10.206.0.0/22
+      cert-ci-jenkins-io: 10.252.8.0/21
+      cert-ci-jenkins-io-sponsorship: 10.205.8.0/24
+      trusted-ci-jenkins-io: 10.252.0.0/21
+      trusted-ci-jenkins-io-sponsorship: 10.204.0.0/24
 profile::openvpn::vpn_network:
   name: private
   # Abstract network
