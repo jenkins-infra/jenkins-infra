@@ -91,7 +91,7 @@ profile::updatecenter::rsync_privkey: >
   h7nb5jst5FP+k30uaXYiF0fJ0JtnvrflLg0XRDoJKCRwLhywrNLCO6UwA34F
   yhELTnLcIarOCyO2KKYf5WRC8XGvvlz70=]
 profile::buildagent::tools_versions:
-  awscli: 2.27.35
+  awscli: 2.27.36
 accounts:
   kevingrdj:
     ssh_keys:
