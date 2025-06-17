@@ -61,7 +61,7 @@ jenkins:
           # Prepare config
           Write-Output 'Executing agent process...'
           $configExec = '<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>'
-          $configArgs = '-jnlpUrl "{0}/computer/{1}/jenkins-agent.jnlp" -workDir {2}' -f $jenkinsserverurl, $agentName, $jenkinsWorkDir
+          $configArgs = '-url "{0}" -name {1} -workDir {2}' -f $jenkinsserverurl, $agentName, $jenkinsWorkDir
           if ($agentSecret) {
               $configArgs += " -secret `"$agentSecret`""
           }
@@ -128,7 +128,6 @@ jenkins:
             export AGENT_WORKDIR='<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>'
             export AGENT_JAR="^${AGENT_WORKDIR}/agent.jar"
             export AGENT_SECRETFILE="^${AGENT_WORKDIR}/agent-secret"
-            export AGENT_URL="^${JENKINS_URL}computer/^${AGENT_NAME}/jenkins-agent.jnlp"
             export JENKINS_JAVA_OPTS='<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>'
             <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
             export ARTIFACT_CACHING_PROXY_SERVERID='<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>'
@@ -148,7 +147,7 @@ jenkins:
             After=network.target
 
             [Service]
-            ExecStart=^${JENKINS_JAVA_BIN} ^${JENKINS_JAVA_OPTS} -jar ^${AGENT_JAR} -jnlpUrl ^${AGENT_URL} -secret @^${AGENT_SECRETFILE} -workDir ^${AGENT_WORKDIR}
+            ExecStart=^${JENKINS_JAVA_BIN} ^${JENKINS_JAVA_OPTS} -jar ^${AGENT_JAR} -url ^${JENKINS_URL} -secret @^${AGENT_SECRETFILE} -name ^${AGENT_NAME} -workDir ^${AGENT_WORKDIR}
             User=^${USER}
             WorkingDirectory=^${AGENT_WORKDIR}
             Restart=on-failure
