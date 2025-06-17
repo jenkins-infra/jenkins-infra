@@ -9,7 +9,7 @@ profile::openvpn::networks:
     route-metric: 200
     network_cidr: 192.168.0.10/24
     peered_network_cidrs:
-      - 10.1.0.0/16
+      another_vnet: 10.1.0.0/16
 profile::openvpn::vpn_network:
   name: default
   cidr: 10.8.0.0/24

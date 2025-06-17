@@ -134,7 +134,7 @@ class profile::openvpn (
     # A given NIC has a "main" CIDR (its network) but may also be used for routes to peered networks
     # If there are any peered network, then add a manual route
     if $network_setup['peered_network_cidrs'] and $network_setup['peered_network_cidrs'].length > 0 {
-      $network_setup['peered_network_cidrs'].each | $peered_net_cidr | {
+      $network_setup['peered_network_cidrs'].each | $peered_net_name, $peered_net_cidr | {
         # Remove the mask from CIDR to only keep the network Ipv4 (`10.0.0.0/24` returns `10.0.0.0`)
         $peered_network_ip  = split($peered_net_cidr, '/')[0]
         # Only get the 3 first digits of the IPv4 (`10.0.0.0` returns `10.0.0`)
@@ -153,17 +153,35 @@ class profile::openvpn (
         }
       }
     }
-
-    # The lambda filter is used to cleanup the array from empty element (when $network_setup['peered_network_cidrs'] is undefined)
-    $destinations_cidrs = ([$network_setup['network_cidr']] + $network_setup['peered_network_cidrs']).filter |$item| {
-      $item and $item.length > 0
-    }
-
     if $network_nic != 'eth0' {
+      # # The lambda filter is used to cleanup the array from empty element (when $network_setup['peered_network_cidrs'] is undefined)
+      # $destinations_cidrs = ({ 'network_cidr' => $network_setup['network_cidr'] } + $network_setup['peered_network_cidrs']).filter |$item| {
+      #   # Each set of (key + value) is available as the list $item = [key, value]
+      #   $item[0] and $item[0].length > 0
+      # }
+      # Allow routing from the VPN vnet to the physical network associated withg $network_nic
+      # Then add firewall rules to allow routing through networks using masquerading
+      firewall { "100 allow routing from ${vpn_network['cidr']} to network associated with NIC ${network_nic} (${network_setup['network_cidr']}) on ports 22/80/443/5432":
+        chain       => 'POSTROUTING',
+        jump        => 'MASQUERADE',
+        proto       => 'tcp',
+        outiface    => $network_nic,
+        source      => $vpn_network['cidr'],
+        dport       => [
+          22,   # Allow SSH
+          80,   # Allow HTTP
+          443,  # Allow HTTPS
+          5432, # Allow Postgres
+          3306, # Allow MySQL
+        ],
+        destination => $network_setup['network_cidr'],
+        table       => 'nat',
+      }
+
       # Allow routing from the VPN vnet to all the internal networks (excluding the main eth0 network)
-      $destinations_cidrs.each |$destination_cidr| {
+      $network_setup['peered_network_cidrs'].each |$peered_net_name, $peered_net_cidr| {
         # Then add firewall rules to allow routing through networks using masquerading
-        firewall { "100 allow routing from ${vpn_network['cidr']} to ${destination_cidr} on ports 22/80/443/5432":
+        firewall { "100 allow routing from ${vpn_network['cidr']} to peered network ${peered_net_name} (${peered_net_cidr}) on ports 22/80/443/5432":
           chain       => 'POSTROUTING',
           jump        => 'MASQUERADE',
           proto       => 'tcp',
@@ -176,7 +194,7 @@ class profile::openvpn (
             5432, # Allow Postgres to private networks
             3306, # Allow MySQL to private networks
           ],
-          destination => $destination_cidr,
+          destination => $peered_net_cidr,
           table       => 'nat',
         }
       }
