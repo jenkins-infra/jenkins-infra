@@ -22,14 +22,6 @@ jenkins:
           (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
           & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
 
-          # Setup Docker Engine
-          @'
-          {
-            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
-          }
-          '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
-          Restart-Service docker
-
           <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup inbound agent
           $jenkinsServerUrl = $args[0] # Always ends with a '/'
@@ -456,7 +448,7 @@ jenkins:
                 '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
 
                 # Restart docker engine
-                Restart-Service docker
+                
 
                 # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
                 Start-Service sshd
