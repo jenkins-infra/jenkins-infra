@@ -11,7 +11,7 @@ export PATH="${HOME}"/.bin:/usr/local/bin:"${PATH}"
 pushd "${base_dir}"
   {
     # Provider pattern file to mirror maintainers - https://github.com/jenkins-infra/helpdesk/issues/4681
-    echo "+ ${rsync_filter_file}"
+    echo "+ $(basename "${rsync_filter_file}")"
     # keep all the plugins
     echo '+ plugins/**'
     echo '+ art/**'
