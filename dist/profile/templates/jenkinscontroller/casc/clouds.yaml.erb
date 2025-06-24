@@ -179,7 +179,6 @@ jenkins:
         encryptionAtHost: true
         doNotUseMachineIfInitFails: true
         enableMSI: false
-        enableUAMI: false
         ephemeralOSDisk: "<%= agent['ephemeralOSDisk'] ? agent['ephemeralOSDisk'] : false %>"
         existingStorageAccountName: "<%= cloudsetup['storageAccount'] %>"
         storageAccountNameReferenceType: "existing"
@@ -214,6 +213,15 @@ jenkins:
         templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
         templateName: "<%= agent['name'] %>"
+      <%- if agent['userInstanceIdentity'] -%>
+        enableUAMI: true
+        uamiID: "<%= agent['userInstanceIdentity'] %>"
+      <%- elsif cloudsetup['userInstanceIdentity'] -%>
+        enableUAMI: true
+        uamiID: "<%= cloudsetup['userInstanceIdentity'] %>"
+      <%- else -%>
+        enableUAMI: false
+      <%- end -%>
         usageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
         virtualMachineSize: "<%= agent['instanceType'] %>"
         <%- if agent['maxInstances'] -%>
