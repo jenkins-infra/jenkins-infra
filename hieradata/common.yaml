@@ -288,7 +288,7 @@ profile::openvpn::external_ips_vpn_restricted:
   usage.jenkins.io: 52.204.62.78
   archives.jenkins.io: 46.101.121.132
   azure.ci.jenkins.io: 172.200.138.43
-  aws.ci.jenkins.io: 3.141.203.62
+  aws.ci.jenkins.io: 18.217.202.59
   eks_cijenkinsioagents2_1: 3.149.71.89
   eks_cijenkinsioagents2_2: 3.149.48.23
 apt::update:frequency: 'daily'
