@@ -198,6 +198,15 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "windows"
             os: "windows"
+      jdk25:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "linux && amd64"
+          windows-amd64:
+            type: "zip"
+            label: "windows"
+            os: "windows"
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'
@@ -241,6 +250,7 @@ profile::jenkinscontroller::jcasc:
     jdk11: 11.0.27+6
     jdk17: 17.0.15+6
     jdk21: 21.0.7+6
+    jdk25: 25+26-ea-beta
     maven: 3.9.10
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
