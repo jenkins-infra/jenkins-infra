@@ -223,6 +223,11 @@ profile::jenkinscontroller::jcasc:
       path: '/home/jenkins/.asdf/shims:/home/jenkins/.asdf/bin:/usr/local/sbin:/usr/local/bin:/usr/local/go/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin'
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
+    ec2_amis:
+      ubuntu-22.04-amd64: ami-0920ff4a67b9a4478
+      windows-2019-amd64: ami-0653ec80db4249c34
+      ubuntu-22.04-arm64: ami-0950e5d2baf56ed0f
+      windows-2022-amd64: ami-0f13d3b8bc443d75a
     azure_vms_gallery_image:
       version: 2.51.0
       subscription_id: 1311c09f-aee0-4d6c-99a4-392c2b543204

@@ -21,6 +21,62 @@ sources:
       repository: "packer-images"
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
+  getLatestUbuntuAgentAMIx86:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-22.04-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  getLatestUbuntuAgentAMIArm64:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-ubuntu-22.04-arm64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  getLatestWindows2019AgentAMIx86:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-windows-2019-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
+  getLatestWindows2022AgentAMIx86:
+    kind: aws/ami
+    dependson:
+      - packerImageVersion
+    spec:
+      region: us-east-2
+      sortby: creationDateDesc
+      filters:
+        - name: "name"
+          values: "jenkins-agent-windows-2022-amd64-*"
+        - name: "tag:build_type"
+          values: "prod"
+        - name: "tag:version"
+          values: '{{ source "packerImageVersion" }}'
 
   getLatestInboundAllInOneContainerImageX86:
     kind: dockerdigest
@@ -68,6 +124,38 @@ targets:
       key: $.profile::jenkinscontroller::jcasc.agent_images.container_images.jnlp-maven-all-in-one
     transformers:
       - addprefix: "jenkinsciinfra/jenkins-agent-ubuntu-22.04:"
+    scmid: default
+  setUbuntuAgentAMIx86:
+    sourceid: getLatestUbuntuAgentAMIx86
+    name: Set AMI ID for the Ubuntu x86 Image
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.'ubuntu-22.04-amd64'
+    scmid: default
+  setUbuntuAgentAMIArm64:
+    sourceid: getLatestUbuntuAgentAMIArm64
+    name: Set AMI ID for the Ubuntu x86 Image
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.'ubuntu-22.04-arm64'
+    scmid: default
+  setWindows2019AgentAMIx86:
+    sourceid: getLatestWindows2019AgentAMIx86
+    name: Set AMI ID for the Windows 2019 x86 Image
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2019-amd64
+    scmid: default
+  setWindows2022AgentAMIx86:
+    sourceid: getLatestWindows2022AgentAMIx86
+    name: Set AMI ID for the Windows 2019 x86 Image
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2022-amd64
     scmid: default
 
 actions:

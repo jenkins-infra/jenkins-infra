@@ -68,7 +68,6 @@ profile::jenkinscontroller::jcasc:
         sshKeysCredentialsId: "ec2-agent-ssh-2021-06"
         agent_definitions:
           - description: "Ubuntu 20.04 LTS datadog"
-            ami: ami-xxxxxx
             maxInstances: 1
             instanceType: T3Xlarge # 4 vCPUs / 16 Gb
             os: "ubuntu"
@@ -90,7 +89,6 @@ profile::jenkinscontroller::jcasc:
               - rm -f /etc/sudoers.d/90-cloud-init-users
           - description: "Windows 2022"
             maxInstances: 5
-            ami: ami-yyyyy
             instanceType: A1Xlarge # 4 vCPUs / 8 Gb
             os: "windows"
             os_version: "2022"

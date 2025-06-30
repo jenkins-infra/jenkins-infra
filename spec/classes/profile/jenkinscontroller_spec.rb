@@ -116,7 +116,7 @@ describe "profile::jenkinscontroller" do
       {
         :ci_fqdn => fqdn,
         :kubeconfigs => [{
-          :cluster_name => "aws_cluster",
+          :cluster_name => "cijenkinsio-agents-2",
           :cluster_url => "https://aws_cluster.url",
           :cluster_ca_data => "SuperSecretCAdata",
           :cluster_aws_region => "us-east-2",
@@ -140,7 +140,7 @@ describe "profile::jenkinscontroller" do
           "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
           "LANG=C.UTF-8",
           "PATH=/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-          "KUBECONFIG=/var/jenkins_kubeconfigs/aws_cluster.yml",
+          "KUBECONFIG=/var/jenkins_kubeconfigs/cijenkinsio-agents-2.yml",
         ],
       })
     end
