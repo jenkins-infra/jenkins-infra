@@ -756,13 +756,6 @@ profile::jenkinscontroller::jcasc:
       azure-aks-internal:
         name: Azure (AKS Internal) Artifact Caching Proxy
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
-  artifacts_manager:
-    type: s3
-    enable: false
-    region: us-east-2
-    credentialsId: aws-s3-artifact-manager
-    ## TODO: track with updatecli
-    storage_name: aws-ci-jenkins-io-artifacts
   datadog:
     host: "azure.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
