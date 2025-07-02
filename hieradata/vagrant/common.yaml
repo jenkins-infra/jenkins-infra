@@ -453,6 +453,9 @@ profile::jenkinscontroller::plugins:
   - matrix-auth
   - parallel-test-executor
   - pipeline-githubnotify-step
+  - pipeline-github # This plugin adds the following pipeline triggers: issueCommentTrigger, pullRequestReview
+  - pipeline-graph-analysis # Library plugin
+  - pipeline-graph-view # new generation pipeline view
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs

@@ -95,17 +95,18 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
-  # artifact_caching_proxy:
-  #   enabled: true
-  #   servers:
-  #     aws-internal:
-  #       name: AWS (Internal) Artifact Caching Proxy
-  #       # TODO: maintain with updatecli
-  #       url: http://k8s-artifact-artifact-f340ad86c3-70787fedaeca6b4d.elb.us-east-2.amazonaws.com:8080/
-  #     aws-eks-internal:
-  #       name: AWS (EKS Internal) Artifact Caching Proxy
-  #       # TODO: maintain with updatecli
-  #       url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
+  artifact_caching_proxy:
+    enabled: true
+    servers:
+      aws-internal:
+        name: AWS (Internal) Artifact Caching Proxy
+        # TODO: maintain with updatecli
+        # Note: ending slash is required
+        url: http://k8s-artifact-artifact-3d1949c260-a3739c22ffe2d924.elb.us-east-2.amazonaws.com:8080/
+      aws-eks-internal:
+        name: AWS (EKS Internal) Artifact Caching Proxy
+        # TODO: maintain with updatecli
+        url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   artifacts_manager:
     type: s3
     region: us-east-2
