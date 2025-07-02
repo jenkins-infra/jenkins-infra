@@ -133,7 +133,7 @@ profile::jenkinscontroller::jcasc:
   #     toolLocation:
   #       - home: /home/jenkins/tools/apache-maven-3.9.10
   #         key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
-  # cloud_agents:
+  cloud_agents:
   #   kubernetes:
   #     ci.jenkins.io-agents-2:
   #       enabled: true
@@ -295,45 +295,45 @@ profile::jenkinscontroller::jcasc:
   #             - claimName: ci-jenkins-io-maven-cache
   #               mountPath: "/cache"
   #               readOnly: true
-  #   ec2:
-  #     aws-us-east-2:
-  #       region: us-east-2
-  #       useInstanceProfileForCredentials: true
-  #       sshKeysCredentialsId: "ec2-agent-ssh"
-  #       associatePublicIp: false
-  #       # TODO: maintain with updatecli
-  #       securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
-  #       # TODO: maintain with updatecli
-  #       subnetId: "subnet-0138ee90cd53d58f7"
-  #       # TODO: maintain with updatecli
-    #       registryMirror: "k8s-hubmirro-hubmirro-477f7dfd76-9bbe4e560ee83036.elb.us-east-2.amazonaws.com:5000"
-  #       agent_definitions:
-  #         ####
-  #         # x86_64 Linux VMs
-  #         - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
-  #           maxInstances: 50
-  #           instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
-  #           os: "ubuntu"
-  #           os_version: "22.04"
-  #           ebsOptimized: true
-  #           architecture: "amd64"
-  #           javaHome: /opt/jdk-8
-  #           labels:
-  #             - ubuntu-22-amd64-maven8
-  #           spot: true
-  #           acpServerId: aws-internal
-  #         - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
-  #           maxInstances: 50
-  #           instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
-  #           os: "ubuntu"
-  #           os_version: "22.04"
-  #           ebsOptimized: true
-  #           architecture: "amd64"
-  #           javaHome: /opt/jdk-11
-  #           labels:
-  #             - ubuntu-22-amd64-maven11
-  #           spot: true
-  #           acpServerId: aws-internal
+    ec2:
+      aws-us-east-2:
+        region: us-east-2
+        useInstanceProfileForCredentials: true
+        sshKeysCredentialsId: "ec2-agent-ssh"
+        associatePublicIp: false
+        # TODO: maintain with updatecli
+        securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
+        # TODO: maintain with updatecli
+        subnetId: "subnet-00279b22fc0bb0997"
+        # TODO: maintain with updatecli
+        registryMirror: "k8s-hubmirro-hubmirro-477f7dfd76-9bbe4e560ee83036.elb.us-east-2.amazonaws.com:5000"
+        agent_definitions:
+          ####
+          # x86_64 Linux VMs
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-8
+            labels:
+              - ubuntu-22-amd64-maven8
+            spot: true
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-11
+            labels:
+              - ubuntu-22-amd64-maven11
+            spot: true
+            acpServerId: aws-internal
   #         ####
   #         # Linux VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
   #         - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
