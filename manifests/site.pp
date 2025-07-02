@@ -66,6 +66,10 @@ node 'controller.ci.jenkins.io' {
   include role::jenkins::controller
 }
 
+node 'aws.ci.jenkins.io' {
+  include role::jenkins::controller
+}
+
 node 'controller.cert.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',

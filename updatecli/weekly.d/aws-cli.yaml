@@ -35,6 +35,15 @@ targets:
       file: hieradata/clients/agent.trusted.ci.jenkins.io.yaml
       key: $.profile::buildagent::tools_versions.awscli
     scmid: default
+  # TODO uncomment to track aws-cli for ci.jio when migrated back to aws
+  # updateCIJIOAwsCliVersion:
+  #   name: Update the `aws-cli` version in the aws.ci.jenkins.io.yaml file
+  #   sourceid: lastReleaseVersion
+  #   kind: yaml
+  #   spec:
+  #     file: hieradata/clients/aws.ci.jenkins.io.yaml
+  #     key: $.profile::jenkinscontroller::tools_versions.awscli
+  #   scmid: default
   updateVagrantCommonBuildAgentAwsCliVersion:
     name: Update the `aws-cli` version in the vagrant common.yaml
     sourceid: lastReleaseVersion
