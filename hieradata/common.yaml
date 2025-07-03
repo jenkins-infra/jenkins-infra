@@ -285,7 +285,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 3.2.1
+profile::openvpn::image_tag: 3.2.2
 # TODO: track with updatecli from https://github.com/jenkins-infra/docker-openvpn/blob/main/config.yaml
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
@@ -296,5 +296,6 @@ profile::openvpn::external_ips_vpn_restricted:
   aws.ci.jenkins.io: 18.217.202.59
   eks_cijenkinsioagents2_1: 3.149.71.89
   eks_cijenkinsioagents2_2: 3.149.48.23
+  testissues.jenkins.io: 52.88.217.28
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
