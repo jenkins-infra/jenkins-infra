@@ -1,0 +1,30 @@
+<VirtualHost *:443>
+    ServerName {{ archives_legacy_fqdn }}
+    DocumentRoot {{ archives_dir }}
+
+    # SSL Configuration
+    SSLEngine on
+    SSLCertificateFile /etc/letsencrypt/live/{{ archives_legacy_fqdn }}/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/{{ archives_legacy_fqdn }}/privkey.pem
+
+    # Directory Options
+    <Directory {{ archives_dir }}>
+        Options FollowSymLinks MultiViews Indexes
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    # Log Configuration with rotation
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    CustomLog "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/{{ archives_legacy_fqdn }}/access.log.%Y%m%d%H%M%S {{ log_retention_seconds }}" combined
+    ErrorLog "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/{{ archives_legacy_fqdn }}/error.log.%Y%m%d%H%M%S {{ log_retention_seconds }}"
+
+    # Bandwidth limiting
+    BandwidthModule On
+    # Add bandwidth limits here as needed
+
+    # Security Headers
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    Header always set X-Frame-Options DENY
+    Header always set X-Content-Type-Options nosniff
+</VirtualHost>

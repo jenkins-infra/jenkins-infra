@@ -1,0 +1,35 @@
+---
+# Jenkins Infrastructure Site Playbook
+# This is the main entry point for all Jenkins infrastructure services
+
+- name: Display migration information
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Display migration information
+      ansible.builtin.debug:
+        msg: |
+          Jenkins Infrastructure Ansible Migration
+          =======================================
+
+          This playbook is part of the gradual migration from Puppet to Ansible.
+
+          Current services available:
+          - Archives server (archives.jenkins.io)
+
+          Usage:
+            ansible-playbook site.yml
+            ansible-playbook archives.yml
+
+# Import individual service playbooks
+- name: Configure archives server
+  import_playbook: archives.yml
+  tags: archives
+
+# Future services can be added here:
+# - import_playbook: census.yml
+#   tags: census
+# - import_playbook: usage.yml
+#   tags: usage
+# - import_playbook: pkg.yml
+#   tags: pkg

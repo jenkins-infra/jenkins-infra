@@ -1,0 +1,251 @@
+---
+# User Management
+- name: Create mirrorsync user
+  ansible.builtin.user:
+    name: mirrorsync
+    shell: /bin/bash
+    create_home: true
+    state: present
+  tags: users
+
+- name: Add www-data user to mirrorsync group
+  ansible.builtin.user:
+    name: www-data
+    groups: mirrorsync
+    append: true
+  tags: users
+
+- name: Create mirrorsync .ssh directory
+  ansible.builtin.file:
+    path: /home/mirrorsync/.ssh
+    state: directory
+    owner: mirrorsync
+    group: mirrorsync
+    mode: '0700'
+  tags: users
+
+- name: Configure SSH authorized keys for mirrorsync
+  ansible.posix.authorized_key:
+    user: mirrorsync
+    key: "{{ item.key }}"
+    key_options: "{{ item.options | default(omit) }}"
+    comment: "{{ item.comment | default(omit) }}"
+  loop: "{{ ssh_authorized_keys }}"
+  when: ssh_authorized_keys is defined and ssh_authorized_keys | length > 0
+  tags: users
+
+# Sudo Configuration
+- name: Configure sudo for mirrorsync user
+  ansible.builtin.copy:
+    dest: /etc/sudoers.d/mirrorsync
+    content: 'mirrorsync ALL=(ALL) NOPASSWD: /usr/bin/mirrorsync'
+    mode: '0440'
+    validate: 'visudo -cf %s'
+  tags: sudo
+
+# Package Installation
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - apache2
+      - libapache2-mod-bw
+      - rsync
+      - cron
+      - certbot
+      - python3-certbot-apache
+      - curl  # For testing
+    state: present
+    update_cache: true
+  tags: packages
+
+# Directory Structure
+- name: Create archives directory
+  ansible.builtin.file:
+    path: "{{ archives_dir }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0775'
+  tags: directories
+
+- name: Create Apache log directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0775'
+  loop:
+    - "/var/log/apache2/{{ archives_fqdn }}"
+    - "/var/log/apache2/{{ archives_legacy_fqdn }}"
+  tags: directories
+
+- name: Create mirrorsync log directory
+  ansible.builtin.file:
+    path: /var/log/mirrorsync
+    state: directory
+    owner: mirrorsync
+    group: mirrorsync
+    mode: '0770'
+  tags: directories
+
+# Apache Configuration
+- name: Enable Apache modules
+  community.general.apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - ssl
+    - rewrite
+    - proxy
+    - proxy_http
+    - status
+    - bw
+    - mime
+    - include
+    - headers
+  notify: Restart apache2
+  tags: apache
+
+- name: Configure Apache virtual hosts
+  ansible.builtin.template:
+    src: "{{ item.src }}"
+    dest: "/etc/apache2/sites-available/{{ item.dest }}"
+    owner: root
+    group: root
+    mode: '0644'
+  loop:
+    - { src: 'archives-ssl.conf.j2', dest: '{{ archives_fqdn }}-ssl.conf' }
+    - { src: 'archives-redirect.conf.j2', dest: '{{ archives_fqdn }}.conf' }
+    - { src: 'archives-legacy-ssl.conf.j2', dest: '{{ archives_legacy_fqdn }}-ssl.conf' }
+    - { src: 'archives-legacy-redirect.conf.j2', dest: '{{ archives_legacy_fqdn }}.conf' }
+  notify: Reload apache2
+  tags: apache
+
+- name: Configure Apache MIME types
+  ansible.builtin.template:
+    src: apache-mime-types.conf.j2
+    dest: /etc/apache2/conf-available/archives-mime-types.conf
+    owner: root
+    group: root
+    mode: '0644'
+  when: apache_mime_types is defined and (apache_mime_types.handlers or apache_mime_types.types or apache_mime_types.output_filters)
+  notify: Reload apache2
+  tags: apache
+
+- name: Enable Apache MIME types configuration
+  ansible.builtin.command: a2enconf archives-mime-types
+  register: a2enconf_result
+  changed_when: "'already enabled' not in a2enconf_result.stdout"
+  when: apache_mime_types is defined and (apache_mime_types.handlers or apache_mime_types.types or apache_mime_types.output_filters)
+  notify: Reload apache2
+  tags: apache
+
+- name: Enable Apache sites
+  ansible.builtin.command: a2ensite {{ item }}
+  loop:
+    - "{{ archives_fqdn }}-ssl"
+    - "{{ archives_fqdn }}"
+    - "{{ archives_legacy_fqdn }}-ssl"
+    - "{{ archives_legacy_fqdn }}"
+  register: a2ensite_result
+  changed_when: "'already enabled' not in a2ensite_result.stdout"
+  notify: Reload apache2
+  tags: apache
+
+# SSL Certificates
+- name: Obtain Let's Encrypt certificates
+  ansible.builtin.command: >
+    certbot certonly --apache --non-interactive --agree-tos
+    --email {{ letsencrypt_email }}
+    -d {{ item }}
+  loop:
+    - "{{ archives_fqdn }}"
+    - "{{ archives_legacy_fqdn }}"
+  register: certbot_result
+  changed_when: "'Certificate not yet due for renewal' not in certbot_result.stdout"
+  when:
+    - ansible_fqdn != 'localhost'
+    - deployment_environment == 'production'
+    - skip_ssl_certificates is not defined or not skip_ssl_certificates
+  tags: ssl
+
+# Rsync Configuration
+- name: Configure rsync daemon
+  ansible.builtin.template:
+    src: rsyncd.conf.j2
+    dest: /etc/rsyncd.conf
+    owner: root
+    group: root
+    mode: '0600'
+  notify: Restart rsync
+  tags: rsync
+
+- name: Create rsync MOTD file
+  ansible.builtin.copy:
+    src: jenkins.motd
+    dest: "{{ rsync_motd_file }}"
+    owner: root
+    group: root
+    mode: '0644'
+  tags: rsync
+
+# Mirror Synchronization Script
+- name: Create mirrorsync script
+  ansible.builtin.template:
+    src: mirrorsync.sh.j2
+    dest: /usr/bin/mirrorsync
+    owner: root
+    group: root
+    mode: '0755'
+  tags: sync
+
+- name: Configure cron job for mirror synchronization
+  ansible.builtin.cron:
+    name: "Mirror synchronization"
+    minute: "30"
+    job: "/usr/bin/mirrorsync"
+    user: mirrorsync
+    state: present
+  tags: sync
+
+# Firewall Configuration
+- name: Install ufw firewall
+  ansible.builtin.apt:
+    name: ufw
+    state: present
+    update_cache: true
+  tags: firewall
+
+- name: Configure firewall rules for web traffic
+  community.general.ufw:
+    rule: allow
+    port: "{{ item }}"
+    proto: tcp
+  loop:
+    - '80'
+    - '443'
+    - '873'
+  tags: firewall
+
+# Log Rotation Script
+- name: Create log compression script
+  ansible.builtin.copy:
+    src: compress-rotatelogs.sh
+    dest: /usr/local/bin/compress-rotatelogs.sh
+    owner: root
+    group: root
+    mode: '0755'
+  tags: logging
+
+# Services
+- name: Start and enable services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - apache2
+    - rsync
+    - cron
+  tags: services

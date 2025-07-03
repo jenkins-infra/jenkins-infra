@@ -1,0 +1,27 @@
+---
+# Host-specific variables for archives.do.jenkins.io
+# Migrated from hieradata/clients/archives.do.jenkins.io.yaml
+
+# Rsync Configuration - Allow access from everywhere
+rsync_hosts_allow:
+  - "0.0.0.0/0"
+  - "::/0"
+# TODO: Consider restricting to specific mirrors for security:
+#   - localhost
+#   - archives.jenkins.io
+#   - pkg.origin.jenkins.io
+#   - get.jenkins.io
+#   - 46.101.121.132 # archives.do.jenkins.io
+
+# Datadog Configuration
+datadog_host: "archives.do.jenkins.io"
+
+# Apache MIME Types Configuration
+apache_mime_types:
+  handlers:
+    type-map: 'var'
+  types:
+    'text/html': '.shtml'
+    'application/octet-stream': '.hpi .jpi'
+  output_filters:
+    INCLUDES: '.shtml'

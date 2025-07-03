@@ -12,7 +12,7 @@ log file = /var/log/rsyncd.log
 ignore nonreadable = yes
 dont compress   = *.gz *.tgz *.zip *.z *.Z *.rpm *.deb *.bz2
 port = 873
-motd file = <%= @rsync_motd_file %>
+motd file = {{ rsync_motd_file }}
 
 # Timeout in seconds
 timeout = 300
@@ -23,10 +23,10 @@ read only = true
 # Downloads will be possible if file permissions on the daemon side allow them
 write only = false
 
-<% unless @rsync_hosts_allow.empty? -%>
-hosts allow = <%= @rsync_hosts_allow.join(',') %>
-<% end -%>
+{% if rsync_hosts_allow | length > 0 %}
+hosts allow = {{ rsync_hosts_allow | join(',') }}
+{% endif %}
 
 [jenkins]
-path = <%= @archives_dir %>
+path = {{ archives_dir }}
 comment = "Jenkins Read-Only Mirror"

@@ -1,0 +1,59 @@
+---
+# Archives Server Configuration Variables
+
+# Domain Configuration
+archives_fqdn: "archives.jenkins.io"
+archives_legacy_fqdn: "archives.jenkins-ci.org"
+
+# Directory Paths
+archives_dir: "/srv/releases"
+rsync_motd_file: "/etc/jenkins.motd"
+
+# Mirror Configuration
+source_mirror_endpoint: "ftp-osl.osuosl.org"
+source_mirror_directory: "/jenkins/"
+
+# Rsync Configuration
+rsync_hosts_allow: []
+# Example:
+# rsync_hosts_allow:
+#   - "0.0.0.0/0"
+#   - "::/0"
+
+# SSH Keys for mirrorsync user
+ssh_authorized_keys: []
+# Example:
+# ssh_authorized_keys:
+#   - key: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQ..."
+#     comment: "deploy key"
+#   - key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAI..."
+#     comment: "admin key"
+
+# SSL Configuration
+letsencrypt_email: "infra@jenkins.io"
+deployment_environment: "{{ ansible_environment | default('development') }}"
+
+# Apache Configuration
+apache_owner: "www-data"
+apache_group: "www-data"
+
+# Log retention (in seconds)
+log_retention_seconds: 604800  # 7 days
+
+# Apache MIME types configuration
+apache_mime_types:
+  handlers: {}
+  types: {}
+  output_filters: {}
+# Example:
+# apache_mime_types:
+#   handlers:
+#     type-map: 'var'
+#   types:
+#     'text/html': '.shtml'
+#     'application/octet-stream': '.hpi .jpi'
+#   output_filters:
+#     INCLUDES: '.shtml'
+
+# Control flags
+skip_ssl_certificates: false

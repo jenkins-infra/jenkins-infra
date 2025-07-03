@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  role_name: archives
+  namespace: jenkins_infra
+  author: Jenkins Infrastructure Team
+  description: Configures Jenkins archives server with Apache, rsync, and mirror synchronization
+  company: Jenkins Project
+  license: MIT
+  min_ansible_version: "2.9"
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+  galaxy_tags:
+    - jenkins
+    - archives
+    - apache
+    - rsync
+    - mirror
+    - web
+
+dependencies: []
+
+collections:
+  - community.general
+  - ansible.posix

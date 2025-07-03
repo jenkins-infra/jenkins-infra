@@ -1,0 +1,50 @@
+---
+dependency:
+  name: galaxy
+  options:
+    requirements-file: requirements.yml
+driver:
+  name: docker
+platforms:
+  - name: archives-test
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    pre_build_image: true
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:rw
+    cgroupns_mode: host
+    command: "/lib/systemd/systemd"
+    tmpfs:
+      - /run
+      - /tmp
+    capabilities:
+      - SYS_ADMIN
+    exposed_ports:
+      - "80/tcp"
+      - "443/tcp" 
+      - "873/tcp"
+    published_ports:
+      - "0.0.0.0:8080:80/tcp"
+      - "0.0.0.0:8443:443/tcp"
+      - "0.0.0.0:8873:873/tcp"
+    groups:
+      - archives
+provisioner:
+  name: ansible
+  playbooks:
+    converge: converge.yml
+  inventory:
+    host_vars:
+      archives-test:
+        # Override for testing
+        archives_fqdn: "archives-test.local"
+        archives_legacy_fqdn: "archives-legacy-test.local"
+        letsencrypt_email: "test@example.com"
+        deployment_environment: "testing"
+        rsync_hosts_allow:
+          - "0.0.0.0/0"
+          - "::/0"
+        # Skip SSL certificates in testing
+        skip_ssl_certificates: true
+verifier:
+  name: testinfra 

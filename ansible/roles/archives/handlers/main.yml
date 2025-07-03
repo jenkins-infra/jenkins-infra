@@ -1,0 +1,15 @@
+---
+- name: Restart apache2
+  ansible.builtin.systemd:
+    name: apache2
+    state: restarted
+
+- name: Reload apache2
+  ansible.builtin.systemd:
+    name: apache2
+    state: reloaded
+
+- name: Restart rsync
+  ansible.builtin.systemd:
+    name: rsync
+    state: restarted

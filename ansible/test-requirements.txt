@@ -1,0 +1,7 @@
+# Testing dependencies for Jenkins Archives Ansible playbook
+molecule[docker]>=4.0.0
+testinfra>=6.0.0
+pytest>=6.0.0
+docker>=5.0.0
+paramiko>=2.7.0
+ansible-lint>=6.0.0

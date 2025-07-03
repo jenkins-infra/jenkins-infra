@@ -1,0 +1,14 @@
+<VirtualHost *:80>
+    ServerName {{ archives_legacy_fqdn }}
+    DocumentRoot {{ archives_dir }}
+
+    # Log Configuration with rotation
+    LogFormat "%h %l %u %t \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
+    CustomLog "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/{{ archives_legacy_fqdn }}/access_unsecured.log.%Y%m%d%H%M%S {{ log_retention_seconds }}" combined
+    ErrorLog "|/usr/bin/rotatelogs -p /usr/local/bin/compress-rotatelogs.sh -t /var/log/apache2/{{ archives_legacy_fqdn }}/error_unsecured.log.%Y%m%d%H%M%S {{ log_retention_seconds }}"
+
+    # Redirect all HTTP traffic to HTTPS
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+</VirtualHost>

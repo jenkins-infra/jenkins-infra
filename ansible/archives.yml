@@ -1,0 +1,6 @@
+---
+- name: Configure Jenkins Archives Server
+  hosts: archives
+  become: true
+  roles:
+    - archives
