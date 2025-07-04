@@ -375,6 +375,21 @@ profile::jenkinscontroller::jcasc:
               - docker
             spot: true
             acpServerId: aws-internal
+          - description: "Non Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - ubuntu-22-amd64-maven21-nonspot
+              # Note: we need to get rid of these labels from doc. and caller as they can be used either by spot or non spot
+              - linux-amd64
+              - docker
+            spot: false
+            acpServerId: aws-internal
           ####
           # arm64 Linux VMs
           - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
