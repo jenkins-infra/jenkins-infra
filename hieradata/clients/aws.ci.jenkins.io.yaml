@@ -105,6 +105,7 @@ profile::jenkinscontroller::jcasc:
         # TODO: maintain with updatecli
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   artifacts_manager:
+    enable: true
     type: s3
     region: us-east-2
     ## TODO: track with updatecli
