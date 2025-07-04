@@ -14,17 +14,14 @@ profile::jenkinscontroller::anonymous_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
-profile::jenkinscontroller::ci_fqdn: 'aws.ci.jenkins.io'
-profile::jenkinscontroller::ci_resource_domain: 'assets.aws.ci.jenkins.io'
-# uncomment during the effective migration
-# profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
-# profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
-# profile::jenkinscontroller::additional_fqdns:
-#   aws.ci.jenkins.io:
-#     isalias: true
-#   assets.aws.ci.jenkins.io:
-#     isalias: true
-#   ci.jenkins-ci.org: null
+profile::jenkinscontroller::ci_fqdn: 'ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.ci.jenkins.io'
+profile::jenkinscontroller::additional_fqdns:
+  aws.ci.jenkins.io:
+    isalias: true
+  assets.aws.ci.jenkins.io:
+    isalias: true
+  ci.jenkins-ci.org: null
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
 profile::jenkinscontroller::docker_tag: 'lts-jdk21'
@@ -116,30 +113,29 @@ profile::jenkinscontroller::jcasc:
     host: "aws.ci.jenkins.io"
     targetHost: "172.17.0.1" # docker0 interface
     collectBuildLogs: true
-  # permanent_agents:
-  #   s390x-agent:
-  #     remoteFS: /home/jenkins/agent
-  #     labels:
-  #       - s390x
-  #       - s390xdocker
-  #     mode: EXCLUSIVE
-  #     ssh:
-  #       host: "148.100.84.76"
-  #       credentialsId: "jenkins-s390x"
-  #       hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
-  #     envVars:
-  #       PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.10/bin
-  #       JAVA_HOME: /opt/jdk-21
-  #     toolLocation:
-  #       - home: /home/jenkins/tools/apache-maven-3.9.10
-  #         key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
+  permanent_agents:
+    s390x-agent:
+      remoteFS: /home/jenkins/agent
+      labels:
+        - s390x
+        - s390xdocker
+      mode: EXCLUSIVE
+      ssh:
+        host: "148.100.84.76"
+        credentialsId: "jenkins-s390x"
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
+      envVars:
+        PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.10/bin
+        JAVA_HOME: /opt/jdk-21
+      toolLocation:
+        - home: /home/jenkins/tools/apache-maven-3.9.10
+          key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
       ci.jenkins.io-agents-2:
         enabled: true
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
         # TODO: track with updatecli
-        # TODO: uncomment once validated with the BOM agents
         imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
         acpServerId: aws-eks-internal
         # TODO: track with updatecli
@@ -576,7 +572,6 @@ profile::jenkinscontroller::jcasc:
               - win-2022
             spot: true
             acpServerId: aws-internal
-# These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
   - artifact-manager-s3 # https://github.com/jenkins-infra/helpdesk/issues/4596
@@ -620,6 +615,7 @@ profile::jenkinscontroller::plugins:
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
 profile::jenkinscontroller::tools_versions:
+  # TODO: track with updatecli
   awscli: 2.26.0
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
