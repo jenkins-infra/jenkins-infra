@@ -285,7 +285,7 @@ limits:
     nofile:
       soft: "65536"
       hard: "65536"
-profile::openvpn::image_tag: 3.2.3
+profile::openvpn::image_tag: 3.2.6
 # TODO: track with updatecli from https://github.com/jenkins-infra/docker-openvpn/blob/main/config.yaml
 profile::openvpn::external_ips_vpn_restricted:
   pkg.origin.jenkins.io: 52.202.51.185
