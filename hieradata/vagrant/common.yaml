@@ -124,13 +124,6 @@ profile::jenkinscontroller::jcasc:
             label: "s390x"
             cpu_arch: "s390x"
             custom_url: "customurlS390X"
-          windows-amd64:
-            type: "zip"
-            label: "windows && amd64"
-            cpu_arch: "x64"
-            # Test an EA version - https://github.com/adoptium/temurin/issues/6
-            version: 25+29-ea-beta
-            custom_url: "customurlwindows"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
