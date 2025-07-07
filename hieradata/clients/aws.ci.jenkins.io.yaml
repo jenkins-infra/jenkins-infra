@@ -95,6 +95,26 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "s390x"
             cpu_arch: "s390x"
+      jdk25:
+        installers:
+          linux-amd64:
+            type: "zip"
+            label: "linux-amd64 && amd64"
+            cpu_arch: "x64"
+            # TODO: track with updatecli
+            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_x64_linux_hotspot_25_30-ea.tar.gz
+          linux-arm64:
+            type: "zip"
+            label: "linux-arm64 && arm64"
+            cpu_arch: "aarch64"
+            # TODO: track with updatecli
+            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_aarch64_linux_hotspot_25_30-ea.tar.gz
+          s390x:
+            type: "zip"
+            label: "s390x"
+            cpu_arch: "s390x"
+            # TODO: track with updatecli
+            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_s390x_linux_hotspot_25_30-ea.tar.gz
   artifact_caching_proxy:
     enabled: true
     servers:
