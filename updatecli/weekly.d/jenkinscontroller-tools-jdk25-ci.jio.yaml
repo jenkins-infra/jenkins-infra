@@ -67,7 +67,7 @@ targets:
     spec:
       files:
         - hieradata/vagrant/common.yaml
-        - hieradata/clients/controller.ci.jenkins.io.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-amd64.custom_url
     scmid: default
   setjdk25Version-linux-arm64:
@@ -77,7 +77,7 @@ targets:
     spec:
       files:
         - hieradata/vagrant/common.yaml
-        - hieradata/clients/controller.ci.jenkins.io.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-arm64.custom_url
     scmid: default
   setjdk25Version-linux-s390x:
@@ -87,7 +87,7 @@ targets:
     spec:
       files:
         - hieradata/vagrant/common.yaml
-        - hieradata/clients/controller.ci.jenkins.io.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.s390x.custom_url
     scmid: default
 
