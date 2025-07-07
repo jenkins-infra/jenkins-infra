@@ -46,6 +46,10 @@ sources:
       architecture: s390x
       operatingsystem: linux
       result: installer_url
+  getSubDir:
+    kind: shell
+    spec:
+      command: bash ./updatecli/scripts/jdk-subdir.sh {{ source "lastRelease-URL-linux-amd64" }}
 
 conditions:
   bumpAllorNone:
@@ -70,6 +74,16 @@ targets:
         - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-amd64.custom_url
     scmid: default
+  setjdk25Subdir-linux-amd64:
+    name: "Bump jdk25 subdir on tools for linux-amd64"
+    sourceid: getSubDir
+    kind: yaml
+    spec:
+      files:
+        - hieradata/vagrant/common.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-amd64.subdir
+    scmid: default
   setjdk25Version-linux-arm64:
     name: "Bump jdk25 version on tools for linux-arm64"
     sourceid: lastRelease-URL-linux-arm64
@@ -80,6 +94,16 @@ targets:
         - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-arm64.custom_url
     scmid: default
+  setjdk25Subdir-linux-arm64:
+    name: "Bump jdk25 subdir on tools for linux-arm64"
+    sourceid: getSubDir
+    kind: yaml
+    spec:
+      files:
+        - hieradata/vagrant/common.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.linux-arm64.subdir
+    scmid: default
   setjdk25Version-linux-s390x:
     name: "Bump jdk25 version on tools for linux-s390x"
     sourceid: lastRelease-URL-linux-s390x
@@ -89,6 +113,16 @@ targets:
         - hieradata/vagrant/common.yaml
         - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.s390x.custom_url
+    scmid: default
+  setjdk25Subdir-linux-s390x:
+    name: "Bump jdk25 subdir on tools for linux-s390x"
+    sourceid: getSubDir
+    kind: yaml
+    spec:
+      files:
+        - hieradata/vagrant/common.yaml
+        - hieradata/clients/aws.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools.jdk.jdk25.installers.s390x.subdir
     scmid: default
 
 actions:
