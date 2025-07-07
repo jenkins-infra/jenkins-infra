@@ -97,18 +97,17 @@ profile::jenkinscontroller::jcasc:
     servers:
       aws-internal:
         name: AWS (Internal) Artifact Caching Proxy
-        # TODO: maintain with updatecli
+        # TODO: maintain with updatecli from jenkins-infra/kubernetes-management
         # Note: ending slash is required
         url: http://k8s-artifact-artifact-3d1949c260-a3739c22ffe2d924.elb.us-east-2.amazonaws.com:8080/
       aws-eks-internal:
         name: AWS (EKS Internal) Artifact Caching Proxy
-        # TODO: maintain with updatecli
+        # TODO: maintain with updatecli from jenkins-infra/kubernetes-management
         url: http://artifact-caching-proxy.artifact-caching-proxy.svc.cluster.local:8080/
   artifacts_manager:
     enable: true
     type: s3
     region: us-east-2
-    ## TODO: track with updatecli
     storage_name: aws-ci-jenkins-io-artifacts
   datadog:
     host: "aws.ci.jenkins.io"
@@ -136,12 +135,13 @@ profile::jenkinscontroller::jcasc:
       ci.jenkins.io-agents-2:
         enabled: true
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
-        # TODO: track with updatecli
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
         imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
         acpServerId: aws-eks-internal
-        # TODO: track with updatecli
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
         defaultNamespace: jenkins-agents
-        max_capacity: 150 # TODO: Re-evaluate and setup updatecli
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+        max_capacity: 150
         agent_definitions:
           - name: jnlp-maven-8
             imageName: jnlp-maven-all-in-one
@@ -151,9 +151,9 @@ profile::jenkinscontroller::jcasc:
               - jdk8
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -171,9 +171,9 @@ profile::jenkinscontroller::jcasc:
               - jdk11
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -191,9 +191,9 @@ profile::jenkinscontroller::jcasc:
               - jdk17
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -214,9 +214,9 @@ profile::jenkinscontroller::jcasc:
             useAsMuchAsPossible: true # Default template to use when `node() {}` step is called without labels
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -235,9 +235,9 @@ profile::jenkinscontroller::jcasc:
               - webbuilder
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -251,9 +251,9 @@ profile::jenkinscontroller::jcasc:
               - jnlp-packaging
             cpus: 1
             memory: 1
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
@@ -277,9 +277,9 @@ profile::jenkinscontroller::jcasc:
               - maven-bom
             cpus: 4
             memory: 12
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             nodeSelector: "role=jenkins-agents-bom"
-            # TODO: factorize and track with updatecli
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
             tolerations:
               - key: "ci.jenkins.io/agents"
                 operator: "Equal"
