@@ -1,5 +1,5 @@
 ---
-name: Bump configuration of the Maven cache volumes for aws.ci.jenkins.io
+name: Update ci.jenkins.io hieradata configuration
 
 scms:
   default:
@@ -14,6 +14,12 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
+  artifactManagerBucketName:
+    kind: json
+    spec:
+      file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+      key: .aws\.ci\.jenkins\.io.artifacts_manager.s3_bucket_name
+
   containerAgentsBOMVolume:
     kind: json
     spec:
@@ -27,6 +33,15 @@ sources:
       key: .aws\.ci\.jenkins\.io.cijenkinsio-agents-2.maven_cache_pvcs.jenkins-agents
 
 targets:
+  setArtifactManagerBucketName:
+    name: Set the S3 Bucket name of the artifact-manager-s3
+    sourceid: artifactManagerBucketName
+    kind: yaml
+    spec:
+      file: hieradata/clients/aws.ci.jenkins.io.yaml
+      engine: yamlpath
+      key: $.profile::jenkinscontroller::jcasc.artifacts_manager.storage_name
+    scmid: default
   setContainerAgentsBOMVolume:
     name: Set the PVC name for the Maven Cache in jenkins-agents-bom container agents
     sourceid: containerAgentsBOMVolume
@@ -49,8 +64,9 @@ targets:
 actions:
   default:
     kind: github/pullrequest
+    title: Update ci.jenkins.io hieradata configuration
     scmid: default
     spec:
       labels:
+        - enhancement
         - ci.jenkins.io
-        - maven_cache

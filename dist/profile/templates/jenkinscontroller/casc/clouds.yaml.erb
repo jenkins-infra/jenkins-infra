@@ -278,8 +278,7 @@ jenkins:
         description: "<%= agent['description'] %>"
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: "<%= agent['ebsOptimized'] ? "true" : "false" %>"
-        # TODO: allow customization
-        hostKeyVerificationStrategy: ACCEPT_NEW
+        hostKeyVerificationStrategy: "<%= $os == 'windows' ? "CHECK_NEW_SOFT" : "CHECK_NEW_HARD" %>"
         idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : -5 %>"
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
