@@ -68,6 +68,8 @@ targets:
     name: Update Docker Image tag for jenkinsciinfra/openvpn
     kind: yaml
     sourceid: latestVersion
+    dependson:
+    - updateNetworkNetworks
     spec:
       file: hieradata/common.yaml
       key: $.profile::openvpn::image_tag
