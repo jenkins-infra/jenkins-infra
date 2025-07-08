@@ -18,7 +18,6 @@ profile::openvpn::networks:
       private-sponsorship: 10.240.0.0/14
       public: 10.244.0.0/14
       public-db: 10.253.0.0/21
-      public-jenkins-sponsorship: 10.200.0.0/14
       trusted-ci-jenkins-io: 10.252.0.0/21
       trusted-ci-jenkins-io-sponsorship: 10.204.0.0/24
 profile::openvpn::vpn_network:
