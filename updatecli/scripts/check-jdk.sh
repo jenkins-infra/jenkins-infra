@@ -29,6 +29,10 @@ function get_jdk_download_url() {
       ## JDK21 URLs have an underscore ('_') instead of a plus ('+') in their archive names
       echo "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-${jdk_version}/OpenJDK21U-jdk_${platform}_hotspot_${jdk_version//+/_}";
       return 0;;
+    25*)
+      ## JDK25 URLs have an underscore ('_') instead of a plus ('+') in their archive names and got -beta to remove `25%2B26-ea-beta`
+      echo "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-${jdk_version}/OpenJDK-jdk_${platform}_hotspot_${jdk_version//+/_}.tar.gz" | sed 's/-beta//g';
+      return 0;;
     *)
       echo "ERROR: unsupported JDK version (${jdk_version}).";
       exit 1;;
@@ -44,6 +48,8 @@ case "${1}" in
   17.*+*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux" "s390x_linux");;
   21*+*)
+    platforms=("x64_linux" "x64_windows" "aarch64_linux");;
+  25*+*)
     platforms=("x64_linux" "x64_windows" "aarch64_linux");;
   *)
     echo "ERROR: unsupported JDK version (${1}).";
