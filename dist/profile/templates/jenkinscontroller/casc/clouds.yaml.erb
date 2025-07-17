@@ -348,6 +348,11 @@ jenkins:
         - name: "os"
           value: "<%= $os %>"
         tenancy: Default
+        <%- if $os == 'windows' -%>
+        # Double Backslash is required for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH
+        # And JCasc needs 2 backslashes for a literal backslash.
+        tmpDir: "C:\\\\Windows\\\\Temp\\\\"
+        <%- end -%>
         type: <%= agent['instanceType'] %>
         useEphemeralDevices: true
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
