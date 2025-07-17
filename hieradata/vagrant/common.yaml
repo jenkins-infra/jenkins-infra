@@ -202,6 +202,7 @@ profile::jenkinscontroller::jcasc:
             ebsOptimized: true
             architecture: "amd64"
             agentDir: 'Z:/jenkins'
+            tempDir: 'Z:/Temp'
             labels:
               - docker-windows-2022
               - win-2022

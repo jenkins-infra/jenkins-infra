@@ -296,7 +296,7 @@ jenkins:
         <%- end -%>
         instanceCapStr: "<%= agent['maxInstances'] %>"
         javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
-        jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
+        jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %> -Djava.io.tmpdir=<%= $tempDir %>"
         labelString: "<%= $os == 'ubuntu' ? 'ubuntu linux' : 'windows' %> <%= $os + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['spot'] ? 'spot' : 'nonspot' %> <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
         maxTotalUses: 1 # Throw away the VMs after a build: ephemeral machines
@@ -348,13 +348,6 @@ jenkins:
         - name: "os"
           value: "<%= $os %>"
         tenancy: Default
-        <%- if $os == 'windows' -%>
-        # Double Backslash is required for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH
-        # And JCasc needs 2 backslashes for a literal backslash.
-        tmpDir: "<%= $tempDir.gsub('/', '\\\\\\\\\\\\\\\\') %>" <%# Inside ERB instructions, a literal backslash is expressed using 4 backslashes %>
-        <%- else -%>
-        tmpDir: "<%= $tempDir %>"
-        <%- end -%>
         type: <%= agent['instanceType'] %>
         useEphemeralDevices: true
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
