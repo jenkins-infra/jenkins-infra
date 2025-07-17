@@ -128,7 +128,7 @@ profile::jenkinscontroller::jcasc:
             label: "windows"
             os: "windows"
             custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B25-ea-beta/OpenJDK-jdk_x64_windows_hotspot_25_25-ea.zip
-            subdir: "jdk-26+1 3"
+            subdir: "jdk-26+1"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
@@ -490,7 +490,7 @@ profile::jenkinscontroller::plugins:
   - timestamper
   - toolenv
   - warnings-ng
-  - workflow-multibranch
+  - workflow-aggregator
 profile::buildagent::tools_versions:
   awscli: 2.27.53
 profile::jenkinscontroller::tools_versions:
