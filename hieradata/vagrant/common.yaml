@@ -123,6 +123,12 @@ profile::jenkinscontroller::jcasc:
             cpu_arch: "s390x"
             custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_s390x_linux_hotspot_25_30-ea.tar.gz
             subdir: jdk-25+30
+          windows-amd64:
+            type: "zip"
+            label: "windows"
+            os: "windows"
+            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B25-ea-beta/OpenJDK-jdk_x64_windows_hotspot_25_25-ea.zip
+            subdir: "jdk-26+1"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
@@ -485,7 +491,7 @@ profile::jenkinscontroller::plugins:
   - timestamper
   - toolenv
   - warnings-ng
-  - workflow-multibranch
+  - workflow-aggregator
 profile::buildagent::tools_versions:
   awscli: 2.27.53
 profile::jenkinscontroller::tools_versions:
