@@ -664,36 +664,6 @@ profile::jenkinscontroller::jcasc:
               - win-2022
             spot: true
             acpServerId: aws-internal
-          - description: "Spot Windows 2022 x86_64 with JDK21"
-            maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2022"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-21'
-            # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
-            labels:
-              - win-2022-amd64-maven-21
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Windows 2022 x86_64 with JDK25"
-            maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2022"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-25'
-            # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
-            labels:
-              - win-2022-amd64-maven-25
-            spot: true
-            acpServerId: aws-internal
           - description: "Windows Infra Test"
             maxInstances: 5
             instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
