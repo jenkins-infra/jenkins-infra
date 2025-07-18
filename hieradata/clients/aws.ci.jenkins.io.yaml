@@ -418,6 +418,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           ####
           # arm64 Linux VMs
+          ####
           - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
             maxInstances: 50
             instanceType: T4gXlarge # 4 vCPUs / 16 Gb
@@ -543,8 +544,6 @@ profile::jenkinscontroller::jcasc:
               - maven-11-windows
             spot: true
             acpServerId: aws-internal
-          ####
-          # Windows VMs jdk17 (default non-spot version for buildPlugin() / docker-*)
           - description: "Spot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
             instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
@@ -612,6 +611,33 @@ profile::jenkinscontroller::jcasc:
               # Labels indicating it is the default VM template for Windows 2022 (but not windows)
               - docker-windows-2022
               - win-2022
+            spot: true
+            acpServerId: aws-internal
+          - description: "Windows Infra Test"
+            maxInstances: 5
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-21'
+            # Utilizes the local NVMe mounted in Z:
+            agentDir: 'Z:/jenkins'
+            tempDir: 'Z:/Temp'
+            labels:
+              - infratest-windows
+            spot: true
+            acpServerId: aws-internal
+          - description: "Ubuntu Infra Test"
+            maxInstances: 5
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-21
+            labels:
+              - infratest-ubuntu
             spot: true
             acpServerId: aws-internal
 profile::jenkinscontroller::plugins:
