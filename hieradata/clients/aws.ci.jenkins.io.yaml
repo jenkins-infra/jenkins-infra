@@ -416,6 +416,18 @@ profile::jenkinscontroller::jcasc:
               - docker
             spot: false
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-25
+            labels:
+              - ubuntu-22-amd64-maven25
+            spot: true
+            acpServerId: aws-internal
           ####
           # arm64 Linux VMs
           ####
@@ -447,6 +459,18 @@ profile::jenkinscontroller::jcasc:
               - linux-arm64
             spot: true
             acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK25 set as default java CLI"
+            maxInstances: 50
+            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "arm64"
+            javaHome: /opt/jdk-25
+            labels:
+              - ubuntu-22-arm64-maven25
+            spot: true
+            acpServerId: aws-internal
           ####
           # High Memory Linux VMs
           ####
@@ -472,7 +496,6 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - docker-highmem
               - ubuntu-22-amd64-highmem-maven17
             spot: true
             acpServerId: aws-internal
@@ -506,6 +529,18 @@ profile::jenkinscontroller::jcasc:
               # Labels indicating it is the default VM template (for arm64)
               - docker-highmem-nonspot
             spot: false
+            acpServerId: aws-internal
+          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK25 set as default java CLI"
+            maxInstances: 50
+            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            os: "ubuntu"
+            os_version: "22.04"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: /opt/jdk-25
+            labels:
+              - ubuntu-22-amd64-highmem-maven25
+            spot: true
             acpServerId: aws-internal
           ####
           # Windows VMs
@@ -595,6 +630,22 @@ profile::jenkinscontroller::jcasc:
               - win-2019
             spot: true
             acpServerId: aws-internal
+          - description: "Spot Windows 2019 x86_64 with JDK25"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-25'
+            # Utilizes the local NVMe mounted in Z:
+            agentDir: 'Z:/jenkins'
+            tempDir: 'Z:/Temp'
+            labels:
+              - win-2019-amd64-maven-25
+              - maven-25-windows
+            spot: true
+            acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK17"
             maxInstances: 50
             instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
@@ -607,10 +658,40 @@ profile::jenkinscontroller::jcasc:
             agentDir: 'Z:/jenkins'
             tempDir: 'Z:/Temp'
             labels:
-              - win-2022-amd64-maven-11
+              - win-2022-amd64-maven-17
               # Labels indicating it is the default VM template for Windows 2022 (but not windows)
               - docker-windows-2022
               - win-2022
+            spot: true
+            acpServerId: aws-internal
+          - description: "Spot Windows 2022 x86_64 with JDK21"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2022"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-21'
+            # Utilizes the local NVMe mounted in Z:
+            agentDir: 'Z:/jenkins'
+            tempDir: 'Z:/Temp'
+            labels:
+              - win-2022-amd64-maven-21
+            spot: true
+            acpServerId: aws-internal
+          - description: "Spot Windows 2022 x86_64 with JDK25"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2022"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-25'
+            # Utilizes the local NVMe mounted in Z:
+            agentDir: 'Z:/jenkins'
+            tempDir: 'Z:/Temp'
+            labels:
+              - win-2022-amd64-maven-25
             spot: true
             acpServerId: aws-internal
           - description: "Windows Infra Test"
