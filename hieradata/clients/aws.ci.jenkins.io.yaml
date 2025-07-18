@@ -472,7 +472,6 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: /opt/jdk-17
             labels:
-              - docker-highmem
               - ubuntu-22-amd64-highmem-maven17
             spot: true
             acpServerId: aws-internal
@@ -607,7 +606,7 @@ profile::jenkinscontroller::jcasc:
             agentDir: 'Z:/jenkins'
             tempDir: 'Z:/Temp'
             labels:
-              - win-2022-amd64-maven-11
+              - win-2022-amd64-maven-17
               # Labels indicating it is the default VM template for Windows 2022 (but not windows)
               - docker-windows-2022
               - win-2022
