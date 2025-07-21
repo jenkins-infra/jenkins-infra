@@ -255,6 +255,26 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache
                 mountPath: "/cache"
                 readOnly: true
+          - name: jnlp-maven-25
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-25
+            labels:
+              - maven-25
+              - jdk25
+            cpus: 4
+            memory: 12
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            nodeSelector: "role=jenkins-agents"
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
           - name: jnlp-webbuilder
             agentJavaBin: /opt/jdk-21/bin/java
             javaHome: /opt/jdk-21/bin/java
