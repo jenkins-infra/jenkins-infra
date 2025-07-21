@@ -21,6 +21,8 @@ sources:
       owner: Azure
       repository: azure-storage-azcopy
       token: "{{ requiredEnv .github.token }}"
+      versionFilter:
+        kind: semver
     transformers:
       - trimprefix: v
 
