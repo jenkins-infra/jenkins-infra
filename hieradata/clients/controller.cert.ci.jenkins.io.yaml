@@ -121,16 +121,23 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     azure_vm_agents:
       clouds:
-        azure-vms-jenkins-sponsorship:
-          azureCredentialsId: azure-jenkins-sponsorship-managed-identity # Managed manually and identity base for the cert.ci VM
+        azure-vms-jenkins-cdf:
+          azureCredentialsId: azure-jenkins-cdf-managed-identity # Managed manually
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           resourceGroup: cert-ci-jenkins-io-ephemeral-agents
-          maxInstances: 50 # Mandatory to set otherwise it's 10 by default. Worst case: 50 of 8 vCPUS = 400 which is the maximum quota
-          virtualNetworkName: cert-ci-jenkins-io-sponsorship-vnet
-          virtualNetworkResourceGroupName: cert-ci-jenkins-io-sponsorship
-          subnetName: cert-ci-jenkins-io-sponsorship-vnet-ephemeral-agents
+          maxInstances: 50
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
+          virtualNetworkName: cert-ci-jenkins-io-vnet
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
+          virtualNetworkResourceGroupName: cert-ci-jenkins-io
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
+          subnetName: cert-ci-jenkins-io-vnet-ephemeral-agents
+          # TODO: enable Spot after implementing retries to ondemand
           disableSpot: true # Not enough quota available
-          storageAccount: ENC[PKCS7,MIIBeQYJKoZIhvcNAQcDoIIBajCCAWYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAHnSCgxZHR7PGhJROKv6Y5r2HJupg+Mi9UBCfMm0wL60+8jfvI35sKcc8qQVJTJLtTiSudf9YyG43we03L3JrNpw6HOIi4tnjQlNtPzoIfN47cY9UmAHuhiLIaQM3x8f2wm/Gf4+2VPZP+YoF2ye8Aa5Y9NKbu6sTd2sYEa/LkBslYIafQbLkud1zCW0iWolnSZad6CxPIGP/s0a9vOhQfeEbxbvfiQq2NelhOP499AjQpmbQd1mnzruUB5xp3yll3eEmPl5zzWSzcfrU9od3ZsBCHK5ag3hm8wMDLns4RnFM35UZGBXRsVaS2HNtaHeZNzJL9YhCdhwWgWQc/bN6gzA8BgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBnRt4ORJZ+RrwhVTTG2OlQgBA3r788oLc+SZ7UK0e5AAFH]
-          userInstanceIdentity: '/subscriptions/1311c09f-aee0-4d6c-99a4-392c2b543204/resourceGroups/cert-ci-jenkins-io-controller/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents-sponsorship'
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
+          storageAccount: certcijenkinsioagents
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
+          userInstanceIdentity: '/subscriptions/dff2ec18-6a8e-405c-8e45-b7df7465acf0/resourceGroups/cert-ci-jenkins-io/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents'
       agent_definitions:
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"

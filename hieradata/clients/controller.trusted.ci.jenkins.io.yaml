@@ -89,20 +89,20 @@ profile::jenkinscontroller::jcasc:
       clouds:
         azure-vms-jenkins-cdf:
           azureCredentialsId: azure-jenkins-cdf-managed-identity # Managed manually
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           resourceGroup: trusted-ci-jenkins-io-ephemeral-agents
           maxInstances: 50
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           virtualNetworkName: trusted-ci-jenkins-io-vnet
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           virtualNetworkResourceGroupName: trusted-ci-jenkins-io
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           subnetName: trusted-ci-jenkins-io-vnet-ephemeral-agents
           # TODO: enable Spot after implementing retries to ondemand
           disableSpot: true # Not enough quota available
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           storageAccount: trustedcijenkinsioagents
-          # TODO: track with updatecli from jenkins-infra/azure (or its report)
+          # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           userInstanceIdentity: '/subscriptions/dff2ec18-6a8e-405c-8e45-b7df7465acf0/resourceGroups/jenkinsinfra-trusted-ci-controller/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents'
       agent_definitions:
         - name: "ubuntu-22-amd64-maven-11"
