@@ -144,7 +144,7 @@ class profile::openvpn (
         $gateway = "${network_prefix}.1"
         exec { "addroute ${peered_network_prefix}.0 through ${gateway} (NIC ${network_nic})":
           command => "ip route add ${peered_net_cidr} via ${gateway} dev ${network_nic}",
-          unless  => "route | grep ${peered_network_prefix}.0",
+          unless  => "ip route | grep ${network_nic} | grep ${peered_network_prefix}.0",
           require => [
             # The CLI command 'route' is needed
             Package['net-tools'],
