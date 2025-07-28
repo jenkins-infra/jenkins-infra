@@ -240,7 +240,7 @@ profile::jenkinscontroller::jcasc:
     jdk8: 8u462-b08
     jdk11: 11.0.27+6
     jdk17: 17.0.16+8
-    jdk21: 21.0.7+6
+    jdk21: 21.0.8+9
     maven: 3.9.11
 ldap_url: "ldap://localhost:389"
 ldap_dn: "dc=example,dc=com"
