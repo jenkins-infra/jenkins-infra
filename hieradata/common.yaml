@@ -237,7 +237,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:7e6b08ee1c7710240f15013d170bef9b0cf9a626bfa128fbe00f92fa9e08d8c3
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
-    jdk8: 8u452-b09
+    jdk8: 8u462-b08
     jdk11: 11.0.27+6
     jdk17: 17.0.15+6
     jdk21: 21.0.7+6
