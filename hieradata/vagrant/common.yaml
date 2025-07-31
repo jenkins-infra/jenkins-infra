@@ -495,7 +495,7 @@ profile::jenkinscontroller::plugins:
 profile::buildagent::tools_versions:
   awscli: 2.28.0
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.27.63
+  awscli: 2.28.0
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: azure_cluster
