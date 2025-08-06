@@ -509,3 +509,6 @@ profile::jenkinscontroller::kubeconfigs:
     cluster_url: https://aws_cluster.url
     cluster_ca_data: SuperSecretCAdata
     cluster_aws_region: us-east-2
+profile::aznfs::mounts:
+  - mountpoint: "/updates-jenkins-io-data"
+    url: "updatesjenkinsio.file.core.windows.net:/updatesjenkinsio/updates-jenkins-io-data"
