@@ -86,6 +86,7 @@ node 'agent.trusted.ci.jenkins.io' {
     fstype => 'ext4',
   }
   include role::updatecenter
+  include profile::aznfs
 }
 node 'controller.trusted.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
