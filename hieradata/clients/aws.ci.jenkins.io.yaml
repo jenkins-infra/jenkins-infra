@@ -60,13 +60,13 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux-arm64 && arm64"
+            label: "linux-arm64 || (linux && arm64)"
             cpu_arch: "aarch64"
       jdk11:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux-arm64 && arm64"
+            label: "linux-arm64 || (linux && arm64)"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
@@ -76,7 +76,7 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux-arm64 && arm64"
+            label: "linux-arm64 || (linux && arm64)"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
@@ -86,7 +86,7 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64:
             type: "zip"
-            label: "linux-arm64 && arm64"
+            label: "linux-arm64 || (linux && arm64)"
             cpu_arch: "aarch64"
           s390x:
             type: "zip"
@@ -96,14 +96,14 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-amd64:
             type: "zip"
-            label: "linux-amd64 && amd64"
+            label: "linux-amd64 || (linux && amd64)"
             cpu_arch: "x64"
             # TODO: track with updatecli
             custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_x64_linux_hotspot_25_30-ea.tar.gz
             subdir: jdk-25+30
           linux-arm64:
             type: "zip"
-            label: "linux-arm64 && arm64"
+            label: "linux-arm64 || (linux && arm64)"
             cpu_arch: "aarch64"
             # TODO: track with updatecli
             custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_aarch64_linux_hotspot_25_30-ea.tar.gz
