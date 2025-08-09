@@ -213,7 +213,6 @@ profile::jenkinscontroller::jcasc:
               - docker-windows-2022
               - win-2022
             spot: false
-            launcher: winrm
     kubernetes:
       first-cluster:
         enabled: true
