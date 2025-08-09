@@ -21,11 +21,13 @@ jenkins:
       <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
       - ami: "<%= agent['ami'] ? agent['ami'] : @jcasc['agent_images']['ec2_amis'][$os + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
-          unixData:
-            sshPort: "22"
       <%- if $os == 'windows' -%>
+          windowsSSHData:
             bootDelay: "60"
+      <%- else -%>
+          unixData:
       <%- end -%>
+            sshPort: "22"
         associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
         connectBySSHProcess: false
         connectionStrategy: "<%= agent['associatePublicIp'] || ec2_cloud_setup['associatePublicIp'] ? "PUBLIC_DNS" : "PRIVATE_IP" %>"
@@ -38,7 +40,13 @@ jenkins:
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
       <%- if $os == 'windows' -%>
-        <%-# No init script if using SSH launcher: the cmd.exe never finishes (most probably an EC2 plugin bug) %>
+          :waitloop
+          IF EXIST "Z:/Temp/.cloud-init.done" GOTO waitloopend
+          echo "Waiting for Cloud Init to finish..."
+          timeout /t 1
+          goto waitloop
+          :waitloopend
+          echo "Cloud Init finished."
       <%- else -%>
           #!/bin/sh
           set -eEux
@@ -48,6 +56,7 @@ jenkins:
             sleep 1
             echo "Waiting for Cloud Init to finish..."
           done
+          echo "Cloud Init finished."
       <%- end -%>
         instanceCapStr: "<%= agent['maxInstances'] %>"
         javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
@@ -72,8 +81,6 @@ jenkins:
       <%- end -%>
             - key: "JAVA_HOME"
               value: "<%= $javaHome %>"
-            - key: "JENKINS_JAVA_OPTS"
-              value: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
             - key: "PATH"
               value: "<%= $javaHome %>/bin<%= $os == 'windows' ? ";" : ":" %>$PATH"
       <%- if $os == "windows" -%>
@@ -103,11 +110,6 @@ jenkins:
         - name: "os"
           value: "<%= $os %>"
         tenancy: Default
-      <%- if $os == 'windows' -%>
-        # Double Backslash is required for EC2 plugin as we hackishly use the unix launched for Windows to use OpenSSH
-        # And JCasc needs 2 backslashes for a literal backslash.
-        tmpDir: "C:\\\\Windows\\\\Temp\\\\"
-      <%- end -%>
         type: <%= agent['instanceType'] %>
         useEphemeralDevices: true
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
@@ -181,8 +183,6 @@ jenkins:
 
                 ## Mark cloud init finished (cloud-init status --wait might not report all errors)
                 New-Item -Path  "<%= $cloudInitDoneFile.split('/')[0...-1].join('/') %>" -Name "<%= $cloudInitDoneFile.split('/')[-1] %>" -ItemType "file" -Value "Cloud Init "
-
-
       <%- else -%>
           #!/bin/sh
           set -eux
