@@ -24,7 +24,6 @@ jenkins:
         amiType:
       <%- if $os == 'windows' -%>
           windowsSSHData:
-            bootDelay: "60"
       <%- else -%>
           unixData:
       <%- end -%>
@@ -130,9 +129,6 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
-                # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
-                Stop-Service sshd
-
                 ## Setup NVMe
                 $nb = Get-Disk | Where-Object PartitionStyle -eq 'RAW' | tee -Variable Disks | measure
                 Write-Output "$nb.Count disk found."
@@ -178,9 +174,6 @@ jenkins:
 
                 # Restart docker engine
                 Restart-Service docker
-
-                # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
-                Start-Service sshd
 
                 ## Mark cloud init as finished using a marker file
                 New-Item -Path "<%= $cloudInitDoneParentDir %>" -ItemType "Directory"
