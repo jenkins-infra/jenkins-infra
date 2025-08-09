@@ -17,7 +17,8 @@ jenkins:
     <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
       <%- $tempDir = agent['tempDir'] ? agent['tempDir'] : @jcasc['agents_setup'][$os]['tempDir'] -%>
-      <%- $cloudInitDoneFile = "#{$tempDir}/.cloud-init.done" -%>
+      <%- $cloudInitDoneParentDir = "#{$tempDir}" -%>
+      <%- $cloudInitDoneFile = "#{$cloudInitDoneParentDir}/.cloud-init.done" -%>
       <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
       - ami: "<%= agent['ami'] ? agent['ami'] : @jcasc['agent_images']['ec2_amis'][$os + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
@@ -41,7 +42,7 @@ jenkins:
         initScript: |-
       <%- if $os == 'windows' -%>
           :waitloop
-          IF EXIST "Z:/Temp/.cloud-init.done" GOTO waitloopend
+          IF EXIST "<%= $cloudInitDoneFile %>" GOTO waitloopend
           echo "Waiting for Cloud Init to finish..."
           timeout /t 1
           goto waitloop
@@ -181,8 +182,9 @@ jenkins:
                 # Ensure Jenkins controller does not start the agent in process in its workspace until we are ready
                 Start-Service sshd
 
-                ## Mark cloud init finished (cloud-init status --wait might not report all errors)
-                New-Item -Path  "<%= $cloudInitDoneFile.split('/')[0...-1].join('/') %>" -Name "<%= $cloudInitDoneFile.split('/')[-1] %>" -ItemType "file" -Value "Cloud Init "
+                ## Mark cloud init as finished using a marker file
+                New-Item -Path "<%= $cloudInitDoneParentDir %>" -ItemType "Directory"
+                New-Item -Path "<%= $cloudInitDoneFile %>" -ItemType "File" -Value "Cloud Init"
       <%- else -%>
           #!/bin/sh
           set -eux
@@ -308,7 +310,8 @@ jenkins:
 
           systemctl start sshd.service
 
-          ## Mark cloud init finished (cloud-init status --wait might not report all errors)
+          ## Mark cloud init as finished using a marker file
+          mkdir -p "<%= $cloudInitDoneParentDir %>"
           touch "<%= $cloudInitDoneFile %>"
       <%- end -%>
     <%- end -%>
