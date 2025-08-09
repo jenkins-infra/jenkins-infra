@@ -1,0 +1,156 @@
+<%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" && @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
+jenkins:
+  clouds:
+  <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
+    <%- if k8s_setup['enabled'].to_s == "true" -%>
+  - kubernetes:
+      name: "<%= k8s_name %>"
+      containerCap: <%= k8s_setup['max_capacity'] %>
+      credentialsId: "<%= k8s_setup['credentialsId'] %>"
+      directConnection: true
+      namespace: "<%= k8s_setup['defaultNamespace'] %>"
+      serverUrl: "<%= k8s_setup['url'] %>"
+      <%- if k8s_setup['serverCertificate'] -%>
+      serverCertificate: |
+        <%- k8s_setup['serverCertificate'].split("\n").each do |line| -%>
+          <%= line %>
+        <%- end -%>
+      <%- end -%>
+      <%- if k8s_setup['agent_definitions'] -%>
+      templates:
+        <%- k8s_setup['agent_definitions'].each do |agent| -%>
+          <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
+          <%- $tempDir = agent['tempDir'] ? agent['tempDir'] : @jcasc['agents_setup'][$os]['tempDir'] -%>
+          <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
+          <%- $envJavaOpts = agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] -%>
+        - containers:
+          - alwaysPullImage: false
+            image: "<%= k8s_setup['imageNamePrefix'] ? k8s_setup['imageNamePrefix'] : ""%><%= agent['imageName'] && !agent['imageName'].empty? ? @jcasc['agent_images']['container_images'][agent['imageName']] : @jcasc['agent_images']['container_images'][agent['name']] %>"
+            # Please note that envVars are specified differently than other agents
+            envVars:
+              - envVar:
+                  key: "JENKINS_JAVA_OPTS"
+          <%- if $os == 'windows' -%>
+            <%- $jenkinsJavaOpts = "" -%>
+            <%- $envJavaOpts.split(' ').each do |optFlag| -%>
+              <%- $jenkinsJavaOpts += '"' + optFlag + '"' -%> <%# Mandatory quotes on Windows: https://github.com/jenkinsci/docker-agent/blob/master/README_inbound-agent.md#windows-jenkins-java-opts %>
+            <%- end -%>
+                  value: >-
+                    <%= $jenkinsJavaOpts %>
+            <%- else -%>
+                  value: "<%= $envJavaOpts %>"
+            <%- end -%>
+              - envVar:
+                  key: "JENKINS_JAVA_BIN"
+                  value: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
+              - envVar:
+                  key: "JAVA_HOME"
+                  value: "<%= $javaHome %>"
+            <%- if agent['agentEnvPath'] -%>
+              - envVar:
+                  key: "PATH"
+                  value: "<%= agent['agentEnvPath'] %>"
+            <%- else -%>
+              <%- if $os == 'windows' -%>
+              # TODO: implement custom PATH for Windows when switching to "all in one" image with a path from hieradata/common.yaml to add in agents_setup.windows section
+              <%- else -%>
+              - envVar:
+                  key: "PATH"
+                  value: "<%= $javaHome %>/bin<%= $os == 'windows' ? ";" : ":" %><%= @jcasc['agents_setup'][$os]['path'] %>"
+              <%- end -%>
+            <%- end -%>
+            <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && k8s_setup['acpServerId'] -%>
+              - envVar:
+                  key: "ARTIFACT_CACHING_PROXY_SERVERID"
+                  value: "<%= @jcasc['artifact_caching_proxy']['servers'][k8s_setup['acpServerId']]['url'] %>"
+            <%- end -%>
+            <%- if $os == "windows" -%>
+              - envVar:
+                  key: "TMP"
+                  value: "<%= $tempDir %>"
+              - envVar:
+                  key: "TEMP"
+                  value: "<%= $tempDir %>"
+            <%- else -%>
+              - envVar:
+                  key: "TMPDIR"
+                  value: "<%= $tempDir %>"
+            <%- end -%>
+            livenessProbe:
+              failureThreshold: 0
+              initialDelaySeconds: 0
+              periodSeconds: 0
+              successThreshold: 0
+              timeoutSeconds: 0
+            name: "jnlp"
+            <%- if agent['command'] -%>
+            command: "<%= agent['command'] %>"
+            <%- else -%>
+              <%- if $os == "windows" -%>
+            command: "pwsh.exe -f C:/ProgramData/Jenkins/jenkins-agent.ps1"
+              <%- else -%>
+            command: "/usr/local/bin/jenkins-agent"
+              <%- end -%>
+            <%- end -%>
+            args: "<%= agent['args'] ? agent['args'] : '' -%>"
+            resourceLimitCpu: "<%= agent['cpus'] %>"
+            resourceLimitMemory: "<%= agent['memory'] %>G"
+            resourceRequestCpu: "<%= agent['cpus'] %>"
+            resourceRequestMemory: "<%= agent['memory'] %>G"
+            workingDir: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+          label: "container kubernetes <%= k8s_name %> <%= agent['labels'] ? agent['labels'].join(' ') : '' %>"
+          name: "<%= agent['name'] %>"
+          nodeUsageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
+          <%- if agent['imagePullSecrets'] -%>
+          imagePullSecrets:
+          - name: "<%= agent['imagePullSecrets'] %>"
+          <%- end -%>
+          slaveConnectTimeout: 600
+          <%- if agent['nodeSelector'] -%>
+          nodeSelector: "<%= agent['nodeSelector'] %>"
+          <%- end -%>
+          <%- if agent['tolerations'] -%>
+          yaml: |-
+            apiVersion: "v1"
+            kind: "Pod"
+            spec:
+              securityContext:
+                # https://github.com/jenkins-infra/packer-images/blob/a9f913c0f5cf7baf49e370c4b823b499bf757e06/provisioning/ubuntu-provision.sh#L32
+                fsGroup: 1001
+              tolerations:
+            <%- agent['tolerations'].each do |toleration| -%>
+                - key: "<%= toleration["key"] %>"
+                  operator: "<%= toleration["operator"] %>"
+                  value: "<%= toleration["value"] %>"
+                  effect: "<%= toleration["effect"] %>"
+            <%- end -%>
+          <%- end -%>
+          yamlMergeStrategy: "override"
+          volumes:
+          - emptyDirVolume:
+              memory: true
+              mountPath: "<%= $tempDir %>"
+          - emptyDirVolume:
+              memory: false
+          <%- if agent['m2Repository'] -%>
+              mountPath: "<%= agent['m2Repository'] %>"
+          <%- else -%>
+            <%- if $os == "windows" -%>
+              mountPath: "C:/Users/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+            <%- else -%>
+              mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+            <%- end -%>
+          <%- end -%>
+          <%- if agent['additionalPVCs'] -%>
+            <%- agent['additionalPVCs'].each do |pvc| -%>
+          - persistentVolumeClaim:
+              claimName: "<%= pvc['claimName'] %>"
+              mountPath: "<%= pvc['mountPath'] %>"
+              readOnly: "<%= pvc['readOnly'] %>"
+            <%- end -%>
+          <%- end -%>
+        <%- end -%>
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>

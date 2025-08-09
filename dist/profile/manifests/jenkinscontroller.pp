@@ -181,8 +181,13 @@ class profile::jenkinscontroller (
     # Default JCasc templates shared by all Jenkins controllers.
     # Use hieradata attribute to opt-out (see below), or override with an additional file (lexicographic).
     common_configs => [
-      # Opt-out with `profile::jenkinscontroller::jcasc.cloud_agents: {}`
-      'jenkinscontroller/casc/clouds.yaml.erb',
+      ## Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents: {}`
+      # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.azure_vm_agents.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.azure_vm_agents: {}`
+      'jenkinscontroller/casc/clouds-azurevm.yaml.erb',
+      # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.ec2.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.ec2: {}`
+      'jenkinscontroller/casc/clouds-ec2.yaml.erb',
+      # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes: {}`
+      'jenkinscontroller/casc/clouds-kubernetes.yaml.erb',
       # Opt-out with `profile::jenkinscontroller::jcasc.global_libraries: false`
       'jenkinscontroller/casc/global-libraries.yaml.erb',
       # Opt-out with `profile::jenkinscontroller::jcasc.jenkins_global: false`
@@ -248,6 +253,13 @@ class profile::jenkinscontroller (
         before  => Docker::Run[$docker_container_name],
         notify  => Exec['perform-jcasc-reload'],
       }
+    }
+
+    # Ensure legacy JCasc files are removed
+    file { "${jenkins_home}/${$jcasc_final_config["config_dir"]}/clouds.yaml":
+      ensure => absent,
+      before => Docker::Run[$docker_container_name],
+      notify => Exec['perform-jcasc-reload'],
     }
 
     exec { 'perform-jcasc-reload':

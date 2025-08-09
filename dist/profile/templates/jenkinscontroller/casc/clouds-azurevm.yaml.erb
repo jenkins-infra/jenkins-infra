@@ -1,0 +1,239 @@
+<%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" && @jcasc['cloud_agents']['azure_vm_agents'] && @jcasc['cloud_agents']['azure_vm_agents']['clouds'] -%>
+jenkins:
+  clouds:
+  <%- @jcasc['cloud_agents']['azure_vm_agents']['clouds'].each do |cloudname, cloudsetup| -%>
+  - azureVM:
+      azureCredentialsId: "<%= cloudsetup['azureCredentialsId'] %>"
+      name: "<%= cloudname %>"
+      deploymentTimeout: 1200
+      existingResourceGroupName: "<%= cloudsetup['resourceGroup'] %>"
+      resourceGroupReferenceType: "existing"
+      maxVirtualMachinesLimit: <%= cloudsetup['maxInstances'] %>
+      vmTemplates:
+    <%- @jcasc['cloud_agents']['azure_vm_agents']['agent_definitions'].each do |agent| -%>
+      <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
+      - agentWorkspace: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+      <%- if $os == 'windows' -%>
+        executeInitScriptAsRoot: false
+        # Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
+        initScript: |
+          # Setup datadog
+          (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+          & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
+
+        <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
+          # Setup inbound agent
+          $jenkinsServerUrl = $args[0] # Always ends with a '/'
+          $agentName = $args[1]
+          $agentSecret = $args[2]
+          $jenkinsWorkDir = '<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>'
+          # Download the service wrapper
+          $agentJar =  '{0}jnlpJars/agent.jar' -f $jenkinsServerUrl
+
+          $wrapperExec = '{0}\jenkins-agent.exe' -f $jenkinsWorkDir
+          $configFile = '{0}\jenkins-agent.xml'  -f $jenkinsWorkDir
+          $agentExeConfig = '{0}\jenkins-agent.exe.config' -f $jenkinsWorkDir
+
+          # Setup agent-level environment variables
+          <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+          [System.Environment]::SetEnvironmentVariable("ARTIFACT_CACHING_PROXY_SERVERID", "<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>", "Machine")
+          $Env:ARTIFACT_CACHING_PROXY_SERVERID = "<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>"
+          <%- end -%>
+          $javaHome = "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>"
+          [System.Environment]::SetEnvironmentVariable("JAVA_HOME", ^${javaHome}, "Machine")
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";^${javaHome}\bin", "Machine")
+          $Env:Path += ";^${javaHome}\bin"
+
+          mkdir $jenkinsWorkDir
+          $wc = New-Object System.Net.WebClient
+          $wc.DownloadFile('https://github.com/winsw/winsw/releases/download/v2.12.0/WinSW.NET461.exe', $wrapperExec)
+          $wc.DownloadFile('https://raw.githubusercontent.com/Azure/jenkins/master/agents_scripts/jenkins-slave.exe.config', $agentExeConfig)
+          $wc.DownloadFile('https://raw.githubusercontent.com/Azure/jenkins/master/agents_scripts/jenkins-slave.xml', $configFile)
+          # Prepare config
+          Write-Output 'Executing agent process...'
+          $configExec = '<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>'
+          $configArgs = '-url "{0}" -name {1} -workDir {2}' -f $jenkinsserverurl, $agentName, $jenkinsWorkDir
+          if ($agentSecret) {
+              $configArgs += " -secret `"$agentSecret`""
+          }
+          (Get-Content $configFile).replace('@JAVA@', $configExec) | Set-Content $configFile
+          (Get-Content $configFile).replace('@ARGS@', $configArgs) | Set-Content $configFile
+          (Get-Content $configFile).replace('@SLAVE_JAR_URL', $agentJar) | Set-Content $configFile
+          # Install the service
+          & $wrapperExec install
+          & $wrapperExec start
+        <%- else -%>
+          $javaHome = "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>"
+          [System.Environment]::SetEnvironmentVariable("JAVA_HOME", ^${javaHome}, "Machine")
+          [System.Environment]::SetEnvironmentVariable("PATH", $Env:Path + ";^${javaHome}\bin", "Machine")
+          $Env:Path += ";^${javaHome}\bin"
+        <%- end -%>
+      <%- else -%>
+        executeInitScriptAsRoot: true
+        # Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
+        initScript: |
+          #!/bin/sh
+          set -eux
+
+          # Setup Datadog service
+          (
+            systemctl stop datadog-agent.service
+            mkdir -p /var/log/datadog /etc/datadog-agent
+            sed 's/api_key:.*/api_key: <%= @jcasc['datadog_api_key'] %>/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml
+            sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml
+            chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
+            chmod 640 /etc/datadog-agent/datadog.yaml
+            chown dd-agent:dd-agent /var/log/datadog
+            chmod 770 /var/log/datadog
+            systemctl daemon-reload
+            systemctl enable datadog-agent.service
+            systemctl start datadog-agent.service
+          ) 2>&1 | tee /var/log/agent-init-datadog.log
+
+          # Setup Docker Engine
+          mkdir -p /etc/docker
+          cat <<EOF >/etc/docker/daemon.json
+          {
+            "registry-mirrors": ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
+          }
+          EOF
+          systemctl daemon-reload
+          systemctl restart docker
+
+          ## Also provide Docker BuildX TOML configuration
+          cat <<EOF >/etc/buildkitd.toml
+          debug = true
+          [registry."docker.io"]
+            mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
+          EOF
+
+        <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
+          # Setup Jenkins Agent Service
+          (
+            # Argument provided by the Azure-VM plugin
+            export JENKINS_URL="^${1}" # Always ends with a '/'
+            export AGENT_NAME="^${2}"
+            export AGENT_SECRET="^${3}"
+
+            export USER=jenkins
+            export AGENT_WORKDIR='<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>'
+            export AGENT_JAR="^${AGENT_WORKDIR}/agent.jar"
+            export AGENT_SECRETFILE="^${AGENT_WORKDIR}/agent-secret"
+            export JENKINS_JAVA_OPTS='<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>'
+            <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+            export ARTIFACT_CACHING_PROXY_SERVERID='<%= @jcasc['artifact_caching_proxy']['servers'][cloudsetup['acpServerId']]['url'] %>'
+            <%- end -%>
+            export JAVA_HOME='<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>'
+            export JENKINS_JAVA_BIN='<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>'
+
+            mkdir -p "^${AGENT_WORKDIR}"
+            chown "^${USER}:^${USER}" "^${AGENT_WORKDIR}"
+            curl --silent --show-error --location --output "^${AGENT_JAR}" "^${JENKINS_URL}jnlpJars/agent.jar"
+            touch "^${AGENT_SECRETFILE}"
+            echo "^${AGENT_SECRET}" > "^${AGENT_SECRETFILE}"
+            cat <<- EOF >/etc/systemd/system/jenkins-agent.service
+            [Unit]
+            Description=Jenkins Inbound Agent
+            Wants=network.target
+            After=network.target
+
+            [Service]
+            ExecStart=^${JENKINS_JAVA_BIN} ^${JENKINS_JAVA_OPTS} -jar ^${AGENT_JAR} -url ^${JENKINS_URL} -secret @^${AGENT_SECRETFILE} -name ^${AGENT_NAME} -workDir ^${AGENT_WORKDIR}
+            User=^${USER}
+            WorkingDirectory=^${AGENT_WORKDIR}
+            Restart=on-failure
+            RestartSec=10
+            Environment="JAVA_HOME=^${JAVA_HOME}"
+          <%- if @jcasc['artifact_caching_proxy'] && @jcasc['artifact_caching_proxy']['enabled'].to_s == "true" && cloudsetup['acpServerId'] -%>
+            Environment="ARTIFACT_CACHING_PROXY_SERVERID=^${ARTIFACT_CACHING_PROXY_SERVERID}"
+          <%- end -%>
+            Environment="PATH=^${JAVA_HOME}/bin:<%= @jcasc['agents_setup']['ubuntu']['path'] %>"
+
+            [Install]
+            WantedBy=multi-user.target
+          EOF
+
+            systemctl daemon-reload
+            systemctl enable jenkins-agent
+            systemctl start jenkins-agent || systemctl status jenkins-agent
+          ) 2>&1 | tee /var/log/agent-init-jenkins.log
+
+        <%- else -%>
+
+          # Setup default java for build (not for agent process)
+          export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
+          update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
+          echo "JAVA_HOME=^${DEFAULT_JDK}" >> /etc/environment
+        <%-end -%>
+          # Remove jenkins user from sudoers
+          rm -f /etc/sudoers.d/90-cloud-init-users
+      <%- end -%>
+      <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
+        launcher: "inbound"
+      <%- else -%>
+        launcher: "ssh"
+      <%- end -%>
+        credentialsId: "<%= agent['credentialsId'] %>"
+        diskType: "managed"
+        encryptionAtHost: true
+        doNotUseMachineIfInitFails: true
+        enableMSI: false
+        ephemeralOSDisk: "<%= agent['ephemeralOSDisk'] ? agent['ephemeralOSDisk'] : false %>"
+        existingStorageAccountName: "<%= cloudsetup['storageAccount'] %>"
+        storageAccountNameReferenceType: "existing"
+        storageAccountType: "Standard_LRS"
+        imageReference:
+          galleryImageDefinition: "<%= agent['imageDefinition'] %>"
+          galleryImageVersion: "<%= @jcasc['agent_images']['azure_vms_gallery_image']['version'] %>"
+          galleryName: "prod_packer_images"
+          galleryResourceGroup: "prod-packer-images"
+          gallerySubscriptionId: "<%= @jcasc['agent_images']['azure_vms_gallery_image']['subscription_id'] %>"
+        imageTopLevelType: "advanced"
+        installDocker: false
+        installGit: false
+        installMaven: false
+        javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
+        jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
+        labels: "<%= $os + "-" + agent['os_version'].to_s %> <%= agent['architecture'].to_s %> azure vm <%= agent['labels'].join(' ') %> <%= cloudname %>"
+        location: "<%= agent['location'] %>"
+        noOfParallelJobs: 1
+        osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][$os]['osDiskSize'] %>
+        osDiskStorageAccountType: <%= agent['ephemeralOSDisk'] ? "Standard_LRS" : (agent['osDiskStorageAccountType'] ? agent['osDiskStorageAccountType'] : @jcasc['agents_setup'][$os]['osDiskStorageAccountType']) %>
+        osType: "<%= $os == "windows" ? 'Windows' : 'Linux' %>"
+      <%- if agent['idleTerminationMinutes'] -%>
+        retentionStrategy:
+          azureVMCloudRetentionStrategy:
+            idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] %>"
+      <%- else -%>
+        retentionStrategy: "azureVMCloudOnce"
+      <%- end -%>
+        shutdownOnIdle: false
+        spotInstance: false # TODO: add spot support (inbound)
+        templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
+        templateDisabled: false
+        templateName: "<%= agent['name'] %>"
+      <%- if agent['userInstanceIdentity'] -%>
+        enableUAMI: true
+        uamiID: "<%= agent['userInstanceIdentity'] %>"
+      <%- elsif cloudsetup['userInstanceIdentity'] -%>
+        enableUAMI: true
+        uamiID: "<%= cloudsetup['userInstanceIdentity'] %>"
+      <%- else -%>
+        enableUAMI: false
+      <%- end -%>
+        usageMode: "<%= agent['useAsMuchAsPossible'] == true ? 'NORMAL' : 'EXCLUSIVE' %>"
+        virtualMachineSize: "<%= agent['instanceType'] %>"
+      <%- if agent['maxInstances'] -%>
+        maxVirtualMachinesLimit: <%= agent['maxInstances'] %>
+      <%- end -%>
+      <%- if agent['usePrivateIP'] -%>
+        usePrivateIP: true
+        virtualNetworkName: "<%= cloudsetup['virtualNetworkName'] %>"
+        virtualNetworkResourceGroupName: "<%= cloudsetup['virtualNetworkResourceGroupName'] %>"
+        subnetName: "<%= cloudsetup['subnetName'] %>"
+      <%- else -%>
+        usePrivateIP: false
+      <%- end -%>
+    <%- end -%>
+  <%- end -%>
+<%- end -%>
