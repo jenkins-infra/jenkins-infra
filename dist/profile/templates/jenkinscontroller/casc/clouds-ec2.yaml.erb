@@ -160,9 +160,10 @@ jenkins:
                 }
 
                 ## Setup Docker Engine to store its data in the <%= agent['customDataDisk'] %> drive
+                # Note: file path MUST use Unix-style separator (/)
                 @'
                 {
-                  "data-root": "<%= agent['customDataDisk'] %>\docker"
+                  "data-root": "<%= agent['customDataDisk'] %>/docker"
                 }
                 '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
 
