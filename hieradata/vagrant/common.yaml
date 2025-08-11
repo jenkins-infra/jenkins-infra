@@ -192,10 +192,23 @@ profile::jenkinscontroller::jcasc:
             ebsOptimized: true
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
-            agentDir: 'Z:/jenkins'
+            customDataDisk: 'Z:'
             labels:
               - docker-windows
               - docker-windows-2019
+            spot: false
+          - description: "Windows 2019 x86_64 with JDK21"
+            maxInstances: 5
+            ami: ami-xxxxxxxxx
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-21'
+            customDataDisk: 'Z:'
+            remoteAdmin: jenkins
+            labels:
               - win-2019
               - win-2019-amd64-maven-21
             spot: false
@@ -207,8 +220,6 @@ profile::jenkinscontroller::jcasc:
             os_version: "2022"
             ebsOptimized: true
             architecture: "amd64"
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
             labels:
               - docker-windows-2022
               - win-2022

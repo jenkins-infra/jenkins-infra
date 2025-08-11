@@ -16,7 +16,8 @@ jenkins:
       templates:
     <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
-      <%- $tempDir = agent['tempDir'] ? agent['tempDir'] : @jcasc['agents_setup'][$os]['tempDir'] -%>
+      <%- $tempDir =  agent['customDataDisk'] ? agent['customDataDisk'] + '/Temp' : (agent['tempDir'] ? agent['tempDir'] : @jcasc['agents_setup'][$os]['tempDir']) -%>
+      <%- $remoteAdmin = agent['remoteAdmin'] ? agent['remoteAdmin'] : @jcasc['agents_setup'][$os]['remoteAdmin'] -%>
       <%- $cloudInitDoneParentDir = "#{$tempDir}" -%>
       <%- $cloudInitDoneFile = "#{$cloudInitDoneParentDir}/.cloud-init.done" -%>
       <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
@@ -93,8 +94,8 @@ jenkins:
               value: "<%= $tempDir %>"
       <%- end -%>
         numExecutors: 1
-        remoteAdmin: "<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>"
-        remoteFS: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
+        remoteAdmin: "<%= $remoteAdmin %>"
+        remoteFS: "<%= agent['customDataDisk'] ? agent['customDataDisk'] + '/agent' : (agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir']) %>"
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
       <%- if agent['spot'] -%>
         spotConfig:
@@ -129,7 +130,8 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
-                ## Setup NVMe
+                <%- if agent['customDataDisk'] -%>
+                ## Setup NVMe(s) and map it to the <%= agent['customDataDisk'] %> drive
                 $nb = Get-Disk | Where-Object PartitionStyle -eq 'RAW' | tee -Variable Disks | measure
                 Write-Output "$nb.Count disk found."
                 Switch ($nb.Count)
@@ -141,7 +143,7 @@ jenkins:
                       $Disks | New-Partition -UseMaximumSize -MbrType IFS
                       $Partition = Get-Partition -DiskNumber $Disks.Number
                       $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
-                      $Partition | Add-PartitionAccessPath -AccessPath "Z:"
+                      $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['customDataDisk'] %>"
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
                   default {
@@ -151,11 +153,40 @@ jenkins:
                               New-Partition -UseMaximumSize -MbrType IFS
                               $Partition = Get-Partition -DiskNumber $_.Number
                               $Partition | Format-Volume -FileSystem NTFS -Confirm:$false
-                              $Partition | Add-PartitionAccessPath -AccessPath "Z:"
+                              $Partition | Add-PartitionAccessPath -AccessPath "<%= agent['customDataDisk'] %>"
                           } -End {Get-Date}
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
                 }
+
+                ## Setup Docker Engine to store its data in the <%= agent['customDataDisk'] %> drive
+                # Note: file path MUST use Unix-style separator (/)
+                @'
+                {
+                  "data-root": "<%= agent['customDataDisk'] %>/docker"
+                }
+                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
+
+                # Restart docker engine
+                Restart-Service docker
+                <%- end -%>
+
+                <%- if $remoteAdmin != 'Administrator' -%>
+                # Create the '<%= $remoteAdmin %>' agent's user account
+                $loginName="<%= $remoteAdmin %>"
+                $localHost=[ADSI]"WinNT://localhost"
+                $newUser=$localHost.Create("user",$loginName);
+                $newUser.setPassword("J3nkinsSuperSecret1234!");
+                $newUser.put("description", "User account for Jenkins Agent");
+                $newUser.setInfo();
+                Add-LocalGroupMember -Group "Administrators" -Member "$loginName"
+                  <%- if agent['customDataDisk'] -%>
+                # Custom user profiles dir. in the <%= agent['customDataDisk'] %> drive
+                $regpath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList"
+                $regname = "ProfilesDirectory"
+                Set-ItemProperty -path $regpath -name $regname -value "<%= agent['customDataDisk'] %>"
+                  <%- end -%>
+                <%- end -%>
 
                 ## Setup datadog
                 (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
@@ -164,16 +195,6 @@ jenkins:
                 ## Disable WinRM
                 Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
                 cmd.exe /c net stop winrm
-
-                ## Setup Docker Engine
-                @'
-                {
-                  "data-root": "Z:/docker"
-                }
-                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
-
-                # Restart docker engine
-                Restart-Service docker
 
                 ## Mark cloud init as finished using a marker file
                 New-Item -Path "<%= $cloudInitDoneParentDir %>" -ItemType "Directory"
@@ -274,7 +295,7 @@ jenkins:
           EOF
               systemd-analyze verify "^${mount_unit_name}"
               systemctl enable "^${mount_unit_name}" --now
-              chown -R jenkins:jenkins "^${array_mount_point}"
+              chown -R <%= $remoteAdmin %>:<%= $remoteAdmin %> "^${array_mount_point}"
           fi
 
           ## Setup Docker Engine
