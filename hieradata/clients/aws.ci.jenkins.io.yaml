@@ -575,8 +575,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-8'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-8
               - maven-8-windows
@@ -592,8 +591,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-11'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-11
               - maven-11-windows
@@ -608,8 +606,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-17'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-17
               - maven-17-windows
@@ -624,8 +621,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-17'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-17-nonspot
             spot: false
@@ -639,8 +635,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-21
               - maven-21-windows
@@ -659,8 +654,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-25'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2019-amd64-maven-25
               - maven-25-windows
@@ -675,8 +669,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-17'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - win-2022-amd64-maven-17
               # Labels indicating it is the default VM template for Windows 2022 (but not windows)
@@ -693,8 +686,7 @@ profile::jenkinscontroller::jcasc:
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
             # Utilizes the local NVMe mounted in Z:
-            agentDir: 'Z:/jenkins'
-            tempDir: 'Z:/Temp'
+            customDataDisk: 'Z:'
             labels:
               - infratest-windows
             spot: true
