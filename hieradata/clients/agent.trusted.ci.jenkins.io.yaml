@@ -95,6 +95,8 @@ profile::buildagent::tools_versions:
 profile::aznfs::mounts:
   - mountpoint: "/updates-jenkins-io-data"
     url: "updatesjenkinsio.file.core.windows.net:/updatesjenkinsio/updates-jenkins-io-data"
+  - mountpoint: "/data-storage-jenkins-io"
+    url: "datastoragejenkinsio.file.core.windows.net:/datastoragejenkinsio/data-storage-jenkins-io"
 accounts:
   kevingrdj:
     ssh_keys:
