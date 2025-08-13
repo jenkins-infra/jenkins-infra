@@ -93,8 +93,6 @@ profile::updatecenter::rsync_privkey: >
 profile::buildagent::tools_versions:
   awscli: 2.28.8
 profile::aznfs::mounts:
-  - mountpoint: "/updates-jenkins-io-data"
-    url: "updatesjenkinsio.file.core.windows.net:/updatesjenkinsio/updates-jenkins-io-data"
   - mountpoint: "/data-storage-jenkins-io"
     url: "datastoragejenkinsio.file.core.windows.net:/datastoragejenkinsio/data-storage-jenkins-io"
 accounts:
