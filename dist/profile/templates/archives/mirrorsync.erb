@@ -1,17 +1,71 @@
 #!/bin/bash
+###
+# mirrorsync: this script synchronizes the jenkins download data to the mirrors we control
+# Managed mirrors:
+# - OSUOSL (need rsync copy and then a remote script to publish copied data)
+###
+
 set -euxo pipefail
 
-TIME=$(/bin/date --iso-8601=seconds --utc)
+TIME="$(/bin/date --iso-8601=seconds --utc)"
 
-sync(){
-  /usr/bin/time /usr/bin/rsync -rlpDtvz --chown=www-data:www-data rsync://<%= @source_mirror_endpoint %><%= @source_mirror_directory %> <%= @archives_dir %>
-  # Record logs
-  echo "$TIME - <%= @source_mirror_endpoint %> successfully synchronized" >> /var/log/mirrorsync/mirrorsync.log
+sync_osuosl(){
+  local osuosl_host="<%= @osuosl_mirroring["username"] %>@<%= @osuosl_mirroring["host"] %>"
+  local base_dir="<%= @archives_dir %>"
+  local base_rsync_filter_file="<%= @mirror_base_rsync_filter %>"
+  local rsync_filter_file="rsync-jenkins-mirrors.filter"
+  local rsync_filter_path="${base_dir}/${rsync_filter_file}"
+
+  echo "$TIME - Starting synchronization to OSUOSL..." >> /var/log/mirrorsync/mirrorsync.log
+  pushd "${base_dir}"
+  {
+    # Provide a pattern file to mirror maintainers - https://github.com/jenkins-infra/helpdesk/issues/4681
+    echo "+ ${rsync_filter_file}"
+    # keep all the plugins
+    echo '+ plugins/**'
+    echo '+ art/**'
+    echo '+ podcast/**'
+    # Marker file used by mirrorbits when scanning mirrors (checked for modtime)
+    echo '+ TIME'
+    # copy all the (non broken) symlinks
+    #shellcheck disable=SC2312
+    find . -type l -readable | sed -e 's#\./#+ /#g'
+    # files that are older than last one year are removed from the mirror
+    #shellcheck disable=SC2312
+    find . -type f -mtime +365 | sed -e 's#\./#- /#g'
+    # the rest of the rules come from rsync.filter
+    #shellcheck disable=SC2312
+    cat "${base_rsync_filter_file}"
+    # We do not want update-center data in mirrors
+    echo '- update-center/**'
+    echo '- updates/**'
+
+  } > "${rsync_filter_path}"
+
+  time rsync --recursive \
+    --links `# Copy symlinks as symlinks: destination is a Linux filesystem` \
+    --perms `# Preserve permissions: destination is a Linux filesystem` \
+    --devices --specials `# Preserve special files: destination is a Linux filesystem` \
+    --compress `# CPU is cheap, bandwidth is not` \
+    --verbose \
+    --chown=jenkins \
+    --times `# Preserve timestamps` \
+    --delete-during \
+    --delete-excluded \
+    --prune-empty-dirs \
+    --include-from="${rsync_filter_file}" \
+    . "${osuosl_host}:jenkins/"
+  popd
+  echo "$TIME - Incremental Copy to OSUOSL finished." >> /var/log/mirrorsync/mirrorsync.log
+  echo "$TIME - Triggering remote mirroring script." >> /var/log/mirrorsync/mirrorsync.log
+  ssh "${osuosl_host}" "sh trigger-jenkins"
+
+  echo "$TIME - OSUOSL successfully synchronized" >> /var/log/mirrorsync/mirrorsync.log
 }
 
 # Ensure we run this script as user <%= @owner %>
 if [ "$(/usr/bin/whoami)" != "<%= @apache_owner %>" ]; then
   exec /usr/bin/sudo --user="<%= @apache_owner %>" /usr/bin/mirrorsync
 else
-  time sync
+  time sync_osuosl
 fi

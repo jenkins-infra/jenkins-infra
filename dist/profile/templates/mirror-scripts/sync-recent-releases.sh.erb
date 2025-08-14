@@ -4,7 +4,8 @@ set -o errexit
 set -o pipefail
 
 BASE_DIR="<%= @release_root %>"
-HOST=<%= @osuosl_mirroring['username'] %>@<%= @osuosl_mirroring['host'] %>
+archives_jio_host="<%= @archives_jenkins_io_mirroring["username"] %>@<%= @archives_jenkins_io_mirroring["host"] %>"
+archives_remote_dir="/srv/releases"
 
 [[ $# -eq 1 ]] || { echo "Usage: $0 <recent-releases.json>" >&2 ; exit 1 ; }
 [[ -f "$1" ]] || { echo "$1 is not a file" >&2 ; exit 2 ; }
@@ -58,19 +59,27 @@ while IFS= read -r release; do
     set -x
     echo "Done uploading ${release} to get.jenkins.io"
 
-    echo "Uploading ${release} to OSUOSL..."
-    ssh -n "${HOST}" "mkdir -p jenkins/plugins/${release}"
-    rsync -rlptDvz --chown=jenkins "${BASE_DIR}/plugins/${release}/" "${HOST}:jenkins/plugins/${release}"
+    echo "Uploading ${release} to archives.jenkins.io (fallback of get.jenkins.io)..."
+    ssh -n "${archives_jio_host}" "mkdir -p jenkins/plugins/${release}"
+    rsync --recursive \
+        --links `# Copy symlinks as symlinks: destination is a Linux filesystem` \
+        --perms `# Preserve permissions: destination is a Linux filesystem` \
+        --times `# Preserve timestamps` \
+        --devices --specials `# Preserve special files: destination is a Linux filesystem` \
+        --compress `# CPU is cheap, bandwidth is not` \
+        --verbose \
+        "${BASE_DIR}/plugins/${release}/" `# Source` \
+        "${archives_jio_host}:${archives_remote_dir}/plugins/${release}" `# Destination`
+    # This marker file named 'TIME' must be created locally and then uploaded (to ensure mirrors reads its createtime and modtime)
     date +%s > "${BASE_DIR}/TIME"
-    rsync -rlptDvz --chown=jenkins "${BASE_DIR}/TIME" "${HOST}:jenkins/TIME"
-    echo "Done uploading ${release} to OSUOSL"
+    rsync --recursive \
+        --links `# Copy symlinks as symlinks: destination is a Linux filesystem` \
+        --perms `# Preserve permissions: destination is a Linux filesystem` \
+        --times `# Preserve timestamps` \
+        --devices --specials `# Preserve special files: destination is a Linux filesystem` \
+        --compress `# CPU is cheap, bandwidth is not` \
+        --verbose \
+        "${BASE_DIR}/TIME" `# Source` \
+        "${archives_jio_host}:${archives_remote_dir}/TIME" `# Destination`
+    echo "Done uploading ${release} to archives.jenkins.io (fallback of get.jenkins.io)"
 done <<< "${RECENT_RELEASES}"
-
-# Following commands traces are safe
-set -x
-
-echo ">> Telling OSUOSL to gets the new bits"
-ssh "${HOST}" 'sh trigger-jenkins'
-
-echo ">> Delivering bits to archives.jenkins.io (fallback of get.jenkins.io) from OSUOSL"
-/srv/releases/populate-archives.sh

@@ -3,18 +3,21 @@
 #
 class profile::archives (
   Array                $rsync_hosts_allow           = [],
-  Stdlib::Absolutepath $archives_dir                = '/srv/releases',
+  Stdlib::Absolutepath $data_disk_mount             = '/srv',
   Stdlib::Absolutepath $rsync_motd_file             = '/etc/jenkins.motd',
-  Stdlib::Host         $source_mirror_endpoint      = 'ftp-osl.osuosl.org',
-  Stdlib::Absolutepath $source_mirror_directory     = '/jenkins/',
   Array                $ssh_authorized_keys         = [],
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::apachemisc
   include profile::letsencrypt
 
+  $mirrorsync_user  = 'mirrorsync'
+  $mirrorsync_group = $mirrorsync_user
+
   $apache_owner     = 'www-data'
   $apache_group     = $apache_owner
+
+  $archives_dir = "${data_disk_mount}/releases"
 
   $archives_fqdn = 'archives.jenkins.io'
   $archives_legacy_fqdn = 'archives.jenkins-ci.org'
@@ -22,34 +25,55 @@ class profile::archives (
   $apache_log_dir_fqdn = "/var/log/apache2/${archives_fqdn}"
   $apache_log_dir_legacy_fqdn = "/var/log/apache2/${archives_legacy_fqdn}"
 
+  $mirror_base_rsync_filter = "${data_disk_mount}/rsync.filter"
+  $mirrorsync_user_home = "/home/${mirrorsync_user}"
+  # Note: name does not change with username
+  $mirrorsync_script_path = '/usr/bin/mirrorsync'
+  $osuosl_mirroring = {
+    'host'        => lookup('osuosl_mirroring::host'),
+    'username'    => lookup('osuosl_mirroring::username'),
+    'privkey'     => lookup('osuosl_mirroring::privkey'),
+    'keypath'     => "${mirrorsync_user_home}/.ssh/osuosl_mirror",
+    'known_hosts' => lookup('osuosl_mirroring::known_hosts'),
+  }
+
   ## Manage mirrorsync user and its home directory
-  #
-  user { 'mirrorsync':
+  group { $mirrorsync_group:
+    ensure => 'present',
+  }
+  user { $mirrorsync_user:
     ensure     => present,
     shell      => '/bin/bash',
     managehome => true,
+    home       => $mirrorsync_user_home,
+    gid        => $mirrorsync_group,
+    groups     => [$apache_group],
+    require    => [
+      Group[$mirrorsync_group],
+      Group[$apache_owner],
+    ],
   }
 
   # Assume that an existing virtual resource named `User { 'www-data'`
   # already exist
   User <| title == $apache_owner |> {
-    groups +> 'mirrorsync'
+    groups +> $mirrorsync_user,
   }
 
   # The user mirrorsync is only used to trigger a synchronization
   # between a remote a mirror and the directory as the user www-data
-  sudo::conf { 'mirrorsync':
+  sudo::conf { $mirrorsync_user:
     ensure  => present,
-    content => 'mirrorsync ALL=(ALL) NOPASSWD: /usr/bin/mirrorsync',
-    require => User['mirrorsync'],
+    content => "${$mirrorsync_user} ALL=(ALL) NOPASSWD: ${mirrorsync_script_path}",
+    require => User[$mirrorsync_user],
   }
 
-  file { '/home/mirrorsync/.ssh':
+  file { "${mirrorsync_user_home}/.ssh":
     ensure  => 'directory',
     mode    => '0700',
-    owner   => 'mirrorsync',
-    group   => 'mirrorsync',
-    require => User['mirrorsync'],
+    owner   => $mirrorsync_user,
+    group   => $mirrorsync_user, # Same group name as user (expected to ensure privacy)
+    require => User[$mirrorsync_user],
   }
 
   if $ssh_authorized_keys.size > 0 {
@@ -74,11 +98,52 @@ class profile::archives (
         type    => $ssh_authorized_key["type"],
         user    => $ssh_authorized_key["user"],
         key     => $ssh_authorized_key["key"],
-        require => File['/home/mirrorsync/.ssh'],
+        require => File["${mirrorsync_user_home}/.ssh"],
       }
     }
   }
 
+  file { $osuosl_mirroring['keypath']:
+    ensure  => file,
+    owner   => $mirrorsync_user,
+    group   => $mirrorsync_group,
+    mode    => '0600',
+    content => $osuosl_mirroring['privkey'],
+    require => [
+      User[$mirrorsync_user],
+      File["${mirrorsync_user_home}/.ssh"],
+    ],
+  }
+
+  file { "${mirrorsync_user_home}/.ssh/config":
+    ensure  => file,
+    owner   => $mirrorsync_user,
+    group   => $mirrorsync_group,
+    mode    => '0600',
+    content => "
+Host ${$osuosl_mirroring['host']}
+    IdentityFile ${$osuosl_mirroring['keypath']}
+",
+    require => [
+      User[$mirrorsync_user],
+      File["${mirrorsync_user_home}/.ssh"],
+      File[$osuosl_mirroring['keypath']],
+    ],
+  }
+
+  file { "${mirrorsync_user_home}/.ssh/known_hosts":
+    ensure  => file,
+    owner   => $mirrorsync_user,
+    group   => $mirrorsync_group,
+    mode    => '0600',
+    content => $osuosl_mirroring['known_hosts'].join("\n"),
+    require => [
+      User[$mirrorsync_user],
+      File["${mirrorsync_user_home}/.ssh"],
+    ],
+  }
+
+  # Apache mod-bw may be used to control the download bandwidth/add rate limit
   package { 'libapache2-mod-bw':
     ensure => present,
   }
@@ -233,30 +298,41 @@ class profile::archives (
   }
 
   # Install a script to trigger mirror synchronization
-  #
   file { '/var/log/mirrorsync':
-    ensure  => 'directory',
-    group   => 'mirrorsync',
-    owner   => 'mirrorsync',
-    mode    => '0770',
-    require => File['/usr/bin/mirrorsync'],
+    ensure => 'directory',
+    group  => $mirrorsync_user,
+    owner  => $mirrorsync_user,
+    mode   => '0770',
   }
 
-  file { '/usr/bin/mirrorsync':
+  file { $mirror_base_rsync_filter:
+    content => template("${module_name}/archives/rsync.filter.erb"),
+    group   => 'root',
+    owner   => 'root',
+    mode    => '0644',
+  }
+
+  file { $mirrorsync_script_path:
     content => template("${module_name}/archives/mirrorsync.erb"),
     group   => 'root',
     owner   => 'root',
     mode    => '0755',
+    require => [
+      File['/var/log/mirrorsync'],
+      File[$mirror_base_rsync_filter],
+    ],
   }
 
   package { 'cron':
     ensure => installed,
   }
 
-  cron { 'mirrorsync':
-    command => '/usr/bin/mirrorsync',
-    user    => 'mirrorsync',
+  cron { $mirrorsync_user:
+    command => $mirrorsync_script_path,
+    user    => $mirrorsync_user,
     minute  => 30,
-    require => [File['/usr/bin/mirrorsync'],Package['cron']],
-  }
-}
+    require => [
+      File[$mirrorsync_script_path],
+      Package['cron'],
+    ],
+} }

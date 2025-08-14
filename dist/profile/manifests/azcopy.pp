@@ -7,7 +7,8 @@ class profile::azcopy (
   include apt
   include profile::aptmicrosoftprod
 
-  if $azcopy_version {
+  # Case of Ubuntu 18.04 (pkg) on arm64 (which does not provide azcopy package) is not handled
+  if $facts['os']['distro']['codename'] != 'bionic' and $azcopy_version {
     package { 'azcopy':
       ensure  => $azcopy_version,
       require => Class['apt::update'],
