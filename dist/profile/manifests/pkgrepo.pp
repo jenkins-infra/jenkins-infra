@@ -54,18 +54,12 @@ class profile::pkgrepo (
   ################################################################################################
   # Retrieve hieradata to use in templates or reuse across resources
   ################################################################################################
-  $osuosl_mirroring = {
-    'host'     => lookup('osuosl_mirroring::host'),
-    'username' => lookup('osuosl_mirroring::username'),
-    'privkey'  => lookup('osuosl_mirroring::privkey'),
-    'keypath'  => "${mirror_home_dir}/.ssh/osuosl_mirror",
-  }
-
   $archives_jenkins_io_mirroring = {
     'host'     => lookup('archives_jenkins_io_mirroring::host'),
     'username' => lookup('archives_jenkins_io_mirroring::username'),
     'privkey'  => lookup('archives_jenkins_io_mirroring::privkey'),
     'keypath'  => "${mirror_home_dir}/.ssh/archives",
+    'known_hosts'=> lookup('archives_jenkins_io_mirroring::known_hosts'),
   }
 
   # Used by mirror-scripts
@@ -93,16 +87,8 @@ class profile::pkgrepo (
     # Allow apache user to read some of the files in this directory, through the "read" permission for groups
     groups         => [$www_common_group],
     require        => Group[$mirror_group],
+    # Automatically creates the "${mirror_home_dir}/.ssh" directory
     ssh_keys       => $authorized_ssh_keys,
-  }
-
-  file { $osuosl_mirroring['keypath']:
-    ensure  => file,
-    owner   => $mirror_user,
-    group   => $mirror_group,
-    mode    => '0600',
-    content => $osuosl_mirroring['privkey'],
-    require => Account[$mirror_user],
   }
 
   file { $archives_jenkins_io_mirroring['keypath']:
@@ -120,17 +106,23 @@ class profile::pkgrepo (
     group   => $mirror_group,
     mode    => '0600',
     content => "
-Host archives.jenkins-ci.org
+Host ${$archives_jenkins_io_mirroring['host']}
     IdentityFile ${archives_jenkins_io_mirroring['keypath']}
-Host archives.jenkins.io
-    IdentityFile ${archives_jenkins_io_mirroring['keypath']}
-Host ftp-osl.osuosl.org
-    IdentityFile ${$osuosl_mirroring['keypath']}
 ",
     require => [
       Account[$mirror_user],
       File[$archives_jenkins_io_mirroring['keypath']],
-      File[$osuosl_mirroring['keypath']],
+    ],
+  }
+
+  file { "${mirror_home_dir}/.ssh/known_hosts":
+    ensure  => file,
+    owner   => $mirror_user,
+    group   => $mirror_group,
+    mode    => '0600',
+    content => $archives_jenkins_io_mirroring['known_hosts'].join("\n"),
+    require => [
+      Account[$mirror_user],
     ],
   }
 
@@ -162,15 +154,25 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
 
   cron { "azcopy-${mirror_user}-logs-cleanup":
     # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
-    command => "bash -c 'date && df -h ${mirror_home_dir} && date && find ${mirror_home_dir}/.azcopy/ -mtime +10 -type f -print -exec rm -f {} \; && df -h ${mirror_home_dir}' >${mirror_home_dir}/.cron-azcopy-${mirror_user}-logs-cleanup.log 2>&1",
+    command => "bash -c 'date && df -h ${mirror_home_dir} && date && find ${mirror_home_dir}/.azcopy/ -mtime +10 -type f -print -exec rm -f {} \\; && df -h ${mirror_home_dir}' >${mirror_home_dir}/.cron-azcopy-${mirror_user}-logs-cleanup.log 2>&1",
     user    => $mirror_user,
     hour    => 3,
     minute  => 0,
     require => [Package['cron']],
   }
 
+  # Deprecated resources (TODO: remove after successful migration)
   [
-    'populate-archives.sh',
+    '/srv/releases/populate-archives.sh',
+    '/srv/releases/rsync.filter',
+    '/srv/releases/.ssh/osuosl_mirror',
+  ].each | $absent_file | {
+    file { $absent_file:
+      ensure  => absent,
+    }
+  }
+
+  [
     'sync-recent-releases.sh',
     'sync.sh',
     'update-latest-symlink.sh',
@@ -181,22 +183,6 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
       owner   => $mirror_user,
       group   => $mirror_group,
       mode    => '0700', # Need execution but only by the owner
-      require => [
-        Account[$mirror_user],
-      ],
-    }
-  }
-
-  # Not a script: different mode
-  [
-    'rsync.filter',
-  ].each | $mirror_file | {
-    file { "${mirror_home_dir}/${mirror_file}":
-      ensure  => file,
-      content => template("${module_name}/mirror-scripts/${mirror_file}.erb"),
-      owner   => $mirror_user,
-      group   => $mirror_group,
-      mode    => '0600',
       require => [
         Account[$mirror_user],
       ],
