@@ -120,6 +120,8 @@ osuosl_mirroring::username: jenkins
 osuosl_mirroring::privkey: ''
 osuosl_mirroring::known_hosts:
 - '|1|FT0ktWYsQXSvsnAM5+QPVeT0ZMA=|MpUvUUaEFw0LH6MwlHzails4s2U= ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBGBiBCeg+35U7h9ckQzDbNHX0O1aYC5yT8mGj/aWmBRlOThU+Qgd199XWgr1Eb6Lnnpol/ZLYKQE7UKK6U0m7iM='
+- '|1|yDsn0WtrT6LnEYwcPrgzhYtozi8=|66DNkrAGDMBCy73CuvzEnZ6Rn/4= ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgSzcofSNcr0LWSmVRb/14QNaEAPRn8aY2VpCKY9L+4d+/3x537gWNUs2h8YTF+tmwwV4Qk8wzZSr5vfrWDcGRgQrA28I4tinsGUm0g/9uXN71Dso9Ci8p9pR4uxr2E9lc5vwltaPt5WhphY0XLrzneweGwDrINVFoQd4R6/7PfRHPpkL95SX3fS0VwkvNBAtTC9ghpr68g5jOZjThrxooom+Wkn8D38XcOY76EWAdSz68ZRvjHGDt1almqUWekeeOwzOf4ESGgWfpk2xIVu4t+7DLGuJfv11HcOZgjqXWJG4RH9VRc2Hy4dZSoAU6OuplFh30MsggikYUZmciq2eL'
+- '|1|uu8x0w9RGi/Ynhj7b2LMnt/UVL0=|VPmpjfNZ0lOdN+mRhkJ/fmjJb/s= ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFLNMBOqPAhksTi+573SvJ5m1PS/OUvHALnaevJ4eINS'
 archives_jenkins_io_mirroring::host: archives.jenkins.io
 archives_jenkins_io_mirroring::username: mirrorsync
 archives_jenkins_io_mirroring::privkey: ''
