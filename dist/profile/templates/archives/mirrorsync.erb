@@ -63,9 +63,9 @@ sync_osuosl(){
   echo "$TIME - OSUOSL successfully synchronized" >> /var/log/mirrorsync/mirrorsync.log
 }
 
-# Ensure we run this script as user <%= @owner %>
-if [ "$(/usr/bin/whoami)" != "<%= @apache_owner %>" ]; then
-  exec /usr/bin/sudo --user="<%= @apache_owner %>" /usr/bin/mirrorsync
+# Ensure we run this script as user <%= @mirrorsync_user %>
+if [ "$(/usr/bin/whoami)" != "<%= @mirrorsync_user %>" ]; then
+  exec /usr/bin/sudo --user="<%= @mirrorsync_user %>" /usr/bin/mirrorsync
 else
   time sync_osuosl
 fi

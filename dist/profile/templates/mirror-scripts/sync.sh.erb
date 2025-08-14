@@ -1,6 +1,5 @@
 #!/bin/bash -xe
 base_dir="<%= @release_root %>"
-jenkins_data_dir="${base_dir}/jenkins"
 archives_jio_host="<%= @archives_jenkins_io_mirroring["username"] %>@<%= @archives_jenkins_io_mirroring["host"] %>"
 archives_remote_dir="/srv/releases"
 script_flag="${1}"
@@ -18,7 +17,7 @@ echo ">> Updating the latest symlink for LTS RC"
 /srv/releases/update-latest-symlink.sh "-stable-rc"
 
 echo ">> Delivering bits to archives.jenkins.io (fallback of get.jenkins.io)"
-pushd "${jenkins_data_dir}"
+pushd "${base_dir}"
 time rsync --recursive \
   --links `# Copy symlinks as symlinks: destination is a Linux filesystem` \
   --perms `# Preserve permissions: destination is a Linux filesystem` \

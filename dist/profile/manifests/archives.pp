@@ -148,8 +148,22 @@ Host ${$osuosl_mirroring['host']}
     ensure => present,
   }
 
-  # Create apache dirs
-  [$archives_dir, $apache_log_dir_fqdn,$apache_log_dir_legacy_fqdn].each |String $dir| {
+  # Create dirs owned by mirrorsync user but required by httpd service
+  # Note: apache user is expected to be a member of the mirrorbits group
+  [$archives_dir].each |String $dir| {
+    file { $dir:
+      ensure  => directory,
+      owner   => $mirrorsync_user,
+      group   => $mirrorsync_group,
+      mode    => '0755',
+      require => [
+        User[$mirrorsync_user],
+        Group[$mirrorsync_group],
+      ],
+    }
+  }
+  # Create dirs owned by apache and required by httpd service
+  [$apache_log_dir_fqdn,$apache_log_dir_legacy_fqdn].each |String $dir| {
     file { $dir:
       ensure  => directory,
       owner   => $apache_owner,
