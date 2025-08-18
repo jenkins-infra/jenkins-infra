@@ -11,13 +11,6 @@ archives_remote_dir="/srv/releases"
 [[ -f "$1" ]] || { echo "$1 is not a file" >&2 ; exit 2 ; }
 RECENT_RELEASES_JSON="$1"
 
-
-echo ">> Update artifacts on get.jenkins.io"
-
-## Tell shellcheck to NOT check the sourced file (as it is not available when running shellcheck outside of production)
-#shellcheck disable=SC1091
-source "<%= @azure_storage_env_file %>"
-
 RECENT_RELEASES=$( jq --raw-output '.releases[] | .name + "/" + .version' "${RECENT_RELEASES_JSON}" )
 if [[ -z "${RECENT_RELEASES}" ]] ; then
     echo "No recent releases"
@@ -27,37 +20,11 @@ fi
 echo "${RECENT_RELEASES}"
 echo
 
-export STORAGE_DURATION_IN_MINUTE=5
-export STORAGE_PERMISSIONS=dlrw
-
-# Don't print any trace
-set +x
-
-fileShareSignedUrl=$(get-fileshare-signed-url.sh)
-urlWithoutToken=${fileShareSignedUrl%\?*}
-token=${fileShareSignedUrl#*\?}
-
 while IFS= read -r release; do
     # Ensure proper permissions are set (<%= @mirror_user %> is the owner and can write while www-data only need read access for webserver)
     find "${BASE_DIR}/plugins/${release}" -exec chown <%= @mirror_user %>:<%= @www_common_group %> {} \;
     find "${BASE_DIR}/plugins/${release}" -type f -exec chmod 644 {} \;
     find "${BASE_DIR}/plugins/${release}" -type d -exec chmod 755 {} \;
-
-    echo "Uploading ${release} to get.jenkins.io..."
-    # Don't print any trace
-    set +x
-    ## azcopy breaks the while + read loop - https://github.com/Azure/azure-storage-azcopy/issues/974
-    ## so we ensure an empty stdin is passed using the ':|' form
-    : | azcopy copy \
-        --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
-        --recursive `# Source directory contains at least one subdirectory` \
-        --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
-        --log-level=ERROR `# Do not write too much logs (I/O...)` \
-        "${BASE_DIR}/plugins/${release}/*" "${urlWithoutToken}plugins/${release}?${token}"
-
-    # Following commands traces are safe
-    set -x
-    echo "Done uploading ${release} to get.jenkins.io"
 
     echo "Uploading ${release} to archives.jenkins.io (fallback of get.jenkins.io)..."
     ssh -n "${archives_jio_host}" "mkdir -p jenkins/plugins/${release}"
@@ -70,6 +37,7 @@ while IFS= read -r release; do
         --verbose \
         "${BASE_DIR}/plugins/${release}/" `# Source` \
         "${archives_jio_host}:${archives_remote_dir}/plugins/${release}" `# Destination`
+
     # This marker file named 'TIME' must be created locally and then uploaded (to ensure mirrors reads its createtime and modtime)
     date +%s > "${BASE_DIR}/TIME"
     rsync --recursive \

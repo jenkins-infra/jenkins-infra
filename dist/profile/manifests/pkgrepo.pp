@@ -55,15 +55,12 @@ class profile::pkgrepo (
   # Retrieve hieradata to use in templates or reuse across resources
   ################################################################################################
   $archives_jenkins_io_mirroring = {
-    'host'     => lookup('archives_jenkins_io_mirroring::host'),
-    'username' => lookup('archives_jenkins_io_mirroring::username'),
-    'privkey'  => lookup('archives_jenkins_io_mirroring::privkey'),
-    'keypath'  => "${mirror_home_dir}/.ssh/archives",
+    'host'       => lookup('archives_jenkins_io_mirroring::host'),
+    'username'   => lookup('archives_jenkins_io_mirroring::username'),
+    'privkey'    => lookup('archives_jenkins_io_mirroring::privkey'),
+    'keypath'    => "${mirror_home_dir}/.ssh/archives",
     'known_hosts'=> lookup('archives_jenkins_io_mirroring::known_hosts'),
   }
-
-  # Used by mirror-scripts
-  $azure_storage_env_file = "${mirror_home_dir}/.azure-storage-env"
 
   # Used by apache2 and scripts
   $pkg_docroot = "${www_basedir}/${pkg_basedir}"
@@ -126,21 +123,6 @@ Host ${$archives_jenkins_io_mirroring['host']}
     ],
   }
 
-  file { $azure_storage_env_file:
-    ensure  => file,
-    owner   => $mirror_user,
-    group   => $mirror_group,
-    mode    => '0600',
-    content => "
-export STORAGE_NAME=${lookup('azure::getjenkinsio::storageaccount')}
-export STORAGE_FILESHARE=${lookup('azure::getjenkinsio::fileshare')}
-export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
-",
-    require => [
-      Account[$mirror_user],
-    ],
-  }
-
   package { 'cron':
     ensure => installed,
   }
@@ -152,25 +134,31 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
     require => [File["${mirror_home_dir}/sync.sh"],Package['cron']],
   }
 
-  cron { "azcopy-${mirror_user}-logs-cleanup":
-    # Override the content of the log file to avoid heavy files not rotated in 2-3 years.
-    command => "bash -c 'date && df -h ${mirror_home_dir} && date && find ${mirror_home_dir}/.azcopy/ -mtime +10 -type f -print -exec rm -f {} \\; && df -h ${mirror_home_dir}' >${mirror_home_dir}/.cron-azcopy-${mirror_user}-logs-cleanup.log 2>&1",
-    user    => $mirror_user,
-    hour    => 3,
-    minute  => 0,
-    require => [Package['cron']],
-  }
-
-  # Deprecated resources (TODO: remove after successful migration)
+  ################################################################################################
+  ### Deprecated resources (TODO: remove after successful migration)
   [
-    '/srv/releases/populate-archives.sh',
-    '/srv/releases/rsync.filter',
-    '/srv/releases/.ssh/osuosl_mirror',
+    "${mirror_home_dir}/.azure-storage-env",
   ].each | $absent_file | {
     file { $absent_file:
       ensure  => absent,
     }
   }
+  cron { "azcopy-${mirror_user}-logs-cleanup":
+    ensure => absent,
+  }
+  package { 'azcopy':
+    ensure => absent,
+  }
+  package { 'azure-cli':
+    ensure => absent,
+  }
+  apt::source { 'microsoft':
+    ensure => absent,
+  }
+  file { '/usr/local/bin/get-fileshare-signed-url.sh':
+    ensure => absent,
+  }
+  ################################################################################################
 
   [
     'sync-recent-releases.sh',
@@ -188,12 +176,6 @@ export AZURE_STORAGE_KEY=${lookup('azure::getjenkinsio::storagekey')}
       ],
     }
   }
-  ################################################################################################
-
-  ################################################################################################
-  ## Azcopy
-  include profile::azcopy
-  ################################################################################################
 
   $apache_log_dir_fqdn = "/var/log/apache2/${repo_fqdn}"
   $apache_log_dir_legacy_fqdn = "/var/log/apache2/${repo_legacy_fqdn}"
