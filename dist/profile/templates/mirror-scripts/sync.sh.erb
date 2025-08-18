@@ -36,49 +36,5 @@ echo ">> move index from staging to production"
     --exclude=.htaccess --exclude=jenkins.repo \
     "<%= @pkg_staging_basedir %>"/ "<%= @pkg_basedir %>"/)
 
-if [[ "${script_flag}" = '--full-sync' ]]; then
-  echo ">> Updating artifacts on get.jenkins.io..."
-
-  # Don't print any trace
-  set +x
-
-  echo ">>> retrieving the file share URL..."
-
-  ## Tell shellcheck to NOT check the sourced file (as it is not available when running shellcheck outside of production)
-  #shellcheck disable=SC1091
-  source "<%= @azure_storage_env_file %>"
-
-  export STORAGE_DURATION_IN_MINUTE=30 #TODO: to be adjusted
-  export STORAGE_PERMISSIONS=dlrw
-
-  fileShareSignedUrl="$(get-fileshare-signed-url.sh)"
-  echo ">>> retrieved the file share URL"
-
-  echo ">>> azcopy-ing files to get.jenkins.io filesystem..."
-  ## azcopy might break the stdin pipelining - https://github.com/Azure/azure-storage-azcopy/issues/974
-  ## so we ensure an empty stdin is passed using the ':|' form
-  : | azcopy copy \
-    --skip-version-check `# Do not check for new azcopy versions (we have updatecli + puppet for this)` \
-    --recursive `# Source directory contains at least one subdirectory` \
-    --overwrite=ifSourceNewer `# Only overwrite if source is more recent (time comparison)` \
-    --log-level=ERROR `# Do not write too much logs (I/O...)` \
-    "${base_dir}/*" "${fileShareSignedUrl}"
-  echo ">>> finished azcopy-ing files to get.jenkins.io filesystem"
-
-  # Back to debug mode
-  set -x
-
-  echo ">> finished updating artifacts on get.jenkins.io"
-
-  echo ">> Cleanup..."
-  # Remove completed azcopy plans
-  azcopy jobs clean --with-status=completed
-  # Remove uncompleted azcopy plans older than 30 days
-  find "${HOME}"/.azcopy/plans -type f -mtime +30 -delete
-  # Remove azcopy logs older than 30 days
-  find "${HOME}"/.azcopy -type f -name '*.log' -mtime +30 -delete
-  echo ">> Cleanup finished"
-fi
-
 echo ">> Script sync.sh finished"
 exit 0

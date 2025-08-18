@@ -279,10 +279,6 @@ usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
 docker::version: 5:28.3.3-1~ubuntu.22.04~jammy
-# This file storage and the storage account are defined in https://github.com/jenkins-infra/azure/blob/main/get.jenkins.io.tf
-azure::getjenkinsio::storageaccount: "overridewithstorageaccountname"
-azure::getjenkinsio::fileshare: "overridewithfilestoragename"
-azure::getjenkinsio::storagekey: "overridewithstoragekey"
 profile::azcopy::azcopy_version: 10.30.0
 profile::azcopy::az_cli_version: 2.76.0
 profile::mirrorbits::mirrorbits_version: v0.6.1
