@@ -30,6 +30,8 @@ jenkins:
       <%- end -%>
             sshPort: "22"
         associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
+        avoidUsingOrphanedNodes: true # Set maxTotalUses to 1 when this is true (ephemeral VMs)
+        maxTotalUses: 1 # Throw away the VMs after a build
         connectBySSHProcess: false
         connectionStrategy: "<%= agent['associatePublicIp'] || ec2_cloud_setup['associatePublicIp'] ? "PUBLIC_DNS" : "PRIVATE_IP" %>"
         deleteRootOnTermination: true
@@ -37,7 +39,7 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: "<%= agent['ebsOptimized'] ? "true" : "false" %>"
         hostKeyVerificationStrategy: "<%= $os == 'windows' ? "CHECK_NEW_SOFT" : "CHECK_NEW_HARD" %>"
-        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : -5 %>"
+        idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : '1' %>"
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
       <%- if $os == 'windows' -%>
@@ -64,7 +66,6 @@ jenkins:
         jvmopts: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %> -Djava.io.tmpdir=<%= $tempDir %>"
         labelString: "<%= $os == 'ubuntu' ? 'ubuntu linux' : 'windows' %> <%= $os + "-" + agent['os_version'] %> <%= agent['architecture'] %> aws ec2 vm <%= agent['spot'] ? 'spot' : 'nonspot' %> <%= agent['labels'].join(' ') %>"
         launchTimeoutStr: "1000"
-        maxTotalUses: 1 # Throw away the VMs after a build: ephemeral machines
         metadataEndpointEnabled: true
         metadataHopsLimit: 1
         metadataSupported: true
