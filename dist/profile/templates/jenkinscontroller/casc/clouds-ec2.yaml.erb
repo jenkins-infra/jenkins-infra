@@ -4,6 +4,7 @@ jenkins:
   <%- @jcasc['cloud_agents']['ec2'].each do |ec2_cloud_name, ec2_cloud_setup| -%>
   - amazonEC2:
       name: <%= ec2_cloud_name %>
+      cleanUpOrphanedNodes: true
       credentialsId: "<%= ec2_cloud_setup['credentialsId'] %>"
     <%- $maxEC2Vms = 0; ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       <%- $maxEC2Vms = agent['maxInstances'] + $maxEC2Vms -%>
@@ -100,7 +101,7 @@ jenkins:
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
       <%- if agent['spot'] -%>
         spotConfig:
-          fallbackToOndemand: false
+          fallbackToOndemand: true
           useBidPrice: false
       <%- end -%>
         stopOnTerminate: false
