@@ -344,7 +344,7 @@ Host ${$osuosl_mirroring['host']}
   cron { $mirrorsync_user:
     command => $mirrorsync_script_path,
     user    => $mirrorsync_user,
-    minute  => 30,
+    minute  => '*/10', # Every 10 minutes
     require => [
       File[$mirrorsync_script_path],
       Package['cron'],
