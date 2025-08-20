@@ -18,8 +18,8 @@ sources:
     kind: githubrelease
     name: Get the latest stable docker-openvpn version
     spec:
-      owner: "jenkins-infra"
-      repository: "docker-openvpn"
+      owner: jenkins-infra
+      repository: docker-openvpn
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       versionfilter:
@@ -38,9 +38,11 @@ conditions:
     kind: dockerimage
     sourceid: latestVersion
     spec:
-      image: "jenkinsciinfra/openvpn"
-      architecture: amd64
+      image: dockerhubmirror.azurecr.io/jenkinsciinfra/openvpn
       # Tag comes from the source input value
+      architectures:
+      - amd64
+      - arm64
   checkIfKeyExist:
     kind: yaml
     disablesourceinput: true
