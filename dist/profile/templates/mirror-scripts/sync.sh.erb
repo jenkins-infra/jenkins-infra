@@ -9,8 +9,6 @@ export PATH="${HOME}"/.bin:/usr/local/bin:"${PATH}"
 
 echo ">> Updating the latest symlink for weekly"
 /srv/releases/update-latest-symlink.sh
-echo ">> Updating the latest symlink for weekly RC"
-/srv/releases/update-latest-symlink.sh "-rc"
 echo ">> Updating the latest symlink for LTS"
 /srv/releases/update-latest-symlink.sh "-stable"
 echo ">> Updating the latest symlink for LTS RC"
