@@ -54,6 +54,9 @@ profile::jenkinscontroller::jcasc:
         # but hierdata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+  csp-plugin:
+    reportOnly: true
+    rule: "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: avatars.githubusercontent.com; media-src 'self' data: ; script-src 'self' 'report-sample' usage.jenkins.io;"
   appearance:
     pipeline_graph_view:
       on_build_page: true
