@@ -351,7 +351,7 @@ profile::jenkinscontroller::jcasc:
         # TODO: maintain with updatecli
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
         # TODO: maintain with updatecli
-        subnetId: "subnet-0ec8bba512d3f0b31"
+        subnetId: "subnet-0095ee74f5cd48290"
         # TODO: maintain with updatecli
         registryMirror: "k8s-hubmirro-hubmirro-477f7dfd76-9bbe4e560ee83036.elb.us-east-2.amazonaws.com:5000"
         agent_definitions:
