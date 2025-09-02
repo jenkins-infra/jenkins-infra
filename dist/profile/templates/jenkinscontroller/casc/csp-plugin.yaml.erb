@@ -1,4 +1,4 @@
-<%- if @jcasc['csp-plugin'] && @jcasc['csp-plugin']['reportOnly'] -%>
+<%- if @jcasc['csp-plugin'] -%>
 security:
   contentSecurityPolicyConfiguration:
     <%- if @jcasc['csp-plugin']['reportOnly'] -%>
