@@ -80,7 +80,7 @@ accounts:
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
 profile::letsencrypt::plugin: apache
-profile::letsencrypt::certbot_version: '4.2.0'
+profile::letsencrypt::certbot_version: '5.0.0'
 profile::letsencrypt::certbot_dnsazure_version: '2.6.1'
 profile::letsencrypt::certbot_dnsmulti_version: '4.25.1'
 profile::pkgrepo::authorized_ssh_keys:
@@ -232,17 +232,17 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-05e3b416e7788a26c
-      windows-2019-amd64: ami-00bb3ddd0b7ecd1bc
-      ubuntu-22.04-arm64: ami-08e668282a1d2926b
-      windows-2022-amd64: ami-00363157773083396
+      ubuntu-22.04-amd64: ami-0e138716ab721b322
+      windows-2019-amd64: ami-0343fe6cd25ee46c5
+      ubuntu-22.04-arm64: ami-0686e914f3181224a
+      windows-2022-amd64: ami-03d6b32b580843432
     azure_vms_gallery_image:
-      version: 2.60.0
+      version: 2.61.0
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.60.0@sha256:e2adf9faff59947ed554c914b617d6f63832454447b2c3c46bb7e71f612f3573
-      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:b5108b3e2e181a367336623781fbf7b4fee071d3f84e8099c26435fe1d03161d
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.61.0@sha256:c3f73c044b61fcc0fc49b585cf0a80800ffdd0e619cce6204e770ac28dfde50e
+      jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:31f7525b70a240d231582fee6e4ce3bbde97a23406db5c5daa977a71868fe39a
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk8: 8u462-b08
@@ -274,7 +274,7 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:28.3.3-1~ubuntu.22.04~jammy
+docker::version: 5:28.4.0-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.30.0
 profile::azcopy::az_cli_version: 2.77.0
 profile::mirrorbits::mirrorbits_version: v0.6.1

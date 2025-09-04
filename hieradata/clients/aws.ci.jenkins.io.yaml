@@ -628,6 +628,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-17-nonspot
+              - maven-17-windows-nonspot
             spot: false
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK21"
@@ -650,6 +651,21 @@ profile::jenkinscontroller::jcasc:
               - win-2019
             spot: true
             acpServerId: aws-internal
+          - description: "Nonspot Windows 2019 x86_64 with JDK21"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-21'
+            # Utilizes the local NVMe mounted in Z:
+            customDataDisk: 'Z:'
+            remoteAdmin: jenkins
+            labels:
+              - maven-21-windows-nonspot
+            spot: false
+            acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK25"
             maxInstances: 50
             instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
@@ -665,6 +681,21 @@ profile::jenkinscontroller::jcasc:
               - win-2019-amd64-maven-25
               - maven-25-windows
             spot: true
+            acpServerId: aws-internal
+          - description: "Nonspot Windows 2019 x86_64 with JDK25"
+            maxInstances: 50
+            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2019"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-25'
+            # Utilizes the local NVMe mounted in Z:
+            customDataDisk: 'Z:'
+            remoteAdmin: jenkins
+            labels:
+              - maven-25-windows-nonspot
+            spot: false
             acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK17"
             maxInstances: 50
@@ -755,7 +786,7 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
 profile::jenkinscontroller::tools_versions:
   # TODO: track with updatecli
-  awscli: 2.28.21
+  awscli: 2.28.23
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
     # TODO: track with updatecli
