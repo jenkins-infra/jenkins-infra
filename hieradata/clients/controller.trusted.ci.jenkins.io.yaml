@@ -215,24 +215,6 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
-        - name: "win-2019-amd64-maven-17-nonspot"
-          description: "Nonspot Windows 2019 Maven-17"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: false
-          architecture: amd64
-          labels:
-            - maven-17-windows-nonspot
-          javaHome: 'C:/tools/jdk-17'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
         - name: "win-2019-amd64-maven-21"
           description: "Windows 2019 Maven-21"
           imageDefinition: jenkins-agent-windows-2019-amd64
@@ -247,24 +229,6 @@ profile::jenkinscontroller::jcasc:
           labels:
             - win-2019-amd64-maven-21
             - maven-21-windows
-          javaHome: 'C:/tools/jdk-21'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2019-amd64-maven-21-nonspot"
-          description: "Nonspot Windows 2019 Maven-21"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: false
-          architecture: amd64
-          labels:
-            - maven-21-windows-nonspot
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 7
           useAsMuchAsPossible: true
