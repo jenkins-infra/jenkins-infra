@@ -243,7 +243,6 @@ profile::jenkinscontroller::jcasc:
           labels:
             - win-2019-amd64-maven-17
             - maven-17-windows
-            - maven-17-windows-nonspot
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
@@ -263,7 +262,6 @@ profile::jenkinscontroller::jcasc:
           labels:
             - win-2019-amd64-maven-21
             - maven-21-windows
-            - maven-21-windows-nonspot
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
