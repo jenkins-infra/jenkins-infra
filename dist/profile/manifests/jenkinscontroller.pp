@@ -206,6 +206,8 @@ class profile::jenkinscontroller (
       'jenkinscontroller/casc/artifacts-manager.yaml.erb',
       # Opt-in with `profile::jenkinscontroller::jcasc.appearance
       'jenkinscontroller/casc/appearance.yaml.erb',
+      # Opt-in with `profile::jenkinscontroller::jcasc.csp-plugin
+      'jenkinscontroller/casc/csp-plugin.yaml.erb',
     ],
     config_dir => 'casc.d', # Relative to the jenkins_home
   }
@@ -430,6 +432,7 @@ class profile::jenkinscontroller (
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
     'toolenv' => 'tools.generic',
     'workflow-aggregator' => 'global_libraries',
+    'csp' => 'csp-plugin',
   }
   $all_plugins = ($plugins + $known_plugins_configs.keys).unique.map |$plugin| {
     # If the specified plugin is in our "known" list and has a config then we want it
