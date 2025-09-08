@@ -127,7 +127,7 @@ Host ${$archives_jenkins_io_mirroring['host']}
     ensure => installed,
   }
 
-  cron { 'mirrorbrain-sync-releases':
+  cron { 'mirrorbrain-sync-full':
     command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
     minute  => '0',
     user    => $mirror_user,
@@ -137,31 +137,15 @@ Host ${$archives_jenkins_io_mirroring['host']}
   ################################################################################################
   ### Deprecated resources (TODO: remove after successful migration)
   [
-    "${mirror_home_dir}/.azure-storage-env",
+    "${mirror_home_dir}/sync-recent-releases.sh",
   ].each | $absent_file | {
     file { $absent_file:
       ensure  => absent,
     }
   }
-  cron { "azcopy-${mirror_user}-logs-cleanup":
-    ensure => absent,
-  }
-  package { 'azcopy':
-    ensure => absent,
-  }
-  package { 'azure-cli':
-    ensure => absent,
-  }
-  apt::source { 'microsoft':
-    ensure => absent,
-  }
-  file { '/usr/local/bin/get-fileshare-signed-url.sh':
-    ensure => absent,
-  }
   ################################################################################################
 
   [
-    'sync-recent-releases.sh',
     'sync.sh',
     'update-latest-symlink.sh',
   ].each | $mirror_script | {
