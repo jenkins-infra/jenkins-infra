@@ -758,6 +758,7 @@ profile::jenkinscontroller::plugins:
   - coverage-badges-extension # Coverage Badges
   - credentials # Provides Jenkins Credentials management
   - credentials-binding # Bind Jenbkins credentials to variables in jobs
+  - csp # for the security team see https://github.com/jenkins-infra/helpdesk/issues/4776
   - datadog # Datadog plugin
   - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
