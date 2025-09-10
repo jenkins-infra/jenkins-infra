@@ -302,9 +302,10 @@ profile::jenkinscontroller::plugins:
   - build-timeout
   - buildtriggerbadge
   - cloudbees-folder
+  - configuration-as-code
   - credentials
   - credentials-binding
-  - configuration-as-code
+  - csp # for the security team see https://github.com/jenkins-infra/helpdesk/issues/4776
   - docker-workflow
   - disable-job-button
   - git-client
