@@ -538,6 +538,8 @@ profile::jenkinscontroller::jcasc:
               - highram
               - docker-highmem
               - linux-amd64-big
+              # temporarily adding manually the false label spot to avoid job failure since https://github.com/jenkins-infra/helpdesk/issues/4795
+              - spot
             # we switch temporarily to non spot as per https://github.com/jenkins-infra/helpdesk/issues/4795
             spot: false
             acpServerId: aws-internal
