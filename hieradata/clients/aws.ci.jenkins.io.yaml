@@ -538,7 +538,8 @@ profile::jenkinscontroller::jcasc:
               - highram
               - docker-highmem
               - linux-amd64-big
-            spot: true
+            # we switch temporarily to non spot as per https://github.com/jenkins-infra/helpdesk/issues/4795
+            spot: false
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
