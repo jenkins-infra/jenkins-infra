@@ -29,6 +29,10 @@ profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAXpmFyHEJVPfkgY2pUna5kvSxS8/O8b78GKNbCstm5loTtW6Ahgeeaqimiha9zOlr383B3/qursQHv0lYlGQrxGzonQHRblEbXM19hznGKIqtZc2JsXQ7uutgSApIB+aQkNcE7LF5AIbQbag0vfs2VtC18k8k/krqtzqFcd2ioukzdF7Dnf9YXsSbp2Q3gMUt9r1WpmrgxHTXIghZCA8lVsI1c9oo3JnQCvHYAUUxRbfXs/mAyeOKKGnCCmgujvWjNbjCNsLC0+VhVi0Hn3hnT3FTm9cyEWyDxfFfQ3/dffq9ZKbNHbRDkUg0M5sP1Kn0bQK08Nc2UScKsvP00g281TBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBA+RyPMfeLE+gavSoFQen4tgCB2fTgVbu+YezSpWaedB4WQ6gX1eP5G4id2Lh7gOUYOSw==]
   datadog_api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAPHOrzhvtHBDIx0+hew05tezK2pM+fCy1rBzC5BZIBvzeMV5rXJ9p6Ujo7O9bdYeFB1O03wemXfWAN2slD3Ycvi/NEs/2aIxDsWs/qSWhzkEucUDLqcwazcN3lHIf69zsO6fE+0srmA0sdZf+nWyJRKSDj0wDZ2Zsaa0Sz8Y5LPrDW+DMnMo84C7fdqXLJDxlzDGNMOu8kj3zv1GTH89bdNOXxFD44vzBVxX/y64FUi1VmHro1kPicLN7Gde6+X3K8oEJ2ib3Z8H5NSNC8SAGws2bYbLw+pbXyvhdDrATLS9KuVh8Huv3lolyrEyfnCtt2FCfXDvWoRgM50hQ/GElFzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBBX4DRxdnIckeAh69lPWonkgDDJwdm4VegnOcix+MS+AQuBFvVv+SJFTSUTt5GA+yJ+wfI6D4n0UdCqxaLSvyLZQ9U=]
+  csp-plugin:
+    reportOnly: true
+    rule: |-
+      "default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: avatars.githubusercontent.com; media-src 'self' data: ; script-src 'self' 'report-sample' usage.jenkins.io;"
   global_libraries:
     disabled: true
   tools:
