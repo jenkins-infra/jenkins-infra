@@ -61,25 +61,25 @@ sources:
 
 conditions:
   checkIfReleaseIsAvailable3-5:
-    kind: file
+    kind: shell
     disablesourceinput: true
     spec:
-      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-5` }}/binaries/apache-maven-{{ source `mavenVersion3-5` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-5` }}/binaries/apache-maven-{{ source `mavenVersion3-5` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-6:
-    kind: file
+    kind: shell
     disablesourceinput: true
     spec:
-      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-6` }}/binaries/apache-maven-{{ source `mavenVersion3-6` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-6` }}/binaries/apache-maven-{{ source `mavenVersion3-6` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-8:
-    kind: file
+    kind: shell
     disablesourceinput: true
     spec:
-      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-8` }}/binaries/apache-maven-{{ source `mavenVersion3-8` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-8` }}/binaries/apache-maven-{{ source `mavenVersion3-8` }}-bin.tar.gz
   checkIfReleaseIsAvailable3-9:
-    kind: file
+    kind: shell
     disablesourceinput: true
     spec:
-      file: https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-9` }}/binaries/apache-maven-{{ source `mavenVersion3-9` }}-bin.tar.gz
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source `mavenVersion3-9` }}/binaries/apache-maven-{{ source `mavenVersion3-9` }}-bin.tar.gz
 
 targets:
   updateMaven3-5Version:
