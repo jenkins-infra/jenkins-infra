@@ -9,6 +9,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 profile::jenkinscontroller::letsencrypt: false
+letsencrypt::enable: false # TODO use this setting on all profiles (see usage.yaml)
 # Per-host Datadog configuration
 datadog_agent::host: "vagrant.local"
 datadog_agent::non_local_traffic: true # Allow jenkins container to contact the agent for metrics
@@ -16,6 +17,14 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
+# Fake self signed certificate
+ssl_legacy_cert: |
+  -----BEGIN CERTIFICATE-----
+  -----END CERTIFICATE-----
+# Fake self signed certificate
+ssl_legacy_key: |
+  -----BEGIN PRIVATE KEY-----
+  -----END PRIVATE KEY-----
 usage_ssh_privkey: |
   -----BEGIN RSA PRIVATE KEY-----
   overridewith_usage_ssh_privkey

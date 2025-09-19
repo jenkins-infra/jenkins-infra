@@ -40,6 +40,15 @@ node 'archives.do.jenkins.io' {
   }
   include role::archives
 }
+node 'usage.do.jenkins.io' {
+  mount { '/srv':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=5e21c9f9-d2a2-422b-90e9-433d9ba42de1',
+    fstype => 'ext4',
+  }
+  include role::usage
+}
 
 node 'census' {
   sshkeyman::hostkey { ['census.jenkins.io']: }
