@@ -206,5 +206,10 @@ class profile::usage (
       ssl_key       => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
       ssl_cert      => "/etc/letsencrypt/live/${usage_fqdn}/fullchain.pem",
     }
+
+    Apache::Vhost <| title == $usage_fqdn_legacy |> {
+      ssl_key       => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
+      ssl_cert      => "/etc/letsencrypt/live/${usage_fqdn}/fullchain.pem",
+    }
   }
 }
