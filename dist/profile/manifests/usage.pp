@@ -6,27 +6,43 @@
 #
 # This usage information is then processed and ultimately finds its way into
 # our "census" data
+# letsencrypt = true (Default)
+#   Enable letsencrypt configuration, for this to work the sensus host has to
+#   be on the public internet
+#
 class profile::usage (
   Stdlib::Absolutepath $docroot    = '/var/www/usage.jenkins.io',
   Stdlib::Absolutepath $home_dir   = '/srv/bigger-usage',
   Stdlib::Fqdn         $usage_fqdn = 'usage.jenkins.io',
+  Stdlib::Fqdn         $usage_fqdn_legacy = 'usage.jenkins-ci.org',
   String               $user       = 'usagestats',
   String               $group      = 'usagestats',
   Hash                 $ssh_keys   = undef,
+  # Boolean              $letsencrypt = true,
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
-  # volume configuration is in hiera
-  include lvm
+
+  $lvm_enable = lookup('lvm::volume_groups', { default_value => {}, value_type => Hash, merge => hash })
+  if $lvm_enable {
+    # volume configuration is in hiera
+    include lvm
+  }
   include profile::accounts
   include profile::apachemisc
   include profile::firewall
-  include profile::letsencrypt
 
-  package { 'lvm2':
-    ensure => present,
+  $letsencrypt = lookup( 'letsencrypt::enable', Boolean )
+
+  if $letsencrypt {
+    include profile::letsencrypt
   }
 
+  if $lvm_enable {
+    package { 'lvm2':
+      ensure => present,
+    }
+  }
   $mounted_logs_dir = "${home_dir}/apache-logs"
   $mounted_stats_dir = "${home_dir}/usage-stats"
 
@@ -135,7 +151,7 @@ class profile::usage (
   apache::vhost { "${usage_fqdn} unsecured":
     servername                   => $usage_fqdn,
     serveraliases                => [
-      'usage.jenkins-ci.org',
+      $usage_fqdn_legacy,
     ],
     port                         => 80,
     use_servername_for_filenames => true,
@@ -153,63 +169,42 @@ class profile::usage (
     ],
   }
 
-  # Legacy (usage.jenkins-ci.org) SSL host with the legacy SSL key
-  file { '/etc/apache2/legacy_cert.key':
-    ensure  => file,
-    content => lookup('ssl_legacy_key'),
-    require => Package['httpd'],
-  }
-
-  file { '/etc/apache2/legacy_chain.crt':
-    ensure  => file,
-    content => lookup('ssl_legacy_chain'),
-    require => Package['httpd'],
-  }
-  file { '/etc/apache2/legacy_cert.crt':
-    ensure  => file,
-    content => lookup('ssl_legacy_cert'),
-    require => Package['httpd'],
-  }
-
   # Since usage stats are reported via the browser instead of the Jenkins
   # controller itself, we can just redirect from usage.jenkins-ci.org to
   # usage.jenkins.io and let usage.jenkins.io log the access
   # https://github.com/jenkinsci/jenkins/blob/5416411/core/src/main/resources/hudson/model/UsageStatistics/footer.jelly
-  apache::vhost { 'usage.jenkins-ci.org':
-    servername                   => 'usage.jenkins-ci.org',
+  apache::vhost { $usage_fqdn_legacy:
+    servername                   => $usage_fqdn_legacy,
     docroot                      => $docroot,
     port                         => 443,
     use_servername_for_filenames => true,
     use_port_for_filenames       => true,
     ssl                          => true,
-    ssl_key                      => '/etc/apache2/legacy_cert.key',
-    ssl_chain                    => '/etc/apache2/legacy_chain.crt',
-    ssl_cert                     => '/etc/apache2/legacy_cert.crt',
     override                     => ['All'],
     redirect_status              => 'permanent',
-    redirect_dest                => 'https://usage.jenkins.io/',
+    redirect_dest                => "https://${usage_fqdn}/",
     # Blackhole all these redirect logs https://issues.jenkins-ci.org/browse/INFRA-739
 
     access_log_file              => '/dev/null',
     require                      => [
-      File['/etc/apache2/legacy_cert.crt'],
-      File['/etc/apache2/legacy_cert.key'],
-      File['/etc/apache2/legacy_chain.crt'],
       Apache::Vhost[$usage_fqdn],
     ],
   }
 
-  # We can only acquire certs in production due to the way the letsencrypt
-  # challenge process works
-  if (($environment == 'production') and ($facts['vagrant'] != '1')) {
+  # Obtain Let's Encrypt certificate(s) and set them up in Apache if in production (e.g. not in vagrant local test)
+  if ($letsencrypt == true) and ($environment == 'production') {
+    $letsencrypt_plugin = lookup('profile::letsencrypt::plugin')
+
+    # Request a multi-domain certificate (uses Subject Alternate Name)
     letsencrypt::certonly { $usage_fqdn:
-      domains => [$usage_fqdn],
-      plugin  => 'apache',
+      domains       => [$usage_fqdn, $usage_fqdn_legacy],
+      custom_plugin => true,
+      manage_cron   => false,
     }
 
     Apache::Vhost <| title == $usage_fqdn |> {
-      ssl_key   => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
-      ssl_cert  => "/etc/letsencrypt/live/${usage_fqdn}/fullchain.pem",
+      ssl_key       => "/etc/letsencrypt/live/${usage_fqdn}/privkey.pem",
+      ssl_cert      => "/etc/letsencrypt/live/${usage_fqdn}/fullchain.pem",
     }
   }
 }

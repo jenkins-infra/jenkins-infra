@@ -71,9 +71,8 @@ describe 'profile::usage' do
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :ssl_key   => '/etc/apache2/legacy_cert.key',
-        :ssl_chain => '/etc/apache2/legacy_chain.crt',
-        :ssl_cert  => '/etc/apache2/legacy_cert.crt',
+        :ssl_key   => '/etc/ssl/private/ssl-cert-snakeoil.key',
+        :ssl_cert  => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
         :redirect_dest => 'https://usage.jenkins.io/',
       })
     end
