@@ -298,8 +298,8 @@ profile::openvpn::external_ips_vpn_restricted:
   eks_cijenkinsioagents2_1: 3.149.48.23
   eks_cijenkinsioagents2_2: 3.149.71.89
   pkg.origin.jenkins.io: 52.202.51.185
-  testissues.jenkins.io_1: 34.209.111.241
-  testissues.jenkins.io_2: 44.239.232.108
+  testissues.jenkins.io_1: 44.239.232.108
+  testissues.jenkins.io_2: 54.148.159.94
   usage.jenkins.io: 52.204.62.78
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
