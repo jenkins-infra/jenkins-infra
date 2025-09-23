@@ -41,7 +41,7 @@ node 'archives.do.jenkins.io' {
   include role::archives
 }
 node 'usage.do.jenkins.io' {
-  mount { '/srv':
+  mount { '/srv/usage':
     ensure => 'mounted',
     atboot => 'true',
     device => 'UUID=5e21c9f9-d2a2-422b-90e9-433d9ba42de1',
