@@ -294,12 +294,12 @@ profile::openvpn::external_ips_vpn_restricted:
   aws.ci.jenkins.io: 18.217.202.59
   census.jenkins.io: 52.202.38.86
   dockerhubmirror.azurecr.io: 20.49.102.144
-  do.usage.jenkins.io: 138.197.183.107
   eks_cijenkinsioagents2_1: 3.149.48.23
   eks_cijenkinsioagents2_2: 3.149.71.89
   pkg.origin.jenkins.io: 52.202.51.185
   testissues.jenkins.io_1: 52.25.232.9
   testissues.jenkins.io_2: 54.148.159.94
+  usage.do.jenkins.io: 64.227.123.95
   usage.jenkins.io: 52.204.62.78
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
