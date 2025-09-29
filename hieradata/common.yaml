@@ -297,8 +297,8 @@ profile::openvpn::external_ips_vpn_restricted:
   eks_cijenkinsioagents2_1: 3.149.48.23
   eks_cijenkinsioagents2_2: 3.149.71.89
   pkg.origin.jenkins.io: 52.202.51.185
-  testissues.jenkins.io_1: 52.25.232.9
-  testissues.jenkins.io_2: 54.148.159.94
+  testissues.jenkins.io_1: 52.40.71.65
+  testissues.jenkins.io_2: 52.41.181.94
   usage.do.jenkins.io: 64.227.123.95
   usage.jenkins.io: 52.204.62.78
 apt::update:frequency: 'daily'
