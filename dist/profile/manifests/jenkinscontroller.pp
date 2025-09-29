@@ -387,7 +387,7 @@ class profile::jenkinscontroller (
     # actually map the UIDs properly. Using the extra_parameters option because
     # the `username` parameter will get shellescaped in the docker_run_flags()
     # function provided by garethr/docker
-    extra_parameters => '-u `id -u jenkins`:`id -g jenkins` --add-host="updates.jenkins.io:20.7.178.24"',
+    extra_parameters => '-u `id -u jenkins`:`id -g jenkins`',
     # Hard-coding some environment variables because there is no "parent" shell
     # environment to inherit some of these environment settings from.
     # Additionally, Jenkins picks up `user.home` as "?" without the explicit
