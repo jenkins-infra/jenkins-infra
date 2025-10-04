@@ -236,7 +236,7 @@ profile::jenkinscontroller::jcasc:
       ubuntu-22.04-amd64: ami-0b6c2119ac4b1dd3f
       windows-2019-amd64: ami-03d7a4353157f9b98
       ubuntu-22.04-arm64: ami-00372c4a804f27a9c
-      windows-2022-amd64: ami-0f04852ef34aa886f
+      windows-2022-amd64: ami-08f20c628df2c229f
     azure_vms_gallery_image:
       version: 2.64.0
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
