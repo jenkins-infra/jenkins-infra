@@ -53,6 +53,15 @@ AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 }
 <%end%>
 
+<%if @authenticated_access %>
+[
+    Jenkins.READ,
+    Item.READ,
+].each { permission ->
+    strategy.add(permission, PermissionEntry.user('authenticated'))
+}
+<%end%>
+
 <% @admin_ldap_groups.each do |group|%>
 strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('<%= group %>'))
 <%end%>
