@@ -15,6 +15,7 @@
 #
 class profile::jenkinscontroller (
   Boolean $anonymous_access                    = false,
+  Boolean $authenticated_access                = false,
   Array $admin_ldap_groups                     = ['admins'],
   Stdlib::Fqdn $ci_fqdn                        = '',
   Hash $additional_fqdns                       = {},
