@@ -81,7 +81,7 @@ letsencrypt::enable: true
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
 profile::letsencrypt::plugin: apache
-profile::letsencrypt::certbot_version: '5.0.0'
+profile::letsencrypt::certbot_version: '5.1.0'
 profile::letsencrypt::certbot_dnsazure_version: '2.6.1'
 profile::letsencrypt::certbot_dnsmulti_version: '4.25.1'
 profile::pkgrepo::authorized_ssh_keys:
