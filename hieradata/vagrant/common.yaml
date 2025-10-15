@@ -157,7 +157,6 @@ profile::jenkinscontroller::jcasc:
         region: us-east-2
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "ec2-agent-ssh"
-        associatePublicIp: false
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
         subnetId: "subnet-0138ee90cd53d58f7"
         registryMirror: "urltodockerproxy:5000"

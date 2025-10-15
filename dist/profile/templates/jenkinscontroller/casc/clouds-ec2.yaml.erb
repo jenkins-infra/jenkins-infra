@@ -30,11 +30,11 @@ jenkins:
           unixData:
       <%- end -%>
             sshPort: "22"
-        associatePublicIp: "<%= agent['associatePublicIp'] ? agent['associatePublicIp'] : (ec2_cloud_setup['associatePublicIp'] ? ec2_cloud_setup['associatePublicIp'] : "false" ) %>"
+        associateIPStrategy: "PRIVATE_IP"
         avoidUsingOrphanedNodes: true # Set maxTotalUses to 1 when this is true (ephemeral VMs)
         maxTotalUses: 1 # Throw away the VMs after a build
         connectBySSHProcess: false
-        connectionStrategy: "<%= agent['associatePublicIp'] || ec2_cloud_setup['associatePublicIp'] ? "PUBLIC_DNS" : "PRIVATE_IP" %>"
+        connectionStrategy: "PRIVATE_IP"
         deleteRootOnTermination: true
         description: "<%= agent['description'] %>"
         ebsEncryptRootVolume: DEFAULT
