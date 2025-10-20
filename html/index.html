@@ -1,0 +1,139 @@
+<html lang="en">
+<!-- Source file tracked in https://github.com/jenkins-infra/jenkins-infra -->
+<!-- File manually deployed to archives.jenkins.io (through pkg.origin VM) and get.jenkins.io -->
+<!-- Ref. https://github.com/jenkins-infra/helpdesk/issues/4834 -->
+<head>
+  <meta charset="UTF-8" />
+  <title>Jenkins Mirrors</title>
+
+  <link href='https://www.jenkins.io/sites/default/files/jenkins_favicon.ico' rel='shortcut icon' type='image/x-icon' />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+    integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"
+    integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+    integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+    crossorigin="anonymous"></script>
+
+  <style type="text/css">
+    html,
+    body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .container {
+      flex: 1 0 auto;
+    }
+
+    jio-footer {
+      flex-shrink: 0;
+    }
+
+    table#binaries th,
+    table#binaries td {
+      padding: 0.5rem;
+    }
+  </style>
+
+</head>
+
+<body style="min-height:100%; height:100%; padding-top:100px">
+  <script src="https://cdn.jsdelivr.net/npm/lit@3.3.1/polyfill-support.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@webcomponents/webcomponentsjs@2.8.0/webcomponents-loader.js"></script>
+  <script data="jio" src="https://cdn.jsdelivr.net/npm/@jenkinsci/jenkins-io-components/+esm" type="module"></script>
+  <script data="jio" nomodule="" src="https://cdn.jsdelivr.net/npm/@jenkinsci/jenkins-io-components/"></script>
+  <div class="fixed-top">
+    <jio-navbar class="fixed-top" property="https://get.jenkins.io" />
+  </div>
+
+  <div class='container'>
+
+    <h1>Binaries</h1>
+    <table id=binaries>
+      <tr>
+        <th></th>
+        <th>debian</th>
+        <th>opensuse</th>
+        <th>redhat</th>
+        <th>war</th>
+        <th>windows</th>
+      </tr>
+      <tr>
+        <th>Releases</th>
+        <td>
+          <a href="debian/">
+            debian
+          </a>
+        </td>
+        <td>
+          <a href="opensuse/">
+            opensuse
+          </a>
+        </td>
+        <td>
+          <a href="redhat/">
+            redhat
+          </a>
+        </td>
+        <td>
+          <a href="war/">
+            war
+          </a>
+        </td>
+        <td>
+          <a href="windows/">
+            windows
+          </a>
+        </td>
+      </tr>
+      <tr>
+        <th>LTS Releases</th>
+        <td>
+          <a href="debian-stable/">
+            debian-stable
+          </a>
+        </td>
+        <td>
+          <a href="opensuse-stable/">
+            opensuse-stable
+          </a>
+        </td>
+        <td>
+          <a href="redhat-stable/">
+            redhat-stable
+          </a>
+        </td>
+        <td>
+          <a href="war-stable/">
+            war-stable
+          </a>
+        </td>
+        <td>
+          <a href="windows-stable/">
+            windows-stable
+          </a>
+        </td>
+      </tr>
+    </table>
+    <p>
+      <ul>
+        <li><a href=plugins>Plugins</a>
+        <li><a href=art>Artwork</a>
+        <li><a href="https://updates.jenkins.io/">Update Center</a>
+      </ul>
+    </p>
+  </div>
+  <jio-footer id="footer" property="https://get.jenkins.io" />
+</body>
+</html>
