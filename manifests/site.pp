@@ -84,9 +84,6 @@ node 'private.vpn.jenkins.io' {
   include role::openvpn
 }
 
-node 'bounce.trusted.ci.jenkins.io' {
-  include role::bounce
-}
 node 'agent.trusted.ci.jenkins.io' {
   mount { '/home/jenkins':
     ensure => 'mounted',
