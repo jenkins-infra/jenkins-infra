@@ -110,30 +110,16 @@ profile::jenkinscontroller::jcasc:
             cpu_arch: "s390x"
       jdk25:
         installers:
-          linux-amd64:
-            type: "zip"
-            label: "linux && amd64"
-            cpu_arch: "x64"
-            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_x64_linux_hotspot_25_30-ea.tar.gz
-            subdir: jdk-25+30
           linux-arm64:
-            type: "zip"
-            label: "linux && arm64"
-            cpu_arch: "aarch64"
-            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_aarch64_linux_hotspot_25_30-ea.tar.gz
-            subdir: jdk-25+30
-          s390x:
-            type: "zip"
+            type: command
+            label: "linux-arm64 || (linux && arm64)"
+            command: "echo /opt/jdk-25"
+            toolHome: /opt/jdk-25
+          linux-s390x:
+            type: command
             label: "s390x"
-            cpu_arch: "s390x"
-            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B30-ea-beta/OpenJDK25U-jdk_s390x_linux_hotspot_25_30-ea.tar.gz
-            subdir: jdk-25+30
-          windows-amd64:
-            type: "zip"
-            label: "windows"
-            os: "windows"
-            custom_url: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B25-ea-beta/OpenJDK-jdk_x64_windows_hotspot_25_25-ea.zip
-            subdir: "jdk-26+1"
+            command: "echo /opt/jdk-25"
+            toolHome: /opt/jdk-25
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent

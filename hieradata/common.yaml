@@ -207,6 +207,18 @@ profile::jenkinscontroller::jcasc:
             type: "zip"
             label: "windows"
             os: "windows"
+      jdk25:
+        installers:
+          linux-amd64:
+            type: command
+            label: "linux-amd64 || (linux && amd64)"
+            command: "echo /opt/jdk-25"
+            toolHome: /opt/jdk-25
+          windows-amd64:
+            type: batchFile
+            label: "windows || windows-2019 || windows-2022 || maven-25-windows"
+            command: "echo C:/Tools/jdk-25"
+            toolHome: "C:/Tools/jdk-25"
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'
