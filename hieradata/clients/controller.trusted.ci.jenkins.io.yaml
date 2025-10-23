@@ -61,19 +61,16 @@ profile::jenkinscontroller::jcasc:
     jdk:
       jdk8:
         installers:
-          linux-amd64:
-            type: "zip"
-            label: "(linux && amd64) || updatecenter || census"
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
       jdk17:
         installers:
-          linux-amd64:
-            type: "zip"
-            label: "(linux && amd64) || updatecenter || census"
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
       jdk21:
         installers:
-          linux-amd64:
-            type: "zip"
-            label: "(linux && amd64) || updatecenter || census"
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
+      jdk25:
+        installers:
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
   permanent_agents:
     agent-1:
       remoteFS: /home/jenkins/agent-workspace
