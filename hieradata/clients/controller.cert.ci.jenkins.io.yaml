@@ -50,27 +50,6 @@ profile::jenkinscontroller::jcasc:
         version: "3.9.11"
       maven:
         home: "/usr/share/apache-maven-3.8.8"
-    jdk:
-      jdk-8:
-        major_version: 8
-        installers:
-          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-8-windows"
-      jdk-11:
-        major_version: 11
-        installers:
-          linux-amd64: "(linux && amd64) || linux-amd64 || jdk11 || jdk-11 || maven-11"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-11-windows"
-      jdk-17:
-        major_version: 17
-        installers:
-          linux-amd64: "(linux && amd64) || linux-amd64 || jdk17 || jdk-17 || maven-17"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-17-windows"
-      jdk-21:
-        major_version: 21
-        installers:
-          linux-amd64: "(linux && amd64) || linux-amd64 || jdk21 || jdk-21 || maven-21"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-21-windows"
     generic:
       groovy-3.0.6:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
