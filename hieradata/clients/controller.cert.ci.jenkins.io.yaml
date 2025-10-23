@@ -51,72 +51,26 @@ profile::jenkinscontroller::jcasc:
       maven:
         home: "/usr/share/apache-maven-3.8.8"
     jdk:
-      jdk-8: &tool_jdk8
+      jdk-8:
+        major_version: 8
         installers:
-          linux-amd64:
-            type: "command"
-            label: "linux"
-            command: "echo JDK8"
-            toolHome: "/opt/jdk-8"
-          windows-amd64:
-            type: "batchFile"
-            label: "windows"
-            command: "echo JDK8"
-            toolHome: "C:/Tools/jdk-8"
-          default:
-            type: "zip"
-            version: "8u382-b05"
-      jdk-11: &tool_jdk11
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-8-windows"
+      jdk-11:
+        major_version: 11
         installers:
-          linux-amd64:
-            type: "command"
-            label: "linux"
-            command: "echo JDK11"
-            toolHome: "/opt/jdk-11"
-          windows-amd64:
-            type: "batchFile"
-            label: "windows"
-            command: "echo JDK11"
-            toolHome: "C:/Tools/jdk-11"
-          default:
-            type: "zip"
-            version: "11.0.20+8"
-      jdk-17: &tool_jdk17
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk11 || jdk-11 || maven-11"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-11-windows"
+      jdk-17:
+        major_version: 17
         installers:
-          linux-amd64:
-            type: "command"
-            label: "linux"
-            command: "echo JDK17"
-            toolHome: "/opt/jdk-17"
-          windows-amd64:
-            type: "batchFile"
-            label: "windows"
-            command: "echo JDK17"
-            toolHome: "C:/Tools/jdk-17"
-          default:
-            type: "zip"
-            version: "17.0.11+9"
-      jdk-21: &tool_jdk21
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk17 || jdk-17 || maven-17"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-17-windows"
+      jdk-21:
+        major_version: 21
         installers:
-          linux-amd64:
-            type: "command"
-            label: "linux"
-            command: "echo JDK21"
-            toolHome: "/opt/jdk-21"
-          windows-amd64:
-            type: "batchFile"
-            label: "windows"
-            command: "echo JDK21"
-            toolHome: "C:/Tools/jdk-21"
-          default:
-            type: "zip"
-            version: "21.0.3+9"
-      # Use Yaml anchor to avoid repeating configuration
-      jdk8: *tool_jdk8
-      # Use Yaml anchor to avoid repeating configuration
-      jdk11: *tool_jdk11
-      jdk17: *tool_jdk17
-      jdk21: *tool_jdk21
+          linux-amd64: "(linux && amd64) || linux-amd64 || jdk21 || jdk-21 || maven-21"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-21-windows"
     generic:
       groovy-3.0.6:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
