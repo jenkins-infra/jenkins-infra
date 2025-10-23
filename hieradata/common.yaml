@@ -233,10 +233,26 @@ profile::jenkinscontroller::jcasc:
       jnlp-webbuilder: jenkinsciinfra/builder:latest@sha256:405912641faec2b42dd8afcced8a1953fd0b111a79202a49a39bf0c8c93625f0
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
-    jdk8: 8u462-b08
-    jdk11: 11.0.28+6
-    jdk17: 17.0.16+8
-    jdk21: 21.0.8+9
+    jdk8:
+      version: 8u462-b08
+      linux:
+        amd64: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u462-b08/OpenJDK8U-jdk_x64_linux_hotspot_8u462b08.tar.gz
+        arm64: https://github.com/adoptium/temurin8-binaries/releases/download/jdk8u462-b08/OpenJDK8U-jdk_aarch64_linux_hotspot_8u462b08.tar.gz
+    jdk11:
+      version: 11.0.28+6
+      linux:
+        amd64: https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_linux_hotspot_11.0.28_6.tar.gz
+        arm64: https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.28_6.tar.gz
+    jdk17:
+      version: 17.0.16+8
+      linux:
+        amd64: https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz
+        arm64: https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.16_8.tar.gz
+    jdk21:
+      version: 21.0.8+9
+      linux:
+        amd64: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.8_9.tar.gz
+        arm64: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.8_9.tar.gz
     maven: 3.9.11
 # These variables should be filled in, in production.yaml, with the legacy
 # jenkins-ci.org cert details

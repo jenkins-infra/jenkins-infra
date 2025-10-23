@@ -60,6 +60,8 @@ class profile::buildagent (
         'ca-certificates',
         'curl',
         'git', # Jenkins agent requirement
+        'gpg', # Required to verify downloads
+        'gpg-agent', # Required to verify downloads
         'groff', # Required by awscli
         'less', # Required by awscli
         'make', # Build requirement
@@ -83,29 +85,34 @@ class profile::buildagent (
       }
     }
 
-    # There is no linux_aarch64 azcopy release, considering that aarch64 = arm64 so vagrant can run on Mac Silicon
     $architecture = $facts['os']['architecture'] ? {
       'aarch64' => 'arm64',
       default   => $facts['os']['architecture'],
     }
 
-    lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_version| {
-      $jdk = {
-        name => $jdk_name,
-        major_version => regsubst($jdk_name, 'jdk', '').regsubst($jdk_name, 'jdk-', ''),
-        version => $jdk_version,
-        cpu_arch => $facts['os']['architecture'] ? {
-          'amd64'  => 'x64',
-          'arm64'  => 'aarch64',
-          default  => $facts['os']['architecture'],
-        },
-      }
-      $java_dir = "/opt/jdk-${$jdk['major_version']}"
+    $jdk_gpg_key_id = '3B04D753C9050D9A5D343F39843C48A565F8F04B'
+    exec { 'Ensure Adoptium GPG key is present':
+      require => [
+        Package['gpg'],
+      ],
+      command => "/usr/bin/gpg --keyserver keyserver.ubuntu.com --recv-keys ${jdk_gpg_key_id}",
+      unless  => "/usr/bin/gpg --list-keys | grep ${jdk_gpg_key_id}",
+    }
+
+    lookup('profile::jenkinscontroller::jcasc.tools_default_versions').filter |$items| { $items[0] =~ /^jdk/ }.each |$jdk_name, $jdk_setup| {
+      $major_version = regsubst($jdk_name, 'jdk', '').regsubst($jdk_name, 'jdk-', '')
+      $java_dir = "/opt/jdk-${$major_version}"
       $java_bin = "${java_dir}/bin/java"
-      # Use this reusable template to retrieve the URL of the adoptium binary (requires the variable $jdk to be set)
-      # Also remove eventual whitespaces (tabs/line returns/etc.)
-      $archive_url = strip(template("${module_name}/jdk-adoptium-url.erb"))
-      $temp_archive_file = "/tmp/jdk${$jdk['major_version']}.tgz"
+      $archive_url = $jdk_setup[$facts['kernel'].downcase()][$architecture]
+      $filename = basename($archive_url)
+      $checksum_url = "${archive_url}.sha256.txt"
+      $signature_url = "${archive_url}.sig"
+      $temp_archive_file = "/tmp/${filename}"
+      $temp_checksum_file = "${temp_archive_file}.sha256.txt"
+      $temp_signature_file = "${temp_archive_file}.sig"
+      # Note: if we are using JDK8, then the version output does not have the '8u' prefix
+      $jdk_version = $jdk_setup['version']
+      $jdk_version_to_check = regsubst($jdk_version, '^8u(.*)$', '\1')
 
       file { $java_dir:
         ensure  => directory,
@@ -113,11 +120,45 @@ class profile::buildagent (
         recurse => true,
       }
 
-      exec { "Download and unarchive Java ${jdk_version}":
-        require => [Package['curl'],],
-        command => "/usr/bin/curl --silent --show-error --location ${archive_url} --output ${temp_archive_file} && tar --extract --gunzip --file=${temp_archive_file} --directory=${java_dir} --strip-components=1 && rm -rf ${temp_archive_file}",
-        # Note: if we are using JDK8, then the version output does not have the '8u' prefix
-        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${regsubst($jdk_version, '^8u(.*)$', '\1')}'",
+      exec { "Download JDK ${jdk_version} Installer":
+        require => [
+          Package['curl'],
+        ],
+        command => "/usr/bin/curl --silent --show-error --location ${archive_url} --output ${temp_archive_file}",
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
+      }
+      exec { "Download JDK ${jdk_version} Installer Checksums":
+        require => [
+          Package['curl'],
+        ],
+        command => "/usr/bin/curl --silent --show-error --location ${checksum_url} --output ${temp_checksum_file}",
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
+      }
+      exec { "Download JDK ${jdk_version} Installer Signature":
+        require => [
+          Package['curl'],
+        ],
+        command => "/usr/bin/curl --silent --show-error --location ${signature_url} --output ${temp_signature_file}",
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
+      }
+      exec { "Verify JDK ${jdk_version} Installer Signature":
+        require => [
+          Package['gpg'],
+          Exec["Download JDK ${jdk_version} Installer"],
+          Exec["Download JDK ${jdk_version} Installer Checksums"],
+          Exec["Download JDK ${jdk_version} Installer Signature"],
+        ],
+        command => "/usr/bin/gpg --verify ${temp_signature_file}",
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
+      }
+      exec { "Unarchive Java ${jdk_version}":
+        require => [
+          Exec["Verify JDK ${jdk_version} Installer Signature"],
+          Package['tar'],
+          File[$java_dir],
+        ],
+        command => "/usr/bin/tar --extract --gunzip --file=${temp_archive_file} --directory=${java_dir} --strip-components=1 && /usr/bin/rm -rf ${temp_archive_file} ${temp_checksum_file} ${temp_signature_file}",
+        unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
       }
     }
   }
