@@ -41,7 +41,7 @@ profile::letsencrypt::dns_azure:
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: "present"
 profile::jenkinscontroller::groovy_d_set_up_git: "present"
-profile::jenkinscontroller::memory_limit: "7g"
+profile::jenkinscontroller::memory_limit: '4g'
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: ENC[PKCS7,MIIBiQYJKoZIhvcNAQcDoIIBejCCAXYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAlreoLMhSaHCcZZaL1r7BQgmqUVbqWs+e2kaj0cn+r8o4N/qKZGXkkYBN9xhK+b5MRe2cTlfQ9J3gFFLFa6i1n1GrM/WwNMUm/cVYA2eGFNcV3ruUfigyriIrIaQVm7KIQZqv+RIQoZHJ1cWy+CdKg2hXi4KUBSawl1V3VXjSD4ZJEWv96KSceJZRTzVjZW66iD8i8Uq50WvHhvivMfHkaghowz626w/ejz0AettIKCVL9/j0B1iVv+ghOyd4A5kyIYJKR0BwQLpfKFoXY/0uhB7toZWSe7TUS7hzTAfYNhyTbS0aaczsa7pshiFZzxHAdvMeU7om4N1Dj+5LDUgAsDBMBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBByyf8QkfPXbWYxJbMykP8SgCAQ5ncRq7jZddH/cFcb+xHJzKluSoRQU3fnSKJ8fnbEQA==]
