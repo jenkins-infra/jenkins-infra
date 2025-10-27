@@ -24,7 +24,6 @@ docker::log_opt::max-file: 2
 # Per-host Datadog configuration
 datadog_agent::host: "controller.trusted.ci.jenkins.io"
 profile::jenkinscontroller::ci_fqdn: "trusted.ci.jenkins.io"
-profile::jenkinscontroller::proxy_port: 1443
 profile::jenkinscontroller::anonymous_access: false
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
