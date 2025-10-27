@@ -99,11 +99,6 @@ jenkins:
         remoteAdmin: "<%= $remoteAdmin %>"
         remoteFS: "<%= agent['customDataDisk'] ? agent['customDataDisk'] + '/agent' : (agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir']) %>"
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
-      <%- if agent['spot'] -%>
-        spotConfig:
-          fallbackToOndemand: true
-          useBidPrice: false
-      <%- end -%>
         stopOnTerminate: false
         subnetId: "<%= agent['subnetId'] ? agent['subnetId'] : (ec2_cloud_setup['subnetId'] ? ec2_cloud_setup['subnetId'] : "") %>"
         t2Unlimited: false
