@@ -453,7 +453,7 @@ profile::jenkinscontroller::jcasc:
           ####
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
+            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -466,8 +466,7 @@ profile::jenkinscontroller::jcasc:
           # High Memory SPOT Linux VMs (ATH mostly)
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
-            os: "ubuntu"
+            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb            os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
             architecture: "amd64"
@@ -478,7 +477,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
+            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -498,7 +497,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
+            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -512,7 +511,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK25 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
+            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
