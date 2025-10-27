@@ -316,7 +316,7 @@ profile::jenkinscontroller::jcasc:
           # x86_64 Linux VMs
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -328,7 +328,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m6gd.xlarge" # 4 vCPUs / 16 Gb / nvme 237Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -340,7 +340,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -352,7 +352,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -364,7 +364,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -380,7 +380,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Non Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -395,7 +395,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -453,7 +453,7 @@ profile::jenkinscontroller::jcasc:
           ####
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -466,7 +466,7 @@ profile::jenkinscontroller::jcasc:
           # High Memory SPOT Linux VMs (ATH mostly)
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -478,7 +478,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -498,7 +498,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -512,7 +512,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK25 set as default java CLI"
             maxInstances: 50
-            instanceType: M5dn2xlarge # 8 vCPUs / 32 Gb / nvme 300Go
+            instanceType: "m6gd.2xlarge" # 8 vCPUs / 32 Gb / nvme 475Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
@@ -528,7 +528,7 @@ profile::jenkinscontroller::jcasc:
           ## TODO: deprecate JDK8 Windows?
           - description: "Spot Windows 2019 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -545,7 +545,7 @@ profile::jenkinscontroller::jcasc:
           ## TODO: deprecate JDK11 Windows?
           - description: "Spot Windows 2019 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -561,7 +561,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -577,7 +577,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -593,7 +593,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK21"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -613,7 +613,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK21"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -628,7 +628,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -644,7 +644,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -659,7 +659,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2022"
             ebsOptimized: true
@@ -677,7 +677,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Windows Infra Test"
             maxInstances: 5
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -692,7 +692,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Ubuntu Infra Test"
             maxInstances: 5
-            instanceType: M5dnXlarge # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
