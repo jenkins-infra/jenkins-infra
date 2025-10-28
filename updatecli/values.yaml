@@ -6,3 +6,6 @@ github:
   branch: "production"
   owner: "jenkins-infra"
   repository: "jenkins-infra"
+
+jdks:
+  - major: 21

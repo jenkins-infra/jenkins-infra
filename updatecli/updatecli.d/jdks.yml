@@ -1,0 +1,93 @@
+{{ range $item := .jdks }}
+{{ $major := $item.major }}
+{{ $releasetype := default "ga" $item.releasetype }}
+{{ $platforms := default "linux/amd64 linux/arm64" $item.platform }}
+---
+name: Bump JDK '{{ $major }}' version
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ $.github.user }}"
+      email: "{{ $.github.email }}"
+      owner: "{{ $.github.owner }}"
+      repository: "{{ $.github.repository }}"
+      token: "{{ requiredEnv $.github.token }}"
+      username: "{{ $.github.username }}"
+      branch: "{{ $.github.branch }}"
+
+sources:
+  lastReleaseVersion:
+    kind: temurin
+    spec:
+      featureversion: {{ $major }}
+      releasetype: {{ $releasetype }}
+    transformers:
+      - trimprefix: "jdk{{ if (ne $major 8) }}-{{ end }}"
+{{ if (eq $releasetype "ea") }}
+      - trimsuffix: "-ea-beta"
+{{ end }}
+{{ range $platform := splitList " " $platforms }}
+{{ $parts := splitList "/" $platform }}
+{{ $os := index $parts 0 }}
+{{ $arch := index $parts 1 }}
+  {{ $os }}_{{ $arch }}_installer_url:
+    kind: temurin
+    spec:
+      architecture: {{ if eq $arch "amd64" }}x64{{ else if eq $arch "arm64" }}aarch64{{ end }}
+      featureversion: {{ $major }}
+      operatingsystem: {{ if eq $os "ubuntu" }}linux{{ else if eq $os "windows" }}windows{{ end }}
+      releasetype: {{ $releasetype }}
+      result: installer_url
+{{ end }}
+conditions:
+  bumpAllorNone:
+    sourceid: lastReleaseVersion
+    kind: temurin
+    spec:
+      releasetype: {{ $releasetype }}
+      ## add all platform to make sure to update all or none
+      platforms:
+{{ range $platform := splitList " " $platforms }}
+{{ $parts := splitList "/" $platform }}
+{{ $os := index $parts 0 }}
+{{ $arch := index $parts 1 }}
+        - {{ $os }}/{{ if eq $arch "amd64" }}x64{{ else if eq $arch "arm64" }}aarch64{{ end }}
+{{ end }}
+targets:
+  updateJDKVersion:
+    sourceid: lastReleaseVersion
+    name: Update the JDK{{ $major }} version
+    kind: yaml
+    scmid: default
+    spec:
+      engine: yamlpath
+      file: ./hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools_default_versions.jdk{{ $major }}.version
+{{ range $platform := splitList " " $platforms }}
+{{ $parts := splitList "/" $platform }}
+{{ $os := index $parts 0 }}
+{{ $arch := index $parts 1 }}
+  update_installer_url_{{ $platform }}:
+    name: update JDK installer URL in hieradata for {{ $platform }}
+    sourceid: {{ $os }}_{{ $arch }}_installer_url
+    kind: yaml
+    scmid: default
+    spec:
+      engine: yamlpath
+      file: ./hieradata/common.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools_default_versions.jdk{{ $major }}.{{ $os }}.{{ $arch }}
+{{ end }}
+
+actions:
+  default:
+    kind: github/pullrequest
+    scmid: default
+    title: Bump JDK{{ $major }} version to {{ source "lastReleaseVersion" }}
+    spec:
+      labels:
+        - enhancement
+        - jdk{{ $major }}
+...
+{{ end }}
