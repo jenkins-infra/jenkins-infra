@@ -88,6 +88,16 @@ node 'agent.trusted.ci.jenkins.io' {
   mount { '/home/jenkins':
     ensure => 'mounted',
     atboot => 'true',
+    device => 'UUID=909588b9-9f20-43cf-8918-e390585789d4',
+    fstype => 'ext4',
+  }
+  include role::updatecenter
+  include profile::aznfs
+}
+node 'agent-old.trusted.ci.jenkins.io' {
+  mount { '/home/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
     device => 'UUID=d87e9734-13a2-4e45-b906-6410a913c148',
     fstype => 'ext4',
   }
