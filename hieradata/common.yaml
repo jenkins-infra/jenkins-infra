@@ -3,6 +3,7 @@
 # of death as well as I would like. the mpm_event module is much less
 # resource intensive
 apache::mpm_module: "event"
+apache::mod::ssl::ssl_protocol: ['all', '-SSLv2', '-SSLv3', '-TLSv1', '-TLSv1.1']
 ruby::rubygems_package: "rubygems-integration"
 accounts:
   tyler:
