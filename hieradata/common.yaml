@@ -242,7 +242,7 @@ profile::jenkinscontroller::jcasc:
     jdk25:
       version: 25.0.1+8
       linux:
-        amd64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_linux_hotspot_25_36.tar.gz
+        amd64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_x64_linux_hotspot_25.0.1_8.tar.gz
         arm64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.1_8.tar.gz
     maven: 3.9.11
 # These variables should be filled in, in production.yaml, with the legacy
