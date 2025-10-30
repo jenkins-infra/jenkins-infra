@@ -9,3 +9,4 @@ github:
 
 jdks:
   - major: 21
+  - major: 25
