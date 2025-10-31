@@ -50,18 +50,26 @@ node 'usage.do.jenkins.io' {
   include role::usage
 }
 
+# TODO: remove
 node 'census' {
-  sshkeyman::hostkey { ['census.jenkins.io']: }
+  include role::census
+}
+
+node 'census.do.jenkins.io' {
+  mount { '/srv/census':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=94f8a328-f89b-4fa2-8209-ff6556299026',
+    fstype => 'ext4',
+  }
   include role::census
 }
 
 node 'usage' {
-  sshkeyman::hostkey { ['usage.jenkins.io', 'usage.jenkins-ci.org']: }
   include role::usage
 }
 
 node 'pkg' {
-  sshkeyman::hostkey { ['pkg.jenkins.io', 'pkg.origin.jenkins.io']: }
   include role::pkg
 }
 
