@@ -286,7 +286,8 @@ profile::openvpn::image_tag: 3.5.11
 profile::openvpn::external_ips_vpn_restricted:
   archives.jenkins.io: 46.101.121.132
   aws.ci.jenkins.io: 18.217.202.59
-  census.jenkins.io: 52.202.38.86
+  census.aws.jenkins.io: 52.202.38.86
+  census.jenkins.io: 64.226.127.59
   dockerhubmirror.azurecr.io: 20.49.102.154
   eks_cijenkinsioagents2_1: 3.149.48.23
   eks_cijenkinsioagents2_2: 3.149.71.89
