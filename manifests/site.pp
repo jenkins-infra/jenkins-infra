@@ -50,11 +50,6 @@ node 'usage.do.jenkins.io' {
   include role::usage
 }
 
-# TODO: remove
-node 'census' {
-  include role::census
-}
-
 node 'census.do.jenkins.io' {
   mount { '/srv/census':
     ensure => 'mounted',
@@ -63,10 +58,6 @@ node 'census.do.jenkins.io' {
     fstype => 'ext4',
   }
   include role::census
-}
-
-node 'usage' {
-  include role::usage
 }
 
 node 'pkg' {
@@ -102,16 +93,7 @@ node 'agent.trusted.ci.jenkins.io' {
   include role::updatecenter
   include profile::aznfs
 }
-node 'agent-old.trusted.ci.jenkins.io' {
-  mount { '/home/jenkins':
-    ensure => 'mounted',
-    atboot => 'true',
-    device => 'UUID=d87e9734-13a2-4e45-b906-6410a913c148',
-    fstype => 'ext4',
-  }
-  include role::updatecenter
-  include profile::aznfs
-}
+
 node 'controller.trusted.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
