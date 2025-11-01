@@ -474,9 +474,9 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-aggregator
 profile::buildagent::tools_versions:
-  awscli: 2.31.26
+  awscli: 2.31.27
 profile::jenkinscontroller::tools_versions:
-  awscli: 2.31.26
+  awscli: 2.31.27
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: azure_cluster
