@@ -15,7 +15,6 @@ profile::openvpn::networks:
       private: 10.248.0.0/14
       public: 10.244.0.0/14
       public-db: 10.253.0.0/21
-      # TODO: remove once migrated to DigitalOcean
       trusted-ci-jenkins-io: 10.252.0.0/21
 profile::openvpn::vpn_network:
   name: private
