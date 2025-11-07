@@ -328,7 +328,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
             maxInstances: 50
-            instanceType: "m6gd.xlarge" # 4 vCPUs / 16 Gb / nvme 237Gb
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "ubuntu"
             os_version: "22.04"
             ebsOptimized: true
