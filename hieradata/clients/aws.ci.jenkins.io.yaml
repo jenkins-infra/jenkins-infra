@@ -198,6 +198,9 @@ profile::jenkinscontroller::jcasc:
               - jdk21
               - jnlp
               - default
+              - node
+              - ruby
+              - webbuilder
             useAsMuchAsPossible: true # Default template to use when `node() {}` step is called without labels
             cpus: 4
             memory: 12
@@ -233,23 +236,6 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache
                 mountPath: "/cache"
                 readOnly: true
-          - name: jnlp-webbuilder
-            agentJavaBin: /opt/jdk-21/bin/java
-            javaHome: /opt/jdk-21/bin/java
-            labels:
-              - node
-              - ruby
-              - webbuilder
-            cpus: 4
-            memory: 12
-            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
-            nodeSelector: "role=jenkins-agents"
-            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
-            tolerations:
-              - key: "ci.jenkins.io/agents"
-                operator: "Equal"
-                value: "true"
-                effect: "NoSchedule"
           - name: jnlp-packaging
             agentJavaBin: /opt/jdk-21
             javaHome: /opt/jdk-21
