@@ -50,7 +50,7 @@ profile::jenkinscontroller::jcasc:
         max_capacity: 120
         url: SuperSecretThatShouldBeEncryptedInProduction
         agent_definitions:
-          - name: jnlp-webbuilder
+          - name: jnlp-maven-21
             agentJavaBin: java
             javaHome: /opt/jdk-17
             cpus: 2

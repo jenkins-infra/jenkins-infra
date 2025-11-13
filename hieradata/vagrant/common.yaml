@@ -254,6 +254,9 @@ profile::jenkinscontroller::jcasc:
             labels:
               - maven-21
               - jdk21
+              - node
+              - webbuilder
+              - ruby
             cpus: 4
             memory: 8
             imagePullSecrets: dockerhub-credential
@@ -261,14 +264,6 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache-readwritemany
                 mountPath: "/cache-rw"
                 readOnly: false
-          - name: jnlp-webbuilder
-            agentJavaBin: java
-            cpus: 2
-            memory: 4
-            labels:
-              - node
-              - webbuilder
-              - ruby
             imagePullSecrets: dockerhub-credential
       second-cluster:
         enabled: true
