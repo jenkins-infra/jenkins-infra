@@ -264,7 +264,6 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache-readwritemany
                 mountPath: "/cache-rw"
                 readOnly: false
-            imagePullSecrets: dockerhub-credential
       second-cluster:
         enabled: true
         provider: azure
