@@ -31,7 +31,7 @@ echo ">> move index from staging to production"
 # Excluding some files which the packaging repo which are now managed by Puppet
 # see INFRA-985, INFRA-989
 (cd "<%= @www_basedir %>" && rsync --chown=<%= @mirror_user %>:<%= @www_common_group %> --omit-dir-times -av \
-    --exclude=.htaccess --exclude=jenkins.repo \
+    --exclude=.htaccess --exclude=redhat*/jenkins.repo --exclude=opensuse*/jenkins.repo \
     "<%= @pkg_staging_basedir %>"/ "<%= @pkg_basedir %>"/)
 
 echo ">> Script sync.sh finished"

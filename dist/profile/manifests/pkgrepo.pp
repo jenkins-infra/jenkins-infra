@@ -197,6 +197,8 @@ Host ${$archives_jenkins_io_mirroring['host']}
     "${pkg_docroot}/opensuse-rc",
     "${pkg_docroot}/opensuse-stable",
     "${pkg_docroot}/opensuse-stable-rc",
+    "${pkg_docroot}/rpm",
+    "${pkg_docroot}/rpm-stable",
   ]
 
   file { $repos:
@@ -241,6 +243,15 @@ Host ${$archives_jenkins_io_mirroring['host']}
     group   => $www_common_group,
     mode    => '0644',
     require => File[$pkg_docroot],
+  }
+
+  profile::rpm_repo { ['rpm', 'rpm-stable']:
+    ensure    => present,
+    docroot   => $pkg_docroot,
+    repo_fqdn => $repo_fqdn,
+    require   => File[$repos],
+    owner     => $mirror_user,
+    group     => $www_common_group,
   }
 
   profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
