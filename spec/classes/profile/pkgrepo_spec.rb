@@ -72,8 +72,8 @@ describe "profile::pkgrepo" do
   end
 
   context "repository directories" do
-    platforms = ["debian", "opensuse", "redhat"]
-    variants = [nil, "stable", "rc", "stable-rc"]
+    platforms = ["debian", "rpm"]
+    variants = [nil, "stable"]
 
     platforms.each do |platform|
       variants.each do |variant|
@@ -96,39 +96,12 @@ describe "profile::pkgrepo" do
       end
     end
 
-    context "opensuse repos" do
+    context "RPM repos" do
       variants.each do |variant|
-        platform = "opensuse"
+        platform = "rpm"
         variant = "-#{variant}" unless variant.nil?
         variant = "#{platform}#{variant}"
         let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
-
-        it "should define an .htaccess file for #{variant} redirects" do
-          expect(subject).to contain_file("#{variant_dir}/.htaccess").with({
-            :ensure => :present,
-          })
-        end
-
-        it "should define a repodata/ for #{variant}" do
-          expect(subject).to contain_file("#{variant_dir}/repodata").with({
-            :ensure => :directory,
-          })
-        end
-      end
-    end
-
-    context "redhat repos" do
-      variants.each do |variant|
-        platform = "redhat"
-        variant = "-#{variant}" unless variant.nil?
-        variant = "#{platform}#{variant}"
-        let(:variant_dir) { "#{$pkg_docroot}/#{variant}" }
-
-        it "should define a jenkins.repo for #{variant}" do
-          expect(subject).to contain_file("#{variant_dir}/jenkins.repo").with({
-            :ensure => :present,
-          })
-        end
 
         it "should define an .htaccess file for #{variant} redirects" do
           expect(subject).to contain_file("#{variant_dir}/.htaccess").with({

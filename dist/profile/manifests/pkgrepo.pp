@@ -254,7 +254,7 @@ Host ${$archives_jenkins_io_mirroring['host']}
     group     => $www_common_group,
   }
 
-  profile::redhat_repo { ['redhat', 'redhat-stable', 'redhat-rc', 'redhat-stable-rc']:
+  profile::redhat_repo { ['redhat']:
     ensure    => present,
     docroot   => $pkg_docroot,
     repo_fqdn => $repo_fqdn,
@@ -269,7 +269,7 @@ Host ${$archives_jenkins_io_mirroring['host']}
     require     => File[$repos],
   }
 
-  profile::opensuse_repo { ['opensuse', 'opensuse-stable', 'opensuse-rc', 'opensuse-stable-rc']:
+  profile::opensuse_repo { ['opensuse']:
     ensure      => present,
     docroot     => $pkg_docroot,
     mirror_fqdn => $mirror_fqdn,
