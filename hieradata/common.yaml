@@ -77,6 +77,12 @@ accounts:
         key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDSNxU0LGimqU7fngTWhdVPk13uvG+Ek/NrYOF/EiuKiYsW3ifoSUR7f/ha6Y/EdzGrfix+fsQSX8nf5O8y9qXPthmyTydsXINA4+pfxnfv+7NOtlo81k1+SAwvAflNX/cUeGc1Mih6kLTCNgO5JYfYtwDdvVBdchR5JSjwZx8McVNvCqu57f3R4STYKMTh0Tavb2jH3omEUz+mTtS8MxjyXNH14KqfHEWiyZB+LBpOjW5AVn5SfWjH17a0ukZc5BJfvB5Lk11isNXO9rliJg/gxAoCXNl+XmZOLGPXTQ2ANW1dfEtJ/bT5dhNTemj0KPeOncCGZLheHyRveSwF6laSGJ+vE2xrY5bjg6suwmxLyA04E7kwmTEvbW2eMwtk4/wJe5j9wmUSrkK1icYK5t5gQcKbla734yhbri+JIN1ygXundJdi/QsGYNvWZnBZDF3KRt216siP5hPJfJ3L2xAoqWuMpin86rnSNLfbCP1jTDgVexjcynivpgT7jbJ3H5CfFohpEuTyPRG2NbI/3nQf1SAW64OqVPoq+2e0be5sCGUcUqk333w3GTPRhX+duKKhEPlaphaL+H3QrdTwlvVjklJAyB6Li/k0TExA7hDoPyLNdj9iaWRopFEgrQzXrek1QR8O0T3nFAPOBA1DDfWgw2U/oylcPIBCuoZwAePx6Q==
     groups:
       - sudo
+  notmyfault:
+    ssh_keys:
+      notmyfault_rsa:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAABgQD4jyaQucbqLmDZ+WiAS0bjXTTlOr7Jx+1gUs4pT5LzlL/ijg7Fa7FGK/96U5lUJKvmuF2oGI53n3JfwJuRsuKe2yTdlMrRKREn/jUBP4LnNeVs77Fau25jPERJAgo+lz3BBlRfPJ6AYdMRiVWr9ZsKJILGB9UpALjSJkN3F+W66Dm51Xjw7SiScKs5xKb+s5WisIlJp6MC1T0z24DFAu/X08f2A2jGpHloF6R6FHUPVYewc5bjj72DrFIP+6M+1k1mBzyr/5COBgbFxStrT+wk+spA9U8fhOiFWDcmpEnfJa8qwMBDwSkiwWdDgEeEbepFgeNgzfBxY0vSbBtV2rbm2Chy8yUj0EKERZIIGHo3yowP6pyK78QJceuBFd3jzzlaOotdI1ce5tFDR51FMbAAKY2YYm//LmwZcxXVC0k2Vd5kMOmRtM3Iv4WT836ZvkhMxUi+fC0HbKXMsEwXnitNmGO0c9JKe9XbMYqKCsCVoeEjL0+8nMiLkId5ZMxFyKc=
+    groups:
+      - sudo
 # Lets Encrypt settings
 letsencrypt::enable: true
 letsencrypt::config::email: "tyler@monkeypox.org"
