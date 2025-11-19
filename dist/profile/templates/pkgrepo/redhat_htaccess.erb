@@ -5,4 +5,4 @@ Options -Indexes
 RewriteCond %{HTTPS} on
 RewriteCond %{REQUEST_URI} ^/<%= @name %>/*
 
-RedirectMatch /<%= @name %>/(.*)$ /rpm<%= @name.gsub(/redhat/, '').gsub(/opensuse/, '') %>/$1
+RedirectMatch /<%= @name %>/(.*)$ https://pkg.jenkins.io/rpm<%= @name.gsub(/redhat/, '').gsub(/opensuse/, '') %>/$1
