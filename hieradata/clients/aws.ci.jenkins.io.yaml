@@ -732,7 +732,7 @@ profile::jenkinscontroller::plugins:
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
 profile::jenkinscontroller::tools_versions:
   # TODO: track with updatecli
-  awscli: 2.32.1
+  awscli: 2.32.2
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
     # TODO: track with updatecli
