@@ -127,12 +127,12 @@ Host ${$archives_jenkins_io_mirroring['host']}
     ensure => installed,
   }
 
-  cron { 'mirrorbrain-sync-full':
-    command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
-    minute  => '0',
-    user    => $mirror_user,
-    require => [File["${mirror_home_dir}/sync.sh"],Package['cron']],
-  }
+  #cron { 'mirrorbrain-sync-full':
+  #  command => "cd ${mirror_home_dir} && time ./sync.sh --full-sync > last_sync.log",
+  #  minute  => '0',
+  #  user    => $mirror_user,
+  #  require => [File["${mirror_home_dir}/sync.sh"],Package['cron']],
+  #}
 
   ################################################################################################
   ### Deprecated resources (TODO: remove after successful migration)
