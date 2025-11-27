@@ -195,6 +195,18 @@ profile::jenkinscontroller::jcasc:
               - docker-windows-2022
               - win-2022
             spot: false
+          - description: "Windows 2025 x86_64 with default (current) JDK"
+            maxInstances: 4
+            ami: ami-xxxxxxxxx
+            instanceType: T3aXlarge # 4 vCPUs / 16 Gb
+            os: "windows"
+            os_version: "2025"
+            ebsOptimized: true
+            architecture: "amd64"
+            labels:
+              - docker-windows-2025
+              - win-2025
+            spot: false
     kubernetes:
       first-cluster:
         enabled: true
@@ -403,6 +415,22 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - docker-windows-2022
+          maxInstances: 50
+          useAsMuchAsPossible: true
+          credentialsId: "jenkinsvmagents-userpass"
+          usePrivateIP: true
+          spot: false
+        - name: "win-2025-ssh" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          location: "East US 2"
+          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          ephemeralOSDisk: true
+          architecture: amd64
+          labels:
+            - docker-windows-2025
           maxInstances: 50
           useAsMuchAsPossible: true
           credentialsId: "jenkinsvmagents-userpass"

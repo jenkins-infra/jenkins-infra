@@ -660,6 +660,24 @@ profile::jenkinscontroller::jcasc:
               - win-2022
             spot: true
             acpServerId: aws-internal
+          - description: "Spot Windows 2025 x86_64 with JDK17"
+            maxInstances: 50
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2025"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-17'
+            # Utilizes the local NVMe mounted in Z:
+            customDataDisk: 'Z:'
+            remoteAdmin: jenkins
+            labels:
+              - win-2025-amd64-maven-17
+              # Labels indicating it is the default VM template for Windows 2025 (but not windows)
+              - docker-windows-2025
+              - win-2025
+            spot: true
+            acpServerId: aws-internal
           - description: "Windows Infra Test"
             maxInstances: 5
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
