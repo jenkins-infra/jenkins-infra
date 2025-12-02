@@ -22,6 +22,7 @@ jenkins:
       <%- $cloudInitDoneParentDir = "#{$tempDir}" -%>
       <%- $cloudInitDoneFile = "#{$cloudInitDoneParentDir}/.cloud-init.done" -%>
       <%- $javaHome = agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] -%>
+      <%- $noCustomDataDiskForDocker = agent['noCustomDataDiskForDocker'] == nil ? false : agent['noCustomDataDiskForDocker'] -%>
       - ami: "<%= agent['ami'] ? agent['ami'] : @jcasc['agent_images']['ec2_amis'][$os + "-" + agent['os_version'].to_s + "-" + agent['architecture'].to_s] %>"
         amiType:
       <%- if $os == 'windows' -%>
@@ -156,6 +157,9 @@ jenkins:
                   }
                 }
 
+                <%- if $noCustomDataDiskForDocker -%>
+                ## Not using custom disk for docker
+                <%- else -%>
                 ## Setup Docker Engine to store its data in the <%= agent['customDataDisk'] %> drive
                 # Note: file path MUST use Unix-style separator (/)
                 @'
@@ -166,6 +170,9 @@ jenkins:
 
                 # Restart docker engine
                 Restart-Service docker
+                <%- end -%>
+                <%- else -%>
+                ## No NVMe(s) as custom disk(s)
                 <%- end -%>
 
                 <%- if $remoteAdmin != 'Administrator' -%>
