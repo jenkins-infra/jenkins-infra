@@ -682,12 +682,12 @@ profile::jenkinscontroller::jcasc:
             maxInstances: 5
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
-            os_version: "2019"
+            os_version: "2025"
             ebsOptimized: true
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
+            # # Utilizes the local NVMe mounted in Z:
+            # customDataDisk: 'Z:'
             remoteAdmin: jenkins
             labels:
               - infratest-windows
