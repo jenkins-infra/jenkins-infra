@@ -496,7 +496,7 @@ profile::jenkinscontroller::plugins:
   - warnings-ng
   - workflow-aggregator
 profile::buildagent::tools_versions:
-  awscli: 2.32.6
+  awscli: 2.32.7
 profile::jenkinscontroller::tools_versions:
   awscli: 2.32.7
 profile::jenkinscontroller::kubeconfigs:
