@@ -156,6 +156,9 @@ jenkins:
                   }
                 }
 
+                <%- if agent['customDataDiskNotUsedForDocker'] -%>
+                ## Not using custom disk for docker
+                <%- else -%>
                 ## Setup Docker Engine to store its data in the <%= agent['customDataDisk'] %> drive
                 # Note: file path MUST use Unix-style separator (/)
                 @'
@@ -166,6 +169,7 @@ jenkins:
 
                 # Restart docker engine
                 Restart-Service docker
+                <%- end -%>
                 <%- end -%>
 
                 <%- if $remoteAdmin != 'Administrator' -%>

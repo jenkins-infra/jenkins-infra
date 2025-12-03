@@ -169,7 +169,7 @@ profile::jenkinscontroller::jcasc:
               - win-2019-amd64-maven-21
               - maven-21-windows-nonspot
             spot: false
-          - description: "Spot Windows 2019 x86_64 with JDK21"
+          - description: "Spot Windows 2019 x86_64 with JDK21 with custom disk"
             maxInstances: 5
             ami: ami-xxxxxxxxx
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
@@ -182,8 +182,9 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - maven-21-windows
+              - custom-disk
             spot: true
-          - description: "Windows 2022 x86_64 with default (current) JDK"
+          - description: "Windows 2022 x86_64 with default (current) JDK without custom disk"
             maxInstances: 4
             ami: ami-xxxxxxxxx
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
@@ -194,18 +195,23 @@ profile::jenkinscontroller::jcasc:
             labels:
               - docker-windows-2022
               - win-2022
+              - no-custom-disk
             spot: false
-          - description: "Windows 2025 x86_64 with default (current) JDK"
+          - description: "Windows 2025 x86_64 with default (current) JDK with custom disk but not using it for docker"
             maxInstances: 4
             ami: ami-xxxxxxxxx
             instanceType: T3aXlarge # 4 vCPUs / 16 Gb
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
+            customDataDisk: 'Z:'
+            customDataDiskNotUsedForDocker: true
             architecture: "amd64"
             labels:
               - docker-windows-2025
               - win-2025
+              - custom-disk
+              - no-custom-disk-for-docker
             spot: false
     kubernetes:
       first-cluster:
