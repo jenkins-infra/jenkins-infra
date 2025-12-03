@@ -205,7 +205,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "2025"
             ebsOptimized: true
             customDataDisk: 'Z:'
-            noCustomDataDiskForDocker: true
+            customDataDiskNotUsedForDocker: true
             architecture: "amd64"
             labels:
               - docker-windows-2025
