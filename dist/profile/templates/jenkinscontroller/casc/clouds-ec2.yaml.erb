@@ -171,8 +171,6 @@ jenkins:
                 # Restart docker engine
                 Restart-Service docker
                 <%- end -%>
-                <%- else -%>
-                ## No NVMe(s) as custom disk(s)
                 <%- end -%>
 
                 <%- if $remoteAdmin != 'Administrator' -%>
