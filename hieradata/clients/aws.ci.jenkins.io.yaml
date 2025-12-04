@@ -120,7 +120,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     kubernetes:
       ci.jenkins.io-agents-2:
-        enabled: true
+        enabled: false
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
         # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
         imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
@@ -253,7 +253,7 @@ profile::jenkinscontroller::jcasc:
                 value: "true"
                 effect: "NoSchedule"
       ci.jenkins.io-agents-2-bom:
-        enabled: true
+        enabled: false
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
         # TODO: track with updatecli
         imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
