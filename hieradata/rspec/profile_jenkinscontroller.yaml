@@ -166,7 +166,6 @@ profile::jenkinscontroller::plugins:
   - matrix-auth
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
-  - toolenv
   - workflow-aggregator
   - workflow-multibranch
 ldap_url: "ldap://localhost:389"
