@@ -378,6 +378,5 @@ profile::jenkinscontroller::plugins:
   - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - throttle-concurrents
   - timestamper
-  - toolenv
   - workflow-aggregator
   - workflow-multibranch
