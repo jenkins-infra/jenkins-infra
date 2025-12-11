@@ -1,6 +1,6 @@
 require "spec_helper"
 
-certbot_version = "5.2.1"
+certbot_version = "5.2.2"
 certbot_dns_azure_version = "2.6.1"
 
 describe "profile::letsencrypt" do
