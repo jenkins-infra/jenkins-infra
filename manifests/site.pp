@@ -60,10 +60,6 @@ node 'census.do.jenkins.io' {
   include role::census
 }
 
-node 'pkg' {
-  include role::pkg
-}
-
 node 'aws.ci.jenkins.io' {
   include role::jenkins::controller
 }

@@ -94,7 +94,7 @@ Ex: `vagrant up jenkins::controller`
 
 All machines should have the same base Ubuntu version, however we can have edge cases. As such, you can specify the Ubuntu version through the environment variable `UBUNTU_VERSION`.
 
-Ex: `UBUNTU_VERSION=18.04 vagrant up pkg`
+Ex: `UBUNTU_VERSION=18.04 vagrant up <machine_name>`
 
 NOTE: there are a LOT of corner cases and a generic code (Dockerfile and Vagrantfile) would only mean writing tons of hashmaps to cover all cases. Work on using another tool such as molecule instead if you want to spend time fixing this.
 
