@@ -20,12 +20,6 @@ class profile::letsencrypt (
   }
 
   case $facts['os']['distro']['codename'] {
-    'bionic': {
-      $python_certbot_version = '3.8'
-      $python_system_version = '3.6' # Required to be the default to avoid breaking apt
-      $certbot_pip_version = '' # 3.0.x is the latest certbot version supporting Python < 3.10
-      $certbot_pip_version_check = '' # Only check for the pip presence
-    }
     'focal': {
       $python_certbot_version = '3.8'
       $python_system_version = '3.8' # Required to be the default to avoid breaking apt

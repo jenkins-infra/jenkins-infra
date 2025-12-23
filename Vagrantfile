@@ -1,19 +1,13 @@
 Vagrant.configure("2") do |config|
-    ubuntu_version = ENV.fetch('UBUNTU_VERSION') { '22.04' }
-    mounts_per_version = {
-        "18.04" => ["/var/lib/docker"],
-        "22.04" => ["/var/lib/docker", "/sys/fs/cgroup:/sys/fs/cgroup:rw"],
-    }
-
     ## Docker provider
     config.vm.provider "docker" do |d|
         d.build_dir = "./vagrant-docker/"
-        d.dockerfile = "Dockerfile.#{ubuntu_version}"
+        d.dockerfile = "Dockerfile.22.04"
         d.create_args = [
             "--privileged=true",
             "--cgroupns=host",
         ]
-        d.volumes = mounts_per_version[ubuntu_version]
+        d.volumes = ["/var/lib/docker", "/sys/fs/cgroup:/sys/fs/cgroup:rw"]
         d.has_ssh = true
     end
 

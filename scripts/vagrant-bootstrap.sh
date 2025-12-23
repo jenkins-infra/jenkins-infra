@@ -19,5 +19,3 @@ popd
 echo "> Prebuilding Docker images to ensure it is kept in cache (by giving a name)"
 
 docker build --tag=jenkins-infra-ubuntu:22.04 --file="${repo_dir}"/vagrant-docker/Dockerfile.22.04 "${repo_dir}"/vagrant-docker/
-
-docker build --tag=jenkins-infra-ubuntu:18.04 --file="${repo_dir}"/vagrant-docker/Dockerfile.18.04 "${repo_dir}"/vagrant-docker/

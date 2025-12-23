@@ -22,7 +22,7 @@ class profile::apachemisc (
   file { '/var/log/apache2':
     ensure => 'directory',
     owner  => 'root',
-    group  => 'adm', # apache2 package for Ubuntu 18.04
+    group  => 'adm', # apache2 package for Ubuntu
     mode   => $apache::logroot_mode, # From hieradata, because shared with the `apache` module
   }
   # Datadog agent custom configuration
