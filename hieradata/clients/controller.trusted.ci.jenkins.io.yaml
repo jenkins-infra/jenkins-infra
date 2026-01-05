@@ -174,6 +174,26 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
           usePrivateIP: true
+        - name: "ubuntu-22-arm64-maven-21"
+          description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+          imageDefinition: jenkins-agent-ubuntu-22.04-arm64
+          os: "ubuntu"
+          os_version: "22.04"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: true
+          architecture: arm64
+          labels:
+            - ubuntu-arm64-maven-21
+            - ubuntu-22-arm64-maven-21
+            - arm64docker # Same label as ci.jenkins.io docker arm64 agent template
+          javaHome: '/opt/jdk-21'
+          maxInstances: 7
+          useAsMuchAsPossible: true
+          credentialsId: "azure-jenkins-user"
+          usePrivateIP: true
         - name: "ubuntu-22-amd64-maven-25"
           description: "Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -191,26 +211,6 @@ profile::jenkinscontroller::jcasc:
             - maven-25
             - jdk25
           javaHome: '/opt/jdk-25'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "ubuntu-22-arm64-maven-21"
-          description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-arm64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: arm64
-          labels:
-            - ubuntu-arm64-maven-21
-            - ubuntu-22-arm64-maven-21
-            - arm64docker # Same label as ci.jenkins.io docker arm64 agent template
-          javaHome: '/opt/jdk-21'
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
