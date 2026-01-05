@@ -127,6 +127,7 @@ profile::jenkinscontroller::jcasc:
             - ubuntu-22-amd64-maven-11
             - maven-11
             - jdk11
+            - amd64 # For parity with ci.jenkins.io default docker amd agent template
           maxInstances: 7
           useAsMuchAsPossible: true
           credentialsId: "azure-jenkins-user"
