@@ -692,7 +692,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             # Don't use local NVMe as data-root for docker
             customDataDiskNotUsedForDocker: true
-            remoteAdmin: jenkins
+            remoteAdmin: Administrator
             labels:
               - infratest-windows
             spot: true
@@ -717,7 +717,7 @@ profile::jenkinscontroller::jcasc:
             ebsOptimized: true
             architecture: "amd64"
             javaHome: 'C:/tools/jdk-21'
-            remoteAdmin: jenkins
+            remoteAdmin: Administrator
             labels:
               - helpdesk-4939
             spot: false
