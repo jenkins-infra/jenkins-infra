@@ -85,11 +85,6 @@ profile::letsencrypt::plugin: apache
 profile::letsencrypt::certbot_version: '5.2.2'
 profile::letsencrypt::certbot_dnsazure_version: '2.6.1'
 profile::letsencrypt::certbot_dnsmulti_version: '4.30.1'
-profile::pkgrepo::authorized_ssh_keys:
-  release.ci.jenkins.io:
-    key: AAAAB3NzaC1yc2EAAAADAQABAAABAQDBi5DJcmDRAa6J7d4Zj9alGw0ZNwDftfKPNqyMoJrbRyvqvhKi8z0mg5HMK+ohkc+Xk5+HWpLNf36nn4b+Jn9g2CZJfzkt2SL7HbCN4eVLkQmqmWG/y9HCSmld9bTVWFy1zD34qNiaZw1ldsusvokyU/LTIgWHsCtbsgMoE+CzRKKRJXDrUmnY4e4q5leTHjOdShlrFiakyy5XYtUKG0zlnJMqIvxyTSo+jKKA1iNeW0hP8knu4uhFCGcYOZps1eNH2z+7Vq+wq6lsNfU11CDfuCSZBG24VNMMf75giFVc2PdAzlWrY+BXi7QeDaPUqilMf3d2egKb/dFxhkTGQL11
-  trusted.ci.jenkins.io:
-    key: AAAAB3NzaC1yc2EAAAADAQABAAACAQCzyH9qnIjUBdaWW9l2cRWePwmYTyaYnjxXWuXK9+OviTYvWuVfqXsEZYLIuT+Sovs0fjTXrnuwUaxE4SzIqowXpNOLNig81J5mymuz8P9rMFgwfpI2HmFaxEnd1EauMOM6Wf+xKwjkdeVDX6JcNX7LSzMYq7sAxZGUT60urJmhVTcJ7ZBTaEEWzte0XCYftyuf1wE1pZWQwtdCOCEoUCqJDbtiOWcNMgqSEcAfVduhBvXCCESR4F7davHogj8sqCNIfayOG4GfBisUGYgxShsaEVsbinBFxfzQFqsDZZUcrr5Ym32qQ54UkX6xmQkns9vxMZQLFxhu73NrO+m4k+LvVcjtxl1Y3a4x46BsqUgcmifpNVI2Bq1uekXTY2AGue5/ve8eVhNweuKwLb7jyGAUoPqsK4peA0Uri77xNdUCobjTAhf25UPMW+PdGWNa779P6p/tToe+wyTo6w0aOfPQuIrfJeBqR9i7CO2b4bKl8y4o5AoHQm1vXQtnR1KXm3jdBAPeUJ4invn/JXziIqu9aTGvefg22/d+FfyT4tYG7BlPRGi+I8ApR4i2+OAGWwx9Yj99J56Z2EJI3cdiJmgqDSKeEz/qc3In71Addn42QBgyakxWW2mb75IaYhBo8bzOzTeKheGzMwEFczdJHKehvyrZbLxJdJOKTgAVnZn+TQ==
 irc::irc_server: ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAg/IMh30AaTVOJqBSUwZ9q7ijpmxoS/rS2GyWkXZ9qnhCi2B0O1U1Ds+BSpsAszxA3Qf67tl7OkmfTyV7xDNjSfVlHuGbgJ5yRkOphndcO5tCd+ssFRXROROeHVJBhn64S11ayL4LSyx9zn6Nqk4SnUjZ9zKmS1KGGl3fjFLygI+3q8rPuv+ebSKFUiwXUUWPsPoTUPcxV9950npYiP5yaOJN9y7QJ8XqlA9cNU27cubgZJFxYRfReCa0zG12K6c+ordmc85R+Fp4ZJnPIuOVS4A6xS/x5a3EJz/qWdBZYCUjmrk+qmiMrp7mgc+EHKOAkmrdA+yZbWnYhv8PalufiDCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQYE9nAbni14xjBa6uM+gtOYBggqa4FnMWQ3eObLB5eu+Vje5vCo14q/bWY0uqio9aRO6pIEsKaBVE/DnF0VWuV9tqTcD3LInqpvS1g8cgcgLp8Z0chmQoZSGxdBGhTFkRGO0z+TJY1zXixeUedzp/K2Ly]
 irc::irc_join: true
 irc::use_ssl: true
@@ -245,11 +240,6 @@ profile::jenkinscontroller::jcasc:
         amd64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_x64_linux_hotspot_25.0.1_8.tar.gz
         arm64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.1_8.tar.gz
     maven: 3.9.11
-# These variables should be filled in, in production.yaml, with the legacy
-# jenkins-ci.org cert details
-ssl_legacy_cert: ""
-ssl_legacy_chain: ""
-ssl_legacy_key: ""
 ssh::server::storeconfigs_enabled: false
 ssh::server::options:
   PasswordAuthentication: no

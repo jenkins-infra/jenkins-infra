@@ -8,42 +8,10 @@
 class profile::updatecenter (
   Stdlib::Absolutepath $home_dir      = '/home/jenkins',
   String               $user          = 'jenkins',
-  Optional[String]     $rsync_privkey = '',
-  Optional[String]     $rsync_pubkey  = '',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::azcopy
   include profile::mirrorbits
-
-  if $rsync_privkey {
-    $rsync_privkeyfile = "${home_dir}/.ssh/updates-rsync-key"
-
-    file { $rsync_privkeyfile:
-      ensure  => file,
-      mode    => '0600',
-      content => $rsync_privkey,
-    }
-
-    file { "${rsync_privkeyfile}.pub":
-      ensure  => file,
-      mode    => '0644',
-      content => $rsync_pubkey,
-    }
-    # TODO: cleanup after UC move to Azure + Cloudflare
-    concat::fragment { 'updates-rsync-key concat':
-      target  => "${home_dir}/.ssh/config",
-      order   => '99',
-      content => "
-Host aws.updates.jenkins.io
-  IdentityFile ${rsync_privkeyfile}
-Host pkg.origin.jenkins.io
-  IdentityFile ${rsync_privkeyfile}
-Host updates.jenkins.io
-  HostName aws.updates.jenkins.io
-  IdentityFile ${rsync_privkeyfile}
-",
-    }
-  }
 
   ensure_resources('concat', {
       "${home_dir}/.ssh/config" => {

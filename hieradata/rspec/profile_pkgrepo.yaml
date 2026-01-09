@@ -1,5 +1,0 @@
----
-archives_jenkins_io_mirroring::privkey: |
-  -----BEGIN RSA PRIVATE KEY-----
-  override_with_archives_privkey
-  -----END RSA PRIVATE KEY-----

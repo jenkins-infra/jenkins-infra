@@ -7,8 +7,7 @@ class profile::azcopy (
   include apt
   include profile::aptmicrosoftprod
 
-  # Case of Ubuntu 18.04 (pkg) on arm64 (which does not provide azcopy package) is not handled
-  if $facts['os']['distro']['codename'] != 'bionic' and $azcopy_version {
+  if $azcopy_version {
     package { 'azcopy':
       ensure  => $azcopy_version,
       require => Class['apt::update'],
@@ -29,7 +28,6 @@ class profile::azcopy (
     }
 
     package { 'azure-cli':
-      # azure-cli package have additional suffixes to their semver version like "<az_cli_version>-1~bionic"
       ensure  => "${az_cli_version}-1~${facts['os']['distro']['codename']}",
       require => Class['apt::update'],
     }
