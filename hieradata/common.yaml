@@ -222,7 +222,7 @@ profile::jenkinscontroller::jcasc:
       windows-2022-amd64: ami-07e785a8e1e320822
       windows-2025-amd64: ami-06fb8aedb2ea0340a
     azure_vms_gallery_image:
-      version: 2.76.0
+      version: 2.77.0
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
     container_images:
       # All in one image (same as VM templates)
