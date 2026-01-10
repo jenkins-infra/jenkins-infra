@@ -1,7 +1,7 @@
 # Jenkins Downloads HTML Content
 
 This directory contains HTML files manually deployed to:
-- https://archives.jenkins.io (through pkg.origin VM)
+- https://archives.jenkins.io
 - https://get.jenkins.io
 
 These files are not the real content but only a few HTML pages to improve user UX.
