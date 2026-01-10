@@ -5,7 +5,6 @@ profile::archives::rsync_hosts_allow:
 ## TODO: uncomment and add values from our mirrors to allow them to download data
 #   - localhost
 #   - archives.jenkins.io
-#   - pkg.origin.jenkins.io
 #   - get.jenkins.io
 #   - 46.101.121.132 # archives.do.jenkins.io
 # Per-host Datadog configuration
