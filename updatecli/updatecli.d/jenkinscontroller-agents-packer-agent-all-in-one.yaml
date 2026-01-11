@@ -49,7 +49,9 @@ sources:
           values: "prod"
         - name: "tag:version"
           values: '{{ source "packerImageVersion" }}'
-  getLatestWindows2019AgentAMIx86:
+{{ range $windowsVersion := .windowsVersions }}
+{{ $version := $windowsVersion.version }}
+  getLatestWindows{{ $version }}AgentAMIx86:
     kind: aws/ami
     dependson:
       - packerImageVersion
@@ -58,25 +60,12 @@ sources:
       sortby: creationDateDesc
       filters:
         - name: "name"
-          values: "jenkins-agent-windows-2019-amd64-*"
+          values: "jenkins-agent-windows-{{ $version }}-amd64-*"
         - name: "tag:build_type"
           values: "prod"
         - name: "tag:version"
           values: '{{ source "packerImageVersion" }}'
-  getLatestWindows2022AgentAMIx86:
-    kind: aws/ami
-    dependson:
-      - packerImageVersion
-    spec:
-      region: us-east-2
-      sortby: creationDateDesc
-      filters:
-        - name: "name"
-          values: "jenkins-agent-windows-2022-amd64-*"
-        - name: "tag:build_type"
-          values: "prod"
-        - name: "tag:version"
-          values: '{{ source "packerImageVersion" }}'
+{{ end }}
 
   getLatestInboundAllInOneContainerImageX86:
     kind: dockerdigest
@@ -141,22 +130,17 @@ targets:
       file: hieradata/common.yaml
       key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.'ubuntu-22.04-arm64'
     scmid: default
-  setWindows2019AgentAMIx86:
-    sourceid: getLatestWindows2019AgentAMIx86
-    name: Set AMI ID for the Windows 2019 x86 Image
+{{ range $windowsVersion := .windowsVersions }}
+{{ $version := $windowsVersion.version }}
+  setWindows{{ $version }}AgentAMIx86:
+    sourceid: getLatestWindows{{ $version }}AgentAMIx86
+    name: Set AMI ID for the Windows {{ $version }} x86 Image
     kind: yaml
     spec:
       file: hieradata/common.yaml
-      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2019-amd64
+      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-{{ $version }}-amd64
     scmid: default
-  setWindows2022AgentAMIx86:
-    sourceid: getLatestWindows2022AgentAMIx86
-    name: Set AMI ID for the Windows 2019 x86 Image
-    kind: yaml
-    spec:
-      file: hieradata/common.yaml
-      key: $.profile::jenkinscontroller::jcasc.agent_images.ec2_amis.windows-2022-amd64
-    scmid: default
+{{ end }}
 
 actions:
   default:
@@ -166,3 +150,4 @@ actions:
     spec:
       labels:
         - dependencies
+        - packer-images

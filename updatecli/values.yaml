@@ -10,3 +10,8 @@ github:
 jdks:
   - major: 21
   - major: 25
+
+windowsVersions:
+  - version: 2019
+  - version: 2022
+  - version: 2025
