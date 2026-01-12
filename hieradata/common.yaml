@@ -169,27 +169,27 @@ profile::jenkinscontroller::jcasc:
         major_version: 8
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-8-windows"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || windows-2025 || maven-8-windows"
       jdk11:
         major_version: 11
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk11 || jdk-11 || maven-11"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-11-windows"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || windows-2025 || maven-11-windows"
       jdk17:
         major_version: 17
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk17 || jdk-17 || maven-17"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-17-windows"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || windows-2025 || maven-17-windows"
       jdk21:
         major_version: 21
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk21 || jdk-21 || maven-21"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-21-windows"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || windows-2025 || maven-21-windows"
       jdk25:
         major_version: 25
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk25 || jdk-25 || maven-25"
-          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || maven-25-windows"
+          windows-amd64: "(windows && amd64) || windows-amd64 || windows-2019 || windows-2022 || windows-2025 || maven-25-windows"
   agents_setup:
     windows:
       agentDir: 'C:/Jenkins/agent'

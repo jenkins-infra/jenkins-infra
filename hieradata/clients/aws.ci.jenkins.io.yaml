@@ -675,6 +675,23 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-17
+            spot: true
+            acpServerId: aws-internal
+          - description: "Spot Windows 2025 x86_64 with JDK25"
+            maxInstances: 50
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2025"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-25'
+            # Utilizes the local NVMe mounted in Z:
+            customDataDisk: 'Z:'
+            # Don't use local NVMe as data-root for docker
+            customDataDiskNotUsedForDocker: true
+            remoteAdmin: jenkins
+            labels:
+              - win-2025-amd64-maven-25
               # Labels indicating it is the default VM template for Windows 2025 (but not windows)
               - docker-windows-2025
               - win-2025
