@@ -115,7 +115,7 @@ profile::jenkinscontroller::jcasc:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.12/bin
         JAVA_HOME: /opt/jdk-21
       toolLocation:
-        - home: /home/jenkins/tools/apache-maven-3.9.11
+        - home: /home/jenkins/tools/apache-maven-3.9.12
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
   cloud_agents:
     kubernetes:
