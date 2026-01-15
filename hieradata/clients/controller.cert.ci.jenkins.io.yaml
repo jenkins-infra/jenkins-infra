@@ -243,6 +243,44 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
           usePrivateIP: true
+        - name: "win-2025-amd64-maven-17" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-17"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-17
+            - maven-17-windows
+          javaHome: 'C:/tools/jdk-17'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
+        - name: "win-2025-amd64-maven-21" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-21"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-21
+            - maven-21-windows
+          javaHome: 'C:/tools/jdk-21'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
         - name: "win-2025-amd64-maven-25" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2025 Maven-25"
           imageDefinition: jenkins-agent-windows-2025-amd64
