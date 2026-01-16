@@ -624,6 +624,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             remoteAdmin: jenkins
             labels:
+              - win-2019-amd64-maven-21-nonspot
               # Default VM template for "maven 21 & windows nonspot"
               - maven-21-windows-nonspot
             spot: false
@@ -657,6 +658,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             remoteAdmin: jenkins
             labels:
+              - win-2019-amd64-maven-25-nonspot
               # Default VM template for "maven 25 & windows"
               - maven-25-windows-nonspot
             spot: false
