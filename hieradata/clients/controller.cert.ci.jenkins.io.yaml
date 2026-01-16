@@ -88,12 +88,11 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-amd64-maven-11
-            # Labels indicating default VM templates
-            - ubuntu-amd64-maven-11
             - linux
             - docker
             - ubuntu
+            - ubuntu-amd64-maven-11
+            - ubuntu-22-amd64-maven-11
             - maven-11
             - jdk11
           maxInstances: 10 # Quota of 80 vCPUs
@@ -112,9 +111,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-amd64-maven-17
-            # Labels indicating default VM templates
             - ubuntu-amd64-maven-17
+            - ubuntu-22-amd64-maven-17
             - maven-17
             - jdk17
           javaHome: '/opt/jdk-17'
@@ -134,9 +132,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-amd64-maven-21
-            # Labels indicating default VM templates
             - ubuntu-amd64-maven-21
+            - ubuntu-22-amd64-maven-21
             - maven-21
             - jdk21
           javaHome: '/opt/jdk-21'
@@ -156,9 +153,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - ubuntu-22-amd64-maven-25
-            # Labels indicating default VM templates
             - ubuntu-amd64-maven-25
+            - ubuntu-22-amd64-maven-25
             - maven-25
             - jdk25
           javaHome: '/opt/jdk-25'
