@@ -227,7 +227,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-11
-            # Default VM template for "maven 11 & windows"
+            # Labels indicating default VM templates
             - maven-11-windows
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 7
@@ -247,9 +247,9 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-17
-            # Default VM template for "docker & windows 2019"
+            # Labels indicating default VM templates
             - docker-windows-2019
-            # Default VM template for "windows 2019"
+            # Labels indicating default VM templates
             - win-2019
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 7
@@ -323,9 +323,9 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2022-amd64-maven-17
-            # Default VM template for "docker & windows 2022"
+            # Labels indicating default VM templates
             - docker-windows-2022
-            # Default VM template for "windows 2022"
+            # Labels indicating default VM templates
             - win-2022
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 7
@@ -381,15 +381,11 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2025-amd64-maven-17
-            # Default VM template for "docker & windows 2022"
+            # Labels indicating default VM templates
             - docker-windows-2025
-            # Default VM template for "windows 2025"
             - win-2025
-            # Default VM template for "maven 17 & windows"
             - maven-17-windows
-            # Default VM template for "docker & windows"
             - docker-windows
-            # Default VM template for "maven & windows"
             - maven-windows
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 7
@@ -409,7 +405,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2025-amd64-maven-21
-            # Default VM template for "maven 21 & windows"
+            # Labels indicating default VM templates
             - maven-21-windows
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 7
@@ -429,7 +425,7 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2025-amd64-maven-25
-            # Default VM template for "maven 25 & windows"
+            # Labels indicating default VM templates
             - maven-25-windows
           javaHome: 'C:/tools/jdk-25'
           maxInstances: 7
