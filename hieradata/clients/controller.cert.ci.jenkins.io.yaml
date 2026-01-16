@@ -75,6 +75,7 @@ profile::jenkinscontroller::jcasc:
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           userInstanceIdentity: '/subscriptions/dff2ec18-6a8e-405c-8e45-b7df7465acf0/resourceGroups/cert-ci-jenkins-io/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents'
       agent_definitions:
+        ## Linux agent templates
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -162,6 +163,7 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
           usePrivateIP: true
+        ## Windows agent templates
         - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 Maven-11"
           imageDefinition: jenkins-agent-windows-2019-amd64
