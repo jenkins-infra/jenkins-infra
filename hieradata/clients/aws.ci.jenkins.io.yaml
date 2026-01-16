@@ -677,7 +677,6 @@ profile::jenkinscontroller::jcasc:
               - win-2025-amd64-maven-17
             spot: true
             acpServerId: aws-internal
-          # Default template
           - description: "Spot Windows 2025 x86_64 with JDK17"
             maxInstances: 50
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
