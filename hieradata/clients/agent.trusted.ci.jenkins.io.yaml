@@ -8,7 +8,7 @@ profile::buildagent::ssh_keys:
     key: AAAAC3NzaC1lZDI1NTE5AAAAINdeZJh/nqgNvkhSph152vK/9vWzEzYXd6GWk68edm2E
 profile::buildagent::trusted_agent: true
 profile::buildagent::tools_versions:
-  awscli: 2.33.2
+  awscli: 2.33.3
 profile::aznfs::mounts:
   - mountpoint: "/data-storage-jenkins-io"
     url: "datastoragejenkinsio.file.core.windows.net:/datastoragejenkinsio/data-storage-jenkins-io"
