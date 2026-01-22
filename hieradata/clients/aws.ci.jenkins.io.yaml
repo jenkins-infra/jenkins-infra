@@ -750,6 +750,7 @@ profile::jenkinscontroller::jcasc:
               # Label(s) indicating default VM templates
               - maven-21-windows
               - docker-windows
+              - maven-windows
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2025 x86_64 with JDK21"
