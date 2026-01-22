@@ -646,7 +646,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2022-amd64-maven-17
-              # Labels indicating it is the default VM template for Windows 2022 (but not windows)
+              # Label(s) indicating default VM templates
               - docker-windows-2022
               - win-2022
             spot: true
@@ -800,7 +800,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-25-nonspot
-              # Default VM template for "maven 25 & windows nonspot"
+              # Label(s) indicating default VM templates
               - maven-25-windows-nonspot
             spot: false
             acpServerId: aws-internal
