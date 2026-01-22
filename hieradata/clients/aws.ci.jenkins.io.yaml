@@ -511,6 +511,7 @@ profile::jenkinscontroller::jcasc:
           # Windows VMs
           ####
           ## TODO: deprecate JDK8 Windows?
+          # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2019 x86_64 with JDK8"
             maxInstances: 50
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
@@ -524,10 +525,10 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-8
-              - maven-8-windows
             spot: true
             acpServerId: aws-internal
           ## TODO: deprecate JDK11 Windows?
+          # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2019 x86_64 with JDK11"
             maxInstances: 50
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
@@ -541,7 +542,6 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-11
-              - maven-11-windows
             spot: true
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK17"
@@ -557,7 +557,6 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-17
-              - maven-17-windows
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK17"
@@ -573,7 +572,6 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-17-nonspot
-              - maven-17-windows-nonspot
             spot: false
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK21"
@@ -589,9 +587,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-21
-              - maven-21-windows
-              # Labels indicating it is the default VM template for Windows 2019 and Windows
-              - docker-windows
+              # Label(s) indicating default VM templates
               - docker-windows-2019
               - win-2019
             spot: true
@@ -608,7 +604,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             remoteAdmin: jenkins
             labels:
-              - maven-21-windows-nonspot
+              - win-2019-amd64-maven-21-nonspot
             spot: false
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK25"
@@ -624,7 +620,6 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2019-amd64-maven-25
-              - maven-25-windows
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK25"
@@ -639,7 +634,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             remoteAdmin: jenkins
             labels:
-              - maven-25-windows-nonspot
+              - win-2019-amd64-maven-25-nonspot
             spot: false
             acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK17"
@@ -660,21 +655,45 @@ profile::jenkinscontroller::jcasc:
               - win-2022
             spot: true
             acpServerId: aws-internal
-          - description: "Spot Windows 2025 x86_64 with JDK17"
+          ###
+          # Windows 2025 VM
+          ###
+          ## TODO: deprecate JDK8 Windows?
+          # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
+          - description: "Spot Windows 2025 x86_64 with JDK8"
             maxInstances: 50
             instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
             architecture: "amd64"
-            javaHome: 'C:/tools/jdk-17'
+            javaHome: 'C:/tools/jdk-8'
             # Utilizes the local NVMe mounted in Z:
             customDataDisk: 'Z:'
-            # Don't use local NVMe as data-root for docker
-            customDataDiskNotUsedForDocker: true
             remoteAdmin: jenkins
             labels:
-              - win-2025-amd64-maven-17
+              - win-2025-amd64-maven-8
+              # Label(s) indicating default VM templates
+              - maven-8-windows
+            spot: true
+            acpServerId: aws-internal
+          ## TODO: deprecate JDK11 Windows?
+          # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
+          - description: "Spot Windows 2025 x86_64 with JDK11"
+            maxInstances: 50
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            os: "windows"
+            os_version: "2025"
+            ebsOptimized: true
+            architecture: "amd64"
+            javaHome: 'C:/tools/jdk-11'
+            # Utilizes the local NVMe mounted in Z:
+            customDataDisk: 'Z:'
+            remoteAdmin: jenkins
+            labels:
+              - win-2025-amd64-maven-11
+              # Label(s) indicating default VM templates
+              - maven-11-windows
             spot: true
             acpServerId: aws-internal
           - description: "Spot Windows 2025 x86_64 with JDK17"
@@ -692,6 +711,8 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-17
+              # Label(s) indicating default VM templates
+              - maven-17-windows
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2025 x86_64 with JDK17"
@@ -707,7 +728,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-17-nonspot
-              # Default VM template for "maven 17 & windows nonspot"
+              # Label(s) indicating default VM templates
               - maven-17-windows-nonspot
             spot: false
             acpServerId: aws-internal
@@ -726,8 +747,9 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-21
-              # Default VM template for "maven 21 & windows"
+              # Label(s) indicating default VM templates
               - maven-21-windows
+              - docker-windows
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2025 x86_64 with JDK21"
@@ -743,7 +765,7 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-21-nonspot
-              # Default VM template for "maven 21 & windows nonspot"
+              # Label(s) indicating default VM templates
               - maven-21-windows-nonspot
             spot: false
             acpServerId: aws-internal
@@ -762,7 +784,8 @@ profile::jenkinscontroller::jcasc:
             remoteAdmin: jenkins
             labels:
               - win-2025-amd64-maven-25
-              # Labels indicating it is the default VM template for Windows 2025 (but not windows)
+              # Label(s) indicating default VM templates
+              - maven-25-windows
               - docker-windows-2025
               - win-2025
             spot: true
