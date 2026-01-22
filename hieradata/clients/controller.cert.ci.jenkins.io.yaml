@@ -72,6 +72,7 @@ profile::jenkinscontroller::jcasc:
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           userInstanceIdentity: '/subscriptions/dff2ec18-6a8e-405c-8e45-b7df7465acf0/resourceGroups/cert-ci-jenkins-io/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents'
       agent_definitions:
+        ## Linux agent templates
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
           imageDefinition: jenkins-agent-ubuntu-22.04-amd64
@@ -159,6 +160,7 @@ profile::jenkinscontroller::jcasc:
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
           usePrivateIP: true
+        ## Windows agent templates
         - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2019 Maven-11"
           imageDefinition: jenkins-agent-windows-2019-amd64
@@ -171,13 +173,8 @@ profile::jenkinscontroller::jcasc:
           spot: false
           architecture: amd64
           labels:
-            - windows
-            - docker-windows
             - win-2019
-            - windows-2019
             - win-2019-amd64-maven-11
-            - maven-windows
-            - maven-11-windows
           javaHome: 'C:/tools/jdk-11'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
@@ -196,7 +193,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-17
-            - maven-17-windows
           javaHome: 'C:/tools/jdk-17'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
@@ -215,7 +211,6 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-21
-            - maven-21-windows
           javaHome: 'C:/tools/jdk-21'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
@@ -234,8 +229,87 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2019-amd64-maven-25
-            - maven-25-windows
           javaHome: 'C:/tools/jdk-25'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
+        - name: "win-2025-amd64-maven-8" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-8"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-8
+            # Label(s) indicating default VM templates
+            - maven-8-windows
+          javaHome: 'C:/tools/jdk-8'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
+        - name: "win-2025-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-11"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-11
+            # Label(s) indicating default VM templates
+            - maven-11-windows
+          javaHome: 'C:/tools/jdk-11'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
+        - name: "win-2025-amd64-maven-17" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-17"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-17
+            # Label(s) indicating default VM templates
+            - maven-17-windows
+          javaHome: 'C:/tools/jdk-17'
+          maxInstances: 10 # Quota of 80 vCPUs
+          useAsMuchAsPossible: true
+          credentialsId: "azure-login"
+          usePrivateIP: true
+        - name: "win-2025-amd64-maven-21" # The name must not contains "windows" or Azure API complains :facepalm:
+          description: "Windows 2025 Maven-21"
+          imageDefinition: jenkins-agent-windows-2025-amd64
+          os: "windows"
+          os_version: "2025"
+          launcher: "ssh"
+          location: "East US 2"
+          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+          ephemeralOSDisk: true
+          spot: false
+          architecture: amd64
+          labels:
+            - win-2025-amd64-maven-21
+            # Label(s) indicating default VM templates
+            - maven-21-windows
+          javaHome: 'C:/tools/jdk-21'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
           credentialsId: "azure-login"
@@ -253,7 +327,11 @@ profile::jenkinscontroller::jcasc:
           architecture: amd64
           labels:
             - win-2025-amd64-maven-25
+            # Label(s) indicating default VM templates
             - maven-25-windows
+            - docker-windows
+            # TODO: check if still used
+            - windows
           javaHome: 'C:/tools/jdk-25'
           maxInstances: 10 # Quota of 80 vCPUs
           useAsMuchAsPossible: true
