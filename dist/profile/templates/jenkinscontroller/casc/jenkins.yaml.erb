@@ -4,7 +4,14 @@ jenkins:
   numExecutors: 0
 unclassified:
   location:
-    url: "https://<%= @ci_fqdn %>"
+    url: "<%= @jcasc['jenkins_global'] && @jcasc['jenkins_global']['location'] ? @jcasc['jenkins_global']['location'] : 'https://' + @ci_fqdn %>"
+  <%- if @jcasc['jenkins_global'] && @jcasc['jenkins_global']['resourceRootUrl'] -%>
+  resourceRoot:
+    url: "<%= @jcasc['jenkins_global']['resourceRootUrl'] %>"
+  <%- elsif @ci_resource_domain -%>
+  resourceRoot:
+    url: "<%= 'https://' + @ci_resource_domain %>"
+  <%- end -%>
   shell:
     shell: "/bin/bash"
 <%- end -%>

@@ -9,6 +9,7 @@ lookup_options:
       strategy: deep
       merge_hash_arrays: true
 profile::jenkinscontroller::ci_fqdn: 'cert.ci.jenkins.io'
+profile::jenkinscontroller::ci_resource_domain: 'assets.cert.ci.jenkins.io'
 docker::log_opt::max-size: "100m"
 docker::log_opt::max-file: 2
 # Per-host Datadog configuration
