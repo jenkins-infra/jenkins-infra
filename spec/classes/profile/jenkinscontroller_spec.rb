@@ -78,14 +78,11 @@ describe "profile::jenkinscontroller" do
     let(:params) do
       {
         :ci_fqdn => fqdn,
-        :tools_versions => {
-          :awscli => "2.13.0",
-        },
       }
     end
     let(:facts) do
       {
-        :rspec_hieradata_fixture => "profile_jenkinscontroller",
+        :rspec_hieradata_fixture => "profile_jenkinscontroller_with_awscli",
       }
     end
 
@@ -100,7 +97,7 @@ describe "profile::jenkinscontroller" do
         :env => [
           "HOME=/var/jenkins_home",
           "USER=jenkins",
-          "JAVA_OPTS=-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 -Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING=true -Dcasc.jenkins.config=/var/jenkins_home/casc.d         -Dcasc.reload.token=SuperSecretThatShouldBeEncryptedInProduction",
+          "JAVA_OPTS=-server -Xlog:gc*=info,ref*=debug,ergo*=trace,age*=trace:file=/var/jenkins_home/gc/gc.log::filecount=5,filesize=40M -XX:+UnlockExperimentalVMOptions -XX:+UseG1GC -XX:+ParallelRefProcEnabled -XX:+UnlockDiagnosticVMOptions -Duser.home=/var/jenkins_home -Djenkins.install.runSetupWizard=false -Djenkins.model.Jenkins.slaveAgentPort=50000 -Dhudson.model.WorkspaceCleanupThread.retainForDays=2 -Dorg.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep.USE_WATCHING=true",
           "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
           "LANG=C.UTF-8",
           "PATH=/var/awscli/v2/current/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",

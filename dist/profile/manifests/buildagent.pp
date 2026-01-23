@@ -62,8 +62,6 @@ class profile::buildagent (
         'git', # Jenkins agent requirement
         'gpg', # Required to verify downloads
         'gpg-agent', # Required to verify downloads
-        'groff', # Required by awscli
-        'less', # Required by awscli
         'make', # Build requirement
         'openssl',
         'parallel', # Required by Update Center to synchronize with mirrors nodes
@@ -74,16 +72,8 @@ class profile::buildagent (
         'zip',
     ])
 
-    if $tools_versions['awscli'] {
-      # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
-      $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
-      $aws_temp_zip = '/tmp/awscliv2.zip'
-      exec { 'Install aws CLI':
-        require => [Package['curl'], Package['unzip'], Package['groff'], Package['less']],
-        command => "/usr/bin/curl --silent --show-error --location ${awscli_url} --output ${aws_temp_zip} && unzip -o ${aws_temp_zip} -d /tmp && bash /tmp/aws/install --update && rm -rf /tmp/aws*",
-        unless  => "/usr/bin/test -f /usr/local/bin/aws && /usr/local/bin/aws --version | /bin/grep --quiet ${tools_versions['awscli']}",
-      }
-    }
+    # Requires curl, unzip and gpg packages
+    include profile::awscli
 
     $architecture = $facts['os']['architecture'] ? {
       'aarch64' => 'arm64',
