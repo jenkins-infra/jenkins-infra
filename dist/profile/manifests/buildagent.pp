@@ -55,22 +55,24 @@ class profile::buildagent (
   }
 
   if $facts['kernel'] == 'Linux' {
-    ensure_packages([
-        'build-essential', # Build requirement
-        'ca-certificates',
-        'curl',
-        'git', # Jenkins agent requirement
-        'gpg', # Required to verify downloads
-        'gpg-agent', # Required to verify downloads
-        'make', # Build requirement
-        'openssl',
-        'parallel', # Required by Update Center to synchronize with mirrors nodes
-        'rsync', # Required by Update Center to send data to remote systems
-        'subversion',
-        'tar',
-        'unzip',
-        'zip',
-    ])
+    [
+      'build-essential', # Build requirement
+      'ca-certificates',
+      'curl',
+      'git', # Jenkins agent requirement
+      'gpg', # Required to verify downloads
+      'gpg-agent', # Required to verify downloads
+      'make', # Build requirement
+      'openssl',
+      'parallel', # Required by Update Center to synchronize with mirrors nodes
+      'rsync', # Required by Update Center to send data to remote systems
+      'subversion',
+      'tar',
+      'unzip',
+      'zip',
+    ].each | $package | {
+      ensure_resource('package', $package, { 'ensure' => 'present' })
+    }
 
     # Requires curl, unzip and gpg packages
     include profile::awscli
