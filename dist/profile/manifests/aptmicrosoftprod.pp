@@ -2,12 +2,6 @@
 class profile::aptmicrosoftprod (
 
 ) {
-  # Dependencies used to install azcopy
-  ensure_packages([
-      'curl',
-      'tar',
-  ])
-
   $msprodpackagepath = '/tmp/packages-microsoft-prod.deb'
   file { $msprodpackagepath:
     ensure => 'file',
