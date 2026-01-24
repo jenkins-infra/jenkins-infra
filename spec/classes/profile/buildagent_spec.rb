@@ -82,6 +82,7 @@ describe "profile::buildagent" do
   end
 
   context "on Linux" do
+    let(:fqdn) { "rspec.jenkins.io" }
     it { expect(subject).to contain_package "subversion" }
     it { expect(subject).to contain_package "make" }
     it { expect(subject).to contain_package "build-essential" }

@@ -1,0 +1,2 @@
+profile::awscli::version: 2.3.4
+profile::awscli::install_dir: /foo/bar

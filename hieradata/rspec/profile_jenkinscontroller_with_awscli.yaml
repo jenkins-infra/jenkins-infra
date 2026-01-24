@@ -1,0 +1,5 @@
+profile::awscli::version: 2.3.4
+ldap_url: "ldap://localhost:389"
+ldap_dn: "dc=example,dc=com"
+ldap_admin_dn: "cn=admin,dc=example,dc=com"
+ldap_admin_password: "DummyPasswordForRspecUnitTests"

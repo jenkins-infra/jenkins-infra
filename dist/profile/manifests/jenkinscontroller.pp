@@ -320,30 +320,14 @@ class profile::jenkinscontroller (
   # Install 'awscli' INSIDE the controller is specified
   # Use cases:
   # - Kubernetes plugin with EC2 Instance profile authentication
+  $awscli_version = lookup({ 'name' => 'profile::awscli::version', 'default_value' => '' })
   $container_base_path = '/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-  $aws_install_dir = '/var/awscli'
-  if $tools_versions['awscli'] {
-    # AWS CLI uses the "uname -m" form for architecture, hence the $facts['os']['hardware'] (x86_64 / aarch64)
-    $awscli_url = "https://awscli.amazonaws.com/awscli-exe-linux-${$facts['os']['hardware']}-${tools_versions['awscli']}.zip"
-    $aws_temp_zip = '/tmp/awscliv2.zip'
-    file { $aws_install_dir:
-      ensure  => directory,
-    }
-    Package { 'unzip':
-      ensure => 'latest',
-    }
-    exec { 'Install aws CLI on host':
-      require => [File[$aws_install_dir],Package['unzip']],
-      command => "/usr/bin/curl --silent --show-error --location ${awscli_url} --output ${aws_temp_zip} && unzip -o ${aws_temp_zip} -d /tmp && bash /tmp/aws/install --install-dir ${aws_install_dir} --update && rm -rf /tmp/aws*",
-      unless  => "/usr/bin/test -f ${aws_install_dir}/v2/current/dist/aws && ${aws_install_dir}/v2/current/dist/aws --version | /bin/grep --quiet ${tools_versions['awscli']}",
-    }
-    $awscli_container_volume = "${aws_install_dir}:${aws_install_dir}:ro"
-    $final_container_path = "${aws_install_dir}/v2/current/bin:${container_base_path}"
+  if $awscli_version != '' {
+    include profile::awscli
+    $awscli_install_dir = lookup({ 'name' => 'profile::awscli::install_dir', 'default_value' => '/var/awscli' })
+    $awscli_container_volume = "${awscli_install_dir}:${awscli_install_dir}:ro"
+    $final_container_path = "${awscli_install_dir}/v2/current/bin:${container_base_path}"
   } else {
-    file { $aws_install_dir:
-      ensure => absent,
-      force  => true,
-    }
     $awscli_container_volume = ''
     $final_container_path = $container_base_path
   }
