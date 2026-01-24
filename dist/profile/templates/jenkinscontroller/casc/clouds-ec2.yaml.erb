@@ -127,15 +127,27 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
+                ## Setup datadog
+                (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+                & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
+                Write-Output 'Datadog service setup'
+                Get-Date
+
+                ## Disable WinRM
+                Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
+                cmd.exe /c net stop winrm
+                Write-Output 'WinRM disabled'
+                Get-Date
+
                 <%- if agent['customDataDisk'] -%>
                 ## Setup NVMe(s) and map it to the <%= agent['customDataDisk'] %> drive
                 $nb = Get-Disk | Where-Object PartitionStyle -eq 'RAW' | tee -Variable Disks | measure
                 Write-Output "$nb.Count disk found."
+                Get-Date
                 Switch ($nb.Count)
                 {
                   0 {Write-Output "No RAW disk found."}
                   1 {
-                      Write-Output "1 disk found."
                       $Disks | Initialize-Disk -PartitionStyle MBR
                       $Disks | New-Partition -UseMaximumSize -MbrType IFS
                       $Partition = Get-Partition -DiskNumber $Disks.Number
@@ -144,7 +156,6 @@ jenkins:
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
                   default {
-                      Write-Output "$nb.Count disks found."
                       $Disks | ForEach-Object -Begin {Get-Date} -Process {
                               Initialize-Disk -PartitionStyle MBR -PassThru -DiskNumber $_.Number
                               New-Partition -UseMaximumSize -MbrType IFS
@@ -155,47 +166,98 @@ jenkins:
                       Get-WmiObject Win32_Volume | Format-Table Name, Label, FreeSpace, Capacity
                   }
                 }
+                Write-Output 'Disk setup finished.'
+                Get-Date
+                <%- end -%>
 
-                <%- if agent['customDataDiskNotUsedForDocker'] -%>
-                ## Not using custom disk for docker
-                <%- else -%>
-                ## Setup Docker Engine to store its data in the <%= agent['customDataDisk'] %> drive
+                ## Setup Docker Engine (allowing both admin and non-admin users)
+                $dockerGroup = 'docker-users'
+                try {Get-LocalGroup -Name $dockerGroup;} catch {New-LocalGroup -Name $dockerGroup;}
+
                 # Note: file path MUST use Unix-style separator (/)
-                @'
+                @"
                 {
-                  "data-root": "<%= agent['customDataDisk'] %>/docker"
+                  "hosts": ["npipe://"],
+                <%- if agent['customDataDisk'] && !agent['customDataDiskNotUsedForDocker'] -%>
+                  "data-root": "<%= agent['customDataDisk'] %>/docker",
+                <%- end -%>
+                  "group": "$dockerGroup"
                 }
-                '@ | Set-Content C:\ProgramData\Docker\config\daemon.json
-
+                "@ | Set-Content C:\ProgramData\Docker\config\daemon.json
                 # Restart docker engine
                 Restart-Service docker
-                <%- end -%>
-                <%- end -%>
+                docker info
+                Write-Output 'Docker Engine setup finished.'
+                Get-Date
 
                 <%- if $remoteAdmin != 'Administrator' -%>
                 # Create the '<%= $remoteAdmin %>' agent's user account
-                $loginName="<%= $remoteAdmin %>"
-                $localHost=[ADSI]"WinNT://localhost"
-                $newUser=$localHost.Create("user",$loginName);
-                $newUser.setPassword("J3nkinsSuperSecret1234!");
-                $newUser.put("description", "User account for Jenkins Agent");
-                $newUser.setInfo();
-                Add-LocalGroupMember -Group "Administrators" -Member "$loginName"
+                $username = '<%= $remoteAdmin %>'
+                ## TODO: generate random password
+                $userPassword = 'J3nkinsSuperSecret1234!'
+                $pw = ConvertTo-SecureString -String $userPassword -AsPlainText -Force
+                New-LocalUser -Name $username -Password $pw
+
+                $sshGroup = "openssh users"
+                try {Get-LocalGroup -Name $sshGroup;} catch {New-LocalGroup -Name $sshGroup;}
+
+                Add-LocalGroupMember -Group $sshGroup -Member $username
+                Add-LocalGroupMember -Group $dockerGroup -Member $username
+                # TODO: remove (requires user to have permissions in C:\tools, at least) 
+                Add-LocalGroupMember -Group "Administrators" -Member $username
+
+                Write-Output "User $username created."
+                Get-Date
                   <%- if agent['customDataDisk'] -%>
-                # Custom user profiles dir. in the <%= agent['customDataDisk'] %> drive
-                $regpath = "HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList"
-                $regname = "ProfilesDirectory"
-                Set-ItemProperty -path $regpath -name $regname -value "<%= agent['customDataDisk'] %>"
+                # Set up Windows default Users profiles location to the custom data disk drive
+                $userpath = '<%= agent['customDataDisk'] %>\Users'
+                $regpath = 'HKLM:\Software\Microsoft\Windows NT\CurrentVersion\ProfileList'
+                $regname = 'ProfilesDirectory'
+                Set-ItemProperty -path $regpath -name $regname -value $userpath
+                Write-Output "Set up default user profiles to $userpath"
+                Get-Date
+                  <%- else -%>
+                $userpath = 'C:\Users'
                   <%- end -%>
+
+                ## Ensure CryptoAPI is initialized - requires calling sys function 'CryptAcquireContext' in a password SSH/WinRM/powershell non-interactive session
+                ## See https://github.com/PowerShell/Win32-OpenSSH/discussions/2420 and https://github.com/jenkinsci/credentials-plugin/pull/999
+                $cryptoDebugUrl = 'https://github.com/user-attachments/files/24455803/debug-secure-random-2.zip'
+                $cryptoBaseDir = 'C:'
+                $cryptoBasename = "$cryptoBaseDir\debug-secure-random-2"
+                $cryptoExe = "$cryptoBasename.exe"
+                $cryptoArchive = "$cryptoBasename.zip"
+                Invoke-WebRequest $cryptoDebugUrl -OutFile $cryptoArchive
+                Expand-Archive "$cryptoArchive" -DestinationPath "$cryptoBaseDir\"
+                Write-Output "Debug Tool to setup CryptoApi deployed to $cryptoExe"
+                Get-Date
+                $env:DISPLAY = '0'
+                $env:SSH_ASKPASS_REQUIRE = 'force'
+                $env:SSH_ASKPASS = 'C:\askpass.bat'
+                @"
+                @echo off
+                echo $userPassword
+                "@ | Set-Content $env:SSH_ASKPASS
+                ssh $username@localhost -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null "$cryptoExe"
+                Remove-Item -Path "$env:SSH_ASKPASS" -Force
+                Write-Output 'Initialized User Profile and Crypto through SSH with password authentication'
+                Get-Date
+
+                # Cleanup
+                Remove-Item -Path "$cryptoExe" -Force
+                Remove-Item -Path "$cryptoArchive" -Force
+                Remove-Item -Path 'C:\goss-windows-2019.yaml' -Force
+                Remove-Item -Path 'C:\goss-windows-2022.yaml' -Force
+                Remove-Item -Path 'C:\addSSHPubKey.ps1' -Force
+
+                # Setup SSH key for user in its profile (as it is non admin)
+                $userSSHDir = "$userpath\$username\.ssh"
+                New-Item -ItemType Directory -Path "$userSSHDir" -Force | Out-Null
+                $authorizedKeysFile = "$userSSHDir\authorized_keys"
+                $keyUrl = 'https://raw.githubusercontent.com/jenkins-infra/aws/main/ec2_agents_authorized_keys'
+                Write-Host "Downloading SSH key from $keyUrl to $authorizedKeysFile"
+                Invoke-WebRequest $keyUrl -OutFile $authorizedKeysFile
                 <%- end -%>
-
-                ## Setup datadog
-                (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
-                & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
-
-                ## Disable WinRM
-                Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
-                cmd.exe /c net stop winrm
 
                 ## Mark cloud init as finished using a marker file
                 New-Item -Path "<%= $cloudInitDoneParentDir %>" -ItemType "Directory"

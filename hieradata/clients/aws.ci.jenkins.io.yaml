@@ -833,20 +833,6 @@ profile::jenkinscontroller::jcasc:
               - infratest-ubuntu
             spot: true
             acpServerId: aws-internal
-          - description: "helpdesk-4939 test agent"
-            maxInstances: 3
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2025"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-21'
-            remoteAdmin: Administrator
-            labels:
-              - helpdesk-4939
-            spot: false
-            acpServerId: aws-internal
-            ami: ami-04798ca53c9db7746 # Vanilla Windows 2025 - https://github.com/jenkins-infra/packer-images/blob/77305ccc69b2fa63577fd7ba2575881c3bf6ad0b/images-versions.yaml#L30C14-L30C35
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
   - artifact-manager-s3 # https://github.com/jenkins-infra/helpdesk/issues/4596
