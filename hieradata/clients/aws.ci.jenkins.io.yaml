@@ -816,7 +816,7 @@ profile::jenkinscontroller::jcasc:
             customDataDisk: 'Z:'
             # Don't use local NVMe as data-root for docker
             customDataDiskNotUsedForDocker: true
-            remoteAdmin: Administrator
+            remoteAdmin: jenkins
             labels:
               - infratest-windows
             spot: true

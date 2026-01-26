@@ -113,7 +113,6 @@ jenkins:
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         userData: |-
       <%- if $os == 'windows' -%>
-          # Requires using YAML for the Windows "Cloud Init" stuff. Multipart upload of a powershell script does not work.
           version: 1.1
           tasks:
           - task: executeScript
@@ -191,23 +190,6 @@ jenkins:
                 Get-Date
 
                 <%- if $remoteAdmin != 'Administrator' -%>
-                # Create the '<%= $remoteAdmin %>' agent's user account
-                $username = '<%= $remoteAdmin %>'
-                ## TODO: generate random password
-                $userPassword = 'J3nkinsSuperSecret1234!'
-                $pw = ConvertTo-SecureString -String $userPassword -AsPlainText -Force
-                New-LocalUser -Name $username -Password $pw
-
-                $sshGroup = "openssh users"
-                try {Get-LocalGroup -Name $sshGroup;} catch {New-LocalGroup -Name $sshGroup;}
-
-                Add-LocalGroupMember -Group $sshGroup -Member $username
-                Add-LocalGroupMember -Group $dockerGroup -Member $username
-                # TODO: remove (requires user to have permissions in C:\tools, at least) 
-                Add-LocalGroupMember -Group "Administrators" -Member $username
-
-                Write-Output "User $username created."
-                Get-Date
                   <%- if agent['customDataDisk'] -%>
                 # Set up Windows default Users profiles location to the custom data disk drive
                 $userpath = '<%= agent['customDataDisk'] %>\Users'
@@ -220,17 +202,26 @@ jenkins:
                 $userpath = 'C:\Users'
                   <%- end -%>
 
-                ## Ensure CryptoAPI is initialized - requires calling sys function 'CryptAcquireContext' in a password SSH/WinRM/powershell non-interactive session
-                ## See https://github.com/PowerShell/Win32-OpenSSH/discussions/2420 and https://github.com/jenkinsci/credentials-plugin/pull/999
-                $cryptoDebugUrl = 'https://github.com/user-attachments/files/24455803/debug-secure-random-2.zip'
-                $cryptoBaseDir = 'C:'
-                $cryptoBasename = "$cryptoBaseDir\debug-secure-random-2"
-                $cryptoExe = "$cryptoBasename.exe"
-                $cryptoArchive = "$cryptoBasename.zip"
-                Invoke-WebRequest $cryptoDebugUrl -OutFile $cryptoArchive
-                Expand-Archive "$cryptoArchive" -DestinationPath "$cryptoBaseDir\"
-                Write-Output "Debug Tool to setup CryptoApi deployed to $cryptoExe"
+                # Create the '<%= $remoteAdmin %>' agent's user account
+                $username = '<%= $remoteAdmin %>'
+                ## TODO: generate random password
+                $userPassword = 'J3nkinsSuperSecret1234!'
+                $pw = ConvertTo-SecureString -String $userPassword -AsPlainText -Force
+                New-LocalUser -Name $username -Password $pw
+
+                $sshGroup = "openssh users"
+                try {Get-LocalGroup -Name $sshGroup;} catch {New-LocalGroup -Name $sshGroup;}
+
+                Add-LocalGroupMember -Group $sshGroup -Member $username
+                Add-LocalGroupMember -Group $dockerGroup -Member $username
+
+                Write-Output "User $username created."
                 Get-Date
+
+                ## Ensure User Profile and CryptoAPI seed generator are initialized
+                ## User Profile: ensures the userhome and userprofile are all in the same drive (C: or Z: based on setup)
+                ## CryptoAPI seed generator: requires a password SSH/WinRM/powershell non-interactive session
+                ## See https://github.com/PowerShell/Win32-OpenSSH/discussions/2420 and https://github.com/jenkinsci/credentials-plugin/pull/999
                 $env:DISPLAY = '0'
                 $env:SSH_ASKPASS_REQUIRE = 'force'
                 $env:SSH_ASKPASS = 'C:\askpass.bat'
@@ -238,25 +229,16 @@ jenkins:
                 @echo off
                 echo $userPassword
                 "@ | Set-Content $env:SSH_ASKPASS
-                ssh $username@localhost -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null "$cryptoExe"
+                echo 'java.security.SecureRandom.getInstanceStrong().generateSeed(1)' | ssh $username@localhost -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null "<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>\bin\jshell.exe"
                 Remove-Item -Path "$env:SSH_ASKPASS" -Force
-                Write-Output 'Initialized User Profile and Crypto through SSH with password authentication'
+                Write-Output 'Initialized User Profile and CryptoAPI through SSH with password authentication'
                 Get-Date
 
-                # Cleanup
-                Remove-Item -Path "$cryptoExe" -Force
-                Remove-Item -Path "$cryptoArchive" -Force
-                Remove-Item -Path 'C:\goss-windows-2019.yaml' -Force
-                Remove-Item -Path 'C:\goss-windows-2022.yaml' -Force
-                Remove-Item -Path 'C:\addSSHPubKey.ps1' -Force
-
-                # Setup SSH key for user in its profile (as it is non admin)
+                # Setup SSH key for user in its profile (as it is non admin) reusing the same key
+                # Must be done only AFTER setting up the "CryptoAPI" seed generator to ensure agent does not connect too early (e.g. before user profile or seed generator initialization)
                 $userSSHDir = "$userpath\$username\.ssh"
                 New-Item -ItemType Directory -Path "$userSSHDir" -Force | Out-Null
-                $authorizedKeysFile = "$userSSHDir\authorized_keys"
-                $keyUrl = 'https://raw.githubusercontent.com/jenkins-infra/aws/main/ec2_agents_authorized_keys'
-                Write-Host "Downloading SSH key from $keyUrl to $authorizedKeysFile"
-                Invoke-WebRequest $keyUrl -OutFile $authorizedKeysFile
+                Copy-Item -Path "C:\ProgramData\ssh\administrators_authorized_keys" -Destination "$userSSHDir\authorized_keys"
                 <%- end -%>
 
                 ## Mark cloud init as finished using a marker file
