@@ -190,6 +190,9 @@ jenkins:
                 Get-Date
 
                 <%- if $remoteAdmin != 'Administrator' -%>
+                # Enable Developer mode to allow creating symlinks for non-admin users
+                reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /v "AllowDevelopmentWithoutDevLicense" /t REG_DWORD /d 1 /f
+                
                   <%- if agent['customDataDisk'] -%>
                 # Set up Windows default Users profiles location to the custom data disk drive
                 $userpath = '<%= agent['customDataDisk'] %>\Users'
