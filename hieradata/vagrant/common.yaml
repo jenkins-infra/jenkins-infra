@@ -35,8 +35,12 @@ profile::jenkinscontroller::additional_fqdns:
   foo.localhost:
     isalias: true
   legacy.localhost: null
-profile::jenkinscontroller::groovy_init_enabled: false
 profile::jenkinscontroller::memory_limit: '14g'
+profile::jenkinscontroller::authenticated_access: true
+profile::jenkinscontroller::groovy_init_enabled: true
+profile::jenkinscontroller::groovy_d_lock_down_jenkins: present
+profile::jenkinscontroller::admin_users:
+  - vagrantadmin
 profile::jenkinscontroller::jcasc:
   enabled: true
   reload_token: SuperSecretThatShouldBeEncryptedInProduction
@@ -54,6 +58,16 @@ profile::jenkinscontroller::jcasc:
         # but hierdata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+      # Allow to check authenticated_access in http://localhost:8080/manage/configureSecurity/
+      jenkins:
+        securityRealm:
+          local:
+            allowsSignup: false
+            users:
+              - id: vagrantadmin
+                password: butler
+              - id: developer
+                password: butler
   jenkins_global:
     location: http://127.0.0.1:8080
     resourceRootUrl: http://localhost:8080
