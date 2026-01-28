@@ -44,26 +44,27 @@ if (instance.securityRealm == SecurityRealm.NO_AUTHENTICATION) {
  */
 AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 
-
+<%- if @anonymous_access || @authenticated_access -%>
 [
     Jenkins.READ,
     Item.READ,
 ].each { permission ->
-<%- if @anonymous_access -%>
+    <%- if @anonymous_access -%>
     strategy.add(permission, PermissionEntry.user('anonymous'))
-<%- end -%>
-<%- if @authenticated_access -%>
+    <%- end -%>
+    <%- if @authenticated_access -%>
     strategy.add(permission, PermissionEntry.group('authenticated'))
-<%- end -%>
+    <%- end -%>
 }
+<%- end -%>
 
-<% @admin_ldap_groups.each do |group|%>
+<%- @admin_ldap_groups.each do |group| -%>
 strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('<%= group %>'))
-<%end%>
+<%- end -%>
 
-<% @admin_users.each do |user|%>
+<%- @admin_users.each do |user| -%>
 strategy.add(Jenkins.ADMINISTER, PermissionEntry.user('<%= user %>'))
-<%end%>
+<%- end -%>
 
 instance.authorizationStrategy = strategy
 
