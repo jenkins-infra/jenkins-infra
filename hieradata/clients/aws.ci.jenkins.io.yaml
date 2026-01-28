@@ -10,7 +10,7 @@ datadog_agent::apm_enabled: true
 datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact the agent for traces and logs
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
-profile::jenkinscontroller::anonymous_access: true
+profile::jenkinscontroller::authenticated_access: true # Requires groovy_init_enabled set to true and groovy_d_lock_down_jenkins set to 'present'
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
