@@ -747,6 +747,9 @@ profile::jenkinscontroller::jcasc:
               - maven-21-windows
               - docker-windows
               - maven-windows
+              # Placeholder label to fill a hole
+              # See https://github.com/jenkins-infra/acceptance-tests/pull/48#issuecomment-3810490237
+              - nonspot
             spot: true
             acpServerId: aws-internal
           - description: "Nonspot Windows 2025 x86_64 with JDK21"
