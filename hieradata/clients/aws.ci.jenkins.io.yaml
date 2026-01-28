@@ -11,7 +11,6 @@ datadog_agent::apm_non_local_traffic: true # Allow jenkins container to contact 
 datadog_agent::agent_extra_options:
   bind_host: "0.0.0.0" # All hosts interfaces to allow container access
 profile::jenkinscontroller::anonymous_access: true
-profile::jenkinscontroller::authenticated_access: true
 profile::jenkinscontroller::admin_ldap_groups:
   - admins
   - jenkins-admins
