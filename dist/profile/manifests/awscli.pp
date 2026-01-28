@@ -53,7 +53,7 @@ class profile::awscli (
       ],
       ## Note: deleting the content of the $install_dir prior to the installation avoid the installer to pile-up installation filling the disk
       ## As such, no need for the --update flag for the installer: it will fail if something already exist
-      command => "/usr/bin/unzip -o ${aws_temp_zip} -d /tmp && rm -rf ${install_dir} && /bin/bash /tmp/aws/install --install-dir ${install_dir} --bin-dir ${bin_dir}",
+      command => "/usr/bin/unzip -o ${aws_temp_zip} -d /tmp && rm -rf ${install_dir}/* && /bin/bash /tmp/aws/install --install-dir ${install_dir} --bin-dir ${bin_dir}",
       unless  => $aws_check_command,
     }
     exec { 'Cleanup AWS CLI Installer':
