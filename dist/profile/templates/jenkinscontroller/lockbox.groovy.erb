@@ -66,6 +66,10 @@ AuthorizationStrategy strategy = new GlobalMatrixAuthorizationStrategy()
 strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('<%= group %>'))
 <%end%>
 
+<% @admin_users.each do |user|%>
+strategy.add(Jenkins.ADMINISTER, PermissionEntry.user('<%= user %>'))
+<%end%>
+
 instance.authorizationStrategy = strategy
 
 instance.save()
