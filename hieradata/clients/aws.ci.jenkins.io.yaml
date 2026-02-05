@@ -248,6 +248,75 @@ profile::jenkinscontroller::jcasc:
                 operator: "Equal"
                 value: "true"
                 effect: "NoSchedule"
+      ci.jenkins.io-agents-2-nonspot:
+        enabled: true
+        ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+        imageNamePrefix: "326712726440.dkr.ecr.us-east-2.amazonaws.com/docker-hub/"
+        acpServerId: aws-eks-internal
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+        defaultNamespace: jenkins-agents-nonspot
+        # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+        max_capacity: 150
+        agent_definitions:
+          - name: jnlp-maven-17-nonspot
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-17
+            labels:
+              - maven-17-nonspot
+            cpus: 4
+            memory: 12
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            nodeSelector: "role=jenkins-agents-nonspot"
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
+          - name: jnlp-maven-21-nonspot
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-21
+            labels:
+              - maven-21-nonspot
+            useAsMuchAsPossible: true # Default template to use when `node() {}` step is called without labels
+            cpus: 4
+            memory: 12
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            nodeSelector: "role=jenkins-agents-nonspot"
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
+          - name: jnlp-maven-25-nonspot
+            imageName: jnlp-maven-all-in-one
+            javaHome: /opt/jdk-25
+            labels:
+              - maven-25-nonspot
+            cpus: 4
+            memory: 12
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            nodeSelector: "role=jenkins-agents-nonspot"
+            # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+            tolerations:
+              - key: "ci.jenkins.io/agents"
+                operator: "Equal"
+                value: "true"
+                effect: "NoSchedule"
+            additionalPVCs:
+              - claimName: ci-jenkins-io-maven-cache
+                mountPath: "/cache"
+                readOnly: true
       ci.jenkins.io-agents-2-bom:
         enabled: true
         ## Note: no URL/credential/CA data as we rely on jenkins' KUBECONFIG to allow EC2 instance profile authentication
