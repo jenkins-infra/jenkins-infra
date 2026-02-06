@@ -68,3 +68,5 @@ actions:
       labels:
         - enhancement
         - ci.jenkins.io
+        - artifact-manager-bucket-name
+        - container-agents-pvc
