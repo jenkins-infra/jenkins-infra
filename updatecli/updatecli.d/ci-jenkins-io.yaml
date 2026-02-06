@@ -24,13 +24,13 @@ sources:
     kind: json
     spec:
       file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
-      key: .aws\.ci\.jenkins\.io.cijenkinsio-agents-2.maven_cache_pvcs.jenkins-agents-bom
+      key: .aws\.ci\.jenkins\.io.agents_kubernetes_clusters.cijenkinsio\-agents\-2.agents_namespaces.jenkins\-agents\-bom.maven_cache_pvc
 
   containerAgentsVolume:
     kind: json
     spec:
       file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
-      key: .aws\.ci\.jenkins\.io.cijenkinsio-agents-2.maven_cache_pvcs.jenkins-agents
+      key: .aws\.ci\.jenkins\.io.agents_kubernetes_clusters.cijenkinsio\-agents\-2.agents_namespaces.jenkins\-agents.maven_cache_pvc
 
 targets:
   setArtifactManagerBucketName:
@@ -52,7 +52,7 @@ targets:
       key: $.profile::jenkinscontroller::jcasc.cloud_agents.kubernetes['ci.jenkins.io-agents-2-bom'].agent_definitions[?(@.name == 'jnlp-maven-bom')].additionalPVCs[?(@.mountPath == '/cache')].claimName
     scmid: default
   setContainerAgentsVolume:
-    name: Set the PVC name for the Maven Cache in jenkins-agents-bom container agents
+    name: Set the PVC name for the Maven Cache in jenkins-agents container agents
     sourceid: containerAgentsVolume
     kind: yaml
     spec:
