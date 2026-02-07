@@ -24,6 +24,11 @@ sources:
     spec:
       file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
       key: .aws\.ci\.jenkins\.io.agents_kubernetes_clusters.cijenkinsio\-agents\-2.agents_namespaces.jenkins\-agents.maven_cache_pvc
+  containerAgentsNonSpotVolume:
+    kind: json
+    spec:
+      file: https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+      key: .aws\.ci\.jenkins\.io.agents_kubernetes_clusters.cijenkinsio\-agents\-2.agents_namespaces.jenkins\-agents\-nonspot.maven_cache_pvc
   containerAgentsBOMVolume:
     kind: json
     spec:
@@ -48,6 +53,15 @@ targets:
       file: hieradata/clients/aws.ci.jenkins.io.yaml
       engine: yamlpath
       key: $.profile::jenkinscontroller::jcasc.cloud_agents.kubernetes['ci.jenkins.io-agents-2'].agent_definitions[*].additionalPVCs[?(@.mountPath == '/cache')].claimName
+    scmid: default
+  setContainerAgentsNonSpotVolume:
+    name: Set the PVC name for the Maven Cache in jenkins-agents-nonspot container agents
+    sourceid: containerAgentsNonSpotVolume
+    kind: yaml
+    spec:
+      file: hieradata/clients/aws.ci.jenkins.io.yaml
+      engine: yamlpath
+      key: $.profile::jenkinscontroller::jcasc.cloud_agents.kubernetes['ci.jenkins.io-agents-2-nonspot'].agent_definitions[*].additionalPVCs[?(@.mountPath == '/cache')].claimName
     scmid: default
   setContainerAgentsBOMVolume:
     name: Set the PVC name for the Maven Cache in jenkins-agents-bom container agents
