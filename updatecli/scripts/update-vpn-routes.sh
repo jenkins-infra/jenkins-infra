@@ -57,8 +57,11 @@ result=""
 
     yaml_target=./hieradata/common.yaml
     result="$(echo "${server_routes_yaml}" | yq eval-all \
-      'select(fileIndex == 1) as $routes | select(fileIndex == 0) | .["profile::openvpn::external_ips_vpn_restricted"] = $routes' \
-      "${yaml_target}" -)"
+    'select(fileIndex == 1) as $routes 
+    | select(fileIndex == 0)
+    | .["profile::openvpn::external_ips_vpn_restricted"] = $routes
+    | .["profile::openvpn::image_tag"] = "'"${vpn_image_version}"'"' \
+    "${yaml_target}" -)"
   else
     # Extract network routes (without a /32) mapping to internal peered vnet or subnets
     network_routes="$(echo "${routes}" \

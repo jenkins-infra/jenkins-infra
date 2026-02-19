@@ -66,16 +66,16 @@ targets:
     spec:
       file: ./hieradata/clients/private.vpn.jenkins.io.yaml
     scmid: default
-  imageTag:
-    name: Update Docker Image tag for jenkinsciinfra/openvpn
-    kind: yaml
-    sourceid: latestVersion
-    dependson:
-    - updateNetworkNetworks
-    spec:
-      file: hieradata/common.yaml
-      key: $.profile::openvpn::image_tag
-    scmid: default
+  # imageTag:
+  #   name: Update Docker Image tag for jenkinsciinfra/openvpn
+  #   kind: yaml
+  #   sourceid: latestVersion
+  #   dependson:
+  #   - updateNetworkNetworks
+  #   spec:
+  #     file: hieradata/common.yaml
+  #     key: $.profile::openvpn::image_tag
+    # scmid: default
 
 actions:
   default:
