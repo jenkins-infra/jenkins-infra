@@ -109,7 +109,7 @@ profile::jenkinscontroller::jcasc:
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.12/bin
-        JAVA_HOME: /opt/jdk-21
+        JAVA_HOME: /opt/jdk-25
       toolLocation:
         - home: /home/jenkins/tools/apache-maven-3.9.12
           key: "hudson.tasks.Maven$MavenInstallation$DescriptorImpl@mvn"
@@ -233,8 +233,8 @@ profile::jenkinscontroller::jcasc:
                 mountPath: "/cache"
                 readOnly: true
           - name: jnlp-packaging
-            agentJavaBin: /opt/jdk-21
-            javaHome: /opt/jdk-21
+            agentJavaBin: /opt/jdk-25
+            javaHome: /opt/jdk-25
             labels:
               - packaging
               - jnlp-packaging
@@ -330,7 +330,7 @@ profile::jenkinscontroller::jcasc:
         agent_definitions:
           - name: jnlp-maven-bom
             imageName: jnlp-maven-all-in-one
-            javaHome: /opt/jdk-21
+            javaHome: /opt/jdk-25
             labels:
               - maven-bom
             cpus: 4
@@ -883,7 +883,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "2025"
             ebsOptimized: true
             architecture: "amd64"
-            javaHome: 'C:/tools/jdk-21'
+            javaHome: 'C:/tools/jdk-25'
             # Utilizes the local NVMe mounted in Z:
             customDataDisk: 'Z:'
             # Don't use local NVMe as data-root for docker
@@ -900,7 +900,7 @@ profile::jenkinscontroller::jcasc:
             os_version: "22.04"
             ebsOptimized: true
             architecture: "amd64"
-            javaHome: /opt/jdk-21
+            javaHome: /opt/jdk-25
             labels:
               - infratest-ubuntu
             spot: true
