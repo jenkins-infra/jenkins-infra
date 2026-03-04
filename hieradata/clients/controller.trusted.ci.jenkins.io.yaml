@@ -100,293 +100,293 @@ profile::jenkinscontroller::jcasc:
           storageAccount: trustedcijenkinsioagents
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           userInstanceIdentity: '/subscriptions/dff2ec18-6a8e-405c-8e45-b7df7465acf0/resourceGroups/jenkinsinfra-trusted-ci-controller/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents'
-      agent_definitions:
-        - name: "ubuntu-22-amd64-maven-11"
-          description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          javaHome: "/opt/jdk-11"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - java
-            - linux
-            - docker
-            - ubuntu
-            - ubuntu-22
-            - ubuntu-amd64-maven-11
-            - ubuntu-22-amd64-maven-11
-            - maven-11
-            - jdk11
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "ubuntu-22-amd64-maven-17"
-          description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - ubuntu-amd64-maven-17
-            - ubuntu-22-amd64-maven-17
-            - maven-17
-            - jdk17
-          javaHome: '/opt/jdk-17'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "ubuntu-22-amd64-maven-21"
-          description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - ubuntu-amd64-maven-21
-            - ubuntu-22-amd64-maven-21
-            - maven-21
-            - jdk21
-          javaHome: '/opt/jdk-21'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "ubuntu-22-arm64-maven-21"
-          description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-arm64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8pds_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: arm64
-          labels:
-            - ubuntu-arm64-maven-21
-            - ubuntu-22-arm64-maven-21
-            - arm64docker # Same label as ci.jenkins.io docker arm64 agent template
-          javaHome: '/opt/jdk-21'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "ubuntu-22-amd64-maven-25"
-          description: "Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
-          imageDefinition: jenkins-agent-ubuntu-22.04-amd64
-          os: "ubuntu"
-          os_version: "22.04"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - ubuntu-amd64-maven-25
-            - ubuntu-22-amd64-maven-25
-            - maven-25
-            - jdk25
-          javaHome: '/opt/jdk-25'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019 Maven-11"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2019
-            - windows-2019
-            - win-2019-amd64-maven-11
-            - maven-11-windows
-            # Labels indicating it is the default VM template for Windows & Docker, and Windows & Maven
-            - docker-windows
-            - maven-windows
-          javaHome: 'C:/tools/jdk-11'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2019-amd64-maven-17"
-          description: "Windows 2019 Maven-17"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2019-amd64-maven-17
-            - maven-17-windows
-          javaHome: 'C:/tools/jdk-17'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2019-amd64-maven-21"
-          description: "Windows 2019 Maven-21"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2019-amd64-maven-21
-            - maven-21-windows
-          javaHome: 'C:/tools/jdk-21'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2019-amd64-maven-25"
-          description: "Windows 2019 Maven-25"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2019-amd64-maven-25
-            - maven-25-windows
-          javaHome: 'C:/tools/jdk-25'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2022-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2022 Maven-11"
-          imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
-          os_version: "2022"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - docker-windows-2022
-            - win-2022
-            - windows-2022
-            - win-2022-amd64-maven-11
-          javaHome: 'C:/tools/jdk-11'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2022-amd64-maven-17"
-          description: "Windows 2022 Maven-17"
-          imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
-          os_version: "2022"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2022-amd64-maven-17
-          javaHome: 'C:/tools/jdk-17'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2022-amd64-maven-21"
-          description: "Windows 2022 Maven-21"
-          imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
-          os_version: "2022"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2022-amd64-maven-21
-          javaHome: 'C:/tools/jdk-21'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2022-amd64-maven-25"
-          description: "Windows 2022 Maven-25"
-          imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
-          os_version: "2022"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2022-amd64-maven-25
-          javaHome: 'C:/tools/jdk-25'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
-        - name: "win-2025-amd64-maven-25"
-          description: "Windows 2025 Maven-25"
-          imageDefinition: jenkins-agent-windows-2025-amd64
-          os: "windows"
-          os_version: "2025"
-          launcher: "ssh"
-          location: "East US 2"
-          instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
-          ephemeralOSDisk: true
-          spot: true
-          architecture: amd64
-          labels:
-            - win-2025-amd64-maven-25
-            # Labels indicating it is the default VM template for Windows 2025 (but not windows)
-            - docker-windows-2025
-            - win-2025
-          javaHome: 'C:/tools/jdk-25'
-          maxInstances: 7
-          useAsMuchAsPossible: true
-          credentialsId: "azure-jenkins-user"
-          usePrivateIP: true
+          agent_definitions:
+            - name: "ubuntu-22-amd64-maven-11"
+              description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
+              imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+              os: "ubuntu"
+              os_version: "22.04"
+              launcher: "ssh"
+              javaHome: "/opt/jdk-11"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - java
+                - linux
+                - docker
+                - ubuntu
+                - ubuntu-22
+                - ubuntu-amd64-maven-11
+                - ubuntu-22-amd64-maven-11
+                - maven-11
+                - jdk11
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "ubuntu-22-amd64-maven-17"
+              description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
+              imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+              os: "ubuntu"
+              os_version: "22.04"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - ubuntu-amd64-maven-17
+                - ubuntu-22-amd64-maven-17
+                - maven-17
+                - jdk17
+              javaHome: '/opt/jdk-17'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "ubuntu-22-amd64-maven-21"
+              description: "Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
+              imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+              os: "ubuntu"
+              os_version: "22.04"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - ubuntu-amd64-maven-21
+                - ubuntu-22-amd64-maven-21
+                - maven-21
+                - jdk21
+              javaHome: '/opt/jdk-21'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "ubuntu-22-arm64-maven-21"
+              description: "Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
+              imageDefinition: jenkins-agent-ubuntu-22.04-arm64
+              os: "ubuntu"
+              os_version: "22.04"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8pds_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: arm64
+              labels:
+                - ubuntu-arm64-maven-21
+                - ubuntu-22-arm64-maven-21
+                - arm64docker # Same label as ci.jenkins.io docker arm64 agent template
+              javaHome: '/opt/jdk-21'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "ubuntu-22-amd64-maven-25"
+              description: "Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
+              imageDefinition: jenkins-agent-ubuntu-22.04-amd64
+              os: "ubuntu"
+              os_version: "22.04"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - ubuntu-amd64-maven-25
+                - ubuntu-22-amd64-maven-25
+                - maven-25
+                - jdk25
+              javaHome: '/opt/jdk-25'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2019-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
+              description: "Windows 2019 Maven-11"
+              imageDefinition: jenkins-agent-windows-2019-amd64
+              os: "windows"
+              os_version: "2019"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2019
+                - windows-2019
+                - win-2019-amd64-maven-11
+                - maven-11-windows
+                # Labels indicating it is the default VM template for Windows & Docker, and Windows & Maven
+                - docker-windows
+                - maven-windows
+              javaHome: 'C:/tools/jdk-11'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2019-amd64-maven-17"
+              description: "Windows 2019 Maven-17"
+              imageDefinition: jenkins-agent-windows-2019-amd64
+              os: "windows"
+              os_version: "2019"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2019-amd64-maven-17
+                - maven-17-windows
+              javaHome: 'C:/tools/jdk-17'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2019-amd64-maven-21"
+              description: "Windows 2019 Maven-21"
+              imageDefinition: jenkins-agent-windows-2019-amd64
+              os: "windows"
+              os_version: "2019"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2019-amd64-maven-21
+                - maven-21-windows
+              javaHome: 'C:/tools/jdk-21'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2019-amd64-maven-25"
+              description: "Windows 2019 Maven-25"
+              imageDefinition: jenkins-agent-windows-2019-amd64
+              os: "windows"
+              os_version: "2019"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2019-amd64-maven-25
+                - maven-25-windows
+              javaHome: 'C:/tools/jdk-25'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2022-amd64-maven-11" # The name must not contains "windows" or Azure API complains :facepalm:
+              description: "Windows 2022 Maven-11"
+              imageDefinition: jenkins-agent-windows-2022-amd64
+              os: "windows"
+              os_version: "2022"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - docker-windows-2022
+                - win-2022
+                - windows-2022
+                - win-2022-amd64-maven-11
+              javaHome: 'C:/tools/jdk-11'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2022-amd64-maven-17"
+              description: "Windows 2022 Maven-17"
+              imageDefinition: jenkins-agent-windows-2022-amd64
+              os: "windows"
+              os_version: "2022"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2022-amd64-maven-17
+              javaHome: 'C:/tools/jdk-17'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2022-amd64-maven-21"
+              description: "Windows 2022 Maven-21"
+              imageDefinition: jenkins-agent-windows-2022-amd64
+              os: "windows"
+              os_version: "2022"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2022-amd64-maven-21
+              javaHome: 'C:/tools/jdk-21'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2022-amd64-maven-25"
+              description: "Windows 2022 Maven-25"
+              imageDefinition: jenkins-agent-windows-2022-amd64
+              os: "windows"
+              os_version: "2022"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2022-amd64-maven-25
+              javaHome: 'C:/tools/jdk-25'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
+            - name: "win-2025-amd64-maven-25"
+              description: "Windows 2025 Maven-25"
+              imageDefinition: jenkins-agent-windows-2025-amd64
+              os: "windows"
+              os_version: "2025"
+              launcher: "ssh"
+              location: "East US 2"
+              instanceType: Standard_D8ads_v5 # 8 vCPUS / 32 Gb
+              ephemeralOSDisk: true
+              spot: true
+              architecture: amd64
+              labels:
+                - win-2025-amd64-maven-25
+                # Labels indicating it is the default VM template for Windows 2025 (but not windows)
+                - docker-windows-2025
+                - win-2025
+              javaHome: 'C:/tools/jdk-25'
+              maxInstances: 7
+              useAsMuchAsPossible: true
+              credentialsId: "azure-jenkins-user"
+              usePrivateIP: true
 # These are plugins we need only in our trusted-ci environment
 profile::jenkinscontroller::plugins:
   - ansicolor

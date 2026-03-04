@@ -10,7 +10,7 @@ jenkins:
       resourceGroupReferenceType: "existing"
       maxVirtualMachinesLimit: <%= cloudsetup['maxInstances'] %>
       vmTemplates:
-    <%- @jcasc['cloud_agents']['azure_vm_agents']['agent_definitions'].each do |agent| -%>
+    <%- cloudsetup['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
       - agentWorkspace: "<%= agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir'] %>"
       <%- if $os == 'windows' -%>
