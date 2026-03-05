@@ -11,6 +11,7 @@ profile::openvpn::networks:
     network_cidr: 10.248.1.0/24
     peered_network_cidrs:
       cert-ci-jenkins-io: 10.252.8.0/21
+      cert-ci-jenkins-io-sponsored: 10.205.0.0/23
       infra-ci-jenkins-io: 10.5.0.0/22
       private: 10.248.0.0/14
       public: 10.244.0.0/14
