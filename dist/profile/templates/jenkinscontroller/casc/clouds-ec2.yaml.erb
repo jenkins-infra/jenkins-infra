@@ -126,11 +126,12 @@ jenkins:
                 # Don't set this before Set-ExecutionPolicy as it throws an error
                 $ErrorActionPreference = "stop"
 
-                ## Setup datadog
-                (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
-                & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
-                Write-Output 'Datadog service setup'
-                Get-Date
+                # TODO: restore cf https://github.com/jenkins-infra/helpdesk/issues/5030#issuecomment-4007480658
+                # ## Setup datadog
+                # (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
+                # & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
+                # Write-Output 'Datadog service setup'
+                # Get-Date
 
                 ## Disable WinRM
                 Remove-Item -Path WSMan:\Localhost\listener\listener* -Recurse
