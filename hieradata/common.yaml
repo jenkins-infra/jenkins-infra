@@ -231,7 +231,7 @@ profile::jenkinscontroller::jcasc:
       # See https://github.com/jenkins-infra/helpdesk/issues/5030#issuecomment-4010368309
       windows-2025-amd64: ami-0129431719c13b3c7
     azure_vms_gallery_image:
-      version: 2.85.0
+      version: 2.86.0
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
     container_images:
       # All in one image (same as VM templates)
