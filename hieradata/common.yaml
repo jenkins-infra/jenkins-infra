@@ -226,7 +226,7 @@ profile::jenkinscontroller::jcasc:
       ubuntu-22.04-amd64: ami-0c65ed6351d376b09
       windows-2019-amd64: ami-094028f443a8de393
       ubuntu-22.04-arm64: ami-047157c8d465f350b
-      windows-2022-amd64: ami-0dd12ecdc5f378c7f
+      windows-2022-amd64: ami-0218b1b5b70ae5c8a
       # Windows 2025 set to packer-images 2.82.0 with working Launchable to get passing core builds on ci.jenkins.io
       # See https://github.com/jenkins-infra/helpdesk/issues/5030#issuecomment-4010368309
       windows-2025-amd64: ami-0129431719c13b3c7
