@@ -229,7 +229,7 @@ profile::jenkinscontroller::jcasc:
       windows-2022-amd64: ami-09984ed0be9b1bebc
       # Windows 2025 set to packer-images 2.82.0 with working Launchable to get passing core builds on ci.jenkins.io
       # See https://github.com/jenkins-infra/helpdesk/issues/5030#issuecomment-4010368309
-      windows-2025-amd64: ami-0f0d2108f4d9ff934
+      windows-2025-amd64: ami-01865a293310f3a3b
     azure_vms_gallery_image:
       version: 2.87.1
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
