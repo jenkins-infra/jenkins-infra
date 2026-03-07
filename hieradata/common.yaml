@@ -223,19 +223,17 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-0c65ed6351d376b09
-      windows-2019-amd64: ami-048dc6275fbb80327
-      ubuntu-22.04-arm64: ami-047157c8d465f350b
-      windows-2022-amd64: ami-0dd12ecdc5f378c7f
-      # Windows 2025 set to packer-images 2.82.0 with working Launchable to get passing core builds on ci.jenkins.io
-      # See https://github.com/jenkins-infra/helpdesk/issues/5030#issuecomment-4010368309
-      windows-2025-amd64: ami-00f4d6e1eed03cc91
+      ubuntu-22.04-amd64: ami-0688c7e4d0416ddaf
+      ubuntu-22.04-arm64: ami-0395a902dcdb75675
+      windows-2019-amd64: ami-0390d599f520f9227
+      windows-2022-amd64: ami-09984ed0be9b1bebc
+      windows-2025-amd64: ami-01865a293310f3a3b
     azure_vms_gallery_image:
-      version: 2.85.0
+      version: 2.87.1
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.85.0@sha256:f6656b76d76d0944ce42f54da743c0f66875ae1ee1c88dd24dbc65c02649c676
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.87.1@sha256:af0699031f3e2a95b0b236f7030466c7e8b0cfe7b03958806b9f56931fefafae
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
