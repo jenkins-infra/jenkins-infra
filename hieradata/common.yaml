@@ -204,7 +204,7 @@ profile::jenkinscontroller::jcasc:
       remoteAdmin: Administrator
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: 'C:/tools/jdk-21/bin/java'
+      agentJavaBin: 'C:/tools/jdk-25/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       javaHome: 'C:/tools/jdk-17' # Default JDK provided for builds when no pipeline setup exists
       registryMirror: https://dockerhubmirror.azurecr.io
@@ -214,7 +214,7 @@ profile::jenkinscontroller::jcasc:
       tempDir: "/tmp"
       osDiskSize: 150
       osDiskStorageAccountType: 'Premium_LRS'
-      agentJavaBin: '/opt/jdk-21/bin/java'
+      agentJavaBin: '/opt/jdk-25/bin/java'
       agentJavaOpts: '-XX:+PrintCommandLineFlags'
       m2RepoPath: '/home/jenkins/.m2/repository'
       javaHome: '/opt/jdk-17' # Default JDK provided for builds when no pipeline setup exists
