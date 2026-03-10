@@ -24,7 +24,7 @@ profile::jenkinscontroller::additional_fqdns:
   ci.jenkins-ci.org: null
 profile::jenkinscontroller::letsencrypt: true
 profile::jenkinscontroller::docker_image: 'jenkins/jenkins'
-profile::jenkinscontroller::docker_tag: 'lts-jdk21'
+profile::jenkinscontroller::docker_tag: 'lts-jdk25'
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
