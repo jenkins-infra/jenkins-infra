@@ -20,7 +20,7 @@ sources:
     spec:
       release: stable
     transformers:
-      - addsuffix: "-jdk25"
+      - addsuffix: "-jdk21"
 
 conditions:
   defaultCidockerimage:

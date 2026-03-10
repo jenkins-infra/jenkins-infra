@@ -223,17 +223,17 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-0645c2b070266b834
-      windows-2019-amd64: ami-0da0a9254270ad467
-      ubuntu-22.04-arm64: ami-014666d5818273f27
-      windows-2022-amd64: ami-03539756dfa6ecf5d
-      windows-2025-amd64: ami-00f4d6e1eed03cc91
+      ubuntu-22.04-amd64: ami-0688c7e4d0416ddaf
+      ubuntu-22.04-arm64: ami-0395a902dcdb75675
+      windows-2019-amd64: ami-0390d599f520f9227
+      windows-2022-amd64: ami-09984ed0be9b1bebc
+      windows-2025-amd64: ami-01865a293310f3a3b
     azure_vms_gallery_image:
-      version: 2.82.0
+      version: 2.87.1
       subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.82.0@sha256:b6e7a7e720f906b2ecbb93492c161baf615aa5cb6f716d5ef8888261156f3ccf
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.87.1@sha256:af0699031f3e2a95b0b236f7030466c7e8b0cfe7b03958806b9f56931fefafae
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
@@ -279,7 +279,7 @@ limits:
       soft: "65536"
       hard: "65536"
 profile::openvpn::image: dockerhubmirror.azurecr.io/jenkinsciinfra/openvpn
-profile::openvpn::image_tag: 3.7.16
+profile::openvpn::image_tag: 3.8.0
 # TODO: track with updatecli from https://github.com/jenkins-infra/docker-openvpn/blob/main/config.yaml
 profile::openvpn::external_ips_vpn_restricted:
   archives.jenkins.io: 46.101.121.132
