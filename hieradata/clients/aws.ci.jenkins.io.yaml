@@ -233,7 +233,7 @@ profile::jenkinscontroller::jcasc:
                 mountPath: "/cache"
                 readOnly: true
           - name: jnlp-packaging
-            agentJavaBin: /opt/jdk-21
+            agentJavaBin: /opt/jdk-25
             javaHome: /opt/jdk-21
             labels:
               - packaging
