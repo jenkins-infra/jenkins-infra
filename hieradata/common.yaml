@@ -267,7 +267,7 @@ usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
 docker::version: 5:28.5.2-1~ubuntu.22.04~jammy
-profile::azcopy::azcopy_version: 10.31.1
+profile::azcopy::azcopy_version: 10.32.1
 profile::azcopy::az_cli_version: 2.82.0
 profile::awscli::install_dir: /var/awscli
 profile::mirrorbits::mirrorbits_version: v0.6.1
