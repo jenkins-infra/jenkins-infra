@@ -42,7 +42,6 @@ conditions:
       # Tag comes from the source input value
       architectures:
       - amd64
-      - arm64
   checkIfKeyExist:
     kind: yaml
     disablesourceinput: true
