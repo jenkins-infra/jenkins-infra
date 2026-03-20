@@ -83,7 +83,7 @@ profile::jenkinscontroller::jcasc:
   cloud_agents:
     azure_vm_agents:
       clouds:
-        azure-vms-jenkins-cdf:
+        azure-vms-jenkins-sponsored:
           azureCredentialsId: azure-jenkins-sponsored-managed-identity # Managed manually
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           resourceGroup: trusted-ci-jenkins-io-ephemeral-agents
