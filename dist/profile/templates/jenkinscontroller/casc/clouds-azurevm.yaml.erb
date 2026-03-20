@@ -212,6 +212,7 @@ jenkins:
         templateDesc: "Dynamically provisioned <%= agent['description'] %> machine"
         templateDisabled: false
         templateName: "<%= agent['name'] %>"
+        trustedLaunch: true
       <%- if agent['userInstanceIdentity'] -%>
         enableUAMI: true
         uamiID: "<%= agent['userInstanceIdentity'] %>"
