@@ -230,7 +230,7 @@ profile::jenkinscontroller::jcasc:
       windows-2025-amd64: ami-046e42879a3c21857
     azure_vms_gallery_image:
       version: 2.90.0
-      subscription_id: dff2ec18-6a8e-405c-8e45-b7df7465acf0
+      subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
       jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.90.0@sha256:219f9bea874d5ae96bb2075decf10a181dd4437c975ff01d56e72f30ba494c8f
