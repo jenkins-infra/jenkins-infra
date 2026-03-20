@@ -333,7 +333,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: "inbound"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
@@ -352,7 +352,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: "inbound"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
@@ -370,7 +370,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: "inbound"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
@@ -388,7 +388,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: "ssh"
           location: "East US 2"
-          instanceType: Standard_D4pds_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4pds_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: arm64
           labels:
@@ -408,7 +408,7 @@ profile::jenkinscontroller::jcasc:
           os_version: "2019"
           launcher: "inbound"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
@@ -429,7 +429,7 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2022"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
@@ -445,7 +445,7 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2025"
           location: "East US 2"
-          instanceType: Standard_D4ads_v5 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
+          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
           labels:
