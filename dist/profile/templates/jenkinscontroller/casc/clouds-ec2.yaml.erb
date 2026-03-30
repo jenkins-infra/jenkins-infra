@@ -86,6 +86,8 @@ jenkins:
               value: "<%= $javaHome %>"
             - key: "PATH"
               value: "<%= $javaHome %>/bin<%= $os == 'windows' ? ";" : ":" %>$PATH"
+            - key: "DD_TAGS"
+              value: "jenkins_controller:<%= @ci_fqdn %> jenkins_agent_type:ephemeral_ec2"
       <%- if $os == "windows" -%>
             - key: "TMP"
               value: "<%= $tempDir %>"

@@ -9,6 +9,11 @@ jenkins:
       existingResourceGroupName: "<%= cloudsetup['resourceGroup'] %>"
       resourceGroupReferenceType: "existing"
       maxVirtualMachinesLimit: <%= cloudsetup['maxInstances'] %>
+      nodeProperties:
+        - envVars:
+            env:
+            - key: "DD_TAGS"
+              value: "jenkins_controller:<%= @ci_fqdn %> jenkins_agent_type:ephemeral_azurevm"
       vmTemplates:
     <%- @jcasc['cloud_agents']['azure_vm_agents']['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
