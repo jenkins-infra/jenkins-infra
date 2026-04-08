@@ -128,7 +128,7 @@ jenkins:
 
                 ## Setup datadog
                 (Get-Content C:\ProgramData\Datadog\datadog.yaml -Raw) -Replace 'api_key:', 'api_key: <%= @jcasc['datadog_api_key'] %>' | Set-Content C:\ProgramData\Datadog\datadog.yaml
-                Add-Content -Path C:\ProgramData\Datadog\datadog.yaml -Value "tags: [`"jenkins_controller:<%= @ci_fqdn %>`", `"jenkins_agent_type:ephemeral_ec2`"]"
+                Add-Content -Path C:\ProgramData\Datadog\datadog.yaml -Value "tags: [`"jenkins_controller:<%= @ci_fqdn %>`", `"jenkins_agent_type:ephemeral_ec2`", `"jenkins_agent_description:<%= agent['description'] %>`"]"
                 & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
                 Write-Output 'Datadog service setup'
                 Get-Date
@@ -261,7 +261,7 @@ jenkins:
             mkdir -p /var/log/datadog /etc/datadog-agent
             sed 's/api_key:.*/api_key: <%= @jcasc['datadog_api_key'] %>/' /etc/datadog-agent/datadog.yaml.example > /etc/datadog-agent/datadog.yaml
             sed -i 's/# site:.*/site: datadoghq.com/' /etc/datadog-agent/datadog.yaml
-            echo "tags: [\"jenkins_controller:<%= @ci_fqdn %>\", \"jenkins_agent_type:ephemeral_ec2\"]" >> /etc/datadog-agent/datadog.yaml
+            echo "tags: [\"jenkins_controller:<%= @ci_fqdn %>\", \"jenkins_agent_type:ephemeral_ec2\", \"jenkins_agent_description:<%= agent['description'] %>\"]" >> /etc/datadog-agent/datadog.yaml
             chown dd-agent:dd-agent /etc/datadog-agent/datadog.yaml
             chmod 640 /etc/datadog-agent/datadog.yaml
             chown dd-agent:dd-agent /var/log/datadog
