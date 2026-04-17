@@ -233,7 +233,7 @@ profile::jenkinscontroller::jcasc:
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.92.1@sha256:d4a9fe98251e38d1d9c64e2bcf1f406557b80d10057658e66ecaa529631a5751
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.94.0@sha256:cf3e59a022aadd11962d410afc90bb81fb25df782af35135dab3a10d7810132c
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
