@@ -98,7 +98,7 @@ profile::jenkinscontroller::jcasc:
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           storageAccount: trustedciagentssponso
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
-          userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/jenkinsinfra-trusted-ci-controller/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents-sponsored'
+          userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/trusted-ci-jenkins-io-sponsored-commons/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents-sponsored'
       agent_definitions:
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
