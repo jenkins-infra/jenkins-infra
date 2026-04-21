@@ -90,6 +90,17 @@ node 'agent.trusted.ci.jenkins.io' {
   include profile::aznfs
 }
 
+node 'agent-2.trusted.ci.jenkins.io' {
+  mount { '/home/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=804db78b-40e9-4eee-83aa-bf542cc7c53d',
+    fstype => 'ext4',
+  }
+  include role::updatecenter
+  include profile::aznfs
+}
+
 node 'controller.trusted.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
