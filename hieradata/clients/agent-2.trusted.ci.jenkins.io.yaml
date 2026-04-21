@@ -1,0 +1,18 @@
+---
+# Per-host Datadog configuration
+datadog_agent::host: "agent-2.trusted.ci.jenkins.io"
+# Allow trusted.ci.jenkins.io controller to use SSH for the agent connection
+profile::buildagent::ssh_keys:
+  trusted.ci.jenkins.io:
+    type: ed25519
+    key: AAAAC3NzaC1lZDI1NTE5AAAAINdeZJh/nqgNvkhSph152vK/9vWzEzYXd6GWk68edm2E
+profile::buildagent::trusted_agent: true
+profile::awscli::version: 2.34.19
+profile::aznfs::mounts:
+  - mountpoint: "/data-storage-jenkins-io"
+    url: "datastoragejenkinsio.file.core.windows.net:/datastoragejenkinsio/data-storage-jenkins-io"
+accounts:
+  kevingrdj:
+    ssh_keys:
+      potatoes:
+        key: AAAAB3NzaC1yc2EAAAADAQABAAACAQDSNxU0LGimqU7fngTWhdVPk13uvG+Ek/NrYOF/EiuKiYsW3ifoSUR7f/ha6Y/EdzGrfix+fsQSX8nf5O8y9qXPthmyTydsXINA4+pfxnfv+7NOtlo81k1+SAwvAflNX/cUeGc1Mih6kLTCNgO5JYfYtwDdvVBdchR5JSjwZx8McVNvCqu57f3R4STYKMTh0Tavb2jH3omEUz+mTtS8MxjyXNH14KqfHEWiyZB+LBpOjW5AVn5SfWjH17a0ukZc5BJfvB5Lk11isNXO9rliJg/gxAoCXNl+XmZOLGPXTQ2ANW1dfEtJ/bT5dhNTemj0KPeOncCGZLheHyRveSwF6laSGJ+vE2xrY5bjg6suwmxLyA04E7kwmTEvbW2eMwtk4/wJe5j9wmUSrkK1icYK5t5gQcKbla734yhbri+JIN1ygXundJdi/QsGYNvWZnBZDF3KRt216siP5hPJfJ3L2xAoqWuMpin86rnSNLfbCP1jTDgVexjcynivpgT7jbJ3H5CfFohpEuTyPRG2NbI/3nQf1SAW64OqVPoq+2e0be5sCGUcUqk333w3GTPRhX+duKKhEPlaphaL+H3QrdTwlvVjklJAyB6Li/k0TExA7hDoPyLNdj9iaWRopFEgrQzXrek1QR8O0T3nFAPOBA1DDfWgw2U/oylcPIBCuoZwAePx6Q==
