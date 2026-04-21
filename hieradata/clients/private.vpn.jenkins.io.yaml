@@ -18,6 +18,7 @@ profile::openvpn::networks:
       public: 10.244.0.0/14
       public-db: 10.253.0.0/21
       trusted-ci-jenkins-io: 10.252.0.0/21
+      trusted-ci-jenkins-io-sponsored: 10.252.16.0/22
 profile::openvpn::vpn_network:
   name: private
   # Abstract network
