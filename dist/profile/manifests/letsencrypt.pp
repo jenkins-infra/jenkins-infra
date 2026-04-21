@@ -117,7 +117,6 @@ class profile::letsencrypt (
     $golang_installation_prefix='/usr/local'
 
     exec { "Install golang version ${golang_version}":
-      require => [Package['curl'],Package['tar']],
       command => "/usr/bin/curl --silent --location --verbose --show-error --output ${golang_dl_archive} \"${golang_dl_url}\" && /usr/bin/rm -rf ${golang_installation_prefix}/go && /usr/bin/tar -C ${golang_installation_prefix} -xzf ${golang_dl_archive} && /usr/bin/rm -f ${golang_dl_archive} && ln -s ${golang_installation_prefix}/go/bin/go /usr/local/bin/go",
       unless  => "/usr/bin/test -f /usr/local/bin/go && /usr/local/bin/go version 2>/dev/null | /bin/grep ${golang_version}",
     }
