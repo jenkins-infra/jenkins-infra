@@ -38,7 +38,7 @@ class profile::letsencrypt (
   }
   $python_weight       = regsubst($python_certbot_version, '\.','')
 
-  ['python3', 'python3-pip', "python${python_certbot_version}", 'python3-augeas', 'libaugeas0', 'python3-cffi-backend', 'python3-cffi', 'curl', 'tar'].each | $package_name | {
+  ['python3', 'python3-pip', "python${python_certbot_version}", 'python3-augeas', 'libaugeas0', 'python3-cffi-backend', 'python3-cffi'].each | $package_name | {
     package { $package_name:
       ensure => 'installed',
     }
