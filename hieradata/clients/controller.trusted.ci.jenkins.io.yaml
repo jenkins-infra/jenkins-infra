@@ -90,7 +90,7 @@ profile::jenkinscontroller::jcasc:
         # - updatecenter
         # - census
       ssh:
-        host: "agen-2.trusted.ci.jenkins.io"
+        host: "agent-2.trusted.ci.jenkins.io"
         credentialsId: "trusted-agent-2-ssh-key"
         maxNumRetries: 0
         retryWaitTime: 0
