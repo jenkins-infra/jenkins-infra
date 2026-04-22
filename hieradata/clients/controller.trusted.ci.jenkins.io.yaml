@@ -72,8 +72,9 @@ profile::jenkinscontroller::jcasc:
       numExecutors: 2
       mode: EXCLUSIVE
       labels:
-        - updatecenter
-        - census
+        # - updatecenter
+        # - census
+        - deprecated-agent-1
       ssh:
         host: "agent.trusted.ci.jenkins.io"
         credentialsId: "trusted-agent-1-ssh-key"
@@ -85,10 +86,8 @@ profile::jenkinscontroller::jcasc:
       numExecutors: 2
       mode: EXCLUSIVE
       labels:
-        # TODO: restore and keep only commented labels at the end of migration (helpdesk#5067)
-        - agent-2
-        # - updatecenter
-        # - census
+        - updatecenter
+        - census
       ssh:
         host: "agent-2.trusted.ci.jenkins.io"
         credentialsId: "trusted-agent-2-ssh-key"
