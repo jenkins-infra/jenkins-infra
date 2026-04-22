@@ -80,6 +80,21 @@ profile::jenkinscontroller::jcasc:
         maxNumRetries: 0
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFKPicazcvpcZB+u1AFnOcD69JQwACxgaFnYk86ckXoB"
+    agent-2:
+      remoteFS: /home/jenkins/agent-workspace
+      numExecutors: 2
+      mode: EXCLUSIVE
+      labels:
+        # TODO: restore and keep only commented labels at the end of migration (helpdesk#5067)
+        - agent-2
+        # - updatecenter
+        # - census
+      ssh:
+        host: "agen-2.trusted.ci.jenkins.io"
+        credentialsId: "trusted-agent-2-ssh-key"
+        maxNumRetries: 0
+        retryWaitTime: 0
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO+0teBZr3lKADKAGECDTLpZl5Z8Y+YM7J+HmJk2B/bx"
   cloud_agents:
     azure_vm_agents:
       clouds:
