@@ -79,3 +79,4 @@ actions:
     spec:
       labels:
         - dependencies
+        - aws-cli
