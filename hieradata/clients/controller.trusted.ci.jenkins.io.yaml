@@ -67,20 +67,6 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
   permanent_agents:
-    agent-1:
-      remoteFS: /home/jenkins/agent-workspace
-      numExecutors: 2
-      mode: EXCLUSIVE
-      labels:
-        # - updatecenter
-        # - census
-        - deprecated-agent-1
-      ssh:
-        host: "agent.trusted.ci.jenkins.io"
-        credentialsId: "trusted-agent-1-ssh-key"
-        maxNumRetries: 0
-        retryWaitTime: 0
-        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFKPicazcvpcZB+u1AFnOcD69JQwACxgaFnYk86ckXoB"
     agent-2:
       remoteFS: /home/jenkins/agent-workspace
       numExecutors: 2

@@ -27,14 +27,6 @@ sources:
         pattern: ~2 # Use the 2.x.y version
 
 targets:
-  updateTrustedAgentAwsCliVersion:
-    name: Update the `aws-cli` version in the agent.trusted.ci.jenkins.io.yaml file
-    sourceid: lastReleaseVersion
-    kind: yaml
-    spec:
-      file: hieradata/clients/agent.trusted.ci.jenkins.io.yaml
-      key: $.profile::awscli::version
-    scmid: default
   updateTrustedAgent2AwsCliVersion:
     name: Update the `aws-cli` version in the agent-2.trusted.ci.jenkins.io.yaml file
     sourceid: lastReleaseVersion
