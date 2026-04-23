@@ -79,17 +79,6 @@ node 'private.vpn.jenkins.io' {
   include role::openvpn
 }
 
-node 'agent.trusted.ci.jenkins.io' {
-  mount { '/home/jenkins':
-    ensure => 'mounted',
-    atboot => 'true',
-    device => 'UUID=909588b9-9f20-43cf-8918-e390585789d4',
-    fstype => 'ext4',
-  }
-  include role::updatecenter
-  include profile::aznfs
-}
-
 node 'agent-2.trusted.ci.jenkins.io' {
   mount { '/home/jenkins':
     ensure => 'mounted',
