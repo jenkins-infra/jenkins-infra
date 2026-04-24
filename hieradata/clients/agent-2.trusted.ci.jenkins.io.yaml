@@ -5,7 +5,7 @@ datadog_agent::host: "agent-2.trusted.ci.jenkins.io"
 profile::buildagent::ssh_keys:
   trusted.ci.jenkins.io:
     type: ed25519
-    key: AAAAC3NzaC1lZDI1NTE5AAAAINdeZJh/nqgNvkhSph152vK/9vWzEzYXd6GWk68edm2E
+    key: AAAAC3NzaC1lZDI1NTE5AAAAIItJB1E9CwGG+/bVRToJAH0rdSKNnYmmnhskKwxPVD9u
 profile::buildagent::trusted_agent: true
 profile::awscli::version: 2.34.36
 profile::aznfs::mounts:
