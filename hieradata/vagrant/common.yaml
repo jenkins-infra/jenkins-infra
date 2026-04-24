@@ -37,6 +37,7 @@ profile::jenkinscontroller::additional_fqdns:
   legacy.localhost: null
 profile::jenkinscontroller::memory_limit: '14g'
 profile::jenkinscontroller::authenticated_access: true
+profile::jenkinscontroller::embeddable_build_status: true # Requires embeddable-build-status plugin installed, groovy_init_enabled set to true and groovy_d_lock_down_jenkins set to 'present'
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: present
 profile::jenkinscontroller::admin_users:
