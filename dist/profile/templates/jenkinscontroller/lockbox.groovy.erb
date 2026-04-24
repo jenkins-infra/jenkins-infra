@@ -66,6 +66,10 @@ strategy.add(Jenkins.ADMINISTER, PermissionEntry.group('<%= group %>'))
 strategy.add(Jenkins.ADMINISTER, PermissionEntry.user('<%= user %>'))
 <%- end -%>
 
+<%- if @embeddable_build_status -%>
+strategy.add(org.jenkinsci.plugins.badge.actions.PublicBuildStatusAction.VIEW_STATUS, PermissionEntry.user('anonymous'))
+<%- end -%>
+
 instance.authorizationStrategy = strategy
 
 instance.save()

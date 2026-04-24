@@ -16,6 +16,7 @@
 class profile::jenkinscontroller (
   Boolean $anonymous_access                    = false,
   Boolean $authenticated_access                = false,
+  Boolean $embeddable_build_status             = false,
   Array $admin_ldap_groups                     = [],
   Array $admin_users                           = [],
   Stdlib::Fqdn $ci_fqdn                        = '',
