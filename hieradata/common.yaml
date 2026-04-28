@@ -246,7 +246,7 @@ profile::jenkinscontroller::jcasc:
       linux:
         amd64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jdk_x64_linux_hotspot_25.0.2_10.tar.gz
         arm64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.2%2B10/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.2_10.tar.gz
-    maven: 3.9.13
+    maven: 3.9.15
 ssh::server::storeconfigs_enabled: false
 ssh::server::options:
   PasswordAuthentication: no
