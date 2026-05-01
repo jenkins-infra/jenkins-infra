@@ -99,3 +99,13 @@ node 'controller.trusted.ci.jenkins.io' {
   }
   include role::jenkins::controller
 }
+
+node 'controller-sponsored.trusted.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=9e5149e7-5eae-4deb-9f16-f32bc4f2370a',
+    fstype => 'ext4',
+  }
+  include role::jenkins::controller
+}
