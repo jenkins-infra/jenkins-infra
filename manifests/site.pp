@@ -104,7 +104,7 @@ node 'controller-sponsored.trusted.ci.jenkins.io' {
   mount { '/var/lib/jenkins':
     ensure => 'mounted',
     atboot => 'true',
-    device => 'UUID=9e5149e7-5eae-4deb-9f16-f32bc4f2370a',
+    device => 'UUID=610f2c18-5076-4b80-8c52-7862811ca9a9',
     fstype => 'ext4',
   }
   include role::jenkins::controller
