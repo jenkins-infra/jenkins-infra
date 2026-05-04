@@ -66,21 +66,20 @@ profile::jenkinscontroller::jcasc:
       jdk25:
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
-  ## Commented until production migration
-  # permanent_agents:
-  #   agent-2:
-  #     remoteFS: /home/jenkins/agent-workspace
-  #     numExecutors: 2
-  #     mode: EXCLUSIVE
-  #     labels:
-  #       - updatecenter
-  #       - census
-  #     ssh:
-  #       host: "agent-2.trusted.ci.jenkins.io"
-  #       credentialsId: "trusted-agent-2-ssh-key"
-  #       maxNumRetries: 0
-  #       retryWaitTime: 0
-  #       hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO+0teBZr3lKADKAGECDTLpZl5Z8Y+YM7J+HmJk2B/bx"
+  permanent_agents:
+    agent-2:
+      remoteFS: /home/jenkins/agent-workspace
+      numExecutors: 2
+      mode: EXCLUSIVE
+      labels:
+        - updatecenter
+        - census
+      ssh:
+        host: "agent-2.trusted.ci.jenkins.io"
+        credentialsId: "trusted-agent-2-ssh-key"
+        maxNumRetries: 0
+        retryWaitTime: 0
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO+0teBZr3lKADKAGECDTLpZl5Z8Y+YM7J+HmJk2B/bx"
   cloud_agents:
     azure_vm_agents:
       clouds:
