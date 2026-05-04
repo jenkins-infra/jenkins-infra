@@ -224,7 +224,7 @@ profile::jenkinscontroller::jcasc:
   agent_images:
     ec2_amis:
       ubuntu-22.04-amd64: ami-090266ab91ede5a7f
-      ubuntu-22.04-arm64: ami-0da36a85575d20d36
+      ubuntu-22.04-arm64: ami-0b76ce5652b50843a
       windows-2019-amd64: ami-0c5793a08cbd80acc
       windows-2022-amd64: ami-0c00e509198a27202
       windows-2025-amd64: ami-01e4b8a54d844ef18
