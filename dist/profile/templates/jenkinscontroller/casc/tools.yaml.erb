@@ -70,6 +70,18 @@ tool:
               id: "<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
         <%- elsif setup['home'] -%>
       home: "<%= setup['home'] %>"
+        <%- elsif setup['useMavenFromAgentLabels'] -%>
+      properties:
+      - installSource:
+          installers:
+          - command:
+              command: "echo /usr/bin"
+              label: "<%= setup['useMavenFromAgentLabels'] %>"
+              toolHome: "/usr/bin"
+          - batchFile:
+              command: "echo C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
+              label: "<%= setup['useMavenFromAgentLabels'] %>s"
+              toolHome: "C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
         <%- end -%>
       <%- end -%>
     <%- end -%>
