@@ -67,7 +67,7 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-amd64: "(linux && amd64) || linux-amd64 || jdk8 || jdk-8 || maven-8 || updatecenter || census"
     maven:
-      maven:
+      mvn:
         useMavenFromAgentLabels: "maven-17 || maven-21 || maven-25 || maven-17-windows || maven-21-windows || maven-25-windows"
   permanent_agents:
     agent-2:
