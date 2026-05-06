@@ -114,6 +114,10 @@ profile::jenkinscontroller::jcasc:
           ephemeral-agents: "maven-17 || maven-21 || maven-25"
           ephemeral-agents-windows: "maven-17-windows || maven-21-windows || maven-25-windows"
           permanent-agents: "updatecenter || census"
+      mvnCustomInstallerAndVersion:
+        version: 4.0.0
+        installers:
+          ephemeral-agents: "maven4"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
