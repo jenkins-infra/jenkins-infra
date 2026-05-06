@@ -68,15 +68,15 @@ tool:
           installers:
           <%- setup['installers'].each do |installer_name, installer_label| -%>
             <%- if installer_name =~ /windows/ -%>
-          - command:
-              command: "echo /usr/share/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
-              label: "<%= installer_label %>"
-              toolHome: "/usr/share/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
-            <%- else -%>
           - batchFile:
               command: "echo C:/tools/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>/bin"
               label: "<%= installer_label %>"
               toolHome: "C:/tools/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>/bin"
+            <%- else -%>
+          - command:
+              command: "echo /usr/share/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
+              label: "<%= installer_label %>"
+              toolHome: "/usr/share/apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
             <%- end -%>
           <%- end -%>
         <%- elsif setup['version'] || setup['default_version'] -%>
