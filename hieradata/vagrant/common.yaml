@@ -101,8 +101,18 @@ profile::jenkinscontroller::jcasc:
           linux-arm64: "(linux && arm64) || linux-arm64"
           s390x: "s390x || s390xdocker"
     maven:
-      mvn:
-        useMavenFromAgentLabels: "maven-17 || maven-21 || maven-25 || maven-17-windows || maven-21-windows || maven-25-windows"
+      # default "mvn" form the global common.yaml ala ci.jenkins.io
+      # Custom version ala cert.ci.jenkins.io
+      mvnCustomVersion:
+        version: "3.5.4"
+      # Custom home ala cert.ci.jenkins.io
+      mvnCustomHome:
+        home: "/usr/share/apache-maven-3.8.8"
+      # Custom installers ala trusted.ci.jenkins.io
+      mvnCustomInstaller:
+        installers:
+          ephemeral-agents: "maven-17 || maven-21 || maven-25 || maven-17-windows || maven-21-windows || maven-25-windows"
+          permanent-agents: "updatecenter || census"
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
