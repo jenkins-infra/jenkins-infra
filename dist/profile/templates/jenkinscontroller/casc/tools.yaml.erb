@@ -62,7 +62,21 @@ tool:
     <%- @jcasc['tools']['maven'].each do |name, setup| -%>
       <%- unless setup['disabled'] -%>
     - name: "<%= name %>"
-        <%- if setup['version'] || setup['default_version'] -%>
+        <%- if setup['installers'] -%>
+      properties:
+      - installSource:
+          installers:
+          <%- setup['installers'].each do |installer_name, installer_label| -%>
+          - command:
+              command: "echo /usr/bin"
+              label: "<%= installer_label %>"
+              toolHome: "/usr/bin"
+          - batchFile:
+              command: "echo C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
+              label: "<%= installer_label %>"
+              toolHome: "C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
+          <%- end -%>
+        <%- elsif setup['version'] || setup['default_version'] -%>
       properties:
       - installSource:
           installers:
@@ -70,18 +84,6 @@ tool:
               id: "<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
         <%- elsif setup['home'] -%>
       home: "<%= setup['home'] %>"
-        <%- elsif setup['useMavenFromAgentLabels'] -%>
-      properties:
-      - installSource:
-          installers:
-          - command:
-              command: "echo /usr/bin"
-              label: "<%= setup['useMavenFromAgentLabels'] %>"
-              toolHome: "/usr/bin"
-          - batchFile:
-              command: "echo C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
-              label: "<%= setup['useMavenFromAgentLabels'] %>s"
-              toolHome: "C:\tools\apache-maven-<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>\bin"
         <%- end -%>
       <%- end -%>
     <%- end -%>
