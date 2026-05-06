@@ -69,7 +69,8 @@ profile::jenkinscontroller::jcasc:
     maven:
       mvn:
         installers:
-          ephemeral-agents: "maven-17 || maven-21 || maven-25 || maven-17-windows || maven-21-windows || maven-25-windows"
+          ephemeral-agents: "maven-17 || maven-21 || maven-25"
+          ephemeral-agents-windows: "maven-17-windows || maven-21-windows || maven-25-windows"
           permanent-agents: "updatecenter || census"
   permanent_agents:
     agent-2:
