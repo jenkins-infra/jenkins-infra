@@ -245,17 +245,6 @@ class profile::buildagent (
         unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
-      file { '/etc/profile.d/maven.sh':
-        ensure  => file,
-        mode    => '0755',
-        content => "export PATH=${maven_dir}/bin:\$PATH\n",
-      }
-
-      file { '/etc/profile.d/java.sh':
-        ensure  => file,
-        mode    => '0755',
-        content => "export JAVA_HOME=/opt/jdk-21\nexport PATH=\$JAVA_HOME/bin:\$PATH\n",
-      }
     }
   }
 
