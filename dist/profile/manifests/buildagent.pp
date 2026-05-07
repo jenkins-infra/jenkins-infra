@@ -154,9 +154,7 @@ class profile::buildagent (
       }
     }
 
-    $maven_version = pick($tools_versions['maven'], undef)
-
-    if $maven_version {
+    if $tools_versions['maven'] {
 
       $maven_major   = regsubst($maven_version, '^([0-9]+)\..*$', '\1')
       $maven_archive = "apache-maven-${maven_version}-bin.tar.gz"
