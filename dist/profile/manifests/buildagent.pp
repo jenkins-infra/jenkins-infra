@@ -153,6 +153,110 @@ class profile::buildagent (
         unless  => "/usr/bin/test -f ${java_bin} && ${java_bin} -version 2>&1 | /bin/grep --quiet '${jdk_version_to_check}'",
       }
     }
+
+    $maven_version = lookup('profile::jenkinscontroller::jcasc.tools_default_versions.maven', { default_value => undef })
+
+    if $maven_version {
+
+      $maven_major   = regsubst($maven_version, '^([0-9]+)\..*$', '\1')
+      $maven_archive = "apache-maven-${maven_version}-bin.tar.gz"
+
+      $base_url = "https://archive.apache.org/dist/maven/maven-${maven_major}/${maven_version}/binaries"
+
+      $maven_url       = "${base_url}/${maven_archive}"
+      $maven_checksum  = "${maven_url}.sha512"
+      $maven_signature = "${maven_url}.asc"
+
+      $maven_dir = "/usr/share/apache-maven-${maven_major}"
+      $maven_bin = "${maven_dir}/bin/mvn"
+
+      $temp_archive  = "/tmp/${maven_archive}"
+      $temp_checksum = "${temp_archive}.sha512"
+      $temp_sig      = "${temp_archive}.asc"
+      $maven_keys_file = '/tmp/maven-keys.gpg'
+
+      exec { 'Download Apache Maven key':
+        command => "/usr/bin/curl --silent --show-error --location https://downloads.apache.org/maven/KEYS --output ${maven_keys_file}",
+        creates => $maven_keys_file,
+        require => Package['curl'],
+        unless  => "/usr/bin/gpg --list-keys | /bin/grep 'Apache Maven'",
+      }
+
+      exec { 'Import Apache Maven key':
+        command => "/usr/bin/gpg --import ${maven_keys_file}",
+        require => [
+          Package['gpg'],
+          Exec['Download Apache Maven key'],
+        ],
+        unless  => "/usr/bin/gpg --list-keys | /bin/grep 'Apache Maven'",
+      }
+
+      exec { "Download Maven ${maven_version}":
+        command => "/usr/bin/curl --silent --show-error --location ${maven_url} --output ${temp_archive}",
+        require => Package['curl'],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      exec { "Download Maven ${maven_version} checksum":
+        command => "/usr/bin/curl --silent --show-error --location ${maven_checksum} --output ${temp_checksum}",
+        require => Package['curl'],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      exec { "Download Maven ${maven_version} signature":
+        command => "/usr/bin/curl --silent --show-error --location ${maven_signature} --output ${temp_sig}",
+        require => Package['curl'],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      exec { "Verify Maven ${maven_version} signature":
+        command => "/usr/bin/gpg --verify ${temp_sig}",
+        require => [
+          Exec['Import Apache Maven key'],
+          Exec["Download Maven ${maven_version}"],
+          Exec["Download Maven ${maven_version} signature"],
+        ],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      exec { "Verify Maven ${maven_version} checksum":
+        command => "/bin/bash -c \"echo \\$(cat ${temp_checksum})  ${temp_archive} | sha512sum --check\"",
+        cwd     => '/tmp',
+        require => [
+          Exec["Download Maven ${maven_version} checksum"],
+          Exec["Download Maven ${maven_version}"],
+        ],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      file { $maven_dir:
+        ensure => directory,
+        owner  => 'root',
+      }
+
+      exec { "Extract Maven ${maven_version}":
+        command => "/usr/bin/tar --extract --gunzip --file=${temp_archive} --directory=${maven_dir} --strip-components=1 && /usr/bin/rm -f ${temp_archive} ${temp_checksum} ${temp_sig}",
+        require => [
+          Exec["Verify Maven ${maven_version} signature"],
+          Exec["Verify Maven ${maven_version} checksum"],
+          File[$maven_dir],
+          Package['tar'],
+        ],
+        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+      }
+
+      file { '/etc/profile.d/maven.sh':
+        ensure  => file,
+        mode    => '0755',
+        content => "export PATH=${maven_dir}/bin:\$PATH\n",
+      }
+
+      file { '/etc/profile.d/java.sh':
+        ensure  => file,
+        mode    => '0755',
+        content => "export JAVA_HOME=/opt/jdk-21\nexport PATH=\$JAVA_HOME/bin:\$PATH\n",
+      }
+    }
   }
 
   # https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/
