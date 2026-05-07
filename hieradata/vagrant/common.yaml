@@ -100,6 +100,9 @@ profile::jenkinscontroller::jcasc:
         installers:
           linux-arm64: "(linux && arm64) || linux-arm64"
           s390x: "s390x || s390xdocker"
+    maven:
+      mvn:
+        disabled: true
   permanent_agents:
     s390x-agent:
       remoteFS: /home/jenkins/agent
