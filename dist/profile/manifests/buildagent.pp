@@ -154,7 +154,7 @@ class profile::buildagent (
       }
     }
 
-    $maven_version = lookup('profile::jenkinscontroller::jcasc.tools_default_versions.maven', { default_value => undef })
+    $maven_version = pick($tools_versions['maven'], undef)
 
     if $maven_version {
 
@@ -244,7 +244,6 @@ class profile::buildagent (
         ],
         unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
-
     }
   }
 
