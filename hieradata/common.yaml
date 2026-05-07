@@ -168,9 +168,6 @@ profile::jenkinscontroller::jcasc:
       cache-ttl: 180
       allow-pull-requests: true
   tools:
-    maven:
-      mvn:
-        default_version: true
     jdk:
       jdk8:
         major_version: 8
