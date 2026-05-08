@@ -194,19 +194,19 @@ class profile::buildagent (
       exec { "Download Maven ${maven_version}":
         command => "/usr/bin/curl --silent --show-error --location ${maven_url} --output ${temp_archive}",
         require => Package['curl'],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
       exec { "Download Maven ${maven_version} checksum":
         command => "/usr/bin/curl --silent --show-error --location ${maven_checksum} --output ${temp_checksum}",
         require => Package['curl'],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
       exec { "Download Maven ${maven_version} signature":
         command => "/usr/bin/curl --silent --show-error --location ${maven_signature} --output ${temp_sig}",
         require => Package['curl'],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
       exec { "Verify Maven ${maven_version} signature":
@@ -216,7 +216,7 @@ class profile::buildagent (
           Exec["Download Maven ${maven_version}"],
           Exec["Download Maven ${maven_version} signature"],
         ],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
       exec { "Verify Maven ${maven_version} checksum":
@@ -226,7 +226,7 @@ class profile::buildagent (
           Exec["Download Maven ${maven_version} checksum"],
           Exec["Download Maven ${maven_version}"],
         ],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
       file { $maven_dir:
@@ -242,7 +242,7 @@ class profile::buildagent (
           File[$maven_dir],
           Package['tar'],
         ],
-        unless  => "/usr/bin/test -f ${maven_bin} && ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
+        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
     }
   }
