@@ -89,7 +89,7 @@ letsencrypt::enable: true
 letsencrypt::config::email: "tyler@monkeypox.org"
 letsencrypt::config::server: "https://acme-staging-v02.api.letsencrypt.org/directory" # Staging by default
 profile::letsencrypt::plugin: apache
-profile::letsencrypt::certbot_version: '5.5.0'
+profile::letsencrypt::certbot_version: '5.6.0'
 profile::letsencrypt::certbot_dnsazure_version: '2.6.1'
 profile::letsencrypt::certbot_dnsmulti_version: '4.35.2'
 irc::irc_server: ENC[PKCS7,MIIBygYJKoZIhvcNAQcDoIIBuzCCAbcCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAg/IMh30AaTVOJqBSUwZ9q7ijpmxoS/rS2GyWkXZ9qnhCi2B0O1U1Ds+BSpsAszxA3Qf67tl7OkmfTyV7xDNjSfVlHuGbgJ5yRkOphndcO5tCd+ssFRXROROeHVJBhn64S11ayL4LSyx9zn6Nqk4SnUjZ9zKmS1KGGl3fjFLygI+3q8rPuv+ebSKFUiwXUUWPsPoTUPcxV9950npYiP5yaOJN9y7QJ8XqlA9cNU27cubgZJFxYRfReCa0zG12K6c+ordmc85R+Fp4ZJnPIuOVS4A6xS/x5a3EJz/qWdBZYCUjmrk+qmiMrp7mgc+EHKOAkmrdA+yZbWnYhv8PalufiDCBjAYJKoZIhvcNAQcBMB0GCWCGSAFlAwQBKgQQYE9nAbni14xjBa6uM+gtOYBggqa4FnMWQ3eObLB5eu+Vje5vCo14q/bWY0uqio9aRO6pIEsKaBVE/DnF0VWuV9tqTcD3LInqpvS1g8cgcgLp8Z0chmQoZSGxdBGhTFkRGO0z+TJY1zXixeUedzp/K2Ly]
