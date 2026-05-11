@@ -262,7 +262,7 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:29.4.2-2~ubuntu.22.04~jammy
+docker::version: 5:29.4.3-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.32.3
 profile::azcopy::az_cli_version: 2.86.0
 profile::awscli::install_dir: /var/awscli
@@ -275,7 +275,7 @@ limits:
       soft: "65536"
       hard: "65536"
 profile::openvpn::image: dockerhubmirror.azurecr.io/jenkinsciinfra/openvpn
-profile::openvpn::image_tag: 3.9.1
+profile::openvpn::image_tag: 3.9.2
 # TODO: track with updatecli from https://github.com/jenkins-infra/docker-openvpn/blob/main/config.yaml
 profile::openvpn::external_ips_vpn_restricted:
   archives.jenkins.io: 46.101.121.132
@@ -285,5 +285,7 @@ profile::openvpn::external_ips_vpn_restricted:
   eks_cijenkinsioagents2_1: 3.149.48.23
   eks_cijenkinsioagents2_2: 3.149.71.89
   usage.jenkins.io: 64.227.123.95
+profile::buildagent::tools_versions:
+  maven: 3.9.15
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
