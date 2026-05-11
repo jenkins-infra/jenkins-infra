@@ -80,6 +80,9 @@ profile::jenkinscontroller::jcasc:
         maxNumRetries: 0
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO+0teBZr3lKADKAGECDTLpZl5Z8Y+YM7J+HmJk2B/bx"
+      envVars:
+        PATH+MAVEN: /usr/share/apache-maven-3/bin
+        JAVA_HOME: /opt/jdk-21
   cloud_agents:
     azure_vm_agents:
       clouds:
