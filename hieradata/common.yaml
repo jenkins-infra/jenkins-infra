@@ -168,9 +168,6 @@ profile::jenkinscontroller::jcasc:
       cache-ttl: 180
       allow-pull-requests: true
   tools:
-    maven:
-      mvn:
-        default_version: true
     jdk:
       jdk8:
         major_version: 8
@@ -246,7 +243,6 @@ profile::jenkinscontroller::jcasc:
       linux:
         amd64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_x64_linux_hotspot_25.0.3_9.tar.gz
         arm64: https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.3%2B9/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.3_9.tar.gz
-    maven: 3.9.15
 ssh::server::storeconfigs_enabled: false
 ssh::server::options:
   PasswordAuthentication: no
