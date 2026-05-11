@@ -62,12 +62,12 @@ tool:
     <%- @jcasc['tools']['maven'].each do |name, setup| -%>
       <%- unless setup['disabled'] -%>
     - name: "<%= name %>"
-        <%- if setup['version'] || setup['default_version'] -%>
+        <%- if setup['version'] -%>
       properties:
       - installSource:
           installers:
           - maven:
-              id: "<%= setup['version'] ? setup['version'] : @jcasc['tools_default_versions']['maven'] %>"
+              id: "<%= setup['version'] %>"
         <%- elsif setup['home'] -%>
       home: "<%= setup['home'] %>"
         <%- end -%>
