@@ -15,6 +15,7 @@ profile::openvpn::networks:
       infra-ci-jenkins-io: 10.5.0.0/22
       infra-ci-jenkins-io-sponsored: 10.5.4.0/22
       private: 10.248.0.0/14
+      privatek8s-sponsored: 10.6.0.0/21
       public: 10.244.0.0/14
       public-db: 10.253.0.0/21
       trusted-ci-jenkins-io: 10.252.0.0/21
