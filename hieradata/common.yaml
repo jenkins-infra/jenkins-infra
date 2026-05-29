@@ -220,17 +220,17 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-0ce6288b77ced1d32
-      ubuntu-22.04-arm64: ami-02280039d1b46c6f1
-      windows-2019-amd64: ami-054d31083fe92d374
-      windows-2022-amd64: ami-018e9f281741a61ae
-      windows-2025-amd64: ami-050af5af8c159924b
+      ubuntu-22.04-amd64: ami-086390a5ba9e2e962
+      ubuntu-22.04-arm64: ami-0af519c25b9e98fc0
+      windows-2019-amd64: ami-078af2860a4bc49cf
+      windows-2022-amd64: ami-0efe09bfc583208a9
+      windows-2025-amd64: ami-0a0ace5e0e883e9b5
     azure_vms_gallery_image:
-      version: 2.105.0
+      version: 2.106.0
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.105.0@sha256:e7eb994b0e5b3c9f62378f3f33290a858c324ca41ad568e95746558880178092
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.106.0@sha256:d191fa4b96c279dfa9eef1a15c5422f3845a97245eb8ef30fcec4bf33e64efe9
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
