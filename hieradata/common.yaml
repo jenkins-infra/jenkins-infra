@@ -84,6 +84,13 @@ accounts:
         key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBCPI86WPw79O2+c5TML/MJK7th8qwXDaccnCXGAKDhp5UQEpw+rxzgWmwuKdVB0rdNHulFBK9Ob56HQCLXgWEb8=
     groups:
       - sudo
+  jay_jenkins:
+    ssh_keys:
+      jenkins-infra-secretive:
+        type: ecdsa-sha2-nistp256
+        key: AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBxfNbxJhmd5tyv9lpnQuo+1uhZu0QRd/LMdJQsB0q86eAwPaNrEyEG8Lv7lVIvOE65dlZiO/lelTPm8JDo2fjE=
+    groups:
+      - sudo
 # Lets Encrypt settings
 letsencrypt::enable: true
 letsencrypt::config::email: "tyler@monkeypox.org"
