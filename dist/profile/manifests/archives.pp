@@ -2,10 +2,11 @@
 # Defines an archive server for serving all the archived historical releases
 #
 class profile::archives (
-  Array                $rsync_hosts_allow           = [],
-  Stdlib::Absolutepath $data_disk_mount             = '/srv',
-  Stdlib::Absolutepath $rsync_motd_file             = '/etc/jenkins.motd',
-  Array                $ssh_authorized_keys         = [],
+  Array                $rsync_hosts_allow            = [],
+  Stdlib::Absolutepath $data_disk_mount              = '/srv',
+  Stdlib::Absolutepath $rsync_motd_file              = '/etc/jenkins.motd',
+  Array                $ssh_authorized_keys          = [],
+  Integer              $bandwidth_per_vhost_in_bytes = 1024000, # Defaults to 10 Mb/s
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::apachemisc
@@ -177,6 +178,13 @@ Host ${$osuosl_mirroring['host']}
     require => Package['libapache2-mod-bw'],
   }
 
+  $mod_bw_config_fragment = "
+BandwidthModule On
+ForceBandWidthModule On
+Bandwidth all \"${bandwidth_per_vhost_in_bytes}\"
+
+"
+
   apache::vhost { "${archives_legacy_fqdn} unsecure":
     servername                   => $archives_legacy_fqdn,
     use_servername_for_filenames => true,
@@ -184,6 +192,7 @@ Host ${$osuosl_mirroring['host']}
     vhost_name                   => '*',
     port                         => 80,
     docroot                      => $archives_dir,
+    custom_fragment              => $mod_bw_config_fragment,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
@@ -207,6 +216,7 @@ Host ${$osuosl_mirroring['host']}
     port                         => 443,
     ssl                          => true,
     docroot                      => $archives_dir,
+    custom_fragment              => $mod_bw_config_fragment,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/access.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_legacy_fqdn}/error.log.%Y%m%d%H%M%S 604800",
@@ -226,6 +236,7 @@ Host ${$osuosl_mirroring['host']}
     use_port_for_filenames       => true,
     port                         => 80,
     docroot                      => $archives_dir,
+    custom_fragment              => $mod_bw_config_fragment,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access_unsecured.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error_unsecured.log.%Y%m%d%H%M%S 604800",
@@ -246,6 +257,7 @@ Host ${$osuosl_mirroring['host']}
     port                         => 443,
     ssl                          => true,
     docroot                      => $archives_dir,
+    custom_fragment              => $mod_bw_config_fragment,
 
     access_log_pipe              => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/access.log.%Y%m%d%H%M%S 604800",
     error_log_pipe               => "|/usr/bin/rotatelogs -p ${profile::apachemisc::compress_rotatelogs_path} -t ${apache_log_dir_fqdn}/error.log.%Y%m%d%H%M%S 604800",
