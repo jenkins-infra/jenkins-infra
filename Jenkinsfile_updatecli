@@ -12,7 +12,7 @@ node('linux-amd64-docker') {
             updatecli(
               action: env.BRANCH_IS_PRIMARY ? 'apply' : 'diff',
               runInCurrentAgent: true
-              cronTriggerExpression = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
+              cronTriggerExpression = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : '',
             )
         }
     }
