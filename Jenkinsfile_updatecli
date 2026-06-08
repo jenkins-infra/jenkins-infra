@@ -1,11 +1,3 @@
-final String cronExpr = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
-
-properties([
-    buildDiscarder(logRotator(numToKeepStr: '10')),
-    disableConcurrentBuilds(abortPrevious: true),
-    pipelineTriggers([cron(cronExpr)]),
-])
-
 node('linux-amd64-docker') {
     timeout(time: 30, unit: 'MINUTES') {
         withCredentials([
@@ -17,10 +9,10 @@ node('linux-amd64-docker') {
                 passwordVariable: 'UPDATECLI_GITHUB_TOKEN'
             )
         ]) {
-            final String updatecliAction = env.BRANCH_IS_PRIMARY ? 'apply' : 'diff'
             updatecli(
-              action: updatecliAction,
+              action: env.BRANCH_IS_PRIMARY ? 'apply' : 'diff',
               runInCurrentAgent: true
+              cronTriggerExpression = env.BRANCH_IS_PRIMARY ? 'H/30 * * * *' : ''
             )
         }
     }
