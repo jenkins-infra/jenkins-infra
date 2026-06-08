@@ -2,6 +2,7 @@
 profile::archives::rsync_hosts_allow:
   - "0.0.0.0/0"
   - "::/0"
+profile::archives::bandwidth_per_vhost_in_bytes: 10240000 # 10 Mbits/s
 ## TODO: uncomment and add values from our mirrors to allow them to download data
 #   - localhost
 #   - archives.jenkins.io
