@@ -22,6 +22,66 @@ scms:
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
       branch: main
+  stats-jenkins-io:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: stats.jenkins.io
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
+  docs-jenkins-io:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: docs.jenkins.io
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
+  contributor-spotlight:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: contributor-spotlight
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
+  jenkins-io-components:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: jenkins-io-components
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
+  incrementals-publisher:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: incrementals-publisher
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
+  gatsby-plugin-jenkins-layout:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: gatsby-plugin-jenkins-layout
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: main
 
 sources:
   # Hop 1: which packer-image version is deployed in production
@@ -62,6 +122,66 @@ targets:
     spec:
       file: .tool-versions
       matchpattern: 'nodejs .*'
+  stats-jenkins-io:
+    name: Bump NodeJS version in stats.jenkins.io .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: stats-jenkins-io
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
+  docs-jenkins-io:
+    name: Bump NodeJS version in docs.jenkins.io .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: docs-jenkins-io
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
+  contributor-spotlight:
+    name: Bump NodeJS version in contributor-spotlight .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: contributor-spotlight
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
+  jenkins-io-components:
+    name: Bump NodeJS version in jenkins-io-components .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: jenkins-io-components
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
+  incrementals-publisher:
+    name: Bump NodeJS version in incrementals-publisher .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: incrementals-publisher
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
+  gatsby-plugin-jenkins-layout:
+    name: Bump NodeJS version in gatsby-plugin-jenkins-layout .tool-versions
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: gatsby-plugin-jenkins-layout
+    transformers:
+      - addprefix: "nodejs "
+    spec:
+      file: .tool-versions
+      matchpattern: 'nodejs .*'
 
 actions:
   plugin-site:
@@ -75,6 +195,54 @@ actions:
   stories:
     kind: github/pullrequest
     scmid: stories
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  stats-jenkins-io:
+    kind: github/pullrequest
+    scmid: stats-jenkins-io
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  docs-jenkins-io:
+    kind: github/pullrequest
+    scmid: docs-jenkins-io
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  contributor-spotlight:
+    kind: github/pullrequest
+    scmid: contributor-spotlight
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  jenkins-io-components:
+    kind: github/pullrequest
+    scmid: jenkins-io-components
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  incrementals-publisher:
+    kind: github/pullrequest
+    scmid: incrementals-publisher
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    spec:
+      labels:
+        - dependencies
+        - nodejs
+  gatsby-plugin-jenkins-layout:
+    kind: github/pullrequest
+    scmid: gatsby-plugin-jenkins-layout
     title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
     spec:
       labels:
