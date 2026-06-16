@@ -34,7 +34,7 @@ sources:
 
 targets:
   default:
-    name: Bump NodeJS version in {{ $val.repository }} .tool-versions
+    name: Bump NodeJS version in .tool-versions
     kind: file
     sourceid: getNodeJSVersionFromPackerImages
     scmid: default
@@ -45,7 +45,7 @@ targets:
       matchpattern: 'nodejs .*'
 {{ if $val.nvmrc }}
   nvmrc:
-    name: Bump NodeJS version in {{ $val.repository }} .nvmrc
+    name: Bump NodeJS version in .nvmrc
     kind: file
     sourceid: getNodeJSVersionFromPackerImages
     scmid: default
@@ -58,7 +58,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump NodeJS version in {{ $val.repository }} .tool-versions
+    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
     spec:
       labels:
         - dependencies
