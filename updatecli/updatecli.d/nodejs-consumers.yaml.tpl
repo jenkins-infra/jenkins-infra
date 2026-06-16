@@ -43,6 +43,16 @@ targets:
     spec:
       file: .tool-versions
       matchpattern: 'nodejs .*'
+{{ if $val.nvmrc }}
+  nvmrc:
+    name: Bump NodeJS version in {{ $val.repository }} .nvmrc
+    kind: file
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: default
+    spec:
+      file: .nvmrc
+      matchpattern: 'v?\d+\.\d+\.\d+'
+{{ end }}
 
 actions:
   default:
