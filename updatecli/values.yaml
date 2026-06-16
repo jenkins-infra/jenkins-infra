@@ -18,10 +18,12 @@ windowsVersions:
 
 nodejs_consumers:
   - repository: plugin-site
+    nvmrc: true
   - repository: contributor-spotlight
   - repository: stats.jenkins.io
   - repository: docs.jenkins.io
   - repository: stories
   - repository: jenkins-io-components
+    nvmrc: true
   - repository: gatsby-plugin-jenkins-layout
   - repository: incrementals-publisher
