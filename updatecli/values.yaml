@@ -27,3 +27,6 @@ nodejs_consumers:
     nvmrc: true
   - repository: gatsby-plugin-jenkins-layout
   - repository: incrementals-publisher
+
+playwright_consumers:
+  - repository: jenkins-io-components
