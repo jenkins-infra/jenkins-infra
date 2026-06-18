@@ -99,10 +99,6 @@ jenkins:
         remoteAdmin: "<%= $remoteAdmin %>"
         remoteFS: "<%= agent['customDataDisk'] ? agent['customDataDisk'] + '/agent' : (agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir']) %>"
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
-      <%- if agent['spot'] && $os == "windows" -%>
-        spotConfig:
-          useBidPrice: false
-      <%- end -%>
         stopOnTerminate: false
         subnetId: "<%= agent['subnetId'] ? agent['subnetId'] : (ec2_cloud_setup['subnetId'] ? ec2_cloud_setup['subnetId'] : "") %>"
         t2Unlimited: false
@@ -197,7 +193,7 @@ jenkins:
                 <%- if $remoteAdmin != 'Administrator' -%>
                 # Enable Developer mode to allow creating symlinks for non-admin users
                 reg add "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /v "AllowDevelopmentWithoutDevLicense" /t REG_DWORD /d 1 /f
-
+                
                   <%- if agent['customDataDisk'] -%>
                 # Set up Windows default Users profiles location to the custom data disk drive
                 $userpath = '<%= agent['customDataDisk'] %>\Users'
