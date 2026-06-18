@@ -576,7 +576,7 @@ profile::jenkinscontroller::jcasc:
           # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2019 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -593,7 +593,7 @@ profile::jenkinscontroller::jcasc:
           # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2019 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -608,7 +608,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -623,7 +623,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Nonspot Windows 2019 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -638,7 +638,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK21"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -671,7 +671,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2019 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -701,7 +701,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2022"
             ebsOptimized: true
@@ -724,7 +724,7 @@ profile::jenkinscontroller::jcasc:
           # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2025 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
@@ -743,7 +743,7 @@ profile::jenkinscontroller::jcasc:
           # Do we still have consumers of this JDK on ci.jenkins.io? Time for a scream test?
           - description: "Spot Windows 2025 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
@@ -760,7 +760,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2025 x86_64 with JDK17"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
@@ -796,7 +796,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2025 x86_64 with JDK21"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
@@ -837,7 +837,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2025 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
+            instanceType: "m8id.xlarge" # See https://github.com/jenkins-infra/helpdesk/issues/5185
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
