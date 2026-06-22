@@ -121,7 +121,8 @@ profile::jenkinscontroller::jcasc:
         useInstanceProfileForCredentials: true
         sshKeysCredentialsId: "ec2-agent-ssh"
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
-        subnetId: "subnet-0138ee90cd53d58f7"
+        subnetIds: "subnet-on-demand-xxx"
+        spotSubnetIds: "subnet-spot-1-xxx, subnet-spot-2-xxx"
         registryMirror: "urltodockerproxy:5000"
         agent_definitions:
           - description: "ARM64 ubuntu 22.04"

@@ -355,8 +355,10 @@ profile::jenkinscontroller::jcasc:
         sshKeysCredentialsId: "ec2-agent-ssh"
         # TODO: maintain with updatecli
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
-        # TODO: maintain with updatecli
-        subnetId: "subnet-0095ee74f5cd48290"
+        # TODO: maintain with updatecli (set up in https://github.com/jenkins-infra/terraform-aws-sponsorship/blob/main/outputs.tf to use https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json)
+        subnetIds: "subnet-0095ee74f5cd48290"
+        # TODO: maintain with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
+        spotSubnetIds: "subnet-0f76ffb1385bec3db, subnet-0cbf5a4a8a81322f5, subnet-0095ee74f5cd48290"
         # TODO: maintain with updatecli
         registryMirror: "k8s-hubmirro-hubmirro-477f7dfd76-9bbe4e560ee83036.elb.us-east-2.amazonaws.com:5000"
         agent_definitions:
