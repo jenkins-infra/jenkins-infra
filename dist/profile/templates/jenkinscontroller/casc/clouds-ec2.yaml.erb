@@ -101,7 +101,7 @@ jenkins:
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
       <%- if agent['spot'] -%>
         spotConfig:
-          fallbackToOndemand: true
+          fallbackToOndemand: false
           useBidPrice: false
       <%- end -%>
         stopOnTerminate: false
