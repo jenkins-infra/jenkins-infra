@@ -576,7 +576,7 @@ profile::jenkinscontroller::jcasc:
           ####
           - description: "Spot Windows 2019 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: "m8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
+            instanceType: "r8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
             os: "windows"
             os_version: "2019"
             ebsOptimized: true
@@ -608,7 +608,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2022 x86_64 with JDK25"
             maxInstances: 50
-            instanceType: "m8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
+            instanceType: "r8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
             os: "windows"
             os_version: "2022"
             ebsOptimized: true
@@ -644,7 +644,7 @@ profile::jenkinscontroller::jcasc:
           ###
           - description: "Spot Windows 2025 x86_64 with JDK8"
             maxInstances: 50
-            instanceType: "m8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / local NVMe
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
@@ -661,7 +661,7 @@ profile::jenkinscontroller::jcasc:
             acpServerId: aws-internal
           - description: "Spot Windows 2025 x86_64 with JDK11"
             maxInstances: 50
-            instanceType: "m8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
+            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / local NVMe
             os: "windows"
             os_version: "2025"
             ebsOptimized: true
