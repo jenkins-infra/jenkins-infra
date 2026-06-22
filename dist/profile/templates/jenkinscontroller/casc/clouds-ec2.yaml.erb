@@ -99,6 +99,11 @@ jenkins:
         remoteAdmin: "<%= $remoteAdmin %>"
         remoteFS: "<%= agent['customDataDisk'] ? agent['customDataDisk'] + '/agent' : (agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir']) %>"
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
+      <%- if agent['spot'] -%>
+        spotConfig:
+          fallbackToOndemand: true
+          useBidPrice: false
+      <%- end -%>
         stopOnTerminate: false
         subnetId: "<%= agent['subnetId'] ? agent['subnetId'] : (agent['spot'] ? ec2_cloud_setup['spotSubnetIds'] : ec2_cloud_setup['subnetIds']) %>"
         ## Availability zone are extrapolated from the subnet's implied zone. Do NOT specify both.
