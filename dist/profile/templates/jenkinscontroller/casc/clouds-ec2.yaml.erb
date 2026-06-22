@@ -99,7 +99,7 @@ jenkins:
         remoteAdmin: "<%= $remoteAdmin %>"
         remoteFS: "<%= agent['customDataDisk'] ? agent['customDataDisk'] + '/agent' : (agent['agentDir'] ? agent['agentDir'] : @jcasc['agents_setup'][$os]['agentDir']) %>"
         securityGroups: "<%= agent['securityGroups'] ? agent['securityGroups'] : (ec2_cloud_setup['securityGroups'] ? ec2_cloud_setup['securityGroups'] : "") %>"
-      <%- if agent['spot'] -%>
+      <%- if $os == "windows" && agent['spot'] -%>
         spotConfig:
           fallbackToOndemand: false
           useBidPrice: false
