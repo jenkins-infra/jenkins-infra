@@ -388,7 +388,6 @@ jenkins:
           ## Retrieve Maven cache from S3 bucket
           mkdir -p /cache
           aws s3 cp s3://ci-jenkins-io-maven-cache/maven-bom-local-repo.tar.gz /cache/
-          tar xzf /cache/maven-bom-local-repo.tar.gz -C /home/<%= agent['remoteAdmin'] ? agent['remoteAdmin'] : @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2
           chown -R root:<%= agent['remoteAdmin'] ? agent['remoteAdmin'] : @jcasc['agents_setup'][$os]['remoteAdmin'] %> /home/<%= agent['remoteAdmin'] ? agent['remoteAdmin'] : @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2
           <%- end -%>
 
