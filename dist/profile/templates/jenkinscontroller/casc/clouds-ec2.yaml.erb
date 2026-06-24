@@ -14,6 +14,9 @@ jenkins:
       region: "<%= ec2_cloud_setup['region'] %>"
       sshKeysCredentialsId: "<%= ec2_cloud_setup['sshKeysCredentialsId'] %>"
       useInstanceProfileForCredentials: "<%= ec2_cloud_setup['useInstanceProfileForCredentials'] ? ec2_cloud_setup['useInstanceProfileForCredentials'] : false %>"
+      <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+      iamInstanceProfile: "<%= ec2_cloud_setup['iamInstanceProfile'] %>"
+      <%- end -%>
       templates:
     <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
@@ -380,6 +383,12 @@ jenkins:
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
 
           systemctl start sshd.service
+
+          <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+          ## Retrieve Maven cache from S3 bucket
+          aws s3 cp s3://ci-jenkins-io-maven-cache/maven-bom-local-repo.tar.gz /cache/
+          tar xzf /cache/maven-bom-local-repo.tar.gz -C /home/jenkins/.m2
+          <%- end -%>
 
           ## Mark cloud init as finished using a marker file
           mkdir -p "<%= $cloudInitDoneParentDir %>"
