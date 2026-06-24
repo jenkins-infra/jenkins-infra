@@ -136,9 +136,9 @@ jenkins:
               mountPath: "<%= agent['m2Repository'] %>"
           <%- else -%>
             <%- if $os == "windows" -%>
-              mountPath: "C:/Users/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+              mountPath: "C:/Users/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2"
             <%- else -%>
-              mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2/repository"
+              mountPath: "/home/<%= @jcasc['agents_setup'][$os]['remoteAdmin'] %>/.m2"
             <%- end -%>
           <%- end -%>
           <%- if agent['additionalPVCs'] -%>
