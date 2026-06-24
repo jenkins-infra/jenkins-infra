@@ -352,7 +352,6 @@ profile::jenkinscontroller::jcasc:
       aws-us-east-2:
         region: us-east-2
         useInstanceProfileForCredentials: true
-        iamInstanceProfile: "arn:aws:iam::326712726440:instance-profile/ci-jenkins-io-ec2-agents"
         sshKeysCredentialsId: "ec2-agent-ssh"
         # TODO: maintain with updatecli
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
