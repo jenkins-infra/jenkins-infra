@@ -119,6 +119,7 @@ profile::jenkinscontroller::jcasc:
       aws-us-east-2:
         region: us-east-2
         useInstanceProfileForCredentials: true
+        iamInstanceProfile: "arn:aws:iam::123456:instance-profile/a-profile"
         sshKeysCredentialsId: "ec2-agent-ssh"
         securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
         subnetIds: "subnet-on-demand-xxx"

@@ -40,6 +40,9 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: "<%= agent['ebsOptimized'] ? "true" : "false" %>"
         hostKeyVerificationStrategy: "<%= $os == 'windows' ? "CHECK_NEW_SOFT" : "CHECK_NEW_HARD" %>"
+        <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+        iamInstanceProfile: "<%= ec2_cloud_setup['iamInstanceProfile'] %>"
+        <%- end -%>
         idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : '1' %>"
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
@@ -380,6 +383,13 @@ jenkins:
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
 
           systemctl start sshd.service
+
+          <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+          ## Retrieve Maven cache from S3 bucket
+          mkdir -p /cache
+          aws s3 cp s3://ci-jenkins-io-maven-cache/maven-bom-local-repo.tar.gz /cache/
+          chown -R root:<%= agent['remoteAdmin'] ? agent['remoteAdmin'] : @jcasc['agents_setup'][$os]['remoteAdmin'] %> /cache
+          <%- end -%>
 
           ## Mark cloud init as finished using a marker file
           mkdir -p "<%= $cloudInitDoneParentDir %>"
