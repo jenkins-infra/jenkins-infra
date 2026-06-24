@@ -14,9 +14,6 @@ jenkins:
       region: "<%= ec2_cloud_setup['region'] %>"
       sshKeysCredentialsId: "<%= ec2_cloud_setup['sshKeysCredentialsId'] %>"
       useInstanceProfileForCredentials: "<%= ec2_cloud_setup['useInstanceProfileForCredentials'] ? ec2_cloud_setup['useInstanceProfileForCredentials'] : false %>"
-      <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
-      iamInstanceProfile: "<%= ec2_cloud_setup['iamInstanceProfile'] %>"
-      <%- end -%>
       templates:
     <%- ec2_cloud_setup['agent_definitions'].each do |agent| -%>
       <%- $os = agent['os'] ? agent['os'] : 'ubuntu' -%>
@@ -43,6 +40,9 @@ jenkins:
         ebsEncryptRootVolume: DEFAULT
         ebsOptimized: "<%= agent['ebsOptimized'] ? "true" : "false" %>"
         hostKeyVerificationStrategy: "<%= $os == 'windows' ? "CHECK_NEW_SOFT" : "CHECK_NEW_HARD" %>"
+        <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+        iamInstanceProfile: "<%= ec2_cloud_setup['iamInstanceProfile'] %>"
+        <%- end -%>
         idleTerminationMinutes: "<%= agent['idleTerminationMinutes'] ? agent['idleTerminationMinutes'] : '1' %>"
         # Note: Escape '$' in JCasc with '^' - ref. https://github.com/jenkinsci/configuration-as-code-plugin/blob/master/docs/features/secrets.adoc#passing-secrets-through-variables
         initScript: |-
