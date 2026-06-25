@@ -255,6 +255,12 @@ jenkins:
                 Copy-Item -Path "C:\ProgramData\ssh\administrators_authorized_keys" -Destination "$userSSHDir\authorized_keys"
                 <%- end -%>
 
+                <%- if ec2_cloud_setup['iamInstanceProfile'] -%>
+                ## Retrieve Maven cache from S3 bucket
+                New-Item -ItemType Directory -Path C:/cache
+                aws s3 cp s3://ci-jenkins-io-maven-cache/maven-bom-local-repo.tar.gz C:/cache/
+                <%- end -%>
+
                 ## Mark cloud init as finished using a marker file
                 New-Item -Path "<%= $cloudInitDoneParentDir %>" -ItemType "Directory"
                 New-Item -Path "<%= $cloudInitDoneFile %>" -ItemType "File" -Value "Cloud Init"
