@@ -245,6 +245,19 @@ class profile::buildagent (
         unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
     }
+
+    if $tools_versions['jq'] {
+
+      $jq_version = $tools_versions['jq']
+      $jq_bin     = '/usr/local/bin/jq'
+      $jq_url     = "https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-linux-${architecture}"
+
+      exec { "Download jq ${jq_version}":
+        command => "/usr/bin/curl --fail --silent --show-error --location ${jq_url} --output ${jq_bin} && /usr/bin/chmod a+x ${jq_bin}",
+        require => Package['curl'],
+        unless  => "/usr/bin/test -f ${jq_bin} && ${jq_bin} --version | /bin/grep --quiet 'jq-${jq_version}'",
+      }
+    }
   }
 
   # https://help.github.com/articles/what-are-github-s-ssh-key-fingerprints/

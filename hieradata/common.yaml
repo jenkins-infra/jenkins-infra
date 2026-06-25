@@ -293,5 +293,6 @@ profile::openvpn::external_ips_vpn_restricted:
   usage.jenkins.io: 64.227.123.95
 profile::buildagent::tools_versions:
   maven: 3.9.16
+  jq: 1.8.2
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
