@@ -248,13 +248,53 @@ class profile::buildagent (
 
     if $tools_versions['jq'] {
 
-      $jq_version = $tools_versions['jq']
-      $jq_bin     = '/usr/local/bin/jq'
-      $jq_url     = "https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-linux-${architecture}"
+      $jq_version   = $tools_versions['jq']
+      $jq_bin       = '/usr/local/bin/jq'
+      $jq_url       = "https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-linux-${architecture}"
+      $jq_sig_url   = "https://raw.githubusercontent.com/jqlang/jq/master/sig/v${jq_version}/jq-linux-${architecture}.asc"
+      $jq_temp      = "/tmp/jq-linux-${architecture}"
+      $jq_temp_sig  = "${jq_temp}.asc"
+      $jq_key_file  = '/tmp/jq-release.key'
+
+      file { $jq_key_file:
+        ensure => file,
+        source => "puppet:///modules/${module_name}/gpg-keys/93079A9511EFC0B7D6CDBFB5B0DA60FB454BAF18.pub",
+      }
+
+      exec { 'Import jq release key':
+        command => "/usr/bin/gpg --import ${jq_key_file}",
+        require => [
+          Package['gpg'],
+          File[$jq_key_file],
+        ],
+        unless  => "/usr/bin/gpg --list-keys | /bin/grep 'jq Release Signing Key'",
+      }
 
       exec { "Download jq ${jq_version}":
-        command => "/usr/bin/curl --fail --silent --show-error --location ${jq_url} --output ${jq_bin} && /usr/bin/chmod a+x ${jq_bin}",
+        command => "/usr/bin/curl --fail --silent --show-error --location ${jq_url} --output ${jq_temp}",
         require => Package['curl'],
+        unless  => "/usr/bin/test -f ${jq_bin} && ${jq_bin} --version | /bin/grep --quiet 'jq-${jq_version}'",
+      }
+
+      exec { "Download jq ${jq_version} signature":
+        command => "/usr/bin/curl --fail --silent --show-error --location ${jq_sig_url} --output ${jq_temp_sig}",
+        require => Package['curl'],
+        unless  => "/usr/bin/test -f ${jq_bin} && ${jq_bin} --version | /bin/grep --quiet 'jq-${jq_version}'",
+      }
+
+      exec { "Verify jq ${jq_version} signature":
+        command => "/usr/bin/gpg --verify ${jq_temp_sig} ${jq_temp}",
+        require => [
+          Exec['Import jq release key'],
+          Exec["Download jq ${jq_version}"],
+          Exec["Download jq ${jq_version} signature"],
+        ],
+        unless  => "/usr/bin/test -f ${jq_bin} && ${jq_bin} --version | /bin/grep --quiet 'jq-${jq_version}'",
+      }
+
+      exec { "Install jq ${jq_version}":
+        command => "/bin/cp ${jq_temp} ${jq_bin} && /bin/chmod a+x ${jq_bin} && /bin/rm -f ${jq_temp} ${jq_temp_sig}",
+        require => Exec["Verify jq ${jq_version} signature"],
         unless  => "/usr/bin/test -f ${jq_bin} && ${jq_bin} --version | /bin/grep --quiet 'jq-${jq_version}'",
       }
     }
