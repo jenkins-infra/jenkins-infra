@@ -1,0 +1,57 @@
+
+<%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" && @jcasc['cloud_agents']['eC2Fleet'] && @jcasc['cloud_agents']['eC2Fleet']['fleets'] -%>
+jenkins:
+  clouds:
+  <%- @jcasc['cloud_agents']['eC2Fleet']['fleets'].each do |eC2Fleet_cloud_setup| -%>
+    <%- eC2Fleet_cloud_setup['jdks'].each do |jdkMajorVersion| -%>
+      <%- $fleetName = (eC2Fleet_cloud_setup['spot'] ? "spot-" : "") -%>
+      <%- $fleetName += eC2Fleet_cloud_setup['os'] + "_" + eC2Fleet_cloud_setup['osVersion'].to_s + "-" -%>
+      <%- $fleetName += (eC2Fleet_cloud_setup['architecture'] ? eC2Fleet_cloud_setup['architecture'] + "-" : "") -%>
+      <%- $fleetName += (eC2Fleet_cloud_setup['customName'] ? eC2Fleet_cloud_setup['customName'] + "-" : "") -%>
+      <%- $fleetName += "jdk" + jdkMajorVersion.to_s -%>
+  - eC2Fleet:
+      addNodeOnlyIfRunning: false
+      alwaysReconnect: true
+      cloudStatusIntervalSec: 10
+      computerConnector:
+        sSHConnector:
+          credentialsId: "<%= @jcasc['cloud_agents']['eC2Fleet']['sshCredential'] %>"
+          javaPath: "<%= @jcasc['agents_setup'][eC2Fleet_cloud_setup['os']]['agentJavaBin'] %>"
+          jvmOptions: "-XX:+PrintCommandLineFlags"
+          launchTimeoutSeconds: 60
+          maxNumRetries: 10
+          retryWaitTime: 15
+          port: 22
+          sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+      disableTaskResubmit: false
+      executorScaler: "noScaler"
+      fleet: "ci-jenkins-io-<%= $fleetName %>"
+      fsRoot: "<%= eC2Fleet_cloud_setup['os'] == "windows" ? "Z:/agent" : "/home/jenkins/agent" %>"
+      idleMinutes: 0
+      initOnlineCheckIntervalSec: 15
+      initOnlineTimeoutSec: 240
+      <%- $labels = [$fleetName] -%>
+      <%- if eC2Fleet_cloud_setup['autoDefaultOSLabel'] && (eC2Fleet_cloud_setup['jdks'].length== 1 || jdkMajorVersion == eC2Fleet_cloud_setup['defaultJdk']) -%>
+        <%- $labels += [eC2Fleet_cloud_setup['os'] + "-" + eC2Fleet_cloud_setup['osVersion'].to_s] -%>
+      <%- end -%>
+      <%- if eC2Fleet_cloud_setup['autoMavenLabels'] -%>
+        <%- $labels += ["maven-" + jdkMajorVersion.to_s + (eC2Fleet_cloud_setup['os'] == "windows" ? "-windows" : "")] -%>
+      <%- end -%>
+      <%- if eC2Fleet_cloud_setup['customLabels'] -%>
+        <%- $labels += [eC2Fleet_cloud_setup['customLabels']] -%>
+      <%- end -%>
+      labelString: "<%= $labels.join(" ") %>"
+      maxSize: 20
+      maxTotalUses: -1
+      minSize: 0
+      minSpareSize: 0
+      name: "<%= $fleetName %>"
+      noDelayProvision: false
+      numExecutors: 1
+      privateIpUsed: true
+      region: "<%= @jcasc['cloud_agents']['eC2Fleet']['region'] %>"
+      restrictUsage: true
+      scaleExecutorsByWeight: false
+    <%- end -%>
+  <%- end -%>
+<%- end -%>

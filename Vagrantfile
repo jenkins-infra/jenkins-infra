@@ -32,7 +32,16 @@ Vagrant.configure("2") do |config|
         end
 
         config.vm.define(veggie) do |node|
-            # https://www.vagrantup.com/docs/provisioning/puppet_apply
+            # TODO: move this to puppet instead
+            if veggie == "jenkins::controller"
+                secret_env_vars = {JENKINS_EC2_FLEET_AWS_SECRET_KEY:ENV['JENKINS_EC2_FLEET_AWS_SECRET_KEY']}
+                node.vm.provision "shell" do |shell|
+                    shell.path = './scripts/write-secrets.sh'
+                    shell.args = secret_env_vars.keys.join(" ")
+                    shell.env = secret_env_vars
+                end
+            end
+
             node.vm.provision "puppet" do |puppet|
                 puppet.binary_path = "/opt/puppetlabs/bin"
                 puppet.module_path = ["dist","modules"]

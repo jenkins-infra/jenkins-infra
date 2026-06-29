@@ -189,6 +189,8 @@ class profile::jenkinscontroller (
       'jenkinscontroller/casc/clouds-azurevm.yaml.erb',
       # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.ec2.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.ec2: {}`
       'jenkinscontroller/casc/clouds-ec2.yaml.erb',
+      # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.eC2Fleet.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.eC2Fleet: {}`
+      'jenkinscontroller/casc/clouds-ec2-fleet.yaml.erb',
       # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes: {}`
       'jenkinscontroller/casc/clouds-kubernetes.yaml.erb',
       # Opt-out with `profile::jenkinscontroller::jcasc.global_libraries: false`
@@ -360,6 +362,18 @@ class profile::jenkinscontroller (
     $kubeconfig_envvar_value = ''
   }
 
+  if $jcasc_final_config.get('cloud_agents.eC2Fleet.awsAccessKeyId', false) {
+    $env_aws_access_key_id = "AWS_ACCESS_KEY_ID=${$jcasc_final_config['cloud_agents']['eC2Fleet']['awsAccessKeyId']}"
+  } else {
+    $env_aws_access_key_id = ''
+  }
+
+  if $jcasc_final_config.get('cloud_agents.eC2Fleet.awsSecretKeyEnvName', false) {
+    $extra_env_aws_secret_access_key = " -e AWS_SECRET_ACCESS_KEY=`cat /var/run/jenkins-secrets/${jcasc_final_config['cloud_agents']['eC2Fleet']['awsSecretKeyEnvName']}`"
+  } else {
+    $extra_env_aws_secret_access_key = ''
+  }
+
   docker::run { $docker_container_name:
     memory_limit     => $memory_limit,
     image            => "${docker_image}:${docker_tag}",
@@ -369,7 +383,7 @@ class profile::jenkinscontroller (
     # actually map the UIDs properly. Using the extra_parameters option because
     # the `username` parameter will get shellescaped in the docker_run_flags()
     # function provided by garethr/docker
-    extra_parameters => '-u `id -u jenkins`:`id -g jenkins`',
+    extra_parameters => "-u `id -u jenkins`:`id -g jenkins`${extra_env_aws_secret_access_key}",
     # Hard-coding some environment variables because there is no "parent" shell
     # environment to inherit some of these environment settings from.
     # Additionally, Jenkins picks up `user.home` as "?" without the explicit
@@ -384,6 +398,7 @@ class profile::jenkinscontroller (
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
       "PATH=${final_container_path}",
       $kubeconfig_envvar_value,
+      $env_aws_access_key_id,
     ].filter |$item| { $item != '' },
     ports            => ['8080:8080', '50000:50000'],
     volumes          => concat([
@@ -406,6 +421,7 @@ class profile::jenkinscontroller (
     'configuration-as-code' => 'enabled',
     'datadog' => 'datadog',
     'ec2' => 'cloud_agents.ec2',
+    'ec2-fleet' => 'cloud_agents.eC2Fleet',
     'kubernetes' => 'cloud_agents.kubernetes',
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
     'ssh-slaves' => 'permanent_agents',
