@@ -227,17 +227,17 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     ec2_amis:
-      ubuntu-22.04-amd64: ami-06fcbf783671743e1
-      ubuntu-22.04-arm64: ami-0be59a5af11da0527
-      windows-2019-amd64: ami-00ee3d7d6ce256b8e
-      windows-2022-amd64: ami-0fa48d24782b9a439
-      windows-2025-amd64: ami-0c9602403569b5d7c
+      ubuntu-22.04-amd64: ami-0b217a93f27b187d7
+      ubuntu-22.04-arm64: ami-041a0fb7885203876
+      windows-2019-amd64: ami-0c06334d680ef93dc
+      windows-2022-amd64: ami-0095110fb19a279e6
+      windows-2025-amd64: ami-0cd45fdc4f955c705
     azure_vms_gallery_image:
-      version: 2.114.0
+      version: 2.115.0
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.114.0@sha256:433ad9feb74ce1441590a9fda51ac0a0aa9c30386cd72bee1e9f61953e28d000
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.115.0@sha256:af868d8db84c5759afba28c574aec0c415cacba0ce59954d4b8c52d0aa420bd8
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
@@ -269,7 +269,7 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:29.6.0-1~ubuntu.22.04~jammy
+docker::version: 5:29.6.1-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.32.4
 profile::azcopy::az_cli_version: 2.87.0
 profile::awscli::install_dir: /var/awscli
