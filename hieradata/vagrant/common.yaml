@@ -74,8 +74,8 @@ profile::jenkinscontroller::jcasc:
             domainCredentials:
               - credentials:
                 - basicSSHUserPrivateKey:
-                    description: "Dummy (e.g. not working, clear value) SSH key for s390x"
-                    id: "jenkins-s390x"
+                    description: "Dummy (e.g. not working, clear value) SSH key"
+                    id: "dummy-ssh-jenkins"
                     privateKeySource:
                       directEntry:
                         privateKey: "DummyValueOnlyForTestingNotASecurityIssue"
@@ -121,7 +121,7 @@ profile::jenkinscontroller::jcasc:
       mode: EXCLUSIVE
       ssh:
         host: "148.100.84.76"
-        credentialsId: "jenkins-s390x"
+        credentialsId: dummy-ssh-jenkins
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIaGnnWz9Q/MvlscCUZslFxH8JJ01OQ6FXyuQMQWVuNe"
       envVars:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.15/bin
