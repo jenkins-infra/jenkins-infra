@@ -258,13 +258,6 @@ class profile::jenkinscontroller (
       }
     }
 
-    # Ensure legacy JCasc files are removed
-    file { "${jenkins_home}/${$jcasc_final_config["config_dir"]}/clouds.yaml":
-      ensure => absent,
-      before => Docker::Run[$docker_container_name],
-      notify => Exec['perform-jcasc-reload'],
-    }
-
     exec { 'perform-jcasc-reload':
       command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
       #   # Retry for 300s: jenkins might be restarting
