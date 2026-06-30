@@ -384,13 +384,13 @@ class profile::jenkinscontroller (
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
       "PATH=${final_container_path}",
       $kubeconfig_envvar_value,
-    ].map |$item| { if $item != '' { $item } },
+    ].filter |$item| { $item != '' },
     ports            => ['8080:8080', '50000:50000'],
     volumes          => concat([
       "${jenkins_home}:/var/jenkins_home:rw"],
       $awscli_container_volume,
       $kubeconfig_container_volume,
-    ).map |$item| { if $item != '' { $item } },
+    ).filter |$item| { $item != '' },
     pull_on_start    => true,
     require          => [
       File[$jenkins_home],
@@ -413,21 +413,13 @@ class profile::jenkinscontroller (
     'workflow-aggregator' => 'global_libraries',
   }
 
-  $all_plugins = ($plugins + $known_plugins_configs.keys).unique.map |$plugin| {
-    # If the specified plugin is in our "known" list and has a config then we want it
-    if $known_plugins_configs.get($plugin, false) {
-      if $jcasc_final_config.get($known_plugins_configs[$plugin],false) or
-      # If the user specified the plugin: return it early because they want it
-      ($plugin in $plugins) {
-        $plugin
-      } else {
-        break()
-      }
-    } else {
-      # Return the plugin if not in our "known list"
-      $plugin
-    }
-  }.sort
+  # Auto-detect plugins by checking the known JCasC directives in the resolved hieradata tree
+  $autodetected_plugins = $known_plugins_configs.keys.filter |$plugin| {
+    $jcasc_final_config.get($known_plugins_configs[$plugin], false)
+  }
+
+  # Merge autodetected plugins with user-specified and avoid duplicates
+  $all_plugins = ($plugins + $autodetected_plugins).sort.unique
 
   $all_plugins.each |$plugin| {
     exec { "install-plugin-${plugin}":

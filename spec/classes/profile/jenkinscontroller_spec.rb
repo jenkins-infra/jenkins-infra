@@ -37,8 +37,6 @@ describe "profile::jenkinscontroller" do
           :pull_on_start => true,
           :volumes => [
             "/var/lib/jenkins:/var/jenkins_home:rw",
-            nil,
-            nil,
           ],
         })
       end
@@ -100,7 +98,6 @@ describe "profile::jenkinscontroller" do
         :volumes => [
           "/var/lib/jenkins:/var/jenkins_home:rw",
           "/var/awscli:/var/awscli:ro",
-          nil,
         ],
         :env => [
           "HOME=/var/jenkins_home",
@@ -109,7 +106,6 @@ describe "profile::jenkinscontroller" do
           "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
           "LANG=C.UTF-8",
           "PATH=/var/awscli/v2/current/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-          nil,
         ],
       })
     end
@@ -139,7 +135,6 @@ describe "profile::jenkinscontroller" do
         :pull_on_start => true,
         :volumes => [
           "/var/lib/jenkins:/var/jenkins_home:rw",
-          nil,
           "/var/jenkins_kubeconfigs:/var/jenkins_kubeconfigs:ro",
         ],
         :env => [
