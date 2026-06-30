@@ -69,6 +69,18 @@ profile::jenkinscontroller::jcasc:
                 password: butler
               - id: developer
                 password: butler
+      credentials:
+          system:
+            domainCredentials:
+              - credentials:
+                - basicSSHUserPrivateKey:
+                    description: "Dummy (e.g. not working, clear value) SSH key for s390x"
+                    id: "jenkins-s390x"
+                    privateKeySource:
+                      directEntry:
+                        privateKey: "DummyValueOnlyForTestingNotASecurityIssue"
+                    scope: SYSTEM
+                    username: "jenkins"
   jenkins_global:
     location: http://127.0.0.1:8080
     resourceRootUrl: http://localhost:8080
