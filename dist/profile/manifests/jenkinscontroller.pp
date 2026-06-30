@@ -390,7 +390,6 @@ class profile::jenkinscontroller (
       "${jenkins_home}:/var/jenkins_home:rw"],
       $awscli_container_volume,
       $kubeconfig_container_volume,
-      '/var/run/jenkins-secrets:/run/secrets:ro',
     ).map |$item| { if $item != '' { $item } },
     pull_on_start    => true,
     require          => [

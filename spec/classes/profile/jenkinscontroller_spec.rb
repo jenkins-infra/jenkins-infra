@@ -39,7 +39,6 @@ describe "profile::jenkinscontroller" do
             "/var/lib/jenkins:/var/jenkins_home:rw",
             nil,
             nil,
-            "/var/run/jenkins-secrets:/run/secrets:ro",
           ],
         })
       end
@@ -102,7 +101,6 @@ describe "profile::jenkinscontroller" do
           "/var/lib/jenkins:/var/jenkins_home:rw",
           "/var/awscli:/var/awscli:ro",
           nil,
-          "/var/run/jenkins-secrets:/run/secrets:ro",
         ],
         :env => [
           "HOME=/var/jenkins_home",
@@ -143,7 +141,6 @@ describe "profile::jenkinscontroller" do
           "/var/lib/jenkins:/var/jenkins_home:rw",
           nil,
           "/var/jenkins_kubeconfigs:/var/jenkins_kubeconfigs:ro",
-          "/var/run/jenkins-secrets:/run/secrets:ro",
         ],
         :env => [
           "HOME=/var/jenkins_home",
