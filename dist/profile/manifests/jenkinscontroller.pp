@@ -260,11 +260,12 @@ class profile::jenkinscontroller (
 
     exec { 'perform-jcasc-reload':
       command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
-      #   # Retry for 300s: jenkins might be restarting
-      tries       => 30,
+      # Jenkins might be restarting
+      tries       => 3,
       try_sleep   => 10,
       refreshonly => true,
       logoutput   => true,
+      require     => Docker::Run[$docker_container_name],
     }
   } else {
     $jcasc_java_opts = ''
@@ -395,14 +396,6 @@ class profile::jenkinscontroller (
     ],
   }
 
-# CLI support: legacy support (ensure clean up of old resources)
-##############################################################################
-  exec { 'safe-restart-jenkins':
-    command     => "/usr/bin/docker restart ${docker_container_name}",
-    refreshonly => true,
-  }
-##############################################################################
-
   # Add specific plugins if the JCasC configuration need them, even if not specified
   $known_plugins_configs = {
     'artifact-manager-s3' => 'artifacts_manager',
@@ -433,13 +426,21 @@ class profile::jenkinscontroller (
     }
   }.sort
 
-  notice($all_plugins)
-
-  profile::jenkinsplugin { $all_plugins:
-    # Only install plugins after we've secured Jenkins, that seems reasonable
-    require => [
-      File[$groovy_d],
-    ],
+  $all_plugins.each |$plugin| {
+    exec { "install-plugin-${plugin}":
+      ## Check for plugin presence on the HOST (e.g. with the jenkins home in "/var/lib/jenkins" on the filesystem)
+      unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.jpi || /usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.hpi",
+      ## Install the plugin (if needed) in the container, e.g. with the jenkins home mounted in /var/jenkins_home
+      # command => "docker exec jenkins jenkins-plugin-cli --plugins ${name} --plugin-download-directory /var/jenkins_home/plugins",
+      command   => "docker run -t --entrypoint=jenkins-plugin-cli --env=CACHE_DIR=/tmp --restart=no --volume=${jenkins_home}:/var/jenkins_home:rw --user=$(id -u jenkins):$(id -g jenkins) ${docker_image}:${docker_tag}  --plugins ${plugin} --plugin-download-directory /var/jenkins_home/plugins",
+      path      => ['/bin', '/usr/bin'],
+      notify    => Docker::Run['jenkins'],
+      require   => Service['docker'],
+      before    => Exec['perform-jcasc-reload'],
+      logoutput => true,
+      tries     => 3,
+      try_sleep => 2,
+    }
   }
 
   ($apache_log_dirs << $docroot).each | $dir | {
