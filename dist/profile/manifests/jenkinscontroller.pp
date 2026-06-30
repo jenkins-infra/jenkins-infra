@@ -346,7 +346,7 @@ class profile::jenkinscontroller (
       }
     }
     $kubeconfig_container_volume = "${kubeconfig_path}:${kubeconfig_path}:ro"
-    $kubeconfig_envvar_value = "${kubeconfig_path}/${kubeconfigs[0]['cluster_name']}.yml"
+    $kubeconfig_envvar_value = "KUBECONFIG=${kubeconfig_path}/${kubeconfigs[0]['cluster_name']}.yml"
   } else {
     file { $kubeconfig_path:
       ensure => absent,
@@ -379,10 +379,15 @@ class profile::jenkinscontroller (
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
       "PATH=${final_container_path}",
-      "KUBECONFIG=${kubeconfig_envvar_value}",
-    ],
+      $kubeconfig_envvar_value,
+    ].map |$item| { if $item != '' { $item } },
     ports            => ['8080:8080', '50000:50000'],
-    volumes          => concat(["${jenkins_home}:/var/jenkins_home:rw"],$awscli_container_volume,$kubeconfig_container_volume).map |$item| { if $item != '' { $item } },
+    volumes          => concat([
+      "${jenkins_home}:/var/jenkins_home:rw"],
+      $awscli_container_volume,
+      $kubeconfig_container_volume,
+      '/var/run/jenkins-secrets:/run/secrets:ro',
+    ).map |$item| { if $item != '' { $item } },
     pull_on_start    => true,
     require          => [
       File[$jenkins_home],
@@ -411,6 +416,7 @@ class profile::jenkinscontroller (
     'toolenv' => 'tools.generic',
     'workflow-aggregator' => 'global_libraries',
   }
+
   $all_plugins = ($plugins + $known_plugins_configs.keys).unique.map |$plugin| {
     # If the specified plugin is in our "known" list and has a config then we want it
     if $known_plugins_configs.get($plugin, false) {
