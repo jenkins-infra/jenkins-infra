@@ -483,7 +483,6 @@ profile::jenkinscontroller::plugins:
   - build-discarder # Remove older builds if no policy defined - https://github.com/jenkins-infra/helpdesk/issues/3495
   - cloudbees-folder
   - coverage
-  - configuration-as-code
   - coverage-badges-extension
   - credentials
   - credentials-binding
@@ -504,15 +503,12 @@ profile::jenkinscontroller::plugins:
   - pipeline-githubnotify-step
   - pipeline-github # This plugin adds the following pipeline triggers: issueCommentTrigger, pullRequestReview
   - pipeline-graph-analysis # Library plugin
-  - pipeline-graph-view # new generation pipeline view
   - pipeline-stage-view
   - pipeline-utility-steps
   - ssh-agent # SSH Agent to allow loading SSH credentials on a local agent for jobs
-  - ssh-slaves # SSH Build Agent to implement "outbound agents"
   - throttle-concurrents
   - timestamper
   - warnings-ng
-  - workflow-aggregator
 profile::awscli::version: 2.35.12
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token

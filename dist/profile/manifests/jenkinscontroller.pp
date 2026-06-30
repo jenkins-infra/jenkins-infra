@@ -400,12 +400,13 @@ class profile::jenkinscontroller (
   $known_plugins_configs = {
     'artifact-manager-s3' => 'artifacts_manager',
     'azure-vm-agents' => 'cloud_agents.azure_vm_agents',
-    'configuration-as-code' => 'enabled',
     'config-file-provider' => 'artifact_caching_proxy',
+    'configuration-as-code' => 'enabled',
     'datadog' => 'datadog',
     'ec2' => 'cloud_agents.ec2',
     'kubernetes' => 'cloud_agents.kubernetes',
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
+    'ssh-slaves' => 'permanent_agents',
     'toolenv' => 'tools.generic',
     'workflow-aggregator' => 'global_libraries',
   }
@@ -413,7 +414,7 @@ class profile::jenkinscontroller (
   $all_plugins = ($plugins + $known_plugins_configs.keys).unique.map |$plugin| {
     # If the specified plugin is in our "known" list and has a config then we want it
     if $known_plugins_configs.get($plugin, false) {
-      if $jcasc.get($known_plugins_configs[$plugin],false) or
+      if $jcasc_final_config.get($known_plugins_configs[$plugin],false) or
       # If the user specified the plugin: return it early because they want it
       ($plugin in $plugins) {
         $plugin
