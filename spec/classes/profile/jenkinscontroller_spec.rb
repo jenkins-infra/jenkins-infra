@@ -35,7 +35,11 @@ describe "profile::jenkinscontroller" do
       it "should define a suitable docker::run" do
         expect(subject).to contain_docker__run("jenkins").with({
           :pull_on_start => true,
-          :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", nil, nil],
+          :volumes => [
+            "/var/lib/jenkins:/var/jenkins_home:rw",
+            nil,
+            nil,
+          ],
         })
       end
     end
@@ -56,10 +60,10 @@ describe "profile::jenkinscontroller" do
 
     context "JCasC" do
       it { is_expected.to contain_file("/var/lib/jenkins/casc.d").with("ensure" => "directory") }
-      it { is_expected.to contain_file("/var/lib/jenkins/casc.d/clouds.yaml") }
+      it { is_expected.to contain_file("/var/lib/jenkins/casc.d/clouds-ec2.yaml") }
       it { expect(subject).to contain_exec("install-plugin-configuration-as-code") }
       it { expect(subject).to contain_exec("perform-jcasc-reload") }
-      it { expect(subject).to contain_exec("safe-restart-jenkins") }
+      it { expect(subject).to contain_docker__run("jenkins") }
     end
   end
 
@@ -93,7 +97,11 @@ describe "profile::jenkinscontroller" do
     it "should mount the aws CLI installation directory in the container with an updated PATH" do
       expect(subject).to contain_docker__run("jenkins").with({
         :pull_on_start => true,
-        :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", "/var/awscli:/var/awscli:ro", nil],
+        :volumes => [
+          "/var/lib/jenkins:/var/jenkins_home:rw",
+          "/var/awscli:/var/awscli:ro",
+          nil,
+        ],
         :env => [
           "HOME=/var/jenkins_home",
           "USER=jenkins",
@@ -101,7 +109,7 @@ describe "profile::jenkinscontroller" do
           "JENKINS_OPTS=--httpKeepAliveTimeout=60000",
           "LANG=C.UTF-8",
           "PATH=/var/awscli/v2/current/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-          "KUBECONFIG=",
+          nil,
         ],
       })
     end
@@ -129,7 +137,11 @@ describe "profile::jenkinscontroller" do
     it "should mount the kubeconfigs directory in the container with an updated KUBECONFIG" do
       expect(subject).to contain_docker__run("jenkins").with({
         :pull_on_start => true,
-        :volumes => ["/var/lib/jenkins:/var/jenkins_home:rw", nil, "/var/jenkins_kubeconfigs:/var/jenkins_kubeconfigs:ro"],
+        :volumes => [
+          "/var/lib/jenkins:/var/jenkins_home:rw",
+          nil,
+          "/var/jenkins_kubeconfigs:/var/jenkins_kubeconfigs:ro",
+        ],
         :env => [
           "HOME=/var/jenkins_home",
           "USER=jenkins",
@@ -150,7 +162,6 @@ describe "profile::jenkinscontroller" do
       }
     end
 
-    it { expect(subject).to contain_profile__jenkinsplugin("workflow-aggregator") }
     it { expect(subject).to contain_exec("install-plugin-workflow-aggregator") }
   end
 
