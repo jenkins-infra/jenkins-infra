@@ -1,3 +1,8 @@
+lookup_options:
+  "^profile::jenkinscontroller::jcasc$":
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
 # see https://github.com/jenkins-infra/jenkins-keys for how to handle secrets in this file
 # Debian defaults to the 'worker' module which doesn't handle HackerNews hugs
 # of death as well as I would like. the mpm_event module is much less

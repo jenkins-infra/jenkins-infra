@@ -258,23 +258,20 @@ class profile::jenkinscontroller (
       }
     }
 
-    # Ensure legacy JCasc files are removed
-    file { "${jenkins_home}/${$jcasc_final_config["config_dir"]}/clouds.yaml":
-      ensure => absent,
-      before => Docker::Run[$docker_container_name],
-      notify => Exec['perform-jcasc-reload'],
-    }
-
-    exec { 'perform-jcasc-reload':
-      command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
-      #   # Retry for 300s: jenkins might be restarting
-      tries       => 30,
-      try_sleep   => 10,
-      refreshonly => true,
-      logoutput   => true,
-    }
+    $perform_jcasc_reload_cmd = "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}"
   } else {
     $jcasc_java_opts = ''
+    $perform_jcasc_reload_cmd = 'echo "No JCasC configuration defined"'
+  }
+
+  exec { 'perform-jcasc-reload':
+    command     => $perform_jcasc_reload_cmd,
+    # Jenkins might be restarting
+    tries       => 3,
+    try_sleep   => 10,
+    refreshonly => true,
+    logoutput   => true,
+    require     => Docker::Run[$docker_container_name],
   }
 
   if $jcasc_final_config['datadog'] {
@@ -353,7 +350,7 @@ class profile::jenkinscontroller (
       }
     }
     $kubeconfig_container_volume = "${kubeconfig_path}:${kubeconfig_path}:ro"
-    $kubeconfig_envvar_value = "${kubeconfig_path}/${kubeconfigs[0]['cluster_name']}.yml"
+    $kubeconfig_envvar_value = "KUBECONFIG=${kubeconfig_path}/${kubeconfigs[0]['cluster_name']}.yml"
   } else {
     file { $kubeconfig_path:
       ensure => absent,
@@ -386,10 +383,15 @@ class profile::jenkinscontroller (
       'JENKINS_OPTS=--httpKeepAliveTimeout=60000',
       'LANG=C.UTF-8', # For context, cfr https://github.com/jenkinsci/docker/pull/1194
       "PATH=${final_container_path}",
-      "KUBECONFIG=${kubeconfig_envvar_value}",
-    ],
+      $kubeconfig_envvar_value,
+    ].map |$item| { if $item != '' { $item } },
     ports            => ['8080:8080', '50000:50000'],
-    volumes          => concat(["${jenkins_home}:/var/jenkins_home:rw"],$awscli_container_volume,$kubeconfig_container_volume).map |$item| { if $item != '' { $item } },
+    volumes          => concat([
+      "${jenkins_home}:/var/jenkins_home:rw"],
+      $awscli_container_volume,
+      $kubeconfig_container_volume,
+      '/var/run/jenkins-secrets:/run/secrets:ro',
+    ).map |$item| { if $item != '' { $item } },
     pull_on_start    => true,
     require          => [
       File[$jenkins_home],
@@ -397,31 +399,25 @@ class profile::jenkinscontroller (
     ],
   }
 
-# CLI support: legacy support (ensure clean up of old resources)
-##############################################################################
-  exec { 'safe-restart-jenkins':
-    command     => "/usr/bin/docker restart ${docker_container_name}",
-    refreshonly => true,
-  }
-##############################################################################
-
   # Add specific plugins if the JCasC configuration need them, even if not specified
   $known_plugins_configs = {
     'artifact-manager-s3' => 'artifacts_manager',
     'azure-vm-agents' => 'cloud_agents.azure_vm_agents',
-    'configuration-as-code' => 'enabled',
     'config-file-provider' => 'artifact_caching_proxy',
+    'configuration-as-code' => 'enabled',
     'datadog' => 'datadog',
     'ec2' => 'cloud_agents.ec2',
     'kubernetes' => 'cloud_agents.kubernetes',
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
+    'ssh-slaves' => 'permanent_agents',
     'toolenv' => 'tools.generic',
     'workflow-aggregator' => 'global_libraries',
   }
+
   $all_plugins = ($plugins + $known_plugins_configs.keys).unique.map |$plugin| {
     # If the specified plugin is in our "known" list and has a config then we want it
     if $known_plugins_configs.get($plugin, false) {
-      if $jcasc.get($known_plugins_configs[$plugin],false) or
+      if $jcasc_final_config.get($known_plugins_configs[$plugin],false) or
       # If the user specified the plugin: return it early because they want it
       ($plugin in $plugins) {
         $plugin
@@ -434,13 +430,20 @@ class profile::jenkinscontroller (
     }
   }.sort
 
-  notice($all_plugins)
-
-  profile::jenkinsplugin { $all_plugins:
-    # Only install plugins after we've secured Jenkins, that seems reasonable
-    require => [
-      File[$groovy_d],
-    ],
+  $all_plugins.each |$plugin| {
+    exec { "install-plugin-${plugin}":
+      ## Check for plugin presence on the HOST (e.g. with the jenkins home in "/var/lib/jenkins" on the filesystem)
+      unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.jpi || /usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.hpi",
+      ## Install the plugin (if needed) in the container, e.g. with the jenkins home mounted in /var/jenkins_home
+      command   => "docker run -t --entrypoint=jenkins-plugin-cli --env=CACHE_DIR=/tmp --restart=no --volume=${jenkins_home}:/var/jenkins_home:rw --user=$(id -u jenkins):$(id -g jenkins) ${docker_image}:${docker_tag} --plugins ${plugin} --plugin-download-directory /var/jenkins_home/plugins",
+      path      => ['/bin', '/usr/bin'],
+      notify    => Docker::Run['jenkins'],
+      require   => Service['docker'],
+      before    => Exec['perform-jcasc-reload'],
+      logoutput => true,
+      tries     => 3,
+      try_sleep => 2,
+    }
   }
 
   ($apache_log_dirs << $docroot).each | $dir | {
