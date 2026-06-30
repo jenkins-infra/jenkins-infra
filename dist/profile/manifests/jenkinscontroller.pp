@@ -435,8 +435,7 @@ class profile::jenkinscontroller (
       ## Check for plugin presence on the HOST (e.g. with the jenkins home in "/var/lib/jenkins" on the filesystem)
       unless    => "/usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.jpi || /usr/bin/test -f /var/lib/jenkins/plugins/${plugin}.hpi",
       ## Install the plugin (if needed) in the container, e.g. with the jenkins home mounted in /var/jenkins_home
-      # command => "docker exec jenkins jenkins-plugin-cli --plugins ${name} --plugin-download-directory /var/jenkins_home/plugins",
-      command   => "docker run -t --entrypoint=jenkins-plugin-cli --env=CACHE_DIR=/tmp --restart=no --volume=${jenkins_home}:/var/jenkins_home:rw --user=$(id -u jenkins):$(id -g jenkins) ${docker_image}:${docker_tag}  --plugins ${plugin} --plugin-download-directory /var/jenkins_home/plugins",
+      command   => "docker run -t --entrypoint=jenkins-plugin-cli --env=CACHE_DIR=/tmp --restart=no --volume=${jenkins_home}:/var/jenkins_home:rw --user=$(id -u jenkins):$(id -g jenkins) ${docker_image}:${docker_tag} --plugins ${plugin} --plugin-download-directory /var/jenkins_home/plugins",
       path      => ['/bin', '/usr/bin'],
       notify    => Docker::Run['jenkins'],
       require   => Service['docker'],
