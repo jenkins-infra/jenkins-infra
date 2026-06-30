@@ -258,17 +258,20 @@ class profile::jenkinscontroller (
       }
     }
 
-    exec { 'perform-jcasc-reload':
-      command     => "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}",
-      # Jenkins might be restarting
-      tries       => 3,
-      try_sleep   => 10,
-      refreshonly => true,
-      logoutput   => true,
-      require     => Docker::Run[$docker_container_name],
-    }
+    $perform_jcasc_reload_cmd = "/usr/bin/curl -XPOST --silent --show-error http://127.0.0.1:8080/reload-configuration-as-code/?casc-reload-token=${$jcasc_final_config["reload_token"]}"
   } else {
     $jcasc_java_opts = ''
+    $perform_jcasc_reload_cmd = 'echo "No JCasC configuration defined"'
+  }
+
+  exec { 'perform-jcasc-reload':
+    command     => $perform_jcasc_reload_cmd,
+    # Jenkins might be restarting
+    tries       => 3,
+    try_sleep   => 10,
+    refreshonly => true,
+    logoutput   => true,
+    require     => Docker::Run[$docker_container_name],
   }
 
   if $jcasc_final_config['datadog'] {
