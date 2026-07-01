@@ -348,6 +348,19 @@ profile::jenkinscontroller::jcasc:
               - claimName: ci-jenkins-io-maven-cache
                 mountPath: "/cache"
                 readOnly: true
+    eC2Fleet:
+      sshCredential: ec2-agent-ssh
+      region: us-east-2
+      fleets:
+        - customName: "infratest"
+          os: windows
+          osVersion: 2025
+          jdks: [25]
+          spot: true
+          maxSize: 10
+          autoMavenLabels: false
+          autoDefaultOSLabel: false
+          customLabels: windows-infratest
     ec2:
       aws-us-east-2:
         region: us-east-2
@@ -834,6 +847,7 @@ profile::jenkinscontroller::plugins:
   - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
   - ec2 # For Jenkins EC2 VM agents
+  - ec2-fleet # For Jenkins EC2 VM agents too (but better)
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
   - git-forensics # Discovering reference builds, used in buildPlugin

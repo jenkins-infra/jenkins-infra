@@ -127,6 +127,58 @@ profile::jenkinscontroller::jcasc:
         PATH+MAVEN: /home/jenkins/tools/apache-maven-3.9.15/bin
         JAVA_HOME: /opt/jdk-21
   cloud_agents:
+    ## IMPORTANT for EC2Fleet: JCasC (and controller) fails to load if the specified fleets are not mapped to a real AWS ASG/Fleet. \
+    ## As such a valid AWS credential is required and passed through the local environment variable `JENKINS_EC2_FLEET_AWS_SECRET_KEY` read by Vagrant. \
+    ## Alternatively you can comment out the EC2Fleet block above. Remember: no credential in persistant files on your machine!
+    eC2Fleet:
+      sshCredential: dummy-ssh-jenkins
+      region: us-east-2
+      # Value from https://github.com/jenkins-infra/terraform-states/tree/main/aws-sponsored (terraform output ec2fleet_vagrant_access_key_id)
+      awsAccessKeyId: AKIAUYEMYSOUPYWXMAON
+      # Read by vagrant. Environment variable value from https://github.com/jenkins-infra/terraform-states/tree/main/aws-sponsored (terraform output ec2fleet_vagrant_access_key_secret_access_key)
+      awsSecretKeyEnvName: JENKINS_EC2_FLEET_AWS_SECRET_KEY # Passed by Vagrant as an env. var
+      fleets:
+        - os: windows
+          osVersion: 2025
+          jdks: [8,11,17,21,25]
+          defaultJdk: 25
+          spot: true
+          maxSize: 50
+          autoMavenLabels: true
+          autoDefaultOSLabel: true
+        - customName: "infratest"
+          os: windows
+          osVersion: 2025
+          jdks: [25]
+          spot: true
+          maxSize: 10
+          autoMavenLabels: false
+          autoDefaultOSLabel: false
+          customLabels: windows-infratest
+        - os: windows
+          osVersion: 2022
+          jdks: [25]
+          spot: true
+          maxSize: 20
+          autoDefaultOSLabel: true
+        - os: windows
+          osVersion: 2019
+          jdks: [25]
+          spot: true
+          maxSize: 20
+          autoDefaultOSLabel: true
+        ## Not supported yet, but gives and idea of the data structure
+        # - os: ubuntu
+        #   osVersion: 22.04
+        #   jdks: ["8","11","17","21","25"]
+        #   spot: true
+        #   maxSize: 50
+        # - os: ubuntu
+        #   osVersion: 22.04
+        #   jdks: [25"]
+        #   spot: true
+        #   architecture: arm64
+        #   maxSize: 20
     ec2:
       aws-us-east-2:
         region: us-east-2
