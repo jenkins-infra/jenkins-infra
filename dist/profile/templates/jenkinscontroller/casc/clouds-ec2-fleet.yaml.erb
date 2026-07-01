@@ -40,8 +40,9 @@ jenkins:
         <%- $labels += [eC2Fleet_cloud_setup['customLabels']] -%>
       <%- end -%>
       labelString: "<%= $labels.join(" ") %>"
-      maxSize: 20
-      maxTotalUses: -1
+      maxSize: <%= eC2Fleet_cloud_setup['maxSize'] ? eC2Fleet_cloud_setup['maxSize'].to_i : 1 %>
+      # Ephemeral agents: no reuse
+      maxTotalUses: 1
       minSize: 0
       minSpareSize: 0
       name: "<%= $fleetName %>"
