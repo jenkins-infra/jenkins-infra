@@ -140,7 +140,7 @@ profile::jenkinscontroller::jcasc:
       fleets:
         - os: windows
           osVersion: 2025
-          jdks: [8,11,17,21,25]
+          jdks: [8, 11, 17, 21, 25]
           defaultJdk: 25
           spot: true
           maxSize: 50
@@ -573,7 +573,7 @@ profile::jenkinscontroller::plugins:
   - throttle-concurrents
   - timestamper
   - warnings-ng
-profile::awscli::version: 2.35.12
+profile::awscli::version: 2.35.13
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: azure_cluster
