@@ -26,22 +26,28 @@ jenkins:
             \ { Start-Sleep -Milliseconds 1000; echo 'Cloud Init not finished yet.\
             \ waiting 1s'}; echo 'Cloud Init finished'}\" &&"
           sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
-      disableTaskResubmit: false
+      # Rely on "retry()" instead (to avoid triggering too much builds)
+      disableTaskResubmit: true
       executorScaler: "noScaler"
       fleet: "ci-jenkins-io-<%= $fleetName %>"
       fsRoot: "<%= eC2Fleet_cloud_setup['os'] == "windows" ? "Z:/agent" : "/home/jenkins/agent" %>"
-      idleMinutes: 0
+      idleMinutes: 1
       initOnlineCheckIntervalSec: 15
-      initOnlineTimeoutSec: 240
+      initOnlineTimeoutSec: <%= eC2Fleet_cloud_setup['os'] == "windows" ? 300 : 180 %>
       <%- $labels = [$fleetName] -%>
       <%- if eC2Fleet_cloud_setup['autoDefaultOSLabel'] && (eC2Fleet_cloud_setup['jdks'].length== 1 || jdkMajorVersion == eC2Fleet_cloud_setup['defaultJdk']) -%>
         <%- $labels += [eC2Fleet_cloud_setup['os'] + "-" + eC2Fleet_cloud_setup['osVersion'].to_s] -%>
       <%- end -%>
       <%- if eC2Fleet_cloud_setup['autoMavenLabels'] -%>
-        <%- $labels += ["maven-" + jdkMajorVersion.to_s + (eC2Fleet_cloud_setup['os'] == "windows" ? "-windows" : "")] -%>
+        <%- $labels += ["maven-" + jdkMajorVersion.to_s + (eC2Fleet_cloud_setup['os'] == "windows" ? "-windows" : "") + (eC2Fleet_cloud_setup['spot'] ? "" : "-nonspot")] -%>
       <%- end -%>
       <%- if eC2Fleet_cloud_setup['customLabels'] -%>
         <%- $labels += [eC2Fleet_cloud_setup['customLabels']] -%>
+      <%- end -%>
+      <%- if eC2Fleet_cloud_setup['spot'] -%>
+        <%- $labels += ["spot"] -%>
+      <%- else -%>
+        <%- $labels += ["nonspot"] -%>
       <%- end -%>
       labelString: "<%= $labels.join(" ") %>"
       maxSize: <%= eC2Fleet_cloud_setup['maxSize'] ? eC2Fleet_cloud_setup['maxSize'].to_i : 1 %>
@@ -50,7 +56,7 @@ jenkins:
       minSize: 0
       minSpareSize: 0
       name: "<%= $fleetName %>"
-      noDelayProvision: false
+      noDelayProvision: true
       numExecutors: 1
       privateIpUsed: true
       region: "<%= @jcasc['cloud_agents']['eC2Fleet']['region'] %>"
