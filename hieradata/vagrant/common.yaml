@@ -134,7 +134,7 @@ profile::jenkinscontroller::jcasc:
       sshCredential: dummy-ssh-jenkins
       region: us-east-2
       # Value from https://github.com/jenkins-infra/terraform-states/tree/main/aws-sponsored (terraform output ec2fleet_vagrant_access_key_id)
-      awsAccessKeyId: AKIAUYEMYSOUPYWXMAON
+      awsAccessKeyId: AKIAUYEMYSOUELITHJ6Z
       # Read by vagrant. Environment variable value from https://github.com/jenkins-infra/terraform-states/tree/main/aws-sponsored (terraform output ec2fleet_vagrant_access_key_secret_access_key)
       awsSecretKeyEnvName: JENKINS_EC2_FLEET_AWS_SECRET_KEY # Passed by Vagrant as an env. var
       fleets:
