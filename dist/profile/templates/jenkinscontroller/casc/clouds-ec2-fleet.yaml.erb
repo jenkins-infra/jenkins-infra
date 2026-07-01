@@ -21,6 +21,10 @@ jenkins:
           maxNumRetries: 10
           retryWaitTime: 15
           port: 22
+          # Do not start the agent process until cloud-init (EC2Launchv2) is finished. See https://github.com/jenkins-infra/terraform-aws-sponsorship/blob/main/templates/ci.jenkins.io/ec2-windows-userdata.tpl#L162
+          prefixStartSlaveCmd: "powershell -Command \"& {while (-not (Test-Path Z:/Temp/.cloud-init.done))\
+            \ { Start-Sleep -Milliseconds 1000; echo 'Cloud Init not finished yet.\
+            \ waiting 1s'}; echo 'Cloud Init finished'}\" &&"
           sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
       disableTaskResubmit: false
       executorScaler: "noScaler"
