@@ -354,22 +354,22 @@ profile::jenkinscontroller::jcasc:
       fleets:
         - os: windows
           osVersion: 2025
-          jdks: [8, 11, 17, 21, 25]
-          defaultJdk: 25
+          jdks: [8,11,17,21,25]
+          defaultJdk: 21
           spot: true
           maxSize: 50
           autoDefaultOSLabel: true
           autoMavenLabels: true
         - os: windows
           osVersion: 2022
-          jdks: [25]
+          jdks: [21]
           spot: true
           maxSize: 20
           autoDefaultOSLabel: true
           autoMavenLabels: false
         - os: windows
           osVersion: 2019
-          jdks: [25]
+          jdks: [21]
           spot: true
           maxSize: 20
           autoDefaultOSLabel: true
@@ -377,7 +377,7 @@ profile::jenkinscontroller::jcasc:
         - customName: "infratest"
           os: windows
           osVersion: 2025
-          jdks: [25]
+          jdks: [21]
           spot: true
           maxSize: 5
           autoDefaultOSLabel: false
