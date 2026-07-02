@@ -142,7 +142,7 @@ profile::jenkinscontroller::jcasc:
           osVersion: 2025
           jdks: [8,11,17,21,25]
           defaultJdk: 21
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 50
           autoMavenLabels: true
           autoDefaultOSLabel: true
@@ -150,7 +150,7 @@ profile::jenkinscontroller::jcasc:
           os: windows
           osVersion: 2025
           jdks: [21]
-          pricingTypes: ["spot", "ondemand"]
+          pricingTypes: ["spot"]
           maxSize: 7
           autoMavenLabels: false
           autoDefaultOSLabel: false
@@ -158,13 +158,13 @@ profile::jenkinscontroller::jcasc:
         - os: windows
           osVersion: 2022
           jdks: [21]
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 20
           autoDefaultOSLabel: true
         - os: windows
           osVersion: 2019
           jdks: [21]
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           # maxSize: 20 # Commented to "test" the default value in the ERB template
           autoDefaultOSLabel: true
         ## Not supported yet, but gives and idea of the data structure
