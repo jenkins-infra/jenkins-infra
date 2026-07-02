@@ -356,21 +356,21 @@ profile::jenkinscontroller::jcasc:
           osVersion: 2025
           jdks: [8,11,17,21,25]
           defaultJdk: 21
-          spot: true
+          pricingTypes: ["spot"]
           maxSize: 50
           autoDefaultOSLabel: true
           autoMavenLabels: true
         - os: windows
           osVersion: 2022
           jdks: [21]
-          spot: true
+          pricingTypes: ["spot"]
           maxSize: 20
           autoDefaultOSLabel: true
           autoMavenLabels: false
         - os: windows
           osVersion: 2019
           jdks: [21]
-          spot: true
+          pricingTypes: ["spot"]
           maxSize: 20
           autoDefaultOSLabel: true
           autoMavenLabels: false
@@ -378,7 +378,7 @@ profile::jenkinscontroller::jcasc:
           os: windows
           osVersion: 2025
           jdks: [21]
-          spot: true
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 5
           autoDefaultOSLabel: false
           autoMavenLabels: false
