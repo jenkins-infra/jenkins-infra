@@ -356,21 +356,21 @@ profile::jenkinscontroller::jcasc:
           osVersion: 2025
           jdks: [8,11,17,21,25]
           defaultJdk: 21
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 50
           autoDefaultOSLabel: true
           autoMavenLabels: true
         - os: windows
           osVersion: 2022
           jdks: [21]
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 20
           autoDefaultOSLabel: true
           autoMavenLabels: false
         - os: windows
           osVersion: 2019
           jdks: [21]
-          pricingTypes: ["spot"]
+          pricingTypes: ["spot", "ondemand"]
           maxSize: 20
           autoDefaultOSLabel: true
           autoMavenLabels: false
@@ -378,7 +378,7 @@ profile::jenkinscontroller::jcasc:
           os: windows
           osVersion: 2025
           jdks: [21]
-          pricingTypes: ["spot", "ondemand"]
+          pricingTypes: ["spot"]
           maxSize: 5
           autoDefaultOSLabel: false
           autoMavenLabels: false
@@ -606,94 +606,6 @@ profile::jenkinscontroller::jcasc:
             labels:
               - ubuntu-22-amd64-highmem-maven25
             spot: true
-            acpServerId: aws-internal
-          ####
-          # Windows VMs
-          ####
-          - description: "Nonspot Windows 2019 x86_64 with JDK25"
-            maxInstances: 50
-            instanceType: "r8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
-            os: "windows"
-            os_version: "2019"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-25'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
-            remoteAdmin: jenkins
-            labels:
-              - win-2019-amd64-maven-25-nonspot
-              - docker-windows-2019-nonspot
-            spot: false
-            acpServerId: aws-internal
-          - description: "NonSpot Windows 2022 x86_64 with JDK25"
-            maxInstances: 50
-            instanceType: "r8id.xlarge" # 4 vCPUs / 16 Gb / local NVMe
-            os: "windows"
-            os_version: "2022"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-25'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
-            remoteAdmin: jenkins
-            labels:
-              - win-2022-amd64-maven-25-nonspot
-            spot: false
-            acpServerId: aws-internal
-          ###
-          # Windows 2025 VM
-          ###
-          - description: "Nonspot Windows 2025 x86_64 with JDK17"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2025"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-17'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
-            remoteAdmin: jenkins
-            labels:
-              - win-2025-amd64-maven-17-nonspot
-              # Label(s) indicating default VM templates
-              - maven-17-windows-nonspot
-            spot: false
-            acpServerId: aws-internal
-          - description: "Nonspot Windows 2025 x86_64 with JDK21"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2025"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-21'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
-            remoteAdmin: jenkins
-            labels:
-              - win-2025-amd64-maven-21-nonspot
-              # Label(s) indicating default VM templates
-              - maven-21-windows-nonspot
-            spot: false
-            acpServerId: aws-internal
-          - description: "Nonspot Windows 2025 x86_64 with JDK25"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "windows"
-            os_version: "2025"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: 'C:/tools/jdk-25'
-            # Utilizes the local NVMe mounted in Z:
-            customDataDisk: 'Z:'
-            remoteAdmin: jenkins
-            labels:
-              - win-2025-amd64-maven-25-nonspot
-              # Label(s) indicating default VM templates
-              - maven-25-windows-nonspot
-            spot: false
             acpServerId: aws-internal
           - description: "Ubuntu Infra Test"
             maxInstances: 5

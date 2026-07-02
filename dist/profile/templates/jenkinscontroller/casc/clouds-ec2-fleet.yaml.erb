@@ -50,7 +50,7 @@ jenkins:
         <%- if pricingType == "spot" -%>
           <%- $labels += ["spot"] -%>
         <%- else -%>
-          <%- $labels += ["nonspot", "ondemand"] -%>
+          <%- $labels += ["nonspot", "ondemand", "maven-" + jdkMajorVersion.to_s + (eC2FleetCloudSetup['os'] == "windows" ? "-windows" : "") + "-nonspot"] -%>
         <%- end -%>
       labelString: "<%= $labels.join(" ") %>"
       maxSize: <%= eC2FleetCloudSetup['maxSize'] ? eC2FleetCloudSetup['maxSize'].to_i : 1 %>
