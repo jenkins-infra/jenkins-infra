@@ -1,13 +1,14 @@
 <%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" && @jcasc['cloud_agents']['eC2Fleet'] && @jcasc['cloud_agents']['eC2Fleet']['fleets'] -%>
 jenkins:
   clouds:
-  <%- @jcasc['cloud_agents']['eC2Fleet']['fleets'].each do |eC2Fleet_cloud_setup| -%>
-    <%- eC2Fleet_cloud_setup['jdks'].each do |jdkMajorVersion| -%>
-      <%- $fleetName = (eC2Fleet_cloud_setup['spot'] ? "spot-" : "") -%>
-      <%- $fleetName += eC2Fleet_cloud_setup['os'] + "_" + eC2Fleet_cloud_setup['osVersion'].to_s + "-" -%>
-      <%- $fleetName += (eC2Fleet_cloud_setup['architecture'] ? eC2Fleet_cloud_setup['architecture'] + "-" : "") -%>
-      <%- $fleetName += (eC2Fleet_cloud_setup['customName'] ? eC2Fleet_cloud_setup['customName'] + "-" : "") -%>
-      <%- $fleetName += "jdk" + jdkMajorVersion.to_s -%>
+  <%- @jcasc['cloud_agents']['eC2Fleet']['fleets'].each do |eC2FleetCloudSetup| -%>
+    <%- eC2FleetCloudSetup['pricingTypes'].each do |pricingType| -%>
+      <%- eC2FleetCloudSetup['jdks'].each do |jdkMajorVersion| -%>
+        <%- $fleetName = (pricingType == "spot" ? "spot-" : "ondemand-") -%>
+        <%- $fleetName += eC2FleetCloudSetup['os'] + "_" + eC2FleetCloudSetup['osVersion'].to_s + "-" -%>
+        <%- $fleetName += (eC2FleetCloudSetup['architecture'] ? eC2FleetCloudSetup['architecture'] + "-" : "") -%>
+        <%- $fleetName += (eC2FleetCloudSetup['customName'] ? eC2FleetCloudSetup['customName'] + "-" : "") -%>
+        <%- $fleetName += "jdk" + jdkMajorVersion.to_s -%>
   - eC2Fleet:
       addNodeOnlyIfRunning: false
       alwaysReconnect: true
@@ -15,42 +16,44 @@ jenkins:
       computerConnector:
         sSHConnector:
           credentialsId: "<%= @jcasc['cloud_agents']['eC2Fleet']['sshCredential'] %>"
-          javaPath: "<%= @jcasc['agents_setup'][eC2Fleet_cloud_setup['os']]['agentJavaBin'] %>"
+          javaPath: "<%= @jcasc['agents_setup'][eC2FleetCloudSetup['os']]['agentJavaBin'] %>"
           jvmOptions: "-XX:+PrintCommandLineFlags"
           launchTimeoutSeconds: 60
           maxNumRetries: 10
           retryWaitTime: 15
           port: 22
           # Do not start the agent process until cloud-init (EC2Launchv2) is finished. See https://github.com/jenkins-infra/terraform-aws-sponsorship/blob/main/templates/ci.jenkins.io/ec2-windows-userdata.tpl#L162
+          <%- if eC2FleetCloudSetup['os'] == "windows" -%>
           prefixStartSlaveCmd: "powershell -Command \"& {while (-not (Test-Path Z:/Temp/.cloud-init.done))\
             \ { Start-Sleep -Milliseconds 1000; echo 'Cloud Init not finished yet.\
-            \ waiting 1s'}; echo 'Cloud Init finished'}\" &&"
+            \ waiting 1s'}; echo 'Cloud Init finished'}\" && refreshenv && "
           sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
+          <%- end -%>
       # Rely on "retry()" instead (to avoid triggering too much builds)
       disableTaskResubmit: true
       executorScaler: "noScaler"
       fleet: "ci-jenkins-io-<%= $fleetName %>"
-      fsRoot: "<%= eC2Fleet_cloud_setup['os'] == "windows" ? "Z:/agent" : "/home/jenkins/agent" %>"
+      fsRoot: "<%= eC2FleetCloudSetup['os'] == "windows" ? "Z:/agent" : "/home/jenkins/agent" %>"
       idleMinutes: 1
       initOnlineCheckIntervalSec: 15
-      initOnlineTimeoutSec: <%= eC2Fleet_cloud_setup['os'] == "windows" ? 300 : 180 %>
-      <%- $labels = [$fleetName] -%>
-      <%- if eC2Fleet_cloud_setup['autoDefaultOSLabel'] && (eC2Fleet_cloud_setup['jdks'].length== 1 || jdkMajorVersion == eC2Fleet_cloud_setup['defaultJdk']) -%>
-        <%- $labels += [eC2Fleet_cloud_setup['os'] + "-" + eC2Fleet_cloud_setup['osVersion'].to_s] -%>
-      <%- end -%>
-      <%- if eC2Fleet_cloud_setup['autoMavenLabels'] -%>
-        <%- $labels += ["maven-" + jdkMajorVersion.to_s + (eC2Fleet_cloud_setup['os'] == "windows" ? "-windows" : "") + (eC2Fleet_cloud_setup['spot'] ? "" : "-nonspot")] -%>
-      <%- end -%>
-      <%- if eC2Fleet_cloud_setup['customLabels'] -%>
-        <%- $labels += [eC2Fleet_cloud_setup['customLabels']] -%>
-      <%- end -%>
-      <%- if eC2Fleet_cloud_setup['spot'] -%>
-        <%- $labels += ["spot"] -%>
-      <%- else -%>
-        <%- $labels += ["nonspot"] -%>
-      <%- end -%>
+      initOnlineTimeoutSec: <%= eC2FleetCloudSetup['os'] == "windows" ? 300 : 180 %>
+        <%- $labels = [$fleetName] -%>
+        <%- if eC2FleetCloudSetup['autoDefaultOSLabel'] && (eC2FleetCloudSetup['jdks'].length== 1 || jdkMajorVersion == eC2FleetCloudSetup['defaultJdk']) -%>
+          <%- $labels += [eC2FleetCloudSetup['os'] + "-" + eC2FleetCloudSetup['osVersion'].to_s] -%>
+        <%- end -%>
+        <%- if eC2FleetCloudSetup['autoMavenLabels'] -%>
+          <%- $labels += ["maven-" + jdkMajorVersion.to_s + (eC2FleetCloudSetup['os'] == "windows" ? "-windows" : "")] -%>
+        <%- end -%>
+        <%- if eC2FleetCloudSetup['customLabels'] -%>
+          <%- $labels += [eC2FleetCloudSetup['customLabels']] -%>
+        <%- end -%>
+        <%- if pricingType == "spot" -%>
+          <%- $labels += ["spot"] -%>
+        <%- else -%>
+          <%- $labels += ["nonspot", "ondemand"] -%>
+        <%- end -%>
       labelString: "<%= $labels.join(" ") %>"
-      maxSize: <%= eC2Fleet_cloud_setup['maxSize'] ? eC2Fleet_cloud_setup['maxSize'].to_i : 1 %>
+      maxSize: <%= eC2FleetCloudSetup['maxSize'] ? eC2FleetCloudSetup['maxSize'].to_i : 1 %>
       # Ephemeral agents: no reuse
       maxTotalUses: 1
       minSize: 0
@@ -62,6 +65,7 @@ jenkins:
       region: "<%= @jcasc['cloud_agents']['eC2Fleet']['region'] %>"
       restrictUsage: true
       scaleExecutorsByWeight: false
+      <%- end -%>
     <%- end -%>
   <%- end -%>
 <%- end -%>
