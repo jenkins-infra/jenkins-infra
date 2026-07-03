@@ -167,6 +167,15 @@ profile::jenkinscontroller::jcasc:
           pricingTypes: ["spot", "ondemand"]
           # maxSize: 20 # Commented to "test" the default value in the ERB template
           autoDefaultOSLabel: true
+        - customName: "infratest"
+          os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot"]
+          maxSize: 5
+          autoMavenLabels: false
+          autoDefaultOSLabel: false
+          customLabels: linux-infratest
         ## Not supported yet, but gives and idea of the data structure
         # - os: ubuntu
         #   osVersion: 22.04
