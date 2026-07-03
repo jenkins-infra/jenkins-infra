@@ -26,7 +26,7 @@ jenkins:
           <%- if eC2FleetCloudSetup['os'] == "windows" -%>
           prefixStartSlaveCmd: "powershell -Command \"& {while (-not (Test-Path Z:/Temp/.cloud-init.done)) { Start-Sleep -Milliseconds 1000; echo 'Cloud Init not finished yet. waiting 1s'}; echo 'Cloud Init finished'}\" && refreshenv && "
           <%- else -%>
-          prefixStartSlaveCmd: "until [ -e '/tmp/.cloud-init.done' ]; do sleep 1; echo 'Cloud Init not finished yet. waiting 1s'; done; echo 'Cloud Init finished'. && source /etc/environment && "
+          prefixStartSlaveCmd: "until [ -e '/tmp/.cloud-init.done' ]; do sleep 1; echo 'Cloud Init not finished yet. waiting 1s'; done; echo 'Cloud Init finished'. && source /etc/profile.d/jenkins-agent && "
           <%- end -%>
           sshHostKeyVerificationStrategy: "nonVerifyingKeyVerificationStrategy"
       # Rely on "retry()" instead (to avoid triggering too much builds)
