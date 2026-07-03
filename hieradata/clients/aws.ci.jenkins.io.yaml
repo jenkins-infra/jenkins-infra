@@ -391,7 +391,7 @@ profile::jenkinscontroller::jcasc:
           maxSize: 5
           autoMavenLabels: false
           autoDefaultOSLabel: false
-          customLabels: linux-infratest
+          customLabels: ubuntu-infratest
     ec2:
       aws-us-east-2:
         region: us-east-2
