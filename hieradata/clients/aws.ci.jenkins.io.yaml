@@ -383,6 +383,15 @@ profile::jenkinscontroller::jcasc:
           autoDefaultOSLabel: false
           autoMavenLabels: false
           customLabels: windows-infratest
+        - customName: "infratest"
+          os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot"]
+          maxSize: 5
+          autoMavenLabels: false
+          autoDefaultOSLabel: false
+          customLabels: linux-infratest
     ec2:
       aws-us-east-2:
         region: us-east-2
@@ -605,18 +614,6 @@ profile::jenkinscontroller::jcasc:
             javaHome: /opt/jdk-25
             labels:
               - ubuntu-22-amd64-highmem-maven25
-            spot: true
-            acpServerId: aws-internal
-          - description: "Ubuntu Infra Test"
-            maxInstances: 5
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-21
-            labels:
-              - infratest-ubuntu
             spot: true
             acpServerId: aws-internal
 profile::jenkinscontroller::plugins:
