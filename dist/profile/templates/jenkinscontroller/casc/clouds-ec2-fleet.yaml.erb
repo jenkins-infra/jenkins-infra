@@ -5,8 +5,7 @@ jenkins:
     <%- eC2FleetCloudSetup['pricingTypes'].each do |pricingType| -%>
       <%- eC2FleetCloudSetup['jdks'].each do |jdkMajorVersion| -%>
         <%- $fleetName = (pricingType == "spot" ? "spot-" : "ondemand-") -%>
-        <%- $fleetName += eC2FleetCloudSetup['os'] + "_" + eC2FleetCloudSetup['osVersion'].to_s + "-" -%>
-        <%- $fleetName += (eC2FleetCloudSetup['architecture'] ? eC2FleetCloudSetup['architecture'] + "-" : "") -%>
+        <%- $fleetName += eC2FleetCloudSetup['os'] + "_" + eC2FleetCloudSetup['osVersion'].to_s + (eC2FleetCloudSetup['architecture'] ? "_" + eC2FleetCloudSetup['architecture'] : "") + "-" -%>
         <%- $fleetName += (eC2FleetCloudSetup['customName'] ? eC2FleetCloudSetup['customName'] + "-" : "") -%>
         <%- $fleetName += "jdk" + jdkMajorVersion.to_s -%>
   - eC2Fleet:

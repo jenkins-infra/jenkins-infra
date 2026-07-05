@@ -392,230 +392,32 @@ profile::jenkinscontroller::jcasc:
           autoMavenLabels: false
           autoDefaultOSLabel: false
           customLabels: ubuntu-infratest
-    ec2:
-      aws-us-east-2:
-        region: us-east-2
-        useInstanceProfileForCredentials: true
-        iamInstanceProfile: "arn:aws:iam::326712726440:instance-profile/ci-jenkins-io-ec2-agents"
-        sshKeysCredentialsId: "ec2-agent-ssh"
-        # TODO: maintain with updatecli
-        securityGroups: "ephemeral-vm-agents,unrestricted-out-http"
-        # TODO: maintain with updatecli (set up in https://github.com/jenkins-infra/terraform-aws-sponsorship/blob/main/outputs.tf to use https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json)
-        subnetIds: "subnet-0095ee74f5cd48290"
-        # TODO: maintain with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/aws-sponsorship.json
-        spotSubnetIds: "subnet-0f76ffb1385bec3db, subnet-0cbf5a4a8a81322f5, subnet-0095ee74f5cd48290"
-        # TODO: maintain with updatecli
-        registryMirror: "k8s-hubmirro-hubmirro-477f7dfd76-9bbe4e560ee83036.elb.us-east-2.amazonaws.com:5000"
-        agent_definitions:
-          ####
-          # x86_64 Linux VMs
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK8 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-8
-            labels:
-              - ubuntu-22-amd64-maven8
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-11
-            labels:
-              - ubuntu-22-amd64-maven11
-            spot: true
-            acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-17
-            labels:
-              - ubuntu-22-amd64-maven17-nonspot
-            spot: false
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK17 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-17
-            labels:
-              - ubuntu-22-amd64-maven17
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-21
-            labels:
-              - ubuntu-22-amd64-maven21
-              # Labels indicating it is the default VM template
-              - linux-amd64
-              - java
-              - docker
-            spot: true
-            acpServerId: aws-internal
-          - description: "Non Spot Ubuntu 22.04 LTS x86_64 with JDK21 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-21
-            labels:
-              - ubuntu-22-amd64-maven21-nonspot
-              # Note: we need to get rid of these labels from doc. and caller as they can be used either by spot or non spot
-              - linux-amd64
-              - docker
-            spot: false
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 with JDK25 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.xlarge" # 4 vCPUs / 16 Gb / nvme 150Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-25
-            labels:
-              - ubuntu-22-amd64-maven25
-            spot: true
-            acpServerId: aws-internal
-          ####
-          # arm64 Linux VMs
-          ####
-          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK17 set as default java CLI"
-            maxInstances: 50
-            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "arm64"
-            javaHome: /opt/jdk-17
-            labels:
-              - ubuntu-22-arm64-maven17
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK21 set as default java CLI"
-            maxInstances: 50
-            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "arm64"
-            javaHome: /opt/jdk-21
-            labels:
-              - ubuntu-22-arm64-maven21
-              # Labels indicating it is the default VM template (for arm64)
-              - arm64docker
-              - arm64linux
-              - linux-arm64
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS arm64 with JDK25 set as default java CLI"
-            maxInstances: 50
-            instanceType: T4gXlarge # 4 vCPUs / 16 Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "arm64"
-            javaHome: /opt/jdk-25
-            labels:
-              - ubuntu-22-arm64-maven25
-            spot: true
-            acpServerId: aws-internal
-          ####
-          # High Memory Linux VMs
-          ####
-          - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-17
-            labels:
-              - ubuntu-22-amd64-highmem-maven17-nonspot
-            spot: false
-            acpServerId: aws-internal
-          # High Memory SPOT Linux VMs (ATH mostly)
-          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK17 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-17
-            labels:
-              - ubuntu-22-amd64-highmem-maven17
-            spot: true
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-21
-            labels:
-              - ubuntu-22-amd64-highmem-maven21
-              # Labels indicating it is the default VM template for high mem x86_64
-              - highmem
-              - highram
-              - docker-highmem
-              - linux-amd64-big
-              # temporarily adding manually the false label spot to avoid job failure since https://github.com/jenkins-infra/helpdesk/issues/4795
-              - spot
-            # we switch temporarily to non spot as per https://github.com/jenkins-infra/helpdesk/issues/4795
-            spot: false
-            acpServerId: aws-internal
-          - description: "Ubuntu 22.04 LTS x86_64 High Memory instance with JDK21 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-21
-            labels:
-              - ubuntu-22-amd64-highmem-maven21-nonspot
-              # Labels indicating it is the default VM template (for arm64)
-              - docker-highmem-nonspot
-            spot: false
-            acpServerId: aws-internal
-          - description: "Spot Ubuntu 22.04 LTS x86_64 High Memory instance with JDK25 set as default java CLI"
-            maxInstances: 50
-            instanceType: "m5ad.2xlarge" # 8 vCPUs / 32 Gb / nvme 300Gb
-            os: "ubuntu"
-            os_version: "22.04"
-            ebsOptimized: true
-            architecture: "amd64"
-            javaHome: /opt/jdk-25
-            labels:
-              - ubuntu-22-amd64-highmem-maven25
-            spot: true
-            acpServerId: aws-internal
+        - os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot", "ondemand"]
+          maxSize: 50
+          autoDefaultOSLabel: true
+          autoMavenLabels: false
+          customLabels: linux-amd64 docker vm linux amd64
+        - os: ubuntu
+          osVersion: 22.04
+          architecture: arm64
+          jdks: [21]
+          pricingTypes: ["spot"]
+          maxSize: 50
+          autoDefaultOSLabel: false
+          autoMavenLabels: false
+          customLabels: arm64docker arm64linux linux-arm64
+        - customName: "highmem"
+          os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot", "ondemand"]
+          maxSize: 50
+          autoDefaultOSLabel: false
+          autoMavenLabels: false
+          customLabels: linux-amd64-big highmem highram docker-highmem
 profile::jenkinscontroller::plugins:
   - ansicolor # Provides ANSI color in the UI when checking log outputs
   - artifact-manager-s3 # https://github.com/jenkins-infra/helpdesk/issues/4596
@@ -631,7 +433,6 @@ profile::jenkinscontroller::plugins:
   - datadog # Datadog plugin
   - dark-theme # Dark theme
   - docker-workflow # Provides the "withDockerContainer" pipeline keyword
-  - ec2 # For Jenkins EC2 VM agents
   - ec2-fleet # For Jenkins EC2 VM agents too (but better)
   - embeddable-build-status # https://github.com/jenkins-infra/helpdesk/issues/3013
   - git # Used for... git
