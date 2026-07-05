@@ -399,7 +399,7 @@ profile::jenkinscontroller::jcasc:
           maxSize: 50
           autoDefaultOSLabel: true
           autoMavenLabels: false
-          customLabels: linux-amd64 docker vm linux
+          customLabels: linux-amd64 docker vm linux amd64
         - os: ubuntu
           osVersion: 22.04
           architecture: arm64
