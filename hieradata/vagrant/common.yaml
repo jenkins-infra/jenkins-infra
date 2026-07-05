@@ -176,18 +176,32 @@ profile::jenkinscontroller::jcasc:
           autoMavenLabels: false
           autoDefaultOSLabel: false
           customLabels: linux-infratest
-        ## Not supported yet, but gives and idea of the data structure
-        # - os: ubuntu
-        #   osVersion: 22.04
-        #   jdks: ["8","11","17","21","25"]
-        #   spot: true
-        #   maxSize: 50
-        # - os: ubuntu
-        #   osVersion: 22.04
-        #   jdks: [25"]
-        #   spot: true
-        #   architecture: arm64
-        #   maxSize: 20
+        - os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot", "ondemand"]
+          maxSize: 50
+          autoDefaultOSLabel: true
+          autoMavenLabels: false
+          customLabels: linux-amd64 docker vm linux
+        - os: ubuntu
+          osVersion: 22.04
+          architecture: arm64
+          jdks: [21]
+          pricingTypes: ["spot"]
+          maxSize: 50
+          autoDefaultOSLabel: false
+          autoMavenLabels: false
+          customLabels: arm64docker arm64linux linux-arm64
+        - customName: "highmem"
+          os: ubuntu
+          osVersion: 22.04
+          jdks: [21]
+          pricingTypes: ["spot", "ondemand"]
+          maxSize: 50
+          autoDefaultOSLabel: false
+          autoMavenLabels: false
+          customLabels: linux-amd64-big highmem highram docker-highmem
     ec2:
       aws-us-east-2:
         region: us-east-2
