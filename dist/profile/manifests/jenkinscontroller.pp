@@ -187,8 +187,6 @@ class profile::jenkinscontroller (
       ## Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents: {}`
       # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.azure_vm_agents.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.azure_vm_agents: {}`
       'jenkinscontroller/casc/clouds-azurevm.yaml.erb',
-      # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.ec2.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.ec2: {}`
-      'jenkinscontroller/casc/clouds-ec2.yaml.erb',
       # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.eC2Fleet.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.eC2Fleet: {}`
       'jenkinscontroller/casc/clouds-ec2-fleet.yaml.erb',
       # Opt-out of all agent clouds with `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes.disabled: true` or `profile::jenkinscontroller::jcasc.cloud_agents.kubernetes: {}`
@@ -420,7 +418,6 @@ class profile::jenkinscontroller (
     'config-file-provider' => 'artifact_caching_proxy',
     'configuration-as-code' => 'enabled',
     'datadog' => 'datadog',
-    'ec2' => 'cloud_agents.ec2',
     'ec2-fleet' => 'cloud_agents.eC2Fleet',
     'kubernetes' => 'cloud_agents.kubernetes',
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
