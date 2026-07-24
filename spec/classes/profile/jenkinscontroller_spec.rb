@@ -58,7 +58,6 @@ describe "profile::jenkinscontroller" do
 
     context "JCasC" do
       it { is_expected.to contain_file("/var/lib/jenkins/casc.d").with("ensure" => "directory") }
-      it { is_expected.to contain_file("/var/lib/jenkins/casc.d/clouds-ec2.yaml") }
       it { expect(subject).to contain_exec("install-plugin-configuration-as-code") }
       it { expect(subject).to contain_exec("perform-jcasc-reload") }
       it { expect(subject).to contain_docker__run("jenkins") }
