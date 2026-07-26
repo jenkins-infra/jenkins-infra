@@ -232,11 +232,11 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
-      version: 2.121.0
+      version: 2.122.0
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.121.0@sha256:f79a1f28fdb22db5045eb133ab4d670a4f7c3c9dee6237198cb2dd127f0488bd
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.122.0@sha256:82b7c408ffbe585293de905657bf0bfb00edce3f42dc566c4b359fccfa675181
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
