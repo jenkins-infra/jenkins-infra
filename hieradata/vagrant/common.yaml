@@ -485,7 +485,7 @@ profile::jenkinscontroller::plugins:
   - throttle-concurrents
   - timestamper
   - warnings-ng
-profile::awscli::version: 2.36.7
+profile::awscli::version: 2.36.8
 profile::jenkinscontroller::kubeconfigs:
   # Case of cluster which user requires a token
   - cluster_name: azure_cluster
