@@ -9,7 +9,7 @@ tool:
       - installSource:
           installers:
           - zip:
-              subdir: "<%= name %>"
+              subdir: "<%= setup['subdir'] ? setup['subdir'] : name %>"
               url: "<%= setup['url'] %>"
               <%- if setup['label'] -%>
               label: "<%= setup['label'] %>"

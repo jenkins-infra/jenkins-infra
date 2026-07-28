@@ -422,7 +422,7 @@ class profile::jenkinscontroller (
     'kubernetes' => 'cloud_agents.kubernetes',
     'pipeline-graph-view' => 'appearance.pipeline_graph_view',
     'ssh-slaves' => 'permanent_agents',
-    'toolenv' => 'tools.generic',
+    'generic-tool' => 'tools.generic',
     'workflow-aggregator' => 'global_libraries',
   }
 
