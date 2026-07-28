@@ -51,6 +51,8 @@ profile::jenkinscontroller::jcasc:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-3.0.6.zip"
       groovy-4.0.22:
         url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-4.0.22.zip"
+      groovy-5.0.7:
+        url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-5.0.7.zip"
   cloud_agents:
     azure_vm_agents:
       clouds:
