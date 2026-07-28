@@ -92,6 +92,12 @@ profile::jenkinscontroller::jcasc:
     groovy:
       groovy: # Default version is named "groovy"
         version: "2.4.21"
+    generic:
+      groovy-4.0.22:
+        url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-4.0.22.zip"
+      groovy-5:
+        url: "https://groovy.jfrog.io/artifactory/dist-release-local/groovy-zips/apache-groovy-binary-5.0.7.zip"
+        subdir: groovy-5.0.7
     jdk:
       jdk8:
         installers:
