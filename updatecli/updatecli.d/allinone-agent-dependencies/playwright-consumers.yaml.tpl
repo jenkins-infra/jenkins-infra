@@ -63,11 +63,12 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump Playwright version to {{ source "getPlaywrightVersionFromPackerImages" }}
+    title: chore: Bump Playwright version to {{ source "getPlaywrightVersionFromPackerImages" }}
     spec:
       labels:
         - dependencies
         - playwright
+        - chore
         - updatecli
 
 {{ end }}
