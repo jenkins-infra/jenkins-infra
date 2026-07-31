@@ -58,9 +58,11 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}
+    title: 'chore: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}'
     spec:
       labels:
         - dependencies
+        - nodejs
+        - chore
 
 {{ end }}
