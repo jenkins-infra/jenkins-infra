@@ -63,7 +63,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: "chore: Bump Playwright version to {{ source `getPlaywrightVersionFromPackerImages` }}"
+    title: 'chore: Bump Playwright version to {{ source "getPlaywrightVersionFromPackerImages" }}'
     spec:
       labels:
         - dependencies
