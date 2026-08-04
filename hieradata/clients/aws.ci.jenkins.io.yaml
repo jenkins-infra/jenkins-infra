@@ -460,7 +460,7 @@ profile::jenkinscontroller::plugins:
   - timestamper # Allow showing timestamp on build logs
   - warnings-ng # Provides integration (UI, jobs) with static analyser and linters
   - workflow-aggregator # Meta-plugin to provide all workflow-(.*) standard plugins
-profile::awscli::version: 2.36.14
+profile::awscli::version: 2.36.15
 profile::jenkinscontroller::kubeconfigs:
   - cluster_name: cijenkinsio-agents-2
     # TODO: track with updatecli
