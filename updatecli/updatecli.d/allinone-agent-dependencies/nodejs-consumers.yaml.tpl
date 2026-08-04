@@ -70,7 +70,7 @@ actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: 'chore: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}'
+    title: '{{ if $val.dockerfile }}feat{{ else }}chore{{ end }}: Bump NodeJS version to {{ source "getNodeJSVersionFromPackerImages" }}'
     spec:
       labels:
         - dependencies
