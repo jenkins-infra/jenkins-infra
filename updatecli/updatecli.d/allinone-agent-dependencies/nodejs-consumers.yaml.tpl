@@ -75,6 +75,9 @@ actions:
       labels:
         - dependencies
         - nodejs
+{{ if $val.dockerfile }}
+        - enhancement
+{{ else }}
         - chore
-
+{{ end }}
 {{ end }}
