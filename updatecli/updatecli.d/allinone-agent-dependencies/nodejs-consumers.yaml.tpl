@@ -53,6 +53,18 @@ targets:
       file: .nvmrc
       matchpattern: 'v?\d+\.\d+\.\d+'
 {{ end }}
+{{ if $val.dockerfile }}
+  dockerfile:
+    name: Bump NodeJS version in Dockerfile
+    kind: dockerfile
+    sourceid: getNodeJSVersionFromPackerImages
+    scmid: default
+    spec:
+      file: Dockerfile
+      instruction:
+        keyword: ARG
+        matcher: NODEJS_VERSION
+{{ end }}
 
 actions:
   default:
