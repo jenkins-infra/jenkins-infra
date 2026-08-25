@@ -3,8 +3,43 @@
 #
 # A "census" host processes the anonymized user data from a "usage" host into infra-statistics
 class profile::census (
+  String $postgres_password,
   Stdlib::Absolutepath $data_disk    = '/srv/census',
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include profile::golang # Required for the stats CLI
+
+  file { $data_disk:
+    ensure => directory,
+    mode   => '0755',
+    owner  => root,
+    group  => root,
+  }
+
+  $census_db_data_dir = "${data_disk}/census-db-data"
+
+  file { $census_db_data_dir:
+    ensure  => directory,
+    mode    => '0770',
+    owner   => 999,
+    group   => 999,
+    require => File[$data_disk],
+  }
+
+  # Run postgres using Docker
+  include profile::docker
+  docker::run { 'census-db':
+    image         => 'postgres:18',
+    env           => [
+      'POSTGRES_DB=census-data',
+      'POSTGRES_USER=census',
+      "POSTGRES_PASSWORD=${postgres_password}",
+    ],
+    ports         => ['127.0.0.1:5432:5432'],
+    volumes       => [
+      "${census_db_data_dir}:/var/lib/postgresql:rw",
+    ],
+    pull_on_start => true,
+    require       => [Class['profile::docker'],File[$census_db_data_dir]],
+  }
 }

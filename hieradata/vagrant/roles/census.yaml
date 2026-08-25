@@ -1,9 +1,2 @@
 ---
-lvm::volume_groups:
-  data:
-    physical_volumes:
-      - /dev/loop0
-    logical_volumes:
-      census:
-        size: 12M
-        mountpath: /srv/census
+profile::census::postgres_password: vagrantDummyPasswordPleaseDontReport
