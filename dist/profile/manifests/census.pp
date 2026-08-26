@@ -42,4 +42,36 @@ class profile::census (
     pull_on_start => true,
     require       => [Class['profile::docker'],File[$census_db_data_dir]],
   }
+
+  # Set up SSH access to usage.jenkins.io in order to retrieve stats from it
+  file { '/root/.ssh':
+    ensure => directory,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0700',
+  }
+
+  file { '/root/.ssh/id_usage':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => lookup('usage_ssh_privkey'),
+    require => File['/root/.ssh'],
+  }
+
+  file { '/root/.ssh/config':
+    ensure  => file,
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0600',
+    content => "
+Host usage.jenkins.io
+    User usagestats
+    IdentityFile /root/.ssh/id_usage
+",
+    require => [
+      File['/root/.ssh/id_usage'],
+    ],
+  }
 }
