@@ -1,11 +1,4 @@
 ---
-lvm::volume_groups:
-  data:
-    physical_volumes:
-      - /dev/xvdb
-    logical_volumes:
-      census:
-        size: 64G
-        mountpath: /srv/census
 # Per-host Datadog configuration
 datadog_agent::host: "census.jenkins.io"
+profile::census::postgres_password: ENC[PKCS7,MIIBqQYJKoZIhvcNAQcDoIIBmjCCAZYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAJ+Gkh72Gn9Gc2LM3crHUA7UcR1IBb+IrdTE7kt8diWM8SN3KsTAtGoiFo3ZGtbLwwxDvj9nXGrIN+KDWNSUlbn2j3PkRx4f25cUtQKq9WH3Uxq32Mge9JY2+pK4xHQ49bC5pxHHeWsiuuDxbGS37slPsqPq/3T9c/+D3yGMVNCpVR58srnBrmMkFUjgaSNAU/RrBg9H+NJW5pk3eMBgJ6gKyRI+CU6QXIP/b+AkO258pipJh8OpBuISfNEwgb8HTobxmqQpzMIojcL5ry/KH1BdAGlRX4iCMquufw/7PgnbeFvgcziJzj26e7Sa16ArLc6rmWKGD5lol1gNsGAF/yDBsBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBB9W7Ck4Rm71zaRFOUPQzSUgEDKVHtvtvGep2kipUqq1KkDG0ze442tU/6gXF6d8xaYDvOPVjGvaJk9RDvuQcT6Q2v8c/e6+b+ON16R5Kev4sqR]

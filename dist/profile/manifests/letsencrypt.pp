@@ -107,24 +107,12 @@ class profile::letsencrypt (
   }
 
   if $plugin == 'dns-multi' {
-    $golang_version='1.26.2'
-    $architecture = $facts['os']['architecture'] ? {
-      'aarch64' => 'arm64',
-      default   => $facts['os']['architecture'],
-    }
-    $golang_dl_url="https://go.dev/dl/go${golang_version}.linux-${architecture}.tar.gz"
-    $golang_dl_archive="/tmp/go${golang_version}.linux-${architecture}.tar.gz"
-    $golang_installation_prefix='/usr/local'
-
-    exec { "Install golang version ${golang_version}":
-      command => "/usr/bin/curl --silent --location --verbose --show-error --output ${golang_dl_archive} \"${golang_dl_url}\" && /usr/bin/rm -rf ${golang_installation_prefix}/go && /usr/bin/tar -C ${golang_installation_prefix} -xzf ${golang_dl_archive} && /usr/bin/rm -f ${golang_dl_archive} && ln -s ${golang_installation_prefix}/go/bin/go /usr/local/bin/go",
-      unless  => "/usr/bin/test -f /usr/local/bin/go && /usr/local/bin/go version 2>/dev/null | /bin/grep ${golang_version}",
-    }
+    include profile::golang
 
     notice "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-multi==${certbot_dnsmulti_version}"
 
     exec { 'Install certbot-dns-multi plugin':
-      require => [Exec['Install certbot'],Exec["Install golang version ${golang_version}"]],
+      require => [Exec['Install certbot'],Class['profile::golang']],
       command => "/usr/bin/python${python_certbot_version} -m pip install --upgrade certbot-dns-multi==${certbot_dnsmulti_version}",
       unless  => "/usr/bin/python${python_certbot_version} -m pip list | /bin/grep --word-regexp certbot-dns-multi | /bin/grep ${certbot_dnsmulti_version}",
     }
