@@ -22,12 +22,6 @@ class profile::usage (
 ) {
   include stdlib # Required to allow using stlib methods and custom datatypes
   include apache
-
-  $lvm_enable = lookup('lvm::volume_groups', { default_value => {}, value_type => Hash, merge => hash })
-  if $lvm_enable {
-    # volume configuration is in hiera
-    include lvm
-  }
   include profile::accounts
   include profile::apachemisc
   include profile::firewall
@@ -36,12 +30,6 @@ class profile::usage (
 
   if $letsencrypt {
     include profile::letsencrypt
-  }
-
-  if $lvm_enable {
-    package { 'lvm2':
-      ensure => present,
-    }
   }
   $mounted_logs_dir = "${home_dir}/apache-logs"
   $mounted_stats_dir = "${home_dir}/usage-stats"
