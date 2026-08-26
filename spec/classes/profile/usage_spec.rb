@@ -1,89 +1,86 @@
-require 'spec_helper'
+require "spec_helper"
 
-describe 'profile::usage' do
-  it { expect(subject).to contain_class 'profile::usage' }
+describe "profile::usage" do
+  it { expect(subject).to contain_class "profile::usage" }
 
-  context 'mounted volume setup' do
-    let(:volume) { '/srv/usage' }
-    it { expect(subject).to contain_class 'lvm' }
-    it { expect(subject).to contain_class 'stdlib' }
-    it { expect(subject).to contain_package 'lvm2' }
+  context "mounted volume setup" do
+    let(:volume) { "/srv/usage" }
+    it { expect(subject).to contain_class "stdlib" }
   end
 
-  context 'apache setup' do
+  context "apache setup" do
     let(:params) do
       {
-        :docroot => '/tmp/rspec-docroot',
+        :docroot => "/tmp/rspec-docroot",
       }
     end
 
-    it { expect(subject).to contain_class 'apache' }
-    it { expect(subject).to contain_class 'profile::accounts' }
-    it { expect(subject).to contain_class 'profile::apachemisc' }
-    it { expect(subject).to contain_class 'profile::firewall' }
-    it { expect(subject).to contain_class 'profile::letsencrypt' }
+    it { expect(subject).to contain_class "apache" }
+    it { expect(subject).to contain_class "profile::accounts" }
+    it { expect(subject).to contain_class "profile::apachemisc" }
+    it { expect(subject).to contain_class "profile::firewall" }
+    it { expect(subject).to contain_class "profile::letsencrypt" }
 
-    it 'should contain File[$docroot]' do
+    it "should contain File[$docroot]" do
       expect(subject).to contain_file(params[:docroot]).with({
         :ensure => :directory,
-        :require => 'Package[httpd]',
+        :require => "Package[httpd]",
       })
     end
 
-    it 'should contain File[usage-stats.js]' do
-      expect(subject).to contain_file('usage-stats.js').with({
+    it "should contain File[usage-stats.js]" do
+      expect(subject).to contain_file("usage-stats.js").with({
         :ensure => :file,
         :path => "#{params[:docroot]}/usage-stats.js",
         :require => "File[#{params[:docroot]}]",
       })
     end
 
-
-    it 'should contain a logging directory' do
-      expect(subject).to contain_file('/var/log/apache2/usage.jenkins.io').with({
+    it "should contain a logging directory" do
+      expect(subject).to contain_file("/var/log/apache2/usage.jenkins.io").with({
         :ensure => :link,
-        :target => '/srv/bigger-usage/apache-logs',
+        :target => "/srv/bigger-usage/apache-logs",
       })
     end
 
-    it 'usage.jenkins.io vhost' do
-      expect(subject).to contain_apache__vhost('usage.jenkins.io').with({
+    it "usage.jenkins.io vhost" do
+      expect(subject).to contain_apache__vhost("usage.jenkins.io").with({
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
-        :override => ['All'],
+        :options => ["Indexes", "FollowSymLinks", "MultiViews"],
+        :override => ["All"],
       })
     end
 
-    it 'usage.jenkins.io unsecured vhost' do
-      expect(subject).to contain_apache__vhost('usage.jenkins.io unsecured').with({
+    it "usage.jenkins.io unsecured vhost" do
+      expect(subject).to contain_apache__vhost("usage.jenkins.io unsecured").with({
         :port => 80,
         :ssl => false,
         :docroot => params[:docroot],
-        :options => ['Indexes', 'FollowSymLinks', 'MultiViews'],
-        :override => ['All'],
+        :options => ["Indexes", "FollowSymLinks", "MultiViews"],
+        :override => ["All"],
       })
     end
 
-    it 'usage.jenkins-ci.org' do
-      expect(subject).to contain_apache__vhost('usage.jenkins-ci.org').with({
+    it "usage.jenkins-ci.org" do
+      expect(subject).to contain_apache__vhost("usage.jenkins-ci.org").with({
         :port => 443,
         :ssl => true,
         :docroot => params[:docroot],
-        :ssl_key   => '/etc/ssl/private/ssl-cert-snakeoil.key',
-        :ssl_cert  => '/etc/ssl/certs/ssl-cert-snakeoil.pem',
-        :redirect_dest => 'https://usage.jenkins.io/',
+        :ssl_key => "/etc/ssl/private/ssl-cert-snakeoil.key",
+        :ssl_cert => "/etc/ssl/certs/ssl-cert-snakeoil.pem",
+        :redirect_dest => "https://usage.jenkins.io/",
       })
     end
 
-    context 'in a production environment' do
-      let(:fqdn) { 'usage.jenkins.io' }
-      let(:environment) { 'production' }
+    context "in a production environment" do
+      let(:fqdn) { "usage.jenkins.io" }
+      let(:environment) { "production" }
 
       it { expect(subject).to contain_letsencrypt__certonly(fqdn) }
 
-      it 'should configure the letsencrypt ssl keys on the vhost' do
+      it "should configure the letsencrypt ssl keys on the vhost" do
         expect(subject).to contain_apache__vhost(fqdn).with({
           :servername => fqdn,
           :port => 443,
@@ -94,55 +91,55 @@ describe 'profile::usage' do
     end
   end
 
-  context 'usagestats account support' do
+  context "usagestats account support" do
     let(:params) do
       {
-        :user => 'rspecuser',
-        :group => 'rspecuser',
+        :user => "rspecuser",
+        :group => "rspecuser",
       }
     end
 
-    it 'should set up the home dir' do
+    it "should set up the home dir" do
       # This path is legacy :/
       expect(subject).to contain_file("#{params[:user]}_home").with({
         :ensure => :directory,
         :owner => params[:user],
-        :path => '/srv/bigger-usage',
+        :path => "/srv/bigger-usage",
       })
     end
 
     it { expect(subject).to contain_user(params[:user]) }
     it { expect(subject).to contain_group(params[:user]) }
 
-    it 'should have the usage public key in authorized keys' do
-      expect(subject).to contain_ssh_authorized_key('usage').with({
+    it "should have the usage public key in authorized keys" do
+      expect(subject).to contain_ssh_authorized_key("usage").with({
         :user => params[:user],
-        :type => 'ssh-rsa',
+        :type => "ssh-rsa",
       })
     end
   end
 
-  context 'legacy support' do
+  context "legacy support" do
     let(:params) do
       {
-        :group => 'rspeclegacygroup',
+        :group => "rspeclegacygroup",
       }
     end
 
-    it 'should symlink /var/log/apache2/usage.jenkins-ci.org' do
-      expect(subject).to contain_file('/var/log/apache2/usage.jenkins-ci.org').with({
+    it "should symlink /var/log/apache2/usage.jenkins-ci.org" do
+      expect(subject).to contain_file("/var/log/apache2/usage.jenkins-ci.org").with({
         :ensure => :link,
-        :target => '/var/log/apache2/usage.jenkins.io',
+        :target => "/var/log/apache2/usage.jenkins.io",
       })
     end
 
-    it 'should symlink /var/log/usage-stats to /srv/usage' do
-      expect(subject).to contain_file('/var/log/usage-stats').with({
+    it "should symlink /var/log/usage-stats to /srv/usage" do
+      expect(subject).to contain_file("/var/log/usage-stats").with({
         :ensure => :link,
-        :target => '/srv/bigger-usage/usage-stats',
+        :target => "/srv/bigger-usage/usage-stats",
       })
     end
 
-    it { expect(subject).to contain_user('kohsuke') }
+    it { expect(subject).to contain_user("kohsuke") }
   end
 end
