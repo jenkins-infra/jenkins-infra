@@ -270,7 +270,7 @@ usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
 docker::version: 5:29.7.2-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.32.8
-profile::azcopy::az_cli_version: 2.89.1
+profile::azcopy::az_cli_version: 2.90.0
 profile::awscli::install_dir: /var/awscli
 profile::mirrorbits::mirrorbits_version: v0.6.1
 profile::golang::golang_version: 1.26.2
