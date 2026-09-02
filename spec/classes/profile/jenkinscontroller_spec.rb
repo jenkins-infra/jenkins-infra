@@ -52,7 +52,6 @@ describe "profile::jenkinscontroller" do
       }
       context "By default: Init Groovy directory" do
         it { is_expected.not_to contain_file("/var/lib/jenkins/init.groovy.d/enable-ssh-port.groovy") }
-        it { is_expected.not_to contain_file("/var/lib/jenkins/init.groovy.d/set-up-git.groovy") }
       end
     end
 

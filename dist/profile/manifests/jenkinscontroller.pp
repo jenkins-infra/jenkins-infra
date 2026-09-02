@@ -147,19 +147,6 @@ class profile::jenkinscontroller (
       ],
     }
 
-    file { "${groovy_d}/set-up-git.groovy":
-      ensure  => $groovy_d_set_up_git,
-      owner   => 'jenkins',
-      group   => 'jenkins',
-      source  => "puppet:///modules/${module_name}/jenkinscontroller/set-up-git.groovy",
-      require => [
-        User['jenkins'],
-        File[$groovy_d],
-      ],
-      before  => Docker::Run[$docker_container_name],
-      notify  => Service['docker-jenkins'],
-    }
-
     file { "${groovy_d}/lock-down-jenkins.groovy":
       ensure  => $groovy_d_lock_down_jenkins,
       owner   => 'jenkins',

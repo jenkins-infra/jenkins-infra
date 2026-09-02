@@ -1,4 +1,8 @@
 <%- if @jcasc['tools'] && @jcasc['tools']['disabled'].to_s != "true" -%>
+unclassified:
+  scmGit:
+    globalConfigEmail: "jenkins-infra-team@<%= @ci_fqdn %>"
+    globalConfigName: "jenkins-infra-team"
 tool:
   <%- if @jcasc['tools']['generic'] -%>
   generic:
