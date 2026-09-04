@@ -66,7 +66,7 @@ profile::jenkinscontroller::jcasc:
           subnetName: cert-ci-jenkins-io-sponsored-vnet-ephemeral-agents
           disableSpot: true # Not enough quota available
           storageAccount: certciagentssub
-          userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/cert-ci-jenkins-io-controller/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents-sponsored'
+          userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/cert-ci-jenkins-io-sponsored-commons/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents-sponsored'
       agent_definitions:
         ## Linux agent templates
         - name: "ubuntu-22-amd64-maven-11"
