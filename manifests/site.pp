@@ -74,6 +74,16 @@ node 'controller.cert.ci.jenkins.io' {
   include role::privateci
 }
 
+node 'controller-sponsored.cert.ci.jenkins.io' {
+  mount { '/var/lib/jenkins':
+    ensure => 'mounted',
+    atboot => 'true',
+    device => 'UUID=f39d0d0e-e7e7-477a-acb1-ac3cc1a6c4ed',
+    fstype => 'ext4',
+  }
+  include role::privateci
+}
+
 node 'private.vpn.jenkins.io' {
   sshkeyman::hostkey { ['private.vpn.jenkins.io']: }
   include role::openvpn
