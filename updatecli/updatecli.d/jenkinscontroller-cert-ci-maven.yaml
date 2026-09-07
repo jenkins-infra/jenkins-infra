@@ -88,7 +88,7 @@ targets:
     kind: yaml
     spec:
       engine: yamlpath
-      file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
+      file: hieradata/clients/controller-sponsored.cert.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.5"].version
     scmid: default
   updateMaven3-6Version:
@@ -97,7 +97,7 @@ targets:
     kind: yaml
     spec:
       engine: yamlpath
-      file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
+      file: hieradata/clients/controller-sponsored.cert.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.6"].version
     scmid: default
   updateMaven3-8Version:
@@ -106,7 +106,7 @@ targets:
     kind: yaml
     spec:
       engine: yamlpath
-      file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
+      file: hieradata/clients/controller-sponsored.cert.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.8"].version
     scmid: default
   updateMaven3-9Version:
@@ -115,7 +115,7 @@ targets:
     kind: yaml
     spec:
       engine: yamlpath
-      file: hieradata/clients/controller.cert.ci.jenkins.io.yaml
+      file: hieradata/clients/controller-sponsored.cert.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-3.9"].version
     scmid: default
 
