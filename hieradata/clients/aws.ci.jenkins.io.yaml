@@ -48,6 +48,8 @@ profile::jenkinscontroller::jcasc:
         # but hieradata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+      scmGit:
+        disableGitToolChooser: true
   appearance:
     pipeline_graph_view:
       on_build_page: true
