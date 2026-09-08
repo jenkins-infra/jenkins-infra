@@ -81,6 +81,8 @@ profile::jenkinscontroller::jcasc:
                         privateKey: "DummyValueOnlyForTestingNotASecurityIssue"
                     scope: SYSTEM
                     username: "jenkins"
+      scmGit:
+        disableGitToolChooser: true
   jenkins_global:
     location: http://127.0.0.1:8080
     resourceRootUrl: http://localhost:8080
