@@ -48,17 +48,18 @@ profile::jenkinscontroller::jcasc:
   datadog_api_key: SuperSecretThatShouldBeEncryptedInProduction
   unclassified:
     data: |-
-      buildDiscarders:
+      unclassified:
+        buildDiscarders:
           configuredBuildDiscarders:
           - "jobBuildDiscarder"
           - defaultBuildDiscarder:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
-        # Weird indentation: we would expect 2 less spaces below
-        # but hierdata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
+        scmGit:
+          disableGitToolChooser: true
       # Allow to check authenticated_access in http://localhost:8080/manage/configureSecurity/
       jenkins:
         securityRealm:
@@ -81,8 +82,6 @@ profile::jenkinscontroller::jcasc:
                         privateKey: "DummyValueOnlyForTestingNotASecurityIssue"
                     scope: SYSTEM
                     username: "jenkins"
-      scmGit:
-        disableGitToolChooser: true
   jenkins_global:
     location: http://127.0.0.1:8080
     resourceRootUrl: http://localhost:8080

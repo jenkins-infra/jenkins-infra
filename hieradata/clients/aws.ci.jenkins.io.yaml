@@ -37,19 +37,18 @@ profile::jenkinscontroller::jcasc:
   datadog_api_key: ENC[PKCS7,MIIBmQYJKoZIhvcNAQcDoIIBijCCAYYCAQAxggEhMIIBHQIBADAFMAACAQEwDQYJKoZIhvcNAQEBBQAEggEAERRz+gDvppQtJ6Z8vlOFie10T5PqYiCpQF4CXEKO37opax1XkLY3DppRcHszB5fhRQQuLKJbvRPHi+IG+M8+3OGX97UNpz+Qc7PzEUHzf/ltMmPjBsRlwRbievY1Eedsc0x2ChHoNGB3SfWnoBlQpswLMNIjtbBpxvsq3IU7VQh/7B4nKYsJf6WxCeSzHAsUWUnLD4h4HDCkO8J8CzcnzLY+LuSgZoKoAngzZQZGPjR0d8E4p7I0CkBAdC5oAb7c0I/LCG+VEHS0f3K2lZEr+x0r2/Uik5WQUCd6GGUPvgR1Dgjq+wpG6KpIrywMP1Zyu8v3k37a9oPKPjUmaenGOzBcBgkqhkiG9w0BBwEwHQYJYIZIAWUDBAEqBBCfXME/Pwao7EY9I6jnauX8gDDuL/Rtl8kjppZBAeRepKsaqio7N9Q2s/8zbADk4Gn+iSMRnGSHDCu13dRYURiFjYw=]
   unclassified:
     data: |-
-      buildDiscarders:
+      unclassified:
+        buildDiscarders:
           configuredBuildDiscarders:
           - "jobBuildDiscarder"
           - defaultBuildDiscarder:
               discarder:
                 logRotator:
                   numToKeepStr: "5"
-        # Weird indentation: we would expect 2 less spaces below
-        # but hieradata is behaving weirdly (bug in YAML parser?)
         defaultDisplayUrlProvider:
           providerId: "org.jenkinsci.plugins.displayurlapi.ClassicDisplayURLProvider"
-      scmGit:
-        disableGitToolChooser: true
+        scmGit:
+          disableGitToolChooser: true
   appearance:
     pipeline_graph_view:
       on_build_page: true
