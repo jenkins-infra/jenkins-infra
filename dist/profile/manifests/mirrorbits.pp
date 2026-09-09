@@ -1,25 +1,32 @@
 # Profile to ensure `mirrorbits` CLI is installed
 class profile::mirrorbits (
   String $mirrorbits_version,
-  String $install_dir   = '/usr/local/bin',
+  String $mirrorbits_docker_image_tag, # Assuming this image has the correct mirrorbits version. With an update per year we're safe
+  String $mirrorbits_docker_image_name = 'dockerhubmirror.azurecr.io/jenkinsciinfra/mirrorbits',
+  String $install_dir = '/usr/local/bin',
 ) {
-  # Only x86_64 is currently supported out of the box - https://github.com/etix/mirrorbits/issues/150
-  # If arm64 CLI is needed, extract it from https://github.com/jenkins-infra/docker-mirrorbits built container images
+  if $mirrorbits_docker_image_tag {
+    $mirrorbits_docker_image = "${mirrorbits_docker_image_name}:${mirrorbits_docker_image_tag}"
+    $check_mirrorbits_command = "/usr/bin/test -f ${install_dir}/mirrorbits && { ${install_dir}/mirrorbits version || true; } 2>/dev/null | /bin/grep --quiet ${mirrorbits_version}"
 
-  # Dependencies used to install mirrorbits CLI
-  include apt
-  ensure_packages([
-      'curl',
-      'tar',
-  ])
+    if str2bool($facts['vagrant']) {
+      # Our mirrorbits images are private and can't be reached from developer machines so we build the image
+      $mirrorbits_docker_image_command = "/usr/bin/docker image build --tag=${mirrorbits_docker_image} https://github.com/jenkins-infra/docker-mirrorbits.git"
+    } else {
+      $mirrorbits_docker_image_command = "/usr/bin/docker image pull ${mirrorbits_docker_image}"
+    }
+    exec { "Ensure container image ${mirrorbits_docker_image} is present":
+      require => [Class['profile::docker']],
+      command => $mirrorbits_docker_image_command,
+      unless  => "${check_mirrorbits_command} && /usr/bin/docker image ls | /bin/grep --quiet ${mirrorbits_docker_image}",
+    }
 
-  if $mirrorbits_version {
-    $mirrorbits_url = "https://github.com/etix/mirrorbits/releases/download/${mirrorbits_version}/mirrorbits-${mirrorbits_version}.tar.gz"
+    $container_name = 'mirrorbits-cli'
 
     exec { 'Install mirrorbits CLI':
-      require => [Package['curl'], Package['tar']],
-      command => "/usr/bin/curl --location ${mirrorbits_url} | /bin/tar --extract --gzip --strip-components=1 --directory=${install_dir}/ mirrorbits/mirrorbits && chmod a+x ${install_dir}/mirrorbits",
-      unless  => "/usr/bin/test -f ${install_dir}/mirrorbits && { ${install_dir}/mirrorbits version || true; } 2>/dev/null | /bin/grep --quiet ${mirrorbits_version}",
+      require => [Exec["Ensure container image ${mirrorbits_docker_image} is present"]],
+      command => "/usr/bin/docker container rm --force ${container_name} && /usr/bin/docker container create --name ${container_name} ${mirrorbits_docker_image} && /usr/bin/docker container cp ${container_name}:/usr/bin/mirrorbits ${install_dir}/mirrorbits",
+      unless  => $check_mirrorbits_command,
     }
   }
 }
