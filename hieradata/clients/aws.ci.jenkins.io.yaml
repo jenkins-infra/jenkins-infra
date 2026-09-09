@@ -29,7 +29,6 @@ profile::jenkinscontroller::docker_tag: 'lts-jdk25'
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::block_remote_access_api: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: 'present'
-profile::jenkinscontroller::groovy_d_set_up_git: 'present'
 profile::jenkinscontroller::memory_limit: '30g'
 profile::jenkinscontroller::jcasc:
   enabled: true
