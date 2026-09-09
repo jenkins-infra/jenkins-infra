@@ -39,7 +39,6 @@ profile::letsencrypt::dns_azure:
     resource_group_name: "proddns_jenkinsio"
 profile::jenkinscontroller::groovy_init_enabled: true
 profile::jenkinscontroller::groovy_d_lock_down_jenkins: "present"
-profile::jenkinscontroller::groovy_d_set_up_git: "present"
 profile::jenkinscontroller::memory_limit: '8g'
 profile::jenkinscontroller::jcasc:
   enabled: true

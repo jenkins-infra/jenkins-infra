@@ -31,7 +31,6 @@ class profile::jenkinscontroller (
   Stdlib::Absolutepath $jenkins_home           = '/var/lib/jenkins',
   Stdlib::Absolutepath $container_jenkins_home = '/var/jenkins_home',
   Boolean $groovy_init_enabled                 = false,
-  String $groovy_d_set_up_git                  = 'absent',
   String $groovy_d_lock_down_jenkins           = 'absent',
   Hash $jcasc                                  = {},
   Hash $datadog                                = {
