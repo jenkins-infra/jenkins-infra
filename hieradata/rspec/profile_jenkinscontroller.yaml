@@ -93,24 +93,6 @@ profile::jenkinscontroller::jcasc:
           credentialsId: "jenkinsvmagents-userpass"
           usePrivateIP: true
           spot: true
-        - name: "win-2019" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2019"
-          imageDefinition: jenkins-agent-windows-2019-amd64
-          os: "windows"
-          os_version: "2019"
-          launcher: ssh
-          storageAccount: SuperSecretThatShouldBeEncryptedInProduction
-          location: "East US 2"
-          instanceType: Standard_D4s_v3 # 4 vCPUS / 16 Gb
-          architecture: amd64
-          labels:
-            - docker-windows
-          maxInstances: 20
-          useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
-          usePrivateIP: true
-          spot: false
-          agentDir: 'C:/Foo'
 # These are plugins we need in our ci environment
 profile::jenkinscontroller::plugins:
   - azure-vm-agents
