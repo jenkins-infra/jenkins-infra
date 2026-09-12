@@ -72,13 +72,27 @@ profile::jenkinscontroller::jcasc:
       mode: EXCLUSIVE
       labels:
         - updatecenter
-        - census
       ssh:
         host: "agent-2.trusted.ci.jenkins.io"
         credentialsId: "trusted-agent-2-ssh-key"
         maxNumRetries: 0
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO+0teBZr3lKADKAGECDTLpZl5Z8Y+YM7J+HmJk2B/bx"
+      envVars:
+        PATH+MAVEN: /usr/share/apache-maven-3/bin
+        JAVA_HOME: /opt/jdk-21
+    census:
+      remoteFS: /home/jenkins/agent-workspace
+      numExecutors: 1
+      mode: EXCLUSIVE
+      labels:
+        - census
+      ssh:
+        host: "census.jenkins.io"
+        credentialsId: "census-ssh-key"
+        maxNumRetries: 0
+        retryWaitTime: 0
+        hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH9CkV5uFRZ5+Rw1Sf3o8rSBuPn/tXeKIVX2yBtxTIz8"
       envVars:
         PATH+MAVEN: /usr/share/apache-maven-3/bin
         JAVA_HOME: /opt/jdk-21
