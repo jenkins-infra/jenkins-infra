@@ -89,7 +89,7 @@ profile::jenkinscontroller::jcasc:
         - census
       ssh:
         host: "census.jenkins.io"
-        credentialsId: "census-ssh-key"
+        credentialsId: "census-jenkins-io-agent-ssh-key"
         maxNumRetries: 0
         retryWaitTime: 0
         hostKey: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIH9CkV5uFRZ5+Rw1Sf3o8rSBuPn/tXeKIVX2yBtxTIz8"
