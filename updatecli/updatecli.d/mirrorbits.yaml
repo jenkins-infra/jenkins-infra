@@ -14,35 +14,49 @@ scms:
       branch: "{{ .github.branch }}"
 
 sources:
-  lastReleaseVersion:
+  containerImageVersion:
+    name: Get latest version of jenkinsciinfra/mirrorbits
     kind: githubrelease
-    name: Get the latest `mirrorbits-cli` version
     spec:
-      owner: "etix"
-      repository: "mirrorbits"
+      owner: jenkins-infra
+      repository: docker-mirrorbits
       token: "{{ requiredEnv .github.token }}"
       username: "{{ .github.username }}"
-      versionFilter:
-        kind: semver
-        strict: false
+  mirrorbitsVersion:
+    name: Get the version mirrorbits provided by latest jenkinsciinfra/mirrorbits
+    kind: file
+    spec:
+      file: https://raw.githubusercontent.com/jenkins-infra/docker-mirrorbits/refs/tags/{{ source "containerImageVersion" }}/Dockerfile
+      matchpattern: 'ARG mirrorbits_version=v(.*)'
+    transformers:
+      - findsubmatch:
+          pattern: 'ARG mirrorbits_version=v(.*)'
+          captureindex: 1
 
 targets:
-  updateHieradataVersion:
+  updateHieradataMirrorbitsVersion:
     name: Update the `mirrorbits-cli` version in the hieradata/common.yaml file
-    sourceid: lastReleaseVersion
+    sourceid: mirrorbitsVersion
     kind: yaml
     spec:
       file: hieradata/common.yaml
       key: $.profile::mirrorbits::mirrorbits_version
     scmid: default
+  updateHieradataContainerImageVersion:
+    name: Update the `mirrorbits` container image version in the hieradata/common.yaml file
+    sourceid: containerImageVersion
+    kind: yaml
+    spec:
+      file: hieradata/common.yaml
+      key: $.profile::mirrorbits::mirrorbits_docker_image_tag
+    scmid: default
 
 actions:
   default:
     kind: github/pullrequest
-    title: Bump `mirrorbits-cli` version to {{ source "lastReleaseVersion" }}
+    title: 'Bump the mirrorbits container image version to {{ source `containerImageVersion` }} (with mirrorbits CLI version to {{ source `mirrorbitsVersion` }})'
     scmid: default
     spec:
       labels:
         - updatecli
         - mirrorbits
-

@@ -232,11 +232,11 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
-      version: 2.130.0
+      version: 2.131.1
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.130.0@sha256:8cb3a7f73fad1a04436d39190181ddafdf5925bf6543ac8f2858a204a2ff7508
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.131.1@sha256:77f10af247cc5d94f746bb4a07cecb9b5ce129a0ae3d6e30cceafaa9cedbb8f5
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
@@ -272,7 +272,8 @@ docker::version: 5:29.8.0-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.32.8
 profile::azcopy::az_cli_version: 2.90.0
 profile::awscli::install_dir: /var/awscli
-profile::mirrorbits::mirrorbits_version: v0.6.2
+profile::mirrorbits::mirrorbits_version: 0.6.2
+profile::mirrorbits::mirrorbits_docker_image_tag: 0.4.0 # should have the profile::mirrorbits::mirrorbits_version for mirrorbits CLI.
 profile::golang::golang_version: 1.26.2
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
