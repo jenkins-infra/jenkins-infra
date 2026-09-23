@@ -4,13 +4,13 @@ unclassified:
     libraries:
   <%-  @jcasc['global_libraries'].each do |name, setup| -%>
       - defaultVersion: "<%= setup['defaultVersion'] ? setup['defaultVersion'] : 'main' %>"
+        allowVersionOverride: false
         implicit: <%= setup['implicit'] ? setup['implicit'] : 'true' %>
         includeInChangesets: <%= setup['includeInChangesets'] ? setup['includeInChangesets'] : 'false' %>
         name: "<%= name %>"
     <%- if setup['cache-ttl'] -%>
         cachingConfiguration:
           refreshTimeMinutes: <%= setup['cache-ttl'] %>
-          excludedVersionsStr: "pull/"
     <%- end -%>
         retriever:
           modernSCM:
@@ -19,11 +19,7 @@ unclassified:
                 id: "<%= name %>"
                 remote: "<%= setup['remote'] %>"
                 traits:
-                - "gitBranchDiscovery"
-    <%- if setup['allow-pull-requests'] -%>
-                - discoverOtherRefs:
-                    ref: "pull/*"
-    <%- end -%>
+                - gitBranchDiscovery
                 - headWildcardFilter:
                     includes: "*"
   <%- end -%>
