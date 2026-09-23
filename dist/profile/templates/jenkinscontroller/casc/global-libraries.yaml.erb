@@ -4,7 +4,7 @@ unclassified:
     libraries:
   <%-  @jcasc['global_libraries'].each do |name, setup| -%>
       - defaultVersion: "<%= setup['defaultVersion'] ? setup['defaultVersion'] : 'main' %>"
-        allowVersionOverride: false
+        allowVersionOverride: true
         implicit: <%= setup['implicit'] ? setup['implicit'] : 'true' %>
         includeInChangesets: <%= setup['includeInChangesets'] ? setup['includeInChangesets'] : 'false' %>
         name: "<%= name %>"
