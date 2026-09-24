@@ -162,12 +162,6 @@ profile::jenkinscontroller::jcasc:
           autoMavenLabels: false
           autoDefaultOSLabel: false
           customLabels: windows-infratest
-        - os: windows
-          osVersion: 2022
-          jdks: [21]
-          pricingTypes: ["spot", "ondemand"]
-          maxSize: 20
-          autoDefaultOSLabel: true
         - customName: "infratest"
           os: ubuntu
           osVersion: 22.04
@@ -378,22 +372,6 @@ profile::jenkinscontroller::jcasc:
           javaHome: /opt/jdk-11 # Test override of the default JDK for builds
           agentJavaBin: /opt/jdk-17 # Test override of the default JDK for builds
           userInstanceIdentity: '/specific/value/which/overrides/cloud/default'
-        - name: "win-2022-ssh" # The name must not contains "windows" or Azure API complains :facepalm:
-          description: "Windows 2022"
-          imageDefinition: jenkins-agent-windows-2022-amd64
-          os: "windows"
-          os_version: "2022"
-          location: "East US 2"
-          instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
-          ephemeralOSDisk: true
-          architecture: amd64
-          labels:
-            - docker-windows-2022
-          maxInstances: 50
-          useAsMuchAsPossible: true
-          credentialsId: "jenkinsvmagents-userpass"
-          usePrivateIP: true
-          spot: false
         - name: "win-2025-ssh" # The name must not contains "windows" or Azure API complains :facepalm:
           description: "Windows 2025"
           imageDefinition: jenkins-agent-windows-2025-amd64

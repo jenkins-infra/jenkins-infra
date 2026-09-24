@@ -360,13 +360,6 @@ profile::jenkinscontroller::jcasc:
           maxSize: 50
           autoDefaultOSLabel: true
           autoMavenLabels: true
-        - os: windows
-          osVersion: 2022
-          jdks: [21]
-          pricingTypes: ["spot", "ondemand"]
-          maxSize: 20
-          autoDefaultOSLabel: true
-          autoMavenLabels: false
         - customName: "infratest"
           os: windows
           osVersion: 2025
