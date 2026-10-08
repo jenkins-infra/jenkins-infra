@@ -26,3 +26,9 @@ nodejs_consumers:
 
 playwright_consumers:
   - repository: jenkins-io-components
+
+certCiMavenVersions:
+  - "3.5"
+  - "3.6"
+  - "3.8"
+  - "3.9"
