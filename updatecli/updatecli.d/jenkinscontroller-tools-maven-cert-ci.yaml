@@ -1,0 +1,61 @@
+---
+name: Bump Maven versions on cert.ci.jenkins.io
+
+scms:
+  default:
+    kind: github
+    spec:
+      user: "{{ .github.user }}"
+      email: "{{ .github.email }}"
+      owner: "{{ .github.owner }}"
+      repository: "{{ .github.repository }}"
+      token: "{{ requiredEnv .github.token }}"
+      username: "{{ .github.username }}"
+      branch: "{{ .github.branch }}"
+
+sources:
+{{- range $index, $version := .certCiMavenVersions }}
+  mavenVersion{{ $index }}:
+    kind: gittag
+    name: Get latest Maven {{ $version }}.x version
+    spec:
+      url: https://github.com/apache/maven.git
+      versionfilter:
+        kind: regex
+        pattern: '^maven-{{ $version | replace "." "\\." }}\.\d+$'
+    transformers:
+      - trimprefix: "maven-"
+{{- end }}
+
+conditions:
+{{- range $index, $version := .certCiMavenVersions }}
+  checkIfReleaseIsAvailable{{ $index }}:
+    kind: shell
+    disablesourceinput: true
+    spec:
+      command: curl --connect-timeout 5 --location --head --fail --silent --show-error https://archive.apache.org/dist/maven/maven-3/{{ source (printf "mavenVersion%d" $index) }}/binaries/apache-maven-{{ source (printf "mavenVersion%d" $index) }}-bin.tar.gz
+{{- end }}
+
+targets:
+{{- range $index, $version := .certCiMavenVersions }}
+  updateMaven{{ $index }}Version:
+    name: Update Maven {{ $version }}.x version in cert.ci.jenkins.io controller
+    sourceid: mavenVersion{{ $index }}
+    kind: yaml
+    spec:
+      engine: yamlpath
+      file: hieradata/clients/controller-sponsored.cert.ci.jenkins.io.yaml
+      key: $.profile::jenkinscontroller::jcasc.tools.maven["maven-{{ $version }}"].version
+    scmid: default
+{{- end }}
+
+actions:
+  updateMavenVersions:
+    kind: github/pullrequest
+    title: Bump Maven version (Jenkins tools) on cert.ci.jenkins.io controller
+    scmid: default
+    spec:
+      labels:
+        - enhancement
+        - maven
+        - cert.ci.jenkins.io
