@@ -155,23 +155,20 @@ class profile::buildagent (
     }
 
     if $tools_versions['maven'] {
-
       $maven_version = $tools_versions['maven']
 
       $maven_major   = regsubst($maven_version, '^([0-9]+)\..*$', '\1')
       $maven_archive = "apache-maven-${maven_version}-bin.tar.gz"
 
-      $base_url = "https://archive.apache.org/dist/maven/maven-${maven_major}/${maven_version}/binaries"
+      $base_url = "https://dlcdn.apache.org/maven/maven-3/${tools_versions['maven']}/binaries"
 
       $maven_url       = "${base_url}/${maven_archive}"
-      $maven_checksum  = "${maven_url}.sha512"
       $maven_signature = "${maven_url}.asc"
 
       $maven_dir = "/usr/share/apache-maven-${maven_major}"
       $maven_bin = "${maven_dir}/bin/mvn"
 
       $temp_archive  = "/tmp/${maven_archive}"
-      $temp_checksum = "${temp_archive}.sha512"
       $temp_sig      = "${temp_archive}.asc"
       $maven_keys_file = '/tmp/maven-keys.gpg'
 
@@ -197,12 +194,6 @@ class profile::buildagent (
         unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
-      exec { "Download Maven ${maven_version} checksum":
-        command => "/usr/bin/curl --silent --show-error --location ${maven_checksum} --output ${temp_checksum}",
-        require => Package['curl'],
-        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
-      }
-
       exec { "Download Maven ${maven_version} signature":
         command => "/usr/bin/curl --silent --show-error --location ${maven_signature} --output ${temp_sig}",
         require => Package['curl'],
@@ -219,26 +210,15 @@ class profile::buildagent (
         unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
       }
 
-      exec { "Verify Maven ${maven_version} checksum":
-        command => "/bin/bash -c \"echo \\$(cat ${temp_checksum})  ${temp_archive} | sha512sum --check\"",
-        cwd     => '/tmp',
-        require => [
-          Exec["Download Maven ${maven_version} checksum"],
-          Exec["Download Maven ${maven_version}"],
-        ],
-        unless  => "/usr/bin/test -f ${maven_bin} && JAVA_HOME=/opt/jdk-25 ${maven_bin} --version | /bin/grep --quiet '${maven_version}'",
-      }
-
       file { $maven_dir:
         ensure => directory,
         owner  => 'root',
       }
 
       exec { "Extract Maven ${maven_version}":
-        command => "/usr/bin/tar --extract --gunzip --file=${temp_archive} --directory=${maven_dir} --strip-components=1 && /usr/bin/rm -f ${temp_archive} ${temp_checksum} ${temp_sig}",
+        command => "/usr/bin/rm  -rf ${maven_dir}/* && /usr/bin/tar --extract --gunzip --file=${temp_archive} --directory=${maven_dir} --strip-components=1 && /usr/bin/rm -f ${temp_archive} ${temp_sig}",
         require => [
           Exec["Verify Maven ${maven_version} signature"],
-          Exec["Verify Maven ${maven_version} checksum"],
           File[$maven_dir],
           Package['tar'],
         ],
@@ -247,7 +227,6 @@ class profile::buildagent (
     }
 
     if $tools_versions['jq'] {
-
       $jq_version   = $tools_versions['jq']
       $jq_bin       = '/usr/local/bin/jq'
       $jq_url       = "https://github.com/jqlang/jq/releases/download/jq-${jq_version}/jq-linux-${architecture}"
