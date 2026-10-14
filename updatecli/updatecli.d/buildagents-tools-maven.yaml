@@ -51,13 +51,24 @@ targets:
         - hieradata/clients/aws.ci.jenkins.io.yaml
       key: $.profile::jenkinscontroller::jcasc.permanent_agents.s390x-agent.envVars.PATH+MAVEN
     scmid: default
+  setMavenVersionForBuildAgents:
+    name: "Bump Maven version on Puppet-managed permanent build agents"
+    kind: yaml
+    sourceid: getMavenVersionFromPackerImages
+    spec:
+      files:
+        - hieradata/common.yaml
+      key: $.profile::buildagent::tools_versions.maven
+    scmid: default
 
 actions:
   default:
     kind: github/pullrequest
     scmid: default
-    title: Bump Maven version (Jenkins tools) on all controllers to {{ source "getMavenVersionFromPackerImages" }}
+    title: Bump Maven version (tools and binary) of permanent build agents to {{ source "getMavenVersionFromPackerImages" }}
     spec:
       labels:
         - dependencies
-        - aws-cli
+        - maven
+        - s390x.ci.jenkins.io
+        - profile::buildagent
