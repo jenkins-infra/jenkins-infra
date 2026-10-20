@@ -231,11 +231,11 @@ profile::jenkinscontroller::jcasc:
       registryMirror: https://dockerhubmirror.azurecr.io
   agent_images:
     azure_vms_gallery_image:
-      version: 2.136.0
+      version: 2.138.0
       subscription_id: 1e7d5219-acbc-4495-8629-bdbb22e9b3ed
     container_images:
       # All in one image (same as VM templates)
-      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.136.0@sha256:85e823ec0a7881b7986dac3fc3a0f6a06ac612fd6dff0fe6a199a0385e3480b8
+      jnlp-maven-all-in-one: jenkinsciinfra/jenkins-agent-ubuntu-22.04:2.138.0@sha256:ba721b57e32aa697e3ace337f002bc4ca31a3f80c8cd7ff847f1c9879d2a879d
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
@@ -267,12 +267,12 @@ r10k::webhook::config::github_secret: "justapassword"
 usage_ssh_pubkey: "AAAAB3NzaC1yc2EAAAADAQABAAACAQD66Xfd/5HgBkc6lGGqCrhJ/LBIWOTQ5BRcGEnSKH/Ij4vlVI42bHTusZ/y2lJZ+CUE04kDqWD1WG/Rhv9YjShlotlpv+Ig8JqCzpbkMXuEsrWgXp4BO0D0NeLeZkza2isG9NqqXHAJj6ck7MvKkH56PCjzBru9C3+DTa6CgXy6KtMV9vFSqeD9JCn8p9fdeArIGHJk7li1fSCNoTYVq+P3/Jh9YHk1pLQbp9nOg4fz2DjSsdi/VfzMCW4XVTzatOv/e2dFkz2sNdsXEpxWZoLUDgBSgMU1Agiyphmuc+FfZsjkmLO03bvO1fC7BVJtYHoRSuNnJbMKpkOnDa8l0bpQz6NxF1PB3znfHBm/TZVJX4XhJK7Bqi46Rkyo564kjd3+DRII6n3ziBgDVezQwvvB0b5lyxH6+Ysu6nsmwaV8wnsuolPQXUIUTbOjcJ1iN0acESfOX8mGAbv0K3RVpA3vV+7fXioylO+cG6szzDVLOC3z1ltVO+3vV2iWGMfdEQvJzC5uuOrSZYG7FuRvY6NyZINIt4vthkKPJW3QL+flS4fnqYrzj006jo1rNwZlQytc0uPT3qQJ07iF06oAvHlUuUNgQUO4FPvCAkiIFcpXZpo4jB00JYBcXpCB+OtOiBzgyiRq40l34htR3Hs2skY8e9F8Z9XTpPw2aaS0OjrE6w=="
 usage_ssh_privkey: "usage_ssh_privkey"
 # Full version of the Ubuntu package used for Docker CE as per apt-cache output
-docker::version: 5:29.9.0-1~ubuntu.22.04~jammy
+docker::version: 5:29.9.1-1~ubuntu.22.04~jammy
 profile::azcopy::azcopy_version: 10.32.8
 profile::azcopy::az_cli_version: 2.91.0
 profile::awscli::install_dir: /var/awscli
 profile::mirrorbits::mirrorbits_version: 0.6.2
-profile::mirrorbits::mirrorbits_docker_image_tag: 0.4.1
+profile::mirrorbits::mirrorbits_docker_image_tag: 0.4.2
 profile::golang::golang_version: 1.26.2
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
@@ -282,7 +282,7 @@ limits:
       soft: "65536"
       hard: "65536"
 profile::openvpn::image: dockerhubmirror.azurecr.io/jenkinsciinfra/openvpn
-profile::openvpn::image_tag: 3.10.4
+profile::openvpn::image_tag: 3.10.5
 # TODO: track with updatecli from https://github.com/jenkins-infra/docker-openvpn/blob/main/config.yaml
 profile::openvpn::external_ips_vpn_restricted:
   archives.jenkins.io: 46.101.121.132
@@ -292,7 +292,7 @@ profile::openvpn::external_ips_vpn_restricted:
   eks_cijenkinsioagents2_2: 3.149.71.89
   usage.jenkins.io: 64.227.123.95
 profile::buildagent::tools_versions:
-  maven: 3.9.16
+  maven: 3.10.0
   jq: 1.8.2
 apt::update:frequency: 'daily'
 # vim: ft=yaml ts=2 sw=2 nowrap et
