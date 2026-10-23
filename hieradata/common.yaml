@@ -239,7 +239,7 @@ profile::jenkinscontroller::jcasc:
       jnlp-packaging: jenkinsciinfra/packaging:latest
   tools_default_versions:
     jdk21:
-      version: 21.0.12.1+1
+      version: 21.0.13+9
       linux:
         amd64: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.12.1%2B1/OpenJDK21U-jdk_x64_linux_hotspot_21.0.12.1_1.tar.gz
         arm64: https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.13%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.13_9.tar.gz
