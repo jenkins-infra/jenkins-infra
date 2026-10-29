@@ -15,28 +15,10 @@ scms:
 
 sources:
   certbotLatestRelease:
-    kind: githubrelease
     name: "Get the latest certbot/certbot release version"
+    kind: pypi
     spec:
-      owner: certbot
-      repository: certbot
-      token: "{{ requiredEnv .github.token }}" 
-      username: "{{ .github.username }}"
-      versionFilter:
-        kind: semver
-        pattern: "*"
-    transformers:
-      - trimprefix: 'v'
-
-conditions:
-  checkCertbotOnPypi:
-    name: "Check if certbot version exists on PyPI"
-    kind: shell
-    disablesourceinput: true
-    spec:
-      command: >-
-        curl --connect-timeout 10 --silent --show-error --location --fail --head --output /dev/null
-        "https://pypi.org/project/certbot/{{ source "certbotLatestRelease" }}/"
+      name: certbot
 
 targets:
   updateCertbotVersion:
