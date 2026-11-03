@@ -1,8 +1,12 @@
 <%- if @jcasc['cloud_agents'] && @jcasc['cloud_agents']['disabled'].to_s != "true" && @jcasc['cloud_agents']['kubernetes'] && !@jcasc['cloud_agents']['kubernetes'].empty? -%>
 jenkins:
-  clouds:
+  <%- no_enabled_cluster = true -%>
   <%- @jcasc['cloud_agents']['kubernetes'].each do |k8s_name, k8s_setup| -%>
     <%- if k8s_setup['enabled'].to_s == "true" -%>
+      <%- if no_enabled_cluster -%>
+  clouds:
+      <%- end -%>
+      <%- no_enabled_cluster = false -%>
   - kubernetes:
       name: "<%= k8s_name %>"
       containerCap: <%= k8s_setup['max_capacity'] %>
@@ -152,5 +156,8 @@ jenkins:
         <%- end -%>
       <%- end -%>
     <%- end -%>
+  <%- end -%>
+  <%- if no_enabled_cluster -%>
+  clouds: []
   <%- end -%>
 <%- end -%>
