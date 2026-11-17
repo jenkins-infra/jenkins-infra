@@ -272,7 +272,7 @@ profile::azcopy::azcopy_version: 10.34.2
 profile::azcopy::az_cli_version: 2.93.0
 profile::awscli::install_dir: /var/awscli
 profile::mirrorbits::mirrorbits_version: 0.6.2
-profile::mirrorbits::mirrorbits_docker_image_tag: 0.4.2
+profile::mirrorbits::mirrorbits_docker_image_tag: 0.4.3
 profile::golang::golang_version: 1.26.10
 profile::datadog_pluginsite_check::sites:
   - plugins.jenkins.io
