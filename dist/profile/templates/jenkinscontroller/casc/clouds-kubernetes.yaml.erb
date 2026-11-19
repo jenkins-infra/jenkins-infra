@@ -152,11 +152,12 @@ jenkins:
                       else
                         echo 'WARNING: /cache/maven_archive_name empty or not found'
                       fi
+                  # Volume names depend on the order of their definition below (names assigned by kubernetes-plugin)
                   volumeMounts:
-                    - name: maven-cache
+                    - name: volume-2 # additionalPVCs: /cache
                       mountPath: /cache
                       readOnly: true
-                    - name: maven-repository
+                    - name: volume-1 # emptyDirVolume: /home/jenkins/.m2
                       mountPath: /home/jenkins/.m2
             <%- end -%>
           <%- end -%>
