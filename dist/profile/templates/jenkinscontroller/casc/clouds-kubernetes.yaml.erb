@@ -113,20 +113,51 @@ jenkins:
           <%- if agent['nodeSelector'] -%>
           nodeSelector: "<%= agent['nodeSelector'] %>"
           <%- end -%>
-          <%- if agent['tolerations'] -%>
+          <%- hasMavenCache = agent['additionalPVCs'] && agent['additionalPVCs'].any? { |pvc| pvc['mountPath'] == '/cache' } -%>
+          <%- if agent['tolerations'] || hasMavenCache -%>
           yaml: |-
             apiVersion: "v1"
             kind: "Pod"
             spec:
+            <%- if agent['tolerations'] -%>
               securityContext:
                 # https://github.com/jenkins-infra/packer-images/blob/a9f913c0f5cf7baf49e370c4b823b499bf757e06/provisioning/ubuntu-provision.sh#L32
                 fsGroup: 1001
               tolerations:
-            <%- agent['tolerations'].each do |toleration| -%>
-                - key: "<%= toleration["key"] %>"
-                  operator: "<%= toleration["operator"] %>"
-                  value: "<%= toleration["value"] %>"
-                  effect: "<%= toleration["effect"] %>"
+              <%- agent['tolerations'].each do |toleration| -%>
+                - key: <%= toleration['key'] %>
+                  operator: <%= toleration['operator'] %>
+                  value: <%= toleration['value'] %>
+                  effect: <%= toleration['effect'] %>
+              <%- end -%>
+            <%- end -%>
+            <%- if hasMavenCache -%>
+              initContainers:
+                - name: restore-maven-cache
+                  image: "<%= k8s_setup['imageNamePrefix'] ? k8s_setup['imageNamePrefix'] : ""%><%= agent['imageName'] && !agent['imageName'].empty? ? @jcasc['agent_images']['container_images'][agent['imageName']] : @jcasc['agent_images']['container_images'][agent['name']] %>"
+                  command:
+                    - sh
+                    - -c
+                    - |
+                      set -eux
+                      mvn_local_repo='/home/jenkins/.m2/repository'
+                      mkdir -p "${mvn_local_repo}"
+                      archive_name="$(cat /cache/maven_archive_name 2>/dev/null || true)"
+                      if [ -n "${archive_name}" ]; then
+                        # The /cache CSI S3 volume doesn't support seeking (required by tar),
+                        # so we copy the archive locally before extracting it
+                        cp "/cache/${archive_name}" "${mvn_local_repo}/${archive_name}"
+                        tar xf "${mvn_local_repo}/${archive_name}" -C "${mvn_local_repo}"
+                        rm -f "${mvn_local_repo}/${archive_name}"
+                      else
+                        echo 'WARNING: /cache/maven_archive_name empty or not found'
+                      fi
+                  volumeMounts:
+                    - name: maven-cache
+                      mountPath: /cache
+                      readOnly: true
+                    - name: maven-repository
+                      mountPath: /home/jenkins/.m2
             <%- end -%>
           <%- end -%>
           yamlMergeStrategy: "override"
