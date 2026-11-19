@@ -143,19 +143,20 @@ jenkins:
 
                       id
                       mvn_local_repo='/home/jenkins/.m2/repository'
-                      mkdir -p "${mvn_local_repo}"
+                      mkdir -p $mvn_local_repo
 
                       # Marker file containing the archive name created in https://github.com/jenkins-infra/infra-cronjobs/blob/maven-cacher/create-archive.sh
-                      archive_name="$(cat /cache/maven_cache_archive_name 2>/dev/null || true)"
+                      marker_path='/cache/maven_cache_archive_name'
+                      archive_name="$(cat $marker_path 2>/dev/null || true)"
                       if [ -n "${archive_name}" ]; then
                         # The /cache CSI S3 volume doesn't support seeking (required by tar),
                         # so we copy the archive locally before extracting it
-                        cp "/cache/${archive_name}" "${mvn_local_repo}/${archive_name}"
-                        tar xf "${mvn_local_repo}/${archive_name}" -C "${mvn_local_repo}"
-                        rm -f "${mvn_local_repo}/${archive_name}"
-                        ls -al "${mvn_local_repo}"
+                        cp /cache/$archive_name $mvn_local_repo/$archive_name
+                        tar xf $mvn_local_repo/$archive_name -C $mvn_local_repo
+                        rm -f $mvn_local_repo/$archive_name
+                        ls -al $mvn_local_repo
                       else
-                        echo 'WARNING: /cache/maven_archive_name empty or not found'
+                        echo "WARNING: $marker_path empty or not found"
                       fi
                   # Volume names depend on the order of their definition below (names assigned by kubernetes-plugin)
                   volumeMounts:
