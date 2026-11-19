@@ -148,7 +148,7 @@ jenkins:
                       # Marker file containing the archive name created in https://github.com/jenkins-infra/infra-cronjobs/blob/maven-cacher/create-archive.sh
                       marker_path='/cache/maven_cache_archive_name'
                       archive_name="$(cat $marker_path 2>/dev/null || true)"
-                      if [ -n "${archive_name}" ]; then
+                      if [ -n $archive_name ]; then
                         # The /cache CSI S3 volume doesn't support seeking (required by tar),
                         # so we copy the archive locally before extracting it
                         cp /cache/$archive_name $mvn_local_repo/$archive_name
