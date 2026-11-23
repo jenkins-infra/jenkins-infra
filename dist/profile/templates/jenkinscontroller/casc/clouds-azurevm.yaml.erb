@@ -22,6 +22,21 @@ jenkins:
           Add-Content -Path C:\ProgramData\Datadog\datadog.yaml -Value "tags: [`"jenkins_controller:<%= @ci_fqdn %>`", `"jenkins_agent_type:ephemeral_azurevm`", `"jenkins_agent_description:<%= agent['description'] %>`"]"
           & "$env:ProgramFiles\Datadog\Datadog Agent\bin\agent.exe" restart-service
 
+        <%- if agent['mavenCacheFileshareURL'] -%>
+          # Retrieve Maven cache from regional fileshare
+          $mvnLocalRepo = 'C:/Users/jenkins/.m2/repository'
+          New-Item -ItemType Directory -Force -Path $mvnLocalRepo | Out-Null
+
+          azcopy login --identity
+          # Marker file containing the archive name created in https://github.com/jenkins-infra/infra-cronjobs/blob/maven-cacher/create-archive.sh
+          azcopy copy <%= $agent['mavenCacheFileshareURL'] %>/maven_cache_archive_name "${mvnLocalRepo}"
+          $archiveName = (Get-Content "${mvnLocalRepo}/maven_cache_archive_name" -Raw).Trim()
+          azcopy copy "<%= $agent['mavenCacheFileshareURL'] %>/${archiveName}" "${mvnLocalRepo}"
+          tar xf "${mvnLocalRepo}/${archiveName}" -C "${mvnLocalRepo}"
+          icacls "${mvnLocalRepo}" /grant "jenkins:(OI)(CI)M" /T /C
+          Get-Date
+        <%- end -%>
+
         <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup inbound agent
           $jenkinsServerUrl = $args[0] # Always ends with a '/'
@@ -108,6 +123,19 @@ jenkins:
           [registry."docker.io"]
             mirrors = ["<%= agent['registryMirror'] ? agent['registryMirror'] : @jcasc['agents_setup'][$os]['registryMirror'] %>"]
           EOF
+
+        <%- if agent['mavenCacheFileshareURL'] -%>
+          # Retrieve Maven cache from regional fileshare
+          mvn_local_repo='/home/jenkins/.m2/repository'
+          mkdir -p "${mvn_local_repo}"
+          chown -R jenkins:jenkins /home/jenkins
+          azcopy login --identity
+          # Marker file containing the archive name created in https://github.com/jenkins-infra/infra-cronjobs/blob/maven-cacher/create-archive.sh
+          azcopy copy <%= $agent['mavenCacheFileshareURL'] %>/maven_cache_archive_name "${mvn_local_repo}"
+          archive_name="$(cat "${mvn_local_repo}/maven_cache_archive_name")"
+          time azcopy copy "<%= $agent['mavenCacheFileshareURL'] %>/${archive_name}" "${mvn_local_repo}"
+          time tar xf "${mvn_local_repo}/${archive_name}" --owner=jenkins --group=jenkins -C "${mvn_local_repo}"
+        <%- end -%>
 
         <%- if agent['launcher'] && agent['launcher'] == "inbound" -%>
           # Setup Jenkins Agent Service
