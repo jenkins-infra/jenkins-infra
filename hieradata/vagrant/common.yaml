@@ -303,6 +303,7 @@ profile::jenkinscontroller::jcasc:
           acpServerId: external
           userInstanceIdentity: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{userAssignedIdentityName}'
           location: "Sweden Central"
+          mavenCacheFileshareURL: https://cacheswedencentral.file.core.windows.net/cache-sweden-central
       agent_definitions:
         - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
