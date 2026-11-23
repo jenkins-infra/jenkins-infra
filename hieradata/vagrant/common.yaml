@@ -289,6 +289,8 @@ profile::jenkinscontroller::jcasc:
           subnetName: "vnet-agents"
           storageAccount: SuperSecretEncryptedInProduction
           acpServerId: internal
+          location: "East US 2"
+          mavenCacheFileshareURL: https://cacheeastus2.file.core.windows.net/cache-east-us-2
         azure-vms-secondary:
           azureCredentialsId: "azure-secondary-credentials" # Managed manually
           resourceGroup: ci-jenkins-io-ephemeral-agents-secondary
@@ -300,6 +302,7 @@ profile::jenkinscontroller::jcasc:
           storageAccount: SuperSecretEncryptedInProductionSecondary
           acpServerId: external
           userInstanceIdentity: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{userAssignedIdentityName}'
+          location: "Sweden Central"
       agent_definitions:
         - name: "ubuntu-22-inbound"
           description: "Ubuntu 22.04 LTS"
@@ -307,7 +310,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "inbound"
-          location: "East US 2"
           instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
@@ -326,7 +328,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "inbound"
-          location: "East US 2"
           instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
@@ -344,7 +345,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "inbound"
-          location: "East US 2"
           instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
@@ -362,7 +362,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D4pds_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: arm64
@@ -381,7 +380,6 @@ profile::jenkinscontroller::jcasc:
           imageDefinition: jenkins-agent-windows-2025-amd64
           os: "windows"
           os_version: "2025"
-          location: "East US 2"
           instanceType: Standard_D4ads_v7 # 4 vCPUS / 16 Gb / Max 150 Gb local storage
           ephemeralOSDisk: true
           architecture: amd64
