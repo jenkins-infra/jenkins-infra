@@ -115,6 +115,8 @@ profile::jenkinscontroller::jcasc:
           storageAccount: trustedciagentssponso
           # TODO: track with updatecli from https://reports.jenkins.io/jenkins-infra-data-reports/azure.json
           userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/trusted-ci-jenkins-io-sponsored-commons/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents-sponsored'
+          # We never use different agent locations, putting it in the top level cloud definition
+          location: "East US 2"
       agent_definitions:
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
@@ -123,7 +125,6 @@ profile::jenkinscontroller::jcasc:
           os_version: "22.04"
           launcher: "ssh"
           javaHome: "/opt/jdk-11"
-          location: "East US 2"
           instanceType: Standard_D8ads_v7 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -148,7 +149,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D8ads_v7 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -169,7 +169,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D8ads_v7 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -190,7 +189,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D8pds_v6 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -210,7 +208,6 @@ profile::jenkinscontroller::jcasc:
           os: "ubuntu"
           os_version: "22.04"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D8ads_v7 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true
@@ -231,7 +228,6 @@ profile::jenkinscontroller::jcasc:
           os: "windows"
           os_version: "2025"
           launcher: "ssh"
-          location: "East US 2"
           instanceType: Standard_D8ads_v7 # 8 vCPUS / 32 Gb
           ephemeralOSDisk: true
           spot: true

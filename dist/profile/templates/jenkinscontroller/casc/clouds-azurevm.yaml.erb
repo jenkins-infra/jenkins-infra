@@ -166,7 +166,7 @@ jenkins:
           export DEFAULT_JDK=<%= agent['javaHome'] ? agent['javaHome'] : @jcasc['agents_setup'][$os]['javaHome'] %>
           update-alternatives --install /usr/bin/java java "^${DEFAULT_JDK}/bin/java" 2000
           echo "JAVA_HOME=^${DEFAULT_JDK}" >> /etc/environment
-        <%-end -%>
+        <%- end -%>
           # Remove jenkins user from sudoers
           rm -f /etc/sudoers.d/90-cloud-init-users
       <%- end -%>
@@ -197,7 +197,7 @@ jenkins:
         javaPath: "<%= agent['agentJavaBin'] ? agent['agentJavaBin'] : @jcasc['agents_setup'][$os]['agentJavaBin'] %>"
         jvmOptions: "<%= agent['agentJavaOpts'] ? agent['agentJavaOpts'] : @jcasc['agents_setup'][$os]['agentJavaOpts'] %>"
         labels: "<%= $os + "-" + agent['os_version'].to_s %> <%= agent['architecture'].to_s %> azure vm <%= agent['labels'].join(' ') %> <%= cloudname %>"
-        location: "<%= agent['location'] %>"
+        location: "<%= cloudsetup['location'] %>"
         noOfParallelJobs: 1
         osDiskSize: <%= agent['osDiskSize'] ? agent['osDiskSize'] : @jcasc['agents_setup'][$os]['osDiskSize'] %>
         osDiskStorageAccountType: <%= agent['ephemeralOSDisk'] ? "Standard_LRS" : (agent['osDiskStorageAccountType'] ? agent['osDiskStorageAccountType'] : @jcasc['agents_setup'][$os]['osDiskStorageAccountType']) %>
