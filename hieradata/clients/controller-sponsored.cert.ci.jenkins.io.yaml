@@ -71,6 +71,7 @@ profile::jenkinscontroller::jcasc:
           userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/cert-ci-jenkins-io-sponsored-commons/providers/Microsoft.ManagedIdentity/userAssignedIdentities/cert-ci-jenkins-io-agents-sponsored'
           # We never use different agent locations, putting it in the top level cloud definition
           location: "Sweden Central"
+          mavenCacheFileshareURL: https://cacheswedencentral.file.core.windows.net/cache-sweden-central
       agent_definitions:
         ## Linux agent templates
         - name: "ubuntu-22-amd64-maven-11"
