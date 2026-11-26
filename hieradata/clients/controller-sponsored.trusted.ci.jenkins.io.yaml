@@ -117,6 +117,7 @@ profile::jenkinscontroller::jcasc:
           userInstanceIdentity: '/subscriptions/1e7d5219-acbc-4495-8629-bdbb22e9b3ed/resourceGroups/trusted-ci-jenkins-io-sponsored-commons/providers/Microsoft.ManagedIdentity/userAssignedIdentities/trusted-ci-jenkins-io-agents-sponsored'
           # We never use different agent locations, putting it in the top level cloud definition
           location: "East US 2"
+          mavenCacheFileshareURL: https://cacheeastus2.file.core.windows.net/cache-east-us-2
       agent_definitions:
         - name: "ubuntu-22-amd64-maven-11"
           description: "Ubuntu 22.04 LTS x86_64 with JDK11 set as default java CLI"
